@@ -6,7 +6,8 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 
 - **`Noble_Mind_Study_Tool_v2.html`** (~6,300 lines) — The entire app: UI, logic, styles, all inline.
 - **`index.html`** — Landing page with links and PWA install prompt.
-- **`sw.js`** — Service worker (cache-first strategy, version `v48`). Bump the version when updating cached assets.
+- **`user-guide.html`** — Comprehensive user guide (opens in new tab from study tool).
+- **`sw.js`** — Service worker (cache-first strategy, version `v51`). Bump the version when updating cached assets.
 - **`manifest.json`** — PWA manifest (standalone, dark theme `#0d0d0d`).
 
 ### Data Files
@@ -59,6 +60,7 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 
 ### URLs
 - **Primary:** https://noblemind.study
+- **IPFS subdomain:** https://ipfs.noblemind.study
 - **IPNS gateway:** https://ipfs.io/ipns/k51qzi5uqu5dg9bleldhzzzxmydvtmntfl2lajle3jfi8wv58xdc5jw0i6tunj
 
 ## Conventions
