@@ -17,7 +17,7 @@ echo ""
 
 # Step 1: Sync files to VPS
 echo "[1/3] Syncing files to VPS..."
-rsync -avz --delete \
+rsync -avz --delete --chmod=D755,F644 \
   --exclude='.git' \
   --exclude='*.py' \
   --exclude='PRINCIPLES.md' \
