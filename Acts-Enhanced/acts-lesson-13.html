@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acts Lesson 13: Stephen's Defense (Part 2) | A Study of the Book of Acts</title>
+  <style>
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: rgba(35, 30, 45, 0.92);
+      --bg-inner: rgba(25, 22, 35, 0.96);
+      --text-primary: #f5f0e6;
+      --text-secondary: #c0b8a8;
+      --accent-gold: #e8b923;
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-blue: #5b9bd5;
+      --accent-blue-glow: rgba(91, 155, 213, 0.4);
+      --accent-burgundy: #8b4557;
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.3);
+      --radius-card: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Georgia', serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(91,155,213,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.55), transparent 50%),
+        radial-gradient(circle at top right, rgba(91,155,213,0.45), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,87,0.35), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(91,155,213,0.2),
+        0 0 80px rgba(232,185,35,0.25);
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 45px 40px;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.85), rgba(25,22,35,1));
+      box-shadow: 0 0 25px rgba(232,185,35,0.5);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(232,185,35,0.25);
+    }
+    .series-title {
+      font-size: 1rem;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .scripture-ref {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      background: rgba(232,185,35,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(232,185,35,0.15);
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(232,185,35,0.3);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .nav-controls select option {
+      background: #2a2535;
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+    }
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .key-verse {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: rgba(139,69,87,0.1);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(139,69,87,0.25);
+    }
+    .key-verse h2 {
+      color: var(--accent-burgundy);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent-gold);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .questions-section, .thought-questions {
+      margin-bottom: 35px;
+    }
+    .questions-section h2, .thought-questions h2 {
+      color: var(--accent-gold);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(232,185,35,0.3);
+    }
+    .thought-questions h2 {
+      color: var(--accent-blue);
+      border-bottom-color: rgba(91,155,213,0.3);
+    }
+    .questions-intro {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .question {
+      margin-bottom: 18px;
+      padding-left: 15px;
+      border-left: 3px solid rgba(232,185,35,0.3);
+    }
+    .question.thought {
+      border-left-color: rgba(91,155,213,0.3);
+    }
+    .question-num {
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .thought .question-num {
+      color: var(--accent-blue);
+    }
+    .question-text {
+      color: var(--text-primary);
+    }
+    
+    .supplementary > h2 {
+      color: var(--accent-blue);
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .supp-content {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .supp-content p { margin-bottom: 15px; }
+    .supp-content strong { color: var(--text-primary); }
+    footer {
+      margin-top: 40px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(232,185,35,0.2);
+      text-align: center;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(91,155,213,0.1);
+      border: 1px solid rgba(91,155,213,0.3);
+      transition: all 0.3s;
+    }
+    .footer-nav a:hover {
+      background: rgba(91,155,213,0.2);
+      box-shadow: 0 0 10px var(--accent-blue-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; }
+      .glass-tab, .nav-controls, .home-link, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      .series-title, .part-title { color: #666; }
+      h1 { color: #333; text-shadow: none; font-size: 18pt; }
+      .scripture-ref { color: #666; }
+      .key-verse { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #8b4557; page-break-inside: avoid; }
+      .key-verse h2 { color: #8b4557; }
+      .questions-section h2 { color: #b8860b; }
+      .thought-questions h2 { color: #5b9bd5; }
+      .question { border-left-color: #e8b923; page-break-inside: avoid; }
+      .question.thought { border-left-color: #5b9bd5; }
+      .question-num { color: #b8860b; }
+      .thought .question-num { color: #5b9bd5; }
+      .question-text { color: #333; }
+      
+      
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 25px 20px; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+    }
+
+  
+    .supplementary {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h2 {
+      color: var(--accent-burgundy, #8b4557);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h3 {
+      color: var(--accent-gold, #e8b923);
+      font-size: 1.1rem;
+      margin: 25px 0 12px 0;
+    }
+    .supplementary p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.7;
+    }
+    .supplementary .supp-list {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+    .supplementary .supp-list li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .supplementary .supp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .supplementary .supp-table th,
+    .supplementary .supp-table td {
+      padding: 12px 15px;
+      border: 1px solid rgba(232,185,35,0.25);
+      vertical-align: top;
+      text-align: left;
+    }
+    .supplementary .supp-table th {
+      background: rgba(232,185,35,0.15);
+      font-weight: 600;
+      color: var(--accent-gold, #e8b923);
+    }
+    .supplementary .supp-table tr:nth-child(even) td {
+      background: rgba(232,185,35,0.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <p class="series-title">A Study of the Book of Acts</p>
+        <p class="part-title">Part 1: The Jerusalem Church (Acts 1-7)</p>
+        <h1>Lesson Thirteen: Stephen's Defense (Part 2)</h1>
+        <p class="scripture-ref">Acts 7:20-50</p>
+      </header>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Acts Study Index
+        </a>
+        <select id="lesson-select" onchange="goToLesson(this.value)">
+            <option value="">Jump to Lesson...</option>
+            <option value="01">Lesson 1</option>
+            <option value="02">Lesson 2: Acts 1:1-12</option>
+            <option value="03">Lesson 3: Acts 1:13-26</option>
+            <option value="04">Lesson 4: Acts 2:1-21</option>
+            <option value="05">Lesson 5: Acts 2:22-47</option>
+            <option value="06">Lesson 6: Acts 3:1-26</option>
+            <option value="07">Lesson 7: Acts 4:1-22</option>
+            <option value="08">Lesson 8: Acts 4:23-37</option>
+            <option value="09">Lesson 9: Acts 5:1-16</option>
+            <option value="10">Lesson 10: Acts 5:17-42</option>
+            <option value="11">Lesson 11: Acts 6:1-15</option>
+            <option value="12">Lesson 12: Acts 7:1-19</option>
+            <option value="13" selected>Lesson 13: Acts 7:20-50</option>
+            <option value="14">Lesson 14: Acts 7:51-60</option>
+            <option value="15">Lesson 15: Acts 8:1-25</option>
+            <option value="16">Lesson 16: Acts 8:26-40</option>
+            <option value="17">Lesson 17: Acts 9:1-22</option>
+            <option value="18">Lesson 18: Acts 9:23-43</option>
+            <option value="19">Lesson 19: Acts 10:1-24</option>
+            <option value="20">Lesson 20: Acts 10:24-48</option>
+            <option value="21">Lesson 21: Acts 11:1-18</option>
+            <option value="22">Lesson 22: Acts 11:19-30</option>
+            <option value="23">Lesson 23: Acts 12:1-25</option>
+            <option value="24">Lesson 24: Acts 13:1-16</option>
+            <option value="25">Lesson 25: Acts 13:17-37</option>
+            <option value="26">Lesson 26: Acts 13:38-52</option>
+            <option value="27">Lesson 27: Acts 14:1-13</option>
+            <option value="28">Lesson 28: Acts 14:14-28</option>
+            <option value="29">Lesson 29: Acts 15:1-21</option>
+            <option value="30">Lesson 30: Acts 15:22-41</option>
+            <option value="31">Lesson 31: Acts 16:1-15</option>
+            <option value="32">Lesson 32: Acts 16:16-40</option>
+            <option value="33">Lesson 33: Acts 17:1-15</option>
+            <option value="34">Lesson 34: Acts 17:16-34</option>
+            <option value="35">Lesson 35: Acts 18:1-17</option>
+            <option value="36">Lesson 36: Acts 18:18-28</option>
+            <option value="37">Lesson 37: Acts 19:1-20</option>
+            <option value="38">Lesson 38: Acts 19:21-41</option>
+            <option value="39">Lesson 39: Acts 20:1-16</option>
+            <option value="40">Lesson 40: Acts 20:17-38</option>
+            <option value="41">Lesson 41: Acts 21:1-16</option>
+            <option value="42">Lesson 42: Acts 21:17-40</option>
+            <option value="43">Lesson 43: Acts 22:1-30</option>
+            <option value="44">Lesson 44: Acts 23:1-16</option>
+            <option value="45">Lesson 45: Acts 23:17-35</option>
+            <option value="46">Lesson 46: Acts 24:1-27</option>
+            <option value="47">Lesson 47: Acts 25:1-12</option>
+            <option value="48">Lesson 48: Acts 25:13-27</option>
+            <option value="49">Lesson 49: Acts 26:1-32</option>
+            <option value="50">Lesson 50: Acts 27:1-20</option>
+            <option value="51">Lesson 51: Acts 27:21-44</option>
+            <option value="52">Lesson 52: Acts 28:1-14</option>
+            <option value="53">Lesson 53: Acts 28:15-31</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+
+      <section class="key-verse">
+        <h2>Key Verse</h2>
+        <blockquote>"The God of glory appeared unto our father Abraham, when he was in
+                  Mesopotamia, before he dwelt in Charran."</blockquote>
+        <cite>— Acts 7:2
+
+Textual Questions
+     Read Acts 7:1-29</cite>
+      </section>
+
+      <section class="questions-section">
+        <h2>Lesson Questions</h2>
+        <p class="questions-intro">Read Acts 7:20-50 carefully before answering these questions.</p>
+
+        <div class="question">
+          <span class="question-num">1.</span>
+          <span class="question-text">Review: Acts chapters five and six.</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">2.</span>
+          <span class="question-text">Who was born during the Egyptian Bondage? What happened to him? 7:20-22</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">3.</span>
+          <span class="question-text">Did Moses stay in Egypt? Why? 7:23-29</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">4.</span>
+          <span class="question-text">What happened about forty years later? 7:30-34</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">5.</span>
+          <span class="question-text">What did Moses do? 7:35-36</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">6.</span>
+          <span class="question-text">What had Moses told the people? 7:37</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">7.</span>
+          <span class="question-text">How did the people react to Moses and the giving of the law? 7:38-41</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">8.</span>
+          <span class="question-text">To what did God give them up? 7:42-43</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">9.</span>
+          <span class="question-text">What did the Israelites take with them? 7:44-45</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">10.</span>
+          <span class="question-text">Who wanted to build a tabernacle for the Lord? Who did build a house for Him? 7:46-47</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">11.</span>
+          <span class="question-text">In what does God not dwell? Why? 7:48-50</span>
+        </div>
+
+        </section>
+
+
+      <section class="thought-questions">
+        <h2>Thought Questions</h2>
+        <div class="question thought">
+          <span class="question-num">A.</span>
+          <span class="question-text">​ What points is Stephen making in this speech?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">B.</span>
+          <span class="question-text">​ Why does Stephen go back to Abraham to make his defense?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">C.</span>
+          <span class="question-text">​ How many years would the children of Abraham sojourn in a strange land?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">D.</span>
+          <span class="question-text">​ How does Acts 7:16 relate to what is said in Genesis 23:16-17 and Genesis 33:19?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">E.</span>
+          <span class="question-text">​ Who is &quot;another king&quot;? 7:18. What is the significance of this phrase?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">F.</span>
+          <span class="question-text">​ Why would Stephen spend so much of his speech talking about Moses?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">G.</span>
+          <span class="question-text">​ What may we learn from the mistake Moses made?</span>
+        </div>
+      </section>
+
+
+      <section class="supplementary">
+        <h2>Supplementary Materials</h2>
+        <p>Moses at the Burning Bush (7:30-34) After forty years as a shepherd in Midian, God appeared to Moses:</p>
+        <table class="supp-table">
+<tr>
+<th>Element</th>
+<th>Significance</th>
+</tr>
+<tr>
+<td>&quot;The wilderness of</td>
+<td>God appeared outside the Promised Land — holy ground is</td>
+</tr>
+<tr>
+<td>mount Sina&quot; (7:30)</td>
+<td>wherever God is</td>
+</tr>
+<tr>
+<td>&quot;An angel... in a</td>
+<td>Divine messenger; yet the voice is &quot;the Lord&quot; (7:31) — God&#x27;s</td>
+</tr>
+<tr>
+<td>flame of fire&quot; (7:30)</td>
+<td>presence</td>
+</tr>
+<tr>
+<td>&quot;The God of thy</td>
+<td>Continuity with Abraham, Isaac, and Jacob — same God</td>
+</tr>
+<tr>
+<td>fathers&quot; (7:32)</td>
+<td>Stephen&#x27;s accusers claimed to serve</td>
+</tr>
+<tr>
+<td>&quot;Put off thy shoes&quot;</td>
+<td>Reverence required; the ground was holy because of God&#x27;s</td>
+</tr>
+<tr>
+<td>(7:33)</td>
+<td>presence, not its location</td>
+</tr>
+<tr>
+<td>&quot;I will send</td>
+<td>God commissioned the one Israel had rejected — the</td>
+</tr>
+<tr>
+<td>thee&quot; (7:34)</td>
+<td>rejected becomes the deliverer</td>
+</tr>
+</table>
+        <p>Moses: Rejected Yet Used by God (7:35-43) Stephen emphasizes the pattern of rejection: &quot;This Moses whom they refused, saying, Who made thee a ruler and a judge? the same did God send to be a ruler and a deliverer.&quot; — Acts 7:35</p>
+        <p>Israel&#x27;s Actions Toward Moses God&#x27;s Actions Through Moses &quot;Refused&quot; him (7:35) Sent him as &quot;ruler and deliverer&quot; (7:35) &quot;Would not obey&quot; him (7:39) &quot;Shewed wonders and signs&quot; through him (7:36) &quot;Thrust him from them&quot; (7:39) Received &quot;lively oracles&quot; (the Law) through him (7:38) &quot;Turned back... into Egypt&quot; in heart Prophesied of &quot;a prophet&quot; like himself (7:39) (7:37) Made a golden calf and worshiped it God &quot;gave them up&quot; to their (7:40-41) idolatry (7:42)</p>
+        <p>Moses as a Type of Christ Stephen quotes Deuteronomy 18:15 — &quot;A prophet shall the Lord your God raise up unto you of your brethren, like unto me&quot; (7:37). Moses foreshadowed Christ in many ways: Moses Christ Preserved as an infant from Pharaoh Preserved as an infant from Herod (Matt. 2) Rejected by his brethren the first time Rejected by His own people (John 1:11) Became deliverer of Israel from bondage Deliverer from bondage to sin (Rom. 6:17-18) Mediator of the old covenant Mediator of the new covenant (Heb. 9:15) Prophet, lawgiver, leader Prophet, Priest, and King</p>
+        <p>Moses Christ Faithful in God&#x27;s house (Heb. 3:2) Faithful over God&#x27;s house (Heb. 3:6)</p>
+        <p>The Temple: Made With Hands (7:44-50) Stephen was charged with speaking against &quot;this holy place&quot; (6:13). His response:</p>
+        <ul class="supp-list">
+        <li>The tabernacle was made &quot;according to the fashion&quot; God showed Moses (7:44) — God gave the pattern</li>
+        <li>The tabernacle served before the temple existed (7:44-45) — God&#x27;s presence isn&#x27;t tied to one building</li>
+        <li>David wanted to build a house; Solomon built it (7:46-47) — acknowledging the temple&#x27;s history</li>
+        <li>&quot;The most High dwelleth not in temples made with hands&quot; (7:48) — the key point!</li>
+        </ul>
+        <p>Stephen then quotes Isaiah 66:1-2: &quot;Heaven is my throne, and earth is my footstool: what house will ye build me? saith the Lord: or what is the place of my rest? Hath not my hand made all these things?&quot; — Acts 7:49-50</p>
+        <p>Stephen&#x27;s point: he honored the temple&#x27;s God-given origin, but the temple was never meant to contain or limit God. The accusers were the ones who had made an idol of the temple itself.</p>
+        <p>Stephen&#x27;s Direct Accusation (7:51-53) Stephen&#x27;s conclusion is devastating: Accusation Meaning &quot;Stiffnecked&quot; Stubborn, unbending — like an ox that won&#x27;t respond to the yoke &quot;Uncircumcised in Outwardly religious but inwardly rebellious — hearts heart and ears&quot; closed to God&#x27;s word &quot;Ye do always resist A continuous pattern — &quot;as your fathers did, so do ye&quot; the Holy Ghost&quot; &quot;Persecuted... the Their fathers killed those who foretold the &quot;Just One&quot; prophets&quot; &quot;Betrayers and They had done what their fathers did — killed murderers&quot; the Righteous One &quot;Have not kept&quot; the They, not Stephen, were the true lawbreakers law</p>
+        <p>Stephen&#x27;s Martyrdom (7:54-60) Stephen became the first Christian martyr. Compare his death to Christ&#x27;s: Stephen Christ Accused by false witnesses (6:13) Accused by false witnesses (Matt. 26:60) Charged with blasphemy (6:11) Charged with blasphemy (Matt. 26:65)</p>
+        <p>Stephen Christ Saw the Son of Man at God&#x27;s right hand Declared He would sit at God&#x27;s right hand (7:56) (Matt. 26:64) &quot;Lord Jesus, receive my spirit&quot; (7:59) &quot;Father, into thy hands I commend my spirit&quot; (Luke 23:46) &quot;Lord, lay not this sin to their &quot;Father, forgive them; for they charge&quot; (7:60) know not what they do&quot; (Luke 23:34)</p>
+        <p>&quot;A Young Man Whose Name Was Saul&quot; (7:58) Almost as a footnote, Luke introduces a man who will dominate the rest of Acts:</p>
+        <ul class="supp-list">
+        <li>The witnesses laid their clothes at Saul&#x27;s feet (7:58)</li>
+        <li>&quot;Saul was consenting unto his death&quot; (8:1)</li>
+        <li>Saul would later &quot;make havock of the church&quot; (8:3)</li>
+        <li>Yet this same Saul would become Paul the apostle (Acts 9)</li>
+        </ul>
+        <p>Stephen&#x27;s death and witness may have planted seeds in Saul&#x27;s heart that eventually bore fruit. Paul later described himself as &quot;the chief of sinners&quot; (1 Tim. 1:15), likely remembering this day.</p>
+        <h3>Key Cross-References</h3>
+        <table class="supp-table">
+<tr>
+<th>Reference</th>
+<th>Acts Verse</th>
+<th>Connection</th>
+</tr>
+<tr>
+<td>Exod. 3:1-10</td>
+<td>Acts 7:30-34</td>
+<td>The burning bush</td>
+</tr>
+<tr>
+<td>Deut. 18:15</td>
+<td>Acts 7:37</td>
+<td>&quot;A prophet like unto me&quot;</td>
+</tr>
+<tr>
+<td>Exod. 32:1-6</td>
+<td>Acts 7:39-41</td>
+<td>The golden calf</td>
+</tr>
+<tr>
+<td>Amos 5:25-27</td>
+<td>Acts 7:42-43</td>
+<td>Israel&#x27;s idolatry; exile to Babylon</td>
+</tr>
+<tr>
+<td>Isaiah 66:1-2</td>
+<td>Acts 7:49-50</td>
+<td>God not limited to temples</td>
+</tr>
+<tr>
+<td>Luke 23:34, 46</td>
+<td>Acts 7:59-60</td>
+<td>Stephen&#x27;s death echoes Christ&#x27;s</td>
+</tr>
+</table>
+        <p>Note: Stephen&#x27;s death marks a turning point in Acts. The persecution that follows scatters the church (8:1), which ironically fulfills Jesus&#x27; commission to take the gospel to &quot;Judaea, and Samaria, and unto the uttermost part of the earth&quot; (1:8). What the enemy meant for evil, God used for good.</p>
+      </section>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="acts-lesson-12.html">← Previous Lesson</a>
+          <a href="acts-lesson-14.html">Next Lesson →</a>
+        </div>
+        <p class="copyright">A Study of the Book of Acts — Enhanced Edition</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function goToLesson(num) {
+      if (num) window.location.href = 'acts-lesson-' + num + '.html';
+    }
+  </script>
+</body>
+</html>

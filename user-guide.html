@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Guide - Noble Mind Study</title>
+  <meta name="description" content="Complete user guide for The Noble Mind Study Tool — a free Bible study application.">
+  <style>
+    :root {
+      /* Core Colors */
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+
+      /* Accents */
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.18);
+      --accent-glow: rgba(6, 255, 165, 0.5);
+      --accent-blue: #5ee5ff;
+      --accent-blue-glow: rgba(94, 229, 255, 0.5);
+
+      /* Effects */
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(6, 255, 165, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+    }
+
+    /* Background glow overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Main Glass Card Wrapper */
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
+        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.3),
+        0 0 80px rgba(6,255,165,0.35);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Inner page container */
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    /* Inner glow at top */
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Glass tab at bottom */
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(94,229,255,0.6);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 25px var(--accent-glow);
+      transform: translateX(-4px);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin: 40px 0 16px;
+      color: var(--accent);
+      text-shadow: 0 0 15px var(--accent-glow);
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      margin: 0 0 12px;
+      color: var(--text-primary);
+    }
+
+    h4 {
+      font-size: 1rem;
+      margin: 16px 0 8px;
+      color: var(--accent-blue);
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Featured verse glass card */
+    .verse-section {
+      position: relative;
+      border-radius: 16px;
+      padding: 2px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.5), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(94,229,255,0.4), transparent 50%);
+      box-shadow: 0 0 30px rgba(6,255,165,0.2);
+      margin: 24px 0 32px;
+      z-index: 1;
+    }
+
+    .verse-inner {
+      background: linear-gradient(135deg, rgba(8,12,22,0.96), rgba(13,13,13,0.98));
+      border-radius: 14px;
+      padding: 24px 28px;
+      backdrop-filter: var(--glass-blur);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .verse-inner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .verse-text {
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .verse-ref {
+      color: var(--accent);
+      font-weight: 500;
+      text-shadow: 0 0 10px var(--accent-glow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .verse-tab {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.7), rgba(13,13,13,1));
+      box-shadow: 0 0 12px rgba(94,229,255,0.4);
+    }
+
+    /* Scripture quotes inline */
+    .scripture {
+      font-style: italic;
+      color: var(--text-secondary);
+      margin: 16px 0;
+      padding: 12px 16px;
+      background: rgba(6, 255, 165, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-style: normal;
+      text-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    ul, ol {
+      margin: 16px 0 16px 24px;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    strong {
+      color: var(--text-primary);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(148,163,184,0.15);
+      margin: 32px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      text-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* Section cards */
+    .section-card {
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 24px 0;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .section-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.08), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .section-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 0 35px var(--accent-glow);
+    }
+
+    .section-card:hover::before {
+      opacity: 1;
+    }
+
+    /* Table of Contents */
+    .toc {
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 24px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .toc h3 {
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-size: 1.15rem;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 20px;
+      list-style: none;
+      counter-reset: toc-counter;
+    }
+
+    .toc ol li {
+      counter-increment: toc-counter;
+      margin-bottom: 6px;
+    }
+
+    .toc ol li::before {
+      content: counter(toc-counter) ".";
+      color: var(--accent);
+      font-weight: 600;
+      margin-right: 8px;
+      min-width: 24px;
+      display: inline-block;
+    }
+
+    .toc a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .toc a:hover {
+      color: var(--accent);
+      text-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    /* Numbered steps for workflows */
+    .steps {
+      margin: 16px 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: step-counter;
+    }
+
+    .steps li {
+      counter-increment: step-counter;
+      position: relative;
+      padding-left: 40px;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+
+    .steps li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 1px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(6, 255, 165, 0.15);
+      border: 1px solid rgba(6, 255, 165, 0.4);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 26px;
+    }
+
+    /* Keyboard shortcut styling */
+    .kbd {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.85rem;
+      font-family: 'Segoe UI', monospace;
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Tip / Note callout */
+    .tip {
+      background: rgba(94, 229, 255, 0.06);
+      border: 1px solid rgba(94, 229, 255, 0.25);
+      border-left: 3px solid var(--accent-blue);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tip p {
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    .tip strong {
+      color: var(--accent-blue);
+    }
+
+    /* Button label styling */
+    .btn-label {
+      display: inline-block;
+      padding: 2px 10px;
+      font-size: 0.85rem;
+      background: rgba(6, 255, 165, 0.1);
+      border: 1px solid rgba(6, 255, 165, 0.25);
+      border-radius: 6px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /* NEW badge */
+    .badge-new {
+      display: inline-block;
+      padding: 1px 8px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(94, 229, 255, 0.15);
+      border: 1px solid rgba(94, 229, 255, 0.4);
+      border-radius: 4px;
+      color: var(--accent-blue);
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 20px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .scripture {
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    footer .copyright {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Smooth scrolling for anchor links */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Target highlighting */
+    :target {
+      scroll-margin-top: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.2rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .verse-inner { padding: 18px 20px; }
+      .steps li { padding-left: 36px; }
+      .toc ol { padding-left: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <a href="index.html" class="back-link">&larr; Back to Home</a>
+
+      <h1>Noble Mind Study Tool &mdash; User Guide</h1>
+      <p class="subtitle">Version 3.0 &mdash; February 2026</p>
+
+      <p>Welcome to the Noble Mind Study Tool, a free Bible study application that runs entirely in your browser. Create lessons, import from PDF, look up Scripture, study original Greek and Hebrew words, explore biblical maps, and organize everything into personal vaults &mdash; all without an account or internet connection (for most features).</p>
+
+      <div class="verse-section">
+        <div class="verse-inner">
+          <p class="verse-text">"Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so."</p>
+          <p class="verse-ref">Acts 17:11 (NASB)</p>
+        </div>
+        <div class="verse-tab"></div>
+      </div>
+
+      <!-- Table of Contents -->
+      <nav class="toc">
+        <h3>Table of Contents</h3>
+        <ol>
+          <li><a href="#getting-started">Getting Started</a></li>
+          <li><a href="#vaults">Vaults</a></li>
+          <li><a href="#creating-lessons">Creating Lessons</a></li>
+          <li><a href="#working-with-lessons">Working with Lessons</a></li>
+          <li><a href="#save-open">Save Lesson &amp; Open Lesson</a></li>
+          <li><a href="#bible-lookup">Bible Lookup</a></li>
+          <li><a href="#strongs">Strong's Dictionary / Word Study</a></li>
+          <li><a href="#maps">Bible Maps</a></li>
+          <li><a href="#search">Search Across Lessons</a></li>
+          <li><a href="#scripture-index">Scripture Index</a></li>
+          <li><a href="#resources">Resources Panel</a></li>
+          <li><a href="#printing-exporting">Printing &amp; Exporting</a></li>
+          <li><a href="#backup-restore">Backup &amp; Restore</a></li>
+          <li><a href="#managing-lessons">Managing Lessons</a></li>
+          <li><a href="#ai-study-guide">AI Study Guide</a></li>
+          <li><a href="#tips">Tips for Best Results</a></li>
+        </ol>
+      </nav>
+
+      <!-- 1. Getting Started -->
+      <h2 id="getting-started">1. Getting Started</h2>
+
+      <div class="section-card">
+        <h3>Opening the Tool</h3>
+        <p>Visit <a href="https://noblemind.study">noblemind.study</a> and click <strong>Open the Study Tool</strong>. The app loads entirely in your browser &mdash; no account, no login, no server required.</p>
+        <p>You can also <strong>install it as an app</strong> on your device for a full-screen experience. On the landing page, click the <span class="btn-label">Install App</span> button (or use your browser's "Add to Home Screen" or "Install" option). Once installed, the app works offline.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Interface Overview</h3>
+        <p>The main screen is organized from top to bottom:</p>
+        <ul>
+          <li><strong>Top Bar</strong> &mdash; Text size controls (A&minus; / A+), Dyslexia Font toggle, and theme toggle (Light / Dark).</li>
+          <li><strong>Header Box</strong> &mdash; Lesson metadata fields (title, scripture reference, subtitle, series), the Bible Lookup button, and the Maps button.</li>
+          <li><strong>Vault &amp; Lesson Picker</strong> &mdash; Select your vault, choose a series filter, and pick a lesson from the dropdown. Includes a mode toggle (Student / Teacher).</li>
+          <li><strong>Progress Bar</strong> &mdash; Shows how many questions you've answered.</li>
+          <li><strong>Controls Bar</strong> &mdash; Buttons for all major actions: New Lesson, Import PDF, Scan/OCR, Save, Open, Print, Export, Search, Scripture Index, Resources, Backup, Delete, and Clear.</li>
+          <li><strong>Question Area</strong> &mdash; The lesson content with questions and answer fields.</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h3>Theme &amp; Accessibility</h3>
+        <p><strong>Theme Toggle:</strong> Use the switch in the top bar to swap between Dark and Light mode. Dark mode is the default.</p>
+        <p><strong>Text Size:</strong> Click <span class="btn-label">A&minus;</span> to decrease or <span class="btn-label">A+</span> to increase the font size (range: 12px to 24px). Your preference is saved automatically.</p>
+        <p><strong>Dyslexia Font:</strong> Click the <span class="btn-label">Dyslexia Font</span> button to switch all text to OpenDyslexic, a typeface designed for readers with dyslexia. Click again to switch back. This setting is saved across sessions.</p>
+      </div>
+
+      <!-- 2. Vaults -->
+      <h2 id="vaults">2. Vaults <span class="badge-new">New</span></h2>
+
+      <div class="section-card">
+        <h3>What Are Vaults?</h3>
+        <p>Vaults let multiple people share the same browser without mixing up their lessons. For example, a husband and wife can each have their own vault, or a class can set up individual vaults for each student &mdash; all on the same device.</p>
+        <p>Every installation starts with a <strong>Shared</strong> vault. This is the default workspace and cannot be renamed or deleted.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Managing Vaults</h3>
+        <p>The vault controls appear in the lesson picker area, labeled <strong>"Vault:"</strong> with a dropdown and three buttons:</p>
+        <ul>
+          <li><strong>Switching vaults:</strong> Select a vault from the dropdown. The lesson list updates instantly to show that vault's lessons.</li>
+          <li><strong>Creating a vault:</strong> Click the <span class="btn-label">+</span> button. Enter a name (e.g., "Pam", "Youth Group"). The app switches to the new vault immediately.</li>
+          <li><strong>Renaming a vault:</strong> Click the <span class="btn-label">&#9998;</span> (pencil) button. Enter a new name and your lessons are migrated automatically.</li>
+          <li><strong>Deleting a vault:</strong> Click the <span class="btn-label">&#128465;</span> (trash) button. You'll be asked to confirm. All lessons in that vault are permanently removed, and the app switches back to the Shared vault.</li>
+        </ul>
+        <div class="tip">
+          <p><strong>Note:</strong> The Shared vault cannot be renamed or deleted. Its rename and delete buttons are disabled.</p>
+        </div>
+      </div>
+
+      <!-- 3. Creating Lessons -->
+      <h2 id="creating-lessons">3. Creating Lessons</h2>
+
+      <div class="section-card">
+        <h3>Method 1: New Lesson</h3>
+        <p>Click <span class="btn-label">&#10133; New Lesson</span> to create a lesson from scratch. You'll be guided through three prompts:</p>
+        <ol class="steps">
+          <li><strong>Title</strong> &mdash; Enter a lesson title (e.g., "Lesson 7 &mdash; 1 Samuel 14").</li>
+          <li><strong>Series</strong> &mdash; Optionally enter a series name to group related lessons (e.g., "1 Samuel Study").</li>
+          <li><strong>Questions</strong> &mdash; Paste or type your lesson questions, one per line. Numbered questions (1. 2. 3.), lettered sub-questions (a. b. c.), lines ending with a question mark, and lines starting with directive verbs (Describe, Explain, List, etc.) are detected as answerable questions. Lines in ALL CAPS or short lines without punctuation are treated as section headers.</li>
+        </ol>
+        <p>Once submitted, the lesson is saved and loads immediately. You can then fill in the scripture reference, subtitle, and series fields in the header.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Method 2: PDF Import</h3>
+        <p>Click <span class="btn-label">&#128196; Import PDF</span> to open the import panel. This workflow extracts multiple lessons from a single PDF file.</p>
+        <ol class="steps">
+          <li>Click <strong>Choose File</strong> and select a PDF.</li>
+          <li>Optionally enter a <strong>Series/Folder</strong> name to organize the imported lessons.</li>
+          <li>Click <span class="btn-label">&#128269; Scan PDF for Lessons</span>. The tool scans the PDF for lesson patterns (e.g., "Lesson 1", "Lesson 2").</li>
+          <li>A preview appears listing each detected lesson with its title and question count. <strong>Each title field is editable</strong> &mdash; click on a title to rename it before importing.</li>
+          <li>Use the checkboxes to select or deselect individual lessons. Use <strong>Select All / Deselect All</strong> for bulk changes.</li>
+          <li>Click <span class="btn-label">&#9989; Import Selected Lessons</span>.</li>
+          <li>The selected lessons are created in your current vault. Each one auto-detects questions versus section headers.</li>
+        </ol>
+        <div class="tip">
+          <p><strong>Tip:</strong> PDFs with selectable text import fastest. Image-only PDFs will fall back to OCR scanning, which takes longer. After import, review each lesson to verify questions were detected correctly.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Method 3: OCR / Scan</h3>
+        <p>Click <span class="btn-label">&#128247; Scan / OCR</span> to extract text from a scanned image or image-based PDF.</p>
+        <ol class="steps">
+          <li>Choose an image file (JPG, PNG, BMP, WebP) or a PDF.</li>
+          <li>The <strong>"Enhance image"</strong> checkbox is on by default &mdash; it sharpens and adjusts contrast for better recognition. Optionally check <strong>"Show preview"</strong> to see the processed image.</li>
+          <li>Click <span class="btn-label">&#128269; Run OCR</span>. The status bar shows progress as pages are scanned.</li>
+          <li>When complete, the extracted text appears in an editable textarea. Review it for OCR errors.</li>
+          <li>The tool runs a <strong>Reference QA check</strong>, flagging suspect scripture references (e.g., a period instead of a colon in "John 3.16"). Click <span class="btn-label">&#10024; Apply suggested fixes</span> to auto-correct these.</li>
+          <li>Edit the text as needed &mdash; remove headers, footers, page numbers, or fix misread words.</li>
+          <li>Enter a <strong>title</strong> (required), and optionally a series, scripture reference, and subtitle.</li>
+          <li>Click <span class="btn-label">&#9989; Create Lesson from Text</span>. The lesson is saved and loaded.</li>
+        </ol>
+      </div>
+
+      <!-- 4. Working with Lessons -->
+      <h2 id="working-with-lessons">4. Working with Lessons</h2>
+
+      <div class="section-card">
+        <h3>Loading a Lesson</h3>
+        <p>Use the <strong>Series</strong> dropdown to filter by a specific series (or choose "All Series" to see everything). Then select a lesson from the <strong>Lesson</strong> dropdown. Lessons within a series are sorted numerically &mdash; "Lesson 7" appears before "Lesson 12".</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Editing Metadata</h3>
+        <p>The header area shows editable fields for:</p>
+        <ul>
+          <li><strong>Scripture</strong> &mdash; The passage this lesson covers (e.g., "Acts 2:1-47").</li>
+          <li><strong>Subtitle</strong> &mdash; An optional subtitle or description.</li>
+          <li><strong>Series</strong> &mdash; The series/folder this lesson belongs to.</li>
+        </ul>
+        <p>All changes auto-save as you type. There is no manual save button &mdash; your work is always preserved.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Answering Questions</h3>
+        <p>Each question has a text area below it for your answer. Type your response and it is saved automatically. A <strong>word count</strong> appears beneath each answer field, updating as you type.</p>
+
+        <h4>Question Types</h4>
+        <ul>
+          <li><strong>Numbered questions</strong> (1. 2. 3.) &mdash; shown with a blue circle and number.</li>
+          <li><strong>Lettered sub-questions</strong> (a. b. c.) &mdash; shown with a smaller cyan circle and letter.</li>
+          <li><strong>Section headers</strong> &mdash; displayed in italic as dividers, with no answer field.</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h3>Progress Bar</h3>
+        <p>When a lesson is loaded, a progress bar appears showing how many answerable questions you've completed. For example: <strong>"8 of 15 answered (53%)"</strong>. The bar updates in real time as you type.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Student vs. Teacher Mode</h3>
+        <p>The <strong>Mode</strong> dropdown in the lesson picker area offers two options:</p>
+        <ul>
+          <li><strong>&#128214; Student</strong> (default) &mdash; Shows only the student answer fields.</li>
+          <li><strong>&#128221; Teacher</strong> &mdash; Shows student answer fields <em>plus</em> a separate <strong>"Answer Key"</strong> field below each question. Teachers can type suggested or correct answers here. These are stored separately and hidden from students.</li>
+        </ul>
+        <p>The <span class="btn-label">&#128273; Print Key</span> button prints the lesson with answer keys included.</p>
+      </div>
+
+      <!-- 5. Save/Open Lesson -->
+      <h2 id="save-open">5. Save Lesson &amp; Open Lesson <span class="badge-new">New</span></h2>
+
+      <div class="section-card">
+        <h3>Save Lesson</h3>
+        <p>Click <span class="btn-label">&#128190; Save Lesson</span> to export the currently loaded lesson as a single <strong>.json file</strong>. This file contains the lesson title, scripture, subtitle, series, all questions, student answers, and teacher answers.</p>
+        <p>Use this for:</p>
+        <ul>
+          <li>Backing up an important individual lesson</li>
+          <li>Sharing a lesson with another person (via email, flash drive, etc.)</li>
+          <li>Transferring a lesson to another device</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h3>Open Lesson</h3>
+        <p>Click <span class="btn-label">&#128194; Open Lesson</span> to import a single-lesson .json file into your current vault.</p>
+        <ol class="steps">
+          <li>Click <span class="btn-label">&#128194; Open Lesson</span> and select a .json file.</li>
+          <li>The app reads the file and shows a confirmation with the lesson title.</li>
+          <li>If a lesson with the same name already exists in your vault, you'll be asked whether to overwrite it.</li>
+          <li>The lesson is imported and loaded.</li>
+        </ol>
+        <div class="tip">
+          <p><strong>Note:</strong> Save/Open Lesson works with individual lessons. For backing up <em>all</em> lessons at once, use Backup &amp; Restore (see <a href="#backup-restore">Section 13</a>).</p>
+        </div>
+      </div>
+
+      <!-- 6. Bible Lookup -->
+      <h2 id="bible-lookup">6. Bible Lookup</h2>
+
+      <div class="section-card">
+        <h3>Looking Up Scripture</h3>
+        <p>Click <span class="btn-label">&#128214; Bible Lookup</span> in the header area to open the lookup popup. You can also enter a reference in the Scripture field and click the button.</p>
+        <ol class="steps">
+          <li>Type a scripture reference in the input field (e.g., "John 3:16", "Matt 11-12", "Genesis 1:1-2:3").</li>
+          <li>Choose a translation from the dropdown.</li>
+          <li>Click <strong>Lookup</strong> or press <span class="kbd">Enter</span>.</li>
+          <li>The passage text appears in the popup with verse numbers in superscript.</li>
+        </ol>
+        <p>The popup is <strong>draggable</strong> &mdash; click and drag the header bar to reposition it.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Available Translations</h3>
+        <ul>
+          <li><strong>KJV + Strong's</strong> &mdash; King James Version with clickable Strong's numbers (offline, see below)</li>
+          <li><strong>NASB</strong> &mdash; New American Standard Bible (default)</li>
+          <li><strong>NIV</strong> &mdash; New International Version</li>
+          <li><strong>ESV</strong> &mdash; English Standard Version</li>
+          <li><strong>KJV</strong> &mdash; King James Version (online)</li>
+          <li><strong>ASV</strong> &mdash; American Standard Version</li>
+          <li><strong>NLT</strong> &mdash; New Living Translation</li>
+        </ul>
+        <div class="tip">
+          <p><strong>Note:</strong> All translations except <strong>KJV + Strong's</strong> require an internet connection, fetched from the <a href="https://bolls.life">Bolls.Life API</a>. The KJV + Strong's option uses a local data file and works fully offline.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>KJV with Strong's Numbers <span class="badge-new">New</span></h3>
+        <p>Select <strong>"KJV + Strong's"</strong> from the translation dropdown to load the King James Version with embedded Strong's Concordance numbers. Each significant word in the text is tagged with its Greek (G####) or Hebrew (H####) number.</p>
+        <p>Click any Strong's number to open a <strong>Word Study popup</strong> showing the original language word, its transliteration, pronunciation, and definition. See <a href="#strongs">Section 7</a> for details.</p>
+        <p>This feature uses the local KJV.json file (12.4 MB) and works completely offline.</p>
+      </div>
+
+      <!-- 7. Strong's Dictionary -->
+      <h2 id="strongs">7. Strong's Dictionary / Word Study <span class="badge-new">New</span></h2>
+
+      <div class="section-card">
+        <h3>How It Works</h3>
+        <p>When viewing a passage in <strong>KJV + Strong's</strong> mode, each word is tagged with a Strong's number. Click any number (e.g., G3056 or H1697) to open the <strong>Word Study popup</strong>.</p>
+
+        <h4>What You'll See</h4>
+        <ul>
+          <li><strong>Original word</strong> &mdash; The Greek or Hebrew word as it appears in the original text.</li>
+          <li><strong>Transliteration</strong> &mdash; The word spelled out in English letters.</li>
+          <li><strong>Pronunciation</strong> &mdash; How to say the word.</li>
+          <li><strong>Language</strong> &mdash; Greek (G####) or Hebrew (H####).</li>
+          <li><strong>Short definition</strong> &mdash; A concise one-line meaning.</li>
+          <li><strong>Full definition</strong> &mdash; The complete dictionary entry with usage details.</li>
+        </ul>
+
+        <h4>Cross-References</h4>
+        <p>Definitions often reference other Strong's numbers. These appear as clickable links (e.g., G1234 or H5678). Click them to jump to that entry without closing the popup. This lets you trace word relationships and study how terms connect across Scripture.</p>
+      </div>
+
+      <!-- 8. Bible Maps -->
+      <h2 id="maps">8. Bible Maps <span class="badge-new">New</span></h2>
+
+      <div class="section-card">
+        <h3>Opening the Map</h3>
+        <p>Click <span class="btn-label">&#128506; Maps</span> in the header area to open the interactive Bible map in a full-screen modal.</p>
+        <p>The map features <strong>1,309 biblical locations</strong> from the OpenBible.info dataset, displayed on a terrain map powered by Leaflet.js.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Searching Locations</h3>
+        <p>Type a location name in the <strong>"Search any location..."</strong> box. A dropdown appears with matching results as you type. Click a result to pan and zoom the map to that location.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Themed Journeys</h3>
+        <p>Use the <strong>Theme</strong> dropdown to overlay a journey route on the map. Available themes include:</p>
+        <ul>
+          <li><strong>Paul's Journeys</strong> &mdash; 1st Missionary Journey, 2nd Missionary Journey, 3rd Missionary Journey, Journey to Rome</li>
+          <li><strong>Old Testament Journeys</strong> &mdash; Journey of Abraham, Journey of Jacob, Journey of Joseph</li>
+        </ul>
+        <p>Each theme draws a route with numbered markers, location labels, and colored path lines. The map automatically pans and zooms to fit the journey. Select <strong>"Search Only"</strong> to clear the route and return to a clean map.</p>
+      </div>
+
+      <!-- 9. Search -->
+      <h2 id="search">9. Search Across Lessons</h2>
+
+      <div class="section-card">
+        <h3>How to Search</h3>
+        <p>Click <span class="btn-label">&#128269; Search</span> in the controls bar to open the search panel.</p>
+        <ol class="steps">
+          <li>Type a keyword, topic, or scripture reference in the search field.</li>
+          <li>Press <span class="kbd">Enter</span> or click <strong>Search</strong>.</li>
+          <li>Results appear showing every match across all lessons in your current vault.</li>
+          <li>Click any result to load that lesson.</li>
+        </ol>
+
+        <h4>What Gets Searched</h4>
+        <p>The search checks all of the following fields in every lesson:</p>
+        <ul>
+          <li>Lesson title</li>
+          <li>Series name</li>
+          <li>Scripture reference</li>
+          <li>Subtitle</li>
+          <li>All questions</li>
+          <li>Student answers</li>
+          <li>Teacher answers (answer keys)</li>
+        </ul>
+        <p>Matching text is highlighted in the results so you can see the context of each match.</p>
+      </div>
+
+      <!-- 10. Scripture Index -->
+      <h2 id="scripture-index">10. Scripture Index</h2>
+
+      <div class="section-card">
+        <h3>Generating an Index</h3>
+        <p>Click <span class="btn-label">&#128209; Scripture Index</span> in the controls bar to open the index panel. Then choose:</p>
+        <ul>
+          <li><strong>Current Lesson</strong> &mdash; Indexes only the loaded lesson.</li>
+          <li><strong>All Lessons</strong> &mdash; Indexes every lesson in your current vault.</li>
+        </ul>
+        <p>The tool scans questions, student answers, and teacher answers for scripture references (e.g., "John 3:16", "Acts 2:38-41") and lists them all.</p>
+
+        <h4>Using the Index</h4>
+        <p>Each entry shows the reference, the lesson it came from, and where it appeared (e.g., "Question 3" or "Answer 7"). <strong>Click any reference</strong> to open the Bible Lookup popup for that verse.</p>
+        <p>Click <span class="btn-label">&#128229; Export Index</span> to download the index as a .txt file.</p>
+      </div>
+
+      <!-- 11. Resources -->
+      <h2 id="resources">11. Resources Panel</h2>
+
+      <div class="section-card">
+        <h3>Browsing Resources</h3>
+        <p>Click <span class="btn-label">&#128218; Resources</span> in the controls bar to open the resources panel. Resources are organized by <strong>congregation/source</strong> (shown as tabs) and <strong>category</strong> within each tab.</p>
+        <p>The default resources include materials from Churches of Christ congregations, including study guides, Bible book workbooks, topical studies, and the StraitWay curriculum. Each resource is a clickable link that opens in a new tab. Small badges indicate the file type (PDF, Website, Enhanced, DOCX).</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Customizing Resources</h3>
+        <p>Click <span class="btn-label">&#9998; Edit Resources</span> to enter edit mode, where you can:</p>
+        <ul>
+          <li>Add new congregations (tabs)</li>
+          <li>Add categories and resources to any tab</li>
+          <li>Delete custom tabs (click the X on the tab)</li>
+        </ul>
+        <p>Click <span class="btn-label">&#8617; Reset to Default</span> to restore the original resource list.</p>
+      </div>
+
+      <!-- 12. Printing & Exporting -->
+      <h2 id="printing-exporting">12. Printing &amp; Exporting</h2>
+
+      <div class="section-card">
+        <h3>Print Lesson</h3>
+        <p>Click <span class="btn-label">&#128424; Print Lesson</span> to print a clean, formatted copy of the current lesson. The printout includes the lesson title, scripture reference, subtitle, blank lines for student name and date, and all questions with space for handwritten answers. This is ideal for classroom handouts.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Print Answer Key</h3>
+        <p>Click <span class="btn-label">&#128273; Print Key</span> to print the lesson with teacher answer keys included below each question. The header is labeled "Answer Key" to distinguish it from student copies.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Export PDF</h3>
+        <p>Click <span class="btn-label">&#128196; Export PDF</span> to download a PDF file of the current lesson with your student answers. The file is named <strong>[Lesson Title]_Answers.pdf</strong>.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Export Text</h3>
+        <p>Click <span class="btn-label">&#128221; Export Text</span> to download a plain text (.txt) file with all questions and your answers. The file is named <strong>[Lesson Title]_Answers.txt</strong>.</p>
+      </div>
+
+      <!-- 13. Backup & Restore -->
+      <h2 id="backup-restore">13. Backup &amp; Restore</h2>
+
+      <div class="section-card">
+        <h3>Why Backup Matters</h3>
+        <p>All your lessons are stored in your browser's localStorage. This data can be lost if you clear your browser data, switch browsers, or reinstall your operating system. <strong>Regular backups protect your work.</strong></p>
+      </div>
+
+      <div class="section-card">
+        <h3>Export All Lessons (Backup)</h3>
+        <p>Click <span class="btn-label">&#128190; Backup</span> in the controls bar to open the backup panel, then click <span class="btn-label">&#128229; Download Backup</span>.</p>
+        <p>This creates a single JSON file containing <strong>every lesson in your current vault</strong> &mdash; all titles, scripture references, questions, student answers, and teacher answers. The file is named <strong>Bible_Study_Backup_[date].json</strong>.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Import Lessons (Restore)</h3>
+        <p>In the backup panel, select a backup .json file and click <span class="btn-label">&#128228; Import Backup</span>.</p>
+        <ol class="steps">
+          <li>Select your backup file.</li>
+          <li>Click Import Backup.</li>
+          <li>A confirmation shows how many lessons will be imported.</li>
+          <li>Lessons with the same title are overwritten; new lessons are added.</li>
+          <li>Your lesson list refreshes with all imported content.</li>
+        </ol>
+        <div class="tip">
+          <p><strong>Save/Open vs. Backup:</strong> <a href="#save-open">Save/Open Lesson</a> works with a <em>single</em> lesson file. Backup &amp; Restore works with <em>all</em> lessons in your vault at once. Use Save Lesson to share individual lessons; use Backup to protect your entire collection.</p>
+        </div>
+      </div>
+
+      <!-- 14. Managing Lessons -->
+      <h2 id="managing-lessons">14. Managing Lessons</h2>
+
+      <div class="section-card">
+        <h3>Clear Answers</h3>
+        <p>Click <span class="btn-label">Clear</span> to erase all student answers from the current lesson while keeping the questions, metadata, and teacher answer keys intact. This is useful when you want to redo a lesson from scratch or prepare it for a new student.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>Delete Lesson</h3>
+        <p>Click <span class="btn-label">&#128465; Delete</span> to permanently remove the current lesson from your vault. You'll see a confirmation prompt with the lesson title. <strong>This action cannot be undone</strong> &mdash; back up important lessons first.</p>
+      </div>
+
+      <!-- 15. AI Study Guide -->
+      <h2 id="ai-study-guide">15. AI Study Guide <span class="badge-new">New</span></h2>
+
+      <div class="section-card">
+        <h3>What It Is</h3>
+        <p>The AI Study Guide is a downloadable PDF of guiding principles for AI-assisted Bible study. It is designed to be uploaded to any AI tool (ChatGPT, Claude, Gemini, etc.) as a system instruction, so the AI approaches Scripture honestly &mdash; free from denominational bias &mdash; and lets Scripture interpret Scripture.</p>
+
+        <h4>How to Use It</h4>
+        <ol class="steps">
+          <li>From the <a href="index.html">landing page</a>, click <strong>AI Study Guide</strong> to download the PDF.</li>
+          <li>Open your preferred AI tool (ChatGPT, Claude, Gemini, etc.).</li>
+          <li>Upload the PDF as a system instruction or reference document.</li>
+          <li>Ask Bible study questions. The AI will follow the guiding principles &mdash; using Scripture to answer Scripture, identifying book/chapter/verse, and avoiding inserting human tradition or denominational assumptions.</li>
+        </ol>
+      </div>
+
+      <!-- 16. Tips -->
+      <h2 id="tips">16. Tips for Best Results</h2>
+
+      <div class="section-card">
+        <h3>Stay Organized</h3>
+        <ul>
+          <li><strong>Use Series folders.</strong> Group related lessons under a series name (e.g., "Acts Study", "Gospel of John") so you can filter by series in the dropdown.</li>
+          <li><strong>Use consistent naming.</strong> "Lesson 1", "Lesson 2", etc. sort correctly. Avoid inconsistent formats like mixing "L.1" with "Lesson 1".</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h3>Protect Your Work</h3>
+        <ul>
+          <li><strong>Back up regularly.</strong> Download a full vault backup at least weekly if you're actively studying.</li>
+          <li><strong>Use Save Lesson</strong> for especially important individual lessons &mdash; share them or keep a copy on a flash drive.</li>
+          <li><strong>Don't rely solely on localStorage.</strong> Browser data can be cleared accidentally. Backups are your safety net.</li>
+        </ul>
+      </div>
+
+      <div class="section-card">
+        <h3>Get More from the Tool</h3>
+        <ul>
+          <li><strong>Review PDF imports.</strong> After importing, open each lesson and check that questions were detected correctly. Edit titles or remove stray headers if needed.</li>
+          <li><strong>Use Teacher Mode</strong> to prepare answer keys before a class, then switch to Student Mode when distributing.</li>
+          <li><strong>Try KJV + Strong's for word studies.</strong> Clicking through Strong's numbers is one of the best ways to understand what the original text says.</li>
+          <li><strong>Explore the Maps</strong> while reading travel narratives (Acts, Genesis, Exodus) to visualize where events happened.</li>
+          <li><strong>Use the Scripture Index</strong> across all lessons to see which passages you've studied most &mdash; and which you haven't touched.</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p class="scripture">"Your word is a lamp to my feet and a light to my path." <span class="scripture-ref">&mdash; Psalm 119:105</span></p>
+        <p class="copyright">Version 3.0 &mdash; February 2026</p>
+        <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+</body>
+</html>

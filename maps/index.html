@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bible Maps — Noble Mind Study</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-inner: rgba(25, 22, 35, 0.96);
+      --text-primary: #f5f0e6;
+      --text-secondary: #c0b8a8;
+      --accent-gold: #e8b923;
+      --accent-gold-glow: rgba(232, 185, 35, 0.5);
+      --accent-blue: #5b9bd5;
+      --accent-blue-glow: rgba(91, 155, 213, 0.4);
+      --accent-burgundy: #8b4557;
+      --glass-blur: blur(12px);
+      --radius-card: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', 'Georgia', serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(91,155,213,0.04), transparent 50%);
+      pointer-events: none;
+    }
+
+    header {
+      position: relative;
+      z-index: 100;
+      background: var(--bg-inner);
+      border-bottom: 1px solid rgba(232,185,35,0.25);
+      padding: 15px 20px;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    h1 {
+      color: var(--accent-gold);
+      font-size: 1.5rem;
+      text-shadow: 0 0 20px var(--accent-gold-glow);
+    }
+
+    .search-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    #search-input {
+      padding: 10px 15px;
+      border: 1px solid rgba(232,185,35,0.3);
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      color: var(--text-primary);
+      font-size: 1rem;
+      min-width: 250px;
+    }
+
+    #search-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-gold-glow);
+    }
+
+    #search-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 14px;
+      border: 1px solid rgba(232,185,35,0.3);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .filter-btn.active {
+      background: rgba(232,185,35,0.2);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .home-link {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .home-link:hover {
+      text-decoration: underline;
+    }
+
+    #map-container {
+      flex: 1;
+      position: relative;
+      z-index: 10;
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+      background: #1a1a2e;
+    }
+
+    /* Custom Leaflet styling */
+    .leaflet-container {
+      font-family: inherit;
+    }
+
+    .leaflet-popup-content-wrapper {
+      background: var(--bg-inner);
+      color: var(--text-primary);
+      border-radius: var(--radius-card);
+      border: 1px solid rgba(232,185,35,0.3);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .leaflet-popup-tip {
+      background: var(--bg-inner);
+      border: 1px solid rgba(232,185,35,0.3);
+    }
+
+    .leaflet-popup-content {
+      margin: 15px;
+      max-width: 280px;
+    }
+
+    .popup-title {
+      color: var(--accent-gold);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .popup-type {
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+      text-transform: capitalize;
+      margin-bottom: 10px;
+    }
+
+    .popup-verses {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .popup-verses strong {
+      color: var(--text-primary);
+    }
+
+    .popup-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: var(--accent-gold);
+      font-size: 0.85rem;
+      text-decoration: none;
+    }
+
+    .popup-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Search results dropdown */
+    #search-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-inner);
+      border: 1px solid rgba(232,185,35,0.3);
+      border-radius: 0 0 8px 8px;
+      max-height: 300px;
+      overflow-y: auto;
+      display: none;
+      z-index: 1000;
+    }
+
+    #search-results.active {
+      display: block;
+    }
+
+    .search-result-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .search-result-item:hover {
+      background: rgba(232,185,35,0.1);
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-name {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .result-type {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      text-transform: capitalize;
+    }
+
+    .search-wrapper {
+      position: relative;
+      z-index: 1001;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      background: rgba(0,0,0,0.3);
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(232,185,35,0.15);
+    }
+
+    .stats-bar span {
+      color: var(--accent-gold);
+    }
+
+    /* Marker clusters and custom icons */
+    .custom-marker {
+      background: var(--accent-gold);
+      border: 2px solid var(--bg-dark);
+      border-radius: 50%;
+      width: 12px;
+      height: 12px;
+      box-shadow: 0 0 10px var(--accent-gold-glow);
+    }
+
+    /* Attribution styling */
+    .leaflet-control-attribution {
+      background: rgba(26, 26, 26, 0.8) !important;
+      color: var(--text-secondary) !important;
+    }
+
+    .leaflet-control-attribution a {
+      color: var(--accent-blue) !important;
+    }
+
+    /* Zoom controls */
+    .leaflet-control-zoom a {
+      background: var(--bg-inner) !important;
+      color: var(--text-primary) !important;
+      border-color: rgba(232,185,35,0.3) !important;
+    }
+
+    .leaflet-control-zoom a:hover {
+      background: rgba(232,185,35,0.2) !important;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      #search-input {
+        min-width: 100%;
+      }
+
+      .filter-buttons {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <h1>Bible Maps</h1>
+
+      <div class="search-container">
+        <div class="search-wrapper">
+          <input type="text" id="search-input" placeholder="Search locations..." autocomplete="off">
+          <div id="search-results"></div>
+        </div>
+
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="settlement">Cities</button>
+          <button class="filter-btn" data-filter="mountain">Mountains</button>
+          <button class="filter-btn" data-filter="water">Water</button>
+          <button class="filter-btn" data-filter="region">Regions</button>
+        </div>
+      </div>
+
+      <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+        ← Back to Noble Mind Study
+      </a>
+    </div>
+  </header>
+
+  <div class="stats-bar">
+    Showing <span id="visible-count">0</span> of <span id="total-count">0</span> biblical locations
+  </div>
+
+  <div id="map-container">
+    <div id="map"></div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // Global variables
+    let map;
+    let locations = [];
+    let markers = [];
+    let currentFilter = 'all';
+
+    // Initialize map
+    function initMap() {
+      map = L.map('map', {
+        center: [31.7767, 35.2345], // Jerusalem
+        zoom: 7,
+        minZoom: 3,
+        maxZoom: 18
+      });
+
+      // Use OpenStreetMap with a darker style via CartoDB
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a> | Bible data: <a href="https://www.openbible.info/geo/">OpenBible.info</a> (CC BY 4.0)',
+        subdomains: 'abcd',
+        maxZoom: 19
+      }).addTo(map);
+    }
+
+    // Load locations data
+    async function loadLocations() {
+      try {
+        const response = await fetch('data/locations.json');
+        locations = await response.json();
+        document.getElementById('total-count').textContent = locations.length;
+        addMarkers();
+      } catch (error) {
+        console.error('Error loading locations:', error);
+      }
+    }
+
+    // Create custom icon
+    function createIcon(type) {
+      const colors = {
+        settlement: '#e8b923',
+        hill: '#8b4557',
+        mountain: '#8b4557',
+        'mountain range': '#8b4557',
+        river: '#5b9bd5',
+        sea: '#5b9bd5',
+        lake: '#5b9bd5',
+        island: '#5b9bd5',
+        region: '#6b8e23',
+        default: '#e8b923'
+      };
+
+      const color = colors[type] || colors.default;
+
+      return L.divIcon({
+        className: 'custom-div-icon',
+        html: `<div style="
+          background: ${color};
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          border: 2px solid #1a1a1a;
+          box-shadow: 0 0 8px ${color}80;
+        "></div>`,
+        iconSize: [14, 14],
+        iconAnchor: [7, 7]
+      });
+    }
+
+    // Add markers to map
+    function addMarkers() {
+      // Clear existing markers
+      markers.forEach(m => map.removeLayer(m));
+      markers = [];
+
+      let visibleCount = 0;
+
+      locations.forEach(loc => {
+        // Apply filter
+        if (currentFilter !== 'all') {
+          if (currentFilter === 'water') {
+            if (!['river', 'sea', 'lake', 'island'].includes(loc.type)) return;
+          } else if (currentFilter === 'mountain') {
+            if (!['hill', 'mountain', 'mountain range'].includes(loc.type)) return;
+          } else if (currentFilter === 'region') {
+            if (!['region', 'territory'].includes(loc.type)) return;
+          } else if (loc.type !== currentFilter) {
+            return;
+          }
+        }
+
+        const marker = L.marker([loc.lat, loc.lon], {
+          icon: createIcon(loc.type),
+          title: loc.name
+        });
+
+        // Create popup content
+        let popupContent = `
+          <div class="popup-title">${loc.name}</div>
+          <div class="popup-type">${loc.type}</div>
+        `;
+
+        if (loc.verses && loc.verses.length > 0) {
+          popupContent += `
+            <div class="popup-verses">
+              <strong>Referenced in:</strong><br>
+              ${loc.verses.slice(0, 5).join(', ')}
+              ${loc.verses.length > 5 ? ` (+${loc.verses.length - 5} more)` : ''}
+            </div>
+          `;
+        }
+
+        if (loc.url_slug) {
+          popupContent += `
+            <a href="https://www.openbible.info/geo/${loc.url_slug}" target="_blank" class="popup-link">
+              View on OpenBible.info →
+            </a>
+          `;
+        }
+
+        marker.bindPopup(popupContent);
+        marker.addTo(map);
+        markers.push(marker);
+        visibleCount++;
+      });
+
+      document.getElementById('visible-count').textContent = visibleCount;
+    }
+
+    // Search functionality
+    function setupSearch() {
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        console.log('Search query:', query, 'Locations loaded:', locations.length);
+
+        if (query.length < 2) {
+          searchResults.classList.remove('active');
+          return;
+        }
+
+        const matches = locations
+          .filter(loc => loc.name.toLowerCase().includes(query))
+          .slice(0, 10);
+        console.log('Matches found:', matches.length);
+
+        if (matches.length === 0) {
+          searchResults.classList.remove('active');
+          return;
+        }
+
+        searchResults.innerHTML = matches.map(loc => `
+          <div class="search-result-item" data-lat="${loc.lat}" data-lon="${loc.lon}" data-name="${loc.name}">
+            <div class="result-name">${loc.name}</div>
+            <div class="result-type">${loc.type}</div>
+          </div>
+        `).join('');
+
+        searchResults.classList.add('active');
+      });
+
+      searchResults.addEventListener('click', (e) => {
+        const item = e.target.closest('.search-result-item');
+        if (item) {
+          const lat = parseFloat(item.dataset.lat);
+          const lon = parseFloat(item.dataset.lon);
+          const name = item.dataset.name;
+
+          map.setView([lat, lon], 12);
+
+          // Find and open the marker popup
+          const marker = markers.find(m => m.options.title === name);
+          if (marker) {
+            marker.openPopup();
+          }
+
+          searchResults.classList.remove('active');
+          searchInput.value = name;
+        }
+      });
+
+      // Close search results when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-wrapper')) {
+          searchResults.classList.remove('active');
+        }
+      });
+    }
+
+    // Filter functionality
+    function setupFilters() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          addMarkers();
+        });
+      });
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+      initMap();
+      loadLocations();
+      setupSearch();
+      setupFilters();
+    });
+  </script>
+</body>
+</html>

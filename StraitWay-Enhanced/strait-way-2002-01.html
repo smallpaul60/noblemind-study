@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - January 2002</title>
+  <meta name="description" content="The Strait Way newsletter, January 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01" selected>January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#noah-family">Noah Taught His Family</a>
+        <a href="#ultra-liberalism">Ultra-Liberalism</a>
+        <a href="#identity-church">Identity of Church</a>
+        <a href="#preparing-sermons">Preparing Sermons</a>
+        <a href="#humanism">Humanism & Satanism</a>
+        <a href="#premillennialism">Premillennialism</a>
+        <a href="#church-christ">Church Jesus Built</a>
+        <a href="#welcome">Welcome</a>
+      </nav>
+
+      <article class="article" id="noah-family">
+        <span class="article-category">Front Page</span>
+        <h2>Noah Taught His Family</h2>
+        <p>Noah was "a preacher of righteousness" (<span class="scripture-ref">2 Pet. 2:5</span>), who did much of his teaching at home. Consequently, "In the selfsame day entered Noah, and Shem, and Ham, and Jepheth, the sons of Noah, and Noah's wife, and the three wives of his sons with them, into the ark" (<span class="scripture-ref">Gen. 7:13</span>). Indeed, this was a great day, for Noah saved his family. Others have not been so successful. <span class="scripture-ref">Judges 2:10</span> says, "And also all that generation were gathered unto their fathers: and there arose another generation after them that knew not Jehovah, nor yet the work which he had wrought for Israel."</p>
+        <p>It is disturbing when children of faithful brethren never obey the gospel or, as soon as they are away from home they forsake the Lord and His church. I, too, am a parent who desires that my children love and serve God all their lives. If they forsake the Lord, I want it to be in spite of me, not because of me (<span class="scripture-ref">Proverbs 22:6</span>; <span class="scripture-ref">Ephesians 6:4</span>; <span class="scripture-ref">Matthew 16:26</span>).</p>
+        <p>Timothy was a young man who was a second or third generation Christian. He was one of "unfeigned faith...which dwelt first in thy grandmother Lois, and thy mother Eunice..." (<span class="scripture-ref">2 Timothy 1:5</span>). His mother and grandmother taught him the Scriptures from the time that he was a "babe", that he might become "wise unto salvation through faith which is in Christ Jesus" (<span class="scripture-ref">2 Tim. 3:15</span>). Indeed, one's salvation is an individual choice. A person will be converted to Christ when he is personally convicted of his sins and obeys the gospel from the heart. However, I am persuaded that one reason why we may lose our young people to the world is because parents are failing in their responsibility to consistently train unto godliness "FROM A BABE."</p>
+        <p>The apostle Paul, who considered himself Timothy's spiritual father, gave him specific instructions and warnings to prevent him from casting aside his faith:</p>
+        <ol class="numbered-list">
+          <li>Be godly (<span class="scripture-ref">1 Tim. 4:7-8</span>), devout and sincere in his faith rather than just going through the motions.</li>
+          <li>Trust in God (<span class="scripture-ref">1 Tim. 4:10</span>).</li>
+          <li>Be a faithful example to others in all areas of his life (<span class="scripture-ref">1 Tim. 4:12</span>).</li>
+          <li>Be completely dedicated in his faith, as opposed to half-hearted service (<span class="scripture-ref">1 Tim. 4:13-15</span>).</li>
+          <li>Take heed to himself and his doctrine, i.e. practice what you believe and preach (<span class="scripture-ref">1 Tim. 4:16</span>).</li>
+          <li>Flee sin and follow after righteousness (<span class="scripture-ref">1 Tim. 6:11</span>).</li>
+          <li>Keep the commandments until the day of the Lord (<span class="scripture-ref">1 Tim. 6:14</span>).</li>
+          <li>Be not ashamed of his faith, nor the gospel; be bold (<span class="scripture-ref">2 Tim. 1:8,11-14</span>).</li>
+          <li>Be diligent (<span class="scripture-ref">2 Tim. 2:15</span>).</li>
+        </ol>
+        <p>Our children today need to hear and give heed to these things. There is real danger of one's faith not being genuine. It is possible for our children to believe certain things just because Mom and Dad believes them, instead of having individual conviction that must be "learned" of God (<span class="scripture-ref">John 6:44-45</span>) by knowledge of the Scriptures. Conviction is not inherited! True faith comes by the individual hearing and believing (<span class="scripture-ref">Rom. 10:17</span>). Faithfulness is individual. "...The righteousness of the righteous shall be upon him, and the wickedness of the wicked shall be upon him" (<span class="scripture-ref">Ezek. 18:20</span>). The Bible clearly teaches that one can fall from grace, no matter how good an environment he was reared in (<span class="scripture-ref">Gal. 5:4</span>; <span class="scripture-ref">1 Cor. 10:12</span>).</p>
+        <p>Many fail to personally study God's Word for themselves. Christians, from the beginning, must "long for the spiritual milk..." (<span class="scripture-ref">1 Peter 2:2</span>), so they may grow in faith. First generation Christians hunger and thirst to obtain Bible knowledge; but, some who are "raised in the church" may think they already "know" all they need to without personal study. Parents, let us never become lax in providing the proper spiritual training (<span class="scripture-ref">Eph. 6:1-4</span>). Taking my children to worship, as important as that is, is no substitute for providing a godly atmosphere in the home with regular Bible study coupled with a good example. The "do as I say, not as I do" approach does not work!</p>
+        <p>Let us examine ourselves by the standard of God's word, both parents and children (<span class="scripture-ref">2 Cor. 13:5</span>), and serve God out of personal conviction, continuing in spiritual growth (<span class="scripture-ref">2 Peter 1:5-10</span>).</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">New Series</span>
+        <h2>Ultra-Liberalism In Churches of Christ</h2>
+        <p>I would like to thank Glenn Melton for asking me to write a series of articles for StraitWay in 2002. I have chosen as my topic "Ultra-Liberalism In Churches of Christ." In this series I intend to look at the ultra-liberalism that is tearing apart liberal/institutional churches.</p>
+        <p>Several years ago I was given an article by Robert R. Taylor, Jr. of Ripley, TN. The article was reprinted in a church bulletin, East Hill News, August 16, 1992. The title of the article asks, "Is There A New Liberalism?" Taylor lists fifteen items that he considers proof that there is a new liberalism in the church:</p>
+        <ol class="numbered-list">
+          <li>"Rewriting God's laws of marriage, divorce and remarriage..."</li>
+          <li>"Turning God's church away from its spiritual mission into recreational outlets and entertainment activities."</li>
+          <li>"Filling sermons (???) with anything and everything except the Bible..."</li>
+          <li>"Advocating a direct leading of the Holy Spirit."</li>
+          <li>"Insisting that Holy Spirit baptism and charismatic gifts are still available..."</li>
+          <li>"Calling sectarian the sound veterans of the faith fought sectarianism all their valiant days."</li>
+          <li>"Insisting that there are...sincere Christians scattered among the denominations."</li>
+          <li>"Tampering with God's avowed purpose of baptism..."</li>
+          <li>"Moving us closer and closer to the mainstream of popular Protestantism."</li>
+          <li>"Making amazing apologies to Christian Church preachers for our being wrong in treating the mechanical instrument issue as basically a matter of their lacking respect for Bible authority..."</li>
+          <li>"Relative to the music issue some of our brethren are telling Christian Church preachers that we are the weak brethren and they...are in reality the stronger brethren."</li>
+          <li>"A refusal to preach anything negative or that breaths the spirit of controversy."</li>
+          <li>"A refusal to see and heed the dangers of Crossroads and its mini cultic characteristics."</li>
+          <li>"That there is grace and grace only and no law at all in Christianity."</li>
+          <li>"A growing tolerance for anything that calls itself a Bible." (Taylor points out they prefer the NIV and the RSV).</li>
+        </ol>
+        <p>From his article, I believe it would be safe to assume that Taylor is what some are now calling a "conservative/liberal." He does not go along with what I consider ultra-liberalism, but he would still be in favor of the church support of some human institutions.</p>
+        <p>To Taylor's list I would add:</p>
+        <ol class="numbered-list" start="16">
+          <li>The rejection of the Bible as the complete and final revelation of God's will.</li>
+          <li>The idea that man is not bound by any law, especially written laws.</li>
+          <li>Leadership roles in the worship service should be extended to include women.</li>
+          <li>The worship service is changed to include songs during the Lord's Supper and the responsive reading of Scripture, involving women speaking in the worship assembly.</li>
+        </ol>
+        <p>Why do conservative/non-institutional brethren need to be concerned about the trouble in liberal churches? Because, brethren, it is coming our way. At least thirteen of the above nineteen items were involved in the recent split of a conservative East Texas church. Fortunately, the sound brethren were in the majority and were able to hold onto the building. That is not always the case. Next month: How Ultra-Liberalism Comes Into A Congregation</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">New Series</span>
+        <h2>Identity of A Church of Christ: Introduction</h2>
+        <p>I look forward to spending the next year with you discussing things that I consider important to the saints of God. I am deeply humbled by the request to write on this subject, and have confidence that many others have the ability to present these thoughts with more clarity and do a better job. But I will do my best to speak things clearly and concisely so that I may impart my understanding of the mysteries of Christ (paraphrasing Paul in <span class="scripture-ref">Eph 3:4</span>).</p>
+        <p>I also want to challenge your thinking by asking you to put away previous prejudice and examine these things as if you came across them for the very first time. Perhaps you will view these things in a different light and have cause to examine yourself as instructed in <span class="scripture-ref">2 Corinthians 13:5</span>. Do not be afraid to view something in a different light, for perhaps you might find your current reasons and motives to be wrong. It is possible because, none of us are perfect, even though we try to be. Please approach this subject with honest hearts.</p>
+        <p>There are trends among the brotherhood of Christ that are a matter of concern for a few while many of the trends are of little consequence to most of the church today. Our relationship and fellowship with God is based upon the truth (<span class="scripture-ref">John 17:17</span>). We find more and more worldliness and ignorance on the part of the membership than in times past. We appear to be moving in the wrong direction.</p>
+        <p>In <span class="scripture-ref">Hosea 4:6</span> God said "My people are destroyed for lack of knowledge..."</p>
+        <p>It appears that more and more church leaders are tolerating such lack of knowledge. Many elders no longer rule as they should (<span class="scripture-ref">1 Peter 5:3</span>), and many preachers have failed to declare the whole counsel of God (<span class="scripture-ref">Acts 20:27</span>). Even the saints in the pews do not show a care and concern for others as they are instructed so often in the scriptures.</p>
+        <p>Our age of political correctness and democracy have infiltrated the church along with the worldliness so evident in the lives of many members. In the church, we have the reputation of being right and pure, and being the pillar and ground of truth (<span class="scripture-ref">1 Tim 3:15</span>).</p>
+        <p>Sometimes we separate ourselves from those who do not hold the same standards and we form our own sort of denomination. Now many of you are extremely upset that I would use such a word to describe the brotherhood because we have denied it as long as I can remember. As we look, we see that we are unique and different from those other groups who claim to be a church of the Lord, yet we know better. We know that they are wrong and we are right, and we don't want to be viewed as just another denomination.</p>
+        <p>Strangely though, we are the only ones who feel that way. For the rest of the world views us as another denomination. Where we are to be separate and different is in our faith, doctrine, and practice. We know, without reservation, that the Lord's church is one and only one (<span class="scripture-ref">Ephesians 4:4</span>). It is pure and holy and acceptable to God. As far as we know, none of the others are.</p>
+        <p>Whenever we try to explain to others in the world the difference between us, our knowledge shows forth. We know our knowledge is based on our faith, the rest of the world perceives arrogance on our part (<span class="scripture-ref">1 Corinthians 8:1</span>). Wishing to avoid the stigma of being arrogant, we take extraordinary measures to hide our arrogance, and by doing so, we create our own kind of unique denomination. Watch next month for the explanation. Until then, May the Lord richly bless you and keep you.</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>This series will be an effort to assist preachers (especially younger men) to make preparation to speak before an audience. I am not a scholar or a professor, but in 49 years of preaching I have learned a few things about sermon preparation, and am glad to suggest them to others who stand in the pulpit.</p>
+        <p>It is understood that prior to sermon preparation there must be self preparation. Paul told Timothy to take heed to himself and to the doctrine (<span class="scripture-ref">1 Tim. 4:16</span>). Note that only the one whose life is in order has the right to teach others, so we first look closely at self. Next we make certain the doctrine we teach is pure truth. Then we begin with a sense of obligation to God, to the Gospel, and to our hearers. The preacher will be seen and heard, but we try to "hide ourselves behind the cross" so that people will go away talking more about the wonderful Savior than about the wonderful preacher. In the matter of preparing self numerous passages stay close to our minds. A few are <span class="scripture-ref">1 Cor. 6:18</span>; <span class="scripture-ref">10:31</span>; <span class="scripture-ref">Rom. 12:1-3, 9-10</span>; <span class="scripture-ref">13:8</span>; <span class="scripture-ref">1 Tim. 5:1-2,22</span>; <span class="scripture-ref">2 Tim. 4:1-5</span>; <span class="scripture-ref">Tit. 2:11-15</span>. Many such verses will be memorized and lived.</p>
+        <p>The word "evangelist" is used primarily in the New Testament in reference to those inspired men who originally announced the Gospel. The Gospel is now confirmed and written. So a modern teacher ("evangelist" if you wish) is to teach that truth and nothing else - <span class="scripture-ref">Gal. 1:8-9</span>; <span class="scripture-ref">Rev. 22:18-19</span>. The truth is powerful (<span class="scripture-ref">Heb. 4:12</span>) and it does not require any propping up by human power. There is no place in the pulpit for comedians or actors, and no need for long-winded intellectuals. Let's just "preach the Word!"</p>
+        <p>Since we are not inspired we have to study, and study can be hard work. It takes hours of prayerful concentration. At the center of the study is to be the Word of God. We must know the Truth, believe it without question, love it without reservation, live it without deceitfulness, and teach it without apology. Someone said "read it through, write it down, pray it in, work it out, and pass it on." Perhaps Paul summed that up in <span class="scripture-ref">2 Cor. 4:13</span> when he quoted <span class="scripture-ref">Psa 116:10</span> ("I believed, therefore have I spoken").</p>
+        <p>We are dying men who are speaking to dying people, and our work is deadly serious. We cannot be satisfied with less than the best we can do on sermon preparation and presentation. For each man there is the involvement of his individual personality and style. The best improvement of each one's capabilities is found by developing his own strength, not by imitating someone else. Listen to good men and follow good advice, but be natural and be your own man.</p>
+        <p>As we proceed we will look at different types of sermons and how to develop them. Some mention will be made of available tools and the way to use them effectively. Keep in mind that we are not trying to make a name for self or develop a big reputation. If you have great inherent ability, you will attract attention and become widely known, but that is secondary -- the first order of importance is to work for the glory of the Father and the honor of the Savior. The result will be the salvation of souls. Keep those objectives in mind and try to reach them without being overly long-winded. As a young preacher I was told "stand up to be seen, speak out to be heard, and sit down to be appreciated." Or, "stand up, speak up, and shut up." One older preacher said "take a long text and don't say much about it." There may be occasions when a sermon needs to be longer than usual, but just be sure to quit when you get through.</p>
+        <p>Topical sermons can be scriptural and interesting. Some topics are big and complex, and more than one sermon may be needed to cover the field. Some brethren tend to weary if it is "stretched out too long" (in their view), so it is good to avoid wandering from the subject and thereby making the lessons or the series drag out. Expository sermons may be the most difficult to prepare, but plain teaching right out of the Book, following the inspired author step by step is valuable to the hearer. You will find great satisfaction in this kind of study. When you have engaged the audience in serious exegesis of a paragraph or a chapter you will be encouraged by their obvious interest, and you will be glad you made your best effort to heed Paul's instruction to a young preacher: "Preach the Word" (<span class="scripture-ref">2 Tim. 4:2</span>).</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="humanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Humanism, Satanism, And The New Age Movement: An Introduction</h2>
+        <p>Though on the surface, these three subjects may seem as though they are not at all related, upon further investigation we find great similarity among them. In fact, they are as it were, different sides of the same coin. Whereas the Humanist says, "Man has replaced God," the Satanist (for our purposes, we will include the wiccans in this category as well, though they do not believe in a literal devil) believes man can control god, while the New Ager (ala Shirley McClain, John Denver, Human Potential Movement, etc), proclaims that man can become god or is already a god. All of this stems from the old lie with which Satan deceived grandmother Eve in the Garden of Eden saying "For God doth know that in the day ye eat thereof, then your eyes shall be opened, and ye shall be as gods, knowing good and evil." (<span class="scripture-ref">Gen 3:5</span>) Herein is the temptation of the "vain pride of life" of <span class="scripture-ref">1 John 2:16</span>. They are all religions of self-worship, with "self actualization" as the new mantra. A religion where the "self" has become the replacement of the soul, and the therapist couch as the pew.</p>
+        <p>Satanism and the New Age Movement are simply Humanism gone to seed, with a slightly religious flair to it. Try as they might, man is still essentially a worshipping being and has this innate desire and need to worship that must be fulfilled, for, "He hath set eternity in their hearts" (<span class="scripture-ref">Eccl 3:11</span>, ASV). Man realizes he cannot live in a spiritual vacuum, so Satanism and New Age are feeble attempts to have one's cake and eat it too. In this way, man can both be the Supreme Being and still worship a god (self) at the same time. These three philosophies then form a sort of "occultic pie", served straight from the ovens of humanism when half-baked and served up regularly in your community and fresh to your children. Ingredients include a hint of wealth and power with self in the center of it all.</p>
+        <p>In this series, we want to show just how entrenched these values and philosophies have become in our society. In our public schools and colleges, self help books, sales and personal improvement seminars, etc. it has become commonplace. These views are no longer confined to the fringe of society, but rather have become the posh and accepted trends from Hollywood to Main Street. The "preachers" of these faiths have moved from beads and tie-dye to three-piece suits.</p>
+        <p>It is as though we went to sleep and woke up in a strange and foreign world. None of this is new, however. Most every society, shortly before their downfall, has promoted these "values", from France to Russia. By their very nature, these are self-destructive, as sin is always. Paul affirmed such by saying, "Do not be deceived, God is not mocked; for whatever a man sows, that he will also reap." (<span class="scripture-ref">Gal 6:7</span>).</p>
+        <p>The poet, Walt Whitman, in his "Song of Myself" said in the very first line "I celebrate myself." This is the pervasive thought of today even as Whitney Houston sang, "Learning to love yourself is the greatest love of all." Contrast this mentality with Jesus statement, "Greater love hath no man than this, that a man lay down his life for his friends" (<span class="scripture-ref">John 15:13</span>). These views all promote selfishness, whereas the Bible teaches selflessness. Do we see this kind of lifestyle for what it really is? Mindless hedonism? The only real life one can live is when we learn to die first to self and then to live for something greater than self. Jesus said, "Verily, verily, I say unto you, Except a corn of wheat fall into the ground and die, it abideth alone: but if it die, it bringeth forth much fruit. He that loveth his life shall lose it; and he that hateth his life in this world shall keep it unto life eternal. If any man serve me, let him follow me; and where I am, there shall also my servant be: if any man serve me, him will my Father honour" (<span class="scripture-ref">John 12:24-26</span>).</p>
+        <p>When we see ourselves as souls created in the image of God, then we see our self in relation to God. When we see ourselves as simply self, then we see ourselves only in relation to self.... and we collapse under our own weight. We implode under our own burdens. To say, as "ol' Blue Eyes" did, "I did it my way" is truly to commit spiritual suicide.</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: The Land Promise</h2>
+        <p>One of the most popular and widespread doctrines in the religious world today is the one that is referred to as Premillennialism or as it is referred to sometimes as Dispensationalism. Its popularity may be seen in a recent book which deals with one phase of the doctrine. On the dust jacket of this book it is said that 40,000,000 copies have been sold. Although there are many sides to the doctrine, basically it claims that between the second coming of Christ and the end of the world there will be a literal 1,000 year reign of Christ on earth in Jerusalem. Since that period has not occurred yet we are living in the time before it does, thus premillennial. The word millennial comes from Latin and means one thousand, thus the idea of premillennialism. Involved in this is the idea that God promised to Abraham, and especially his descendants (the Jews) the land of Canaan (Palestine). It is further claimed that this promise has never been completely fulfilled and that it will be sometime in the future.</p>
+        <p>Let us consider the promises to Abraham. Basically there are three: (1) Land, (2) A nation of numerous descendants, (3) Spiritual or the seed promise. The promise of land is seen in <span class="scripture-ref">Genesis 12</span>. This chapter tells of God's call for Abraham to leave his country and kinsmen and go to the land that God would show him. In obedience to this, Abraham came into the land of Canaan (<span class="scripture-ref">12:5</span>). Here God said to Abraham, "unto thy seed will I give this land." (<span class="scripture-ref">12:7</span>). Later the promise was extended in <span class="scripture-ref">Genesis 15:18ff</span> where God said to Abram, "Unto thy seed have I given this land, from the River of Egypt unto the great river, the River Euphrates." The second part of the promise, numerous descendants, is found in <span class="scripture-ref">13:16</span> where God said to Abraham, "I will make thy seed as the dust of the earth" and "as the stars of heaven" (<span class="scripture-ref">15:5</span>). The "spiritual" seed promise is found in <span class="scripture-ref">11:18</span>, "In thy seed shall all the nations of the earth be blessed, because thou has obeyed my voice." These are very important. In fact, the rest of the Bible grows out of these promises; the Old Testament from the first two and the New Testament from the third one.</p>
+        <p>It is claimed that these promises have never been fulfilled, but this is a false claim. A fulfillment of the promise of the land can be seen in the Israelites entering into the land of Canaan following the exodus from Egypt and the forty years in the wilderness. In <span class="scripture-ref">Joshua 1:4-6</span> God assured the Israelites that He would give them "the land which I swore to their fathers to give them." Following their entrance into the land, the Bible says, "So Jehovah gave unto Israel all the land which He sware to give unto their fathers; and they possessed it, and dwelt therein. And Jehovah gave them rest round about, according to all that He sware unto their fathers; and there stood not a man of all their enemies before them; Jehovah delivered all their enemies into their hand. There failed not aught of any good thing which Jehovah had spoken unto the house of Israel, all came to pass." (<span class="scripture-ref">Joshua 21:43-45</span>)</p>
+        <p>Furthermore, it can be seen that later the "extended land promise" of <span class="scripture-ref">Genesis 15:18ff</span> was fulfilled during the days of Solomon. Here in <span class="scripture-ref">1 Kings 4:21</span>, "Solomon ruled over all the kingdoms from the River unto the land of the Philistines and unto the border of Egypt: they brought tribute, and served Solomon all the days of his life." Also see Verse 24.</p>
+        <p>Then in <span class="scripture-ref">Nehemiah 9:7ff</span> there is a brief, concise history of God's dealing with Israel. In Verses 7-8 the following statement is found, "Thou art Jehovah, the God who didst choose Abram, and broughtest him forth out of Ur of the Chaldees, and gavest him the name of Abraham, and foundest his heart faithful before thee, and madest a covenant with him to give the land of the Canaanite, the Hittite, the Amorite, and the Perrizite, and the Jebusite, and the Girgashite, to give it unto his seed, AND HAS PERFORMED THY WORDS FOR THOU ART RIGHTEOUS."</p>
+        <p>To people who believe the Bible, there can be no doubt about it, God has fulfilled His land promise that He made to Abraham and his descendants.</p>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="church-christ">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "It Is The Church That Jesus Built"</h2>
+        <p>The first and foremost reason why one should be a member of the church of Christ is because Jesus is its founder. This profound statement of fact was made by Jesus in <span class="scripture-ref">Matthew 16:13-19</span>. Within a few short statements Jesus revealed several truths about His church that mankind needs to learn and understand. Jesus asked His disciples, "Who do people say that the Son of Man is?" Some thought He was John the Baptist while others thought he was Elijah; but still others believed Him to be Jeremiah, or one of the prophets.</p>
+        <p>Jesus then asked His disciples, "But who do you say that I am?" Peter responded by saying, "Thou art the Christ the Son of the living God." The term 'Christ' refers to the Messiah, the anointed of God for whom the Jews had long awaited. Of more importance, Peter recognized Jesus' deity by calling Him the Son of God.</p>
+        <p>Jesus responded to Peter and said, "Blessed are you Simon Barjona, because flesh and blood did not reveal this to you, but My Father who is in heaven." Peter, being mere flesh and blood, could not have received this information through any human source. Lenski, in his commentary on <span class="scripture-ref">Matt 16:17</span> says, "Actually to realize in the man Jesus the presence of the Christ and Son of God requires more than sinful flesh and blood is able to muster......The Father revealed Jesus to Peter through Jesus Himself, and He endeavors to do this in the case of all men by bringing Jesus into contact with them."</p>
+        <p>After Peter's good confession, Jesus was now going to reveal something of extreme importance to him saying, "And I also say to you that you are Peter, and upon this rock I will build My church; and the gates of Hades shall not overpower it." The rock upon which Jesus was going to build His church was not Peter ('Petros'), but upon the solid foundation rock ('Petra'), which was the confession of Peter that, "Thou art the Christ, the Son of the living God."</p>
+        <p>There is only "one true church". Jesus said, "I will build My church (singular, my emphasis) and the gates of Hades shall not overpower it." The church of Christ is not a building constructed of materials such as wood, stone or brick. It is composed of all who were being saved, <span class="scripture-ref">Acts 2:47</span>. That the church is composed of people and not material things is seen in <span class="scripture-ref">Acts 5:11</span> where it is said that, "And great fear came upon the whole church"; and in <span class="scripture-ref">Acts 11:22</span> which says, "And news about them reached the ears of the church at Jerusalem." These scriptures clearly show that the church of Christ is not a building but is composed of people. Also, the church of Christ is not one of the several hundred Protestant denominations; all of which can trace their beginnings to a point in time after Pentecost when, in <span class="scripture-ref">Acts 2:14-47</span>, the Lord's church was established.</p>
+        <p>As we have seen, the church of Christ is a spiritual institution composed of those being saved, <span class="scripture-ref">Acts 2:47</span>. It is the one true church which was purchased by Christ with His own blood, <span class="scripture-ref">Acts 20:28</span>. He is the only founder and builder, <span class="scripture-ref">Matt 16:18</span>. He is the head of the church, <span class="scripture-ref">Eph 5:23</span>. Jesus is our lawgiver, both Lord and Christ, <span class="scripture-ref">Acts 2:36</span>. And finally Jesus is the Savior of the body which is His church, <span class="scripture-ref">Eph 5:23</span>; <span class="scripture-ref">Eph 1:22,23</span>.</p>
+        <p>Can you not see that the first and foremost reason for being a member of the church of Christ is that it is the one and only church that Jesus built.</p>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <article class="article" id="welcome">
+        <span class="article-category">Editorial</span>
+        <h2>Welcome</h2>
+        <p>Welcome to a new year of StraitWay. Many of you have been reading and learning with us for three years now. We appreciate your support and words of encouragement. Glenn has done an excellent job choosing the direction for this paper. There have been useful, timely articles in each issue. I look forward to good articles again this year.</p>
+        <p>Before leaving this life on December 19, 2001, Glenn Melton asked me to take over the job of guiding StraitWay beginning this month. Our new writers and topics were selected by Glenn before he gave the reins to me. Our purpose remains the same as in the beginning: 1) We have a desire to help others, to do good and no harm. 2) To encourage as many young men as we can in the noble work of preaching is our prime purpose. In striving to meet these goals we hope to help everyone gain a greater understanding of God's Word and the issues and problems facing His people today. I intend to continue the work started by Glenn. If you know of someone that would benefit from receiving StraitWay send us their address.</p>
+        <p>With the new year we have new writers for StraitWay. Mickey Galloway will be writing our front page articles this year from Lancaster, CA. These articles will not necessarily follow a particular topic. Richard Sims of Mineola, TX will be writing for us about Ultra-Liberalism In The Church of Christ. Carey Scott of Houston, TX will help us understand the Identity of A Church of Christ. Derrel Shaw also of Houston, TX will write a series on Preparing Sermons. Wayne Goforth of Abilene, TX will write on Humanism, Satanism, And The New Age Movement. Hiram Hutto of Athens, AL will write for us concerning Premillennialism. Ray Wilson of Nacogdoches, TX will give us good reasons for being a member of the church of Christ. Through these series and others as needed, we hope to help you become stronger in the Lord.</p>
+        <p class="author-signature">The Editors</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published January 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

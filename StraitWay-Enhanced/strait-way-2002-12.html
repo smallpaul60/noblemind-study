@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - December 2002</title>
+  <meta name="description" content="The Strait Way newsletter, December 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12" selected>December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#editorial">Editorial</a>
+        <a href="#proverb">Arabic Proverb</a>
+        <a href="#word-studies">Word Studies</a>
+        <a href="#luke-11">Luke 11:13</a>
+        <a href="#unique-church">The Unique Church</a>
+        <a href="#morality">Morality & Faith</a>
+        <a href="#personal-work">Personal Work</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+
+      <article class="article">
+      <span class="article-category">Front Page</span>
+      <h2>Destroying The Church From The Inside Out</h2>
+
+      <p>The death of a local church does not come suddenly. Neither is the home destroyed "overnight." With the home it is usually the result of certain fatal steps taken over a lengthy period of time. As we travel the road toward the break up of our homes, let us examine how our careless conduct will ultimately destroy the strength of the local church. Many of the problems affecting the church begin in our homes!</p>
+
+      <p><strong>Selfishness.</strong> This is the number one enemy of a happy home life and is a killer to the local church. No one is willing to give up what he wants to do to submit to the will of another. The apostle Paul prefaced his statements regarding the husband/wife relationship with these words, "Giving thanks always for all things in the name of our Lord Jesus Christ to God, even the Father; subjecting yourselves one to another in the fear of Christ" (<span class="scripture-ref">Eph. 5:20-21</span>).</p>
+
+      <p>Consider also these words, "Doing nothing through faction or through vainglory, but in lowliness of mind each counting other better than himself; not looking each of you to his own things, but each of you also to the things of others" (<span class="scripture-ref">Phil. 2:3-4</span>). Wouldn't that solve a lot of ills in the family and in the church? Paul described Timothy, "For I have no man likeminded, who will care truly for your state." Notice the contrast in the next verse, "For they all seek their own, not the things of Jesus Christ" (<span class="scripture-ref">Phil. 2:20-21</span>). Often, what causes problems in our marriage, is the same thing that causes problems in the church. Jesus said, "If any man would come after me, let him deny himself, and take up his cross, and follow me" (<span class="scripture-ref">Mt. 16:24</span>). Maybe if both marriage partners denied self and learned to submit to the Lord, it would go a long way toward submitting to each other!</p>
+
+      <p><strong>Disillusionment.</strong> Often before marriage, expectations are just not realistic. After we have been married for a while faults begin to show up in our companion that we did not notice in the courtship period. These faults grow into nagging sources of irritation. When it reaches the point of intolerance, each decides that he has made a terrible mistake in his marriage.</p>
+
+      <p>Sometimes, we are disillusioned about what a Christian is. Jesus spoke of "counting the cost" of discipleship, "If any man cometh unto me, and hateth not his own father, and mother, and wife, and children, and brethren, and sisters, yea, and his own life also, he cannot be my disciple...whosoever he be of you that renounceth not all that he hath, he cannot be my disciple" (<span class="scripture-ref">Lk. 14:25-35</span>). Many are glad to become Christians if it means "social activities" or club-like membership, but when we learn there is work and responsibility involved then we look for faults with the church.</p>
+
+      <p>Indeed, I have made a commitment that requires that I first give myself unto the Lord before all others. Perhaps it is the realization that "not everyone that saith unto me Lord, Lord, shall enter into the kingdom of heaven; but he that doeth the will of my Father who is in heaven" (<span class="scripture-ref">Mt. 7:21</span>). Upon reflection, I find this "too narrow" (cf. <span class="scripture-ref">Mt. 7:13-14</span>) to include those I want to include. Then "faults" with the church become magnified to the point of intolerance and we decide we have made a terrible mistake.</p>
+
+      <p><strong>End of faithfulness.</strong> We give up. No further efforts are made to build a happy home. Communication ceases, love fades and gives way to bitterness. We find ourselves merely housekeeping and no longer enjoying and fulfilling the God-given purpose in marriage. This too, extends into our feelings toward the church. Having developed a selfish attitude, we explain, "I just don't get anything out of it anymore." The faults I find have now become intolerable and no efforts are made to build the church by my own personal faithfulness. I no longer support the Bible classes, attend gospel meetings or other special functions designed toward edification. My love for brethren and the Lord gives way to bitterness. I find myself merely housekeeping for the Lord and no longer experience the joy of being a Christian. As adultery invades the home destroying our relationship with our spouse, spiritual adultery has already destroyed our relationship with the Lord and robbed the church of its most valuable assets - its members.</p>
+
+      <p>Sin destroys from the inside out. If we would preserve the happiness of our homes and secure the success of the church, we must strive to exclude sin from our lives. If you want to help strengthen the church for the future (including our children), let us begin in our homes!</p>
+
+      <p class="article-author">Micky Galloway, 45858 York Place, Lancaster, CA 93534</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Ultra-Liberalism Series</span>
+      <h2>Ultra-Liberalism and the New Antis</h2>
+
+      <p>The term "anti" is not a bad word. It simply means "opposed or against". The context determines what one opposes or is against. All who claim to be Christians are "anti-sin". Even the most ultra-liberal is "anti-something," even if it is "anti-antism". However, in some places the term "anti" is almost a curse word. In those places all a preacher has to do is label someone "anti" and that person's influence is destroyed with no further study of the issue at hand.</p>
+
+      <p>In the early part of the 20th Century the Restoration Movement divided over the missionary society and instrumental music in worship. The Christian Church embraced the innovations and the churches of Christ opposed them. In that struggle those in favor of the innovations referred to those who opposed them as "antis". The majority went with the Christian Church and the "antis" had to rebuild.</p>
+
+      <p>At the middle of the 20th Century division came among those who had opposed the missionary society and instrumental music. This division was over the church support of human institutions, such as orphan homes, colleges, and sponsoring church arrangements. Those who favored these arrangements often used Christian Church arguments to defend them. They even called those who opposed them "antis". Again, the majority went with the innovations and the "antis" had to rebuild.</p>
+
+      <p>Now, at the beginning of the 21st Century, we see a group of "antis" arising among the institutional churches. The "new antis" are those who oppose the unity-in-diversity, ultra-liberal movement that is destroying institutional churches. They are, and should be, anti-instrumental music, anti-women serving the Lord's supper, anti-weeknight observance of the Lord's Supper, anti-fellowshipping the denominations, anti-hand clapping in worship, anti-drama plays in worship, anti-Holy Spirit guidance, anti-miraculous divine healing, anti-tongue speaking and anti-denominational baptism.</p>
+
+      <p>The "new antis" are represented by a number of institutional preachers and papers dedicated to fighting the ultra-liberal movement. This writer receives several of those papers and has followed their struggle for several years. <em>The Spiritual Sword</em>, published by the Getwell church, in Memphis, TN and sold by subscription, is one of the leading voices of the "new antis". <em>The Defender</em>, published and sent free of charge by the Bellview church in Pensacola, FL also speaks out against the unity-in-diversity movement. As does <em>The Vigil</em>, published by the Adamsville church in Adamsville, AL. <em>Matters of the Faith</em>, published by the Carriage Oaks church in Bossier City, LA is another paper that often criticizes ultra-liberalism. <em>Bulletin Briefs</em>, published by the Dunlap church in Dunlap, TN also takes an occasional swipe at the unity-in-diversity group. There are others, but these are the ones with which I am most familiar. These papers are fighting a valiant, but losing battle.</p>
+
+      <p>One reason they are losing the battle, is they have sold-out on too many points of doctrine to be convincing. The generation caught up in ultra-liberalism was raised on weak preaching. Preaching that did not compare and contrast the truth of God's word with the errors of men, has raised a generation that does not know truth from error. Preachers who teach "there is no pattern in evangelism and benevolence," should not be surprised when their children see no pattern in divine worship. A church that emphasizes numbers over truth, should not be surprised when some of its members want to fellowship the denominations. Elders who hire a preacher because of his speaking ability instead of for preaching the truth, should not be surprised when brethren want to be entertained. Elders who encourage emotionalism, should not be surprised that Pentecostalism is coming into the Lord's church. Churches that provide a fellowship hall for social activities, cannot consistently oppose a gymnasium for the young people. Churches that go into the publishing business, selling subscriptions and books, cannot consistently oppose other schemes for the church to raise money.</p>
+
+      <p>No apostasy has ever been completely halted and this one will not be stopped. We plead with the "new antis" to make a full return to New Testament Christianity and stand with us against all forms of liberalism, (<span class="scripture-ref">1 Cor. 15:58; 2 Tim. 4:2-5</span>). Otherwise, the most they can hope to do is convince a few brethren and a few churches, but inevitably they will have to rebuild as "antis" have always had to do.</p>
+
+      <p class="article-author">Richard C. Sims, Jr., PO Box 538, Mineola, TX</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Identity Series - Final</span>
+      <h2>Identity of A Church of Christ: Your Part In The Church</h2>
+
+      <p>I remember brother John Clark teaching his series on the Home and Family make the following statement: "The success of a marriage is not determined by marrying the right kind of person, but by being the right kind of person." That phrase has stuck with me for over twenty years, and I use it in my studies on the home and family.</p>
+
+      <p>I want to think along that line, because I really believe that is where we are in the quest for the identity of the true church. The true church is pictured, described, and discussed on the pages of the New Testament. There really should be no question of what or who the church of Christ is. The real challenge is BEING that right kind of person to bring the true church of Christ into reality in our local congregations.</p>
+
+      <p>We as individuals are part of something much bigger than ourselves, and we are a part of that body, even if we feel insignificant. Remember how Paul described the body in relation to a physical body in <span class="scripture-ref">1 Corinthians 12:12-27</span>? After reading that passage, go back one verse to v11. The assurance that God uses us "individually just as He wills" is what appears to be lacking in many congregations today.</p>
+
+      <p>Sadly it appears that many have transferred their individual responsibility to the church at large. We have confidence that our preacher teaches the truth on all things, and that our church supports the truth and even supports missionaries that speak only the truth. By our participation in this support, we feel a sense of doing SOMETHING, and thus our conscience is eased when confronted with the FACT that Jesus commissioned US (individuals) to spread the word. The turning over of evangelism to the few preachers was never in God's plan for His church, but we seem comfortable with this arrangement.</p>
+
+      <p>As I began the series of articles last January, I asked each of you to try to be open minded and consider what I would bring to your attention. It is so easy to get into a rut and stay there. It is hard to get out of that rut, as I am sure, we all have been there. My request is that you will attempt to view the identity of the church as the saints of God instead of the organization of the church (as a collective whole) with the current structure. I believe that until we view individuals making up the church will we have difficulty finding the true church's identity. In many respects, we have failed in presenting the church as described in the New Testament.</p>
+
+      <p>The church is the greatest organization on the face of this planet, and faithful members are the greatest people in the world. Let us take heed to not fall into the sin of pride and deceive ourselves into thinking that our membership alone will save us. No, it is still the grace of God that saves, coupled with our obedience.</p>
+
+      <blockquote>"And without faith, it is impossible to please Him, for he who comes to God must believe that He is, and that He is a rewarder of those who seek Him." (<span class="scripture-ref">Hebrews 11:6</span> NASB)</blockquote>
+
+      <p>I offer my appreciation to the late Brother Glenn Melton for inviting me to write these articles, and commend Brother Dan Henderson in his efforts as editor of this magazine. I pray that each and everyone who reads these articles will benefit and seek a closer relationship with God each and every day.</p>
+
+      <p>May God bless your study of His word, and may we meet beyond the grave in joy and happiness and glory forever.</p>
+
+      <p class="article-author">Carey Scott, 7926 Mosewood, Houston, TX 77040</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Sermon Preparation - Final</span>
+      <h2>Preparing Sermons</h2>
+
+      <p>Our visits about sermons and preaching come to a close with this article. I pray that someone has been encouraged. Having briefly touched on some of the pertinent factors involved in sermon preparation, I now present my final exhortation, and one last outline for you to examine.</p>
+
+      <p><strong>The final exhortation:</strong> Always keep in mind that the real power of Gospel preaching is in the Word of God, and not in the preacher. That does not mean that we can be unkempt in appearance and awkward in delivery. So keep working on developing your speaking voice, your manner of presentation, your appearance, your proper use of language, and any other physical factor that might enhance your ability to reach the listeners. But those things, regardless of their importance, are not to be the center of our work. What we are to be concerned about was laid out by Paul when he said, "preach the Word."</p>
+
+      <div class="outline-section">
+        <p><strong>Title:</strong> "AMEN" - A WORD OF POWER</p>
+
+        <p><strong>INTRODUCTION:</strong> 1. The word AMEN is traditionally used when we pray. 2. But do we know what it means? - Not just "the end." 3. It is used nearly 200 times in the Bible: It is a strong, emphatic word. 4. This is a Scripture study: Examine with interest and profit.</p>
+
+        <p><strong>1. THE POWER AND RICHNESS OF "AMEN" IS SEEN IN ITS DEFINITION</strong><br>
+        A. Lexicons give this definition: "Of a truth; Truly; Most assuredly; Faithful; Firm; Certain - As an assertion: SO IT IS."<br>
+        B. Some of its uses in the Word of God:<br>
+        &nbsp;&nbsp;1. The AMEN of AFFIRMATION: "What is spoken is infallibly certain, absolutely true and unshakable" - <span class="scripture-ref">Jn 3:3; Rom 11:36; 2 Co 1:20</span>.<br>
+        &nbsp;&nbsp;2. The AMEN of AGREEMENT to truth - <span class="scripture-ref">1 Ch 16:8-36; Deu 27:9-26; Neh 5:13</span>.<br>
+        &nbsp;&nbsp;3. Of personal COMMITMENT - <span class="scripture-ref">Jer 11:1-5; Psa 106:48</span>.<br>
+        &nbsp;&nbsp;4. Of one's FAITH and CONFIDENCE - <span class="scripture-ref">Psa 41:13; Eph 3:21</span>.<br>
+        &nbsp;&nbsp;5. The AMEN of HOPE - <span class="scripture-ref">Heb 6:17-19; 10:22-23; Rev 22:20</span>.</p>
+
+        <p><strong>2. THE USE OF "AMEN" IN DESCRIBING DEITY SHOWS GREAT SIGNIFICANCE</strong><br>
+        A. JEHOVAH is CERTAIN - HE IS SURE - <span class="scripture-ref">Psa 111:7-8; Isa 49:7; 65:16; Deu 32:4; Ac 27:24-25; Psa 72:18-19</span>.<br>
+        B. CHRIST is the very essence of truth - <span class="scripture-ref">Rev 3:14; Jn 1:14; 14:6; Col 2:3</span>; He can be DEPENDED ON Without Question - <span class="scripture-ref">2 Ti 1:12</span>.<br>
+        C. THE HOLY SPIRIT means what He says - <span class="scripture-ref">Jn 16:13; Gal 1:8-9</span>; His Word is ABSOLUTELY TRUSTWORTHY - <span class="scripture-ref">1 Pe 1:23</span>.<br>
+        D. SO - we have confidence in ALL that the Word says - <span class="scripture-ref">Psa 19:7-11</span>.<br>
+        E. Whatever else may be uncertain, ALL that God has done for us is complete and certain forever - <span class="scripture-ref">1 Th 5:24a</span>.</p>
+
+        <p><strong>3. LET EACH OF US MAKE PERSONAL APPLICATION OF "AMEN"</strong><br>
+        A. IN FIRM CONVICTION: The world is not favorable toward the Bible; So are we afraid to be called narrow?<br>
+        B. IN WORSHIP: Have we become cold? Can see its use in worship in the PAST (<span class="scripture-ref">Neh 8:5-6</span>), in the FUTURE (<span class="scripture-ref">Rev 7:11-12</span>), and in the PRESENT era (<span class="scripture-ref">1 Co 14:15-17</span>).<br>
+        C. WHEN WE HEAR TEACHING OF HEAVEN'S TRUTH - Powerful TRUTH moves (speaker's eloquence or not) - <span class="scripture-ref">1 Co 2:1-5</span>.<br>
+        D. PERSONAL LIFE: Totally committed - <span class="scripture-ref">1 Pe 1:16</span>. Not waiver - Firm; Settled; Certain - <span class="scripture-ref">1 Co 15:58</span>.</p>
+
+        <p><strong>CONCLUSION:</strong> 1. Every time we see AMEN in the Bible, or say it in prayer, it should remind us of God's faithfulness and truth. 2. When life's pilgrimage is over, if our hope and trust be in Him Who is THE AMEN, then our last word well could be: AMEN. EVEN SO, COME, LORD JESUS. 3. Bow down your heart and will in absolute trust to Christ, and do it while you have time. 4. Stand upon the Rock of Truth now - <span class="scripture-ref">1 Pe 1:22; Ac 2:38,47</span>.</p>
+      </div>
+
+      <p class="article-author">Derrel Shaw, 5927 Spruce Forest, Houston, TX 77092</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">New Age Series - Final</span>
+      <h2>The New Age Movement - Part 3</h2>
+
+      <p>The New Age Journal stated in reference to the New Age Movement, "Society is now in the midst of a change potentially as sweeping as the Renaissance or the Protestant Reformation." Every movement has both its change agents and change group. The hippies of the 60's are now the CEO's of today, and are disseminators of this yuppie spirituality. As an LA Times Newspaper article reported, "New Age thinking is coursing through business, education, the arts, Madison Ave, even politics." This is why Professor Raschke of the University of Denver referred to New Age as "the most powerful social force in the country today."</p>
+
+      <p><strong>Youth are the targeted change group.</strong> In February 1986, Susan Gurule discovered that her children were being taught New-Age doctrine in an Albuquerque, NM school. Upon further investigation, she found that all of her children had been taught this since the first grade. These students were taught how to have "out of body experiences" by the school counselors who were using books entitled "Meditating With Children" and "Flights of Fantasy" among others, all purchased with US Department of Education funds. Investigations found that not only were school counselors leading children in meditation in that school but that witchcraft was being taught in yet another school in Socorro, NM.</p>
+
+      <p>A Senator Carraro's daughter was also in the same class as Mrs. Gurule's daughter. He helped draft a Senate Memorial Bill 45 which stated in part:</p>
+
+      <blockquote>"Whereas the utilization of mind-altering techniques for public school students is highly questionable, and Whereas the teaching by counseling by certain psychological techniques in NM public schools should be entirely eliminated, Whereas these psychological methodologies can involve such techniques as transcendental meditation, altered states of consciousness, or the occult..."</blockquote>
+
+      <p>Keep in mind this was a MEMORIAL Bill, which means it was a strong suggestion, but not a law. As such, the State Department of Education rejected it saying this would limit how and what teachers could teach. I thought we have always done that? Have not teachers been limited in what they could teach for years by removing the Bible from the classroom? This shows us the depth of the problem.</p>
+
+      <p>Such a doctrine is therefore ungodly, anti-Christian, and unscrupulous in its attacks against our home and children and poses a threat to every Christian and freedom-loving American.</p>
+
+      <p>We will close with a quote from a New Age tract entitled "A Pledge To Pagan Spirituality" as it seems to sum-up not only New Age thinking, but also that of all of the occult:</p>
+
+      <blockquote>"I am a pagan and I dedicate myself to channeling the spiritual energy of my inner self to help and heal myself and others. May I always be mindful that I create my own reality. May I always be mindful that Goddess and God in all their forms dwell within me and this divinity is reflected through my own inner self, my Pagan Spirit."</blockquote>
+
+      <p>Remember the words of Peter, "Be sober, be vigilant; because your adversary the devil walks about like a roaring lion, seeking whom he may devour." <span class="scripture-ref">1 Ptr 5:8</span></p>
+
+      <p class="article-author">Wayne Goforth, 248 Merchant St, Abilene, TX 79603</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Premillennialism Series</span>
+      <h2>Premillennialism: Some Inconsistencies, Errors And Absurdities</h2>
+
+      <p>One of the cardinal principles of Premillennialism is that prophetic scriptures are to be taken literally. The application of this principle makes for many absurdities and inconsistencies.</p>
+
+      <p>For example, in <span class="scripture-ref">Ezekiel 46:18ff</span> it is clear that if this passage is taken literally, there will be a reinstitution of animal sacrifices. In an effort to mitigate this, it is claimed that these are memorials of the cross. There is absolutely nothing said in this context about memorials. In fact, in verses 23-25 the passage refers to these as "sin-offerings", "burnt-offerings", and "meal-offerings", and "atonement." It is almost blasphemy to think that Christ's offering the one sacrifice for sin forever could in any way be enhanced by a return to OT animal sacrifices.</p>
+
+      <p><span class="scripture-ref">Daniel 2</span> prophesies that the kingdom of heaven would be established during the days of the Roman Empire. As everyone knows the Roman Empire has come and gone. How, then, can the kingdom of heaven be set up during that kingdom? Many teach that there will be a reviving of the Roman kingdom sometime off in the future and during that revived Roman kingdom the kingdom of heaven will be set up. That doesn't relieve the problem, because in <span class="scripture-ref">Daniel 2</span> the Roman kingdom succeeded the Macedonian kingdom. Literalism would require the Macedonian kingdom to be revived also.</p>
+
+      <p>As pointed out by Grover Gunn on page 239 of <em>Dispensationalism Today, Yesterday, and Tomorrow</em>, <span class="scripture-ref">Ezekiel 38-39</span> is a passage that Dispensationalists interpret as referring to an end-time invasion of Israel by a Russian army. And yet, the prophecy speaks of this army as equipped with primitive weapons: 'shield and bucklers...bows and arrows and...handstaves, and...spears' (39:9). These weapons are largely made of wood as evidenced by their being burned as firewood. Of what benefit would they be with jet airplanes, nuclear bombs, etc. Such is the consequence of literalism.</p>
+
+      <p>On page 510 of <em>Things to Come</em>, Dwight Pentecost argues that the land of Palestine would be distributed between the various Jewish tribes. Yet he says on page 500 "No Jew is able to trace his family lineage after the destruction of Jerusalem."</p>
+
+      <p>Some dispensationalists argue that there are 2 new covenants, one for the Jews and another one for the Gentiles.</p>
+
+      <p><span class="scripture-ref">Hebrews 10:6,20</span> discusses the fact that Jesus is a high priest after the order of Melchizedek, who was both priest and king at the same time (<span class="scripture-ref">Gen 14:18</span>). If Christ is a king on earth, he would also be a priest, but <span class="scripture-ref">Hebrews 8:4</span> says if Christ "were on earth, He would not be a priest at all." So, if Christ were going to be a king on earth, as Dispensationalists teach, we will not have a high priest at all.</p>
+
+      <p><span class="scripture-ref">Jeremiah 22:28-30</span> says of Coniah, "No man of his seed (shall) prosper, sitting upon the throne of David and ruling in Judah." Jesus is a descendant of Coniah (<span class="scripture-ref">Matt. 1:11</span>). So, if Christ is going to be king on earth, that kingdom will not prosper. Premillennialists are wrong in saying that Christ's kingdom will be an earthly. As Jesus said, "My kingdom is not of this world." (<span class="scripture-ref">John 18:36</span>)</p>
+
+      <p>These are just a few of the many violations of the teaching of the scriptures by Premillennialists.</p>
+
+      <p class="article-author">Hiram Hutto, 211 Crutcher Circle, Athens, AL 35611</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Membership Series - Final</span>
+      <h2>Reasons For Being A Member of The Church of Christ: The Peace of God</h2>
+
+      <p>In this final article I can think of no subject more fitting to close this series with than "The Peace of God". To the "faithful Christian" comes many wonderful blessings. In this series we have addressed the blessings of "forgiveness of sins", "the right to call God our Father", "the privilege of prayer", "the blessing of Christ as our mediator", "the privilege to wear His name", and "the hope of heaven and eternal life".</p>
+
+      <p>Paul, in his closing remarks to the church at Philippi instructs them to:</p>
+
+      <blockquote>"Rejoice in the Lord always; again I will say, rejoice! Let your forbearing spirit be known to all men. The Lord is near. Be anxious for nothing, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all comprehension, shall guard your hearts and your minds in Christ Jesus." <span class="scripture-ref">Phil 4:4-7</span></blockquote>
+
+      <p>When one gives himself completely to the Lord there is a joy that is shared only with faithful Christians. It is a joy that is always there regardless of the circumstances that may befall them. Paul rejoiced in his suffering not only for his Lord but also for the brethren (<span class="scripture-ref">Col 1:24</span>). The Christian's joy leads to gentleness and forbearance towards others. Their actions are always controlled responses even in the most trying ordeals.</p>
+
+      <p>Faithful Christians can look toward the judgment day with a confidence that overcomes any fear, dread or anxiety concerning their eternal reward. Their banner is the closing words found in <span class="scripture-ref">Rev 2:10</span>, "Be faithful until death, and I will give you a crown of life." There is nothing in their lives that is hidden from the mind of God. He is omniscient and omnipresent. He knows their every need even before they ask (<span class="scripture-ref">Matt 6:8</span>); but ask they must (<span class="scripture-ref">James 1:5-7</span>)!</p>
+
+      <p>James, as he closes his epistle in <span class="scripture-ref">James 5:13-18</span> says:</p>
+
+      <blockquote>"Is anyone among you suffering? Let him pray. Is anyone cheerful? Let him sing praises. Is anyone among you sick? Let him call for the elders of the church, and let them pray over him, anointing him with oil in the name of the Lord; and the prayer offered in faith will restore the one who is sick, and the Lord will raise him up, and if he has committed sins, they will be forgiven him. Therefore, confess your sins to one another, and pray for one another, so that you may be healed. The effective prayer of a righteous man can accomplish much. Elijah was a man with a nature like ours, and he prayed earnestly that it might not rain; and it did not rain on the earth for three years and six months. And he prayed again, and the sky poured rain, and the earth produced its fruit."</blockquote>
+
+      <p>Faithful members of the Lord's church who rejoice always in the Lord; letting their forbearing spirit be known to all men; being anxious for nothing but in prayer and supplication make their requests known to God; will receive the ultimate blessing, "the peace of God". Prayer indeed plays a key role in opening the door to receiving this peace, <span class="scripture-ref">James 1:5-7; James 4:3-6; James 5:16</span>. Thanksgiving must always accompany every request. When offered in the spirit seen in <span class="scripture-ref">Phil 4:6</span>, the peace of God as set forth in verse 7 will be the results. This is a peace that Paul says "surpasses all comprehension". God gives to the faithful Christian a peace of mind beyond his understanding. What he does know however is, "That God causes all things to work together for good to those who love God, to those who are called according to His purpose." (<span class="scripture-ref">Rom 8:28</span>).</p>
+
+      <p>It is God's purpose to save men through His Son, <span class="scripture-ref">1 John 5:11</span>. Brethren, "the peace of God" will guard and protect your hearts and minds in Christ Jesus. "Do not fear what you are about to suffer. Behold, the devil is about to cast some of you into prison, that you may be tested, and you will have tribulation ten days. Be faithful until death, and I will give you the crown of life." <span class="scripture-ref">Rev 2:10</span></p>
+
+      <p class="article-author">Ray Wilson, 4203 NE Stallings Drive #302, Nacogdoches, TX 75965</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Editorial</span>
+      <h2>Thank You!</h2>
+
+      <p>Another year of publication closes with this issue. It has certainly been a learning experience for me as editor of StraitWay. I hope you have benefited by reading the good articles this year. Our writers have done an excellent job on a diverse range of topics.</p>
+
+      <p>I want to take time to thank the brethren that have contributed to the publication of StraitWay. First I must thank Jimmy Crews, Pete Scalise, and the brethren in Colmesneil for their continued support in getting each issue printed and mailed. Most of you do not know but my wife, JoBeth, does almost all of the folding and labeling for each issue. I am grateful for her help and support in this work.</p>
+
+      <p>I also want to thank the writers who have put forth many hours preparing these articles for our benefit. Brother Micky Galloway has written all of the front page articles. Brother Richard C. Sims, Jr. has provided us a series on Ultra-Liberalism. Brother Carey Scott wrote the series on the Identity of a Church of Christ. Brother Derrel Shaw wrote the series on Preparing Sermons. Brother Wayne Goforth wrote on Satanism and the New Age Movement. Brother Hiram Hutto wrote on Premillennialism. Brother Ray Wilson wrote the series on Reasons for Being a Member of the Church of Christ.</p>
+
+      <p>May God bless each of you in your study of His Word. We look forward to serving you in 2003.</p>
+
+      <p class="article-author">Dan Henderson, Editor</p>
+    </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published December 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

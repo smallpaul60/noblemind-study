@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - September 2002</title>
+  <meta name="description" content="The Strait Way newsletter, September 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09" selected>September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#editorial">Editorial</a>
+        <a href="#proverb">Arabic Proverb</a>
+        <a href="#word-studies">Word Studies</a>
+        <a href="#luke-11">Luke 11:13</a>
+        <a href="#unique-church">The Unique Church</a>
+        <a href="#morality">Morality & Faith</a>
+        <a href="#personal-work">Personal Work</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+
+      <article class="article">
+      <span class="article-category">Front Page</span>
+      <h2>God's Peculiar People</h2>
+
+      <p>In <span class="scripture-ref">Deut. 14:1-2</span> Moses tells the people how God had signified them as a peculiar people with three distinguishing privileges. They were adopted. "Ye are the children of the Lord your God." Secondly, they were sanctified or set apart. "Thou are a holy people unto the Lord your God." Thirdly, they were elected. "The Lord hath chosen thee."</p>
+
+      <p>They were to distinguish themselves by a sober singularity and separation from all nations about them, but this they did not do. After Israel settled into the land of Canaan they became rich and well fed and "waxed fat" and then "he forsook God who made him..." (<span class="scripture-ref">Deut. 32:15</span>). Israel soon lost their peculiarity. Why?</p>
+
+      <p><strong>They lost their desire to please God and cultivated the desire to be like the other nations.</strong> For this reason they asked Samuel for a king that he might "judge us and go out before us and fight our battles" (<span class="scripture-ref">2 Sam. 8:19-20</span>). Many among God's people today have compromised with the world about us, forgetting that we too must be a peculiar people (<span class="scripture-ref">1 Pet. 2:5,9</span>). Indeed, we live in this world, but we must be constant in our efforts to never become like the world (<span class="scripture-ref">Rom. 12:1-2</span>).</p>
+
+      <p>Today in the body of Christ there are those who like ancient Israel are not satisfied with God's will and desire to be like other religious bodies. Consequently, various innovations, missionary societies, benevolent societies and recreational endeavors and other evidences of the social gospel have been attached to the church. Thus, the sad story of division began to be written. Why? We want to be like other nations.</p>
+
+      <p><strong>Israel also lacked knowledge.</strong> Hosea said, "My people are destroyed for lack of knowledge" (<span class="scripture-ref">Hos. 4:6</span>). Their lack of knowledge of God's word was so great during the reign of Josiah there was a time when the "book of the law" was lost in the house of the Lord (<span class="scripture-ref">2 Kgs. 22:8, 13</span>). What a terrible thing for God's word to be lost for so long that its message was lost from the hearts of the people in forgetfulness. During this time sin became so rampant that their rebellion and idolatry brought them into exile.</p>
+
+      <p>What a pity. There is a great lack of knowledge among God's people today. The evidence is abounding with strange sounds being advanced on issues that were clearly understood a generation ago. Why such lack of knowledge? Someone answers, "We do not study as we should" (cf. <span class="scripture-ref">2 Tim. 2:15</span>). Certainly, this is true, but perhaps we are not teaching as we should (cf. <span class="scripture-ref">Deut. 6:6ff</span>). Parents, Bible class teachers, preachers, elders and all of us must realize our time to teach is precious and the consequences of our failure is tragic.</p>
+
+      <p><strong>Israel also lost their peculiarity because of indifference.</strong> Jeremiah stated, "Cursed be he that doeth the work of Jehovah negligently" (<span class="scripture-ref">Jer. 48:10</span>). What are we doing, brethren? The church today stands in great danger of losing her peculiarity because of the tendency toward indifference. What could be more dangerous than a "don't care" attitude and what could be more nauseating unto the Lord (<span class="scripture-ref">Rev. 3:15-16</span>)?</p>
+
+      <p>Many are caught up in things that are not wrong in themselves, (such as buying oxen, a piece of land or marrying a wife, cf. <span class="scripture-ref">Lk. 14:15ff</span>), but things none the less that hinder their service to God. When we become too busy even with honorable things to serve God, we are too busy! Perhaps this indifference is illustrated most in our attitude toward the lost. The wisdom writer said, "He that is wise winneth souls" (<span class="scripture-ref">Prov. 11:30</span>). Have we forgotten our purpose? Such conditions of indifference will cause our ultimate destruction.</p>
+
+      <p>May the Lord help us that we may not lose our peculiarity as Israel did. There is no middle ground for we are with the Lord or we are against Him (<span class="scripture-ref">Mt. 12:30</span>). We cannot serve two masters (<span class="scripture-ref">Mt. 6:24</span>). "Come ye out from among them, and be ye separate, saith the Lord" (<span class="scripture-ref">2 Cor. 6:17</span>).</p>
+
+      <p class="article-author">Micky Galloway, 45858 York Place, Lancaster, CA 93534</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Ultra-Liberalism Series</span>
+      <h2>Ultra-Liberalism's Rejection of the Bible as the Complete and Final Revelation of God's Will - Part II</h2>
+
+      <p>Jesus promised the apostles that the Holy Spirit would guide them into all the truth and bring to their remembrance everything He had taught them, <span class="scripture-ref">John 14:26; 16:12-13</span>. The promise of "all truth" was fulfilled in the life time of some of the apostles, <span class="scripture-ref">2 Peter 1:3; Jude 3</span>. When "all truth" had been revealed the miraculous gifts associated with the revelation of God's will ceased, <span class="scripture-ref">1 Cor. 13:8-13; Heb. 2:4</span>, and the canon of Scripture was closed, <span class="scripture-ref">Rev. 22:18-19</span>.</p>
+
+      <p>The things written by inspiration can be read and understood, <span class="scripture-ref">Eph. 3:4; 2 Pet. 3:16; Rev. 1:3</span>. They are to be obeyed. Those who do not obey are to be disciplined, <span class="scripture-ref">2 Thess. 3:12-15</span>. The apostle Paul wrote, "All Scripture is inspired by God and profitable for teaching, for reproof, for correction, for training in righteousness; that the man of God may be adequate, equipped for every good work," <span class="scripture-ref">2 Timothy 3:16-17</span>. An objective study of Scriptures give us everything we need know, to be and to do, to be acceptable to God. In the Scriptures, God reveals His will through direct statements, apostolic approved examples and necessary inferences.</p>
+
+      <p>This, however, is too restrictive for the ultra-liberal. They want a "new hermeneutic." Their new hermeneutic, as discussed in previous articles, makes a distinction between gospel and doctrine. To them, the "gospel" contains certain elements related to the Sonship of Jesus, His atonement, resurrection, glorification and His return. These are "bulls eye" or "core" elements that cannot be denied. Everything else is doctrine, less important and open to interpretation. Brethren, this is not a new hermeneutic but the same old hermeneutic used by the denominations for centuries.</p>
+
+      <p>To support their view of "doctrine" they must change our view of the Bible. To the ultra-liberal the Bible is a "love letter" filled with suggestions not commands, binding examples and necessary inferences. Dave Miller, an opponent of ultra-liberalism, in "The 'New Hermeneutic': A Review and Response" quoted Garrett in "Authoritative" (I assume this was Leroy Garrett) as saying:</p>
+
+      <blockquote>"We cannot equate the authority of the Bible with the authority of God as we can the authority of Christ and God, for the Bible is an earthen vessel, God is perfect, infallible, and infinite. The Bible as a human product is not... If the Bible was brought to us by an angel directly from heaven, having been dictated word-for-word by God himself, so that its contents would be nothing less and nothing more than the actual words of God, then we could equate the authority of the Bible and the authority of God. But the Bible is clearly not that kind of book."</blockquote>
+
+      <p>In a situation this writer was involved with in 1999/2000 a similar statement was made in an email: "I won't vouch for the authenticity of the 'Bible' as all 'canon'. God did not hand me the Bible and say, '... this is the alpha and the omega.' Man has done so. And man has said that only that in the Bible is inspired of God. Why? Did God say that? Where?... Now what we really need is to focus on God's will in our lives and I do believe the Bible is the most helpful collection to help us learn of Christ who will save us when we rise in Him. But God has not, nor has Christ spoken of the 'Bible', a collection of books deemed by MAN to be the way to the exclusion of all/any other. I will not follow man. I will follow Christ."</p>
+
+      <p>Further down in the email this man said, "But a man is obligated to know God's will wherever he may find it." He claimed to be led by the Holy Spirit, separate and apart from the Scriptures. This claim is shared by many in the ultra-liberal camp and will be the subject of next month's article.</p>
+
+      <p>Many of the ultra-liberals look on the Bible as the product of man. They are not sure which books belong there nor are they certain the Bible can be interpreted properly. If this is true, how can we even be certain about what they consider the "core" elements of the gospel? I believe, the Holy Spirit revealed God's will "not in words taught by human wisdom, but in those taught by the Spirit, combining spiritual thoughts with spiritual words" <span class="scripture-ref">1 Cor. 2:10-13, Eph. 3:1-5; 2 Pet. 1:20-21</span> and <span class="scripture-ref">2 Tim. 3:16-17</span>.</p>
+
+      <p><em>Next month: Ultra-liberalism and the Guidance of the Holy Spirit.</em></p>
+
+      <p class="article-author">Richard C. Sims, Jr., PO Box 538, Mineola, TX</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Identity Series</span>
+      <h2>Identity of A Church of Christ: The Work of The Church</h2>
+
+      <p>We in the church of Christ are to be conformed to the image of God's Son, and not conformed to the expectation of us by man (<span class="scripture-ref">Romans 8:29</span>).</p>
+
+      <p>While our articles are supposed to look at the identity of the church of Christ, we cannot help but look at the individuals that make up the local church. The diversity in character and the desires of each member determine what work will be carried out and how it is carried out.</p>
+
+      <p>But you see, there is where the problem lies. We as individuals do not determine what work will be carried out, for God has already designated such. Our responsibility and obligation as members is to support each other in doing what God has already appointed us to do.</p>
+
+      <p>One of the identifying marks of the church of Christ is seen in the work that the congregation performs. And to be honest, our worship services at the designated times are really the only time our congregation works in unison as a single body. Sadly, it appears that the worship "hour" is all the cooperation from the membership you will find in most places.</p>
+
+      <p>For years we have basically taught that the work of the church is three-fold in nature. Preaching the gospel, edifying the saints, and benevolence (within specified parameters). If you look at these three items, you will notice that these are all individual commands placed upon each Christian. By OUR placing these into the category of the "work of the church" we have basically told members that their individual responsibility in these fields is encroaching upon the local work. The result is that nobody does what is required of them.</p>
+
+      <p>There are many organizations in this world that perform specific services. These groups have certain rules or restrictions, and are financed by various means. There are groups for all kinds of things, and they all survive upon a similar foundation and are organized in some very similar characteristics.</p>
+
+      <p>By law in most places, every group that collects funds for a particular cause are required to have laws, regulations, and what we call in the business world; SOP's (Standard Operating Procedures). There needs to be a recognized authority in charge and depending upon how large the organization, a delegation of that authority. There is also an accountability placed upon each of these groups. That accountability is towards those who are receiving the services and those who support those services. Not only that, but in many case, they are accountable to the laws of the places they do their services.</p>
+
+      <p>For those in the Church of Christ, we notice a similarity in all these concepts. We do have an authorized Head and we have laws, regulations, and SOP's.</p>
+
+      <p>Jesus has ALL authority (<span class="scripture-ref">Matthew 28:18; Ephesians 1:22-23</span>). We have a corporate structure in elders, deacons and saints (<span class="scripture-ref">Philippians 1:1</span>) as all being of the same mind to fulfill the goals of that organization (the church), and do so within the guidelines of authority already established. There is accountability placed upon each individual in this organization (<span class="scripture-ref">2 Corinthians 5:10</span>). And, finally, we have our SOP's laid out before us in God's word. Any deviation from the authorized practices constitutes dereliction of duty, and those guilty of such place themselves in the pathway of discipline.</p>
+
+      <p>Until next month, may God bless you in the study of His word.</p>
+
+      <p class="article-author">Carey Scott, 7926 Mosewood, Houston, TX 77040</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Sermon Preparation</span>
+      <h2>Preparing Sermons</h2>
+
+      <p>Previously we mentioned file cabinets, and said "more about these later." OK, let's now go to the file cabinets! Much of the work I have completed through the years is in 3-ring binders, as well as being saved on my computer hard drive and back-up floppies. In pre-computer days I arranged a great deal of material alphabetically by topic and stored it in file cabinets. It is considered to be potentially helpful for sermon preparation as well as for the verse by verse study of the 66 Books of the Bible.</p>
+
+      <p>With modern e-mail and the Internet a vast amount of material can be gathered with a few strokes of the keys and then stored electronically. But there still is a lot of printed material available in the form of bulletins and articles. When I started out (long ago in another Century!) there was not the 2002 technological help, so I did a lot of filing of papers (I still do). At first I just had a cardboard box big enough to hold file folders. When I found a good article on baptism or the Lord's Supper or anything of interest, I made a folder for it and stored it in its alphabetical place in my "file box."</p>
+
+      <p>Eventually the box was much too small, so I got a 4-drawer file cabinet which I thought would hold about all the articles brethren could write. But the brethren are prolific, and in time the file cabinet was joined by three more cabinets. So now I have four 4-drawer file cabinets and they all are about full. If I need information on nearly any subject to be thought of, I can go to the files and find several bulletin articles with good material.</p>
+
+      <p>I try not to be a plagiarist, so I give credit to original authors if I can, but unless they say otherwise, their material is for public use -- therefore I use it. Quite often I have several good articles on a subject I have chosen for a sermon. I compare each one with the Word of God, take useful points they make, add any thoughts I might have and any passages I think will strengthen the lesson and teach the hearers. I work on all of that until about three to six good points stand out, and all of it soon begins to resemble a good outline. All the help sure does help!</p>
+
+      <p>My recommendation to younger men is that you get a computer with plenty of RAM and a lot of storage space. You don't need all the "bells and whistles" because you are not going to spend a lot of time with games and meaningless surfing. For the most part you will be doing word processing as you build outlines and notebooks. In addition to the modern equipment, get a file cabinet and some file folders, and start saving every quality article you read. With the computer at your side, you may not gather up hard copy articles as fast as I did, but you will be surprised at how much you find that will assist you.</p>
+
+      <div class="file-list">
+        <p><strong>Just pull out the top drawer in my first cabinet and look at the file folders under the letter A:</strong></p>
+        <p>Abortion; Abraham; Age of Accountability; Adultery; The Aged; Advertising; Alcohol; Alien Sinners; Limitations of the word "All"; America; Angels; Anger; Apocrypha; Apostasy; Archeology; Astrology; Atheism; Attendance; Attitude; Atonement; Authority; Autonomy.</p>
+      </div>
+
+      <p>Do you see some sermon ideas in all that? Yes, and this goes on through the whole alphabet. In addition, there are files on the denominations, and files on every Book of the Bible, some of them with so much material that it has been divided into separate files on each chapter (for most of the work done on all that I give thanks to my wife Lois).</p>
+
+      <p>Do you want to preach a sermon on a certain passage? Go to commentaries of course, but also go to the files to "pick the brains" of some of the great students of our time, and those of years gone by. If you have chosen a Bible subject, you can use the same process. Take the good material, add your own good thoughts, and with the needed work you will produce the outline of a sermon that will be challenging and uplifting to your audience. Some hearers might even brag on the sermon! That is not what you are looking for, but when you hear commendation you know that your work has been worthwhile.</p>
+
+      <p>Others more capable than I could give help and advice I may have overlooked, but hopefully we have touched on most of the basic themes. Next month we will talk about filing the finished outlines, and then endeavor to make a good outline. Thanks for your love for our Savior and His powerful Word.</p>
+
+      <p class="article-author">Derrel Shaw, 5927 Spruce Forest, Houston, TX 77092</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Satanism Series</span>
+      <h2>Satanism: Demon Possession</h2>
+
+      <p>Until recent years, preachers often had to explain the term exorcism when we came to <span class="scripture-ref">Acts 19:11-16</span>. However, there has been an increased interest in this subject with the release of the movie The Exorcist. Modern day "demon possession" has also made the news. The famous 20/20 film footage of an "actual" exorcism, and reported cases of others harmed and sometimes killed during attempted exorcisms has been reported. Some Christians (including gospel preachers) have asked if there could be actual cases of such today, and some have taught that there will be a renewal of demonic activity upon the earth and a granting of the powers to cast them out prior to the second coming.</p>
+
+      <p><strong>First, let me say there truly was demon possession in the first century.</strong> Some have tried to rationalize that these may have been cases of epilepsy. Accordingly, Jesus really cured them of their diseases, simply accommodating their misunderstanding of the cause. However, epilepsy was a known condition at the time. In <span class="scripture-ref">Matthew 4:24</span> we find "Then His fame went throughout all Syria; and they brought to Him all sick people who were afflicted with various diseases and torments, and those who were demon-possessed, epileptics, and paralytics; and He healed them."</p>
+
+      <p><strong>Second, we need to consider what the purpose was for possession.</strong> Like other miracles it was for the purpose of producing faith, <span class="scripture-ref">Acts 2:22</span> and <span class="scripture-ref">Hebrews 2:3-4</span>. The miracles of Jesus showed His power over nature, death, distance, elements, and over Satan himself, <span class="scripture-ref">Mark 1:21-28</span>. Like the man born blind, the purpose of allowing possession was "that the works of God should be revealed in him," <span class="scripture-ref">John 9:3</span>. It is interesting that demon possession seems to be limited to the first century, as there are no cases in the Old Testament. Again bolstering our idea that it showed Jesus' power over the devil.</p>
+
+      <p><strong>Third, we want to consider the duration of these manifestations.</strong> The miraculous age lasted until the completion of the written Word, <span class="scripture-ref">1 Corinthians 13:8-10</span> and <span class="scripture-ref">Ephesians 4:7-16</span>. There is no reason to assume possession would outlast the miraculous age. If so, that would mean God has left the church without a way in which to deal with it. <span class="scripture-ref">Zechariah 13:1-2</span> intimates a passing away of both the exorcists and the demon possessions. "In that day a fountain shall be opened for the house of David and for the inhabitants of Jerusalem, for sin and for uncleanness. It shall be in that day, says the Lord of hosts that I will cut off the names of the idols from the land, and they shall no longer be remembered. I will also cause the prophets and the unclean spirit to depart from the land."</p>
+
+      <p>If there were true cases of possession today, that would leave us with many problems. What would that do to the idea of free will? Would not one truly be able to say "The devil made me do it?" Also, why would it be that the denominations that do not teach truth would be the ones successful at casting out demons? If there are cases of possession but we cannot cast them out, would that not mean that the devil is more powerful than God, seeing that was the purpose of the possessions and exorcisms?</p>
+
+      <p>Then what of those so wicked that we say they must be filled with the devil? Just as there were cases of miraculous indwelling of the Holy Spirit in the first century, so there was with evil spirits. But, just as the Holy Spirit today dwells in the Christian through faith and influence, even so the devil. As there were cases of involuntary possessions, so today people may choose to give themselves over to wickedness. The devil has only as much power over us as we allow him, <span class="scripture-ref">1 Peter 5:8</span>, <span class="scripture-ref">James 4:7</span>.</p>
+
+      <p><span class="scripture-ref">Acts 19:11-16</span> and <span class="scripture-ref">Matthew 7:21-23</span> show us the danger of performing exorcisms in His name without authority to do so. If we are filled with God, there will be no room left for the devil, "to know the love of Christ which passes knowledge; that you may be filled with all the fullness of God." <span class="scripture-ref">Ephesians 3:19</span></p>
+
+      <p class="article-author">Wayne Goforth, 248 Merchant St, Abilene, TX 79603</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Premillennialism Series</span>
+      <h2>Premillennialism: The Great Tribulation</h2>
+
+      <p>It is the teaching of Premillennialists that after the church has been raptured it would be gone from the earth for a period of seven years. During this time some important events would be taking place upon the earth. This 7-year period is divided into two equal parts of 3-1/2 years each. A person, who will be later revealed as the antichrist, will come to power and be a world ruler. At first he seems to be a benevolent and peaceful ruler. During the last half of his rule his true colors will come out and he brings about an unprecedented tribulation for those on the earth. Thus the GREAT tribulation. At the end of this time the Lord will appear to conquer the antichrist.</p>
+
+      <p>One of the chief passages that is appealed to for this tribulation is <span class="scripture-ref">Matt. 24</span>. It is referred to as the Olivet discourse. In this passage the Lord and his disciples come out from the temple in Jerusalem and they show Him the buildings of the temple. In response to this Jesus said, "Do you not see all these things? Verily I say unto you, there shall not be left here one stone upon another, that shall not be thrown down" (<span class="scripture-ref">Matt. 24:1-2</span>). Jesus is here predicting the destruction of the temple that they can see, not some future temple, and certainly not some rebuilt temple thousands of years off in the future, but the one right before their eyes.</p>
+
+      <p>The disciples asked Him, "Tell us, when shall these things be? and what shall be the sign of thy coming, and of the end of the world?" (<span class="scripture-ref">24:3</span>). In response to this Jesus warned them about the danger of being misled (v. 4). He then gives some matters that can be called 'misleading signs'; i.e., because they are not true signs of the destruction, but are claimed to be, they are thereby misleading. These are things that frequently occur, such as, wars and rumors of war, famines, earthquakes, etc.</p>
+
+      <p>He gives what is truly a sign in <span class="scripture-ref">24:14</span>, i.e. "This gospel of the kingdom shall be preached to the whole world for a testimony unto all the nations; and then shall the end come." The end of what? Not the end of the world, as we normally think of it, but the end of the temple and Jerusalem. It is not being denied that the cause of Christ would suffer great tribulation. History and scripture show that it would. What has not been proven is that there would be great tribulation inflicted by the antichrist and at the end of the rapture.</p>
+
+      <p><span class="scripture-ref">Matt. 24:14</span> gives a true sign when it says, "This gospel of the kingdom shall be preached to the whole world for a testimony unto all the nations; and then shall the end come"; again; the end of what? Not the end of the world as we usually think of it, but the end of the temple and the buildings. The gospel has been preached to all the world. <span class="scripture-ref">Col. 1:23</span> says that it was preached in all creation under heaven. This was written in about AD 64 and the temple was destroyed in AD 70.</p>
+
+      <p>Another point is made about the tribulation, persecution, etc. in <span class="scripture-ref">24:15</span> that says "When therefore you see the abomination of desolation which was spoken of by Daniel the prophet standing in the Holy Place..." and then goes on to describe the tribulation. <span class="scripture-ref">Luke 21:20-21</span> says, "When ye see Jerusalem compassed with armies, then know that her desolation is at hand." This lets us know that Jerusalem would be made desolate when she was surrounded by the armies of Rome. This happened in AD 70.</p>
+
+      <p>In <span class="scripture-ref">Matt. 24:34</span> Jesus said to the apostles who were looking at that temple, "Verily I say unto you, this generation shall not pass away till all these things be accomplished." Notice He did not say some generation a thousand years in the future, but the generation alive in Jesus' day.</p>
+
+      <p>Thus, the prophecy of the Great Tribulation and the destruction of Jerusalem (<span class="scripture-ref">Matt. 24:21</span>) has already been fulfilled and does not refer to events that are still future in our day.</p>
+
+      <p class="article-author">Hiram Hutto, 211 Crutcher Circle, Athens, AL 35611</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Membership Series</span>
+      <h2>Reasons For Being A Member of The Church of Christ: Christians Have the Power to Bind Satan</h2>
+
+      <p>Any serious Bible student knows that the Lord conquered the devil and gained full mastery over him. The devil engaged Christ in a personal contest soon after the Lord's baptism (<span class="scripture-ref">Matt 3:13-17</span>). God had publicly proclaimed that Jesus was His beloved Son in whom He was well pleased. Immediately after this, Jesus went into the desert alone where he fasted for 40 days and nights. At the end of the fast and while Jesus' strength was at the lowest ebb, Satan came and tempted Him (<span class="scripture-ref">Matt 4:1-11</span>).</p>
+
+      <p>The methods of temptation Satan used to tempt Christ parallels our own temptations as set forth in <span class="scripture-ref">1 John 2:16</span>, "For all that is in the world, the lust of the flesh and the lust of the eyes and the boastful pride of life, is not from the Father, but is from the world."</p>
+
+      <div class="highlight-box">
+        <p><strong>Satan's first temptation</strong> was an appeal to the lust of the flesh for food.</p>
+        <p><strong>His second temptation</strong> was an appeal to vanity.</p>
+        <p><strong>His third temptation</strong> was an appeal to power.</p>
+      </div>
+
+      <p>Had the Lord yielded even in a minute way, He would have plunged the human race into hopeless ruin. The very thought of such a defeat staggers the imagination. In this, as in every other encounter with the devil, the Lord triumphed. He proved that we can rise above materialism and triumph over temptations of the flesh. Of extreme importance, He showed us how we can bind Satan.</p>
+
+      <p>As <span class="scripture-ref">Matt 4:1-11</span> points out, in each case of temptation, Jesus quoted the Word of God. "It is written, man shall not live on bread alone, but on every word that proceeds out of the mouth of God." This He quoted from <span class="scripture-ref">Deut 8:3</span>. "On the other hand, it is written, You shall not put the Lord your God to the test." This He quoted from <span class="scripture-ref">Deut 6:16</span>. "For it is written, You shall worship the Lord your God, and serve Him only." This He quoted from <span class="scripture-ref">Deut 6:13,14</span>.</p>
+
+      <p><strong>It is clear that God's Word is the power Jesus used to defeat the devil.</strong> He overcame temptation with the power of the Holy Scriptures. It was the power of divine truth pitted against the power of error. The ultimate victory of truth was never in doubt. Light will always dispel darkness when the light is shined forth.</p>
+
+      <p>Christians have the same power to bind Satan today. The process of using this power is found in <span class="scripture-ref">James 4:7</span>, "Submit therefore to God. Resist the devil and He will flee from you."</p>
+
+      <p>The power is summarized in greater detail in <span class="scripture-ref">1 Peter 5:5-9</span>, "You younger men, likewise, be subject to your elders; and all of you, clothe yourselves with humility toward one another, for God is opposed to the proud, but gives grace to the humble. Humble yourselves, therefore, under the mighty hand of God, that He may exalt you at the proper time, casting all your anxiety upon Him, because He cares for you. Be of sober spirit, be on the alert. Your adversary, the devil, prowls about like a roaring lion, seeking someone to devour. But resist him, firm in your faith..."</p>
+
+      <p>Paul, I believe, described this power as that which is given us to overcome temptation when he wrote, "No temptation has overtaken you but such as is common to man; and God is faithful, who will not allow you to be tempted beyond what you are able, but with the temptation will provide the way of escape also, that you may be able to endure it" <span class="scripture-ref">1 Cor 10:13</span>.</p>
+
+      <p>What is this power that enables us to make the devil flee? It is the power to resist temptation. And what is the power to overcome temptation? It is the power that comes from being steadfast in the faith. John explains it this way, "No one who is born of God practices sin, because His seed abides in him; and he cannot sin, because he is born of God" (<span class="scripture-ref">1 John 3:9</span>). This seed is the Word of God.</p>
+
+      <p>Thus we see that the act of "drawing near to God"; the act of humbling yourselves, therefore, under the mighty hand of God; the act of "resisting the devil"; the act of letting "His seed abide in us"; and the act of overcoming temptation, are all tied together. It simply means to follow New Testament instructions. The only way to bind Satan is to do what Christ did... use the Word of God to resist his temptation.</p>
+
+      <p class="article-author">Ray Wilson, 4203 NE Stallings Drive #302, Nacogdoches, TX 75965</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Editorial</span>
+      <h2>Reaping The Harvest!</h2>
+
+      <blockquote>"Be not deceived; God is not mocked: for whatsoever a man soweth, that shall he also reap. For he that soweth to his flesh shall of the flesh reap corruption; but he that soweth to the Spirit shall of the Spirit reap life everlasting. And let us not be weary in well doing: for in due season we shall reap, if we faint not." <span class="scripture-ref">Gal 6:7-9</span></blockquote>
+
+      <p>We often hear this thought mentioned in regard to supporting the Lord's work with our prosperity. That is not the only subject where this principle must be applied. The Lord spoke several parables where he represented the Word with the seed. We will reap what we sow in regard to our teaching.</p>
+
+      <p>Many of our brethren today are reaping the result of seed sown decades earlier. For years we have taught that certain doctrines of men are not a fellowship issue if our motivation is love. Many who objected then to the practice of ignoring error in order to gain numbers were called "issue oriented" or "radical right-wing." Today we find many members of the Lord's body accepting (or at least tolerating) the doctrines that we had exposed as error in order to teach the truth.</p>
+
+      <p>Error that is tolerated becomes accepted error, and accepted error becomes the standard. As long as we stand idly by and allow error to prevail without a word, that error will gain power and become the standard for the next generation.</p>
+
+      <p>While we need to be prepared to defend the Truth, our purpose is not to put down others but to uplift the Savior. Our purpose is to plant the seed of Truth. We must never compromise that Truth with the doctrines of men. The seed that we sow will determine the harvest we reap.</p>
+    </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published September 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

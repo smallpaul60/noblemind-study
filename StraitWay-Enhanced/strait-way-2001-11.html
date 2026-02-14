@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - November 2001</title>
+  <meta name="description" content="The Strait Way newsletter, November 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11" selected>November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#truth-love">Speaking Truth In Love</a>
+        <a href="#authority">Work Of The Church</a>
+        <a href="#church-history">Oliver Cromwell</a>
+        <a href="#genesis">Satan's Tactics</a>
+        <a href="#trends">Compromise</a>
+        <a href="#catholic">Roman Catholic</a>
+        <a href="#revisionism">Revisionism</a>
+      </nav>
+
+      <article class="article" id="truth-love">
+        <span class="article-category">Guest Article</span>
+        <h2>Speaking The Truth In Love</h2>
+        <p>In <span class="scripture-ref">Eph. 4:15</span> Paul wrote, "but speaking the truth in love, we are to grow up in all aspects into Him, who is the head, even Christ." (N.A.S.) What does Paul mean by "speaking the truth in love?" Looking at the phrase in the Greek we note "speaking the truth" comes from a word concerning which Vine says, "signifies to deal faithfully or truly with anyone." The emphasis is on truth, not speaking. Love is active good will as shown by Paul in <span class="scripture-ref">1 Cor. 13</span> and <span class="scripture-ref">Col. 3:12-14</span>.</p>
+        <p>Perhaps the best commentary on "speaking the truth in love" is found in examining the preaching and teaching of Paul, himself. To young Timothy Paul wrote, <span class="scripture-ref">"And the Lord's bond-servant must not be quarrelsome, but be kind to all, able to teach, patient when wronged, with gentleness correcting those who are in opposition, if perhaps God may grant them repentance leading to the knowledge of the truth, and they may come to their senses and escape from the snare of the devil, having been held captive by him to do his will," 2 Tim. 2:24-26</span>.</p>
+        <p>People are different and the preacher must be flexible in his approach. Some people need to be reproved, some rebuked and some exhorted. All need to be shown "great patience and instruction," <span class="scripture-ref">2 Tim. 4:2</span>. Paul preached the "whole purpose of God," <span class="scripture-ref">Acts 20:27</span>, and he preached the same thing in all the churches, <span class="scripture-ref">1 Cor. 4:17; 7:17</span>. We must follow his example, <span class="scripture-ref">1 Cor. 11:1</span>.</p>
+        <p>Speaking the truth in love sometimes involves being blunt with those opposing the truth. Paul told Elymas, <span class="scripture-ref">"You who are full of all deceit and fraud, you son of the devil, you enemy of all righteousness, will you not cease to make crooked the straight ways of the Lord?" Acts 13:10</span>.</p>
+        <p>Speaking the truth in love sometimes involves pointing out sin. Paul felt love for the brethren at Corinth and he hated causing them sorrow, <span class="scripture-ref">2 Cor 2:4</span>, but the truth had to be taught, <span class="scripture-ref">1 Cor 5:1-8; 7:1-16</span>. Brethren, preach the truth, give godly sorrow a chance to produce repentance, <span class="scripture-ref">2 Cor. 7:8-11</span>.</p>
+        <p>Sometimes, speaking the truth in love requires that those in error be identified by name, <span class="scripture-ref">1 Tim. 1:20; 2 Tim. 4:10,14-15</span>. Even a public confrontation, "in the presence of all" may be called for, as Paul confronted Peter in <span class="scripture-ref">Gal. 2:14</span>.</p>
+        <p>At times, we have to recognize that even "speaking the truth in love" does not convert the sinner and we must move on as Paul did in <span class="scripture-ref">Acts 13:46</span> and <span class="scripture-ref">Acts 18:6</span>. If the sinner is a Christian who refuses to repent, he must be marked, <span class="scripture-ref">Matt. 18:15-17; Rom. 16:17-18; Titus 3:10-11; 2 Thess. 3:14-15</span>.</p>
+        <p>The goal of speaking the truth in love, is that "we are to grow up in all aspects into Him, who is the head, even Christ," <span class="scripture-ref">Eph. 4:15</span>. We do not show love for God or man when we change the gospel, <span class="scripture-ref">Gal. 1:6-10</span>. A watered down gospel may sound like love and may give a sense of security. It may even give a warm fuzzy feeling. But, only the truth, the whole truth and nothing but the truth will save us and bring us to maturity in Christ, <span class="scripture-ref">John 8:32; John 17:17</span>.</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>PO Box 538, Mineola, TX 75773-0538</p>
+      </article>
+
+      <article class="article" id="authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>The Work Of The Church</h2>
+        <p>In previous articles on bible authority we have noticed several times the teaching of <span class="scripture-ref">"whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him" Col 3:17</span>. The idea of "whatsoever ye do in word" has to do with what we teach or that we must preach and teach that which is truth or that which is authorized by the word of God. The idea of "whatsoever ye do in deed" has to do with that which we practice. So, we must take heed to those things we teach and those things we practice. This, of course, is true in regard to individual Christians as well as truth in regard to local churches. In discussing bible authority and the work of the church we are discussing that work which is authorized in the New Testament for the local church to practice.</p>
+        <p>When we search the pages of the New Testament to learn what the local church is authorized to practice we only find three authorized works. These are: (1) preaching the gospel to the lost, <span class="scripture-ref">1 Thess 1:8; Acts 13:1-5</span>, (2) preaching the gospel to the saved or edification, or building up in the faith those who are already Christians <span class="scripture-ref">Eph 4:16; Acts 20:7; 1 Cor 14:17</span>; (3) caring for saints who are in need <span class="scripture-ref">1 Tim 5:16; Acts 11:27-30; 1 Cor 16:1-3</span>.</p>
+        <p>Many that call themselves the church of Christ buy buses to haul folks to Branson or Six Flags or skating parties. Some build gymnasiums so they can play sports and compete in these things with children of the devil. Others build and furnish places to eat, drink and play. I ask you, under which authorized work do these activities fall? Do these activities fall under preaching the gospel to the lost? Are they found under the authority for spiritual edification or caring for saints in need? Are these social and worldly things the work of the church? They clearly are not authorized! We sometimes call these unauthorized things the social gospel as contrasted with the authorized and true gospel of Christ.</p>
+        <p>The local church is not a political faction of some sort. The local church is not a social club of some sort; it is not a mission depot to care for the world's needy; it does not have a political platform and is not an entertainment center. These things belong to the world and bible students remember that the savior said <span class="scripture-ref">"my kingdom is not of this world" Jn 18:36</span>. So, the Lord's church is concerned with the spiritual and not the worldly and the heavenly not the earthly <span class="scripture-ref">Col 3:1-3; Rom 14:17</span>.</p>
+        <p>Most who would like to be called our brethren are not too much concerned with these three aforementioned authorized works of the local church. They, instead occupy themselves in the pursuit of the worldly, fleshly, earthly and social satisfactions and seek these rather than the "every good work" (ie those authorized by the word of God) <span class="scripture-ref">2 Tim 3:16-17</span>.</p>
+        <p>Many times I hear or read where these folks speak of these unauthorized things they pursue as fellowship. The word fellowship is found 15 times in the King James version of the New Testament. It is always spiritual not social, material, fleshly, earthly or worldly. Fellowship is defined as joint participation, contribution or communion. Men take the beautiful thoughts of a beautiful bible word like fellowship and make it mean something entirely different than how it is used in the bible. They do greatly err! They err first by doing that which is not authorized (ie the things of the social gospel) and secondly by the abuse and misuse of the beautiful and wonderful bible teaching called fellowship. Remember <span class="scripture-ref">2 Jn 9</span>, and let us have bible authority for all we do.</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>Christians Had A Friend In Oliver Cromwell</h2>
+        <p>Though much has been written about Cromwell in the past 400 years there are many tantalizing hints that simply do not finalize who he was spiritually. He seems to have been a friend to Christians and this was highly unusual in 17th Century England.</p>
+        <p>Oliver Cromwell was born in the last 4 years of the reign of Elizabeth I on 25 April, 1599. He was the son of Robert and Elizabeth Cromwell of Huntingdon, England, and though of median means, claimed to be of noble lineage. According to Antonia Fraser, author of "Cromwell - The Lord Protector" he could easily have descended into "yeoman mediocrity" rather than soared to the heights of acclaim that he did. As an adult he owned a fair amount of land and was involved in farming it and managing it till the end of his life no matter where his political and military pursuits led him.</p>
+        <p>A gospel preacher, Keith Sisman, of Cambridge, England has researched Cromwell and his time and gives the following account: "In Cambridge, England during the 1550s the religious movement known as the Puritans started inside the Anglican Church of England. The term 'Puritan' was a name given by their opponents and refers to their return to the Purity of the Gospel and Christian living. In the strict sense the Puritans were a party opposed to the Anglican party in the church of England. The Anglicans who were high church ultimately won with the restoration of the monarchy in 1660 and from then on the CoE returned to many Catholic beliefs and ceremonies. In a broad sense the Puritans also included the independents such as the Church of Christ although no organisation was ever established to share views of the various dissenting parties. The CoE Puritans were largely Calvinistic and Presbyterian. Their Bible was the Genevan version and they had a major influence on the 1611 King James Bible. They were opposed to the use of the Altar for Communion and often used kitchen tables to serve the Lord's Supper. They attacked the use of costumes for the priests, the use of the sign of the cross, organs, ecclesiastical courts, the episcopacy and religious days and holidays such as Christmas and Easter. Under the Puritans much frivolity was banned such as the pagan practise of dancing round the May Pole. The Puritans advocated preaching and the Bible as being the sole authority as opposed to tradition."</p>
+        <p>One of the main struggles which was wrapped up in the problem of the monarchy that brought about the English Civil War was between the Puritans and the Church of England. As a champion of the "Independants" Cromwell is best remembered for his religious tolerance and especially for those who were not aligned with a state religion like the Church of Scotland (Presbyterians) or the Church of England (Anglicans).</p>
+        <p>Of course, we know that Cromwell and his forces finally overthrew the king, who was ultimately executed for treason against the nation. Cromwell was then named "Lord Protector" and ruled for several peaceful and prosperous years. However, shortly after Cromwell's death, the monarchy was restored and the Church of England severely oppressed all of the Independants, causing multitudes of them to leave the country for America. History is always written by conquerors, so it should be no surprise that Cromwell is usually depicted as an unrelenting tyrant.</p>
+        <p>But Keith Sisman asserts from his research that Cromwell's daughter was married to a Christian and she also was baptized for remission of sins. And he believes that it is quite possible that Cromwell himself was a believer.</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Key To Understanding Satan's Tactics</h2>
+        <p><span class="scripture-ref">"But I fear, lest somehow, as the serpent deceived Eve by his craftiness, so your minds may be corrupted from the simplicity that is in Christ. For if he who comes preaches another Jesus...or if you receive a different spirit...or a different gospel...you may well put up with it!" (1 Cor. 11:3,4)</span></p>
+        <p>Paul's fear was that his brethren would somehow be tricked from the simplicity of the gospel unto another Jesus and tolerate another gospel. How? By Satan's craftiness, of course. Where must we go to learn of Satan's tactics? Obviously, we must go back to Genesis. However, if Genesis is a book of fiction, then Paul referencing his brethren back to Eden is flimsy and forceless. But as the threat was real that the church of God at Corinth could be turned aside to another gospel, so it was real that Satan successfully deceived Eve and garbled the simplicity of God's word (cf. <span class="scripture-ref">1 Tim. 2:14</span>). If Genesis is not speaking about a real creation, a real garden, a real man, a real woman, a real serpent, a real command, and a real tree, then why should we believe that it speaks of real sin and real death? If one rejects the literal "days of creation" as presented in Genesis, what will keep one from rejecting the literal serpent, tree, Adam and Eve? What will allow one to reject the creation, as it is written and yet, accept the real curse which came through Adam? <span class="scripture-ref">"Therefore, just as through one man sin entered the world, and death through sin, and thus death spread to all men, because all sinned" (Rom. 5:12)</span>. If the days of Genesis are not literal, then why should Adam be; and if Adam is not literal, why should Moses be? <span class="scripture-ref">"Nevertheless death reigned from Adam to Moses" (Rom. 5:14)</span>. If Adam and Moses are not real then why should we believe in a real Jesus? <span class="scripture-ref">"For if by the one man's offense death reigned through the one,...righteousness will reign in life through the One, Jesus Christ" (Rom. 5:17)</span>. <span class="scripture-ref">"For as in Adam all die, even so in Christ all shall be made alive" (1 Cor. 15:22)</span>. All of these things: sin and righteousness, death and life, Adam and Jesus stand or fall together. Is the "first Adam" of human history dispensable to the gospel message? Rather, he is as indispensable as the "Last Adam" (<span class="scripture-ref">1 Cor. 15:45</span>). Can one reject Adam's tree of Eden and yet accept Jesus' tree of Golgotha? The everlasting word of God has forever chained these things together! <span class="scripture-ref">"Therefore what God has joined together, let not man separate" (Mk. 10:9)</span>.</p>
+        <p>What then of the serpent's craftiness and of Paul's fear? Behold, it is written, <span class="scripture-ref">"Now the serpent was more cunning than any beast of the field which the Lord God had made. And he said to the woman, 'Has God indeed said, "You shall not eat of every tree of the garden"?'" (Gen. 3:1)</span>. The first tactic is misquoting God. Unlike what the Devil asked Eve, God said, "Of every tree of the garden you may freely eat; but of the tree of the knowledge of good and evil..." (<span class="scripture-ref">Gen. 2:16, 17</span>). In other words, of all the trees in the garden, there is only one tree that shall not be eaten of. The second tactic is to create doubt by questioning God's word, "...Has God indeed said?..." (<span class="scripture-ref">3:1</span>). When we question God's word, we begin to doubt God's word. When we doubt God's word, we depart from Him. <span class="scripture-ref">"Beware, brethren, lest there be in any of you an evil heart of unbelief in departing from the living God" (Heb. 3:12)</span>. The third tactic is to make God's word mean the opposite of what it says (see <span class="scripture-ref">Gen. 3:4</span>). When people say, "It is not what Genesis says that is important, but what it means," are they not doing what the serpent did? How can there be any meaning apart from what is said?</p>
+        <p>Beware, Satan asks: "Has God indeed said, 'All The Days of Genesis 1 are literal 24 hour days'?" "Has God indeed said, 'All women shall not teach over men'?" "Has God indeed said, 'He built only one church'?" "Has God indeed said, 'You shall not tolerate all false teachers'?" "Has God indeed said, 'All divorced people shall not be permitted to get remarried'?" "Has God indeed said, 'Jesus was born of a literal virgin'?" "Has God indeed said, 'Everyone must be baptized in water to be saved'?" The list could go on. Let us do less questioning and reinterpreting God's word, and more accepting!</p>
+        <p class="author-signature">Steven J. Wallace<br>313 Merrick Ave., Sunnyside, WA 98944</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Compromise</h2>
+        <p>Webster defines compromise: "an amicable agreement to settle differences; mutual concession." In other words, where differences exist, there must be a "moving toward the center" by the parties involved to settle the issues. We are all aware that differences have existed and will exist among brethren. However, to settle our differences by compromise is not the Bible way; even though we should be kind and friendly (amicable) in this process.</p>
+        <p>To illustrate this, let us go to the Old Testament for some examples. In <span class="scripture-ref">Exodus 8-10</span>, while Moses and Aaron were trying to persuade the Pharaoh of Egypt to release God's people that they might return to their own land, Pharaoh proposed four compromises to God's leaders.</p>
+        <p><strong>Compromise #1:</strong> "Go ye, sacrifice to your God in the land." No doubt this would sound good to some and they would reason, "One land is just as good as another and it makes no difference where we sacrifice unto God." But Moses would have nothing to do with it; he could not buy it. He said, "We will go three days journey into the wilderness, and sacrifice to Jehovah our God, as he shall command us." (<span class="scripture-ref">Exodus 8:27</span>)</p>
+        <p><strong>Compromise #2:</strong> "Go...only ye shall not go very far away." Another compromise. Which some would readily accept. (If you're going into the church, stay close to the world, and don't get "caught up" in the development of the church.) But Moses is steadfast and still insists that God's will be carried out; so additional plagues were brought upon Pharaoh to soften his hardened heart.</p>
+        <p><strong>Compromise #3:</strong> Failing in his two previous proposals of compromise, the Pharaoh pitches a third. "Go now, ye that are men, and serve Jehovah; for that is what ye desire." (<span class="scripture-ref">Exodus 10:11</span>) But Moses would buy none of it; observe his answer: "We will go with our young and with our old; with our sons and with our daughters, with our flocks and with our herds will we go; for we must hold a feast unto Jehovah." (<span class="scripture-ref">10:9</span>)</p>
+        <p><strong>Compromise #4:</strong> "And Pharaoh called unto Moses and said, go ye, serve Jehovah; only let your flocks and your herds be stayed." (<span class="scripture-ref">10:24</span>) Again, Moses rises to the occasion in strong fashion. Listen to him: "Our cattle also shall go with us: there shall not a hoof be left behind; for thereof must we take to serve Jehovah our God..." (<span class="scripture-ref">10:26</span>)</p>
+        <p>Now the courage and conviction of Moses in withstanding these compromise proposals should serve as an example to every preacher, elder, deacon and member of the church today, and it should be motivation to all to do the same thing in resisting compromises of the devil now. However, sad to say, this is not the case.</p>
+        <p>Do you remember when the messenger of Ahab (king of Israel) was sent to Micaiah requesting that he "line up" with the 400 prophets of the king? (<span class="scripture-ref">1 Kings 22:13</span>) Do you remember his reply to the request? <span class="scripture-ref">"And Micaiah said, as Jehovah liveth, what Jehovah saith unto me, that will I speak." (1 Kings 22:14)</span> Now, brethren, there is a great lesson for all of us. There's no room for compromise in that statement and if every preacher among us would adopt that statement and make it our teaching, there would be no compromise, and the church would be much stronger. Brethren, this is what is needed. We cannot live with compromise. We will die with that. Think!</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="catholic">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Roman Catholic</h2>
+        <p>In the debate with Eldred Stevens in Stillwater, Oklahoma in 1952 Mr. Eric Beevers, a Roman Catholic priest, said: "If the Catholic Church is not the original, apostolic church, then tell us when it was founded and who founded it." Well, it so happens that no one can locate a specific date as the birth or beginning of nor specify some individual as the founder of the Roman Catholic Church. But this does not force us to the conclusion that Mr. Beevers was implying.</p>
+        <p>The Roman Catholic Church is the result of departure from the pattern of organization, doctrine, worship and work given by Christ through the apostles and contained in the New Testament. This departure began very early and moved very slowly, but surely; its final fruit bears little resemblance to the church that Jesus built.</p>
+        <p>The Roman Catholic Church tells us that such departure was not possible; the New Testament, on the other hand, not only shows its possibility, but prophecies it. To the elders of the church at Ephesus the apostle Paul said: <span class="scripture-ref">"I know that after my departing grievous wolves shall enter in among you, not sparing the flock: and from among your own selves shall men arise speaking perverse things, to draw away the disciples after them" (Acts 20:29-30)</span>. To the church in Thessalonica he wrote: <span class="scripture-ref">"Let no man beguile you in anywise; for it will not be except the falling away come first, and the man of sin be revealed, the son of perdition, he that opposeth and exalteth himself against all that is called God or that is worshipped; so that he sitteth in the temple of God setting himself forth as God" (2 Thess. 2:3-5)</span>. The inspired apostle further stated: <span class="scripture-ref">"For the mystery of lawlessness doth already work" (vs. 7)</span>.</p>
+        <p>The church that Jesus built had no pope; such began A.D. 606 when the title of "Universal Bishop" was conferred upon Boniface III. The church that Jesus built had no councils; such began A.D. 325 when the council of Nicea convened. The church that Jesus built had no orders of priests, diocesan bishops, archbishops, cardinals, synods, dioceses, parishes, monks, nuns, convents, monasteries or parochial schools. The church that Jesus built had no holy water (introduced about 120 A.D.), no latin mass (began A.D. 394), no doctrine of "Transubstantiation" (formed in the 8th century), no worship of Mary (introduced in the 4th century), no religious images and paintings (introduced in the 4th century), no doctrine of Purgatory (introduced in the 5th or 6th centuries), no doctrine of "Extreme Unction" (began in the 6th century), no doctrine of "Celibacy" (made a regulation in the 11th century), no "Indulgences" (fully developed in the 12th century), no instruments of music in worship to God (introduced about 666 A.D.), no "Auricular Confession" (began in the 13th Century), no sprinkling for baptism (introduced in the 3rd century, but not formally adopted until 1311).</p>
+        <p>The church that Jesus built had no Rosary, lighting of candles, burning of incense, Sacraments, Christmas, Easter, Lent, Religious Titles, Religious vestures, choirs, prayers to dead saints, prayers for the dead, Sacramentals, Eucharist, Confirmation, or infant "Baptism" and membership, but the Roman Catholic Church has them all.</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <article class="article" id="revisionism">
+        <span class="article-category">Guest Article</span>
+        <h2>Revisionism - 1999</h2>
+        <p>Revisionism was once a recognized characteristic of the propaganda machine of the international Communist Party. One only needed to read or hear a few sentences to know that the facts of history were changed, twisted, and restated to further the peculiar political aim of the Party.</p>
+        <p>The Lord's church has a fight on its hands now with revisionists. The list of subjects is growing; we could consider marriage/divorce as a bellwether, with error of every kind being found on every front. That which was once sacred has been redefined in terms to better suit the ear, the audience, or the untrained conscience. A sermon today on marriage, from some revisionist preachers, does not even sound like a sermon on the same subject from the same scriptures preached thirty or forty years ago.</p>
+        <p>A common denominator of the revisionist preaching today is an individual spokesman who is personally affected or afflicted by the plain truth on a specific subject. <span class="scripture-ref">Matthew 19:9</span> is suddenly rethought and retaught in the light of the son, daughter, brother, sister, or whomever, that is disciplined by the plain truth of that scripture. The fact that the plain truth condemns an action causes the truth to be redefined in a way so as to soften its effect.</p>
+        <p>The Biblical account of creation is a good example. There is absolutely no reason to doubt that God could and did create the world, including man, in six days. There is absolutely no reason to require periods of billions of years for any thing that is made to have been made. And there is absolutely no reason to place blind faith in evolution or the big-bang theory, simply because modern learning teaches it dogmatically for the truth. Any time evolution has to stand the test of scientific scrutiny by minds that are intellectually honest, evolution fails miserably to explain the origin of the world we know.</p>
+        <p>Some Christians want to revise <span class="scripture-ref">Genesis 1 and 2</span> to fit evolution, and they end up as theistic evolutionists. But they can find very little comfort from scripture for such a position. Others simply must have long periods of time for God to do his creative work. Such a requirement destroys the step-by-step relationships defined from day one to day six of the creation week. It simply limits God.</p>
+        <p>We strongly believe that Godly men everywhere, serving as elders, need to reinforce their responsibilities toward the defense of truth. After all, the church is the pillar and ground of the truth. But if local leadership acquiesces in the idea that a preacher is the spiritual leader of the congregation, or in the idea that a preacher has the benefit of the most learning and must therefore lead the elders, then the divine pattern is destroyed.</p>
+        <p>Is there any wonder why there is trouble in Judah?</p>
+        <p class="author-signature">Sherrel A. Mercer<br>1408 Alba, Edna, Texas 77957<br>September 6, 1999</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published November 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - October 2002</title>
+  <meta name="description" content="The Strait Way newsletter, October 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10" selected>October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#editorial">Editorial</a>
+        <a href="#proverb">Arabic Proverb</a>
+        <a href="#word-studies">Word Studies</a>
+        <a href="#luke-11">Luke 11:13</a>
+        <a href="#unique-church">The Unique Church</a>
+        <a href="#morality">Morality & Faith</a>
+        <a href="#personal-work">Personal Work</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+
+      <article class="article">
+      <span class="article-category">Front Page</span>
+      <h2>Citizens Of Heaven</h2>
+
+      <p>As citizens of a spiritual kingdom that cannot be destroyed, it is important that Christians look at this earthly life in its proper perspective. Where we spend eternity will depend on it. In <span class="scripture-ref">Phil. 3:19-20</span>, Paul contrasts those "enemies of the cross of Christ, who mind earthly things" with children of God whose "citizenship is in heaven".</p>
+
+      <p>In Paul's time the Roman empire ruled the world. The Philippians exhibited great pride in being citizens of that great empire. They enjoyed all the rights and privileges of citizenship; they spoke the language of Rome and they even dressed according to Roman style. Paul reminded the Philippian saints that they had an even more important citizenship than that, by virtue of the fact that they were children of God. Today, though we are proud to be Americans, Christians can praise God that we have the blessings of heavenly citizenship also.</p>
+
+      <p>One of Satan's snares that so many fall vulnerable to is the "cares of the world and the deceitfulness of riches" <span class="scripture-ref">Matt. 13:22</span>. It can choke the word of God out of our hearts and cause us to be unfruitful in service to Him. The attraction of these things is great and is something we are faced with daily. Paul told Timothy, "...godliness with contentment is great gain, for we brought nothing into the world, for neither can we carry anything out; but having food and clothing we shall be therewith content" <span class="scripture-ref">1 Tim 6:8-9</span>. Having the things needful for life, let us be content! Why? Because whatever may be gained, materially, will be left behind when we die. We should recognize such things are secondary in our lives to godliness and preparing for heaven. Jesus said of those who are his servants, "But seek first the kingdom of God and His righteousness, and all these things shall be added to you." <span class="scripture-ref">Matt. 6:33</span></p>
+
+      <p>In <span class="scripture-ref">Matt. 13:22</span>, Jesus also warns of the "cares of this world." This could include a great many of our activities. Anything that is put before God is wrong. It's sad to hear the excuses so often given in effort to justify slack service to God - fishing, family reunions, politics, unexpected company, etc. Jesus told of those invited to the marriage feast who began to make excuse (<span class="scripture-ref">Lk. 14:18</span>). One had bought a piece of land, another had bought five yoke of oxen, another had married a wife. These things were not wrong in themselves, but when these became more important than one's relationship to the Lord, they were wrong. Priorities were in the wrong place. The simple truth is we have become influenced by the world!</p>
+
+      <p>Now consider our citizenship. Where is your home? Is your heart yearning for the time you can live with God eternally? Is the hope of heaven really alive within you? Peter said, "Blessed be the God and Father of our Lord Jesus Christ, who according to His abundant mercy has begotten us again to a living hope through the resurrection of Jesus Christ from the dead" <span class="scripture-ref">1 Pet. 1:3</span>. Perhaps we are like the prodigal son who deliberately chose to go into a foreign land to forget where his place should be (<span class="scripture-ref">Lk. 15:11ff</span>)? Do we present ourselves as those of a heavenly citizenship in language, dress, conduct and interests?</p>
+
+      <p>Consider prayerfully these scriptures: "...and those that use the world, as not using it to the full, for the fashion of this world passeth away" <span class="scripture-ref">1 Cor. 7:31</span>. "Whether therefore ye eat or drink, or whatsoever ye do, do all to the glory of God" <span class="scripture-ref">1 Cor. 10:31</span>. "If then ye were raised together with Christ, seek the things that are above, where Christ is seated on the right hand of God. Set your mind on the things that are above, not on the things that are upon the earth" <span class="scripture-ref">Col. 3:1-2</span>.</p>
+
+      <p>We should all remember who we are and where our citizenship truly is. We like Abraham of old are "looking for a city that hath foundations, whose builder and maker is God." For those who "desire a better, that is, a heavenly country...God is not ashamed to be called their God, for He has prepared a city for them" <span class="scripture-ref">Heb. 11:10,16</span>. Our citizenship is not of this world. Truly as we sing the song, "this world is not my home, I'm just passing through."</p>
+
+      <p class="article-author">Micky Galloway, 45858 York Place, Lancaster, CA 93534</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Ultra-Liberalism Series</span>
+      <h2>Ultra-Liberalism and the Guidance of the Holy Spirit</h2>
+
+      <p>At one time the Pentecostal or charismatic churches were small, and usually struggling for their existence in storefront buildings on the poor side of town. However, the last fifty years has seen some of these churches grow into major denominations. Not only have they grown, but the movement has spread into every major Protestant denomination, the Roman Catholic Church and yes, even into the churches of Christ.</p>
+
+      <p>This is evidenced by the ultra-liberal emphasis on emotions and feelings instead of an objective study of the word of God. It is also seen in the emphasis that church services should be a party, with hand clapping, raising of hands in the air, dramatic presentations and women taking a more active role. Brethren, this is not from the Bible, but straight out of the Charismatic Movement.</p>
+
+      <p>In 1971 the "Full Gospel Business Men's Fellowship International" published <em>The Acts of the Holy Spirit in the Church of Christ Today</em>. This book contained articles by several members of the Lord's church, including singer Pat Boone, who claimed to have received the baptism of the Holy Spirit and spoke in tongues. This did not seem like a serious threat to the church then, but it is now!</p>
+
+      <p>You may recall that in a previous article in this series we documented how the elders in the Robinson, Texas church of Christ in 1995 discussed a number of suggested changes to the worship service. To their credit, they said, "There will be no speaking in tongues, revelations, healings, exorcisms, etc." They did, however, give in to the desires of the ultra-liberals on many points. But, the very fact that they had to disallow "speaking in tongues, revelations, healings, exorcisms, etc." shows that some of their members were already involved in such activities.</p>
+
+      <p>In the winter of 2001/2002 my son, David, was worshiping with the church of Christ in Minot, ND. In a Bible class a question was asked concerning people being guided by the Holy Spirit today. My son gave the Scriptural explanation that the miraculous gifts were limited to the apostles and those on whom they laid their hands, <span class="scripture-ref">Acts 2:43; Acts 8:18</span>. And, the miraculous gifts were to cease when God's will had been completely revealed, <span class="scripture-ref">1 Cor. 13:8-10</span>. Which was accomplished in the 1st century A.D., <span class="scripture-ref">Jude 3</span>. To my son's surprise, one of the elders disagreed with him and defended the idea that Christians today are led directly by the Holy Spirit. Other questions came up, including hand clapping and instrumental music, all of which was defended by the elder.</p>
+
+      <p>This did not surprise me, since I had already been exposed to this error in the Lord's church where I labored in 1999-2000. One of the members, claimed to be led by the Holy Spirit, separate and apart from the Bible. Several members heard him make the claim and it was documented in e-mails he sent to me and others. One morning in Bible class the subject of Holy Spirit guidance came up and I took the opportunity to teach the truth on the subject. The man who made the claim was not in the class. Another man spoke up and asked, "Why are you dwelling on this subject, nobody here believes that way." I answered, without revealing the other man's name, "Yes, there is someone here who believes he is guided by the Holy Spirit, separate and apart from the Bible."</p>
+
+      <p>About a month later, two men, who had also heard the man make the claim, asked him in front of the congregation, if he believed he was guided by the Holy Spirit, separate and apart from the Bible. He was very evasive in his answer. Later, in a meeting with several men present, he was encouraged to give a clear answer to the question. He refused to clearly say what he believed. Finally, the man who said, "Nobody here believes that way" came to his defense and said, "If you are going to persecute him for believing the Holy Spirit guides him, you will have to persecute me next, because I believe it too."</p>
+
+      <p>In New Testament times those guided directly by the Holy Spirit were called apostles and prophets, <span class="scripture-ref">1 Cor. 2:10-13; Eph. 3:3-5</span>. Those who falsely claimed this guidance were called, "false prophets." False prophets were not to be followed or fellowshipped. They were to be tested, <span class="scripture-ref">1 John 4:1; Rev. 2:1-2</span> and rejected, <span class="scripture-ref">2 John 9-11</span>. Brethren, heed the warning of Jesus, "Beware of the false prophets, who come to you in sheep's clothing, but inwardly are ravenous wolves," <span class="scripture-ref">Matthew 7:15</span>.</p>
+
+      <p class="article-author">Richard C. Sims, Jr., PO Box 538, Mineola, TX</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Identity Series</span>
+      <h2>Identity of A Church of Christ: Local Church Autonomy</h2>
+
+      <p>As we scroll through the pages of the New Testament and look upon the pattern of worship and church organization, we see something different than what the world is used to. Most every organization has a headquarters or legislative body somewhere on earth. However that is one thing that is missing in the pages of the New Testament.</p>
+
+      <p>The Lordship of Jesus Christ is without question, and we see that Christ rules from His Throne at the right hand of God in Heaven. The authority that Christ has (<span class="scripture-ref">Matthew 28:18, Ephesians 1:21-23</span>) is found written in His holy word. Even Christ taught that His words would judge us (<span class="scripture-ref">John 12:48</span>) and by extension, the words of the apostles would judge us (<span class="scripture-ref">John 14-17</span>). Therefore, the examples and pattern that is given to us in the scriptures is sure and steadfast, and we know without doubt, that if we follow the pattern that was done in the days of the apostles that had the divine guidance, we are following a good thing approved by God, and within His authority (<span class="scripture-ref">Colossians 3:17</span>).</p>
+
+      <p>As we view each local congregation or assembly of saints, we see that no two cooperated in concert, yet we see all working in concert with the revealed truths. We see the churches following divine guidance in their work in each place. Much can be learned by reading the letters to the various churches, and of course what is not said of the churches is very important as well. This is how we establish authority.</p>
+
+      <p>If you look carefully, the relationship each congregation had with an outside entity almost always viewed their individual relationship within Christ Jesus. Very few passages of scripture are instances of one church dealing with another. <span class="scripture-ref">Acts 11</span> gives us a glimpse that brethren in one place helped brethren in another place. <span class="scripture-ref">Acts 15</span> gives us the same message, but notice that it is the brethren dealing with each other and not the churches. In <span class="scripture-ref">2 Corinthians 11:8</span>, we see Paul talking of other churches supporting him while he was at Corinth. Philippi was one of those churches.</p>
+
+      <p>Many churches were instrumental in sending out the gospel message and the result was that many other churches were planted. That was the extent of the relationship that one had with another. If there were any rules to be laid down by anyone, it was the message of the apostles doctrine and that was the message of Christ. No New Testament church is seen to be a sponsor of another, and no church exercised oversight of another.</p>
+
+      <p>Our King and Lord is Jesus Christ, and it is Divinity that must be considered when we make our decisions. But all too often, we make our decisions based upon what others would think. Remember the two articles on "Conforming To Conformity" we had during this series? That is one of our problems. We often become more concerned by what other brethren will think than what God and Jesus have taught us. Thus we fail to fulfill our full potential as a body of Christians.</p>
+
+      <p>We in the conservative churches of Christ have often been accused of being tradition bound. That is not necessarily a negative thing, but sometimes it can be. Each eldership of each congregation and each group of men at non-eldership churches need to make decisions independent of other churches and independent of what they think others will perceive. As long as we make decisions based upon the thoughts of other churches, or what we think they might think, we have not achieved full autonomy. Only when Christ is our leader and guide, and our decisions are in consideration of Him only, will we be right. Seek the approval of Christ and not men.</p>
+
+      <p>Keep studying God's word.</p>
+
+      <p class="article-author">Carey Scott, 7926 Mosewood, Houston, TX 77040</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Sermon Preparation</span>
+      <h2>Preparing Sermons</h2>
+
+      <p>Last month we talked about filing cabinets and looked at the mechanics of saving and filing materials for future use. We can search through a treasure of thoughts, outlines, articles, etc. that others have left for our use, and we can fashion them into scriptural sermon outlines. Then we said that this month we will talk about filing the finished outlines, and will then endeavor to make a good outline.</p>
+
+      <p><strong>First, filing the outlines.</strong> You may know a better way, but here is my way. For each outline I place a 9 x 12 white envelope in the typewriter, and in the upper left corner I type the title of the sermon and the text. I then move down a few spaces and a couple of inches to the right, and type a copy of the chart(s) used in the sermon. In the upper right corner I type the letter and number showing where the outline is filed.</p>
+
+      <p>For example, if I have a sermon on "Rejoice" it will be filed under the letter "R." If the text is <span class="scripture-ref">Phil. 4:4</span>, then it could be filed under the letter "P." I make that decision, then place a number to show the location under the letter. If I choose "R" and there are already ten "R" titles in the file, this one will be "R-11." Computer files are grouped into "Sermon 1," "Sermon 2," etc., with about fifty outlines in each group. So, on the envelope I show which computer sermon group contains this outline.</p>
+
+      <p>The white envelopes are filed alphabetically and numerically in plastic file boxes, each of which will hold about seventy or eighty envelopes. My helper (my dear wife Lois) maintains a data base in her computer, and also a hard copy of the data base. I can ask her, "Do I have a sermon about burdens?" In a few seconds she answers, "Yes, if you want to see it in the computer, go to Sermon 12 and click on Burdens.592. If you want the hard copy, it is filed under B at number 12." That sure is a lot easier than scrounging around through a big box of papers! The computer code "Burdens.592" tells me that I finished and used that outline in May, 1992. In the last ten years I probably have read one or more good articles on the subject or on the text (<span class="scripture-ref">Gal. 6:2-5</span>), clipped them out and dropped them in that envelope B-12. Now I can take the old outline and revise it, adding in good thoughts I had missed before.</p>
+
+      <p>A couple of paragraphs back I mentioned charts. The rules here may be considerably more flexible than the rules for outlines. Every man has his own personality and abilities. Some, like Oliver Murray, are masters at using colored inks and making page after page of large paper charts. Then there are men like Ardie Brown who can fill a chalkboard while he preaches, then erase all of it, and fill it again. Those of us who are not artistic, and who cannot write and talk at the same time, may choose a less complex way to give the audience a visual aid. I make an overhead transparency for every sermon. At the top it has a short title or the text. Then it has one word for each major point, with a few words for the sub-points. The letters are large enough to be read by the audience, and the chart is no more than eight lines. I print them with a black background and use white and colored letters. As I speak I reveal the chart one line at a time or one word at a time as I move through the outline. Most audiences seem to appreciate being able to see the entire lesson "in a nutshell."</p>
+
+      <p>Well, we did not get to the making of an outline, but November is coming if the Lord wills, so will try to do more then.</p>
+
+      <div class="highlight-box">
+        <p><strong>Sample Sermon on Burdens (<span class="scripture-ref">Gal. 6:2-5</span>):</strong></p>
+        <p><strong>Point 1:</strong> The Personal Burden of Self-Responsibility - <span class="scripture-ref">Gal. 6:5</span>. Verse 2 is a heavy load that places a demand on one's resources, whereas Verse 5 is personal duty that cannot be transferred.</p>
+        <p><strong>Point 2:</strong> The Mutual Burdens of Brotherly Assistance - <span class="scripture-ref">Gal 6:2</span>. The context is spiritual and mental burdens. We help those who are under a great weight of guilt and sorrow to turn to Christ Who can lift the burden by forgiveness, and then by giving spiritual strength. There also may be burdens of material need; here we can help.</p>
+        <p><strong>Point 3:</strong> Burdens Beyond Our Ability That Require Divine Assistance - <span class="scripture-ref">Psalm 55:22</span>. The Father may take away the burdens, or He will help us bear them.</p>
+        <p><strong>Conclusion:</strong> Each will be judged personally, but there are many areas in which we can help and encourage each other.</p>
+      </div>
+
+      <p class="article-author">Derrel Shaw, 5927 Spruce Forest, Houston, TX 77092</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">New Age Series</span>
+      <h2>The New Age Movement - Part 1</h2>
+
+      <p>In <span class="scripture-ref">Genesis chapter 11</span>, we find an early attempt by man to build a society without God. Such is futile since the "way is not in man that walketh to direct his steps" (<span class="scripture-ref">Jer. 10:23</span>). Man did not learn his lessons at Babel, however, and has since devised many schemes through the ages in attempt to ascend to the heavens without God.</p>
+
+      <p>One such vain effort has gained much public notoriety from such public figures as John Denver, Shirley McClain, Ted Turner and others. It is a networking of some 1,500 isolated groups that are merging into a movement for another America (and then the world) without God. Adherents are currently in influential places throughout our society helping in its promotion. Though known by many names, commonly this movement is referred to as the New Age Movement.</p>
+
+      <p>Bookstores are filled with New Age books ranging from <em>The Celestine Prophecies</em> to Shirley McClain's <em>Out On A Limb</em> and <em>Dancing in the Light</em>, as everyone now seems to have suddenly become "prophets" (or is that spelled profits?) for the spirits. A new genre of music has been born as a result, New Age Music. It began simply as music to meditate by. New Age philosophy is being taught in businesses and corporations in sales techniques under the guise of the power of positive thinking. Obviously then, this is a multi-million dollar industry. Fascinating considering a basic tenet is the rejection of greed and worldliness.</p>
+
+      <p><strong>What is the "New Age"?</strong> The New Age was sung about with anticipation in the Fifth Dimension's song, "Dawning of the Age of Aquarius." This age was supposedly ushered in on August 16, 1987 when certain planets and stars were said to have aligned in such a way as to allow spirits in the far most reaches of the galaxy to "channel" their thoughts to earth and specifically to certain humans who were cosmically in tuned. In reality, the alignment did not occur in quite the way claimed and such an alignment has occurred many times throughout history.</p>
+
+      <p>It is claimed that the Mayan calendar foretold that the god of peace, Quotxicotal, would begin reigning when the alignment occurred. Over 100,000 people gathered in Washington and Oregon on this date for a "Cosmic Convergence" to usher in this period. Followers believe that this god (and all spirits) must now reign, and are seeking a one-world society for the spirits to reign over. Many of the older humanistic values are being merged into this movement as humanist societies have long called for the destruction of individualism and patriotism.</p>
+
+      <p><strong>Who are the "New Agers"?</strong> 5-10% of the American population are claimed to be hard core New Agers. Much of their philosophy is simply a revitalization of the old hippie movement. The truth is, the hippies never went away, they went in... into the mainstream of society. Now that they are business executives, their far-out message seems to carry more clout than it did when it was presented in love beads and tie-dyed jeans.</p>
+
+      <p>They are typically the leaders of various save-the-earth movements. Many of them are simply old line humanists who have grown weary of the beliefs of no god at all, seeing that "God has put eternity in their hearts" <span class="scripture-ref">Eccl. 3:11</span>. Many were members of religious groups who had already espoused a universal ecumenism and see this as being a means to that end. The World Council of Churches, Unitarian Universalists, the Church of Scientology, Christian Science, and Masonry help to make up the religious sector of this movement. In fact, one Masonic paper is called <em>The New Age</em> and discusses how Masons are the core of the New Age and that Masonic Temples will be the disseminators of truth in the New Age.</p>
+
+      <p>Some members are of the "jet set" and want to be in on the latest fads and trends. Thus we find Hollywood to be a hotbed for this sort, explaining why so many movies and even cartoons have a New Age message.</p>
+
+      <p class="article-author">Wayne Goforth, 248 Merchant St, Abilene, TX 79603</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Premillennialism Series</span>
+      <h2>Premillennialism: The Antichrist</h2>
+
+      <p>Briefly stated, with Dispensationalists the antichrist is one of the most, if not the most, important figures of the Tribulation. It is claimed that he comes to power during the time of the Revived Roman Empire. He seems to be a man of benevolence, meekness and peace. He makes a covenant with the Jews, guaranteeing them peace and security. Half way through the 7-year period he breaks the covenant and orders sacrifices and offerings to cease at the temple. He then will inflict unparalleled persecution. It has been said that the horror he brings will result in the destruction of approximately 2/3 of the Jewish populace.</p>
+
+      <p>At the end of the 7-year period (of the rapture and the Great Tribulation) Christ comes and delivers the Jews from the antichrist. Can such a sequence of events be found in the Bible? It may come as a surprise to you to learn that such a sequence of events is not found in the Bible. The fact is, the word antichrist (singular) or antichrists (plural) is found in 5 and only 5 passages of scripture and in none of these is any mention that may be remotely kin to this scenario.</p>
+
+      <p>These 5 passages are: <span class="scripture-ref">1 Jhn 2:18</span> (twice); <span class="scripture-ref">2:22; 4:3; 2 Jhn 7</span>. Here are the texts:</p>
+
+      <blockquote>"Little children, it is the last hour: and as ye heard that antichrist cometh, even now have there arisen many antichrists; whereby we know that it is the last hour." (<span class="scripture-ref">1 Jhn 2:18</span>)</blockquote>
+
+      <blockquote>"Who is the liar but he that denieth that Jesus is the Christ? This is the antichrist, even he that denieth the Father and the Son." (<span class="scripture-ref">1 Jhn 2:22</span>)</blockquote>
+
+      <blockquote>"...and every spirit that confesses not Jesus is not of God: and this is the spirit of the antichrist, whereof ye have heard that it cometh; and now it is in the world already." (<span class="scripture-ref">1 Jhn 4:3</span>)</blockquote>
+
+      <blockquote>"For many deceivers have gone forth into the world, even they that confess not that Jesus Christ cometh in the flesh. This is the deceiver and the antichrist." (<span class="scripture-ref">2 Jhn 7</span>)</blockquote>
+
+      <p>Please notice that the word 'antichrists' is plural in one passage. According to the Biblical texts the antichrist was not just one specific individual who would be a wicked world ruler, etc. Rather, the text says there were many antichrists but instead of a world ruler he would be one who was in error on the nature, humanity, and deity of Jesus.</p>
+
+      <p>As has already been noted, the Bible does not teach that the church will be raptured and gone from the earth for 7 years. The Bible teaches that the Great Tribulation of Jerusalem and the temple as in <span class="scripture-ref">Matt. 24</span> occurred in AD70. It was fulfilled in the first century and is not something yet in the future.</p>
+
+      <p>No where does the Bible teach that the Roman Empire would be restored. Much less does it teach that the antichrist would be its head and a world power.</p>
+
+      <p>By connecting some scriptures with others which do not deal with the same subject, one can come up with many exciting but erroneous doctrines. But if we confine ourselves to the inspired Word of God it will be seen that "today's antichrist" is not in the Bible.</p>
+
+      <p class="article-author">Hiram Hutto, 211 Crutcher Circle, Athens, AL 35611</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Membership Series</span>
+      <h2>Reasons For Being A Member of The Church of Christ: Eternal Life</h2>
+
+      <blockquote>"For God so loved the world, that He gave His only begotten Son, that whoever believes in Him should not perish, but have eternal life. For God did not send the Son into the world to judge the world, but that the world should be saved through Him." <span class="scripture-ref">John 3:16,17</span></blockquote>
+
+      <p>There is no subject more vital than the one we have chosen for this article. The meaning and purpose of our existence depends on a basic understanding of the terms "life" and "death". To fail at this point is to be in confusion on the vital issues of life.</p>
+
+      <p>Does "life" mean mere physical life? If life means no more than existence, then it necessarily follows that when our earthly existence ends, life will end. This belief destroys any hope of a future life; an eternal life after death. The great promises of the Bible would be pointless, and moral restraints to hold man's carnal nature in check would be lost. Materialism could then hold complete control over the hearts of men; violence and greed could rule the day.</p>
+
+      <p>The Bible is the only source of information that can explain our origin, our destiny, and the great purpose behind our present existence. It reveals man as he is, man as he originally was, and man as he has the power to become. Does life mean merely to exist, and does death mean cease to exist? Friends, upon these definitions hangs the hope of mankind.</p>
+
+      <p>It is possible for one to be spiritually dead while still in a state of conscious existence (physically alive). In speaking of a selfish widow, Paul said: "But she who gives herself to wanton pleasure is dead even while she lives" (<span class="scripture-ref">1 Tim 5:6</span>). There can be but one meaning to this. The one who thinks first of fleshly satisfaction is physically alive but spiritually dead. The church at Ephesus was reminded of the time when they were in such a condition: "And you were dead in your trespasses and sins, in which you formally walked according to the course of this world," (<span class="scripture-ref">Eph 2:1,2</span>). Through their obedient faith they were made alive in Christ. Thus eternal life can only be found in Him. Our Lord gave us this assurance in <span class="scripture-ref">John 5:24</span> saying: "Truly, truly, I say to you, he who hears My word, and believes Him who sent Me, has eternal life, and does not come into judgment, but has passed out of death into life."</p>
+
+      <p>Man was created higher than the animals with both body and soul & spirit (<span class="scripture-ref">Heb 4:12; 1 Thess 5:23; Matt 10:28</span>). At death, the physical body returns to dust (<span class="scripture-ref">Gen 3:19</span>). The soul and spirit of man however is eternal (<span class="scripture-ref">Matt 10:28</span>). After death, then comes the judgment (<span class="scripture-ref">Heb 9:27</span>). For the unrighteous, eternal fire (<span class="scripture-ref">Matt 25:41</span>). For the righteous, eternal life (<span class="scripture-ref">Matt 25:46</span>).</p>
+
+      <p>Friend, spiritual life means that state in which our spirit is united with God's Spirit through an obedient faith. This union takes place when we come to the Lord, confessing our faith in Him, repenting of our sins, and allowing ourselves to be buried in the act of baptism (<span class="scripture-ref">Rom 6:2-23</span>). It is in this act of being buried in water that we completely submit ourselves to Christ, taking on His characteristics (<span class="scripture-ref">Gal 3:27</span>). It is from this watery grave that we arise, "to walk in newness of life" (<span class="scripture-ref">Rom 6:4</span>). Newness of life means the beginning of life. We are a new creature (<span class="scripture-ref">2 Cor 5:17</span>). Beginning at this point, we start living spiritually. We were not alive before, but now God directs our life and we become sons of God. We are Christians and are added to those being saved, the Lord's church (<span class="scripture-ref">Acts 2:47</span>). We are fit to inherit the blessings of eternal life with God.</p>
+
+      <p class="article-author">Ray Wilson, 4203 NE Stallings Drive #302, Nacogdoches, TX 75965</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Editorial</span>
+      <h2>All Are Under Christ's Law!</h2>
+
+      <blockquote>"He that rejecteth me, and receiveth not my words, hath one that judgeth him: the word that I have spoken, the same shall judge him in the last day." <span class="scripture-ref">Jhn 12:48</span></blockquote>
+
+      <p>The above verse makes very clear how we are to prepare ourselves for judgment. There is only one judge and He has given us the law we must follow. Notice also that there are none that are excluded by the language used by the Judge of all mankind.</p>
+
+      <p>The word of Jesus will judge all the earth. Those who reject Him are not excluded from His judgment. All men, whether or not they have ever read a word of Jesus' teachings will be judged by that very same teaching. It is our responsibility to spread that word to all nations. The Great Commission is still in effect and each of us has the responsibility of participating in the spreading of the Gospel of our Saviour.</p>
+
+      <blockquote>"Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost: Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you alway, even unto the end of the world. Amen." <span class="scripture-ref">Matthew 28:19-20</span></blockquote>
+
+      <blockquote>"Blessed is the man that walketh not in the counsel of the ungodly, nor standeth in the way of sinners, nor sitteth in the seat of the scornful. But his delight is in the law of the Lord; and in his law doth he meditate day and night." <span class="scripture-ref">Psalm 1:1-2</span></blockquote>
+    </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published October 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

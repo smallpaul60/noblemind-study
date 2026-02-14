@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - June 2001</title>
+  <meta name="description" content="The Strait Way newsletter, June 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06" selected>June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#church-origins">Jehovah's Witnesses</a>
+        <a href="#authority">Bible Authority</a>
+        <a href="#church-history">Church History</a>
+        <a href="#genesis">Genesis</a>
+        <a href="#trends">Trends</a>
+        <a href="#capital-punishment">Capital Punishment</a>
+        <a href="#where-was-god">Where Was God?</a>
+        <a href="#first-john">First John</a>
+      </nav>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Jehovah's Witnesses</h2>
+        <p>"Jehovah's Witnesses," as they style themselves, have in the past been known as "Millennial Dawnists," "International Bible Students," and, contrary to their own wishes but in accord with the facts, "Russellites," after their founder, C. T. Russell.</p>
+        <p>Charles Taze Russell was born February 16, 1852 and died October 31, 1916. He was colorful, controversial, zealous, shrewd and unscrupulous. The Russell of Witness literature today is a far cry from the Russell of history. Such facts as these are engraved upon the pages of authentic history: A. Charles Taze Russell founded a religious cult and used it as a money-making scheme. B. The money that flowed in through the societies he organized was under the control of a holding company in which Russell held 99 percent of the capital. C. He fraudulently advertised and sold wheat at $1.00 a pound which he labeled "miracle wheat," but which was actually low in quality according to government tests. D. He made a trip around the world in 1912 and sent back for newspaper publication glowing reports about speeches that were never delivered to audiences that never assembled. E. While under oath he repeatedly perjured himself in more than one libel suit which he himself had initiated. F. He was, according to his own admission, guilty of immorality. In court he said: "I am like a jelly fish; I float around here and there; I touch this one and that one, and if she responds, I take her to me, and if not, I float to others." In spite of his character, hundreds of thousands of zealous and sincere persons have entrusted their eternal destinies to the doctrines he taught.</p>
+        <p>At the age of 18 Russell organized a Bible class which elected him their "Pastor" when he was 24. In 1879 he founded the paper "Zion's Watch Tower." In 1881 he organized "The Watch Tower Bible and Tract Society" at Pittsburg, Pennsylvania. Russell authored six books under the title "Studies in the Scripture"; the first was printed in 1886 and the last in 1904. A seventh volume was added in 1917, a year after Russell's death. In 1908 headquarters of the movement were set up in Brooklyn, N.Y. It was not until 1931 that the name "Jehovah's Witnesses" was adopted. "Pastor" Russell was the first "President" of the religious organization he founded. He was succeeded by "Judge" J. F. Rutherford, who did much to embellish and strengthen the organization. In 1942 at Rutherford's death Nathan H. Knorr took the helm.</p>
+        <p>"Russellism is a mixture of Universalism, Unitarianism, Adventism and Materialism." Charles Russell and his followers deny that the Father, the Son and the Holy Spirit are three beings composing the Godhead, that Jesus was divine (they make him "A God" rather that "God" - <span class="scripture-ref">John 1:1</span>), that the body of Jesus was raised from the tomb, that punishment is everlasting, that the wicked will be raised, that the soul is immortal, that hell is an eternal reality, that salvation is extended to all the lost and that Jesus died as an atonement for all mankind. Russell taught that Christ and His apostles came to earth in October of 1874 and have been here (invisible, of course) since. He taught that the consummation of the ages and the rule of Christ would come and did come in 1914. According to Rutherford in 1918 Jesus "came to the temple of Jehovah." They are again predicting, as they have so many times in the past, the end of all human organizations, civil and religious-this time in 1975. But if 1975 comes and goes with an obvious failure of their prophecies, they will find some way to patch it up as they have in the past. <span class="editor-note">[It is obvious that 1975 passed without the prophecy being fulfilled. Only God knows the future (<span class="scripture-ref">Isaiah 46:10</span>). gm]</span></p>
+        <p>I close with the quotation of Russell's blasphemous statement concerning the Bible and his own "Studies in the Scriptures":</p>
+        <p>"If the six volumes of 'Scripture Studies' are practically the Bible, topically arranged with Bible proof texts given, we might not improperly name the volumes 'The Bible in an arranged form.' That is to say, They are not mere comments on the Bible, but they are practically the Bible itself. Furthermore, not only do we find that people cannot see the divine plan in studying the Bible by itself, but we see, also, that if anyone lays the 'Scripture Studies' aside, even after he has used them, after he has become familiar with them, after he has read them for ten years-if he lays them aside and ignores them and goes to the Bible alone, though he has understood the Bible for ten years, our experience shows that within two years he goes into darkness. On the other hand, if he had merely read the 'Scripture Studies' with their references and had not read a page of the Bible as such, he would have the light of the Scriptures." From "The Watchtower," September 15, 1910, page 298.</p>
+        <p>"Jehovah's Witnesses" are a human organization with a human founder and human doctrines.</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <article class="article" id="authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>Expediency</h2>
+        <p>In previous articles on authority we have had a few thoughts concerning expedients. The word expedient is found 7 times in the New Testament. Caiaphas, the high priest, told those of the council that it was expedient that one die for the nation. He said this concerning our Savior's death <span class="scripture-ref">Jn. 11:50-51</span> and <span class="scripture-ref">Jn. 18:14</span>. Jesus said it was expedient for him to go that the Holy Spirit might come to the apostles <span class="scripture-ref">Jn 16:7</span>. The apostle used the word four times when writing the Corinthians. He said "all things are lawful unto me but all things are not expedient" <span class="scripture-ref">1 Cor. 6:12</span> and <span class="scripture-ref">1 Cor. 10:23</span>. When he wrote the Corinthians the second time he used the word again <span class="scripture-ref">2 Cor. 8:10</span> and <span class="scripture-ref">2 Cor. 12:1</span>.</p>
+        <p>The Greek word translated expedient is the word (soom-fer'-o) and is defined in the Greek N.T. as to be better for, to bring together, to profit withal, to be profitable. This word is not only translated expedient as in the afore mentioned 7 passages but is translated differently in other passages such as "profitable" in <span class="scripture-ref">Matt. 5:29</span> and <span class="scripture-ref">Acts 20:20</span>. Webster's dictionary defines expedient as "useful for effecting a desired result, suited to the circumstances".</p>
+        <p>With these thoughts before us let me say that I fear most of my brethren do not at all understand expedients or expediency. Most seem to think that all things are expedient if the means accomplish their desired end. This is a false idea. The apostle qualifies that which can be expedient in the religion of Christ. He writes <span class="scripture-ref">"all things are lawful for me but all things are not expedient; all things are lawful for me but all things edify not" 1 Cor. 10:23</span>. This passage plainly teaches that in order for anything to be expedient it must first be lawful (authorized). A thing may be authorized and still not be expedient for an expedient must also edify.</p>
+        <p>Some self-willed persons who call themselves brethren "ramrod" their unauthorized programs and ways over other God fearing brethren by saying such things are expedient (ie their idea that the end justifies the means). These things must not violate a specific or generic that is authorized by a command, approved example or necessary inference from the word of God. Even if these things are authorized but cause division or strife among faithful people they simply cannot be done under the realm of expediency. And (by the way, not self-willed is a quality of elders <span class="scripture-ref">Titus 1:6</span>). All faithful people must love one another (a command of the Savior <span class="scripture-ref">Jn 13:34</span>) and <span class="scripture-ref">"let nothing be done through strife or vainglory; but in lowliness of mind let each esteem other better than themselves" Phil. 2:3</span>. These commands of concern for other faithful people are no less important than any other of the commands of the N.T. and they are the things that qualify authorized expedients. The ego's of self-willed persons do not authorize anything in the kingdom of God.</p>
+        <p>Examples of expediency can be found in the authorized command to lay by in store on the 1st day of the week <span class="scripture-ref">1 Cor. 16:2</span>. In order to separate this from the Lord's Supper some brethren make a statement "separate and apart from the Lord's Supper, we will now lay by in store as God commanded us". Others separate the time entirely to prevent any cause for confusion by having their giving service after the preaching service and the Lord's Supper before the preaching. Still other brethren who do not want non-Christian visitors to feel compelled to give make some sort of an announcement concerning this. Other brethren just give as they come or go to the worship by placing their contribution into a container somewhere in the building. Why would anyone criticize, be-little or ridicule in any manner any of these expedients on laying by in store? All are authorized expedients if they do not tear down but edify the church in any locality and promote unity among the brethren.</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>"Preach the Gospel to Every Creature"</h2>
+        <p><span class="scripture-ref">"And he said unto them, Go ye into all the world, and preach the gospel to every creature" (Mark 16:15)</span>. You know, this was a tall order for the apostles to carry out. Have you ever wondered how they actually did this? Of course, the New Testament confirms they did in <span class="scripture-ref">Colossians 1:23</span>, "...the gospel, which ye have heard, and which was preached to every creature which is under heaven." We can only conclude from this, that from the time Jesus spoke the words of the Great Commission in the mid-thirties AD, to about 66-67AD when Paul wrote the letter to the Colossians, a span of time of just over thirty years transpired. Could it really be possible that in this period of time or less, that mere men in primitive times with no knowledge of the extent of the actual size of the world had traversed the entire globe? Some have sought to explain that this could not be, but must have meant "in the known world" or the world which was dominated by the Roman Empire of the 1st Century AD. Let us stop for a moment and reason this out to see if it is such an impossibility or a stretch of reality for this to have been done as the Lord required of His apostles.</p>
+        <p>Remember that the continents of Europe, Africa, and Asia are all connected to the Middle East, and that travel was constant between these great land masses that constitute the majority of the "terra firma" of our planet. We know that disciplined Roman soldiers commonly marched in great numbers at the rate of thirty miles per day. It has been suggested that in music, "four-four" time is the same rate at which these soldiers marched, covering a ground eating, one mile every fifteen minutes or four miles per hour. The farthest regions of Europe could be reached by these soldiers on foot in only weeks at such rates of travel. They marched to war and maintained the unity and peace of the "pax romana" in this way. So, we can conclude that highly motivated servants of the Lord could travel like this, too, though no doubt, with great hardships involved, to achieve this great goal in the allotted time. But what about the New World, the island continent of Australia, and all the other nearly countless islands of the seas? How could these have been reached in such primitive times to make <span class="scripture-ref">Colossians 1:23</span> be true?</p>
+        <p>In recent years it has been documented, and evidence unearthed that the ancients far back before the time of the apostles, thousands of years in fact, had ocean-going craft, which were apparently capable of reaching any shore on earth. In 1968, at Hull, England, a long, low style of boat, a pre-cursor to the Viking ships, was dug up from ancient river mud to reveal that it was about 4,500 years old. Thor Heyerdahl's many transoceanic journeys utilizing ancient styles of sea craft proved, for the most part, it was at least possible for people to travel from one continent to another across vast stretches of ocean to people Micronesia, Australia, and the whole Pacific rim. Artifacts found in the U.S., like Roman coins found in Indian burial mounds and stone structures not made by Indians but made with seeming European skills in stone masonry, and so like many found in Europe of very old origins, would tend to make a fairly substantial case that our shores were not just visited, but could have even been settled from distant diverse places. The book, "The Farfarers," documents the travels of ancient Europeans, particularly Basques and Celts, to New Foundland and Labrador, and depicts a large stone cross and stone foundations which could be close to 1,900 years old and legends told by Norse sailors about "Christian-like" people living in that part of the New World long ago.</p>
+        <p>The value of such information helps in corroborating for us that <span class="scripture-ref">Colossians 1:23</span> tells us something that should not be too hard to believe. Yes, "every creature" was able to hear the word of God within thirty years or so of the Day of Pentecost in <span class="scripture-ref">Acts 2</span>. The Great Commission was fulfilled just as Paul says. In most cases the actual efforts of these traveling gospel preachers is unknown but to the Lord. They would have been of the same dedication that the writer of Hebrews said, "Of whom the world was not worthy."</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Key To Understanding God's Word</h2>
+        <p>The Bible, with all of its revealed truths, hidden treasures and wonderful teachings begins with, <span class="scripture-ref">"In the beginning God created the heavens and the earth" (Gen. 1:1)</span>. Every truth and miracle found within its pages is contingent upon and cemented into this fact. If Jehovah is not the creator, then his creation is not bound to serve and honor him; if God is not creator and sustainer of life as Genesis teaches, then why believe in Jesus' person or work as found in the New Testament? Why is worshipping the Father, the Son, and the Holy Spirit important to you, dear reader? Would it be important if Jesus was not creator? Why are Jesus' words important to you? Would you embrace them with unwavering love if Jesus was not creator? What emboldened the disciples to be willing to suffer all for the cause of Christ? When they saw Jesus, who did they see? Did they see a good man, a good teacher or prophet? Indeed Jesus was such, but more. Rather, they beheld, <span class="scripture-ref">"...His glory, the glory as of the only begotten of the Father, full of grace and truth" (Jn. 1:14)</span>. They sat at the feet of the "Word" who "was with God" and who "was God" <span class="scripture-ref">(Jn. 1:1)</span>. They beheld the one whom, <span class="scripture-ref">"all things were made through..." (Jn. 1:3)</span>. Not only does John begin his gospel with a creation foundation, but he begins 1 John stating, <span class="scripture-ref">"That which was from the beginning, which we have heard, which we have seen with our eyes, which we have looked upon, and our hands have handled, concerning the Word of life" (1 Jn. 1:1)</span>. Thus, transgressing the doctrine of Christ is so repulsive to lovers of truth because such a step results in the termination of LIFE (cf. <span class="scripture-ref">2 Jn. 9-11</span>).</p>
+        <p>Notice what the "Word of Life" taught to his peers, <span class="scripture-ref">"For if you believed Moses, you would believe Me; for he wrote about Me. But if you do not believe his writings, how will you believe My words?" (Jn. 5:46, 47)</span>. Jesus' argumentation is clear and forceful: "If you believed Moses, you would believe Me." Why would they believe Jesus? Because Moses wrote about him! From the above passage we can see that believing in Moses is believing in his writings. If we reject the former, we shall also reject the latter. Ferrell Jenkins in his February 2000 lecture on the "The 'Days' of Genesis 1" asks, "Is there a place [in congregations of Christ, sjw] for two who strongly believe in creation but who hold differing views on the days of Genesis?" (transcript p. 8, par. 1). Perhaps the same place would be for two who strongly believe in creation but hold differing views regarding theistic evolution? Theistic evolutionists do not deny creation; they think that God created by evolutionary processes! We shall ask, "Is there a place in congregations of Christ for one who resists Moses' words?" Paul answers as Jesus did, <span class="scripture-ref">"Now as Jannes and Jambres resisted Moses, so do these also resist the truth: men of corrupt minds disapproved concerning the faith" (2 Tim. 3:8)</span>. Can you see how our approach to Moses' words reflects our approach to Jesus'? Lest the reader confuse the above with keeping Moses' law, realize that:</p>
+        <p>We are under Christ's law today, not the law of Moses (<span class="scripture-ref">Gal. 6:2, 3:25; Eph. 2:14ff; Col. 2:14</span>; etc.).</p>
+        <p>The debate in the first-century was not over whether Moses' words were trustworthy. His writings were not reduced to mere symbolism. Christians did not seek to know what Moses "meant" apart from what he "said." Rather, the Old Testament scriptures were accepted and respected as God breathed!</p>
+        <p>We are saved by grace through faith (<span class="scripture-ref">Acts 15:9-11; Eph. 2:8</span>). However, being saved through faith doesn't allow one to reject the Old Testament nor endorse evolution, theistic evolution or progressive creation. To Timothy, Paul penned, <span class="scripture-ref">"and that from childhood you have known the Holy Scriptures which are able to make you wise for salvation through faith which is in Christ Jesus. All Scripture is given by inspiration of God and is profitable for doctrine..." (2 Tim. 3:15, 16)</span>. What were the Holy Scriptures that Timothy knew from childhood? It wasn't "1 & 2 Timothy" but the Old Testament. What did these scriptures do? They made him wise for salvation through faith. Indeed, they are a key to understanding all of God's word.</p>
+        <p class="author-signature">Steven J. Wallace<br>313 Merrick Ave., Sunnyside, WA 98944</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Weakness</h2>
+        <p>In our last installment, we addressed the problem of liberalism from an historical perspective with particular emphasis on the institutional movement during the 40's and 50's era. In this issue, we want to address the problem of weakness which characterizes many churches today. God being my helper, I will try to be objective in arriving at the conclusions, and this by applying the law of rationality; which says, "all conclusions must be based upon adequate evidence."</p>
+        <p>Lets begin by seeking to establish the reason or reasons for said weaknesses. Brethren, doesn't it begin at the top; especially with the kind of preaching which is being done today? Preaching today may be true in what is declared, but much of it is weak and many times "watered down." The kind of preaching declared from many pulpits among "us" could be favorably received in many denominational churches. Preaching today doesn't have the old familiar ring that it once had, and many times the focus is on what the preacher believes, and not on New Testament objectivity. A real danger, too, is preacheritis, and the preacher "scratching the itching ears" of those "who love to have it so." Our Lord said, "...preach the word..." and this doesn't mean preach what I believe about it. Something else which comes into play here is "it is not what we know, but how we feel about it." We need to remember what the apostle said in <span class="scripture-ref">2 Tim. 4:1-8</span>. (Please read these passages) He said that preaching the word involved reproving, rebuking and exhorting, and this with all longsuffering and teaching.</p>
+        <p>Preaching today is not producing the same results that were produced in New Testament days. Those in sin are not made to feel any remorse about their condition. This is quite a contrast to the results of New Testament preaching. In that experience, men could feel the force of the message, and many were moved to obedience to God's word. On Pentecost (<span class="scripture-ref">Acts 2</span>) the apostle Peter "pulled no punches" in pointing out to the Jews on that occasion that they were guilty of crucifying the Son of God, and that with wicked hands. They were pricked (to stab, pierce thoroughly-Young) in their hearts. (<span class="scripture-ref">Acts 2:37</span>) How can men repent and change their lives if the word preached does not touch their hearts in this way?</p>
+        <p>We are told that Felix, the governor, trembled (was terrified-ASV) at the preaching of Paul. (<span class="scripture-ref">Acts 24:25</span>) But the tendency today is to soften the message, and make it acceptable to everyone, and to fit Christ into the mold of man's thinking, rather than fitting man into the mold of Christ's thinking. This philosophy has led to the emergence of the Community Church. It is the result of soft and weak preaching which produces soft and weak churches. God admonishes, and we need to get this, <span class="scripture-ref">"be ye steadfast, unmovable always abounding in the work of the Lord, forasmuch as ye know that your labor is not in vain in the Lord." (1 Cor. 15:58)</span></p>
+        <p>Another problem among conservative churches in many places is the lack of discipline. Sin is prevalent in the body of Christ, and nothing is done about it. This is sin! I have observed relatives and family members oppose the scriptural efforts to rescue a lost soul through God's disciplinary plan. When men are undisciplined, they walk in their own way, and thus live in sin. We all know that sin will destroy the church of our Lord, and when brethren decide not to deal with it in a scriptural way, they are just as guilty as those who first engaged. Sin is destructive. Sin is a sovereign, and will control the lives of those who live in it. This is why the apostle admonished, <span class="scripture-ref">"let not sin therefore reign in your mortal body, that ye should obey the lusts thereof:..." (Romans 6:12)</span> And he said in verse 14, "for sin shall not have dominion over you." Brethren, in light of all this, do you not see the need of strong, reproving, rebuking and exhorting kind of preaching? Yes, indeed, we must get back to this kind if the church is to be saved.</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="capital-punishment">
+        <span class="article-category">Editorial</span>
+        <h2>Capital Punishment (2)</h2>
+        <p>Consider some objections to capital punishment. (1) The Bible says "Thou shalt not kill" (<span class="scripture-ref">Exodus 20:13</span>). That statement is interpreted by Christ, <span class="scripture-ref">"...Thou shalt do no murder..." (Matthew 19:18)</span>. So Moses was not telling the Jews not to kill, but not to murder. (2) Someone says, Paul killed. Yes, before his conversion he murdered men. <span class="scripture-ref">"I verily thought with myself, that I ought to do many things contrary to the name of Jesus of Nazareth. Which thing I also did in Jerusalem: and many of the saints did I shut up in prison, having received authority from the chief priests; and when they were put to death, I gave my voice against them" (Acts 26:10)</span>. But, he acknowledged this as sinful (<span class="scripture-ref">1 Timothy 1:13-16; Acts 22:19,20</span>). (3) An innocent person might be put to death. Yes, that has happened. In <span class="scripture-ref">1 Kings 21</span>, Jezebel had Naboth put to death upon the basis of false witnesses, but God did not do away with capital punishment. Innocent people are killed in the use of automobiles, motorcycles, air planes, sports activities, and judicial systems, but should society do away with them? (4) It is an act of hate. <span class="scripture-ref">"But if any man hate his neighbour, and lie in wait for him, and rise up against him, and smite him mortally that he die, and fleeth into one of these cities: Then the elders of his city shall send and fetch him thence, and deliver him into the hand of the avenger of blood, that he may die. Thine eye shall not pity him, but thou shalt put away the guilt of innocent blood from Israel, that it may go well with thee" (Deuteronomy 19:11-13)</span>. (5) Someone is ready to say it does not prevent crime. Then ask gang members and drug cartels why they execute those who do not follow their rules or do as they tell them. (6) It is murder. Murder is the malicious, premeditated taking of life. Capital punishment is a judicial punishment for a crime. There is a great difference. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="where-was-god">
+        <span class="article-category">Editorial</span>
+        <h2>Where Was God?</h2>
+        <p>When tragedy strikes, are you prone to ask, Where was God? I have heard this question raised and maybe you have too. May I kindly suggest that when the storms of life are raging and bad things happen to us or to those whom we know, God was/is in the same place He was when......</p>
+        <p>Adam and Eve sinned in paradise, separating themselves from God, destroying their innocence, and plunging the world into imperfection and randomness.</p>
+        <p>King David murdered Uriah. A deliberate sin which destroyed the happiness of at least two homes.</p>
+        <p>Jezebel had Naboth murdered. A deliberate act that destroyed life and happiness.</p>
+        <p>Jeremiah was cast into a dungeon.</p>
+        <p>Herod killed the boy babies, two and under in Judea.</p>
+        <p>Another Herod beheaded John the Baptist. The life of a valiant preacher was taken.</p>
+        <p>Still another Herod had James, the brother of John, beheaded.</p>
+        <p>The Jews stoned Stephen, laying their clothes at the feet of a young man named Saul.</p>
+        <p>The apostle Paul was stoned and left for dead.</p>
+        <p>His own Son, Jesus Christ, was crucified.</p>
+        <p>Where was God when all these things happened? He was in heaven where He has been since the beginning. Why do they happen? God made us "people of choice." We choose to do either good or evil and suffer the consequence. There are laws of nature and when they are violated, we suffer.</p>
+        <p>Would you lock your children in a cage so they could not harm themselves or others? If you did, would not the law of the land arrest you?</p>
+        <p>What we need to do is follow the law of God and pray, leaning upon the providential care of the eternal one. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="first-john">
+        <span class="article-category">First John</span>
+        <h2>Lessons From First John: The Testimony Of God (3)</h2>
+        <p><span class="scripture-ref">"If we receive the witness of men, the witness of God is greater: for this is the witness of God which he hath testified of his Son" (1 John 5:9)</span>. Not only has God testified of His Son, but the Son has given testimony regarding the Father. <span class="scripture-ref">"No man hath seen God at any time; the only begotten Son, which is in the bosom of the Father, he hath declared him" (John 1:18)</span>. In declaring the Father to the world, Jesus also testified of Himself: <span class="scripture-ref">"But I have greater witness than that of John (the Baptist, gm): for the works which the Father hath given me to finish, the same works that I do, bear witness of me, that the Father hath sent me" (John 5:36)</span>. The apostle John said, <span class="scripture-ref">"And many other signs truly did Jesus in the presence of his disciples, which are not written in this book: But these are written, that ye might believe that Jesus is the Christ, the Son of God; and that believing ye might have life through his name" (John 20:30,31)</span>.</p>
+        <p>Consider some of His works. He multiplied the loaves and fishes (<span class="scripture-ref">Matthew 14:19-21</span>). Controlled the wind in calming the stormy sea (<span class="scripture-ref">Mark 4:39</span>). Had power over sickness of the body (<span class="scripture-ref">Mark 1:30,34</span>). He cast out demons (<span class="scripture-ref">Mark 1:34</span>). He raised the dead, showing His power over death (<span class="scripture-ref">John 11:43,44</span>). He had a part in His own resurrection (<span class="scripture-ref">John 10:17,18; 1 Peter 3:18</span>). On occasion, He cast out demons by the Holy Spirit (<span class="scripture-ref">Matthew 12:28</span>), which demonstrates that members of the Godhood work harmoniously. In addition, He forgave sins (<span class="scripture-ref">Mark 2:5</span>) and accepted worship (<span class="scripture-ref">Mark 5:6; John 9:38</span>).</p>
+        <p>After ascending back to heaven (<span class="scripture-ref">Acts 1:9-11</span>), Jesus was seated at the right hand of God (<span class="scripture-ref">Acts 2:32-35</span>), ruling as King of kings and Lord of lords (<span class="scripture-ref">Revelation 17:14</span>). Though in heaven, He was involved in the demonstration of the powers of God on earth. Consider this statement by Luke the historian, which was recorded by the inspiration of the Holy Spirit: <span class="scripture-ref">"Long time therefore abode they (Paul and Barnabas, gm) speaking boldly in the Lord, which gave testimony unto the word of his grace, and granted signs and wonders to be done by their hands" (Acts 14:3)</span>. Luke said Jesus gave testimony. Mark said something similar: <span class="scripture-ref">"And they (the apostles, gm) went forth, and preached every where, the Lord working with them, and confirming the word with signs following. Amen" (Mark 16:20)</span>. How did Jesus give testimony to His word? How did He confirm the word with signs following? The Hebrew writer answers: <span class="scripture-ref">"How shall we escape, if we neglect so great salvation; which at the first began to be spoken by the Lord, and was confirmed unto us by them that heard him; God also bearing them witness, both with signs and wonders, and with divers miracles, and gifts of the Holy Ghost, according to his own will" (Hebrews 2:3,4)</span>?</p>
+        <p>Jesus promised the apostles another comforter, the Holy Spirit (<span class="scripture-ref">John 14:26; John 15:26</span>), who would come after His return to the Father (<span class="scripture-ref">John 16:7</span>). With the Holy Spirit would come the kingdom and the power (<span class="scripture-ref">Mark 9:1; Acts 1:8; Acts 2:1-4</span>). He would guide the apostles <span class="scripture-ref">"...into all truth: for he shall not speak of himself; but whatsoever he shall hear, that shall he speak: and he will shew you things to come" (John 16:13)</span>. The work of the Holy Spirit involved three things: Revelation, inspiration, and confirmation. Revelation and inspiration were involved in preaching (<span class="scripture-ref">Matthew 10:19,20</span>) and recording (<span class="scripture-ref">Ephesians 3:1-6</span>) the gospel. Confirmation involved miraculous powers which demonstrated God's approval. The work of confirmation involved the powers of the apostles to work miracles (<span class="scripture-ref">Acts 3:1-11</span>) and bestow miraculous gifts (<span class="scripture-ref">Acts 8:14-17; Acts 19:1-7</span>). The power to give miraculous gifts to others was the sign of an apostle (<span class="scripture-ref">2 Corinthians 12:12</span>). Under the direction of the Holy Spirit, nine miraculous gifts (<span class="scripture-ref">1 Corinthians 12:4-11</span>) were given. Through these gifts, the word was confirmed. <span class="scripture-ref">"And my speech and my preaching was not with enticing words of man's wisdom, but in demonstration of the Spirit and of power..." (1 Corinthians 2:4)</span>. The signs demonstrated that the man and his message were from God (<span class="scripture-ref">Acts 8:5-13; Acts 28:1-6</span>). Miracles confirmed the spoken word. Since the word has been delivered (<span class="scripture-ref">Jude 3</span>), confirmed and recorded, miracles, being no longer needed, have vanished away (<span class="scripture-ref">1 Cor 13:8-10</span>).</p>
+        <p>The works of Christ give abundant testimony to Who He is and to His work in salvation. Further, His works have given ample testimony to the Father. Truly, the testimony of God is of the highest character. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published June 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

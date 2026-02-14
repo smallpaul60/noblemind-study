@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - August 2002</title>
+  <meta name="description" content="The Strait Way newsletter, August 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08" selected>August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#editorial">Editorial</a>
+        <a href="#proverb">Arabic Proverb</a>
+        <a href="#word-studies">Word Studies</a>
+        <a href="#luke-11">Luke 11:13</a>
+        <a href="#unique-church">The Unique Church</a>
+        <a href="#morality">Morality & Faith</a>
+        <a href="#personal-work">Personal Work</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+
+      <article class="article">
+      <span class="article-category">Front Page</span>
+      <h2>Elders and Preachers</h2>
+      <p>In recent years, there has been a great deal of preaching and writing done concerning the organization of the church. Brethren have properly emphasized that the sponsoring church arrangement, in which the elders of one church oversee the money of many other churches, is a violation of the pattern of organization of the New Testament church. Elders have authority over the local congregation where they are appointed and its work. Peter instructed elders to "tend the flock of God which is among you" (<span class="scripture-ref">1 Pet. 5:2</span>; Cf. <span class="scripture-ref">Acts 20:28</span>). The departure from the N.T. pattern of organization by many of our brethren has demanded that much teaching on this subject be done.</p>
+
+      <p>However, this is not to imply that the only form of organizational apostasy is through the sponsoring church arrangement. One form of organizational apostasy which is particularly prevalent among denominations and existent in some churches of Christ is the "pastor system." This is where the preacher is given (or assumes) the role of "overseeing the flock of God." One so called "gospel preacher" proclaimed, "you evangelists in the audience, go home and take back your churches from these elders..." There is as much danger in this as there is in the sponsoring church concept.</p>
+
+      <p><strong>Who are the pastors?</strong> The only place in our English Bibles where the word "pastors" occurs is <span class="scripture-ref">Ephesians 4:11</span>, "And he gave some (to be) apostles; and some, prophets; and some, evangelists; and some, pastors and teachers." The word "pastor" comes from the Greek word "poimen" meaning "a herdsman, esp. a shepherd" (Thayer). The word is then used metaphorically to refer to "a presiding officer, manager, director of any assembly" (Thayer). Therefore, the word refers to the overseers of the Lord's local church.</p>
+
+      <p>The noun "poimen" (pastor), has a corresponding verb, "poimaino." The verb means "to feed, to tend a flock, keep sheep." The one who does the work of "poimainein" is a "poimen", i.e. the one who does the work of shepherding is a shepherd. Paul said to the Ephesian elders, "Take heed unto yourselves, and to all the flock, in which the Holy Spirit hath made you bishops, to feed the church of the Lord which he purchased with his own blood" (<span class="scripture-ref">Acts 20:28</span>). These elders were also called "overseers" or "bishops." Those qualified and appointed to do the work of tending the flock are the shepherds or pastors.</p>
+
+      <p>In <span class="scripture-ref">1 Pet. 5:1-2</span>, Peter instructed these elders (vs. 1) to "feed (poimanate) the flock of God which is among you..." Again, you will notice that the "elders" do the work of "shepherding the flock." A "pastor" therefore, is an elder, an overseer, or a bishop. "Pastor" does not refer to the "preacher," except in those cases in which a preacher meets the qualifications of an elder (<span class="scripture-ref">1 Tim. 3:1-7</span>; <span class="scripture-ref">Tit. 1:6-9</span>) and is appointed to serve with others. The scriptures do not authorize the preacher to oversee the congregation.</p>
+
+      <p>The New Testament pattern of congregational organization has a plurality of elders overseeing the local church. This is seen in a direct statement in <span class="scripture-ref">Acts 14:23</span>. Paul and Barnabas "ordained them elders in every church." Similarly, in other references to the elders, they are mentioned in a plurality (<span class="scripture-ref">Acts 11:30; 15:2,4,6,22,23; 20:17,18,28; Tit. 1:5; Jms. 5:14; 1 Pet. 5:1</span>, etc.).</p>
+
+      <p>It is contrary to the Scriptures for one man to rule a church. Though there is some overlap in the work of elders and preachers inasmuch as both are concerned with the saving of souls and encouraging the spiritual development of the saints, the boundary of divine authority has been crossed when the preacher oversees the church.</p>
+
+      <blockquote>"A preacher not only betrays a sacred trust himself, but directly contributes to the breakdown of the divine organization when he pushes himself or allows himself to be pushed into a position of functioning where the elders should act. Actually such an arrangement weakens the church organically and therefore, spiritually for there can be no true spiritual development where the divine government is disregarded." (James Cope, The Preceptor, Vol. 1, No. 3, January 1952, pp. 4-5)</blockquote>
+
+      <p>There is wisdom in the divine plan of local church organization. Let preachers do the work of preachers and let the elders do the work of shepherding the flock. There is plenty of work for all to do.</p>
+
+      <p class="article-author">Micky Galloway, 45858 York Place, Lancaster, CA 93534</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Preaching</span>
+      <h2>A Faithful Preacher Teaches Himself</h2>
+
+      <blockquote>"Behold, thou art called a Jew, and restest in the law, and makest thy boast of God, And knowest his will, and approvest the things that are more excellent, being instructed out of the law; And art confident that thou thyself art a guide of the blind, a light of them which are in darkness. An instructor of the foolish, a teacher of babes, which hast the form of knowledge and of the truth in the law. Thou therefore which teachest another, teachest thou not thyself? thou that preachest a man should not steal, dost thou steal? Thou that sayest a man should not commit adultery, dost thou commit adultery? thou that abhorrest idols, dost thou commit sacrilege? Thou that makest thy boast of the law, through breaking the law dishonourest thou God?" <span class="scripture-ref">Romans 2:17-29</span></blockquote>
+
+      <p>While Paul dealt with an attitude among the Jews, there are lessons to be learned regarding the work of Christians who would teach others and that includes preachers. <strong>We must practice what we preach.</strong> Or, you cannot preach one thing and practice another.</p>
+
+      <blockquote>"...Let every one that nameth the name of Christ depart from iniquity. But in a great house there are not only vessels of gold and silver, but also of wood and of earth; and some to honour, and some to dishonour. If a man therefore purge himself from these, he shall be a vessel unto honour, sanctified, and meet for the master's use, and prepared unto every good work. Flee also youthful lusts: but follow righteousness, faith, charity, peace, with them that call on the Lord out of a pure heart" <span class="scripture-ref">II Tim. 2:19b-22</span></blockquote>
+
+      <p>An influence which has taken years to establish can be destroyed in a moment of folly. The wise man said, "Dead flies cause the ointment of the apothecary to send forth a stinking savour: so doth a little folly him that is in reputation for wisdom and honour" <span class="scripture-ref">Eccl. 10:1</span>. He also said, "A good name is rather to be chosen than great riches, and loving favour rather than silver and gold" <span class="scripture-ref">Prov. 22:1</span>. A good name adds weight to what one does.</p>
+
+      <p>If a preacher, or any other Christian, destroys his good name, he has hurt himself. Further, he has hurt his family, community, and the cause of Christ. He has given the devil an advantage in destroying the faith of others and in preventing alien sinners from obeying the gospel.</p>
+
+      <p>The wise man said, "Keep thy heart with all diligence; for out of it are the issues of life" <span class="scripture-ref">Prov. 4:23</span>. By keeping the heart, men build and preserve a good name, add peace and tranquility to their life, and the lives of those with whom they live and work.</p>
+
+      <p><strong>People need to hear and see our sermons.</strong></p>
+
+      <p class="article-author">Glenn Melton, Dyersburg Pathfinder, Special issue on Preaching - March 15, 1997</p>
+
+      <div class="highlight-box">
+        <p><em>This is the last of the articles from the Pathfinder Preaching issue. It points to a problem preachers and teachers sometimes do not consider enough. Would you seek the services of a banker that kept his money buried in his yard? Or a stockbroker who never bought stock? We want an adviser who has invested in the product he is selling us. The same should be expected of preachers and teachers. We are to be examples of what we are teaching. Young and old alike must make sure we follow the principles we teach to others. Example is a very powerful teacher. We will all teach something with the example we live. Let us strive to teach with the example of a Godly life. - Editor</em></p>
+      </div>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Identity Series</span>
+      <h2>Identity of A Church of Christ: Conforming to Conformity #2</h2>
+
+      <p>Last month, we looked at a potential problem facing many of our churches today. We are commanded to examine ourselves (<span class="scripture-ref">2 Corinthians 13:5</span>) to see if we are in Christ or stuck in our traditions and past practices. Sometimes it can be a real eye opener about our own faith and how we elevate our traditions to a stature equal to law.</p>
+
+      <p>We are taught in the scriptures to maintain the traditions that have been taught to us by others and maintain what we have learned from God's word. We are also commanded to study God's word to show ourselves approved and so that we can rightly handle the truth of God (<span class="scripture-ref">2 Thessalonians 3:7-9</span>; <span class="scripture-ref">2 Timothy 2:15; 3:14</span>).</p>
+
+      <p>Some adversaries of the church of Christ as well as many "change agents" complain that our worship is dull and boring to most viewers. To a degree they are correct in the fact that we do not jump and shout, we do not clap or dance, neither do we lose control of our faculties and emotions. Yet the dull and boring is only from the perspective of a person who's mind is not set on things above. We should be open to examination of our services and do whatever we can to enhance and improve our spirits without going beyond the scriptures. So sometimes we need to be open to new ideas.</p>
+
+      <p>There are brethren we call "Mutual Edification Brethren". They do not hire preachers, but the members take turns presenting the lessons. That is an excellent practice and should be done more often. They believe it is wrong to pay a preacher to preach (BTW, you do not pay a preacher to preach, you support a man so that he can do the work that he has chosen to do). Their problem is the fact that they have made this practice a sin, and anyone who does support or pay a preacher is violating scripture and is guilty of sin and not worthy of their fellowship.</p>
+
+      <p>Many times, when a preacher goes to another work, the former congregation spends hours discussing who they are going to hire and what they are going to pay him. This leads to very heated discussions sometimes. The problem is actually several problems. Either the former preacher failed to teach the members how to teach, or he failed to motivate any of the members to study God's word in order to teach it. OR, this shows the fact that most of the time, the members let or make the preacher do all of the evangelism, while they sit back and do nothing except put their contribution in the plate when it is passed.</p>
+
+      <p>To suggest that a congregation could exist without a preacher is unthinkable in many of our churches today. It appears more important for many congregations to have a "big named" preacher than elders. How many times when visiting another place are you asked who your local preacher is? Have you ever been asked if you have elders, and if so, who they are? Not very likely.</p>
+
+      <p>I have heard people proclaim that their preacher is a relative unknown (and embarrassment accompanies such a statement). Well there are more of the unknowns than the well-knowns, and many of the unknowns are better all around as preachers and teachers of the Word, because they are more likely to be serving others, and less likely playing politics like so many do in order to keep their status.</p>
+
+      <p>Brethren, our mature congregations should be nurturing and building up younger preachers, but alas, most of them get and keep the big names, and many of them consider the smaller groups with their unknown preachers as less than what they should be. Think on these things (<span class="scripture-ref">Philippians 4:8</span>), and may God continue to bless you.</p>
+
+      <p class="article-author">Carey Scott, 7926 Mosewood, Houston, TX 77040</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Sermon Preparation</span>
+      <h2>Preparing Sermons</h2>
+
+      <p>We closed last month by saying that this time we will find a Bible subject to work on, and then look at some of the help available to see if we can develop a good outline. From the thousands of possibilities I lift Paul's words in <span class="scripture-ref">2 Corinthians 9:15</span>: "Thanks be unto God for His unspeakable gift."</p>
+
+      <p>First a study of the context and commentaries, then to Burns; Spurgeon; Maclaren; and the PULPIT COMMENTARY to find good thoughts. In my file cabinets (more about these later) I also find some articles on the verse by good brethren. The copy machine gives me nice flat copies of all that appeals to me, and the scanner puts all of it into a file that I entitle "The Unspeakable Gift." Now the work begins!</p>
+
+      <p>The work consists of reading the material again, then condensing it, rearranging, deleting, rewording, and adding thoughts and Scripture references until I have an outline of Introduction, Three Points, and a Conclusion. There is not room on this page to show it as an outline, so I will "run it together."</p>
+
+      <div class="outline-section">
+        <p><strong>Title:</strong> The Unspeakable Gift</p>
+
+        <p><strong>Introduction:</strong> 1. All of God's gifts are good - <span class="scripture-ref">Jas 1:17a</span>; But one Gift surpasses all others - <span class="scripture-ref">Jn 3:16; 4:10</span>. 2. The Gift is so wonderful that language fails full expression - <span class="scripture-ref">2Co 9:15</span>. a. Context: Benevolence of Gentiles to Jews - vs 12-14. b. Proper relations between them where they had been enemies. c. Separated by race, language, and miles; but they shared <span class="scripture-ref">2Pe 1:1</span>. d. THANKS for the Gospel which changes thinking and breaks down barriers - <span class="scripture-ref">Eph 2:11-18</span>. e. But without the Greatest Gift, such is not possible - <span class="scripture-ref">1Pe 1:8</span>.</p>
+
+        <p><strong>1. The Unspeakable Gift IS THE ONE WHO Came Freely From Heaven.</strong> A. None had claim on Him - <span class="scripture-ref">Rom 3:9-10; 5:6-8; Eph 2:8-9</span>. B. He came as a voluntary Gift - <span class="scripture-ref">Gal 4:4; 1:4</span>. C. Great purposes of this Gift: 1. That evil might be overthrown - <span class="scripture-ref">1Jn 3:8; Heb 2:14</span>. 2. Sinners be redeemed - <span class="scripture-ref">1Jn 3:5; 2Co 5:21; Heb 9:12</span>. 3. And God glorified - <span class="scripture-ref">1Co 6:19-20</span>. D. Language is powerless to set Him forth - He is Foundation; Door; Head; Good Shepherd; Refiner; Great Physician; Pearl of Great Price; Morning Star; Rose of Sharon; Lily of The Valley; Chief among Ten Thousand; Sun of Righteousness; Bread of Life; Light of the World; Son Of God; Source of All Blessings; <span class="scripture-ref">Rev 17:14</span>. E. The Good News of the Son is so wonderful it cannot be fully declared; it is inexpressible - <span class="scripture-ref">1Pe 2:7a</span>.</p>
+
+        <p><strong>2. Further Consider the Excellence of This Gift.</strong> A. In origin: Result of unspeakable LOVE - <span class="scripture-ref">1Jn 4:9-10</span> (words of F. M. Lehman: "Could we with ink the ocean fill, / And were the skies of parchment made; / Were every stalk on earth a quill, / And every man a scribe by trade; / To write the love of God above / Would drain the ocean dry; / Nor could the scroll contain the whole, / Though stretched from sky to sky"). B. Involves unspeakable SACRIFICE - <span class="scripture-ref">Isa 53:12; Mt 26:38</span>. C. It is Unspeakable in the BENEFITS bestowed: 1. Cannot express how comprehensive it is - <span class="scripture-ref">Rom 8:32</span>. 2. NO privilege is lacking: Light, life, pardon, peace, inexhaustible wealth - <span class="scripture-ref">1Ti 2:5-6; Phi 4:19</span>. 3. And soon: Eternal glory! - <span class="scripture-ref">Phi 3:20-21; 1Jn 3:2</span>. D. Unspeakable because exactly SUITABLE to our needs: 1. For the spiritually POOR - <span class="scripture-ref">2Co 8:9</span>. 2. For the spiritually HUNGRY - <span class="scripture-ref">Jn 6:32b,48</span>. 3. For the spiritually NAKED - <span class="scripture-ref">Rev 3:18</span>. 4. For the spiritually THIRSTY - <span class="scripture-ref">Jn 4:14</span>. 5. For the spiritually IMPRISONED - <span class="scripture-ref">Jn 8:32,36; Col 1:13; Mk 16:15-16; 2Co 5:17</span>.</p>
+
+        <p><strong>3. This Unspeakable Gift Demands Our Grateful Thanks.</strong> A. Not suffice to know of the Gift; Nor to know others have received it to the rejoicing of their hearts. B. Must be personal fellowship - <span class="scripture-ref">1Jn 5:12</span>. C. Sinful to be thoughtless, thankless - <span class="scripture-ref">Rom 1:21; Isa 53:3</span>. D. Offered constantly by grateful hearts (cf <span class="scripture-ref">1Pe 2:3</span>) - 1. Undivided gratitude - <span class="scripture-ref">Mt 6:24; Psa 86:11</span>. 2. In feeling and word - <span class="scripture-ref">Lk 10:27; Heb 13:15</span>. 3. And in action - <span class="scripture-ref">Heb 13:16</span>. E. Will be sung forever by the glorified - <span class="scripture-ref">Rev 7:15-17</span>.</p>
+
+        <p><strong>Conclusion:</strong> 1. Heaven's greatest Gift is our richest treasure - <span class="scripture-ref">Eph 1:3</span>. 2. Our obvious privilege and duty - <span class="scripture-ref">Heb 2:3; Jn 6:68</span>. a. Give self without reservation - <span class="scripture-ref">Gal 2:20</span>. b. And point others to GIFT - <span class="scripture-ref">Jn 1:41</span>; cf <span class="scripture-ref">Rom 10:1</span>. 3. Heaven open-handedly extends the Gift - Accept it today by obeying the Gospel.</p>
+      </div>
+
+      <p class="article-author">Derrel Shaw, 5927 Spruce Forest, Houston, TX 77092</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Satanism Series</span>
+      <h2>Satanism: Seduction of Youth</h2>
+
+      <p>We would like to think we would know if our children were involved in any form of occultic activity. Unless we are aware of the signs, however, that may not be the case. Once while staying with a gospel preacher, I noticed satanic material on their daughter's wall. Upon asking the parents, they said they had seen it but didn't know what it was. I asked the daughter about it who confessed to me that her friends had been involved in some activity.</p>
+
+      <p>Why would young people become interested in such? Much of it is a rebellion against parents, their religion, the ethics and morality of society ("the establishment") as was the drug and "free love" scene of the 60's. Fed by the popularity of the Satanic Rockers with disgusting covers and even worse lyrics, youth become an easy target.</p>
+
+      <p><strong>What are the warning signs that children may be involved?</strong> This has been well researched and documented by authorities that deal regularly with occultic crime. According to such, the youth generally go in stages toward the occult. Seldom do they go straight from being a respectful, church-going child, to a full-fledged Devil worshiper overnight.</p>
+
+      <div class="highlight-box">
+        <p><strong>Stages:</strong> (1) Initial interest (2) Peer group involvement (3) Purchase of satanic material (4) Beginning of rituals (5) Beyond...</p>
+      </div>
+
+      <p><strong>Initial Interest.</strong> Involves obsessions with heavy metal music, fantasy role-playing games, ouija boards, slasher films, death, violence, etc. There may be posters of satanic rockers, and satanic drawings on their school notebooks.</p>
+
+      <p><strong>Peer Group Involvement.</strong> Withdraws from family, changes in friends, becomes defensive and secretive of new friends, rebellion increases, begins wearing more jewelry and black clothing. May or may not have satanic symbols on jewelry and clothing. Painting nails black (especially on the middle or little finger of left hand), wearing black makeup, etc. Becomes irresponsible in chores, school, work, etc. Loses interest in Christianity, church and the Bible. Becomes more rebellious. They may begin speaking a new dialect, or language, or speak backwards.</p>
+
+      <p><strong>Purchase of Satanic Material.</strong> They will obtain such reading material as The Satanic Bible, or The Complete Witch. They will start keeping a "Book of Shadows" (like a diary of evil thoughts and desires). Begin purchasing worship paraphernalia like candles, knives, silver bowls and chalices.</p>
+
+      <p><strong>Begin Rituals.</strong> Will have an altar (perhaps just their dresser top) at their home, generally consisting of candles, mirrors, knives and bowls, pentagram, and incense. Some symbol deemed as being anti "Christian" such as an inverted cross or the numbers 666. May have signs of self-mutilation, burns, changes in diet (may eat raw meat and blood) and sleep patterns. Parents may find hidden clothing with blood or dirt on them, and hair (used in some rituals). The child harms animals with no remorse and seems preoccupied with death and destruction.</p>
+
+      <p><strong>Beyond.</strong> If not stopped, it is likely that crime (including murder or suicide) will eventually occur. Those who reach this stage will be targets for the more organized devil worshiping groups.</p>
+
+      <p>Keep in mind that some of these symptoms may be present without any interest in the occult. Several such should be found before drawing any conclusions, but should cause the parent to talk with the child. However ANY interest in the occult should be cause for concern.</p>
+
+      <p class="article-author">Wayne Goforth, 248 Merchant St, Abilene, TX 79603</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Premillennialism Series</span>
+      <h2>Premillennialism: Revelation 20</h2>
+
+      <p>An essential feature of premillennialism is that (1) Christ will eventually return to the earth, (2) establish His kingdom with headquarters in Jerusalem, and (3) rule and reign for a literal 1000 years in and on the throne of David. In an effort to substantiate this program an appeal is made to <span class="scripture-ref">Revelation 20</span> which does in fact mention a 1000 year period. There are many problems connected with this arrangement.</p>
+
+      <p>It is insisted that the 1000 years is literal. Consistency would demand that the other items should also be literal. But this is not the case with them. For example, is Satan a literal snake? Is the bottomless pit controlled by a literal key? Is it true that Satan will be bound with a literal chain? All of this stretches credulity too much. When the Bible says of God that the cattle on a thousand hills are His (<span class="scripture-ref">Psalms 50:10</span>), does that mean that Hill 1001 is not His? Of course not.</p>
+
+      <p>Another important consideration shows that <span class="scripture-ref">Revelation 20</span> does not substantiate that for which it is appealed. For example, many have called attention to the fact that the items numbered above in the premillennialism program are not mentioned in <span class="scripture-ref">Revelation 20</span>. There is no mention of...</p>
+
+      <div class="highlight-box">
+        <ol>
+          <li>The second coming of Christ</li>
+          <li>Christ on earth</li>
+          <li>The city of Jerusalem</li>
+          <li>The throne of David</li>
+        </ol>
+      </div>
+
+      <p>It needs to be kept in mind that the Book of Revelation is a message which deals with God's people who are being persecuted. The text says that God "sent and signified" (read sign-i-fied) that is, made known by signs and symbols. It also is a book of ultimate victory and comfort.</p>
+
+      <p><span class="scripture-ref">Chapter 2</span> urges readers to be faithful unto death, and even names one (Antipas) who was martyred for the cause of Christ. <span class="scripture-ref">Chapter 13</span> records how one "made war with the saints." Verse 13 says that "as many as should not worship the image of the beast should be killed."</p>
+
+      <p>In this regard <span class="scripture-ref">Verses 9-11 of Chapter 6</span> tells how John saw the "souls" of them that had been slain for the word of God, and for the testimony which they held. <span class="scripture-ref">Chapter 20:4-5</span> also describes how John saw the "souls of them that had been beheaded for the testimony of Jesus, and for the word of God, and for such as worship not the beast, neither his image...and they lived and reigned with Christ."</p>
+
+      <p>Generally speaking, these are the same type people, faithful saints who were willing to lose their lives as martyrs for the cause. Are not these the ones that participate in the first resurrection - raised from death to reign with Christ. Since they were faithful unto death, over them the second death hath no power (<span class="scripture-ref">20:6</span>).</p>
+
+      <p>Keep in mind that <span class="scripture-ref">Revelation 20</span> is a description of victory and comfort for children of God who are faithful in persecution. They will live and reign with Christ. The chapter does not mention the second coming of Christ, Christ on earth, the city of Jerusalem, nor the throne of David, all of which are essential to the premillennialists theory.</p>
+
+      <p class="article-author">Hiram Hutto, 211 Crutcher Circle, Athens, AL 35611</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Membership Series</span>
+      <h2>Reasons For Being A Member of The Church of Christ: To Seek Glory and Honor From God</h2>
+
+      <p>The glory that we seek is the glory that we will receive. The eternal destiny of every man is determined by his own seeking. If one seeks earthly glory, that is all that he will receive. After this life, there is nothing for such a one but disappointment and despair. But if one seeks glory and honor from God and does his seeking lawfully, glory and honor from God will be his reward. The life he lives on earth will determine his eternal destiny.</p>
+
+      <p>This truth is clearly seen in <span class="scripture-ref">Romans 2:4-11</span>:</p>
+
+      <blockquote>"Or do you think lightly of the riches of His kindness and forbearance and patience, not knowing that the kindness of God leads you to repentance? But because of your stubbornness and unrepentant heart you are storing up wrath for yourself in the day of wrath and revelation on the righteous judgment of God, who will render to every man according to his deeds: to those who by perseverance in doing good seek for glory and honor and immortality, eternal life; but to those who are selfishly ambitious and do not obey the truth, but obey unrighteousness, wrath and indignation. There will be tribulation and distress for every soul of man who does evil, of the Jew first and also of the Greek, but glory and honor and peace to every man who does good, to the Jew first and also to the Greek. For there is no partiality with God."</blockquote>
+
+      <p>When one that seeks glory and honor, only in this world, comes to the end of earthly life he cannot justly complain about the terrible fate that awaits him. He has already received what he labored for. Even if he has professed a religious belief, his fate will be the same, <span class="scripture-ref">Matthew 7:21-23</span>. While on earth his motive was to please himself and man instead of God. Thus, when he departs this life and stands in judgment, he is not prepared to receive the glory and honor that only God can bestow. What he will hear are the condemning words of our Lord, "I never knew you; depart from Me, you who practice lawlessness" (Vs 23). When one's god has been the things of this world; when the world is lost, his god is lost. The god whom he has served is no more.</p>
+
+      <p>The passage from <span class="scripture-ref">Romans 2</span> clearly establishes that God will render to every man according to his works. In verse 7, we learn that the thing God will render is "eternal life", and the ones to whom He will render it are those who continue to seek for glory, honor and immortality. This is eternal life. This we must seek from God and not from man. God will not give us that which we do not seek for lawfully. We must seek it patiently and diligently from God, in obedience to His will, if we want to receive it.</p>
+
+      <p>Eternal existence and eternal life are as far apart as hell and heaven. Eternal life must be sought through obedience to God's will, therefore it is conditional, <span class="scripture-ref">Mark 16:16</span>: "He who has believed and has been baptized shall be saved: but he who has disbelieved shall be condemned." It is generally accepted that eternal condemnation is conditioned to those who serve Satan, being disobedient to God. Considering this fact, why will otherwise reasonable people insist that eternal life will be rewarded to those who show no regard whatever for God's clearly stated conditions of acceptance?</p>
+
+      <p>The eternal glory and honor that we seek is eternal life. From whom do we seek it? We seek it from God, the only one who is able to give eternal life. How do we seek it? We seek it by faithful obedience to His will. Where do we learn about Christ's will that will bring eternal life? It does not come from the doctrines of men. It comes from the New Testament, which is Christ's will to us. There is no other way to seek for eternal glory and honor with any hope of receiving it. Seeking it through some denominational creed, authorized and drafted by men, will only bring condemnation.</p>
+
+      <p class="article-author">Ray Wilson, 4203 NE Stallings Drive #302, Nacogdoches, TX 75965</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Ultra-Liberalism Series</span>
+      <h2>Ultra-Liberalism's Rejection of the Bible as the Complete and Final Revelation of God's Will</h2>
+
+      <p>Jesus promised the apostles that the Holy Spirit would guide them into all the truth and bring to their remembrance everything He had taught them, <span class="scripture-ref">John 14:26; 16:12-13</span>. At His ascension they were told to wait in Jerusalem until they were "clothed with power from on high" <span class="scripture-ref">Luke 24:49; Acts 1:5</span>. The Holy Spirit and the power came on the day of Pentecost, <span class="scripture-ref">Acts 2:1-4, 16-21</span>.</p>
+
+      <p>The Holy Spirit revealed God's will "not in words taught by human wisdom, but in those taught by the Spirit, combining spiritual thoughts with spiritual words" <span class="scripture-ref">1 Cor. 2:10-13</span>. This applied not only to the original apostles, but also to Paul and New Testament prophets like Luke, Mark, James and Jude, <span class="scripture-ref">Eph. 3:3-5</span>.</p>
+
+      <p>At first, the revelation of God's will was done orally through the preaching and teaching of God's word, <span class="scripture-ref">Acts 20:26-27</span>. As the church grew and problems arose it became necessary to put the word of God in a permanent form. From about 50 to 95 AD the inspired word of God was delivered both orally and in written form, <span class="scripture-ref">2 Thess 2:15</span>.</p>
+
+      <p>The promise of "all truth" in <span class="scripture-ref">John 14:26; 16:13</span> was fulfilled in the life time of some of the apostles. Peter said, "His divine power has granted to us everything pertaining to life and godliness, through the true knowledge of Him who called us by His own glory and excellence," <span class="scripture-ref">2 Peter 1:3</span>. <span class="scripture-ref">Jude 3</span> says, "Contend earnestly for the faith which was once for all delivered to the saints." When "all truth" had been revealed the miraculous gifts associated with the revelation of God's will ceased, <span class="scripture-ref">1 Cor. 13:8-13; Heb. 2:4</span>.</p>
+
+      <p>With the close of the first century, or shortly there after, inspired revelation came to an end. What is left is the inspired written word, the Bible. The things written by inspiration could be read and understood, <span class="scripture-ref">Eph. 3:4; 2 Pet. 3:16; Rev. 1:3</span>.</p>
+
+      <p class="article-author">Richard C. Sims, Jr.</p>
+    </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published August 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

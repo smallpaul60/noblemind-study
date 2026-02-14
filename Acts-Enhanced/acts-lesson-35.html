@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acts Lesson 35: Paul at Corinth | A Study of the Book of Acts</title>
+  <style>
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: rgba(35, 30, 45, 0.92);
+      --bg-inner: rgba(25, 22, 35, 0.96);
+      --text-primary: #f5f0e6;
+      --text-secondary: #c0b8a8;
+      --accent-gold: #e8b923;
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-blue: #5b9bd5;
+      --accent-blue-glow: rgba(91, 155, 213, 0.4);
+      --accent-burgundy: #8b4557;
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.3);
+      --radius-card: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Georgia', serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(91,155,213,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.55), transparent 50%),
+        radial-gradient(circle at top right, rgba(91,155,213,0.45), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,87,0.35), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(91,155,213,0.2),
+        0 0 80px rgba(232,185,35,0.25);
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 45px 40px;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.85), rgba(25,22,35,1));
+      box-shadow: 0 0 25px rgba(232,185,35,0.5);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(232,185,35,0.25);
+    }
+    .series-title {
+      font-size: 1rem;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .scripture-ref {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      background: rgba(232,185,35,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(232,185,35,0.15);
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(232,185,35,0.3);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .nav-controls select option {
+      background: #2a2535;
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+    }
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .key-verse {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: rgba(139,69,87,0.1);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(139,69,87,0.25);
+    }
+    .key-verse h2 {
+      color: var(--accent-burgundy);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent-gold);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .questions-section, .thought-questions {
+      margin-bottom: 35px;
+    }
+    .questions-section h2, .thought-questions h2 {
+      color: var(--accent-gold);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(232,185,35,0.3);
+    }
+    .thought-questions h2 {
+      color: var(--accent-blue);
+      border-bottom-color: rgba(91,155,213,0.3);
+    }
+    .questions-intro {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .question {
+      margin-bottom: 18px;
+      padding-left: 15px;
+      border-left: 3px solid rgba(232,185,35,0.3);
+    }
+    .question.thought {
+      border-left-color: rgba(91,155,213,0.3);
+    }
+    .question-num {
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .thought .question-num {
+      color: var(--accent-blue);
+    }
+    .question-text {
+      color: var(--text-primary);
+    }
+    
+    .supplementary > h2 {
+      color: var(--accent-blue);
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .supp-content {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .supp-content p { margin-bottom: 15px; }
+    .supp-content strong { color: var(--text-primary); }
+    footer {
+      margin-top: 40px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(232,185,35,0.2);
+      text-align: center;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(91,155,213,0.1);
+      border: 1px solid rgba(91,155,213,0.3);
+      transition: all 0.3s;
+    }
+    .footer-nav a:hover {
+      background: rgba(91,155,213,0.2);
+      box-shadow: 0 0 10px var(--accent-blue-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; }
+      .glass-tab, .nav-controls, .home-link, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      .series-title, .part-title { color: #666; }
+      h1 { color: #333; text-shadow: none; font-size: 18pt; }
+      .scripture-ref { color: #666; }
+      .key-verse { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #8b4557; page-break-inside: avoid; }
+      .key-verse h2 { color: #8b4557; }
+      .questions-section h2 { color: #b8860b; }
+      .thought-questions h2 { color: #5b9bd5; }
+      .question { border-left-color: #e8b923; page-break-inside: avoid; }
+      .question.thought { border-left-color: #5b9bd5; }
+      .question-num { color: #b8860b; }
+      .thought .question-num { color: #5b9bd5; }
+      .question-text { color: #333; }
+      
+      
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 25px 20px; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+    }
+
+  
+    .supplementary {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h2 {
+      color: var(--accent-burgundy, #8b4557);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h3 {
+      color: var(--accent-gold, #e8b923);
+      font-size: 1.1rem;
+      margin: 25px 0 12px 0;
+    }
+    .supplementary p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.7;
+    }
+    .supplementary .supp-list {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+    .supplementary .supp-list li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .supplementary .supp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .supplementary .supp-table th,
+    .supplementary .supp-table td {
+      padding: 12px 15px;
+      border: 1px solid rgba(232,185,35,0.25);
+      vertical-align: top;
+      text-align: left;
+    }
+    .supplementary .supp-table th {
+      background: rgba(232,185,35,0.15);
+      font-weight: 600;
+      color: var(--accent-gold, #e8b923);
+    }
+    .supplementary .supp-table tr:nth-child(even) td {
+      background: rgba(232,185,35,0.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <p class="series-title">A Study of the Book of Acts</p>
+        <p class="part-title">Part 3: Paul's Missionary Journeys (Acts 13:1-21:16)</p>
+        <h1>Lesson Thirty-Five: Paul at Corinth</h1>
+        <p class="scripture-ref">Acts 18:1-17</p>
+      </header>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Acts Study Index
+        </a>
+        <select id="lesson-select" onchange="goToLesson(this.value)">
+            <option value="">Jump to Lesson...</option>
+            <option value="01">Lesson 1</option>
+            <option value="02">Lesson 2: Acts 1:1-12</option>
+            <option value="03">Lesson 3: Acts 1:13-26</option>
+            <option value="04">Lesson 4: Acts 2:1-21</option>
+            <option value="05">Lesson 5: Acts 2:22-47</option>
+            <option value="06">Lesson 6: Acts 3:1-26</option>
+            <option value="07">Lesson 7: Acts 4:1-22</option>
+            <option value="08">Lesson 8: Acts 4:23-37</option>
+            <option value="09">Lesson 9: Acts 5:1-16</option>
+            <option value="10">Lesson 10: Acts 5:17-42</option>
+            <option value="11">Lesson 11: Acts 6:1-15</option>
+            <option value="12">Lesson 12: Acts 7:1-19</option>
+            <option value="13">Lesson 13: Acts 7:20-50</option>
+            <option value="14">Lesson 14: Acts 7:51-60</option>
+            <option value="15">Lesson 15: Acts 8:1-25</option>
+            <option value="16">Lesson 16: Acts 8:26-40</option>
+            <option value="17">Lesson 17: Acts 9:1-22</option>
+            <option value="18">Lesson 18: Acts 9:23-43</option>
+            <option value="19">Lesson 19: Acts 10:1-24</option>
+            <option value="20">Lesson 20: Acts 10:24-48</option>
+            <option value="21">Lesson 21: Acts 11:1-18</option>
+            <option value="22">Lesson 22: Acts 11:19-30</option>
+            <option value="23">Lesson 23: Acts 12:1-25</option>
+            <option value="24">Lesson 24: Acts 13:1-16</option>
+            <option value="25">Lesson 25: Acts 13:17-37</option>
+            <option value="26">Lesson 26: Acts 13:38-52</option>
+            <option value="27">Lesson 27: Acts 14:1-13</option>
+            <option value="28">Lesson 28: Acts 14:14-28</option>
+            <option value="29">Lesson 29: Acts 15:1-21</option>
+            <option value="30">Lesson 30: Acts 15:22-41</option>
+            <option value="31">Lesson 31: Acts 16:1-15</option>
+            <option value="32">Lesson 32: Acts 16:16-40</option>
+            <option value="33">Lesson 33: Acts 17:1-15</option>
+            <option value="34">Lesson 34: Acts 17:16-34</option>
+            <option value="35" selected>Lesson 35: Acts 18:1-17</option>
+            <option value="36">Lesson 36: Acts 18:18-28</option>
+            <option value="37">Lesson 37: Acts 19:1-20</option>
+            <option value="38">Lesson 38: Acts 19:21-41</option>
+            <option value="39">Lesson 39: Acts 20:1-16</option>
+            <option value="40">Lesson 40: Acts 20:17-38</option>
+            <option value="41">Lesson 41: Acts 21:1-16</option>
+            <option value="42">Lesson 42: Acts 21:17-40</option>
+            <option value="43">Lesson 43: Acts 22:1-30</option>
+            <option value="44">Lesson 44: Acts 23:1-16</option>
+            <option value="45">Lesson 45: Acts 23:17-35</option>
+            <option value="46">Lesson 46: Acts 24:1-27</option>
+            <option value="47">Lesson 47: Acts 25:1-12</option>
+            <option value="48">Lesson 48: Acts 25:13-27</option>
+            <option value="49">Lesson 49: Acts 26:1-32</option>
+            <option value="50">Lesson 50: Acts 27:1-20</option>
+            <option value="51">Lesson 51: Acts 27:21-44</option>
+            <option value="52">Lesson 52: Acts 28:1-14</option>
+            <option value="53">Lesson 53: Acts 28:15-31</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+
+      <section class="key-verse">
+        <h2>Key Verse</h2>
+        <blockquote>"Be not afraid, but speak, and hold not thy peace: for I am with thee, and no
+          man shall set on thee to hurt thee: for I have much people in this city."</blockquote>
+        <cite>— Acts 18:9-10</cite>
+      </section>
+
+      <section class="questions-section">
+        <h2>Lesson Questions</h2>
+        <p class="questions-intro">Read Acts 18:1-17 carefully before answering these questions.</p>
+
+        <div class="question">
+          <span class="question-num">1.</span>
+          <span class="question-text">Review: Brief review of Acts chapters sixteen and seventeen.</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">2.</span>
+          <span class="question-text">Where did Paul go? Whom did he find? 18:1-2</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">3.</span>
+          <span class="question-text">Of what occupation were they? What did Paul do on Sabbath days? 18:3-4</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">4.</span>
+          <span class="question-text">Who came from Macedonia? What was Paul doing? 18:5-6</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">5.</span>
+          <span class="question-text">What did Justus do? Who believed and were baptized? 18:7-8</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">6.</span>
+          <span class="question-text">What did the Lord say to Paul? 18:9-10</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">7.</span>
+          <span class="question-text">How long did Paul stay in Corinth? What did he do there? 18:11</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">8.</span>
+          <span class="question-text">What accusation was made against Paul? Who made it? 18:12-13</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">9.</span>
+          <span class="question-text">How did Gallio respond to the Jews? 18:14-16</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">10.</span>
+          <span class="question-text">Then what happened? 18:17</span>
+        </div>
+
+        </section>
+
+
+      <section class="supplementary">
+        <h2>Supplementary Materials</h2>
+        <p>Corinth: A Strategic and Sinful City Aspect Details Location On the narrow isthmus connecting northern Greece with the Peloponnese; about 50 miles west of Athens Two harbors Cenchrea (east, toward Asia) and Lechaeum (west, toward Italy) — controlled east-west trade Political status Capital of the Roman province of Achaia; seat of the proconsul Economy Wealthy commercial center; shipping, trade, manufacturing (including bronze work) Population Large and diverse — Romans, Greeks, Jews, freedmen, slaves, merchants, sailors Reputation Notoriously immoral; &quot;to Corinthianize&quot; meant to practice sexual immorality; temple of Aphrodite on the Acrocorinth</p>
+        <table class="supp-table">
+<tr>
+<th>Significance for Paul</th>
+<th>Strategic location; diverse population; stayed 18 months; wrote 1 &amp; 2 Thessalonians here</th>
+</tr>
+</table>
+        <p>Aquila and Priscilla (18:2-3, 18-19, 26) Aspect Details Origin Aquila was from Pontus (northern Asia Minor); they had been living in Rome Why in Corinth Claudius had expelled Jews from Rome (AD 49) — mentioned by Roman historian Suetonius Occupation Tentmakers (Greek: skenopoios — could include leather workers or makers of awnings/tents) Their ministry Traveled with Paul to Ephesus; taught Apollos; hosted a church in their home (1 Cor. 16:19; Rom. 16:3-5) Paul&#x27;s description &quot;My helpers in Christ Jesus: who have for my life laid down their own necks&quot; (Rom. 16:3-4) Notable feature Priscilla is often named first (Acts 18:18, 26; Rom. 16:3; 2 Tim. 4:19) — suggests she was prominent, possibly of higher social status or more active in teaching</p>
+        <p>Paul as Tentmaker (18:3) Why did Paul work with his hands?</p>
+        <ul class="supp-list">
+        <li>Jewish custom: Rabbis were expected to have a trade; &quot;He who does not teach his son a trade teaches him to be a thief&quot;</li>
+        <li>Financial independence: Paul didn&#x27;t want to burden the churches or be accused of preaching for money (1 Cor. 9:12-18; 2 Cor. 11:7-9)</li>
+        <li>Example: &quot;These hands have ministered unto my necessities, and to them that were with me&quot; (Acts 20:34)</li>
+        <li>Evangelistic opportunity: The workshop was a place to meet people and share the gospel</li>
+        </ul>
+        <p>Note: When Silas and Timothy arrived from Macedonia (v. 5), they apparently brought financial support (cf. 2 Cor. 11:9; Phil. 4:15), allowing Paul to devote himself fully to preaching.</p>
+        <p>&quot;From Henceforth I Will Go unto the Gentiles&quot; (18:5-7) &quot;And when they opposed themselves, and blasphemed, he shook his raiment, and said unto them, Your blood be upon your own heads; I am clean: from henceforth I will go unto the Gentiles.&quot; This pattern repeated throughout Paul&#x27;s ministry (cf. Acts 13:46; 28:28):</p>
+        <ul class="supp-list">
+        <li>&quot;Shook his raiment&quot; — Symbolic act of breaking fellowship; similar to shaking dust off feet (13:51)</li>
+        <li>&quot;Your blood be upon your own heads&quot; — They were responsible for their own rejection; Paul had done his duty (cf. Ezek. 33:1-9)</li>
+        <li>&quot;I am clean&quot; — Paul was free from guilt; he had faithfully preached to them</li>
+        <li>Moved next door: To the house of Justus (a Gentile God-fearer) whose house was &quot;joined hard to the synagogue&quot; — right next door!</li>
+        </ul>
+        <p>Crispus and the Corinthian Converts (18:8) &quot;And Crispus, the chief ruler of the synagogue, believed on the Lord with all his house; and many of the Corinthians hearing believed, and were baptized.&quot;</p>
+        <ul class="supp-list">
+        <li>Crispus: The synagogue ruler himself believed! Paul personally baptized him (1 Cor. 1:14)</li>
+        <li>&quot;With all his house&quot;: Another household conversion (cf. Lydia, the jailer)</li>
+        <li>The pattern: &quot;Hearing believed, and were baptized&quot; — Faith came by hearing; baptism followed immediately</li>
+        <li>Other notable converts: Gaius (Rom. 16:23; 1 Cor. 1:14), Stephanas and his household (1 Cor. 1:16; 16:15)</li>
+        </ul>
+        <p>The Lord&#x27;s Vision to Paul (18:9-10) &quot;Then spake the Lord to Paul in the night by a vision, Be not afraid, but speak, and hold not thy peace: for I am with thee, and no man shall set on thee to hurt thee: for I have much people in this city.&quot; Why did Paul need this encouragement?</p>
+        <ul class="supp-list">
+        <li>He had faced fierce opposition in every city</li>
+        <li>He had just been rejected by the synagogue in Corinth</li>
+        <li>Corinth was a notoriously wicked city — the task seemed daunting</li>
+        <li>He may have been tempted to leave quickly, as he had in other cities</li>
+        </ul>
+        <p>The Lord&#x27;s Promise Meaning &quot;Be not afraid&quot; Fear was natural given his experiences; the Lord addressed his emotions &quot;Speak, and hold not thy Keep preaching! Don&#x27;t let opposition silence you peace&quot; &quot;I am with thee&quot; The Lord&#x27;s presence — the same promise given to Moses, Joshua, and others &quot;No man shall set on thee to Divine protection promised for this mission (fulfilled in hurt thee&quot; Gallio&#x27;s dismissal) &quot;I have much people in this Many would believe; God knew who would respond; Paul&#x27;s city&quot; labor would not be in vain</p>
+        <p>Result: Paul stayed 18 months (v. 11) — his longest stay anywhere so far. The vision gave him courage to remain.</p>
+        <p>The Gallio Incident (18:12-17) Aspect Details Who was Gallio? Proconsul (governor) of Achaia; brother of the philosopher Seneca; known for his mild temperament Historical importance An inscription at Delphi dates his proconsulship to AD 51-52 — crucial for dating Paul&#x27;s ministry! The accusation &quot;This fellow persuadeth men to worship God contrary to the law&quot; (v. 13) — probably Roman law, claiming Christianity was an illegal religion Gallio&#x27;s ruling &quot;If it be a question of words and names, and of your law, look ye to it; for I will be no judge of such matters&quot; (v. 15) — dismissed it as an internal Jewish dispute</p>
+        <table class="supp-table">
+<tr>
+<th>Significance</th>
+<th>Set a precedent that Christianity was a form of Judaism (a legal religion) and not a criminal matter — protected Paul and the church</th>
+</tr>
+</table>
+        <p>Sosthenes beaten (v. 17): The new synagogue ruler was beaten by the crowd (Greeks venting anti-Jewish sentiment? frustrated Jews blaming him for the failure?). Gallio &quot;cared for none of those things&quot; — not his concern. Remarkably, a &quot;Sosthenes&quot; is later mentioned as a Christian brother (1 Cor. 1:1) — possibly the same man, converted!</p>
+        <p>End of the Second Missionary Journey (18:18-22)</p>
+        <table class="supp-table">
+<tr>
+<th>Location</th>
+<th>Events</th>
+</tr>
+<tr>
+<td>Cenchrea (18:18)</td>
+<td>Paul &quot;shorn his head: for he had a vow&quot; — probably a Nazirite vow (Num. 6); shows Paul still observed Jewish customs</td>
+</tr>
+<tr>
+<td>Ephesus (18:19-21)</td>
+<td>Brief stop; reasoned in synagogue; they wanted him to stay longer;</td>
+</tr>
+</table>
+        <p>promised to return &quot;if God will&quot;; left Aquila and Priscilla there Caesarea (18:22) Landed at the port Jerusalem (18:22) &quot;Gone up, and saluted the church&quot; — visited the mother church Antioch (18:22) &quot;Went down to Antioch&quot; — back to his sending church; second journey ends</p>
+        <h3>Key Cross-References</h3>
+        <table class="supp-table">
+<tr>
+<th>Reference</th>
+<th>Acts Verse</th>
+<th>Connection</th>
+</tr>
+<tr>
+<td>1 Cor. 2:1-5</td>
+<td>Acts 18:1</td>
+<td>Paul came &quot;in weakness, and in fear, and in much trembling&quot;</td>
+</tr>
+<tr>
+<td>1 Cor. 1:14-16</td>
+<td>Acts 18:8</td>
+<td>Paul baptized Crispus, Gaius, Stephanas</td>
+</tr>
+<tr>
+<td>2 Cor. 11:9</td>
+<td>Acts 18:5</td>
+<td>Support came from Macedonia</td>
+</tr>
+<tr>
+<td>Rom. 16:3-5</td>
+<td>Acts 18:2-3</td>
+<td>Priscilla and Aquila praised</td>
+</tr>
+<tr>
+<td>1 Cor. 1:1</td>
+<td>Acts 18:17</td>
+<td>Sosthenes possibly the same person, now a Christian</td>
+</tr>
+</table>
+        <p>Lessons from Acts 18:1-22 1. Honest work supports ministry — Paul&#x27;s tentmaking gave him independence and credibility. 2. Partnership in ministry is valuable — Aquila and Priscilla became lifelong co-workers. 3. Rejection by some means turning to others — opposition opened doors for Gentiles. 4. The Lord knows and encourages His servants — the vision came at just the right time. 5. God has &quot;much people&quot; in unexpected places — even the most wicked city has responsive hearts. 6. God uses secular authorities to protect His people — Gallio&#x27;s ruling helped the church.</p>
+      </section>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="acts-lesson-34.html">← Previous Lesson</a>
+          <a href="acts-lesson-36.html">Next Lesson →</a>
+        </div>
+        <p class="copyright">A Study of the Book of Acts — Enhanced Edition</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function goToLesson(num) {
+      if (num) window.location.href = 'acts-lesson-' + num + '.html';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - March 2000</title>
+  <meta name="description" content="The Strait Way newsletter, March 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03" selected>March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#lard-apostasy">Lard On Apostasy</a>
+        <a href="#primary-responsibility">Primary Responsibility</a>
+        <a href="#ad70-covenant">A.D. 70 - New Covenant</a>
+        <a href="#institutionalism-history">Institutionalism History</a>
+        <a href="#church-choice">Church of Your Choice</a>
+        <a href="#conversion-repentance">Conversion: Repentance</a>
+        <a href="#desire-lust">Desire/Lust</a>
+        <a href="#itching-ears">Itching Ears</a>
+      </nav>
+
+      <article class="article" id="lard-apostasy">
+        <span class="article-category">Commentary</span>
+        <h2>Lard On Apostasy</h2>
+        <p>A falling away will occur, and the iniquity which will induce it is at this moment at work. The sturdy love for the primitive faith which characterized the early preachers in the reformation is cooling in men who still linger in our ranks and call us brethren...</p>
+        <div class="quote-block">
+          <p>In the first place, they are intensely sentimental; rather, they are intensely transcendental. They are very clerical in bearing, soft in speech, and languid and effeminate in spirit. They are poets and ladies men, exquisites in parlors, and never condemn anything except their brethren...they are beautiful men, and preach beautiful sermons. Their prayers are beautiful things, their songs, beautiful songs. Moreover, they are very abstract men, and the aesthetic, the moral, the true, the beautiful, and the good are very fond phrases in their bloodless and virtuous lips...</p>
+          <p>In the second place, they have an enormous fondness for sects and sectarians; and scowl on no one so indignantly as on the brother who dares to speak against them....They seldom speak of their brethren except to disparage them; and never of other parties of the day except to laud them...</p>
+          <p>Another circumstance, very significant to my mind, marks the career of these men. With hardly an exception, they indorse and admire ECCE HOMO. And it must be confessed, no book has appeared within the last 25 years which embodies so much of their faith, or expresses it so well as that book. The man who indorses ECCE HOMO is the enemy of Jesus Christ and of the cause He died to establish. With me, nothing is more certain than this....</p>
+          <p>To brethren everywhere I say, see to it that your preachers are kept to the book. Allow no departure from it; and all will be well.</p>
+        </div>
+        <p>(Wayne Goforth found this article in Lard's Quarterly, Vol 4, Oct. 1867...pp 347,348. Note: Ecce Homo was a book that made Jesus a mere man, and stripped Him of His divinity.)</p>
+        <p><strong>Editor's note:</strong> One of the great lessons from the book of Judges is that history repeats itself. The spiritual and moral history of God's people in the past two hundred years is no exception. That changes are taking place today should disappoint, but not surprise anyone. Yet some want to close their eyes to obvious weakness and departure.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="primary-responsibility">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - The Evangelist's Primary Responsibility</h2>
+        <p>As the aged apostle prepared to lay aside inspiration's pen for the last time, he gave to the preacher words that are ageless in their application and timeliness. The words that compose Paul's charge to Timothy should be burned into the hearts of all young preachers and older ones, remaining there to govern every thought, desire, decision, and action related to their preaching. It appears that too many of us think that these should apply primarily to a young man beginning his work, but the principles given here are needed by all who proclaim the gospel of the son of God.</p>
+        <p>Lessons along the line of a preacher's work and responsibility should be frequent for the benefit of preacher and audience. When members of the Lord's body understand what the God of heaven has bound preachers to do, they will be more disposed to understand the preacher and to sympathize with his sometimes-unpleasant task.</p>
+        <p>These instructions will mean much more to us if we see them against the background of the previous verses. After Paul had urged Timothy to continue in the sacred writings that he had known and followed from a child, he then explained to him that all scripture is inspired of God and profitable for teaching, for reproof, for correction, and for training in righteousness, to the end that the man of God may be adequate, equipped for every good work (<span class="scripture-ref">II Tim. 3:14-17</span>). In the context of such a statement, the apostle charged the preacher with his responsibility to God and man in regard to this inspired word.</p>
+        <p>"I solemnly charge you in the presence of God and of Jesus Christ, who is to judge the living and the dead, and by his appearing and his kingdom: preach the word; be ready in season and out of season; reprove, rebuke, exhort, with great patience and instruction. For the time will come when they will not endure sound doctrine; but wanting to have their ears tickled, they will accumulate for themselves teachers in accordance with their own desires and will turn away their ears from the truth and will turn aside to myths" (<span class="scripture-ref">II Tim. 4:1-4</span>, NASV).</p>
+        <p>An outstanding point made by Paul is the authority underlying the charge and the preacher's discharge of this instruction. The charge was given in the presence of God and Jesus Christ. These are not elective principles for our work but requisite for the faithful gospel proclaimer. Unless a man in this way serves God, he cannot please God. The preacher who preaches to please men ought to remove his shingle, for he is not serving Christ (<span class="scripture-ref">Gal. 1:10</span>). We also need to note that the man who faithfully discharges these commands is doing so by the authority of God and Christ, from whom his orders come, not from any church board or other human organ. He preaches authoritatively, and his message is accordingly authoritative (<span class="scripture-ref">Titus 2:15</span>). He needs to urge the word of God with the importance that it bears.</p>
+        <p>Paul also defined the subject of our preaching and, at the same time, indicated the limit of our preaching. Preach the word! To dwell on other subjects is to displease Him who gave the charge. To review books, saturate a lesson with otherwise good moral advice or quotations, or relate personal experiences for no real purpose is to disobey God and to burden the audience with something they don't need. The carnally minded like fables, but gospel preaching begins and ends with the word of God.</p>
+        <p>We fail to understand the charge when we fail to note the importance that Paul attached to gospel preaching. He said, "Be instant (urgent, ready)." He who realizes that teaching God's word is important will not stand before an audience to present an unconsidered and unprepared sermon. Furthermore, members of the church who understand its importance will be quick to attend where such preaching is being done but slow to criticize the preacher when his sermon exceeds man-imposed time limits.</p>
+        <p>In the fourth place, Paul specifies constancy as a part of his charge. The preaching of the word is needed in season and out of season. There is no off-season for the preaching of the word. Sometimes it is seasonable to preach on certain Bible subjects but unseasonable to preach on others, but the apostle says that we need to preach even the unpopular sermons when they are out-of-season.</p>
+        <p>The instructions of Paul also include the kind of preaching that we should do. It includes reproof, pointing out sin and bringing it home to the sinner; rebuke, reprimanding sharply; and exhortation, calling aside for instruction, encouragement, or any other need. In order to be the kind that God approves, our preaching must include all of these kinds in season and out of season.</p>
+        <p>The passage under study finally emphasizes the spirit that should accompany the preaching of God's word. All longsuffering or patience should be evident on the part of the preacher, and he should preach for instruction. There is no occasion when it is right to "tell someone off" or "get somebody told." Even when reproof is due or rebuke is the order, we should speak the truth in love.</p>
+        <p>As to the reasons why Paul gave the charge, the context suggests at least five. False teachers will surely arise, and the word of God alone is sufficient to counteract their influence. The word specified is the inspired word. It is a profitable word. It will perfect a man. It furnishes us to all good works.</p>
+        <p>We who attempt to preach the gospel should ponder often the charge of Paul to Timothy and make a place for it in our preaching.</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-covenant">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - The Establishment of the New Covenant</h2>
+        <p>The proponents of the 'AD 70' doctrine teach that the new covenant was not completely in effect until the entire New Testament was given as we have it now. They believe that all of the New Testament books were written by A.D. 70. They also teach that the Old and New Covenants existed side by side, in God's Mind, until AD 70.</p>
+        <p>Notice the following from Max King: "Thus, out of the decay of Judaism arose the spiritual body of Christianity that became fully developed or resurrected by the end-time." (The Spirit of Prophecy, pg. 200)</p>
+        <p>When was the new covenant in power? How can the two systems of law be in effect at the same time? Notice the following prophecies:</p>
+        <p><span class="scripture-ref">Gen. 49:50</span> The scepter would not depart from Judah until a lawgiver would come.<br>
+        <span class="scripture-ref">Heb. 1:8,9</span> Jesus holds that scepter and is that lawgiver (<span class="scripture-ref">James 4:12</span>).<br>
+        <span class="scripture-ref">Isaiah 2:3</span> The law of the Lord would come from Jerusalem when the mountain of the Lord's house was established. On the day of Pentecost 3000 souls obeyed the gospel, the apostle's doctrine, the law of Christ (<span class="scripture-ref">Acts 2:41,42</span>; <span class="scripture-ref">1 Cor. 9:21</span>).<br>
+        <span class="scripture-ref">Jer. 31:31-34</span> A new covenant was coming that would be written in peoples hearts and minds. The day of the federal birthright would give way to the day of spiritual birth. Sins would not be remembered year after year as in the old law of Moses. All of this WAS fulfilled in the New Covenant (<span class="scripture-ref">Heb. 8:6-13</span>) - AT PENTECOST!<br>
+        <span class="scripture-ref">Zech. 13:1</span> A fountain for sin would be opened in 'that day'. The blood of Christ is that fountain (<span class="scripture-ref">Acts 5:31</span>, <span class="scripture-ref">1 John 1:7</span>).</p>
+        <p>In the Roman letter, the apostle Paul told the church at Rome that they were under the law of faith (<span class="scripture-ref">Rom. 3:27</span>), the law of God (<span class="scripture-ref">Rom. 7:22</span>), and the law of the Spirit (<span class="scripture-ref">Rom. 8:2</span>). This law is the gospel of Christ and is God's power to save all men (<span class="scripture-ref">Rom. 1:16</span>). However, Paul also said that there were laws that saints were NOT under (<span class="scripture-ref">Rom. 6:14</span>). They were not under a law of works (<span class="scripture-ref">Rom. 3:27</span>), the law of sin (<span class="scripture-ref">Rom. 8:2</span>), and not under the law of Moses (<span class="scripture-ref">Rom. 10:1-4</span>). James speaks of the perfect law of liberty that Christians were then and are now under (<span class="scripture-ref">James 1:25</span>).</p>
+        <p>It is noteworthy of so many things 'now' in existence since Pentecost. Paul said that now are all men commanded to repent (<span class="scripture-ref">Acts 17:31</span>). Now, the righteousness of God apart from the law of Moses is revealed (<span class="scripture-ref">Rom. 3:21</span>). We are now justified by His blood (<span class="scripture-ref">Rom. 5:9</span>). Through Christ, we have now received the reconciliation (<span class="scripture-ref">Rom. 5:11</span>). Saints of God had now been set free from the bondage of sin (<span class="scripture-ref">Rom. 6:22</span>). There is now no condemnation to those who are 'in Christ' (<span class="scripture-ref">Rom. 8:1</span>). These are only a few of the many blessings that had been available in Christ since the Kingdom began at Pentecost.</p>
+        <p>Our King, Jesus Christ, sent the law of the Spirit out from Jerusalem on day one at Pentecost. This law or covenant was in the minds of the apostles and now is written.</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism-history">
+        <span class="article-category">Church Organization</span>
+        <h2>Institutionalism - History Repeating Itself (No. 1)</h2>
+        <p>We must keep in mind that the church, in its universal sense, is nothing more than a relationship. It is composed of all of God's people, wherever they may be located. There is no organization in this sense, it is not a denomination, or a sect. It is the spiritual body of Christ (<span class="scripture-ref">Acts 2:47</span>; <span class="scripture-ref">Eph. 1:22-23</span>; <span class="scripture-ref">5:25-27</span>). In this relationship members are accountable only to the Lord. No organization is needed, nor authorized.</p>
+        <p>In the local sense, the church (i.e., God's saved people) is circumscribed by locality (ex. <span class="scripture-ref">1 Cor. 1:2</span>). Its members physically assemble at a certain locale at prescribed times to worship God (<span class="scripture-ref">Acts 2:42</span>; <span class="scripture-ref">20:7</span>). It has organization (<span class="scripture-ref">Phil. 1:1</span>), raises and maintains its own treasury (<span class="scripture-ref">1 Cor. 16:1-2</span>), and functions in the works of evangelism, edification and benevolence, separate and apart from any other church. Every collective duty binding upon Christians is discharged through the local church. Each local church is completely autonomous (self-ruling), independent and equal to every other church in the eyes of God. God's only divine collective is the local church.</p>
+        <p>In a previous article it was pointed out that Institutionalism developed because men desired to activate the universal church, an idea completely foreign to the divine pattern for the Lord's church, revealed in the New Testament. They were not satisfied with doing God's work in God's way. This attitude is depicted so clearly in <span class="scripture-ref">Hos. 8:12</span>: "I have written for him the great things of My law, but they were considered a strange thing." Mankind left to its own ways have never drawn closer to God.</p>
+        <p>This desire to expand upon and change God's work and God's way is nothing new. It has existed in every generation all the way back to the Garden of Eden. It is man's failure to regard and submit to divine authority. Division and apostasy are the final results of such action.</p>
+        <p>The sad thing is that even though history reveals this happening over and over again, each generation says it won't happen to us. How wrong they are. It has happened before, and it will happen again.</p>
+        <p>Anyone familiar with the history of the Restoration Movement knows that it began when men realized that mankind had departed from God. They were tired of the divisive creeds and names. They knew that God was not the God of confusion (<span class="scripture-ref">1 Cor. 14:33</span>), and certainly was not pleased with division (<span class="scripture-ref">1 Cor. 1:10</span>; <span class="scripture-ref">Eph. 4:4-6</span>). The only cure for them was to return to the Bible, and the Old Paths (<span class="scripture-ref">Jer. 6:16</span>). So, they challenged people to reject the divisive creeds and names and use the Bible alone as their guide. Their slogan based on <span class="scripture-ref">1 Pet. 4:11</span> became "Let's speak where the Bible speaks, and be silent where the Bible is silent." "Let's do Bible things in Bible ways, and call Bible things by Bible names" (<span class="scripture-ref">Col. 3:17</span>). This movement began to spread like wildfire over the American frontier. Men and women by the thousands, came out of denominationalism, and in some places whole denominational churches were converted. People took their stand upon the word of God, contending mightily for "the Faith once for all delivered unto the saints" (<span class="scripture-ref">Jude 3</span>). Churches of Christ were being established everywhere. It seemed they were going to win the world for Christ. BUT, THEN SOMETHING HAPPENED.</p>
+        <p>Some of the very men who stood in the forefront of the Restoration Movement, began to grow dissatisfied with God's arrangement. They decided the church of Christ operating in its congregational (local) capacity was incapable of accomplishing the work of preaching the gospel to the world. So, they sought to activate the church universal. Alexander Campbell, in the forefront of the movement reasoned, God has given the church the responsibility of saving souls, but to what church - church universal or church local? He decided the church universal had the obligation of preaching the gospel to save souls, so any method the church universal used to preach the gospel was acceptable on the basis of expediency. God said do it, but didn't prescribe the ways and means to do it, so whatever scheme man devised would be acceptable. They were now abandoning the very principles that had motivated them to come out of denominationalism and plant the church found in the New Testament. In the next article we will see the bitter harvest that resulted as these men worked to activate the church universal.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="church-choice">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"Choose The Church Of Your Choice"</h2>
+        <p>Probably one of the most familiar phrases heard among people is to "choose the church of your choice." Billy Graham and others like him say this constantly. This is one of the "politically correct" things to say these days. So many people have the idea that after one is saved, they can join the church that they choose. We have heard many times on the TV, radio, and other media that "'so-and-so' church is what you are looking for" and other similar phrases. In fact, there is a church in Franklin, TN that put on their sign, "The People's Church." What does the Bible say about this type of thinking? Has God said that one can be saved and then go join the church of their choice? Does God sanction each and every organization that has "church" on their sign? Is He the author or promoter of these groups that teach different and conflicting doctrines? What saith the Scripture?</p>
+        <p><strong>1. THERE IS ONLY ONE CHURCH MENTIONED IN THE BIBLE:</strong> It is important for us to note at the beginning, that when the New Testament speaks of the church, it is mentioned consistently in the singular. In <span class="scripture-ref">Matthew 16:18</span>, Jesus called her "my church." In <span class="scripture-ref">Acts 2:47</span>, the Lord added the saved to "the church." Paul called her "the church of God" (<span class="scripture-ref">Acts 20:28</span>). Christ is "head of ... the church" (<span class="scripture-ref">Col. 1:18</span>; <span class="scripture-ref">Eph. 1:22</span>). Paul said, "Christ is the head of the church: and he is the saviour of the body. ... the church is subject unto Christ, .... Husbands, love your wives, even as Christ also loved the church, and gave himself for it; That he might sanctify and cleanse it with the washing of water by the word, That he might present it to himself a glorious church, ... that it should be holy and without blemish" (<span class="scripture-ref">Eph. 5:23-27</span>). Please reread these verses, and note the fact that the Lord's church is singular in nature!</p>
+        <p><strong>2. WHEN DOES ONE BECOME A MEMBER OF THE LORD'S CHURCH?</strong> Does the Bible teach that one can be saved one day, and then "choose their church" another day? The apostle Luke records that after the 3000 were baptized for the remission of sins (<span class="scripture-ref">Acts 2:36-41</span>), that many continued to submit to God's plan of salvation. In <span class="scripture-ref">Acts 2:47</span> we read, "Praising God, and having favour with all the people. And the Lord added to the church daily such as should be saved." Here, we find the Lord doing the adding to His church, and it happened when one was saved! God adds only the saved to the church, and adds none of the unsaved to His church. One can only be a part of His church when he is saved from his sins; and this adding is done at that moment of salvation. There is no getting around this.</p>
+        <p><strong>3. WHAT ABOUT ALL THE CHURCHES MENTIONED IN THE NEW TESTAMENT?</strong> Yes, there are several churches mentioned in the Bible. These include the church at Ephesus and Corinth, the churches of Galatia, the church at Rome, Philippi, etc. However, this does not mean that they were all different churches or different denominations teaching different and conflicting doctrines! These local congregations were composed of people who had been saved (<span class="scripture-ref">Acts 2:38</span>), and then banded together in a local area in order to do the work God gave them to do. When they did this, they were still the "church of God" (<span class="scripture-ref">I Cor. 1:2</span>) or the "church of Christ" (<span class="scripture-ref">Rom. 16:16</span>). In fact, it is only in the local church setting that we find one (Paul) "joining" the church at Jerusalem (<span class="scripture-ref">Acts 9:26</span>). In doing so, he was not taking his pick among Baptist, Methodist, Catholic, Pentecostal, Presbyterian, Lutheran, Community Church, etc. Rather, since he had been saved (<span class="scripture-ref">Acts 22:16</span>), and been added to the church by the Lord (<span class="scripture-ref">Acts 2:47</span>), he had a desire to be a member of a local congregation of God's people. They knew nothing of denominational divisions, but only of the Lord's church (<span class="scripture-ref">Rom. 16:16</span>).</p>
+        <p><strong>CONCLUSION:</strong> Talk of joining the church of one's choice only breeds confusion and discord. Seeing that God is not the author of confusion (<span class="scripture-ref">I Cor. 14:33</span>); we know He cannot be behind the denominations of this world. If we are going to please God, we are going to have to be a part of the church of GOD'S choice rather than our own! Jesus established and purchased only one church (<span class="scripture-ref">Matt. 16:18</span>; <span class="scripture-ref">Acts 20:28</span>). He is the head of only one church (<span class="scripture-ref">Col. 1:18</span>). Therefore, we better make sure we are a part of that one church if we are going to please God and spend eternity with Him in Heaven!</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-repentance">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Repentance</h2>
+        <p>On an occasion of petty rivalry and quarreling among His disciples, Jesus said, "Assuredly, I say to you, unless you are converted and become as little children, you will by no means enter the kingdom of heaven" (<span class="scripture-ref">Matt. 18:3</span>; compare <span class="scripture-ref">Mk. 9:33-37</span>). Quite simply, no one may enter the kingdom of heaven without first being converted. That is what makes the need for a series on the subject of conversion so pressing.</p>
+        <p>In the first article, we discussed the basic principles involved in the subject. In the last article we noticed the first responsibility of the one who would be converted to Jesus Christ, faith. Faith, we noticed, is not some hocus-pocus, mystical, better-felt-than-told emotional experience. Faith is that which changes a man's intellect. But other changes (besides that of the intellect) must now take place if a person is to be converted to Christ.</p>
+        <p><strong>Repentance.</strong> When people come to believe in the gospel (good news) of Jesus, they must then decide what they will do with that information. Will they ignore it? Will they use it to change their life? What will they do? This brings us to the Biblical concept of repentance. Repentance is that which involves the change of a person's will.</p>
+        <p><strong>Feeling Sorry for Sins?</strong> What is repentance? Some will tell you that repentance is simply feeling sorry for your sins. Let's consider that view in light of Biblical teaching. "For godly sorrow produces repentance leading to salvation, not to be regretted; but the sorrow of the world produces death" (<span class="scripture-ref">2 Cor. 7:10</span>). If the "godly sorrow" of that verse means anything, it means feeling sorry for one's sins. It refers to that sorrow that comes from knowing you have violated the wishes of the gracious God above. But the verse says this feeling sorry for sins is what leads to repentance. If repentance is feeling sorry for one's sins (godly sorrow), then this verse is essentially saying that "godly sorrow produces godly sorrow leading to salvation...". This cannot be the correct understanding, then, of the Biblical concept of repentance.</p>
+        <p><strong>Turning from Sins?</strong> Some will then say that repentance is not feeling sorry for sins; rather it is the actual turning from one's sins. Repentance is that change of life that comes from feeling sorry for one's sins. Let's also consider this view in light of scripture. "Repent therefore and be converted, that your sins may be blotted out, so that times of refreshing may come from the presence of the Lord" (<span class="scripture-ref">Acts 3:19</span>). This comment of Peter from one of the porches of the temple in Jerusalem begins with the command, repent. But notice what is to follow repentance according to this divinely inspired apostle: "Repent therefore and be converted..."</p>
+        <p>We have already learned that to be converted is to change or to turn. If, then, repentance is the actual turning from sins, Peter's comment would essentially read, "Turn/change therefore and be turned/changed..." This is more clearly seen when considering the New International Version's translation of <span class="scripture-ref">Acts 3:19</span>, "Repent, then, and turn to God, so that your sins may be wiped out, that times of refreshing may come from the Lord." According to the idea that repentance is the turning of a person away from his sin and changing his life to suit God, the NIV text would read: "Turn, then, and turn..." This can hardly be correct either.</p>
+        <p><strong>After Sorrow, Before Change.</strong> Repentance, then, is that which comes from godly sorrow (<span class="scripture-ref">2 Cor. 7:10</span>) and leads to a change of life (<span class="scripture-ref">Acts 3:19</span>). Repentance is that which happens between those two events. Repentance, simply, is the decision one makes to change. It is the change of a person's will. He decides, determines, resolves to become somebody new. A person comes to understand that Jesus is the Christ, the Son of the living God. This is faith. This newfound faith leads one to sorrow over the life he has led in the presence of this caring God who sent His Son to die for us. This sorrow leads the sin-laden person to resolve within his heart to change his life. This decision of the heart is repentance.</p>
+        <p>Now, is that all? Are people converted once they have repented? No. At the point of repentance, they have only resolved to become somebody new. They have decided to do it but have not yet done it. Remember, repentance is only one of the things that leads to conversion (<span class="scripture-ref">Acts 3:19</span>). In the next article, we will look at the next element involved in this conversion process.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="desire-lust">
+        <span class="article-category">Word Study</span>
+        <h2>Desire/Lust</h2>
+        <p>In the King James Version of the NT, epithumia and its verb form are translated primarily by "desire" and "lust." It appears the KJV translators used "lust" where they thought the desire was for something sinful as in <span class="scripture-ref">James 4:2</span>. Later translations follow the KJV in using the words "desire" and "lust," but they differ in translating specific verses, such as <span class="scripture-ref">James 1:14</span>. The American Standard Version and the New American Standard Version translate "lust," while the Revised Standard Version and the New King James Version translate "desire."</p>
+        <p>It is not true that "lust" simply means "desire" as some contend. The purpose of this contention seems to be to make the lust in <span class="scripture-ref">James 1:14</span> desire without regard to whether it is good or bad. If the lust of <span class="scripture-ref">James 1:14</span> can be rendered "desire" without reference to good or bad, then some reason that the temptation of Jesus was like that described in <span class="scripture-ref">James 1:14</span>. But, the lust spoken of by James draws men away. Desire for good does not draw men away, desire for (lust after) evil does. The temptation of Jesus was not like that of <span class="scripture-ref">James 1:14</span>. Jesus never had any desire which drew Him away.</p>
+        <p>Let us distinguish between "desire" and "lust." Can anyone doubt that King David desired Bathsheba? Did he look on her to "...lust after her..." (<span class="scripture-ref">Mt. 5:28</span>)? Who would deny it? Did Jacob desire Rachel (<span class="scripture-ref">Gen. 29:18</span>)? Who would deny it? He loved her and wanted her for his wife. At this time, did Jacob lust after Rachel? Who would affirm it? Did Potiphar's wife lust after Joseph (<span class="scripture-ref">Gen. 39:7ff</span>)? Yes! Did Joseph either desire, or lust after, her? No! Can you see the difference?</p>
+        <p>Look at <span class="scripture-ref">Col. 3:5</span>. Why translate epithumia kaken as "evil concupiscence" or "evil desires" rather than "evil lusts"? Is it because lusts are always evil? While desires can be either good or evil?</p>
+        <p>It is true that a desire can be for something good or bad, but when "lust" is used in the NT, it denotes something bad. Do you know of an exception?</p>
+        <p>Let us define epithumia: "Epithumia...in Scripture..." includes "...the whole world of active lusts and desires...." (Synonyms Of The New Testament, R. C. Trench, p. 324). "It appears now and then, though rarely, in the N. T. in a good sense....much oftener in a bad...." (RCT, P. 325). "Our English word 'lust,' once harmless enough....has had very much the same history" (RCT, p. 325).</p>
+        <p>Let us define "bring forth" (tikto): "to bring forth, bear, produce...prop. of women giving birth (<span class="scripture-ref">Lk. 1:57</span>).....metaph. to bear, bring forth: amartian (sin), in the simile where h epithumia (the lust) is likened to a female, <span class="scripture-ref">James 1:15</span>" (Thayer, p. 623). Consider "draw away" (exelko): "to draw out,...metaph...to lure forth. <span class="scripture-ref">James 1:14</span>, where the metaphor is taken from hunting and fishing: as game is lured from its covert, so man by lust is allured from the safety of self-restraint to sin...The language of hunting seems to be transferred here...to the seduction of a harlot, personated by epithumia (lust)..." (Thayer, p. 222).</p>
+        <p>Did the KJV translators err in translating epithumia "lust" in <span class="scripture-ref">James 1:14</span>? No! Does translating it "desire" as some have done mean that James had in mind "desire" without regard to whether it was good or evil? No! For we must still contend with the fact that James was talking about something which draws men away. Away from what? Away from that which is good. What kind of desires draw men away from that which is good?</p>
+        <p>Consider the comments of Mr. R. C. Trench and Mr. Joseph Thayer. Study <span class="scripture-ref">James 1:14</span> carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="itching-ears">
+        <span class="article-category">Commentary</span>
+        <h2>Itching Ears Of The Past</h2>
+        <p>"Preach the word; be instant in season, out of season; reprove, rebuke, exhort with all longsuffering and doctrine. For the time will come when they will not endure sound doctrine; but after their own lusts shall they heap to themselves teachers, having itching ears" (<span class="scripture-ref">II Tim. 4:2,3</span>). Did they really have itching ears in Paul's day or was he just imagining things? Did they have them in the days of the ancient prophets?</p>
+        <p>"Also, thou son of man, the children of thy people still are talking against thee...and speak...saying, Come...hear what is the word that cometh forth from the Lord. And they come unto thee...and they hear thy words, but they will not do them...for with their mouth they shew much love, but their heart goeth after their covetousness...thou art unto them as a very lovely song...for they hear thy words, but they do them not. And when this cometh to pass...then shall they know that a prophet hath been among them" (<span class="scripture-ref">Ez. 33:30-33</span>).</p>
+        <p>The people of Ezekiel's day came to hear him as if he were providing entertainment - a lovely song. They listened, but they did not obey. Their hearts were set on their own desires, not on following God's word. This is the same spirit Paul warned Timothy about - people who want their ears tickled rather than their souls saved.</p>
+        <p>The pattern continues today. Many want preaching that makes them feel good, that entertains them, that confirms what they already believe. They do not want to be challenged, corrected, or called to repentance. They heap to themselves teachers who will tell them what they want to hear. But faithful preaching must be done "in season and out of season" - whether popular or not.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published March 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

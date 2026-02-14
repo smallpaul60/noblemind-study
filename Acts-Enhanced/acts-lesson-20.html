@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acts Lesson 20: Peter Preaches to Cornelius | A Study of the Book of Acts</title>
+  <style>
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: rgba(35, 30, 45, 0.92);
+      --bg-inner: rgba(25, 22, 35, 0.96);
+      --text-primary: #f5f0e6;
+      --text-secondary: #c0b8a8;
+      --accent-gold: #e8b923;
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-blue: #5b9bd5;
+      --accent-blue-glow: rgba(91, 155, 213, 0.4);
+      --accent-burgundy: #8b4557;
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.3);
+      --radius-card: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Georgia', serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(91,155,213,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.55), transparent 50%),
+        radial-gradient(circle at top right, rgba(91,155,213,0.45), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,87,0.35), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(91,155,213,0.2),
+        0 0 80px rgba(232,185,35,0.25);
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 45px 40px;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.85), rgba(25,22,35,1));
+      box-shadow: 0 0 25px rgba(232,185,35,0.5);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(232,185,35,0.25);
+    }
+    .series-title {
+      font-size: 1rem;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .scripture-ref {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      background: rgba(232,185,35,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(232,185,35,0.15);
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(232,185,35,0.3);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .nav-controls select option {
+      background: #2a2535;
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+    }
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .key-verse {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: rgba(139,69,87,0.1);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(139,69,87,0.25);
+    }
+    .key-verse h2 {
+      color: var(--accent-burgundy);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent-gold);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .questions-section, .thought-questions {
+      margin-bottom: 35px;
+    }
+    .questions-section h2, .thought-questions h2 {
+      color: var(--accent-gold);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(232,185,35,0.3);
+    }
+    .thought-questions h2 {
+      color: var(--accent-blue);
+      border-bottom-color: rgba(91,155,213,0.3);
+    }
+    .questions-intro {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .question {
+      margin-bottom: 18px;
+      padding-left: 15px;
+      border-left: 3px solid rgba(232,185,35,0.3);
+    }
+    .question.thought {
+      border-left-color: rgba(91,155,213,0.3);
+    }
+    .question-num {
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .thought .question-num {
+      color: var(--accent-blue);
+    }
+    .question-text {
+      color: var(--text-primary);
+    }
+    
+    .supplementary > h2 {
+      color: var(--accent-blue);
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .supp-content {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .supp-content p { margin-bottom: 15px; }
+    .supp-content strong { color: var(--text-primary); }
+    footer {
+      margin-top: 40px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(232,185,35,0.2);
+      text-align: center;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(91,155,213,0.1);
+      border: 1px solid rgba(91,155,213,0.3);
+      transition: all 0.3s;
+    }
+    .footer-nav a:hover {
+      background: rgba(91,155,213,0.2);
+      box-shadow: 0 0 10px var(--accent-blue-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; }
+      .glass-tab, .nav-controls, .home-link, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      .series-title, .part-title { color: #666; }
+      h1 { color: #333; text-shadow: none; font-size: 18pt; }
+      .scripture-ref { color: #666; }
+      .key-verse { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #8b4557; page-break-inside: avoid; }
+      .key-verse h2 { color: #8b4557; }
+      .questions-section h2 { color: #b8860b; }
+      .thought-questions h2 { color: #5b9bd5; }
+      .question { border-left-color: #e8b923; page-break-inside: avoid; }
+      .question.thought { border-left-color: #5b9bd5; }
+      .question-num { color: #b8860b; }
+      .thought .question-num { color: #5b9bd5; }
+      .question-text { color: #333; }
+      
+      
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 25px 20px; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+    }
+
+  
+    .supplementary {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h2 {
+      color: var(--accent-burgundy, #8b4557);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h3 {
+      color: var(--accent-gold, #e8b923);
+      font-size: 1.1rem;
+      margin: 25px 0 12px 0;
+    }
+    .supplementary p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.7;
+    }
+    .supplementary .supp-list {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+    .supplementary .supp-list li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .supplementary .supp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .supplementary .supp-table th,
+    .supplementary .supp-table td {
+      padding: 12px 15px;
+      border: 1px solid rgba(232,185,35,0.25);
+      vertical-align: top;
+      text-align: left;
+    }
+    .supplementary .supp-table th {
+      background: rgba(232,185,35,0.15);
+      font-weight: 600;
+      color: var(--accent-gold, #e8b923);
+    }
+    .supplementary .supp-table tr:nth-child(even) td {
+      background: rgba(232,185,35,0.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <p class="series-title">A Study of the Book of Acts</p>
+        <p class="part-title">Part 2: Transition — Gospel to the Gentiles (Acts 8:5-12:25)</p>
+        <h1>Lesson Twenty: Peter Preaches to Cornelius</h1>
+        <p class="scripture-ref">Acts 10:24-48</p>
+      </header>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Acts Study Index
+        </a>
+        <select id="lesson-select" onchange="goToLesson(this.value)">
+            <option value="">Jump to Lesson...</option>
+            <option value="01">Lesson 1</option>
+            <option value="02">Lesson 2: Acts 1:1-12</option>
+            <option value="03">Lesson 3: Acts 1:13-26</option>
+            <option value="04">Lesson 4: Acts 2:1-21</option>
+            <option value="05">Lesson 5: Acts 2:22-47</option>
+            <option value="06">Lesson 6: Acts 3:1-26</option>
+            <option value="07">Lesson 7: Acts 4:1-22</option>
+            <option value="08">Lesson 8: Acts 4:23-37</option>
+            <option value="09">Lesson 9: Acts 5:1-16</option>
+            <option value="10">Lesson 10: Acts 5:17-42</option>
+            <option value="11">Lesson 11: Acts 6:1-15</option>
+            <option value="12">Lesson 12: Acts 7:1-19</option>
+            <option value="13">Lesson 13: Acts 7:20-50</option>
+            <option value="14">Lesson 14: Acts 7:51-60</option>
+            <option value="15">Lesson 15: Acts 8:1-25</option>
+            <option value="16">Lesson 16: Acts 8:26-40</option>
+            <option value="17">Lesson 17: Acts 9:1-22</option>
+            <option value="18">Lesson 18: Acts 9:23-43</option>
+            <option value="19">Lesson 19: Acts 10:1-24</option>
+            <option value="20" selected>Lesson 20: Acts 10:24-48</option>
+            <option value="21">Lesson 21: Acts 11:1-18</option>
+            <option value="22">Lesson 22: Acts 11:19-30</option>
+            <option value="23">Lesson 23: Acts 12:1-25</option>
+            <option value="24">Lesson 24: Acts 13:1-16</option>
+            <option value="25">Lesson 25: Acts 13:17-37</option>
+            <option value="26">Lesson 26: Acts 13:38-52</option>
+            <option value="27">Lesson 27: Acts 14:1-13</option>
+            <option value="28">Lesson 28: Acts 14:14-28</option>
+            <option value="29">Lesson 29: Acts 15:1-21</option>
+            <option value="30">Lesson 30: Acts 15:22-41</option>
+            <option value="31">Lesson 31: Acts 16:1-15</option>
+            <option value="32">Lesson 32: Acts 16:16-40</option>
+            <option value="33">Lesson 33: Acts 17:1-15</option>
+            <option value="34">Lesson 34: Acts 17:16-34</option>
+            <option value="35">Lesson 35: Acts 18:1-17</option>
+            <option value="36">Lesson 36: Acts 18:18-28</option>
+            <option value="37">Lesson 37: Acts 19:1-20</option>
+            <option value="38">Lesson 38: Acts 19:21-41</option>
+            <option value="39">Lesson 39: Acts 20:1-16</option>
+            <option value="40">Lesson 40: Acts 20:17-38</option>
+            <option value="41">Lesson 41: Acts 21:1-16</option>
+            <option value="42">Lesson 42: Acts 21:17-40</option>
+            <option value="43">Lesson 43: Acts 22:1-30</option>
+            <option value="44">Lesson 44: Acts 23:1-16</option>
+            <option value="45">Lesson 45: Acts 23:17-35</option>
+            <option value="46">Lesson 46: Acts 24:1-27</option>
+            <option value="47">Lesson 47: Acts 25:1-12</option>
+            <option value="48">Lesson 48: Acts 25:13-27</option>
+            <option value="49">Lesson 49: Acts 26:1-32</option>
+            <option value="50">Lesson 50: Acts 27:1-20</option>
+            <option value="51">Lesson 51: Acts 27:21-44</option>
+            <option value="52">Lesson 52: Acts 28:1-14</option>
+            <option value="53">Lesson 53: Acts 28:15-31</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+
+      <section class="key-verse">
+        <h2>Key Verse</h2>
+        <blockquote>"Of a truth I perceive that God is no respecter of persons: But in every nation
+         he that feareth him, and worketh righteousness, is accepted with him."</blockquote>
+        <cite>— Acts 10:34-35
+
+   The Barrier Falls: In this lesson, the momentous event prepared for in Acts
+   10:1-24</cite>
+      </section>
+
+      <section class="questions-section">
+        <h2>Lesson Questions</h2>
+        <p class="questions-intro">Read Acts 10:24-48 carefully before answering these questions.</p>
+
+        <div class="question">
+          <span class="question-num">1.</span>
+          <span class="question-text">What had Cornelius been doing? What did he do when Peter arrived? 10:24-25</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">2.</span>
+          <span class="question-text">What did Peter do? What did Peter say? 10:26</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">3.</span>
+          <span class="question-text">What had God shown Peter? What did Peter want to know? 10:27-29</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">4.</span>
+          <span class="question-text">What answer did Peter receive? 10:30-33</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">5.</span>
+          <span class="question-text">As Peter began his lesson, what is the first thing he told them? 10:34-35</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">6.</span>
+          <span class="question-text">Of what had the apostles been witnesses? 10:36-41</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">7.</span>
+          <span class="question-text">What had God commanded them? Who would receive remission of sins? 10:42-43</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">8.</span>
+          <span class="question-text">Then what happened? 10:44</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">9.</span>
+          <span class="question-text">How did the Jews who accompanied Peter react? Why? 10:45-46</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">10.</span>
+          <span class="question-text">What did Peter ask? What did Peter command them to do? 10:47-48</span>
+        </div>
+
+        </section>
+
+
+      <section class="thought-questions">
+        <h2>Thought Questions</h2>
+        <div class="question thought">
+          <span class="question-num">A.</span>
+          <span class="question-text">​ What does it mean that God is &quot;no respecter of persons&quot;?</span>
+        </div>
+      </section>
+
+
+      <section class="supplementary">
+        <h2>Supplementary Materials</h2>
+        <p>Peter&#x27;s Arrival at Cornelius&#x27;s House (10:24-29)</p>
+        <table class="supp-table">
+<tr>
+<th>Event</th>
+<th>Significance</th>
+</tr>
+<tr>
+<td>Cornelius gathered relatives</td>
+<td>He expected something important and wanted others to hear.</td>
+</tr>
+<tr>
+<td>and friends (10:24)</td>
+<td>A ready audience!</td>
+</tr>
+<tr>
+<td>Cornelius fell at Peter&#x27;s feet</td>
+<td>Excessive reverence — perhaps seeing Peter as more than</td>
+</tr>
+<tr>
+<td>to worship (10:25)</td>
+<td>human after the angelic message.</td>
+</tr>
+<tr>
+<td>Peter lifted him up: &quot;I myself</td>
+<td>Peter refused worship — contrast with Herod (12:22-23).</td>
+</tr>
+<tr>
+<td>also am a man&quot; (10:26)</td>
+<td>Apostles were servants, not objects of worship.</td>
+</tr>
+<tr>
+<td>Peter entered and found</td>
+<td>A large group — this was not a private conversion but a public</td>
+</tr>
+<tr>
+<td>&quot;many&quot; gathered (10:27)</td>
+<td>declaration.</td>
+</tr>
+<tr>
+<td>&quot;Ye know how that it is an</td>
+<td>Peter acknowledged the Jewish taboo against Gentile</td>
+</tr>
+<tr>
+<td>unlawful thing...&quot; (10:28)</td>
+<td>association — but God had shown him otherwise.</td>
+</tr>
+<tr>
+<td>&quot;God hath shewed me... not</td>
+<td>Peter now understood the vision&#x27;s true meaning — it was</td>
+</tr>
+<tr>
+<td>call any man common or</td>
+<td>about PEOPLE, not food. unclean&quot; (10:28)</td>
+</tr>
+</table>
+        <h3>Cornelius&#x27;s Explanation (10:30-33)</h3>
+        <h3>Cornelius recounted his experience and declared his readiness to hear:</h3>
+        <p>&quot;Now therefore are we all here present before God, to hear all things that are commanded thee of God.&quot; — Acts 10:33</p>
+        <p>What a perfect audience! They were:</p>
+        <ul class="supp-list">
+        <li>&quot;All here&quot; — Everyone gathered, ready to listen</li>
+        <li>&quot;Present before God&quot; — Aware of the solemnity of the occasion</li>
+        <li>&quot;To hear ALL things&quot; — Open to the complete message</li>
+        <li>&quot;Commanded thee of God&quot; — Recognizing Peter spoke with divine authority</li>
+        </ul>
+        <p>&quot;God Is No Respecter of Persons&quot; (10:34-35) Peter&#x27;s opening statement was revolutionary: &quot;Of a truth I perceive that God is no respecter of persons: But in every nation he that feareth him, and worketh righteousness, is accepted with him.&quot;</p>
+        <p>What Does &quot;No Respecter of Persons&quot; Mean? It Does NOT Mean It DOES Mean All religions are equally valid All people have equal access to the ONE true gospel Everyone is automatically saved Everyone who fears God and works righteousness is accepted — in EVERY nation Obedience doesn&#x27;t matter God judges by character and conduct, not by nationality Jews lose their opportunity Gentiles now share the opportunity Jews always had</p>
+        <p>Key Point: Being &quot;accepted&quot; (10:35) does not mean &quot;saved without obedience.&quot;</p>
+        <h3>Cornelius feared God and worked righteousness, yet he still needed to hear words</h3>
+        <p>whereby he would be saved (11:14) and be baptized (10:48). &quot;Accepted&quot; means God receives those who seek Him — and then brings them to the gospel.</p>
+        <h3>Peter&#x27;s Sermon: The Gospel for Gentiles (10:36-43)</h3>
+        <p>Peter&#x27;s message covered the essential facts of the gospel:</p>
+        <table class="supp-table">
+<tr>
+<th>Verse</th>
+<th>Content</th>
+<th>Significance</th>
+</tr>
+<tr>
+<td>10:36</td>
+<td>God sent word to Israel — peace</td>
+<td>Jesus is Lord of Gentiles too! through Jesus Christ, who is Lord of ALL</td>
+</tr>
+<tr>
+<td>10:37-38</td>
+<td>Jesus&#x27;s ministry: baptism by John,</td>
+<td>Jesus&#x27;s life and works anointed with Holy Spirit, doing good, healing</td>
+</tr>
+<tr>
+<td>10:39</td>
+<td>&quot;We are witnesses&quot; — they killed</td>
+<td>Jesus&#x27;s death — eyewitness</td>
+</tr>
+<tr>
+<td>Him, hanging Him on a tree</td>
+<td>testimony</td>
+</tr>
+<tr>
+<td>10:40-41</td>
+<td>God raised Him the third day; He</td>
+<td>Jesus&#x27;s resurrection —</td>
+</tr>
+<tr>
+<td>appeared to chosen witnesses who</td>
+<td>physical, verified ate and drank with Him</td>
+</tr>
+<tr>
+<td>10:42</td>
+<td>Jesus commanded them to preach;</td>
+<td>Jesus&#x27;s authority — universal</td>
+</tr>
+<tr>
+<td>He is ordained by God to judge the</td>
+<td>judgment living and dead</td>
+</tr>
+<tr>
+<td>10:43</td>
+<td>All prophets witness: whoever</td>
+<td>The offer of salvation believes in Him receives remission of sins through His name</td>
+</tr>
+</table>
+        <p>Comparing Peter&#x27;s Sermons: Acts 2 and Acts 10 Element Acts 2 (Pentecost) Acts 10 (Cornelius) Audience Jews from every nation Gentiles (Roman household) Jesus&#x27;s life &amp; ministry &quot;Approved of God&quot; (2:22) &quot;Went about doing good&quot; (10:38) Jesus&#x27;s death &quot;Ye have crucified&quot; (2:36) &quot;They slew... on a tree&quot; (10:39) Resurrection Emphasized (2:24-32) Emphasized (10:40-41) Witnesses &quot;We all are witnesses&quot; (2:32) &quot;We are witnesses&quot; (10:39) Lordship of Christ &quot;Lord and Christ&quot; (2:36) &quot;Lord of all&quot; (10:36) Forgiveness offered &quot;Remission of sins&quot; (2:38) &quot;Remission of sins&quot; (10:43) Response commanded Repent, be baptized (2:38) Be baptized (10:48)</p>
+        <p>The same gospel was preached to both Jews and Gentiles — and the same response (baptism) was required of both.</p>
+        <p>The Holy Spirit Falls on the Gentiles (10:44-46) While Peter was still speaking, something dramatic happened: &quot;The Holy Ghost fell on all them which heard the word. And they of the circumcision which believed were astonished... because that on the Gentiles also was poured out the gift of the Holy Ghost. For they heard them speak with tongues, and magnify God.&quot; — Acts 10:44-46</p>
+        <p>Why Did This Happen? This miraculous outpouring served a specific purpose: Purpose Explanation To convince the Jewish Christians The six Jewish brothers who came with Peter needed proof that God accepted Gentiles (10:45; 11:12, 15-17) To remove any objection to baptizing &quot;Can any man forbid water?&quot; (10:47) — God Gentiles had already shown His approval To parallel Pentecost &quot;As on us at the beginning&quot; (11:15) — the same sign that launched the Jewish church now launched the Gentile mission To provide undeniable evidence Peter could point to this event when defending his actions to the Jerusalem church (11:17; 15:8)</p>
+        <p>The Holy Spirit Before Baptism? Some use this passage to argue that the Holy Spirit comes before baptism and that baptism is therefore unnecessary. But consider:</p>
+        <ul class="supp-list">
+        <li>This was an exceptional case — designed to convince Jewish Christians that Gentiles could be saved</li>
+        <li>The Spirit&#x27;s purpose was evidential — to demonstrate God&#x27;s acceptance, not to save them</li>
+        <li>Baptism was still commanded — Peter didn&#x27;t say &quot;you already have the Spirit, so baptism is optional&quot;</li>
+        <li>Salvation came through baptism — they still needed &quot;words whereby thou and all thy house shall be saved&quot; (11:14)</li>
+        <li>This pattern was not repeated — nowhere else in Acts do we see the Spirit falling BEFORE baptism</li>
+        </ul>
+        <p>The Pattern: Normally, the Holy Spirit was received AFTER baptism (Acts 2:38; 5:32). The Cornelius event was a unique, unrepeatable sign to authenticate Gentile inclusion.</p>
+        <p>Peter Commands Baptism (10:47-48) &quot;Can any man forbid water, that these should not be baptized, which have received the Holy Ghost as well as we? And he commanded them to be baptized in the name of the Lord.&quot; Key observations:</p>
+        <ul class="supp-list">
+        <li>&quot;Can any man forbid water?&quot; — Baptism requires water; this is not &quot;Spirit baptism&quot;</li>
+        <li>&quot;He COMMANDED them&quot; — Baptism was not optional or incidental; it was commanded</li>
+        <li>&quot;In the name of the Lord&quot; — By Christ&#x27;s authority, as He commanded (Matt. 28:19)</li>
+        <li>After receiving the Spirit, they were STILL baptized — the Spirit&#x27;s coming did not replace baptism</li>
+        </ul>
+        <p>Critical Point: If baptism were unnecessary, this was the perfect time to say so. Instead, Peter commanded it. The miraculous sign confirmed God&#x27;s acceptance of Gentiles; baptism accomplished their forgiveness (cf. Acts 2:38; 22:16).</p>
+        <p>The Missing Piece: Acts 11:14 When Peter later recounted this event, he added a crucial detail: &quot;Who shall tell thee words, whereby thou and all thy house shall be SAVED.&quot; — Acts 11:14</p>
+        <p>This confirms:</p>
+        <ul class="supp-list">
+        <li>Cornelius was NOT already saved before Peter came</li>
+        <li>His prayers and alms did NOT save him — he needed to hear the gospel</li>
+        <li>The miraculous Spirit outpouring did NOT save him — that came through obeying the &quot;words&quot;</li>
+        <li>Salvation came through hearing and obeying the gospel message, including baptism</li>
+        </ul>
+        <h3>Key Cross-References</h3>
+        <table class="supp-table">
+<tr>
+<th>Reference</th>
+<th>Acts Verse</th>
+<th>Connection</th>
+</tr>
+<tr>
+<td>Rom. 2:11</td>
+<td>Acts 10:34</td>
+<td>&quot;No respect of persons with God&quot;</td>
+</tr>
+<tr>
+<td>Acts 2:1-4</td>
+<td>Acts 10:44-46</td>
+<td>Parallel with Pentecost — &quot;as on us at the beginning&quot;</td>
+</tr>
+<tr>
+<td>Acts 11:1-18</td>
+<td>Acts 10:24-48</td>
+<td>Peter&#x27;s defense of preaching to Gentiles</td>
+</tr>
+<tr>
+<td>Acts 15:7-11</td>
+<td>Acts 10:44-48</td>
+<td>Peter cites Cornelius at Jerusalem council</td>
+</tr>
+<tr>
+<td>Gal. 3:28</td>
+<td>Acts 10:34-35</td>
+<td>Neither Jew nor Greek — all one in Christ</td>
+</tr>
+<tr>
+<td>Eph. 2:14-16</td>
+<td>Acts 10:28</td>
+<td>The wall of partition broken down</td>
+</tr>
+</table>
+        <p>Lessons from Acts 10:24-48 1. God is no respecter of persons — race, nationality, and social status are irrelevant to Him. 2. The gospel is the same for all — Jews and Gentiles hear the same message and respond the same way. 3. Good people still need the gospel — Cornelius was devout but unsaved until he obeyed. 4. Miraculous signs confirmed God&#x27;s acceptance — but did not replace obedience.</p>
+        <p>5. Baptism is commanded, not optional — even those who received miraculous gifts were still baptized. 6. Salvation comes through hearing and obeying the gospel (11:14) — not through morality alone.</p>
+      </section>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="acts-lesson-19.html">← Previous Lesson</a>
+          <a href="acts-lesson-21.html">Next Lesson →</a>
+        </div>
+        <p class="copyright">A Study of the Book of Acts — Enhanced Edition</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function goToLesson(num) {
+      if (num) window.location.href = 'acts-lesson-' + num + '.html';
+    }
+  </script>
+</body>
+</html>

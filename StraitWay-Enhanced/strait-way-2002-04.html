@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - April 2002</title>
+  <meta name="description" content="The Strait Way newsletter, April 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04" selected>April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#backbone">Backbone of the Church</a>
+        <a href="#ultra-liberalism">Grace & Ultra-Liberalism</a>
+        <a href="#identity-church">Identifying Marks</a>
+        <a href="#preparing-sermons">Expository Sermons</a>
+        <a href="#humanism">Humanism in Schools</a>
+        <a href="#premillennialism">Kingdom's Beginning</a>
+        <a href="#prayer">Privilege of Prayer</a>
+      </nav>
+
+      <article class="article" id="backbone">
+        <span class="article-category">Front Page</span>
+        <h2>Are We Taking The Backbone Out Of The Church Of Christ?</h2>
+        <p>In referring to the backbone of the church I have in mind the firmness, the moral courage, the stand for truth, the spine of the church itself. There are "straws" that are breaking the church's back. What are some of these "straws"?</p>
+        <p><strong>Sin Is Ignored.</strong> Worldliness is not rebuked and lukewarmness is prevalent. Paul rebuked the Corinthians because fornication was among them and they were not alarmed. He then tells them, "And ye are puffed up and did not rather mourn, that he that had done this deed might he taken away from among you" (<span class="scripture-ref">1 Cor. 5:2</span>). Such complacency is not to be tolerated. God certainly will not tolerate it. <span class="scripture-ref">Revelation 3:16</span> says concerning the church at Laodicea, "So because thou art lukewarm, and neither hot nor cold, I will spew thee out of my mouth."</p>
+        <p><strong>Lack of Conviction.</strong> Men either act from conviction, because it is right, or from convenience, because it is easier. Why do you attend the assemblies? Is it because you want to worship God (cf. <span class="scripture-ref">Jno. 4:24</span>; <span class="scripture-ref">Ps. 122:1</span>)? Is it a matter of conviction (cf. <span class="scripture-ref">Heb. 10:24,25</span>) or are other things more appealing because they are more convenient? Have you obeyed the gospel from the heart (<span class="scripture-ref">Rom. 6:17</span>) or have you not found a convenient time?</p>
+        <p>Conviction is illustrated in the decision of Shadrach, Meshach, and Abednego as they spoke to king Nebuchadnezzar. When asked if "it is of purpose... that ye serve not my god nor worship the golden image which I have set up," these brave young men responded, "...Be it known unto thee, O king that we will not serve thy gods, nor worship the golden image which thou hast set up." (<span class="scripture-ref">Dan. 3:16-18</span>). These were determined to do what is right regardless of the consequences. May the Lord increase their kind.</p>
+        <p><strong>Changes in Preaching.</strong> Efforts are being made to change our preaching, remodel the gospel and modernize the church. I was in the audience when a young man spoke disparagingly of those who would preach on such things as "adultery, instrumental music and institutionalism." This young man boldly stated that "these things are not relevant to salvation anyway." Others have stated, "that God does not expect us to be completely, doctrinally correct." Statements such as these emphatically illustrate the truthfulness of the apostle Paul's statement to Timothy, "Preach the word, be urgent in season, out of season; reprove, rebuke, exhort, with all longsuffering and teaching. For the time will come when they will not endure the sound doctrine; but, having itching ears, will heap to themselves teachers after their own lust, and will turn away their ears from the truth, and turn aside unto fables" (<span class="scripture-ref">2 Tim. 4:2-4</span>).</p>
+        <p><strong>What Is the Cause of Such Dangerous Tendencies?</strong> Certainly the cause can be attributed to any number of things. Possibly it is success which makes it easy to outgrow our plea for simple New Testament Christianity. Maybe it is that we have less opposition. At one time it was hard to be a Christian because of great hardships and persecutions which apparently strengthened the early church (<span class="scripture-ref">Rom. 5:3-5</span>). There is little indoctrination. The church is filled with people who know little about the doctrine of Christ and thus fail to abide in His doctrine (<span class="scripture-ref">2 Jno. 9</span>). Maybe compromise with our religious neighbors in attitudes toward doctrine and morality has shared in causing these modern trends within the church.</p>
+        <p><strong>What Is the Solution?</strong> The solution is greater respect for the authority of the scriptures and more firmness in practicing New Testament Christianity. Consider: <span class="scripture-ref">Jude 3</span>; <span class="scripture-ref">Eph. 4:14,15</span>; <span class="scripture-ref">Tit.1:13,14</span>; <span class="scripture-ref">Gal. 1:6-9</span>. From these it is evident that truth is fixed, unaltered and unchangeable. Preaching truth makes enemies. Paul asked the Galatians, "So then am I become your enemy because I tell you the truth?" (<span class="scripture-ref">Gal. 4:16</span>) One cannot stand for something and not stand against something, for truth stands against error.</p>
+        <p>Apostasy soon came in the first century church as was prophesied (<span class="scripture-ref">1 Tim. 4:1-3</span>; <span class="scripture-ref">2 Thess. 2:3,4</span>). What has happened can happen again if we allow too many worldly straws to collect on the backbone of the church.</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">Ultra-Liberalism Series</span>
+        <h2>The Grace of God and Ultra-liberalism</h2>
+        <p>In this writer's opinion the real problem with ultra-liberalism in the churches of Christ is a misunderstanding of the grace of God. Through the winter of 1999 and the spring of 2000 I spent many hours in study with a member of the congregation where I was working as an evangelist at that time. Some of those hours of study, were private, some public and some through e-mail correspondence. In these studies this brother advocated at least thirteen of the false views listed in our first article. In the spring of 2000 he loaned me a book by Cecil Hook, called Free In Christ. This was supposed to help me understand "where he was coming from." It did, and it also revealed where he wanted to take that congregation.</p>
+        <p>In chapter one of Free In Christ Hook gives a list of 100 issues over which churches of Christ have split. Among the issues listed are: baptism of the Holy Spirit, deaconesses, use of the church building for secular activities like Boy Scout meetings, eating in the church building, support of colleges from the church treasury, divorce for any cause, remarriage of a divorced person, instrumental music and abortion. Then he says, "In developing such issues we have become hair-splitters serving a God of quibbles. Sincerely, but being either ignorant or intellectually dishonest, we have twisted and misapplied Scriptures to support our contentions. We have become fixed in the tracks of dogmatism. God's purposes in His directives have been overshadowed by emphasis on lawful requirements. Binding incidental details often becomes more important than the love without which we cannot be bound together. Doctrine, instead of Savior, has become our center...God's grace has been limited to our achievement" (pg. 8).</p>
+        <p>Hook makes a distinction between "gospel" and "doctrine." According to Hook, "...the gospel is the good news of the Sonship of Jesus, His atonement, His resurrection, His glorification, His return to raise the dead. One cannot deny any element of this and be saved for that would be a denial of the saving role of Jesus, not just a denial of facts. Facts have no saving power" (page 53-54). He continues, "From the point of spiritual birth there will be diversity in disciples in knowledge, understanding, strength, ability, and maturity. Their justification is in being made right by an act of grace, not because they are right in all things. They are right because they are in Christ who is their righteousness, though they may not be right in all matters of faith. They are walking in the light, continually cleansed, and in fellowship (<span class="scripture-ref">1 John 1:5-10</span>). There is unity in the faith but diversity in matters of faith" (pg. 56).</p>
+        <p>The reason Hook believes we can overlook the differences in those 100 issues referred to above, is because the grace of God "continually cleanses" the sins associated with those issues. The important thing is that you obey the gospel, as he defines it, be sincere and love everybody. Everybody except those legalistic, Pharisees who have the audacity to ask for book chapter and verse.</p>
+        <p>Hook makes the same "gospel - doctrine" distinction advocated twenty-five years ago by W. Carl Ketcherside, LeRoy Garrett and Edward Fudge. As a matter of fact, on Hook's web site one can find a link to Edward Fudge and many articles and quotes from Ketcherside and Garrett. When I saw the connection between Hook and these men I realized the man I was studying with was not just a misguided young man, but a well indoctrinated member of the "grace-unity" or "unity in diversity" movement that took several promising young preachers and congregations back in the early 1970s.</p>
+        <p>We are saved by grace, <span class="scripture-ref">Eph. 2:8</span>. Our salvation by grace is in Christ Jesus, <span class="scripture-ref">Eph. 1:3-14</span>. However, the grace of God does not provide automatic or continuous cleansing for those in Christ. The Christian who sins must repent, confess his sin and in prayer ask for God's forgiveness, <span class="scripture-ref">Acts 8:22</span>; <span class="scripture-ref">1 John 1:9</span>. The blood of Christ is continuously available, but the conditions must be met. The grace of God instructs us on how to live, <span class="scripture-ref">Titus 2:11-15</span>. How can we expect to be saved by grace, if we ignore or deny the instructions of grace?</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">Identity Series</span>
+        <h2>Identity of A Church of Christ: Identifying Marks</h2>
+        <p>The most obvious mark of identity of churches is in their appearance to the world. Though we try not to present an image of looseness, we neither want the world to think that we are rigid deadbeats. That of course is one of our biggest complaints from outsiders. We should portray an open door policy without succumbing to worldly methods. Those things that are proper and good need to be seen by outsiders.</p>
+        <p>There are some things that just might spark some interest from those in the community or just passing by. These are scriptural and right, but we do not do them.</p>
+        <p>Advertising via the local paper and the use of billboards would definitely be different for most of us, but only because we have never done such. Why not? Perhaps we do not want to appear like that mega-church across town.</p>
+        <p>Things to do on the world-wide-web (the Internet). Placing an advertisement on the internet on a community page. Starting a webpage with basic information to any interested parties. Sharing (or linking) a website address with someone through advertising, or in the Sunday bulletin. Many brethren and churches operate websites that provide many teaching tools. Yes, the world has access to it, but it can be tailored to the local needs. With hundreds of millions of people hooked to the internet, we need to share the gospel with them. This is much cheaper than radio programs or TV programs, and we are foolish not to take advantage of this medium.</p>
+        <p>Are we so afraid that visitors would come with needs, and we fear we may not meet those needs? Many have come in looking for handouts and were handed spiritual material. We explained that the church is a spiritual body and not a social or welfare organization. Yes, we offered to take them to the restaurant next door, or to fill their tank up with gas (and, on a few occasions actually did), but mostly since we did not cut them a check or whip out fifty dollars, they just left and never came back. There are those who are truly in need, and there are those who are just looking for beer or drug money. It is not our place to judge what their motive is, so we should do something, but nothing to help them meet their evil goals. This surprises them, and they have seen Christianity in action, but most of the time, it is not what they are looking for.</p>
+        <p>Are we afraid that we will expose aliens to something they have never found? The truth. Too often, some of our members rush to visitors to apologize for the truth being spoken by the preacher or someone else. We are so afraid that this will chase them away. But we should not be ashamed of the gospel (<span class="scripture-ref">Romans 1:16</span>). Rather than push these folks out the door with a "y'all come back now, hear", we should be asking about their spiritual needs, for obviously they are looking. We need to give them a reason that their search has ended.</p>
+        <p>The physical appearance of the building should be neat, even though it is what is going on inside that is truly important. Some brethren think appearance is so important that many congregations have spent thousands of dollars to build newer buildings and much bigger and nicer ones. The sad thing in many instances is that they cease support for preachers in the field so that they can pay for their building or other works suffer from such. This ought not to be, brethren.</p>
+        <p>Next month, we will look at the identifying marks of our work and worship. Until then, may you be blessed in all that you have and do.</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>We have taken a short excursion into the preparation of a theme sermon, and have looked briefly at a text sermon. For this month we shift our thoughts to the preparation of an expository sermon. Here is what some men consider to be the most difficult kind of Bible preaching, yet virtually all will agree that it is here that the preacher will find the most satisfaction and his audience will find much of real interest. People who hear expository preaching and apply their minds will become good students of God's Word. The reason for that is because expository preaching is truly Bible centered. In this type of teaching a man takes a rather long text and gives an exposition of the text. He may take several verses, perhaps a paragraph or a chapter, or more, and present the prominent thoughts in relation to their larger context.</p>
+        <p>The Bible has an array of outlines made to order for expository teaching. For an example think with me of <span class="scripture-ref">Eph. 4:11-16</span>. I found an outline by C. W. Keiningham on this passage. I then studied some material from Jimmy Tuten and some from Mark Copeland, along with the set of notes I have compiled for the teaching of Ephesians. After many hours of prayerful changing and revising I finally held in my hand an outline that I think helps people get the main thoughts of <span class="scripture-ref">Eph. 4:11-16</span>. It may not answer all questions about the passage to everyone's satisfaction, so I present it to the hearers for their own study. The sermon centers on the thought of edifying the body of Christ. In the Introduction I say we all agree the church needs to be built up, and that we can grow by a process that is God-ordained.</p>
+        <p><strong>1. The Master Did His Work - Eph. 4:11-14.</strong> Under this first point: A. Verse 11: The Lord filled the church with a supply of gifts. Reading the Verse without the commas gives the thought that Christ gave these men and their gifts to the church. B. Verse 12: Gifts serve the purpose of building us toward maturity. The early church did not have the written New Testament, so they had inspired men. Today we have the revelation that came through inspired men. C. Verse 13: The gifts are to bring all Christians to maturity. D. Verse 14: We are not to be childish, but are to grow up, and not be deceived by false doctrine.</p>
+        <p><strong>2. Now We Are To Do Our Work (To Walk Toward Edification) - Eph 4:15-16.</strong> A. Verse 15: The basis for edification -- SPEAKING THE TRUTH. Truth is the foundation for all growth - <span class="scripture-ref">John 17:17</span>. Sound doctrine is the only way to reach the goal of Verse 13. B. Verse 15: The motivation for edification -- SPEAKING ... IN LOVE (Love for TRUTH and for SOULS). C. Verse 15: The direction of edification -- GROW UP INTO HIM. D. Verse 15: The scope of edification -- IN ALL THINGS - <span class="scripture-ref">2 Pet. 3:18</span>. E. Verse 16: A necessity for edification -- WHOLE BODY JOINED. F. Verse 16: Also necessary -- EVERY JOINT SUPPLIETH. G. Verse 16: The goal of edification -- INCREASE...UNTO EDIFYING.</p>
+        <p><strong>CONCLUSION:</strong> 1. Are all of us who are members growing toward personal maturity? 2. The beginning place -- Become part of the body - <span class="scripture-ref">1 Cor. 12:13</span>.</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="humanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Humanism Part 3 - Transition Towards Humanism</h2>
+        <p>We have looked at the teachings of Humanism, but we must consider the questions of where it is being taught, and how did it get there.</p>
+        <p>Though public schools and universities, the National Education Association (NEA) and certain curricula will be mentioned, nothing said here is intended to criticize faithful Christians who are educators. In fact, this material should help by giving them ammunition with which to work in a godless environment.</p>
+        <p>In any attempt to change a society, you start with the children. Hitler had his Youth Camps; the Catholic educators have said, "Give me a child for 6 years and I will give you a Catholic for life." Humanists recognize the importance of having a transitional generation too. John Dunphy wrote in The Humanist (official journal of the American Humanist Association): "I am convinced that the battle for humankind's future must be waged and won in the public school classroom by teachers who correctly perceive their role as the proselytizers of a new faith....The classroom must and will become an arena of conflict between the old and the new-the rotting corpse of Christianity, together with all its adjacent evils and misery, and the new faith of humanism, resplendent in its promise of a world in which the never-realized Christian ideal of 'love thy neighbor' will be finally achieved." (Jan/Feb 1983, pg 26).</p>
+        <p>It is of course, also necessary to have change agents to carry this out. In NEA; Values, Concepts and Techniques, we read, "Teachers belong to one of the largest groups of change agents in the country..." pg 241. Even their view of the role of a teacher is different. In an address given by a Harvard professor of psychiatry in 1973, "Every child in America entering school at the age of five is mentally ill, because he comes to school with certain allegiances toward our founding fathers, toward our elected officials, toward his parents, toward a belief in a supernatural being, toward the sovereignty of this nation as a separate entity. It is up to you teachers to make all these sick children well by creating the international children of the future."</p>
+        <p>This type of education (?) is known as affective education. Instead of disseminating facts, it encourages teachers to act as therapists and discuss how we should "feel" about facts. It encourages the subjective values clarification (situation ethics). Feelings are explored with many fictional scenarios (remember the old "lifeboat" decision? Ship is sinking with 10 people, lifeboat holds six...decide who lives and who dies?) and questionnaires asking often personal and embarrassing questions about their families.</p>
+        <p>What will be taught by these humanist change agents? You cannot simply look through the child's material for a chapter entitled "humanism" since it is a worldview rather than subject, as such. Obviously evolution would be something found in science texts which would be humanistic....but it is much deeper than that. Studies to promote Humanism include those that would denounce patriotism, and which would elevate all cultures as equal; sex education in which everything from incest to homosexuality is promoted as just as acceptable as a heterosexual marriage; where religion is scorned as promoting hate and division...not all religions, of course, but Christianity and Judaism... for all others are portrayed in a much more positive light. Much of the humanistic propaganda is also in lecture form and rather than printed material, making it harder for parents to detect.</p>
+        <p>Next time, we plan to examine some programs and textbook quotes to show the pervasiveness in the classroom, and how it is often bootlegged under other titles.</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: The Kingdom - Its Beginning</h2>
+        <p>In <span class="scripture-ref">2 Samuel 7:12</span> God made a promise to David. He said, "When thy days are fulfilled and thou shalt sleep with thy fathers, I will set up thy seed after thee, that shall proceed out of thy bowels, and I will establish his kingdom." In fulfillment of this promise the angel Gabriel said to Mary, "And behold, thou shalt conceive in thy womb, and bring forth a son, and shall call His name Jesus. He shall be great, and shall be called the Son of the Most High and the Lord shall give unto Him the throne of His father David" (<span class="scripture-ref">Luke 2:31-32</span>). In <span class="scripture-ref">Matthew 1:1</span> it says, "The book of the generation of Jesus Christ, the son of David, the son of Abraham." In <span class="scripture-ref">Matthew 3:1-2</span>, having described the birth of Jesus, the record says, "And in those days cometh John the Baptist, preaching in the wilderness of Judea saying, Repent ye, for the kingdom of heaven is at hand." At hand simply means near, or as we might say, right around the corner. In <span class="scripture-ref">Luke 3:1-3</span> the record says, "Now in the fifteenth year of the reign of Tiberias Caesar... the word of God came unto John.. and he came unto all the region round about the Jordan." Notice John came during the reign of Tiberias Caesar, a Roman ruler.</p>
+        <p>In <span class="scripture-ref">Daniel 2</span> Nebuchadnezzar had a dream that Daniel interpreted to mean four kingdoms. The first was Babylon, the next Medo-Persian, the third Macedonia, the fourth was Rome. In <span class="scripture-ref">Daniel 2:44</span> Daniel said, "In the days of these kings shall the God of heaven set up a kingdom which shall never be destroyed." As we have seen from Luke, John the Baptist came during the days of the Roman government, and he said that the coming of this kingdom was at hand or near. So, the kingdom that was promised to David was to be set up during the days of the Roman government.</p>
+        <p>Furthermore, Jesus told some of His disciples, "Verily I say unto you, There are some here of them that stand by, who shall in no wise taste of death, till they see the kingdom of God come with power."</p>
+        <p>It is the contention of premillennialists that the kingdom was offered to the Jews but they rejected the offer and Jesus postponed the setting up of the kingdom until the second coming of Christ. This has some serious consequences. Jesus said it would come during the earthly life of His disciples who were with Him. If it was not to be set up as to the time He said, He was mistaken about it. Was Jesus mistaken about anything? It also leads to the absurd conclusion that some of those who were alive when Jesus was on earth are about 2,000 years old! It also raises the question: Was the offer of the kingdom to the Jews a sincere offer? If it was, Jesus was mistaken about it. How can that be? It also raises the question, What would have happened if the Jews had accepted the offer? The church would not have been established.</p>
+        <p>It is also the contention of premillennialists that the kingdom as foretold by Daniel will eventually be set up. Daniel, however, said that it would be during the days of the Roman government. Premillennialists argue that government is to be restored and then the kingdom will be set up. Daniel's prophecy concerned a Roman government that was preceded by a Macedonian government which was preceded by the Medo-Persian government which was preceded by the Babylonian government. Will all these kingdoms have to be restored? This stretches credulity! It would be far better to accept the truth that the kingdom has been established and it was done so during the days of the apostles.</p>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="prayer">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "The Privilege of Prayer"</h2>
+        <p>When one becomes a Christian through obedience to their Lord in baptism, <span class="scripture-ref">Acts 10:48</span>, they are added to the Lord's church, <span class="scripture-ref">Acts 2:47</span>. As a Christian, one of the outstanding privileges available to him is prayer. Whether one prays for himself or others, he attests man's never ending need of God. It is the Father's desire and will that His children pray. "Pray without ceasing; for this is God's will for you in Christ Jesus" (<span class="scripture-ref">1 Thess 5:17,18</span>). When one recognizes his desperate, urgent, constant need of God's providential protection and care, his desire for God represses every other desire, and prayer becomes a major part of everyday life. What a marvelous privilege the Christian has to "draw near with confidence to the throne of grace, that we may receive mercy and may find grace to help in time of need," (<span class="scripture-ref">Heb 4:16</span>). There is added comfort and joy in knowing that "the effective prayer of a righteous man can accomplish much" (<span class="scripture-ref">James 5:16</span>), and that God has the ability to answer prayer.</p>
+        <p class="block-quote">"The righteous cry out and the Lord hears, And delivers them out of all their troubles. The Lord is near to the broken hearted, And saves those who are crushed in spirit." <span class="scripture-ref">Psalms 34:17,18</span></p>
+        <p>The Christian's prayer is for the purpose of keeping his mind centered on God. God speaks to us through His words, His divine Book, the Bible. We speak back to Him through prayer. We pour out our hopes and our fears, our triumphs and our disappointments, our joys and our sorrows. We do not ask to be spared the trials and temptations of life; we ask for the patience and strength to bear them. We do not ask to be materially blessed above others; we ask for the wisdom to use our riches to the glory of God. We do not ask to escape life's tears and heartaches; we only ask for the strength to stand firm and to overcome any and all of Satan's snares. Having the great assurance that Jesus Christ, "who has been tempted in all things as we are, yet without sin; let us therefore draw near with confidence to the throne of grace, that we may receive mercy and may find grace to help in time of need," (<span class="scripture-ref">Heb 4:15,16</span>).</p>
+        <p>God's promise to answer prayer is conditional. One may pray and not be heard. James said, "You ask and do not receive" (<span class="scripture-ref">James 4:3</span>); therefore, for one's prayer to be heard they must:</p>
+        <ol class="numbered-list">
+          <li><strong>Be righteous.</strong> God will only hear their prayer. "For the eyes of the Lord are toward the righteous, and His ears attend to their prayer, but the face of the Lord is against those who do evil." <span class="scripture-ref">1 Peter 3:12</span></li>
+          <li><strong>Be obedient.</strong> God answers prayer of those who keep His commandments, <span class="scripture-ref">1 Pet 3:12</span>.</li>
+          <li><strong>Abide in Christ.</strong> Prayers are answered when we abide in Christ and His words abide in us, <span class="scripture-ref">John 15:7</span></li>
+          <li><strong>Ask believing.</strong> "And all things you ask in prayer, believing, you will receive." <span class="scripture-ref">Matt 21:22</span></li>
+          <li><strong>Have the right motive.</strong> "You ask and do not receive, because you ask with wrong motives..." <span class="scripture-ref">James 4:3</span></li>
+          <li><strong>Pray in the name of Christ.</strong> "And whatever you ask in My name, that will I do..." <span class="scripture-ref">John 14:13</span></li>
+          <li><strong>Pray according to the will of God.</strong> "And this is the confidence which we have before Him, that, if we ask anything according to His will, He hears us." <span class="scripture-ref">1 John 5:14</span></li>
+        </ol>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published April 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

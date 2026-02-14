@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - October 2000</title>
+  <meta name="description" content="The Strait Way newsletter, October 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10" selected>October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#controversy">Controversy</a>
+        <a href="#humility-2">Evangelist's Humility II</a>
+        <a href="#ad70-calvinism">A.D. 70: Calvinism</a>
+        <a href="#institutionalism-expedient">Institutionalism Expedient</a>
+        <a href="#godhead">The Godhead</a>
+        <a href="#conversion-treasurer">Conversion: Treasurer</a>
+        <a href="#legalism-gospel">Legalism &amp; Gospel</a>
+        <a href="#spake-boldly">They Spake Boldly</a>
+        <a href="#words-mouth">Words of My Mouth</a>
+      </nav>
+
+      <article class="article" id="controversy">
+        <span class="article-category">Commentary</span>
+        <h2>Controversy</h2>
+        <p>Since Jesus is the Prince of peace (<span class="scripture-ref">Isa. 9:6</span>) and Christians are blessed for being peacemakers (<span class="scripture-ref">Mt. 5:9</span>) and Paul said, "Let all bitterness, and wrath, and anger, and clamour, and evil speaking, be put away from you, with all malice: And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you" (<span class="scripture-ref">Eph 4:31,32</span>), should Christians engage in controversy?</p>
+        <p>Controversy repels many who associate it with strife and wrangling. Though these may accompany controversy, are they necessary ingredients? NO!! When engaged in controversy, the child of God should see that he is not the cause of strife. If there is strife, let it be on the part of someone else.</p>
+        <p>Some admonitions are in order: (1) "Debate thy cause with thy neighbor..." (<span class="scripture-ref">Prov. 25:9</span>), (though this may not be specific regarding public debate, there is a time to talk with one's neighbor and this may involve controversial questions), (2) contend earnestly for the faith (<span class="scripture-ref">Jude 3</span>), (3) and be set for the defence of the gospel (<span class="scripture-ref">Phil. 1:17</span>).</p>
+        <p>Jesus, the Master Teacher, engaged in controversy. He reasoned concerning (1) the baptism of John (<span class="scripture-ref">Mt. 21:23-27</span>), (2) tribute money (<span class="scripture-ref">Mt. 22:17-22</span>), (3) woman married to seven brothers (<span class="scripture-ref">Mt. 22:23-33</span>), (4) greatest commandment (<span class="scripture-ref">Mt. 22:34-40</span>), and (5) Son of David (<span class="scripture-ref">Mt. 22:41-46</span>). Why did Jesus discuss controversial questions? To have some sort of verbal fight? NO!! But, that truth might be known and the defence of truth shown to rising generations. Under fire, Jesus stood the test (<span class="scripture-ref">Luke 11:52-54; Luke 23:10</span>). Would we have stood the test?</p>
+        <p>Though Elijah hid from Jezebel, he did not shrink from controversy with her husband, Ahab, and her prophets (<span class="scripture-ref">I Kings 18</span>). Neither, was Elijah's successor, Elisha, afraid of those who crossed his path.</p>
+        <p>Paul and Barnabas did not shun to contend with the false teachers in Antioch of Syria (<span class="scripture-ref">Acts 15:1ff</span>), the unbelieving Jews in Antioch of Pisidia (<span class="scripture-ref">Acts 13:46-48</span>), the Athenians (<span class="scripture-ref">Acts 17</span>), and the beasts at Ephesus (<span class="scripture-ref">I Cor. 15:32</span>). What would we have done?</p>
+        <p>There have been controversies in the past; there are controversies in the present: (1) Deity/humanity of Christ, (2) Genesis One, (3) Marriage, divorce, and remarriage, (4) Romans 14 and fellowship, (5) the one covenant doctrine, (6) the AD 70 doctrine, and (7) modesty and the worldly mind. What is a faithful Christian to do? Paul has the answer: "Put on the whole armour of God, that ye may be able to stand against the wiles of the devil" (<span class="scripture-ref">Eph. 6:11</span>). Peter also has the answer: "But sanctify the Lord God in your hearts: and be ready always to give an answer to every man that asketh you a reason of the hope that is in you with meekness and fear" (<span class="scripture-ref">I Pet. 3:15</span>). "The weapons of our warfare are not carnal, but mighty through God to the pulling down of strong holds..." (<span class="scripture-ref">II Cor. 10:4</span>). Let us take "...the sword of the Spirit, which is the word of God..." (<span class="scripture-ref">Eph. 6:17</span>) and "...fight the good fight of faith..." (<span class="scripture-ref">I Tim. 6:12</span>). Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="humility-2">
+        <span class="article-category">The Evangelist and His Work</span>
+        <h2>The Evangelist's Humility, Part II</h2>
+        <p>In contrast with the quarrelsome striving forbidden by the Lord, the Spirit's positive instruction specifies that he be gentle toward all. One desirous of teaching others must master himself, with the Lord's help, so that he is affable and approachable, not sarcastic, irritable, or scornful. Such manifestations of pride deter learning, as would the beam in the eye. He must win souls by winning them to Christ, appealing to their hearts by his love for them. Until they trust him, they will not hear the words that he speaks.</p>
+        <p>The Lord's servant who would teach others must also be qualified or apt to teach. He should aim to be a teacher, not a controversialist, for that is his work given by Christ. That is not to say that he avoids controversial matters and never combats sin; he cannot serve Christ without doing so. On the other hand, his principal duty is to conduct himself as a humble teacher of men. The stress in this "apt to teach" is not on skill of instruction, but on attitude and manner that fit him to teach others. He must be the kind of man to whom others will draw near to learn the will of God.</p>
+        <p>Though he is ever the patient teacher, his listeners will not always value his counsel or appreciate his gentle manner. They will often scorn or ridicule him, as some did the Master in the first century. Abuse might be hurled at him, but he must be forbearing in such instances. Even when he suffers injuries, he must imitate his Master in his patience under provocation and hold up under the burden of evil heaped on him. Jesus did not revile His revilers or threaten them, turning the matter over to the Lord's providence (<span class="scripture-ref">1 Pet. 2:21-23</span>). Though the Lord's servant can certainly do worse, he will never do any better than the Lord in his humble denial of himself.</p>
+        <p>In meekness he must correct those in opposition. Here again there is humility in his mildness, instead of an assertion of self by dependence on carnal weaponry. He will treat those contradicting truth with courtesy and respect, as he would wish to be treated if he were in error. He will not boast of his knowledge or disparage the ignorance of the one being taught. Correction of those in error is the design of all his teaching. He does not desire their embarrassment, but their confidence; he does not seek their downfall, but their understanding. The teacher's disposition is inclined to promote the welfare of those being taught, not his own reputation or ego.</p>
+        <p>Finally he must allow God to work in people by means of His Word. Just as there is no replacement for the Word as the instrument employed by the Lord (<span class="scripture-ref">Lk. 8:11; Eph. 6:17</span>), so there is no substitute for allowing Him to accomplish His will. It is God who gives people repentance to the acknowledging of the truth, just as He gives the increase after the planting and watering. Humble acceptance of one's place in the divine scheme will let God work through the taught Word.</p>
+        <p class="blockquote">"But Michael the archangel, when contending with the devil he disputed about the body of Moses, durst not bring against him a railing judgment, but said, The Lord rebuke thee. But these rail at whatsoever things they know not: and what they understand naturally, like the creatures without reason, in these things are they destroyed." (<span class="scripture-ref">Jude 9-10</span>, ASV)</p>
+        <p class="author-signature">Bobby Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-calvinism">
+        <span class="article-category">A.D. 70 Doctrine</span>
+        <h2>This Doctrine Leads Straight to Calvinism</h2>
+        <p>Calvinism is the predominant doctrine of the 'Protestant' world. It teaches that man is born with Adam's sin {Total Depravity}. That a certain number have been chosen of God, arbitrarily, to be saved and all others lost {Unconditional Election}. This leads to the necessity that Jesus died not for all men but only for the 'elect' {Limited Atonement}. Since the number of the saved has already been sealed by God, then they have no responsibility or choice in the matter {Irresistible Grace}. Finally, if all of this is true, then this elect group cannot fall from grace {Impossibility of Apostasy}.</p>
+        <p>This is the logical end of the 'A.D. 70' doctrine. No doubt many that embrace this doctrine will deny emphatically that this is true. Notice the following scriptures.</p>
+        <p><span class="scripture-ref">2 Corinthians 11:2</span> - "For I am jealous for you with godly jealousy. For I have betrothed you to one husband, that I may present you as a chaste virgin to Christ."</p>
+        <p><span class="scripture-ref">Ephesians 5:25-27</span> - "Husbands, love your wives, just as Christ also loved the church and gave Himself for her, that He might sanctify and cleanse her with the washing of water by the word, that He might present her to Himself a glorious church, not having spot or wrinkle or any such thing, but that she should be holy and without blemish."</p>
+        <p>Here in these verses, we have the church likened to a bride who is to be given to her husband in marriage. Actually, in this context we also have Christians spoken of as the 'one flesh' wife of Christ and this is BEFORE A.D. 70 {v 30}; {<span class="scripture-ref">Rom. 7:1-3</span>}. The point being that both metaphors are used to describe the relationship of Christians to Christ.</p>
+        <p>Of course the reference on the marriage of the Lamb that most are familiar with is found in <span class="scripture-ref">Revelation 21:2</span>. I realize that whether the Revelation of John is referring to a judgment against Rome or Jerusalem is a never ending source of discussion for many. My own thoughts are that in this context the primary meaning is that of comparing the God given victory of Christ's kingdom over evil Rome to a joyous celebration {a marriage}. There is also a secondary application of heavenly rewards to the righteous.</p>
+        <p>In the former verses given, we have a future event alluded to. Notice in <span class="scripture-ref">1 Cor. 15:23-24</span> - 'But each one in his own order; Christ the firstfruits, afterward those who are Christ's at His coming. Then comes the end, when He delivers the kingdom to God the Father, when He puts an end to all rule and all authority and power.'</p>
+        <p>Now, here is the point. Has the Bride of Christ already been presented to God? IF the kingdom or Church of Christ was delivered to God back in A.D. 70, how are saints today added to it? The only way that anyone could be added to the kingdom after that date would be if their names were added in advance! In other words, they must be predestined to be saints. Now we see how that the ugly head of Calvinism has reared itself. If all Christians after A.D. 70 are predestined to be saints, then they cannot possibly fall from grace, being the elect of God.</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism-expedient">
+        <span class="article-category">Institutionalism</span>
+        <h2>Institutionalism — An Expedient?</h2>
+        <p>When the early pioneer preachers of the 1800's began the religious revolution in America, commonly called The Restoration Movement, they determined to restore the church of the New Testament in the hearts and minds of people. They realized this could only be accomplished by a return to the word of God, making it the final authority in all religious matters. By showing the greatest respect for God's word, i.e., speaking only as the Bible speaks, doing Bible things in Bible ways, and calling Bible things by Bible names (<span class="scripture-ref">1 Pet. 4:11; 1 Cor. 2:10-13; Col. 3:16</span>), they succeeded in restoring the original church in organization, worship, and conditions of membership. As a result of their efforts the church of Christ became one of the fastest growing religious groups in America. They grew mightily, just like the church of the first century. But the devil soon threw a monkey wrench into the machinery.</p>
+        <p>As history shows, man just cannot be satisfied with God's arrangement. So, as seen in previous articles, some learned (?) men decided the church needed some help. It wasn't growing fast enough. In their human wisdom they designed a human institution to assist the church in the work of spreading the gospel. In 1849 the UCMS was born. Its express purpose was to expedite the local churches in fulfilling their mission of evangelism, by supplying, supporting, and sending missionaries to preach the gospel to the lost. The Society was designed to act in place of the churches, to be an organization through which churches could cooperate in the work of evangelism. In the years following the birth of the UCMS, at least six other missionary organizations grew out of the original effort. These organizations finally were brought together under one head with the establishment of the United Missionary Society in 1919.</p>
+        <p>Every one of these human societies (institutions) was opposed by faithful men. They were considered to be unscriptural, existing without Biblical authority. The previous article showed they were felt to be SUBSTITUTES for the church since they occupied the same ground God had assigned the church. They were HUMAN INSTITUTIONS, encroaching on the will and wisdom of God.</p>
+        <p>As has been previously mentioned, the Society advocates admitted they had no scriptural basis to defend their innovation, so they turned to EXPEDIENCY. The argument was that God charged the church universal with preaching the gospel to the world but failed to provide any method to do so, therefore it was left up to HUMAN EXPEDIENCY to devise the plan. The fatal error in this argument is the misunderstanding of the church universal. The church universal is nothing more than a relationship, composed of all of God's people wherever they are located. God provided no earthly organization for it, and therefore it has none. Since it has no earthly organization, it has no earthly work to do. It cannot DO anything, OWN anything or SAY anything on earth. Anytime men seek to activate the church universal they demonstrate a basic misunderstanding of the church universal. They think the church universal is made up of local churches, but this is not so. It is made up strictly of individuals. Whatever the church universal accomplishes is accomplished by each individual saint joining a local church and fulfilling the mission of the local church. It is denominational to the core to seek to activate the church universal, but it is a persistent and prevalent idea among brethren. This type of thinking produced the Society, and does so today in the proliferation of human organizations and institutions that plague the church.</p>
+        <p>In spite of all the hard-fought battles and intense teaching by every possible medium during the next six decades following the introduction of the first human institution (The UCMS), these men were unable to stem the tide of apostasy. Many individuals and churches were lost to the digression. Finally in 1906 the departure was complete when the denomination known as the Christian Church was officially recognized by the government census of that time. But, thankfully, a faithful remnant remained true to God's word.</p>
+        <p>By now it would seem that the principle of demanding and expecting scriptural authority in all matters religious would be clearly understood by those seeking to please God, but apparently it is not so. The last two articles in this series will show the battle against institutionalism is still not over. It rages on.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="godhead">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>How Many Compose The Godhead?</h2>
+        <p>The question of the Godhead is one that comes up from time to time. I have talked with some in person and through e-mail who take the position that there is only one in the Godhead, Christ. Muslims also believe that there is but one personality who is Divine: God or "Allah." What does the Bible teach about the Godhead? Is there but one divine being, or are there three which compose the Godhead?</p>
+        <p>Some have heard the word "trinity" used, and contest that since the word "trinity" cannot be found in the Bible, that it must be a man-made doctrine. Not so! The absence of the word "trinity" from our Bible does nothing to prove or disprove the number of divine beings which compose the Godhead. The Bible states as fact that there are three in the Godhead: God the Father, God the Son, and God the Holy Spirit.</p>
+        <p>That there is a plurality in the Godhead is seen in the very beginning of the Bible. In <span class="scripture-ref">Genesis 1</span>, God said, "Let US make man in OUR image after OUR likeness..." (<span class="scripture-ref">Gen. 1:26</span>). This makes it clear that there is more than one in the Godhead. For further evidence, please read about Shadrach, Meshach, and Abednego being cast into the fiery furnace. Once inside, the people saw not three, but four figures in there; the fourth being "like the Son of God" (<span class="scripture-ref">Dan. 3:25</span>). In <span class="scripture-ref">Daniel 7:13</span>, Daniel, in the "night visions" saw the "Son of Man" come to "the Ancient of Days." The "Ancient of Days" is God the Father. Further evidence of a plurality in the Godhead is seen in the New Testament. Read <span class="scripture-ref">John 3:16</span> and you'll read about the Father sending His Son to this earth. The sender cannot be that which is sent, can he?</p>
+        <p>To see that there are three in the Godhead, consider the fact that Jesus said that baptism is to be done by the authority of the Father, Son and Holy Ghost (<span class="scripture-ref">Matt. 28:19</span>). In <span class="scripture-ref">Matthew 3:16-17</span>, after Jesus' baptism, we have Jesus in the water, the Holy Spirit like a dove descending upon Him, and a voice from Heaven saying, "this is my beloved Son in whom I am well pleased." There are three in the Godhead!! A parallel account is found in <span class="scripture-ref">Luke 3:21-22</span>. <span class="scripture-ref">II Corinthians 13:14</span> discusses the "grace of the Lord Jesus Christ ... the love of God, and the communion of the Holy Ghost." Once again, three are mentioned.</p>
+        <p>Some have the mistaken notion that the Holy Spirit is not a divine being, but a force, or some type of feeling. In truth, the Holy Spirit, is a separate personality in the Godhead. Please read <span class="scripture-ref">Acts 5</span> where Ananias and Sapphira lied about how much money they had "laid at the apostles' feet" (<span class="scripture-ref">Acts 5:2</span>). "But Peter said, Ananias, why hath Satan filled thine heart to lie to the HOLY GHOST, ... thou hast NOT lied unto men, BUT UNTO GOD" (<span class="scripture-ref">Acts 5:3-4</span>). Here in this passage, we see that when Ananias lied to the Holy Ghost, he lied to God; and when he lied to God he lied to the Holy Ghost. Please understand, the Holy Spirit is a personality. Christ described Him as "he," NOT "it" (<span class="scripture-ref">Jn. 14:26, 15:26, 16:7-14</span>). Please read those passages and underline each time the masculine personal pronoun "he" is used, NOT "it" as would be used if you were talking about a force or a feeling.</p>
+        <p>As further evidence of the fact that the Holy Spirit is a divine being, consider: 1) The Holy Spirit can be lied to (<span class="scripture-ref">Acts 5:3-4</span>). 2) The Holy Spirit can be grieved (<span class="scripture-ref">Eph. 4:30</span>). 3) The Holy Spirit can be vexed (<span class="scripture-ref">Isa. 63:10</span>). 4) The Holy Spirit revealed things (<span class="scripture-ref">Luke 2:26; II Peter 1:20-21; Acts 1:16, 21:11, 28:25-27; I Cor. 2:13; Heb. 3:7-8 -- Ps. 95:7-11</span>). 5) The Holy Spirit gave commandments to the apostles (<span class="scripture-ref">Acts 1:2</span>). 6) The Holy Spirit was a witness to the death, burial, and resurrection of Christ (<span class="scripture-ref">Acts 5:33</span>). 7) The Holy Spirit can be resisted (<span class="scripture-ref">Acts 7:51</span>). 8) Paul and Barnabas were sent on their first journey by the Holy Spirit (<span class="scripture-ref">Acts 13:4</span>). 9) There were some things that "seemed good" to the Holy Spirit (<span class="scripture-ref">Acts 15:28</span>). 10) At one point, the Holy Spirit forbade Paul and the others to go to Asia (<span class="scripture-ref">Acts 16:6</span>). Now, are these the attributes of a feeling, or of a person? Answer this question, and your problem is solved!</p>
+        <p>There are clearly three personalities in the Godhead: God the Father, God the Son, and God the Holy Spirit. Read <span class="scripture-ref">Ephesians 4:4-6</span>, and you'll read about "One Spirit" (v. 4), "One Lord" (v. 5), and "One God and Father of All" (v. 6). I'm no mathematician, but I do know that 1+1+1=3! Remember, "no man can say that Jesus is the Lord, but by the Holy Ghost" (<span class="scripture-ref">I Cor. 12:3</span>).</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-treasurer">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: The Treasurer</h2>
+        <p>In <span class="scripture-ref">Acts 8</span>, we find yet another example of the conversion process. Verses 26-35 of this chapter tell of Philip being divinely directed down a road leading from Jerusalem to Gaza. He saw a man of great importance, the treasurer of the Ethiopian queen, riding in his chariot. The Spirit of God indicated to Philip that he should draw near to that chariot. The man did not understand the prophetic passage he was reading and asked for Philip's help in studying it. Verse 35 reads, "Then Philip opened his mouth, and beginning at this Scripture, preached Jesus to him."</p>
+        <p class="subheading">If You Believe</p>
+        <p>Having listened to Philip preach Jesus, this treasurer noticed a body of water alongside the road they were traveling. He asked, "'See, here is water. What hinders me from being baptized?' Then Philip said, 'If you believe with all your heart, you may.'" (vv.36-37) Conversion involves a change in one's relationship with God, a change from sinful to sinless. This is a change wrought by God through Jesus Christ. But the change occurs at the point of a person's submission to God's will. I have taught in this series that the first element involved in man's submission is faith. He must, as Philip put it, believe in Jesus with all his heart. This man of Ethiopia had such belief.</p>
+        <p class="subheading">Natural, Not Supernatural</p>
+        <p>Let me add, however, that the element of faith is not mystical in its nature. It is not the result of a miraculous operation on the heart. Consider this popular theological position: "We believe and teach that in conversion and sanctification there is an influence of the Spirit in addition to that of the Word, and distinct from it - - an influence, without which the arguments and motives of the gospel would never convert and sanctify one of Adam's ruined race." (N.L. Rice, The Campbell-Rice Debate, pg.628) This is the opinion among many Protestants. It is thought that man is so inherently sinful he cannot believe in Jesus Christ unless there is some direct influence of the Holy Spirit within his heart separate from the word of God. Did the Holy Spirit play a part in the conversion of this treasurer? Yes. In fact, the Holy Spirit deemed it important enough to record His role in this man's conversion. So what was this important role of the Holy Spirit? "Then the Spirit said to Philip, 'Go near and overtake this chariot.'" (<span class="scripture-ref">Acts 8:29</span>) His role, simply, was to connect the sinner in need of conversion with the man who could teach him the word of God. There is not one hint in this passage of direct operation upon this man's heart. The man of God taught the word to the man of Ethiopia (v.35) and the sinner resultantly believed (v.37). Now, was that all?</p>
+        <p class="subheading">Repentance</p>
+        <p>There is no explicit statement as to the man's repentance. But remember that repentance involves the change of a person's will. They decide to submit their will to the will of Jesus Christ. That this man repented is obvious in his desire to be baptized. He had heard the message of Jesus. This message included Jesus' teaching on baptism (<span class="scripture-ref">Mk. 16:16</span>). The next thing we read is the desire of this sinner to be baptized at the next sight of water. He had resolved to give his will over to Jesus.</p>
+        <p class="subheading">"I Believe..."</p>
+        <p>Just as we noticed in the article on the element of confession (article #4), a person must believe but that faith must become known. It must be professed. "For what man knows the things of a man except the spirit of the man which is in him?" (<span class="scripture-ref">1 Cor. 2:11</span>) Philip couldn't know the man believed until he made it known to Philip. This is precisely what took place. "...he answered and said, 'I believe that Jesus Christ is the Son of God.'" (<span class="scripture-ref">Acts 8:37</span>)</p>
+        <p class="subheading">"He Baptized Him..."</p>
+        <p>Verse 38 of our text says that the treasurer of the Ethiopian queen was baptized by Philip in the nearby water. But why was he baptized? It is simple if one pieces together the facts. He had come to believe in Jesus as Christ. He felt a new resolve as evidenced by his desire to be baptized in keeping with Jesus' will. But this baptism Jesus' disciples taught was part of the conversion or changing process (<span class="scripture-ref">Mk. 16:15-16</span>). Plainly, the man of Ethiopia wanted to be baptized in order that his state or relationship with God would change. Logically, after being baptized, this man "...went on his way rejoicing." Only at this point did he have reason to rejoice.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="legalism-gospel">
+        <span class="article-category">Guest Article</span>
+        <h2>Legalism And The Gospel</h2>
+        <p>"The subjects that have been handled in this meeting are weighty, dealing with issues of vast importance to the church, to society, to all individuals, young or old, great or small. I have felt an appreciation of your interest in them, and your forbearance with me in the extra time required to discuss them.</p>
+        <p>"The subjects that have had to do with denominational dogmas and doctrines involve issues and controversies that have been debated through the years; but concerning which the young generation has not had the advantage of the thorough indoctrination, such as had our fathers before us, under the early preachers of the church, preachers under whom some of you were reared, and under whose preaching I was tutored. They indoctrinated us. We knew what it was all about. I am firmly convinced that the rising generation should have the opportunity of hearing these issues thoroughly discussed and debated, that they may be anchored to the truth and able to meet 'every wind of doctrine' in modern forms of error.</p>
+        <p>"I was brought up under the preaching of men in Texas well known to many of you, who baptized many more people than are being baptized today; men who debated; men who 'called names,' whether in the polemics of debate or preaching in the pulpit. They were men of fervor and faith. We should not forget their crusading spirit. I want to see their spirit revived. Like the spirit of Elijah in John the Baptist, and the spirit of Huss in Luther, I want to see the spirit of the early gospel preachers revived in the young men of today. They put power in their preaching. They moved men. They did not preach sermonettes; they were not preacherettes.</p>
+        <p>"I can remember when preachers wore cuffs attached to the sleeve by a device of some sort, stiffly laundered cuffs. That way the preacher could wear the same shirt the whole meeting, just change the cuffs! In these difficult days of the rationing of laundry it would be rather convenient for that system to be in vogue. But some of the early preachers preached with such force that they would send a stiffly laundered cuff sailing out over the crowd! It is a bold contrast with some of the milquetoast elocution heard in pulpits today.</p>
+        <p>"A young man once came to A.J. McCarty, and asked him how to go about making a preacher. Jack McCarty said, in all bluntness that characterized him, 'Young man, get brimful and running over with the word of God and it will come out!' And it will come out. It may be spontaneous combustion, but it will 'bust' everything it hits. That is the preaching needed today, rather than this 'go away around by the Joneses' sort of a preaching; this speak softly, tread lightly, step careful, kind of preaching. I do not believe in croaking out insults against people, but I do believe in the kind of preaching that draws the issue, and draws the blood when the occasion requires it. The purpose of this meeting has simply been to call us back to these old principles."</p>
+        <p class="author-signature">From Foy E. Wallace's BULWARKS OF THE FAITH</p>
+      </article>
+
+      <article class="article" id="spake-boldly">
+        <span class="article-category">Commentary</span>
+        <h2>They Spake Boldly</h2>
+        <p>"But, lo, he speaketh BOLDLY, and they say nothing unto them" (<span class="scripture-ref">John 7:26</span>). "But Barnabas took him, and brought him to the apostles, and declared unto them how he had seen the Lord in the way, and that he had spoken to him, and how he had preached BOLDLY at Damascus in the name of Jesus" (<span class="scripture-ref">Ac. 9:27</span>). "And he spake BOLDLY in the name of the Lord Jesus, and DISPUTED against the Grecians: but they went about to slay him" (<span class="scripture-ref">Acts 9:29</span>). "Long time therefore abode they speaking BOLDLY in the Lord..." (<span class="scripture-ref">Acts 14:3</span>). "And he went into the synagogue, and spake BOLDLY for the space of three months, DISPUTING and PERSUADING the things concerning the kingdom of God" (<span class="scripture-ref">Acts 19:8</span>). "Preach the word; be instant in season, out of season; reprove, rebuke, exhort..." (<span class="scripture-ref">II Timothy 4:2</span>).</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="words-mouth">
+        <span class="article-category">Word Study</span>
+        <h2>The Words Of My Mouth</h2>
+        <p>"Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O Lord...For from within, out of the heart of men, proceed evil thoughts...All these evil things come from within and defile the man" (<span class="scripture-ref">Ps. 19:14; Mark 7:21-23</span>). Hence, the need to "Keep thy heart with all diligence; for out of it are the issues of life" (<span class="scripture-ref">Prov. 4:23</span>).</p>
+        <p>The attitude that led Israel to say, "...Give us a king...That we also may be like all the nations..." (<span class="scripture-ref">I Sam. 8:6-20</span>) is the attitude that leads some brethren to take up the customs of their religious neighbors. Some seem to want to use terms our religious neighbors have borrowed from Madison Avenue or one another: "dynamic," "exciting," "entertaining," "fun," "fantastic," "awesome," "retreat," "praise," and "revival." To me, the last two terms seem to be used, not because they have Biblical roots, but because they are used by our religious neighbors, they are popular, they are the "in" thing. It is an evidence that some are getting closer to them, rather than teaching them and bringing them closer to the truth. It is a sign of softness, weakness, and decay. The religious world wants us to use ITS terminology.</p>
+        <p>In daily conversation, some use words that take God's name in vain. Many may not use curse words, but how many times have you heard brethren use "God" or a "go" word as an exclamation? "Go" words are four or five letter words which begin with "go." They are a corruption of the name "God."</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published October 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

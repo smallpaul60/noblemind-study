@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - November 2000</title>
+  <meta name="description" content="The Strait Way newsletter, November 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11" selected>November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#wise-counsel">Wise Counsel</a>
+        <a href="#evangelist-congregation">Evangelist &amp; Congregation</a>
+        <a href="#ad70-words">A.D. 70: War of Words</a>
+        <a href="#institutionalism">Institutionalism</a>
+        <a href="#baptism-sins">Baptism &amp; Sins</a>
+        <a href="#conversion-saul">Conversion: Saul</a>
+        <a href="#perfect-peace">Perfect Peace</a>
+        <a href="#father-example">Father as Example</a>
+      </nav>
+
+      <article class="article" id="wise-counsel">
+        <span class="article-category">Commentary</span>
+        <h2>Wise Counsel In Learning</h2>
+        <p>Some are ever learning and never able to come to a knowledge of the truth (<span class="scripture-ref">II Tim. 3:7</span>). Others are more noble (<span class="scripture-ref">Acts 17:11</span>). Consider circumstances productive of learning.</p>
+        <p class="subheading">The Sermon</p>
+        <p>"But Peter, standing up with the eleven, lifted up his voice, and said unto them..." (<span class="scripture-ref">Acts 2:14</span>). Through this sermon about three thousand "...were pricked in their heart, and said unto Peter and to the rest of the apostles, Men and brethren, what shall we do?...Then they that gladly received his word were baptized...And the Lord added to the church daily such as should be saved" (<span class="scripture-ref">Acts 2:37-47</span>).</p>
+        <p>Through the years many alien sinners have heard the "...unsearchable riches of Christ..." (<span class="scripture-ref">Eph. 3:8</span>) preached simply, persuasively and have been baptized for the remission of sins (<span class="scripture-ref">Acts 2:38</span>) the same hour (<span class="scripture-ref">Acts 16:33</span>) and erring children of God have been brought to repentance (<span class="scripture-ref">I John 1:7-10; Acts 8:22-24</span>).</p>
+        <p class="subheading">Bible Classes or Group Study</p>
+        <p>"And the apostles and elders came together for to consider of this matter" (<span class="scripture-ref">Acts 15:6</span>). This was a group consideration of the subject of circumcision as it related to Gentile converts. Group study presents an excellent opportunity for learning. When students are given study sheets, or workbooks, to study at home and then given the opportunity to test their homework in class by answering questions and discussion.</p>
+        <p class="subheading">Daily Study</p>
+        <p>"These were more noble than those in Thessalonica, in that they received the word with all readiness of mind, and searched the scriptures daily whether those things were so" (<span class="scripture-ref">Acts 17:11</span>). Christians who have advanced from the milk of the word to the meat (<span class="scripture-ref">Heb. 5:12-14</span>) are those who have "burned the midnight oil." They have surrounded themselves with good study helps. Their heart has absolute faith in the accuracy, power, and authority of the Divine Record. Hours spent in meditation on the inspired word prepare maturing Christians to (1) live the abundant life in Christ Jesus, (2) impart saving knowledge to others, and (3) resist the devil in temptation and in doctrinal error.</p>
+        <p class="subheading">Controversy</p>
+        <p>"And certain men which came down from Judaea taught the brethren, and said, Except ye be circumcised after the manner of Moses, ye cannot be saved. When therefore Paul and Barnabas had no small dissension and disputation with them, they determined that Paul and Barnabas...should go up to Jerusalem unto the apostles and elders about his question....Then pleased it the apostles and elders, with the whole church, to send chosen men of their own company to Antioch with Paul and Barnabas...and they wrote letters....Which when they had read, they rejoiced for the consolation" (<span class="scripture-ref">Acts 15:1-31</span>). Controversy promotes study among those who love the truth.</p>
+        <p>A longtime friend, and brother in Christ, told me he had his own reasons for objecting to church support of human institutions such as orphan homes, but when the controversy of the fifties and sixties came along he learned more reasons for objecting. In him, controversy promoted study and learning. His comment is the inspiration for this article. His last name is Wise, thus the title of this article. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="evangelist-congregation">
+        <span class="article-category">The Evangelist and His Work</span>
+        <h2>The Evangelist And The Congregation</h2>
+        <p>Much already written in this series indicates the relationship between a preacher and the church with which he works. Such matters as his primary responsibility in heralding the Word of salvation, the scope of gospel preaching, his right to locate with a congregation, the carnal tactics that he might face, his humility in relation to his work and to others with whom he will work (such as elders), and his influence on others based on his own family relationship were covered. The reason for the emphases in these articles is that his work will be impossible at worst and impeded at best if he fails to attend to these matters.</p>
+        <p>Another area of importance is his relation to the congregation. With all previous considerations assumed as the foundation for his work, we here consider some other practical matters. In relating to people in the local church, an evangelist must remember that he is responsible first to Christ and then to the church. All of his dealings with the church must conform to Christ's will. When it is possible for him to please both Christ and the church, he ought to try to do so. Occasional teaching about an evangelist's relation to Christ and the church will provide a strong foundation for understanding about such matters. Because he works with the church, he needs to have an agreement about the time that he can spend in preaching elsewhere. The church should respect his responsibility to preach where he has opportunity, but he should also respect the church's need for him to be part of their local work. Application of the principles of respect and consideration taught by the Lord will help both parties in this relationship (<span class="scripture-ref">Mt. 7:12</span>). While it is not his duty to visit the sick, the sorrowing, or the lost for the congregation, he has a duty as a Christian to do such (<span class="scripture-ref">Mt. 25:31-46</span>). Some have taken little responsibility in these areas because of their arrogant assumption that a preacher has more important work to do and ought not to have to condescend to this level. A preacher who will not humble himself to "wash the feet" of his brethren or friends will lose his influence with most people, if he ever had any. What a time for showing the compassion of Christ! In this he does the Lord's work. Such occasions as sickness, death, and tragedy provide the basis for rich friendships and opportunities for pointing souls heavenward. As a practical means of developing close relationships, it would be advisable for a newly located preacher to visit all families in the congregation. Such time will be well spent for it will provide him the appreciation, closeness, and regard of the members, which will in turn make for a more solid and enduring work (<span class="scripture-ref">1 Cor. 16:15-16</span>). Out of new relationships will spring opportunities for the stranger in town to begin teaching the saved and the lost.</p>
+        <p>The New Testament also shows that he bears a relationship to the lost, as do all of the Lord's people. His responsibility toward them is special in that the nature of his work is teaching them of Christ. It is sometimes difficult to achieve a proper balance of time used for the lost and for the saved, for he must teach the Lord's people, as well as the lost. The best opportunities to teach the lost will come through his community relationships and those of other Christians. A lover of souls will be alert to honest and good hearts, always looking for fertile ground to sow kingdom seed (<span class="scripture-ref">Lk. 8:11ff</span>).</p>
+        <p class="author-signature">Bobby Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-words">
+        <span class="article-category">A.D. 70 Doctrine</span>
+        <h2>A War of Words</h2>
+        <p>A study of the Greek language can be a powerful tool in gaining a better understanding of the Bible. Of course, those who believe the truth of God have no fear at all of an honest investigation of word origins and meanings. However, in many a discussion of Bible themes, such a study becomes a quagmire of 'alternative definitions' and in reality a 'smokescreen' to cloud the issue further and hinder proper understanding.</p>
+        <p>In <span class="scripture-ref">1 Cor. 15:23-26</span>, Paul by inspiration tells us what David's prophecy in <span class="scripture-ref">Psalms 110</span> is all about. Paul states that the last enemy that shall be destroyed is death. The 'A.D. 70' people tell us that destroy here means simply to conquer or subdue and not to finish or destroy as it is normally understood. The word is 'katargeo' and means literally to bring to naught [kata - down, argos - inactive]. It is translated abolish, cease, destroy, do away. This doctrine teaches that Judaism was 'conquered' on that date and the church of our Lord was resurrected out of the grave of Judaism then. The word is translated 'she is loosed' in <span class="scripture-ref">Rom. 7:2</span>. Was her marriage subdued or weakened or was it made void by the death of her husband? In <span class="scripture-ref">1 Cor. 13:8,10</span>, Paul says that miraculous gifts will 'fail,' 'vanish away', and 'be done away' when that which is perfect comes. They say that this context refers to A.D. 70, when these gifts are supposed to end. However, if the word 'katargeo' means a weakening and not a finishing then it would mean that these gifts merely slowed down on that date but did not end then at all! {I believe that this context refers to the time when the New Testament would be totally written and no longer in the minds of the apostles. This would be years after A.D. 70.}</p>
+        <p>In <span class="scripture-ref">Acts 17:31</span>, Paul warns the people of Athens that God "has fixed a day in which He will judge the world in righteousness...". According to this doctrine, the word 'mello' {He will} here implies by necessity that the judgment is soon and that of Jerusalem. It is true that the word is translated 'about' and usually means 'to be about to do' something. However, it also has the meaning of CERTAINTY OR INTENTION and is so used here in this context and in <span class="scripture-ref">John 6:71</span> of Judas that he 'should' betray Christ. Mello is also used in <span class="scripture-ref">Rom. 5:14</span> of Adam being a figure of him 'that was to come.' Obviously, in this context, mello is looking thousands of years in the future!</p>
+        <p>Back in <span class="scripture-ref">1 Cor. 15:24</span> we have the phrase 'Then cometh the end, when he SHALL HAVE DELIVERED UP the kingdom to God,...'. The phrase is from the word 'paradidomi' and means literally to surrender or give over. {para - up, didomi - to give} Yet we are told that deliver means here to 'share' and not to give over. The A.D. 70 doctrine has to have the kingdom of Christ actually beginning here and not the end of Christ's delegated reign as is promised by the context when He returns. Notice in <span class="scripture-ref">Rom. 1:28</span>, God GAVE them OVER {paradidomi} to a depraved mind... Now, did God 'SHARE' with these wicked men in this state? I DON'T THINK SO!</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism">
+        <span class="article-category">Institutionalism</span>
+        <h2>Institutionalism</h2>
+        <p>Brother W.W. Otey, in a letter to Yater Tant in 1957, wrote "No well-defined trend away from the New Testament order of things has ever stopped till a full apostasy matured." He could speak from personal observation, having seen the birth of the Christian Church in 1906. This apostate church resulted from the controversy that began with the birth of the first human institution among the Lord's people in America, the UCMS. Early in his life as a preacher he debated J.B. Briney, a proponent of the Society. (Otey-Briney debate, 1908, Louisville, KY). So he understood clearly the attitude that brought about the Society, then the apostasy. An attitude that rejected the authority of the Scriptures, preferring to use the silence of the Scriptures, substituting human wisdom for divine, and the rule of expediency(?) to justify the forming and maintaining of their human organizations and institutions.</p>
+        <p>Those left of God's people at the time following the division possessed significant doctrinal harmony. They rallied together in a common cause, the cause of truth. They believed the Scriptures presented a definite plan of salvation, served as a scriptural guide in all matters of faith and doctrine, presented a divinely ordained church pattern in organization, work and worship, thus sufficient to meet the needs of all men, in all lands, throughout all the ages of mankind. This was the attitude of those seeking to respect God and His word in all matters. They refused to go beyond the limitations of the Word of God (<span class="scripture-ref">2 Jn. 9; 1 Cor. 4:6; Col. 3:17; 1 Cor. 2:12-13</span>).</p>
+        <p>During the first half of the 20th century, the Lord's church grew by leaps and bounds. The church enjoyed solid growth and development. The gospel spread at a rapid pace. The reason: preachers were aggressive, challenging and meeting error on every hand. Brethren were willing to stand and fight for the truth. They refused to compromise the truth at any cost (<span class="scripture-ref">Prov. 23:23</span>). The church, members as well as preachers, were known as "people of the book." Great numbers were being baptized. There was a kind of distinctive, no-nonsense type preaching in the pulpits. Preachers were not trying to entertain, but to save people. Materialism was low, and spirituality was high. According to the religious census of 1926 there were 433,000 members of the Lord's church. Others estimated the number to be a half-million.</p>
+        <p>But, as in the days of the Judges, "...Another generation arose after them who did not know the Lord nor the work which He had done for Israel" (<span class="scripture-ref">Judges 2:10</span>). It has been said that men could learn from history, but to disregard it is to repeat it. Men, seemingly, have never been satisfied with God's work, and in every generation rise up and say, "God, I think I can improve on your plan." They manifest a spirit of rebellion, thinking that in these years of enlightenment and progress, their human inventions will be more effective in saving souls and glorifying God, than a strict conformity to the methods God ordained in a past age. They feel that by altering, modifying or devising new ways they can do the job better. They forget the supreme end is to obey and glorify God, not to serve His arch-enemy, Satan, by beguiling and leading men away from God and His way through human wisdom (<span class="scripture-ref">Col. 2:8; 2 Cor. 11:1-4</span>).</p>
+        <p>Many "seeds of apostasy" (institutional ideas, i.e. activating the church universal), were being sown in the 1930's and 1940's. There were definite trends away from the truth. Many members did not consider them as "error", rather they looked upon them as "signs of progress." But some noticed. James A. Allen, editor of the Gospel Advocate, wrote, (Jan. 17, 1929), "The thing that lies like a dead weight upon the churches of Christ and keeps them from making any material progress is organized religion and institutionalism. Men think of the New Testament church in the terms of a human denomination and want to model the work of the church after the institutions of denominationalism. They have no proper concept of the primitive church. They are zealous to 'do' something, but what they want to do is to 'organize' something in which the local congregation and the individual are lost in the institution."</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="baptism-sins">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"Baptism Does Not Wash Away Sins"</h2>
+        <p>Many in the religious world today deny that baptism is necessary for the remission of sins. Most every religious group today teaches that baptism is a sign that you are saved, but it is not needed to save you. (An outward sign of an inward grace.) Have you heard this before? I am sure that this doctrine has been heard by most all of our dear readers. Let us consider some arguments people make to justify their not being baptized and compare them with the Scriptures.</p>
+        <p>Some say that since there is no negative to baptism in <span class="scripture-ref">Mark 16:16</span>, then baptism is not necessary for salvation. Let me explain. Jesus said, "He that believeth and is baptized shall be saved; but he that believeth not shall be damned" (<span class="scripture-ref">Mk. 16:16</span>). After reading this, some say, "Since Jesus didn't say 'but he that believeth not and is not baptized shall be damned' then baptism is not necessary." However, one who says this is not considering what the Lord has said. When Jesus laid out the things necessary for being saved, He said one must believe and be baptized. However, to be condemned, just do not believe. For example, one could say, "He that eateth and digesteth his food shall live, but he that eateth not, shall die." Why did we not say, "... and digesteth not"? Would digestion take place if there were no eating? Of course, not! If one does not eat, there will be no digestion! So also with faith and baptism. If one does not believe in Christ, he would not be baptized if he could, and could not be baptized if he would! Therefore, there was no need for Christ to say "and shall not be baptized ..." or words to that effect.</p>
+        <p>When people teach that one is baptized in order to show he is saved, they will often use <span class="scripture-ref">Acts 2:38</span>. This passage says, "Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost." After reading this, some will suggest that the phrase "for the remission of sins" means because they already had it! They would suggest that it is similar to the sentence: "I'll take two aspirins FOR this headache." They then say that one would not take an aspirin to GET a headache, but because you already had the headache! Therefore, they say, baptism is for (because you already have) the remission of sins. Yes, it is true that when one takes aspirin, it is not to get a headache. At the same time, we need to understand that taking aspirin is for the RELIEF of the headache! One doesn't have relief from the headache until the aspirin has been ingested, does he? So also, baptism is for the remission of sins. One does not have remission until he has repented and been baptized!</p>
+        <p>Another argument used by those who say baptism is not necessary for salvation is in <span class="scripture-ref">I Peter 3:20-21</span>. Peter said, "Which sometime were disobedient, when once the longsuffering of God waited in the days of Noah, while the ark was a preparing, wherein few, that is, eight souls were saved by water. The like figure whereunto even baptism doth also now save us (not the putting away of the filth of the flesh, but the answer of a good conscience toward God,) by the resurrection of Jesus Christ." After reading this, some claim that baptism is a "figure" of man's salvation. These people say that one is saved, and baptism shows one's salvation; it is a "figure" of what has already happened. Of course, if this is true, then what of Christ's resurrection (v. 21)? Was it only a "figure," or did Jesus actually rise from the dead? In truth, "the like figure" is not referring to baptism, but to the salvation of Noah's family in the ark. Just as Noah's family was "saved by water" (v. 20), having gone into the ark, so baptism saves men, and puts them into Christ (<span class="scripture-ref">Gal. 3:27</span>). While both Noah and men today use that element of water, it was not "water salvation" as men are wont to say, but it is lovingly obeying God's will that ultimately brings about salvation. Noah had it (<span class="scripture-ref">Gen. 6:22</span>), and men need it today (<span class="scripture-ref">Jn. 14:15, 23-24; I Jn. 5:3</span>).</p>
+        <p>I would be happy to discuss these things with any of our dear readers in further detail. If you have been one fighting against God's will by saying baptism is not necessary for salvation, why not repent of that today, and be baptized for the remission of your sins (<span class="scripture-ref">Acts 2:38</span>). If I can help you in doing what you need to do to please God, please let me know (<span class="scripture-ref">Heb. 5:8-9</span>).</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-saul">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Saul of Tarsus</h2>
+        <p>Please take a moment and read <span class="scripture-ref">Philippians 3:4-7</span> before reading the following article. The conversion of the man named Saul is a powerful piece of evidence that Jesus is a historical figure who truly rose from the dead. What else can account for Saul's amazing turnaround? He was a Hebrew of the Hebrews (cp. <span class="scripture-ref">Gal. 1:14</span>). Then one day, he forsook it all. What were the elements of his conversion? Do they match what we've studied so far in this series?</p>
+        <p class="subheading">Faith</p>
+        <p>Faith comes by hearing the word of God (<span class="scripture-ref">Rom. 10:13</span>). Jesus appeared and spoke to Saul and he believed in Him as the risen Son of God. Was he converted at this point? If he was, he didn't know it! <span class="scripture-ref">Acts 9:6</span> reads, "So he, trembling and astonished, said, 'Lord, what do You want me to do?'" Saul understood there to be more to do regarding his redemption than merely accepting the fact of Jesus' deity. By the way, if he was saved at the point of faith, Jesus didn't know it either. When Saul asked what he must do, the response was as follows: "Then the Lord said to him, 'Arise and go into the city, and you will be told what you must do.'"</p>
+        <p>Some have mistakenly construed that Saul was to go into the city to learn of the apostolic work that was ahead of him. But this interpretation is most unnatural given the circumstances. Besides this, harmonizing the three accounts of his conversion (<span class="scripture-ref">Acts 9, Acts 22, and Acts 26</span>) makes the proper understanding easy. In <span class="scripture-ref">Acts 26:12-18</span>, especially, Saul records that Jesus informed him of his future duties right there on the road to Damascus. Whatever, then, was "appointed for (Saul) to do" in the city (<span class="scripture-ref">Acts 22:10</span>), pertained to his conversion which had to be completed before he could begin his ministry work for Jesus. The point is that he was not yet converted though he now believed in Jesus.</p>
+        <p class="subheading">Repentance</p>
+        <p>Remember that repentance is that element of conversion that involves a change in a person's will. We can see repentance in Saul's newfound desire to do the Lord's will as expressed in his question on the road. Remember also that the decision to do what's right is compelled by godly sorrow (<span class="scripture-ref">2 Cor. 7:10</span>). Such sorrow is seen in the fact that Saul could not even eat or drink for three days having been confronted with his own sinful rebellion (<span class="scripture-ref">Acts 9:9</span>).</p>
+        <p class="subheading">Confession</p>
+        <p>In the midst of his penitence, while "trembling and astonished", he referred to Jesus as "Lord" (<span class="scripture-ref">Acts 9:6</span>). Notice that he used this word with reference to Jesus before (verse 5) but clearly did not know it was Jesus. He used it then out of fear and awe of something that was clearly supernatural. That is all. But the second time he called him Lord was a verbal acceptance and recognition of Jesus as the supreme ruler of all things. He experienced a change in his allegiance. That's what the element of confession signifies in one's conversion process.</p>
+        <p class="subheading">Baptism</p>
+        <p>Of all the New Testament examples of conversion, perhaps the role of baptism is clearest here. Saul's mission was made evident to him while he was still blinded on that road to Damascus (<span class="scripture-ref">Acts 26:12-18</span>). Yet there were still things appointed for him to do that would be made known to him in the city by a disciple named Ananias (<span class="scripture-ref">Acts 22:10</span>).</p>
+        <p>When Ananias came, he reiterated what the Lord had said to Saul on that road but added this key exhortation (<span class="scripture-ref">Acts 22:14-16</span>). As we have noticed throughout this series, baptism is the element of conversion in which a person's relationship with God has changed. It marks the point in which the sin that separates one from God is washed away and a new relationship begins.</p>
+        <p>In our next and final article, we will summarize this great conversion process.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="perfect-peace">
+        <span class="article-category">Word Study</span>
+        <h2>Perfect Peace</h2>
+        <p>"Thou wilt keep him in perfect peace, whose mind is stayed on thee...he trusteth in thee" (<span class="scripture-ref">Isa 26:3</span>).</p>
+        <p><strong>Perfect peace is from God:</strong> "Grace be with you, mercy, [and] peace, from God the Father, and from the Lord Jesus Christ, the Son of the Father, in truth and love" (<span class="scripture-ref">II John 3</span>), "...God is not [the author] of confusion, but of peace, as in all churches..." (<span class="scripture-ref">I Cor. 14:33</span>). Strife is a work of the flesh (<span class="scripture-ref">Gal. 5:19ff</span>).</p>
+        <p><strong>Perfect peace is from God through Jesus Christ our Lord:</strong> "For he (Christ) is our peace, who hath made both one, and hath broken down the middle wall of partition...." (<span class="scripture-ref">Ephesians 2:14-17</span>).</p>
+        <p><strong>Perfect peace is from God through the word of God:</strong> "Grace and peace be multiplied unto you through the knowledge of God..." (<span class="scripture-ref">II Pet. 1:2</span>). "The word which [God] sent unto the children of Israel, preaching peace by Jesus Christ: (he is Lord of all:)..." (<span class="scripture-ref">Acts 10:36</span>). "Endeavouring to keep the unity of the Spirit in the bond of peace" (<span class="scripture-ref">Eph. 4:3</span>). It involves doctrinal matters: <span class="scripture-ref">II John 9-11; Eph. 5:11; Gal. 1:8,9</span>. Perfect peace is not in the doctrines and commandments of men (<span class="scripture-ref">Mt. 15:9</span>).</p>
+        <p><strong>Perfect peace is from God through man's faith in the word of God:</strong> "Thou wilt keep him in perfect peace, whose mind is stayed on thee; because he trusteth in thee" (<span class="scripture-ref">Isa. 26:3</span>). "So then faith cometh by hearing, and hearing by the word of God" (<span class="scripture-ref">Rom. 10:17</span>). "Therefore whether [it were] I or they, so we preach, and so ye believed" (<span class="scripture-ref">1 Cor. 15:11</span>). While baptism ushers one into this peace (<span class="scripture-ref">Gal. 3:26,27</span>), one must walk in the light to abide therein (<span class="scripture-ref">I John 1:7ff</span>).</p>
+        <p><strong>Perfect peace is destroyed by departure from the divine pattern:</strong> "Whosoever transgresseth, and abideth not in the doctrine of Christ hath not God" (<span class="scripture-ref">II John 9</span>). "And have no fellowship with the unfruitful works of darkness, but rather reprove them" (<span class="scripture-ref">Eph. 5:11</span>). "Who concerning the truth have erred, saying that the resurrection is past already; and overthrow the faith of some" (<span class="scripture-ref">II Tim. 2:18</span>). This point is illustrated in <span class="scripture-ref">I Kings 18:17,18</span> where Ahab accused Elijah: "...Art thou he that troubleth Israel?" Elijah countered: "...I have not troubled Israel; but thou, and thy father's house, in that ye have forsaken the commandments of the Lord, and thou has followed Baalim." In <span class="scripture-ref">I Cor. 5:1ff</span>; who destroyed the peace? The man in sin, the fornicator. In <span class="scripture-ref">Acts 15:1ff</span>, who destroyed the peace? The men in sin, the false teachers.</p>
+        <p>Some departures from the divine pattern which disturb the peace of God's people today relate to (1) The Deity of Christ while on earth. Some want us to believe that all of Jesus' miracles were performed by the Holy Spirit, (2) Marriage, divorce, and remarriage, (3) Romans 14 (unity in diversity), (4) Fellowship (unity in diversity), (5) the AD 70 doctrine, (6) Genesis One and the length of the creative period, (7) modesty, (8) the Bible is not the only rule of faith and practice, and (9) soft, ineffective preaching. Churches are being disturbed and divided over these questions.</p>
+        <p><strong>Things which make for perfect peace.</strong> "For the kingdom of God is not meat and drink; but righteousness, and peace, and joy in the Holy Ghost....Let us therefore follow after the things which make for peace, and things wherewith one may edify another" (<span class="scripture-ref">Rom 14:17,19</span>). Things that make peace: (1) Sincerity (<span class="scripture-ref">I Cor. 5:8; II Cor. 2:17</span>). (2) Truth (<span class="scripture-ref">John 8:32; Jude 3; Phil. 1:17</span>). (3) Rebuke sin and error (<span class="scripture-ref">II Tim. 4:2</span>). Paul and Barnabas rebuked the Judaizers (<span class="scripture-ref">Acts 15:1ff</span>). Paul rebuked Peter and Peter rebuked Simon. (4) Spiritual growth (<span class="scripture-ref">II Pet. 3:18</span>), which involves adding the graces in <span class="scripture-ref">II Pet. 1:5-11</span>. (5) Forgiveness (<span class="scripture-ref">Mt. 6:14,15</span>). (6) Love (<span class="scripture-ref">I Cor. 13</span>). (7) Humility (<span class="scripture-ref">Phil. 2:5ff</span>).</p>
+        <p>"And the peace of God, which passeth all understanding, shall keep your hearts and minds through Christ Jesus" (<span class="scripture-ref">Phil. 4:7</span>). Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="father-example">
+        <span class="article-category">Doctrinal</span>
+        <h2>Is Our Father In Heaven An Example To Us?</h2>
+        <p>God manifested Himself in many ways in the Old Testament. His Divine power is seen in creation (<span class="scripture-ref">Gen. 1,2</span>), the flood (<span class="scripture-ref">Gen. 6-8</span>), the deliverance of Israel from Egyptian bondage (<span class="scripture-ref">Ex. 1-15</span>), the confusion of language (<span class="scripture-ref">Gen. 11</span>), and many other acts which were beyond the power of man. Man has never been expected to do such wonders. God used several methods in communicating His will to men. "God who at sundry times and in divers manners (directly, vision, angels) spake in time past unto the fathers by the prophets..." (<span class="scripture-ref">Heb. 1:1</span>). Many of the characteristics of God mentioned below are to be found in the OT.</p>
+        <p>"Be ye therefore perfect, even as your Father which is in heaven is perfect" (<span class="scripture-ref">Mt. 5:48</span>). God the Father is our standard; we must imitate Him. He is our example in patience (<span class="scripture-ref">Rom. 15:5</span>), love (<span class="scripture-ref">Mt. 5:43-48</span>), judgments (<span class="scripture-ref">Ps. 19:9; Rev. 16:7</span>), forgiveness (<span class="scripture-ref">Jer. 31:31</span>), promise keeping (<span class="scripture-ref">II Pet. 3:9</span>), when tempted (<span class="scripture-ref">I Cor. 10:9; Heb. 13:9</span>), good to men (<span class="scripture-ref">Isa. 5:1-4, Tit. 2:4,5, Micah 6:8; Heb. 13:6; James 4:17</span>), and thoughts (<span class="scripture-ref">Ps. 139:17; Phil. 4:8</span>).</p>
+        <p>Our Father in heaven is not our example in (1) obedience for there is none above Him to whom He owes obedience, nor (2) repentance of sin, seeing it is impossible for a Divine being to sin (<span class="scripture-ref">Heb. 6:18</span>). But, we have an example of perfect obedience in His Son (<span class="scripture-ref">Heb. 5:8,9</span>) and in the Holy Spirit (<span class="scripture-ref">John 14:26; 15:26; 16:13</span>).</p>
+        <p>The Father was manifest through His Son: "No man hath seen God at any time; the only begotten Son, which is in the bosom of the Father, he hath declared him" (<span class="scripture-ref">John 1:18</span>). When we imitate the Son of God, we are imitating the Father. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published November 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

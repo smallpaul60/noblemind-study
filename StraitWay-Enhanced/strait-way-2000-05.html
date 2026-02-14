@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - May 2000</title>
+  <meta name="description" content="The Strait Way newsletter, May 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05" selected>May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#vocal-music">Vocal Music</a>
+        <a href="#practicing-preaching2">Practicing What We Preach 2</a>
+        <a href="#ad70-prophecy">A.D. 70 - Prophecy</a>
+        <a href="#first-institution">First Human Institution</a>
+        <a href="#purpose-baptism">Purpose of Baptism</a>
+        <a href="#conversion-baptism1">Conversion: Baptism 1</a>
+        <a href="#gabriel-announcement2">Gabriel's Announcement 2</a>
+        <a href="#time-quality">Time: Quality & Quantity</a>
+      </nav>
+
+      <article class="article" id="vocal-music">
+        <span class="article-category">Worship</span>
+        <h2>Vocal Music In Worship To God</h2>
+        <p>Let us define music, sing, and vocal. (1) Music -- "...the science or art of ordering tones or sounds in succession, in combination, and in temporal relationship to produce a composition having unity and continuity b: vocal, instrumental, or mechanical sounds having rhythm, melody, or harmony 2: an agreeable sound...." (2) Sing -- "...to produce musical tones by means of the voice b: to utter words in musical tones and with musical inflections and modulations c: to deliver songs as a trained or professional singer 2: to make a shrill whining or whistling sound 3 a : to relate or celebrate something in verse b. to compose poetry 4 : to produce musical or harmonious sounds 5: buzz, ring 6 : to make a cry: call.....vt to utter with musical inflections: esp: to interpret in musical tones produced by the voice; to relate or celebrate in verse 3: chant, intone...." (3) Vocal -- "...uttered by the voice: ORAL b: produced in the larynx: uttered with voice 2: relating to, composed or arranged for, or sung by the human voice" (Webster's New Collegiate Dictionary).</p>
+        <p>In discussing music in worship, it has been reasoned that God has not authorized mechanical instruments, but has authorized singing (<span class="scripture-ref">Eph. 5:19</span>; <span class="scripture-ref">Col. 3:16</span>). Music produced by mechanical instruments is a specific kind of music and singing is a specific kind of music. God specified singing (<span class="scripture-ref">Eph. 5:19</span>; <span class="scripture-ref">Col. 3:16</span>). These passages and the silence of the New Testament forbid use of mechanical instruments.</p>
+        <p>A word of caution: The above reasoning is good, scriptural, and acceptable to God. But, consider this: At times when discussing music in worship, we affirm that God has authorized "vocal music" in worship. Do we understand the limit (or, extent) of what we are affirming? Indeed God has authorized vocal music in worship, BUT HAS HE AUTHORIZED ALL VOCAL MUSIC IN WORSHIP? I do not have in mind the kind of songs we sing: Spiritual as opposed to secular. God has specified that psalms, hymns, and spiritual songs be used (<span class="scripture-ref">Eph. 5:19</span>). But, are not whistling, humming, and yodeling forms of vocal music? Webster defines them as such. And even if one did not consider them vocal music the same as singing, in our society, they are used either as a substitute or addition to singing. What is my point? When we use the terms "vocal music," we are using generic terms. Note carefully that the "vocal music" authorized in worship uses "WORDS," not just sounds as in humming, whistling, and yodeling. "Singing that teaches and admonishes" is a specific kind of vocal music: It involves speaking words.</p>
+        <p>In the last twenty or thirty years, some among churches of Christ have come up with the idea of humming in worship. Humming is vocal. If that is scriptural, then what would be wrong with yodeling or whistling? Neither of the three have a "spoken word message" in them, but the vocal music (singing) approved by God does have a "spoken word message" in it.</p>
+        <p>Let me caution you, that just because it is vocal does not mean it is scriptural. Scriptural vocal music in worship involves singing (speaking words) so that we may teach and admonish (<span class="scripture-ref">Col. 3:16</span>; <span class="scripture-ref">Eph. 5:19</span>). Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="practicing-preaching2">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - Practicing What We Preach, Part II</h2>
+        <p><strong>The Preacher's Relations With Family.</strong> How a preacher or any other person relates to his kinsmen is the product of the influence he has allowed God's will to have on his own life. Thereby he provides insight into his own attitude toward God's word. If he is unwilling to accept it, it is highly unlikely he will persuade others knowing of his own sins to conform to such matters, especially those young in faith or not Christians.</p>
+        <p>If he treats his wife unkindly, abuses her, fails to value her and appreciate her, denigrates her to others, or in other ways fails to be the kind of husband he ought, he will have little force in urging others to obey God. A hypocrite in this area of Biblical teaching has little potential.</p>
+        <p>Deserving special emphasis here is the need to remain faithful to one's wife and to avoid risky situations and entanglements with other females that could lead to unfaithfulness, or at least questionable activities. A preacher should be keenly aware of the potential for evil in his life, that of the woman (or man, God forbid), those family members affected by his sin, and observers in the church and in the world. He can be the example directing precious souls to either heaven or hell. Because King David gave "great occasion to the enemies of Jehovah to blaspheme," the Lord announced the effects of sin in his life and in his family (<span class="scripture-ref">2 Sam. 12</span>). Continuing strife, rebellion from within the family - Absalom, and the death of the child conceived would all follow. The rest of the account of David's life depicts the erosion of his kingdom and the destruction of his family. The lesson is clear: lost influence has devastating results, even among those closest to the sin causing such loss, for they are the ones most strongly influenced and then disappointed.</p>
+        <p>Be careful about those influences to which you subject yourself, for they often make you what you become and your family what they become. The lascivious environment, contributed to by television, music, pornography, other forms of entertainment, indecent attire, and the general laxity existing in morals, encourage the very lifestyle that God disapproves. Preacher, guard your heart, because issuing from it are the fruits of your thinking and deliberation (<span class="scripture-ref">Prov. 4:23</span>).</p>
+        <p><strong>His Dealings With Elders.</strong> A preacher does not occupy a special position in God's systematic arrangement for a local church except as to function. He is just as much one overseen and tended by local elders as any other part of the congregation. Likewise, he has no more right to reject the spiritual counsel of elders and to rebuff their righteous influence than any other person. It is just as wrong for a preacher to become a Diotrephes as it was for Diotrephes to love the preeminence (<span class="scripture-ref">3 John 9</span>). Preachers who once accepted elders but then turn against them because of their reproof or legitimate opposition to some pet idea or project of the preacher show themselves suspect in motives and methods. It is just as wrong for a preacher to resort to selfish demands, pressure campaigns, petition drives, fanning up opposition, secret meeting with ulterior motives, and similar weapons as it is for elders, Christians, or anybody else to do so. All self-willed men are not found among elders, though the apostle did warn against such trait in elders.</p>
+        <p>Egotistical, antagonistic, lazy, self-serving preachers should be no more tolerated than the immoral. Their attitudes and method of operation always lead to problems. These problems become manifest in dealing with elders and with others in the church. The root of such problems is the preacher's failure to deny self and to crucify self. The fruit of the problems is divided churches, estranged relationships, a scoffing world, lost souls, and Satan's glee. In just a few years some preachers can destroy more good influence than it took several decades to build. Such preachers are preaching the wrong message in their lives; in fact, they would do the Lord, brethren, and themselves a favor if they would quit preaching.</p>
+        <p>The world needs the gospel and consecrated men practicing and proclaiming it. More preachers of the right kind are needed, but the wrong kind are not needed. Only an undivided heart can establish an undiminished influence.</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-prophecy">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - Was All Prophecy Fulfilled By A.D. 70?</h2>
+        <p>A major tenant of the "A.D. 70" (or Realized Eschatology) doctrine is that ALL prophecy was fulfilled by the fall of Jerusalem. Here is a quotation from Max King's book 'The Spirit of Prophecy': "Prophecy found its complete fulfillment in the second coming of Christ, and now may be regarded as closed and consummated" (pg. 65). Let us notice the following passages:</p>
+        <p><span class="scripture-ref">Psalms 110:1-2</span> - "The Lord said to my Lord; sit at My right hand, til I make your enemies Your footstool. The Lord shall send the rod of Your strength out of Zion. Rule in the midst of Your enemies!" In <span class="scripture-ref">1 Cor. 15:24</span>, Paul by inspiration says that Jesus will reign until the last enemy is destroyed. He then identifies that last enemy as death. There is nothing in this context that demands a figurative use of death. In the rest of this chapter Paul shows how that physical death will be destroyed in the resurrection when Jesus returns. If the last enemy was destroyed at A.D. 70, then the reign of Christ would've ended then! A.D. 70 doctrine has the church of our Lord 'dead' in Judaism until Jerusalem's fall when the kingdom of Christ was 'resurrected'. However, as we see in <span class="scripture-ref">Psalms 110:2</span>; Jesus must have enemies in His reign and there are no enemies past the last one. No enemies, no reign!</p>
+        <p><span class="scripture-ref">Psalms 102:25-27</span> - "You, Lord, in the beginning laid the foundation of the earth, And the heavens are the work of Your hands, They will perish,..." God through his Son created the universe and God through His Son will destroy it (<span class="scripture-ref">Heb. 1:10-11</span>).</p>
+        <p><span class="scripture-ref">Gen. 3:15</span> - "And I will put enmity between you and the woman, and between your seed and her Seed; He shall bruise your head, and you shall bruise His heel." Here in the first prophecy about Christ, we have a final victory foreseen over Satan. This will come at His Second Coming (<span class="scripture-ref">Matt. 25:41</span>). The A.D. 70 people have this happening at Jerusalem's fall with Satan being cast into Hell at that time!</p>
+        <p><span class="scripture-ref">Hosea 13:14</span> - "I will ransom them from the power of the grave; I will redeem them from death. O Death, I will be your plagues! O Grave, I will be your destruction!..." Paul again in 1 Corinthians 15, applies this prophecy to the future resurrection when Christ returns (<span class="scripture-ref">1 Cor. 15:23-25, 54</span>).</p>
+        <p><span class="scripture-ref">Isaiah 66:22-24</span> - In this prophecy Isaiah speaks of a New Heavens and a New Earth and of a place where 'the worm dies not, and the fire is not quenched.' Jesus applies the latter to the future suffering in eternal hell and the apostle Peter applies the former to the future heavenly reward of the righteous (<span class="scripture-ref">Mark 9:43-48</span>; <span class="scripture-ref">2 Peter 3:13</span>).</p>
+        <p>It should be obvious to us there indeed are prophecies from the old (and new!) Testaments that are yet unfulfilled. The Second Coming of Christ IS a major theme of the Bible and "therefore knowing the terror of the Lord, we persuade men" (<span class="scripture-ref">2 Cor. 5:11</span>).</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="first-institution">
+        <span class="article-category">Church Organization</span>
+        <h2>The First Human Institution and Its Aftermath (No. 1)</h2>
+        <p>Alexander Campbell's frequent essays on Church Organization between the years 1841 - 1848 set the stage for the first human society of the Restoration Movement. In these articles he was laying the groundwork for a general organization that would allow cooperation between churches. But, he was unable to justify such an arrangement from the scriptures. In fact, he admitted this in his writings. In an article "Church Organization" appearing in the "Millennial Harbinger" (Vol. VI, No.5, May 1849, p.270). he wrote the following:</p>
+        <p>"In all things pertaining to public interest, not of Christian faith, piety, or morality, THE CHURCH OF JESUS CHRIST IN ITS AGGREGATE CHARACTER, IS LEFT FREE AND UNSHACKLED BY ANY APOSTOLIC AUTHORITY. This is the great point which I assert as of capital importance in any great conventional movement or cooperation in advancing the public interests of a common Christianity and a common salvation. My strong proof for this conclusion is that, while faith, piety, and morality are all divinely established and enacted by special agents - apostles and prophets possessed of plenary inspiration; MATTERS OF PRUDENTIAL ARRANGEMENT FOR THE EVANGELIZING OF THE WORLD, for the better application of our means and resources, according to the exigencies of society and the ever-varying complexion of things around us - ARE LEFT WITHOUT A SINGLE LAW, STATUTE, ORDINANCE OR ENACTMENT IN THE NEW TESTAMENT."</p>
+        <p>Notice Campbell's authority for such an arrangement. "Matters of prudential arrangement. . . . left without a single law, statute, ordinance or enactment in the New Testament." His authority for this type arrangement was based solely on human wisdom and expediency, not the scriptures. But, the years of intense effort on the part of Campbell urging the brotherhood to found some kind of general organization through which churches could cooperate to evangelize the world finally bore fruit. On October 23, 1849, one hundred fifty-six men came together in Cincinnati, Ohio with the express purpose of establishing some sort of cooperative effort in the area of evangelism. L.L. Pinkerton, (who later introduced the first musical instrument into a worship service at Midway, KY, 1860), chaired the first meeting. The convention lasted four days and before adjourning these men adopted a constitution, giving birth to the American Christian Missionary Society. A human institution to be sure, for they could find no scripture upon which to base their actions.</p>
+        <p>This was clearly evident in the decades following the establishment of the ACMS. The proponents of the newly formed ACMS (the first Human Institution of the Restoration Movement) were forced to defend their work on the basis of human expediency, coupled with the silence of the scriptures. They readily admitted they could find no scripture to justify the Society. (Good Bible students today know that the silence of the scriptures does not give consent. The silence of God is prohibitive, not consential. <span class="scripture-ref">1 Pet. 4:11</span>; <span class="scripture-ref">1 Cor. 4:6</span>; <span class="scripture-ref">2 Cor. 5:7</span>; <span class="scripture-ref">Rom. 10:17</span>. An excellent example showing that silence DOES NOT give consent can be found in <span class="scripture-ref">Heb. 7:11-14</span> as the inspired writer shows why Jesus could not be a priest while on the earth).</p>
+        <p>Even though Campbell was absent from the convention (an absence attributed to sickness), he was still elected president of the ACMS and held this position until his death in 1866. After its establishment, Campbell wrote "we have an organized Missionary Society - a committee of ways and means - and desire no more, at present, than to notice the foundation laid, on which we may build a glorious superstructure." (Millennial Harbinger, Vol. VII, No.2, Feb. 1850).</p>
+        <p>Campbell's dream of a glorious superstructure in reality became a nightmare. From its beginning, the ACMS was not widely accepted. This fact is sustained by the objections raised by good and faithful men refusing to accept such an institution on the basis of expediency, and also by the fact that most of the churches refused to support it. The bitter fruit of this first human institution is reflected on the pages of history. Not only did the ACMS divide the churches, it ultimately led to the origin of another human denomination, The Christian Church, recognized as a separate body in the census of 1906.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="purpose-baptism">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"The Purpose Of Baptism"</h2>
+        <p>This subject is perhaps the most argued, the most denied, and the most misunderstood among people who say they believe in God, in Christ, and say they are saved. I myself have debated this subject twice between November of 1998 and March of 1999. I affirmed that baptism was necessary for the remission of sins and my opponent denied it. Why is this such a controversial topic? Why are people divided on this subject when the New Testament shows the necessity of baptism so clearly?</p>
+        <p><strong>1. DEFINING BAPTISM:</strong> Baptism, as is used in the Bible, is "consisting of the processes of immersion, submersion and emergence .... to dip" (Vine's Amplified Expository Dictionary of New Testament Words, p. 62). Mr. Thayer defines baptism as, "to immerge, submerge .... to overwhelm, to be overwhelmed with calamities, of those who must bear them" (Thayer's Greek-English Lexicon, p. 94). Therefore, baptism is an immersion in something. The context reveals the element.</p>
+        <p><strong>2. WHAT THE BIBLE SAYS:</strong> The Bible mentions at least six baptisms, yet there is only one baptism in effect today (<span class="scripture-ref">Eph. 4:4</span>). This is baptism in water (<span class="scripture-ref">Acts 8:36-39</span>; <span class="scripture-ref">I Pet. 3:20-21</span>). What is its purpose? Jesus said that baptism was necessary for salvation (<span class="scripture-ref">Mk. 16:15-16</span>). As did Peter (<span class="scripture-ref">Acts 2:38</span>; <span class="scripture-ref">I Pet. 3:21</span>) and Ananias (<span class="scripture-ref">Acts 22:16</span>). The New Testament teaches that baptism stands between the sinner and salvation (<span class="scripture-ref">Mk. 16:16</span>; <span class="scripture-ref">I Pet. 3:21</span>). It stands between the sinner and the remission of sins (<span class="scripture-ref">Acts 2:38</span>). Baptism stands between the sinner and washing sins away (<span class="scripture-ref">Acts 22:16</span>). It stands between the sinner and wearing the name "Christian" (<span class="scripture-ref">I Cor. 1:13</span>; <span class="scripture-ref">Acts 11:26</span>). Baptism stands between the sinner and life (<span class="scripture-ref">Gal. 3:26-27</span>). (Before baptism, one is spiritually dead, <span class="scripture-ref">Eph. 2:1, 12</span>). It stands between the sinner and spiritual freedom (<span class="scripture-ref">Rom. 6:16-18</span>).</p>
+        <p>Baptism is not for babies, but for those who are able to hear the word of God (<span class="scripture-ref">Acts 2:22</span>; <span class="scripture-ref">Mk. 16:15</span>), believe that word (<span class="scripture-ref">Rom. 10:17</span>), repent of their sins (<span class="scripture-ref">Acts 2:38</span>; <span class="scripture-ref">Lk. 13:3</span>); and confess their faith in Christ (<span class="scripture-ref">Matt. 10:32-33</span>; <span class="scripture-ref">Rom. 10:10</span>). When one does these things, he is ready to be baptized for the remission of sins. The New Testament declares that baptism is not done to show the world that a person is saved, but is done in order to save a person (<span class="scripture-ref">Mk. 16:16</span>; <span class="scripture-ref">I Pet. 3:21</span>).</p>
+        <p>Remember dear readers, if we are going to talk about this, or any other Bible subject, we must find out what the Bible says about the subject. It is not honest to look at passages that do not even mention the word "baptism" and try to deduce the purpose of baptism from those passages.</p>
+        <p><strong>3. BAPTISM AND THE BLOOD OF CHRIST:</strong> When speaking of baptism, some will say we are not relying on the blood of Christ. Not so! The New Testament makes it clear that the blood of Christ saves us, just as baptism saves us. When Jesus instituted the Lord's Supper, He said, "this is my blood of the new testament, which is shed for many for the remission of sins" (<span class="scripture-ref">Matt. 26:28</span>). Notice that He said His blood was shed "for" or, in order to remit sins. No one denies this. In <span class="scripture-ref">Acts 2:38</span>, Peter told the people gathered in Jerusalem to, "Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost." Notice that whatever Christ's blood is "for," so also baptism is "for"!</p>
+        <p><strong>CONCLUSION:</strong> Put in simple terms, in order to be converted to the Lord, it requires a change in the heart of a man, a change in his lifestyle, and a change in relationship. When this happens, man is converted to the Lord. Faith in God is what changes a man's heart (<span class="scripture-ref">Heb. 11:6</span>; <span class="scripture-ref">Rom. 10:17</span>; <span class="scripture-ref">Jn. 8:24</span>). Repentance is what changes a man's lifestyle (<span class="scripture-ref">Lk. 13:3</span>; <span class="scripture-ref">Acts 2:38</span>). Finally, baptism is what changes a man's relationship from being outside of Christ to being in Christ (<span class="scripture-ref">Gal. 3:27</span>). One is not "in Christ" until he has been baptized for the remission of sins. Truly, baptism for the remission of sins is a controversial subject. The reason for this is because men do not want to do it! When we get our hearts right, we will do all that God has said. When we love Him, we will keep His commandments (<span class="scripture-ref">Jn. 14:15, 23-24</span>). Do not turn your back on Christ, but do what is right by becoming His child and living for Him all the days of your life (<span class="scripture-ref">Rom. 12:1-2</span>; <span class="scripture-ref">I Cor. 15:58</span>; <span class="scripture-ref">II Cor. 5:14-15</span>).</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-baptism1">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Baptism (1)</h2>
+        <p>We have been studying the subject of conversion. The apostle Paul asked a probing question to the Romans in the sixth chapter of his letter to them. "What fruit did you have then in the things of which you are now ashamed? For the end of those things is death" (v.21). Paul reminded them that before Christ, they had nothing. They had a fruitless life of sin and frolic. But now they had the hope of everlasting life in heaven. This is conversion and there is nothing like it. There is nothing more important - in all of life's endeavors. Since we're now five articles into this series, let's take a moment to review.</p>
+        <p>We've noticed so far that the first element in conversion is faith. Faith is that which involves the change of a person's intellect. A person must be convicted by the truths concerning Christ Jesus. This should lead to the second element, which is repentance. Repentance is that which involves change in a person's will. The penitent, convicted person has a sorrow within him for not living up to God's expectations. He resolves, therefore, to become somebody new. This led us, in the last article, to discuss the third element of conversion, which is confession. Confession is that which signifies the change in a person's allegiance. When the Ethiopian, whose conversion is recorded in Acts 8, heard the word of the gospel declared to him, he believed in Jesus and wanted to be baptized. The penitent sinner was not told to confess his sins to Philip. He confessed his newfound faith in the Savior of the world.</p>
+        <p><strong>What Hinders Me From Being Baptized?</strong> This brings us to baptism. Philip was preaching Jesus to the man (<span class="scripture-ref">Acts 8:35</span>). Somewhere in the preaching of Jesus there is the preaching of baptism because after hearing the gospel message, the Ethiopian had a great desire to be baptized (v.36). Why did he want to be baptized? It's easy to piece together the answer to this question.</p>
+        <p><strong>He Went On His Way Rejoicing.</strong> This man learned that he was a sinner. He learned that the one led as a lamb to the slaughter (v.32) was a man named Jesus who had lived less than ten years earlier. He, because of this new information, now believed in Jesus. He had resolved to change his life and do the New Testament will of Christ. This is evident in his desire to be baptized. He had confessed this allegiance to Christ in the presence of Philip. Then the text reads, "So he commanded the chariot to stand still. And both Philip and the eunuch went down into the water, and he baptized him. Now when they came up out of the water, the Spirit of the Lord caught Philip away, so that the eunuch saw him no more; and he went on his way rejoicing" (vv.38-39).</p>
+        <p>Notice that this man did not rejoice when his intellect had changed (the point of faith). He did not rejoice when his will had changed (the point of repentance). He did not rejoice when his allegiance had changed (the point of confession). This man had no reason to rejoice until his relationship with God had changed. This is the point of baptism.</p>
+        <p><strong>The Change of Relationship.</strong> Baptism is that which marks the change in a person's relationship with God. That's why he wanted to be baptized. That's why the Spirit of the Lord didn't catch Philip away until after he had baptized the Ethiopian. That's why the Ethiopian didn't rejoice until after he had been baptized. That's obviously what this man had learned from the preaching of Philip.</p>
+        <p>In the next article, the discussion of baptism will continue. We'll notice some Bible teaching that shows why baptism is necessary to the conversion process.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="gabriel-announcement2">
+        <span class="article-category">Deity &amp; Humanity</span>
+        <h2>Gabriel's Announcement To Mary (2)</h2>
+        <p><strong>Question:</strong> What does "... he shall be called the Son of God" (<span class="scripture-ref">Lk. 1:35</span>) mean?</p>
+        <p>"And the angel said unto her, Fear not, Mary: for thou hast found favour with God. And, behold thou shalt conceive in thy womb, and bring forth a son, and shalt call his name JESUS. He shall be great, and shall be called the Son of the Highest...therefore also that holy thing which shall be born of thee shall be called the Son of God" (<span class="scripture-ref">Lk. 1:30-35</span>).</p>
+        <p>"...the Son of God..." equals "...the Son of the Highest...." Both refer to the Divine nature of the spirit in the physical body of Jesus Christ.</p>
+        <p>In <span class="scripture-ref">John 5:17</span>, Jesus said, "My Father worketh hitherto, and I work." The Jews knew what He meant: "...the Jews sought...to kill him, because he...said also that God was his Father, making himself equal with God" (<span class="scripture-ref">John 5:18</span>). In what sense did they think He was claiming equality with God? They correctly thought He was claiming to be of the same nature with God the Father: Deity.</p>
+        <p>"In the beginning was the Word, and the Word was with God, and the Word was God. The same was in the beginning with God. All things were made by him: and without him was not anything made that was made" (<span class="scripture-ref">John 1:1-3</span>). Here is a Holy Spirit-inspired statement that Jesus was God. In <span class="scripture-ref">John 1:14</span>, John wrote, "And the Word was made flesh...." Does the word "made" mean that the Word changed into flesh and became "just a man"? No! The word "made" is translated from ginomai. Concerning ginomai Thayer says: "1. to become, i.e. to come into existence, begin to be, receive being...5. to become, be made, 'in passages where it is specified who or what a person or thing is or has been rendered, as respects quality, condition, place, rank, character...<span class="scripture-ref">John 1:14</span>" (p. 115). Ginomai can be used of a person whose condition changes. The condition of the Word changed from heaven to earth. In this change, the Word's nature was not changed (which would be impossible, <span class="scripture-ref">Mal. 3:6</span>), only His circumstances. From the beginning to His coming to earth, He was in heaven. For about thirty three years He abode in a fleshly body. He is now in heaven. He was the same Divine person before, during, and after His stay on earth.</p>
+        <p>In <span class="scripture-ref">Romans 1:3,4</span>, ginomai is translated "made" where it refers to Jesus being the seed of David: "Concerning his Son Jesus Christ our Lord, which was made of the seed of David according to the flesh; And declared to be the Son of God with power, according to the spirit of holiness, by the resurrection from the dead." Physically, Jesus was made (born, came into being physically) of the seed of David, spiritually (His inner being), Jesus was the Son of God. According to Paul, Jesus' resurrection declared His Deity.</p>
+        <p>What did Gabriel mean by "...that holy thing (to hagion)..."? Concerning to hagion and its use in <span class="scripture-ref">Lk. 1:35</span>, Mr. Thayer says: "...that worshipful offspring of divine power" (P. 7). "...that holy thing..." is one more reference to Jesus' Divine nature. The expression is never used of a "mere man."</p>
+        <p>Gabriel told Mary her son would be THE SON OF GOD. Since Jesus was a Divine being on earth, HE NEVER DID ANYTHING AS JUST A MAN. Everything He did was done by the Divine Spirit within Him. How could it be otherwise? The Divine Spirit can do everything a created spirit can do and MUCH MORE. Therefore, he was tempted as a Divine being and faced temptation as Divine being, not as a mere man.</p>
+        <p>The eternal plan of God was settled in the beginning. That plan involved a Divine being (the Word) coming to earth by being born of a virgin, suffering, dying for sin, being buried, being raised, and ascending back to heaven to be seated at the right hand of the Father. That plan has NEVER been in doubt, except in the mind of some men. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="time-quality">
+        <span class="article-category">Commentary</span>
+        <h2>TIME: Quality & Quantity</h2>
+        <p>Time is important. "For what is your life? It is even a vapour, that appeareth for a little time, and then vanisheth away" (<span class="scripture-ref">James 4:14</span>). If we are to get anything done, we must do it while we have time. How to get everything done? It would help if we made a list of things we want to do, placing the most important at the top.</p>
+        <p>Having done that, one must decide how much time is to be given to each item? It is easy to give a lot of time to some things, but much more difficult with others. Often people justify giving a little time to some important matters by thinking, it really isn't how much time you spend, but the "quality of the time." How many times have busy parents said this in regard to home, children, and worship?</p>
+        <p>If when you ordered the finest steak, the waiter brought you a large plate with a steak about the size of a cubic inch, what would you think? Would you agree with him when he told you, Sir, it isn't the quantity that is important, it is the quality? No sir, you would want quality and QUANTITY. Have you ever noticed when people go into one of those places where you can eat all you want for a certain price? Do they pay, then go eat just a small amount of the best they find? No, they often go back for seconds and thirds, people like good food.</p>
+        <p>The important things in life demand a lot of quality time. How do you define quality time? When we were dating, "Just to be with you" was quality time and we wanted plenty of it. In fact, it was hard to find enough time to be together.</p>
+        <p>How much time do we devote to important things: True worship, Bible study, prayer, family, work? It takes time, lots of it. Study carefully.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published May 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

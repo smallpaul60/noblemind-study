@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - July 2000</title>
+  <meta name="description" content="The Strait Way newsletter, July 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07" selected>July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#left-methodist">Left Methodist Church</a>
+        <a href="#carnal-tactics2">Carnal Tactics 2</a>
+        <a href="#ad70-rewards">A.D. 70 - Rewards</a>
+        <a href="#unscriptural-arguments">Unscriptural Arguments</a>
+        <a href="#sinners-prayer">The Sinner's Prayer?</a>
+        <a href="#conversion-sequence">Conversion: Sequence</a>
+        <a href="#wisdom">Wisdom</a>
+      </nav>
+
+      <article class="article" id="left-methodist">
+        <span class="article-category">Personal Testimony</span>
+        <h2>Why I Left The Methodist Church</h2>
+        <p>I became a member of the Methodist Church at the age of twelve, the result of being brought up in a Methodist family. I had been taught that one should believe in Christ and then join the church of his choice, and his choice as a rule would be the one of his parents. On June 5th, 1948, I obeyed the gospel of Christ, thus leaving the Methodist Church. I have often been asked, "Why did you leave the Methodist Church?"</p>
+        <p>First, I will state some of the reasons I did not leave the Methodist Church: (1) I was not made to leave. There was no pressure from within the Methodist Church for me to leave. (2) I did not leave because of the people in the Methodist Church. There are some of the finest people in the Methodist Church that you would ever want to know. (3) I did not leave the Methodist Church because it was not a popular church. The majority of people were Methodist in my hometown.</p>
+        <p>After my discharge from the navy in 1946, I made my home in Charlotte, TN. In 1947, Grover Stevens moved to Charlotte. I was attending many of the services of the church of Christ where he was preaching, and became very angry at some of his remarks. During this same time, brother Leonard Tyler conducted several meetings in this area which I attended; and at which I was made angry. I became so mad at some of their remarks that I began to study my Bible to try to justify myself as a Methodist and at the same time to find error in their teaching, which I would have been happy to expose.</p>
+        <p>Finally, I saw that I was fighting a losing battle and I either had to obey the gospel or stay with the Methodist Church. It was a very difficult battle, knowing that I would be leaving that which I had been taught from childhood up, knowing that my personal friends would turn their back upon me, and knowing the heartache that it would cause my mother to see her only child leave the family religion. I made up my mind to put God first and obey His will.</p>
+        <p>My leaving the Methodist Church was due to the fact that error was exposed and truth was taught in a plain manner, yet with love. I am deeply grateful to such preachers.</p>
+        <p><strong>A. Name.</strong> The first impression that was made on my mind was that the Methodist Church was wrong in name. Such a name could not be found in the Bible. I was called a Methodist, but yet no one in the Bible was ever called such. I was taught that they were called Christians (<span class="scripture-ref">I Pet. 4:16</span>; <span class="scripture-ref">Acts 11:26</span>). I immediately saw that I could not scripturally justify the use of the name Methodist.</p>
+        <p><strong>B. Wesley, the founder, not Christ.</strong> It was made clear that John Wesley was the founder of the Methodist Church and not Jesus Christ. If I wanted to be a member of the church that Jesus built, then I would not be a Methodist. Such preaching stirred up my spirit to the extent that I became dissatisfied with being a member of the church John Wesley built.</p>
+        <p><strong>C. Faith only salvation.</strong> I had always believed that one was saved by faith only. This is exactly what the Methodist Church teaches about salvation. However, when I was told to read <span class="scripture-ref">James 2:24</span>, I was made to see in words that none could misunderstand that "faith only" was wrong. I began to read more and more and found that Jesus required faith and baptism (<span class="scripture-ref">Mk. 16:16</span>).</p>
+        <p><strong>D. Choice of baptism.</strong> I had always been taught in the Methodist Church that there were three ways to be baptized -- (1) sprinkling, (2) pouring, (3) immersion. I was led to believe by Methodist preaching that it was up to the individual to select his own choice. To become a member, I selected sprinkling. The preaching that I heard exposed this error. I was told to read <span class="scripture-ref">Colossians 2:12</span> and then <span class="scripture-ref">Ephesians 4:5</span>. I could see that according to God's teaching there was but one baptism; by Methodist teaching, there were three. I believed God.</p>
+        <p><strong>E. Instrumental music.</strong> We had the instrument of music in services of the Methodist Church, and were led to believe that it was only an aid in the worship. It was plainly proved to me that such was not an aid but an addition to the word of God. I then was reminded of <span class="scripture-ref">John 4:24</span>, that one must worship God in truth. I was told that my worship would be in vain if done by the doctrines of men (<span class="scripture-ref">Mt. 15:9</span>).</p>
+        <p><strong>F. How to raise money.</strong> In the Methodist Church, we would have ice cream suppers, rummage sales, etc. to raise money for the church. The preaching that I heard by brother Stevens and others brought to my attention <span class="scripture-ref">I Corinthians 16:1,2</span>. This was God's plan of having the church members raise its money; and the pie supper, etc. were the ways of men. These were a few of the things that caused me to see the error of my way. Of course, since that time I have studied and found out many other errors. Thank God for Christ, His gospel and His church!</p>
+        <p class="author-signature">Robert Jackson<br>(Adapted by Glenn Melton)</p>
+      </article>
+
+      <article class="article" id="carnal-tactics2">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - Carnal Tactics Faced By The Evangelist, Part II</h2>
+        <p><strong>Establishing Rank in the Church.</strong> Brethren rightly protest the distinctions erected between "clergy" and "laity" in human religious systems, but they often commit the same error by developing an elitist view of elders in the local church. Such a view sees elders as inherently blessed with wisdom beyond others so they need no input from the rest of the church. They seem to say, "We're in control, and you need to stay in your place." These elders see no need to keep members informed about the gospel work being supported, financial matters, or major decisions affecting the church. It is beyond them to request prayers, comments, or suggestions from others. While some may not use these very words, they clearly think them because they never solicit or accept such input.</p>
+        <p>Closely connected with elitist elders is the practice of lording it over God's heritage. What else would it take for elders to act as lords, in defiance of the Lord and in opposition to his order in <span class="scripture-ref">1 Peter 5:3</span>, than to display such secretive modes of operating, to refuse to share information with the congregation, and to refuse to listen to others. Elders must remember the charge allotted to them is God's heritage, for them to lead and oversee as God's stewards or caretakers (<span class="scripture-ref">Tit. 1:7</span>). They must lead and shepherd God's people as a sacred trust as God wants them led, not as their own selfish desires would dictate. Paul said elders must not be self-willed men.</p>
+        <p>How can men such as these inspire confidence in the ones they seek to lead? How can they lead people having no confidence in them as leaders? Because open communication is needed to have followers, then elders need to sit down with members of the congregation so both sides can benefit from the two-way communication. When the members don't know what the elders are thinking or planning and when elders lack the confidence of the people, there is no more leading than there is following: NONE! Men that should be warning, teaching, exhorting, and setting an example for God's people, in such circumstances as these, are actually lame-duck leaders.</p>
+        <p><strong>Political Machinations.</strong> Satan never has more cause for delight than when he enlists purported disciples of Christ for the work of building political machines in local churches, with them feeding on the desire for power and the grab for power made by those claiming to be of Christ. This kind of power does not exist in the spiritual kingdom (<span class="scripture-ref">Matt. 20:20-28</span>). More times than saints would like to think, efforts to line up a base of political power among members have been exerted by having groups to meet and discuss objectives they want to achieve, by use of petitions to exert negative pressure against someone, by refusal to love actively (even to speak to) those against whom the intrigue is being promoted, by gossip campaigns, and by other arrogant displays of carnality. How can such people love their brethren? They do not, and they lie if they claim to. Paul's rebuke of similarly motivated saints in Corinth should be heeded (<span class="scripture-ref">1 Cor. 3:1-4</span>).</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-rewards">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - Do We Receive Our Eternal Rewards Now?</h2>
+        <p>According to this doctrine, after the fall of Jerusalem the world entered the 'eternal days' of a type of Heaven on earth. Some teach that Christ is still on His throne and others believe that He is not on His throne, but down here among us. They teach that when one becomes a Christian, that person instantly receives his final reward. Some go so far as to deny that Christians die today; that they simply go instantly to heaven.</p>
+        <p>The Bible is quite clear on this subject of when final rewards are to be given and what those rewards are to be. Notice in <span class="scripture-ref">Mark 10:30</span>, Jesus promised His followers that they would receive eternal life in the 'age to come'. In <span class="scripture-ref">Luke 20:35</span>, Jesus speaks of an 'age to come', when there will be no marriage or death. There is nothing in the context that demands a figurative application of these terms. This context is a good illustration of the extremes some go to in pursuit of this doctrine. One proponent told me that in the 'eternal days' after A.D. 70, Christians do not marry physically 'in some sense' or die physically 'in some sense'. Here's a real dilemma for these fellows. If you're not married to your 'spouse', then you are living in fornication. If you are married, then 'in some sense', you must not be Christians! Do those who believe this doctrine have funerals for Christians who die physically but 'in some sense' really don't? Can a Christian who cannot die, be murdered? This passage DEMANDS a yet future age when flesh and blood will be no more.</p>
+        <p>In <span class="scripture-ref">2 Tim. 4:8</span>, Paul looks forward to the crown of righteousness that both he and all other saved will receive 'in that day'. In <span class="scripture-ref">1 John 2:25</span>, John says that eternal life is a PROMISE that God has given us. Notice in <span class="scripture-ref">1 Peter 1:2-4</span>, He 'has begotten us again to a living hope through the resurrection of Jesus Christ from the dead, to an inheritance incorruptible and undefiled and that does not fade away, RESERVED IN HEAVEN FOR YOU'. Looking at Peter's words, if we have our eternal reward in possession now, then how can we lose it? In <span class="scripture-ref">1 John 3:2</span>, John says that when we see Him, we shall be like Him. Christ has the firstfruits, a resurrected glorified body. We are promised ours when He comes (<span class="scripture-ref">1 Cor. 15:23</span>).</p>
+        <p>What about the wicked? Do they receive their eternal rewards now also? I asked an A.D. 70 preacher about Satan. He said that he was cast into hell at Jerusalem's fall. Imagine that, the devil is no longer the god of this age, the tempter, and is no longer working through the sons of disobedience. If the Kingdom of Christ was delivered up to the Father 1930 odd years ago, then not only were the righteous foreordained to heaven but the wicked must've been preordained to hell also! The righteous can't do anything to be lost and the poor wicked can't do anything to be saved. What a mess!</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="unscriptural-arguments">
+        <span class="article-category">Church Organization</span>
+        <h2>Institutionalism - Unscriptural Arguments</h2>
+        <p>From its beginning in 1849, the UCMS was never widely accepted among brethren. Not only was there strong objection to it, the churches simply refused to support it financially. It has even been questioned by some who have studied the Restoration Movement, if Alexander Campbell finally saw the truth about the UCMS. In his book "Foundation Facts and Primary Principles" G. C. Brewer, p.221, states that Alexander Campbell, (the first president of the Society, an office he retained until his death), left nothing to the society in his will when he died. He left $5000 to his home congregation to do missionary work, but nothing for the society.</p>
+        <p>While some looked upon Alexander Campbell as the founder of the society, they viewed W. K. Pendleton, his son-in-law, as its savior. From the beginning he was one of the society's staunchest defenders. Twice in the history of the UCMS, he was called upon by the society to deliver a speech in its defense during their annual convention.</p>
+        <p>Even though other arguments in defense of the society were made before and after his speech in 1866, what Pendleton said at that time contained the substance of almost every argument used to support it. Some may have expanded on some parts of the speech, but as far as the substance is concerned, little new can be found. Even today, those who seek to establish and maintain human institutions follow the substance of Pendleton's defense of the society.</p>
+        <p>One of the arguments used by opponents of the society was that in establishing the society the proponents had departed from "original ground," i.e. that it was unknown to the early restoration movement. Some were saying that it was a reversal of what Campbell had taught years earlier in his paper "The Christian Baptist." To the charge that it was a departure from "original ground" Pendleton freely admitted. He simply argued that to say the Missionary Society is wrong because it was unknown in the earlier restoration movement, is to follow human opinions, and this was contrary to the very genius of the movement. Suppose the early pioneers did have the opinion that it was wrong to support a society; that should not be binding upon all. He then charged the opponents had misunderstood what Campbell had written. He said Campbell's writings must be understood in light of the fact he was attacking the ABUSE by denominations, not the institution itself. Pendleton's reply was weak, and his prejudice showed through. He seemed to suggest that by opposing the society they were saying Campbell had been opposed to doing missionary work. This was not true. None of the opponents ever charged Campbell with opposing missionary work in his earlier writings, they were simply opposing the PLAN of doing it through a human institution such as a missionary society.</p>
+        <p>From this argument Pendleton advanced to discuss the main charge that the Missionary Society was unscriptural. The society's opponents argued there was no such precept in the scripture which allowed it. Pendleton answered, "You say, 'Your Missionary Society is not scriptural'--and you mean by this, that there is no special express precept in the scriptures commanding it. We concede this without a moment's hesitation. There is none; but what do you make of it? Is everything which is not scriptural, therefore wrong?" Thus, Pendleton admitted that even though the scriptures were silent about the society, this did not argue against its existence. He then demanded to know on what basis does one make mere silence prohibitive. Have you heard this argument before? We will explore this more fully in the next issue.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="sinners-prayer">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"The Sinner's Prayer?"</h2>
+        <p>I received a sample packet of tracts from "The Tract League" out of Grand Rapids, MI not long ago. Nearly every tract encouraged people to say a "sinner's prayer" and then join a church, be baptized, etc. Some examples of their "prayers": 1. "Jesus, I believe and I need the salvation you have provided. Come into my heart, rule my life today, and show me how to live. Amen" 2. "Jesus, I believe that you are the holy Son of God. I believe that you died on the cross for my sins and that you rose from the dead. You are my salvation. Please wash all my sins away and make me a child of God. I give my life to you today. Amen" 3. "Jesus, I need your salvation. I open my heart to you. I confess that you are God's own son, and that you died on the cross to save me from my sin. Help me to turn from my ways and follow you. Make me ready for your return and show me how to live in the days ahead. Amen."</p>
+        <p>All of us have seen prayers like these. Unfortunately, some may be deceived into saying a similar prayer, and think that they are saved. What does the Bible say about such prayers?</p>
+        <p><strong>The Bible Never Mentions Such A Thing As A "Sinner's Prayer."</strong> What verse might one use to prove that one can pray a "sinner's prayer" in order to be saved? Some might use <span class="scripture-ref">Luke 18:13</span>. The problem with this is that the men mentioned in the text (Pharisee and publican) were both Jews! They were children of God and allowed to enter the Temple; but no "stranger, uncircumcised in heart, nor ... in flesh, shall enter into my sanctuary" (<span class="scripture-ref">Ezek. 44:9</span>). Therefore, the publican's prayer of "God be merciful to me a sinner" would not be applicable to one outside of Christ today. Which New Testament passage teaches us to say a "sinner's prayer" where, at that moment, one is saved? "We know that God heareth not sinners: but if any man be a worshipper of God, and doeth his will, him he heareth" (<span class="scripture-ref">Jn. 9:31</span>).</p>
+        <p><strong>Each Of The Prayers Mentioned Are Different.</strong> Notice that the "prayers" recorded above are all different. Two prayers do not even mention faith! Why bring this up? It is because in the New Testament, those God considered saved did the same thing in order to be saved. Each one heard God's word (<span class="scripture-ref">Rom. 10:17</span>; <span class="scripture-ref">Acts 8:5, 35</span>, <span class="scripture-ref">16:13</span>, <span class="scripture-ref">2:22</span>), they believed that Jesus Christ is the Son of God (<span class="scripture-ref">Acts 2:36</span>, <span class="scripture-ref">8:12</span>, <span class="scripture-ref">16:31</span>, <span class="scripture-ref">Mk. 16:16</span>), repented of their sins (<span class="scripture-ref">Lk. 13:3</span>; <span class="scripture-ref">Acts 2:38</span>, <span class="scripture-ref">17:31</span>), confessed their faith in Christ (<span class="scripture-ref">Matt. 10:32</span>; <span class="scripture-ref">Acts 8:37</span>), and were baptized for the remission of sins (<span class="scripture-ref">Acts 2:38</span>; <span class="scripture-ref">Mk. 16:16</span>; <span class="scripture-ref">Acts 8:12-13</span>, <span class="scripture-ref">16:15, 33</span>, <span class="scripture-ref">22:16</span>). Each case of conversion in the Bible is consistent.</p>
+        <p><strong>These Prayers Offer Another Way To Be Saved.</strong> The "sinner's prayer" is nothing more than a veiled attempt by man at circumventing God's law by providing an alternate way to be saved. Christ said, "He that entereth not by the door into the sheepfold, ... the same is a thief and a robber" (<span class="scripture-ref">Jn. 10:1</span>). Who is the door? Christ! (<span class="scripture-ref">Jn. 10:7, 9</span>) He is the way (<span class="scripture-ref">Jn. 14:6</span>)! People such as Philip (<span class="scripture-ref">Acts 8:5, 12, 35-39</span>), Paul (<span class="scripture-ref">Acts 17:3</span>, <span class="scripture-ref">18:8</span>), and Peter (<span class="scripture-ref">Acts 2:22, 36-38</span>, <span class="scripture-ref">3:19</span>) pointed people to Christ. They did this by teaching what Christ taught (<span class="scripture-ref">Acts 4:20</span>, <span class="scripture-ref">9:22</span>). Where in the Scriptures does Christ teach men to pray a "sinner's prayer" in order to be saved?</p>
+        <p>The "sinner's prayer" is the old denominational doctrine of "praying through" to God. The only difference is that in the past, "praying through" meant one might pray one prayer after another, but not "get through" on the first try. This version of "praying through" promises you'll "get through" on the first try! Our responsibility is to follow Christ's word "as is," and not be caught up in the feel-good, free, no cost, nothing to do, and nothing to lose salvation that the world is promising. The "sinner's prayer" promises something it cannot provide (i.e., salvation). Let us do the will of God, and follow His word all the days of our lives (<span class="scripture-ref">Acts 2:36-38</span>; <span class="scripture-ref">Acts 22:16</span>; <span class="scripture-ref">II Pet. 1:5-11</span>; <span class="scripture-ref">Rev. 2:10</span>; <span class="scripture-ref">I Cor. 15:58</span>).</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-sequence">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Sequence</h2>
+        <p>We have come to the seventh article in a series on the conversion of a sinner. Space is limited and yet a review is vital at this point. We have discussed some basic principles of conversion (article #1). We then began to examine the specific elements of conversion that require man's attention and obedience beginning with faith. Faith is necessary in order to be converted from the life of sin (<span class="scripture-ref">Heb. 11:6</span>; <span class="scripture-ref">Jn. 8:24</span>) (article #2). We studied the element of repentance. Repentance is not simply feeling sorry for sins but that which proceeds from that sorrow (<span class="scripture-ref">2 Cor. 7:10</span>; article #3). Confession is also a necessary element and falls naturally after a person's repentance. Before Philip would baptize the man from Ethiopia, he required this man to affirm his faith. Accordingly, he confessed with his mouth the Lord Jesus (<span class="scripture-ref">Rom. 10:9-10</span>; article #4). We last discussed the element of baptism. We showed in articles #5 and #6 that baptism is the point in which a person's sins are remitted (<span class="scripture-ref">Acts 2:38</span>). It is the instant a person may go on his way rejoicing (<span class="scripture-ref">Acts 8:39</span>). It marks the point of burial for the old man of sin (<span class="scripture-ref">Rom. 6:3-4</span>).</p>
+        <p><strong>Sequence.</strong> Let's think for a moment about the sequence in which these elements work. There are many things around us that depend upon a particular order of operation. A drink machine is one such thing. For a soft drink machine to operate properly, it is understood that you must put your money in and push a button. Then a mechanism within the machine releases the chosen drink, and a track guides it eventually into your hands. If someone disrupts that system, the machine will fail to operate. Why? Because it operates according to a particular sequence. When something in that sequence is impeded, you'll notice they attach a sign to it that reads, "out of order". That means a link in its chain of operation has been broken or removed. Likewise, these commands of God to believe, repent, confess our faith, and be baptized in water for the remission of our sins must be observed in the proper sequence.</p>
+        <p>Conversion is the orderly change of the whole man. Faith involves a change in his intellect. Repentance involves a change in his will. Confession involves a change in his allegiance. And baptism marks a change in his relationship with God. These different changes must occur in this order and, therefore, these commands must be obeyed in this order. The order cannot be altered.</p>
+        <p><strong>Doctrines that are "out of order".</strong> Just like the drink machine can fail, a doctrine that changes the order or system of conversion from that which God has ordained is "out of order". For example:</p>
+        <p>1. Baptism does not change one's intellect. Baptism is not the cure-all for sin. It is an element of salvation but by no means the most important element. It simply won't do for folks to be baptized because their family members were or because they have been coerced. This person is just as much an unbeliever after baptism as before. We must educate people about Jesus so that faith may result before baptism.</p>
+        <p>2. Faith does not change one's will. Some teach that repentance precedes faith. This doctrine is "out of order". It changes God's plan of converting man. Notice that the Jews in Jerusalem believed first (<span class="scripture-ref">Acts 2:36-37</span>), then were told to repent (<span class="scripture-ref">Acts 2:38</span>). This is one proof among many that "faith only" doctrine does not have its origin with the Bible.</p>
+        <p>3. Repentance and confession alone do not change one's relationship with God. For the sinner seeking to be converted to Christ, water baptism serves as the bridge between being outside and inside Christ (<span class="scripture-ref">Gal. 3:26-27</span>). As we noticed in the last two articles, omitting water baptism from God's system of salvation is to create a new plan that will be ruled "out of order" in the last day (<span class="scripture-ref">Matt. 15:13</span>).</p>
+        <p>In the last few lessons of this series, we will put this article to the test. We will examine some historical conversions from the book of Acts to see if these elements work together as I have described.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="wisdom">
+        <span class="article-category">Commentary</span>
+        <h2>Wisdom</h2>
+        <p>What is wisdom? "Knowledge denotes acquaintance with, or clear perception of facts: wisdom is the capacity of judging soundly and dealing with facts, esp. in their practical relations to life and conduct; it often implies depth of insight or ripeness of experience." (Webster).</p>
+        <p>Consider some divine statements about wisdom: (1) Jesus said to the apostles, "I will give you a mouth and wisdom" (<span class="scripture-ref">Lk. 21:15</span>). What did Jesus tell them? I will give you WHAT to say (that is knowledge) and HOW to say it (that is wisdom). How many times have you known what to say, but was not sure how to say it? The apostles would be given both. (2) "O the depth of the riches both of the wisdom and knowledge of God! how unsearchable are his judgments, and his ways past finding out!...For of him, and through him, and to him, are all things: to whom be glory for ever. Amen" (<span class="scripture-ref">Rom. 11:33-36</span>). (3) "In whom are hid all the treasures of wisdom and knowledge" (<span class="scripture-ref">Col. 2:3</span>) was said of Jesus Christ. (4) "To the intent that now unto the principalities and powers in heavenly places might be known by the church the manifold wisdom of God" (<span class="scripture-ref">Eph. 3:10</span>). The church of the Lord manifests the wisdom of heaven.</p>
+        <p>James gives the characteristics of heavenly wisdom: "But the wisdom that is from above is first pure, then peaceable, gentle, and easy to be intreated, full of mercy and good fruits, without partiality, and without hypocrisy" (<span class="scripture-ref">James 3:17</span>). With these characteristics in mind, think about what Jesus said at the end of the sermon on the mount: "Therefore whosoever heareth these sayings of mine, and doeth them, I will liken him unto a wise man...And every one that heareth these sayings of mine, and doeth them not, shall be likened unto a foolish man..." (<span class="scripture-ref">Mt. 7:24,26</span>).</p>
+        <p>Who among the following were wise and who were foolish? "But when the Jews saw the multitudes, they were filled with envy, and spake against those things which were spoken by Paul, contradicting and blaspheming. Then Paul and Barnabas waxed bold, and said, It was necessary that the word of God should first have been spoken to you: but seeing ye put it from you, and judge yourselves unworthy of everlasting life, lo, we turn to the Gentiles...And when the Gentiles heard this, they were glad, and glorified the word of the Lord: and as many as were ordained to eternal life believed" (<span class="scripture-ref">Acts 13:45,46,48</span>). Who were wise and who foolish?</p>
+        <p>"Therefore let all the house of Israel know assuredly, that God hath made that same Jesus, whom ye have crucified, both Lord and Christ. Now when they heard this, they were pricked in their heart, and said unto Peter and to the rest of the apostles, Men and brethren, what shall we do? Then Peter said unto them, Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins...And with many other words did he testify and exhort, saying, Save yourselves from this untoward generation. Then they that gladly received his word were baptized: and the same day there were added unto them about three thousand souls...And the Lord added to the church daily such as should be saved" (<span class="scripture-ref">Acts 2:36-47</span>). Who were the wise and who were the foolish?</p>
+        <p>Have you heard about the death, burial, and resurrection of Christ (<span class="scripture-ref">I Cor. 15:1-4</span>)? Have you believed that or have you rejected it like some of the Athenians (<span class="scripture-ref">Acts 17:30ff</span>)? If you believed, did you repent of your sins (<span class="scripture-ref">Acts 2:38</span>) or did you do like the Jews of <span class="scripture-ref">Acts 13:45</span>? If you repented, have you been baptized for the remission of your sins like the three thousand (<span class="scripture-ref">Acts 2:38, 41</span>) or did you reject the counsel of God against yourself like many in the days of John the Baptist (<span class="scripture-ref">Lk. 7:29,30</span>)?</p>
+        <p>Do you remember Jesus' words? "Therefore whosoever heareth these sayings of mine, and doeth them, I will liken him unto a wise man....And every one that heareth these sayings of mine, and doeth them not, shall be likened unto a foolish man..." (<span class="scripture-ref">Mt. 7:24,26</span>).</p>
+        <p>When you stand before God in the judgment, will you be there as a wise man or a foolish man? God has made it possible for you to be saved. Your eternal destiny is in your hands. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published July 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - August 2001</title>
+  <meta name="description" content="The Strait Way newsletter, August 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08" selected>August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#sound-doctrine">Sound Doctrine</a>
+        <a href="#authority">Bible Authority</a>
+        <a href="#church-history">Church History</a>
+        <a href="#genesis">Genesis & Clothing</a>
+        <a href="#trends">Trends</a>
+        <a href="#church-origins">Mormon Origins</a>
+        <a href="#fellowship">Fellowship</a>
+      </nav>
+
+      <article class="article" id="sound-doctrine">
+        <span class="article-category">Editorial</span>
+        <h2>What Is Sound Doctrine?</h2>
+        <p>Paul charged Titus, <span class="scripture-ref">"But speak thou the things which become sound doctrine" (Titus 2:1)</span>. The word translated "sound" is the one from which we get "hygiene," which relates to cleanliness, purity. Other references to sound doctrine are: (1) <span class="scripture-ref">"For whoremongers, for them that defile themselves with mankind, for menstealers, for liars, for perjured persons, and if there be any other thing that is contrary to sound doctrine" (1 Timothy 1:10)</span>, (2) <span class="scripture-ref">"For the time will come when they will not endure sound doctrine; but after their own lusts shall they heap to themselves teachers, having itching ears" (2 Timothy 4:3)</span>, (3) <span class="scripture-ref">"Holding fast the faithful word as he hath been taught, that he may be able by sound doctrine both to exhort and to convince the gainsayers" (Titus 1:9)</span>.</p>
+        <p>The importance of sound doctrine is evident. Because sound doctrine is important, one must know by what a doctrine, or practice, is to be measured to determine its soundness. When the Bereans heard Paul, they <span class="scripture-ref">"...searched the scriptures daily, whether those things were so" (Acts 17:11)</span>. How were they determined to be "so"? By the scriptures!! If they were "so," they were "sound doctrine." If they were not "so," they were not "sound doctrine."</p>
+        <p>John, the apostle of love, charged, <span class="scripture-ref">"Try the spirits..." (1 John 4:1)</span>. Paul commanded, <span class="scripture-ref">"Prove all things..." (1 Th. 5:21)</span>. These instructions imply a standard by which to "try" or "prove." That standard is the word of God: <span class="scripture-ref">"All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness: that the man of God may be perfect, thoroughly furnished unto all good works" (2 Tim. 3:16,17)</span>.</p>
+        <p>In discussing soundness, people sometimes say something like this: sound in whose eyes? One brother considers a doctrine "sound." Others think it "unsound." We must be concerned with "soundness" in the eyes of God, not men. If it cannot be determined that a doctrine is "sound" or "unsound," then we must raise the question about the understandability of the Bible. But, we are taught to understand the will of God (<span class="scripture-ref">Eph. 5:17</span>). Discussions and debates should have as their primary purpose the determination of the soundness of a doctrine, or practice.</p>
+        <p>While it is true that every man must use the Bible to determine "soundness" for himself, it does not follow that just because he reaches a certain conclusion, that it is sound. That is one of the reasons for continuous study, and a lot of humility.</p>
+        <p>Let us keep in mind that the Bible is understandable and that will hold us accountable for reaching the right conclusions. For years we have taught this to our religious neighbors, let us make sure that we apply it to ourselves.</p>
+        <p>May the words of the Psalmist express our thinking: <span class="scripture-ref">"Through thy precepts I get understanding: therefore I hate every false way" (Psalms 119:104)</span>. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <div class="highlight-box">
+        <h3>Obligations Of Every Christian</h3>
+        <p><span class="scripture-ref">"Fight the good fight of faith, lay hold on eternal life..." 1 Timothy 6:12</span></p>
+        <p><span class="scripture-ref">"Put on the whole armour of God...stand against the wiles of the devil." Ephesians 6:11</span></p>
+        <p><span class="scripture-ref">"...earnestly contend for the faith which was once delivered to the saints." Jude 3</span></p>
+      </div>
+
+      <article class="article" id="authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>Individual Or Church Action</h2>
+        <p>Sometimes when we speak of the church doing the work that the New Testament authorizes someone will say "well what about the story of the good Samaritan" <span class="scripture-ref">Lk 10</span> or some similar statement. Inevitably among those who do not respect bible authority the reply, "well what about <span class="scripture-ref">James 1:27</span> or <span class="scripture-ref">Galatians 6:10</span>". They then apply these thoughts to the work of the church when they are clearly the work of an individual Christian.</p>
+        <p>Many seem not to be able to comprehend any difference between an individual Christian and what he/she does and the work of the local church. One passage in the New Testament clearly makes a distinction between the two. In <span class="scripture-ref">1 Tim. 5:16</span> the Holy Spirit through the pen of the inspired apostle reveals, "If any man or woman that believeth have widows let them relieve them, and let not the church be charged; that it may relieve them that are widows indeed".</p>
+        <p>Brethren sometimes tell me that they can see no difference between the individual Christian and the local church, "after all", they say, "the church is made up of individuals". Let that person tell the Internal Revenue Service that they see no difference. Churches don't pay taxes and individual Christians should not pay either, because there is no difference between the two. Friends, this will not stand. Any right thinking person can see a difference.</p>
+        <p>Through the years I have discussed with elders of local churches and others concerning bible authority for the church to raise its funds to do its work. Many, even in so-called sound churches fail to see any difference between the individual and local churches in this realm. The only authority from God's word that we find for the local church to have a store (storehouse or treasury) and to raise funds is <span class="scripture-ref">1 Cor. 16:2</span>. In this passage we find bible authority for giving or laying by on the first day of the week. Some want the church to raise money in other ways, but there is no authority for such. Here a misunderstanding between what an individual does and what the church is authorized to do is often seen. Some believe that the church can raise its store any way it wants.</p>
+        <p>Several years ago I was discussing bible authority concerning the treasury and the local church and how the church raises its store, ie the freewill offering of saints on the first day of the week - <span class="scripture-ref">1 Cor. 16:2; 2 Cor. 8; 2 Cor. 9; 2 Cor. 11:8</span>. I explained that as an individual I could raise money for my living in any lawful way. The example used was: an individual could buy tractors and hay equipment and earn money by cutting and baling hay for others, but the church is not authorized to buy tractors and hay equipment and raise money by custom hay work. One self-willed individual who was supposed to be an elder of a local church quickly told me, "well we could if we wanted to". Clearly, he did not understand, or if he understood, he did not respect bible authority and the difference between what an individual does and what the church is authorized to do.</p>
+        <p>Some local churches raise their store in ways for which there is no authority from God's word. From buying and trading in oil and gas leases, to garage and bake sales, to interest bearing accounts and everything in between.</p>
+        <p>Remember, the only authority we have for the church to raise or even have such a thing as a store or treasury is <span class="scripture-ref">1 Cor. 16:2</span> - the freewill offering of saints on the first day of the week. Truly, if we respect bible authority we will see the difference in many areas in that which individuals might engage and church action.</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>Conversion "Catholic Style" Was Not What The Lord Had In Mind!</h2>
+        <p>The student of history will often read and hear terms relating to "the Christianizing of the World." Such terms will often be used in conjunction with either broad or specific treatments of the spread of belief in Christ into Palestine, the Roman Empire, then into perhaps Northern Africa, the Middle East, Europe, the New World and even in studies describing the spread of "Christianity" throughout the farthest reaches of the World.</p>
+        <p>We cannot help but notice that in today's revisionist history telling, the spread of "Christianity" is blamed with many world woes and seldom receives any praise. Those who have done missionary work in far off places are blamed with destroying native religions and upsetting them to the point that when European nations were finally kicked out of those 3rd World countries by their indigenous peoples, it is the missionaries that are said to be the root of their current problems and not primarily the greed of the governments of men. You can see it told over and over on "The Learning Channel" or "The Discovery Channel" or documentaries on PBS. It is often the reason given that the natives of these places only wear clothes because they were made to feel so overwhelmingly guilty by the "uptight, puritanical Christian Missionaries" of centuries past.</p>
+        <p>Those of European descent who are most closely associated with such evils are reminded of such horrible things as the conquest of South American Indian cultures like the Mayans, Aztecs, Incans and others. The brutality shown by Spanish soldiers and clergy was a real event and the bloodshed in the name of Christ a great travesty. Thousands upon thousands of Indians, we are told, were butchered when they would not convert to "Christianity." Every school child can tell you this.</p>
+        <p>The hatred that Islamic cultures and nations feel toward Westerners today is rooted in the Crusades of the Middle Ages. During that time, over a span of a couple of centuries, wave after wave of zealous European "Christians" seeking to relieve Jerusalem from the hands of Arabic and Islamic inhabitants assaulted the Middle East and the bloodshed was again, horrendous.</p>
+        <p>In Winston Churchill's "History of Great Britain" he mentions how Saxon "Christians" battled the Pagan Vikings and at the end of battles where the Vikings were defeated that the Saxons would force the Vikings to "convert" and would baptize them; causing Churchill to comment that there was one well known Viking who converted over 40 times! In "The Last Apocalypse" the author says that Otto the Great, a fierce ex-pagan Viking king forced all his followers to become "Christians." From the German comes this little poem: "And wilt thou not a Christian be, I'll smash thy skull, just wait & see!"</p>
+        <p>Marx, Lenin, and Mao Tze Tung were relentless in their blame of "Christianity" for global bloodshed and the economic plight of the poor and downtrodden "masses." Marx's famous quip that "religion is the opiate of the people," no doubt, brought derision and much worse upon many believers in Christ.</p>
+        <p>Having reminded ourselves of these historic perspectives it is important that we take the initiative in correcting this perception whenever we can to those who espouse it. The thing I would like to make clear here, is that historians rarely if ever clarify the difference between those who truly believe in the doctrine of Christ, that is, those who look only to the New Testament for what they believe, and the operations of the Catholic Church in Rome. Catholicism IS NOT the New Testament doctrine of Christ! There is a big difference in the words "Christian" and "Catholic." I know of no time in all of history where actual members of the church of Christ compelled by force anyone to become a Christian.</p>
+        <p>There is a good reason for this isn't there? <span class="scripture-ref">2 Cor 10:3-4</span>, "For though we walk in the flesh, we do not war after the flesh: (For the weapons of our warfare are not carnal, but mighty through God to the pulling down of strong holds;)." It is not the way of Christ for Christians to take up arms against those who will not believe. In fact it is those of the world, the non-believers who are the ones who will do the violent opposition. <span class="scripture-ref">Rom 8:35</span>, "Who shall separate us from the love of Christ? shall tribulation, or distress, or persecution, or famine, or nakedness, or peril, or sword?" Jesus said, in <span class="scripture-ref">Matt 26:52</span>, "Then said Jesus unto him, Put up again thy sword into his place: for all they that take the sword shall perish with the sword." We can only conclude then that Catholicism is really to blame for any ills of the world.</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Key To Understanding God's Purpose For Clothing</h2>
+        <p><span class="scripture-ref">"Then the eyes of both of them were opened, and they knew that they were naked; and they sewed fig leaves together and made themselves coverings...also for Adam and his wife the Lord God made tunics of skin, and clothed them." Gen. 3:7, 21</span></p>
+        <p>Many people have varying degrees of opinions as to why they wear clothes. If asked, some would say that they are wearing clothes because it is cold, or hot, or fashionable. If we strip the Bible of Genesis, then I suppose that one opinion is just as good as another. If your opinion of wearing clothes is simply because it is "cold" then what will you do when it is hot? Will you shed them all? One can easily imagine the scenario where a father is upset as to why his daughter is dressing the way she is. Picture their tempers flaring and fueled by various and contradicting opinions: "It is not nice!" "Why is it not nice?" "Because it is wrong!" "Why is it wrong?" "Because it is not right!" "Why is it not right?" "Because it is not nice!!" And on and on it goes, a circular exhibition of emotions and opinions. If the purpose of clothing is reduced to one's "mere opinion" then some may wear many clothes, some little and some...none!</p>
+        <p>Genesis gives us the origin of clothing, and therefore relates its meaning. As we stated before, the meaning of anything is tied up in its origin. Are you ready to accept God's reason for clothing? From the two verses above, we see that:</p>
+        <ul class="bullet-list">
+          <li>Adam and Eve sought clothing (rather than seeking to lose it).</li>
+          <li>Adam and Eve sought clothing because they were naked.</li>
+          <li>The clothing was for the purpose of covering nakedness.</li>
+          <li>Adam and Eve's standard of being covered was not God's standard; therefore they were still considered unclothed, for the Lord had to make tunics of skin in order for them to be clothed (3:21).</li>
+        </ul>
+        <p>Incidentally, the insufficiency of man's works and ideas are always made manifest when compared to God's. Some people wear clothes to entice, reveal and incite lust. Clothing that is tight and suggestive of certain body parts goes totally against the reason why clothing was created. It contradicts its very purpose. Families need to be taught that Adam and Eve were given clothes by God to be covered up, not to reveal themselves! They were given clothes because of sin. God is the one who must set that standard. In <span class="scripture-ref">Matthew 5:28</span>, Jesus singles out the man who lusts in his heart and the woman who is lusted after. The point is obvious: Parents teach your sons to honor women and teach your daughters the way men are. Men need to discipline themselves like Job, <span class="scripture-ref">"I have made a covenant with my eyes; why then should I look upon a young woman?" (Job 31:1)</span>. Women need to seek to walk honorably in order to be treated honorable. Reject the standard of the immoral woman of <span class="scripture-ref">Proverbs 7</span> who "flatters with her words" and dresses "with the attire of a harlot, and a crafty heart" (vv. 5, 10). <span class="scripture-ref">"I desire therefore that the men pray everywhere, lifting up holy hands, without wrath and doubting; in like manner also, that the women adorn themselves in modest apparel, with propriety and moderation, not with braided hair or gold or pearls or costly clothing, but, which is proper for women professing godliness, with good works" (1 Tim. 2:8-10)</span>. Is your dress "modest" and is it "proper" for godliness and good works?</p>
+        <p>Some people want a line (probably so that they can get as close to it as possible). <span class="scripture-ref">1 Timothy 2:9-10</span> should serve as a line. If you have to question whether it is modest, then don't wear it. Does it cover you or reveal you? Consider, <span class="scripture-ref">"...our unpresentable [indecent] parts have greater modesty, but our presentable parts have no need..." (1 Cor. 12:23, 24; see also Exod. 28:42)</span>. Get nakedness covered!</p>
+        <p class="author-signature">Steven J. Wallace<br>313 Merrick Ave., Sunnyside, WA 98944</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Declining Spirituality</h2>
+        <p>There are a number of things among "us" today which serve as indicators of declining spirituality. We notice only two of these in this short article.</p>
+        <p>The apostle to the Gentiles gives a very vivid contrast between those who are fleshly and those who are spiritual in <span class="scripture-ref">Romans 8:1-9</span>. He says, "for they that are after the flesh mind the things of the flesh; but they that are after the spirit the things of the spirit" (v. 5). The apostle shows that it is all in the mind, and from there springs action of being "in the flesh," or "in the spirit." He says, "they that are in the flesh (mind the things of the flesh) cannot please God" (v. 8). Therefore, we must follow the mind of the spirit to maintain our spirituality. Otherwise, we lose it by following the mind of the flesh, and this results when we begin to practice again those things which are not spiritual. In other words, our mind set (direction of the heart) must be continually on things of the spirit, and some conditions today which are very evident, indicate otherwise.</p>
+        <p><strong>Churches that are just "keeping house."</strong> We have observed over the years how many churches have grown and prospered to the extent of filling their meeting houses, and converting people to Christ, and doing a good work for His cause. But, now it is different! Many of these same churches today are barely able to "keep the doors open," and some have already closed the doors. In the area of the country where I reside, it would require the merger of four or five of these small churches to comprise one that would be able to do a good work for the cause of Christ. However, merger of these small churches into one prosperous, working church is out of the question. The elderly people of these small churches (These are about all that are left in these churches.) will not leave. The attitude is, "I have been here all my life, and intend to stay until I die." And, with this attitude, the church is dying. Beloved, we can see clearly that in such cases, brethren are "minding the things of the flesh, and not the things of the spirit." Between their time of prosperity and the present state, something happened to allow this deterioration. Was it not losing spirituality? Outside power or sources do not cause churches to die, and numbers do not cause churches to live. Spirituality is the answer.</p>
+        <p><strong>Casual Dress.</strong> Another matter which bears upon our problem is the way some are presenting themselves to God in the worship services; the casual, sloppy way some are dressing for worship. Now, I know there is no dress code enjoined upon God's people in the Scriptures, but what about the principle of "dressing for the occasion," and recognizing things that are important to us? When I observe elders, preachers, deacons, and members in general wearing T-shirts, with worldly logos and old blue jeans, and young ladies in shorts; brethren, it seems to me that something is terribly wrong with our sense of values, and surely we need to get our priorities straightened out. If the present trend continues, what will the church of our Lord look like twenty years down the road? You know! It will resemble a house full of bums. Brethren, is this not an indicator that many today are losing their spirituality? I believe so! Let us place the doing of God's will, and that in the best way we can, as our number one priority.</p>
+        <p>Dear reader, these things may seem trivial to you, and may not address the "larger" problems which we confront every day. However, all know that the "big" things grow from a small beginning. Attention should be given to preventing even a "small" innovation from entering the body of Christ. Perhaps some should consider too, how spiritual they have been from the beginning. Again, our mind set must be on Christ, and not on our own convenience.</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Mormon</h2>
+        <p>There are presently five denominations (there have been many more, but these have ceased to exist) among the religious people commonly called "Mormons," but who call themselves "Latter-Day Saints." Three of these are very small. The two largest groups have their headquarters at Salt Lake City, Utah and at Independence, Missouri. Each of the five groups believes itself to be the original "Church of Jesus Christ of Latter-Day Saints," as founded by Joseph Smith. The divisions in the ranks of Mormonism arose shortly after the death of Smith. Among the early leaders of these separate groups were Brigham Young, Joseph Smith, Jr. (son of the founder of Mormonism, who was also known as Joseph Smith, Jr.), Sidney Rigdon, Alphaeus Cutler and James J. Strang.</p>
+        <p>Joseph Smith was born December 23, 1805 in Sharon, Vermont and was killed June 27, 1844 in Carthage, Illinois. He claimed to have had a series of visions beginning when he was a boy of fourteen! In these "visions" he saw God, Christ and Angels, particularly the angel, "Moroni," was told that all existing churches were wrong, that he was to join none, that the pure gospel and the true church be re-established through him, and was given information and instructions which led to the "discovery" and "translation" of certain "plates of gold," from whence is supposed to have come the "Book of Mormon." The Book of Mormon claims to be an account of the ancient inhabitants of this continent and a history of some of the Jews. Its background is fraudulent and its contents ridiculous.</p>
+        <p>The Mormon Church was organized April 16, 1830 at Fayette, New York. With Mormons revelation is continuous. Thus they embrace, not only The Book of Mormon, but other declarations and writings (principally the Book of Doctrines and Covenants and the Pearl of Great Price) of Smith (whom they claim was a prophet of God) and the declarations and writings of others since. These could gain acceptance only to the extent that the Bible was disparaged and reflected upon; therefore, Mormonism accepts the Bible with a broad condition ("as far as it is correctly translated"-they say that they can have more confidence in The Book of Mormon because it was translated with divine direction) that is supposed to take care of the many, many points at which it condemns The Book of Mormon and other "inspired" writings.</p>
+        <p>The Mormon Church is a human organization, having a human founder and a human creed; it began 1800 years after the establishment of the Lord's church in Jerusalem.</p>
+        <p>The self-styled prophet, Joseph Smith, claimed that the contents of the Book of Mormon came from records on "Golden Plates" by men who were supposed to be guided by God in the making and preservation of those records. Not only that; Smith himself claimed to have been given the translation in English, word by word, from God. He said himself, "I told the brethren that the Book of Mormon was the most correct of any book on earth, and the keystones of our religion, and a man would get nearer to God by abiding by its precepts, than by any other book." (History Of The Church, Vol. IV, p.461). Yet, in spite of this, literally thousands of changes have been made from the first edition to current editions-many of these changes in the text itself.</p>
+        <p>About ten years ago Jack Free of Ontario, Oregon compared a first edition reprint of the Book of Mormon with a current edition. He tabulated 12,349 changes! The tragedy of it all is that several hundred thousand people are casting their eternal salvation on the claim of a nineteenth century man to being a prophet of God. Precious souls hang in the balance, and I would not want to stand in the place of that imposter of a man when the judgement comes. The Book of Mormon cannot be true unless the Bible is true, but if the Bible is true-because of its very nature and claims and warnings, the Book of Mormon and all other professed revelations must be false.</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <div class="highlight-box">
+        <h3>Unto Salvation</h3>
+        <p><span class="scripture-ref">Faith</span> is unto (eis) righteousness. <span class="scripture-ref">Romans 10:9,10</span></p>
+        <p><span class="scripture-ref">Repentance</span> is unto (eis) life. <span class="scripture-ref">Acts 11:18; Luke 13:3</span></p>
+        <p><span class="scripture-ref">Confession</span> is unto (eis) salvation. <span class="scripture-ref">Romans 10:9,10</span></p>
+        <p><span class="scripture-ref">Baptism</span> is unto (eis) remission of sins. <span class="scripture-ref">Acts 2:38</span></p>
+      </div>
+
+      <article class="article" id="fellowship">
+        <span class="article-category">Editorial</span>
+        <h2>If We Cannot Settle Our Doctrinal Differences, Can We Just Accept One Another?</h2>
+        <p><span class="scripture-ref">"Whosoever transgresseth, and abideth not in the doctrine of Christ, hath not God. He that abideth in the doctrine of Christ, he hath both the Father and the Son. If there come any unto you and bring not this doctrine, receive him not into your house, neither bid him God speed: For he that biddeth him God speed is partaker of his evil deeds" (2 John 9-11)</span>. <span class="scripture-ref">"And have no fellowship with the unfruitful works of darkness, but rather reprove them" (Ephesians 5:11)</span>. We must refuse fellowship with some, but who are they? Those who do not bring the doctrine of Christ, but engage in the "...unfruitful works of darkness." These can be unfruitful branches which have been broken off (<span class="scripture-ref">John 15:1ff.</span>).</p>
+        <p><span class="scripture-ref">"Wherefore receive ye one another, as Christ also received us to the glory of God" (Romans 15:7)</span>. <span class="scripture-ref">"Let not him that eateth despise him that eateth not; and let not him which eateth not judge him that eateth: for God hath received him" (Romans 14:3)</span>. If God receives one, we must receive him.</p>
+        <p>Does God receive false teachers and those who practice the teaching? No! Both are a work of the flesh (<span class="scripture-ref">Galatians 5:19ff; Romans 1</span>). In <span class="scripture-ref">Acts 15:1ff</span>, there is an instructive example. Paul and Barnabas opposed those who taught Gentiles must be circumcised. Did they reject those whom God had received? No! God had already determined that <span class="scripture-ref">"...in Christ Jesus neither circumcision availeth anything, nor uncircumcision; but faith which works by love" (Galatians 5:6)</span>. So those who taught error, and any who might have practiced that error, were rejected by God and the apostles.</p>
+        <p>If false teachers among the brethren, and those who practice their teaching, can be received, the following could be received: Adulterers, fornicators, the immodest, those who deny that Jesus did miracles by His own inherent power, those who teach that the kingdom was not fully established until AD 70, those who teach that baptism cleanses unscriptural relationships, those who teach that Romans 14 involves matters of great doctrinal importance, and the one covenant doctrine.</p>
+        <p>If those can be fellowshipped, to whom could fellowship not be extended? Study Patiently.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published August 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

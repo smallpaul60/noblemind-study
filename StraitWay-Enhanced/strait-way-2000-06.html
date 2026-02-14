@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - June 2000</title>
+  <meta name="description" content="The Strait Way newsletter, June 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06" selected>June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#clapping-music">Clapping & Instruments</a>
+        <a href="#carnal-tactics">Carnal Tactics</a>
+        <a href="#ad70-resurrection">A.D. 70 - Resurrection</a>
+        <a href="#first-institution2">First Institution 2</a>
+        <a href="#calling-lord">Calling on the Lord</a>
+        <a href="#conversion-baptism2">Conversion: Baptism 2</a>
+        <a href="#three-men">Three Men Visited Abraham</a>
+        <a href="#defining-desire">Defining Desire</a>
+      </nav>
+
+      <article class="article" id="clapping-music">
+        <span class="article-category">Worship</span>
+        <h2>Clapping Of Hands And Mechanical Instruments Of Music In Worship</h2>
+        <p>"Speaking to yourselves in psalms and hymns and spiritual songs, singing and making melody in your heart to the Lord..." (<span class="scripture-ref">Ephesians 5:19</span>). "Let the word of Christ dwell in you richly in all wisdom; teaching and admonishing one another in psalms and hymns and spiritual songs, singing with grace in your hearts to the Lord" (<span class="scripture-ref">Colossians 3:16</span>).</p>
+        <p>"If any man speak, let him speak as the oracles of God...." (<span class="scripture-ref">I Peter 4:11</span>). "Whosoever transgresseth and abideth not in the doctrine of Christ, hath not God" (<span class="scripture-ref">II John 9</span>). "The secret things belong unto the Lord our God..." (<span class="scripture-ref">Deuteronomy 29:29</span>). "But the hour cometh, and now is, when the true worshippers shall worship the Father in spirit and in truth: for the Father seeketh such to worship him. God is a Spirit: and they that worship him must worship him in spirit and in truth" (<span class="scripture-ref">John 4:23,24</span>).</p>
+        <p>Because the NT is silent concerning the use of mechanical instruments of music in worship to God, most members of churches of Christ have rightly opposed their use in worship. However, when a generation of untaught members arises, brethren become so loose in their attitude toward Divine authority that they permit mechanical instruments in their worship.</p>
+        <p>Not only is the NT silent concerning the use of mechanical instruments in worship, it is also silent regarding the use of clapping in worship to God. Clapping is "1. to strike together so as to produce a sharp percussive noise...." and percussive means "the beating or striking of a musical instrument" (Webster's New Collegiate Dictionary).</p>
+        <p>Clapping and mechanical instruments are closely allied in regard to their effect in worship. Why do I say that? While there is not any direction of pitch in clapping as there is in the use of mechanical instruments, there is the rhythm and possibly syncopation. Syncopation is "...a temporary displacement of the regular metrical accent in music caused typically by stressing the weak beat" (Webster's New Collegiate Dictionary).</p>
+        <p>Pitch and rhythm are involved in singing and syncopation can be. A spiritually minded song leader will be aware of the appropriateness, or lack thereof, in regard to each of these. True worship is designed to appeal to the spirit of man not the flesh. Note that melody is made in the heart (<span class="scripture-ref">Ephesians 5:19</span>).</p>
+        <p>Clapping of hands and mechanical instruments of music in worship to God are additions to and go beyond the written word (<span class="scripture-ref">Revelation 22:18,19</span>; <span class="scripture-ref">II John 9</span>; <span class="scripture-ref">I Corinthians 4:6</span>). They move men from the spiritual to the carnal. Their origin is in the wisdom of men. They appeal to the flesh not the spirit. Study carefully.</p>
+        <div class="callout">If while on earth Jesus could have sinned, He was not God.<br>If while on earth Jesus could not sin, He was not just a man.</div>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="carnal-tactics">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - Carnal Tactics Faced By The Evangelist, Part I</h2>
+        <p>It is undeniably clear that Jesus lifted the kingdom of God above the plane of conduct normally seen in the kingdoms of earth when He declared, "My kingdom is not of this world. If my kingdom were of this world, my servants would fight so I would not be delivered to the Jews; but now my kingdom is not from here" (<span class="scripture-ref">Jn. 18:36</span>). While many have not adhered to these words in their efforts on behalf of the kingdom, it is unmistakable that heaven's king did not intend for his rule, or the realm of that rule, to be established, expanded, or defended by those weapons or tactics usually employed on behalf of worldly kingdoms. Political power, conspiracy, gossip, fanning up support among members, whispering campaigns, giving a cold shoulder to people, and other forms of dishonorable behavior must take their place with the carnal sword, because one has as much place in the spiritual kingdom as the other. When these tactics take the place of serious Bible study, prayer, and earnest efforts to prevent and solve problems, problems grow worse and last longer. In such confrontations there is no doubt that Satan wins the victory. It is no marvel that the apostle warned not to give the Devil a place (<span class="scripture-ref">Eph. 4:27</span>).</p>
+        <p>My brethren, it is not right for those claiming to be Christians to treat others in any way they would not also treat Christ. When God's people resort to such carnality, either in their efforts to proclaim Christ and defend the truth or in attempts to handle local church problems, they open the door to Satan and surrender the battle for truth. Whatever the consequences and whichever side seems to prevail when the dust has cleared, "Christians" have become the puppets and pawns of Satan, and he has had to do little besides sit on the sideline and have a big time.</p>
+        <p>Of what do I speak? What are some of these carnal tactics too often employed?</p>
+        <p><strong>Unfair Treatment of Brethren.</strong> Some have been too quick on the trigger, in that they fire at others before they even understand what others mean. They do not know the others to be enemies or friends, but they fire away as if they were dealing with enemies. It is unwise to attack one without knowing beyond doubt that he definitely teaches something. It is unfortunately true that some write in fuzzy phrases, leaving themselves open to criticism. (They really should not write until they can do better, leaving nothing unclear or ambiguous.) When one does write in such fashion, the local "scout" sights him and cries out "Enemy!" Would it not be wise to inquire about his meaning and then attack the error, not the writer, if inquiry shows it necessary to do so?</p>
+        <p>Others have followed the course of inequity in accusing some of doing what they themselves have been doing. Regardless of one's view on a matter, he should not be attacked for responding to a request to set forth his view, when the attackers have been doing as much themselves. The rule that is golden has much value in dealings with brethren (<span class="scripture-ref">Matt. 7:12</span>). Let us never descend to the low level of the spiritual cannibal in devouring each other (<span class="scripture-ref">Gal. 5:14,15</span>). We must learn to deal with the teaching, but no dishonorable treatment of the teacher is permitted.</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-resurrection">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - Has the Resurrection of the Dead Already Occurred?</h2>
+        <p>The A.D. 70 doctrine teaches that the Resurrection of the dead occurred at the fall of Judaism. They do not believe in a literal resurrection of all dead at a future return of Christ. Notice the following from Max King: "out of the decay of Judaism arose the spiritual body of Christianity" (Spirit of Prophecy; p. 200). Are ALL prophecies concerning the resurrection of the dead speaking of a FIGURATIVE resurrection of the Church of Christ out of Judaism? FIGURATIVE LANGUAGE MUST BE DEMANDED BY A CONTEXT IN ORDER TO KEEP THE HARMONY OF TRUTH. It must NEVER BE ASSUMED by someone just to shore up their doctrine.</p>
+        <p>Notice in <span class="scripture-ref">John 5:28-29</span>. "Marvel not at this for the hour is coming when ALL who are in the graves shall hear His voice and come forth - those who have done good, to the resurrection of life, and those who have done evil, to the resurrection of condemnation." Did this happen at A.D. 70? Was there a worldwide resurrection at that time and the history books are silent about it? How many ancient bodily remains have been found in this decade alone? Did God miss these people in a general resurrection? Are there no good or evil persons in the world after that date?</p>
+        <p>Notice also in <span class="scripture-ref">Acts 24:15</span>. "I have hope in God, WHICH THEY THEMSELVES ALSO ACCEPT, that there will be a resurrection of the dead, both of the just and the unjust." Did the Jews, who hated Christ, have a hope of a resurrection of the Church of Christ out of Judaism and the fall of their state? Obviously not!</p>
+        <p>In <span class="scripture-ref">Luke 11:31,32</span>, Jesus said that the queen of the south and the men of Nineveh would rise up in the judgment and condemn those unbelieving Jews. There is NO RECORD that this happened at A.D. 70.</p>
+        <p>Let's look at the context of <span class="scripture-ref">1 Thess. 4:13-5:10</span>. Here Paul comforts the brethren with the knowledge of the return of Christ and the resurrection of their loved ones who 'sleep in Jesus'. When did the unbelieving Jews EVER sleep 'in Jesus'? Also, here we have THE LIVING AND THE DEAD being blessed at His return (<span class="scripture-ref">2 Tim. 4:1</span>).</p>
+        <p>The Fifteenth Chapter of 1 Corinthians is, as these others, a simple and direct statement involving our Lord's return and our promised blessings in the resurrection. Christ has the firstfruits and His saints are promised THE SAME in the harvest at His coming. He has a glorified body now. We will receive ours when He comes (<span class="scripture-ref">1 Corinthians 15:20-26</span>, <span class="scripture-ref">1 John 3:2</span>, <span class="scripture-ref">Philippians 3:20-21</span>). When we die our bodies are sown in corruption, dishonor, weakness, as a natural body. When we are raised from the dead, it will be in incorruption, honor, power, and a spiritual body (<span class="scripture-ref">1 Cor. 15:42-44</span>).</p>
+        <p>Notice in <span class="scripture-ref">2 Tim. 2:17-18</span>: "And their message will spread like cancer, Hymenaeus and Philetus are of this sort, who have strayed concerning the truth, saying that the resurrection is already past; and they overthrow the faith of some." Amen, Paul!</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="first-institution2">
+        <span class="article-category">Church Organization</span>
+        <h2>The First Human Institution and Its Aftermath (No. 2)</h2>
+        <p>From its beginning the ACMS never enjoyed clear sailing. Brother Earl West in his four volume history of the Restoration Movement, "The Search For The Ancient Order," comments, "Scarcely had the American Missionary Society been organized when a wave of opposition began sweeping over the brotherhood." (Vol.1, p.196). By the close of 1849, J.B. Ferguson, editor of "Christian Magazine," wrote that "the mails of the past week have brought to us letters from some of almost every class of laborers in the Lord's vineyard, and of every variety of talent and acquirement, urging us by appeals to the highest and purest motives, to lift our voices against the present dangerous tendency of the Reformation."</p>
+        <p>Faithful men still determined to "walk in the Old Paths" (<span class="scripture-ref">Jer. 6:16</span>), and only "speak as the oracles of God," (<span class="scripture-ref">1 Pet. 4:11</span>), said to the proponents of the ACMS, we must speak, "not in words which man's wisdom teacheth, but which the Spirit teacheth, combining spiritual things with spiritual words" (<span class="scripture-ref">1 Cor. 2:13</span>). Finding no justification in the scriptures for the human institution recently established, they rose up to do battle. They considered the Society not only contrary to Primitive Christianity, but a hateful assumption of power by men.</p>
+        <p>A hard-fought battle ensued. A period of intense teaching by every possible medium was utilized against the Society. Almost every gospel meeting contained sermons on the evils of the society. Public debates and lengthy discussions were carried on in the periodicals of the day. Thankfully, through the efforts of faithful and uncompromising men, a remnant was saved from the clutches of the ACMS. But, much to the glee of Satan, the Society had scarred the glorious body of Christ. Churches were divided, men were alienated from one another, and the work of restoring the church of Christ had been slowed.</p>
+        <p>From that day until the present time, unsound brethren have relied upon human institutions to do the work of the church. But, history shows that no human institution has ever advanced the cause of Christ. It has only succeeded in destroying the peace and harmony of God's people by division and strife.</p>
+        <p>Benjamin Franklin, a respected gospel preacher of yesteryear, at first tried to defend the Society for the sake of unity, even though he was unsure in his own mind that it had a right to exist. Before long he recognized that the Society existed without scriptural precedent, and he could no longer keep silent. I am sure he felt much like Jeremiah, the prophet, who would have liked to say nothing, but felt so keenly his responsibility to warn the people that he wrote "...His word was in my heart like a burning fire shut up in my bones; I was weary of holding it back, and I could not" (<span class="scripture-ref">Jer. 20:9b</span>). So, in his periodical "The American Christian Review" Franklin wrote, "We are perfectly aware that if we wish to put the Christian communities into the power of men, to control them, wield them, and make them engines to honor man, we need some kind of an organization beyond the simple organization of the New Testament; but the simple, independent church, for keeping the ordinances, religious instruction, and saving the world, is all-sufficient for the good of the saints and the glory of God. Indeed, one of the principal reasons why this question of organization has perplexed the minds of so many is, that they are looking for, and trying to make out of something unknown to the whole New Testament. They overlook the simple, easy and common-sense arrangement of the New Testament, and complain that we have no arrangement." (Vol.I, no.4, April, 1856, p.116).</p>
+        <p>Thus Franklin joined Jacob Creath Jr. who had maintained warfare against the Society from its very inception. These were not the only ones who were fighting the battle against the Society. Men such as David Lipscomb, Benjamin Franklin and countless others who could be named, stood shoulder to shoulder as they fought against the all-consuming tentacles of the octopus seeking to devour and destroy the Lord's church.</p>
+        <p>During the next five decades the battle raged, fast and furious. These men would not compromise Bible authority for human expediency, and the unscripturalness of this first human institution was thoroughly exposed. (The next article explores the unscriptural arguments advanced by the Society men).</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="calling-lord">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"Calling On The Name Of The Lord"</h2>
+        <p>I am sure that our dear readers have heard certain preachers say words to the effect, "If you are not a Christian, all you need to do is call upon the name of the Lord, and you can be saved right now." Some will tell you to say, "Lord be merciful to me a sinner" for salvation, or similar things. There are many tracts distributed that state that one should pray a certain prayer, and then write back to declare their "decision." Those justifying such actions will turn to <span class="scripture-ref">Romans 10:13</span> where Paul wrote, "For whosoever shall call upon the name of the Lord shall be saved" and will say that they are doing what Paul said to do. Such teaching is a misapplication of <span class="scripture-ref">Romans 10:13</span> and is nothing more than a variation on the old denominational teaching of "praying through" to God for salvation. The difference is, these days, one is guaranteed he/she will "get through" on the first try! What does it mean to call upon the name of the Lord? Let us read the context of Romans 10 and find out.</p>
+        <p>"For whosoever shall call upon the name of the Lord shall be saved. How then shall they call upon him in whom they have not believed? and how shall they believe in him of whom they have not heard? and how shall they hear without a preacher? And how shall they preach, except they be sent? as it is written, How beautiful are the feet of them that preach the gospel of peace, and bring glad tidings of good things! But they have not all obeyed the gospel. For Esaias saith, Lord, who hath believed our report? So then faith cometh by hearing, and hearing by the word of God" (<span class="scripture-ref">Rom. 10:13-17</span>).</p>
+        <p>Please notice that after Paul says we must call upon the name of the Lord in order to be saved, the chapter does not end. He asks a series of questions that clarify what it means to call upon the name of the Lord. To call upon the name of the Lord, one must: 1) hear the gospel via the preacher; 2) believe the gospel; and 3) obey the gospel! Calling upon the name of the Lord is a comprehensive thing, not simply saying the name, "Lord" nor repeating some prayer asking God for mercy.</p>
+        <p>In <span class="scripture-ref">Acts 2:21</span> we read the same phrase. Here, Peter is quoting <span class="scripture-ref">Joel 2:28-32</span>. Peter shows that the apostles speaking in tongues that day was a fulfillment of Joel's prophecy (<span class="scripture-ref">Acts 2:16</span>), and said, "And it shall come to pass, that whosoever shall call on the name of the Lord shall be saved" (<span class="scripture-ref">Acts 2:21</span>). What did he mean when he said this? Were the Jews commanded to say, "Lord"? Were they commanded to say some prayer asking for God's mercy on them? No! They were told to "hear these words" (<span class="scripture-ref">Acts 2:22</span>). Peter then showed them without question that Jesus truly is the Son of God (v. 23-35), and said, "Therefore let all the house of Israel know assuredly, that God hath made that same Jesus, whom ye have crucified, both Lord and Christ" (<span class="scripture-ref">Acts 2:36</span>). To "know assuredly" is to believe. When the people asked what they needed to do to be released from the guilt of murdering the Son of God, Peter said, "Repent, and be baptized every one of you in the name of Jesus Christ for the remission of sins, and ye shall receive the gift of the Holy Ghost .... And with many other words did he testify and exhort, saying, Save yourselves from this untoward generation. Then they that gladly received his word were baptized..." (<span class="scripture-ref">Acts 2:38-41</span>). This is "calling on the name of the Lord"!</p>
+        <p>Before his conversion, Saul, who became the apostle Paul, was commanded by Ananias to "arise, and be baptized, and wash away thy sins, calling on the name of the Lord" (<span class="scripture-ref">Acts 22:16</span>). He had seen Christ (<span class="scripture-ref">Acts 9:3-6</span>; <span class="scripture-ref">I Cor. 15:8</span>), but that wasn't enough to save him. He then went into Damascus where he was told what he "must do" by Ananias (<span class="scripture-ref">Acts 9:6, 17-18</span>). Thus far, Paul believed that Jesus is the Son of God, and had spent three days and nights in repentance (<span class="scripture-ref">Acts 9:9</span>). But this was not enough to save him. Finally, he was told not to wait any longer, but arise and be baptized in order to wash away his sins. In so doing, he was calling on the name of the Lord (<span class="scripture-ref">Acts 22:16</span>).</p>
+        <p>Therefore, when one calls upon the name of the Lord, he is simply obeying God's plan of salvation! That is to hear God's word (<span class="scripture-ref">Rom. 10:17</span>), believe that Jesus Christ is the Son of God (<span class="scripture-ref">Jn. 8:24</span>), repent, and be baptized (<span class="scripture-ref">Acts 2:38</span>)! Is this not simple? Of course, it is! Let us be about encouraging people to call upon the name of the Lord, as the Bible directs us to do, that all might be saved before it is too late (<span class="scripture-ref">II Pet. 3:9</span>; <span class="scripture-ref">II Cor. 6:2</span>; <span class="scripture-ref">Heb. 3:7-8</span>; <span class="scripture-ref">Mk. 16:16</span>; <span class="scripture-ref">Acts 16:33</span>)!</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-baptism2">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Baptism (2)</h2>
+        <p>As we continue our look at the element of baptism in the process of conversion, please read the eighth chapter of Acts, verses 36-39. We have observed from the Bible that faith is the point at which a person's intellect is changed; repentance is the point at which a person's will or resolve is changed; and confession is the point at which a person's allegiance is changed. In the last article, we began to examine the relationship of water baptism to the conversion process. Baptism is the point at which a person's relationship with God is changed. This man of Ethiopia (Acts 8) had a change produced in his life. That is, he was converted to Jesus Christ. Some think that baptism is only important for an outward testimony of the salvation you have already received. Consider the fact that the text records the rejoicing of this man after his baptism (v.39). It is absurd to think that the Bible records for us his rejoicing after baptism, but not his rejoicing after salvation. The truth is that his joy after baptism and his joy from being saved were one and the same. The point of baptism marked the change of the man's relationship with God.</p>
+        <p><strong>Buried and Raised.</strong> Many Bible texts help us to understand the work of God through baptism in the process of conversion. "Therefore we were buried with Him through baptism into death, that just as Christ was raised from the dead by the glory of the Father, even so we also should walk in newness of life" (<span class="scripture-ref">Rom. 6:4</span>). This passage declares with simplicity the purpose of baptism. It is the point where the sinner meets the death of Christ and reaps the benefits of it. It is the moment when the old man of sin is buried and the new man of righteousness emerges from the water to walk in a new life (Compare <span class="scripture-ref">Col. 2:11-13</span>; <span class="scripture-ref">3:9-10</span>).</p>
+        <p><strong>Sins Are Removed.</strong> Baptism is the point at which a person's relationship with God is changed because that's the point at which his sins are removed. Sin separates a person from God (<span class="scripture-ref">Isa. 59:1-2</span>). Just because a person believes the truth of Jesus (faith) does not mean his sins have been forgiven. The demons believed in Jesus but were still demons (<span class="scripture-ref">Matt. 8:29</span>). Further, just because a person decides to be converted (repentance) does not mean God has forgiven his sins. And just because a person says he believes that Jesus is the Son of God (confession) does not mean his relationship with God has changed either.</p>
+        <p>Peter was speaking to those who had been convicted of the truths concerning Jesus. They believed now that Jesus was the Messiah of Old Testament prophecies. "Now...they...said to Peter and the rest of the apostles, 'Men and brethren, what shall we do?' Then Peter said to them, 'Repent, and let every one of you be baptized in the name of Jesus Christ for the remission of sins...'" (<span class="scripture-ref">Acts 2:37-38</span>). Peter did not tell them that their newfound faith in Jesus was enough to be converted. He did not tell them that they needed only to repent to complete the conversion process. He told them that in order to receive the "remission of sins", they still needed to "be baptized in the name of Jesus Christ".</p>
+        <p>Consider Ananias also. This was the servant of Christ sent to counsel Saul in what he needed to do spiritually. In utter remorse over realizing he should be a Christian, Saul was told to "...be baptized, and wash away (his) sins..." (<span class="scripture-ref">Acts 22:16</span>).</p>
+        <p>It is that simple. If a person wants to "wash away" his sins and be converted, baptism is a necessary element to the process. Thus far in this series, we have studied faith, repentance, confession, and baptism. In the next article, we will examine the need for proper sequence in these elements of conversion.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="three-men">
+        <span class="article-category">Deity &amp; Humanity</span>
+        <h2>The Three Men Who Visited Abraham</h2>
+        <p>"And the Lord appeared unto him in the plains of Mamre: and he sat in the tent door in the heat of the day; And he lift up his eyes and looked, and, lo, three men stood by him: and when he saw them, he ran to meet them from the tent door, and bowed himself toward the ground, And said, My Lord, if now I have found favour in thy sight, pass not away, I pray thee, from thy servant..." (<span class="scripture-ref">Genesis 18:1-3</span>).</p>
+        <p>The three men who visited Abraham were intelligent beings: (1) They discussed intelligent subjects -- Abraham's hospitality, the birth of Isaac, Sarah's laughing, and the number of righteous souls it would take to save Sodom (<span class="scripture-ref">Genesis 18:4-33</span>). (2) Two of them led Lot out of Sodom and afterward destroyed the city (<span class="scripture-ref">Genesis 19</span>). (3) They could hear Abraham's words of hospitality (<span class="scripture-ref">Genesis 18:3-8</span>), they saw his provisions, spake to Abraham concerning Sarah and the birth of Isaac, they ate, sat, walked, and would have rested had the men of Sodom not intervened.</p>
+        <p>The three men appear to have physical bodies (<span class="scripture-ref">Genesis 18:2</span>). That their bodies appear to be physical is seen in their eating, walking, talking, hearing, etc. The men of Sodom thought the two angels had physical bodies (<span class="scripture-ref">Genesis 19:4,5</span>).</p>
+        <p>Was there a created spirit (sometimes called a human spirit) in each body in addition to the spirit which came from heaven? We think not. The only spirit in each body was the spirit which came from heaven -- there was only one spirit in each body.</p>
+        <p>Who was the one called the Lord in <span class="scripture-ref">Genesis 18:1</span>? Some think he was an angel, others think he was the second person of the Godhood [The Word (<span class="scripture-ref">John 1:1</span>), the Lord Jesus Christ]. If it was the Word who appeared in fleshly form, some interesting questions arise: (1) What was His makeup? (2) Was he exactly like Abraham? (3) Was He similar to Abraham? In what way might he have differed from Abraham? (4) Was His body only a phantom?</p>
+        <p>That these three were not ordinary men is seen in (1) one being called the Lord, (2) knowing Sarah would have a child and when it would be born, (3) knowing Sarah laughed even though she was out of sight, (4) knowing how Abraham would direct his children, (5) knowing how many righteous would save Sodom, (6) having power to blind the men of Sodom, (7) having the power to destroy Sodom, and (8) knowing when to destroy the city.</p>
+        <p>What was the makeup of the three? First, what was the makeup of the two who went to Sodom? The Holy Spirit called them men (<span class="scripture-ref">Genesis 18:2,16,22</span>; <span class="scripture-ref">19:10,12</span>) and angels (<span class="scripture-ref">Genesis 19:1,15</span>). These two were angels who appeared in the form of men. An angel is a spirit (<span class="scripture-ref">Hebrews 1:13,14</span>) created by God (<span class="scripture-ref">Psalms 148:1-8</span>). Each angel was housed in a body. Was each one composed of a body, soul, and spirit? Second, what was the makeup of the one called the Lord? If He was the second person of the Godhood, the Word, then we have a Divine being in fleshly form. While on earth, was He composed of a Divine Spirit housed in a physical form, thus being a spirit, soul, and body? Conclusion: Whether Divine Spirit or angel, the three were composed of one spirit and one body, with the resultant physical life (soul).</p>
+        <p>Does this have any relation to current study of the nature of Jesus while He was on earth? I believe it does. It shows that a spirit from heaven can dwell in a physical form, and that his makeup is LIKE man, but not EXACTLY LIKE man. Jesus, while on earth, was LIKE us, but not EXACTLY LIKE us. He was God in the flesh: One Divine Spirit in one body, resulting in physical life (soul).</p>
+        <p>When the three men in Genesis 18 did anything, who did it? That seems like a foolish question, doesn't it? But, let us answer it. Who was hungry and ate? Three beings, each of whom was a spirit from heaven. Who walked, talked, etc? Three beings whose spirits were from heaven. When Lot tested the patience of the two in Sodom, who was being tested? Two whose spirits were from heaven.</p>
+        <p>Why is it difficult to see that whatever Jesus did on earth was done by the Divine, all powerful Spirit within Him? Whether in temptation, teaching, eating, drinking, prayer, or sleep, the Divine Spirit made the decisions, did the work. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="defining-desire">
+        <span class="article-category">Word Study</span>
+        <h2>Defining Desire</h2>
+        <p>Some say the words translated desire (epithumia and epithumeo) are neutral words. That is, within themselves they do not mean desire for good or desire for evil. While that may be true, I fear that some would carry that neutrality over into their use. In what passage is "desire" neutral?</p>
+        <p>"And he said unto them, With desire I have desired to eat this passover with you..." (<span class="scripture-ref">Lk. 22:15</span>). Does the word desire in this context have a neutral meaning? Did not Jesus desire something good?</p>
+        <p>"For I am in a strait betwixt two, having a desire to depart, and to be with Christ; which is far better..." (<span class="scripture-ref">Phil. 1:23</span>). Who would deny that the desire to be with Christ is a desire for something good since to be with Christ is far better?</p>
+        <p>"This is a true saying, If a man desire the office of a bishop, he desireth a good work" (<span class="scripture-ref">I Tim. 3:1</span>). Who is going to say the word "desire" is neutral in that statement? The Holy Spirit Himself said he desires something good.</p>
+        <p>"Ye lust (epithumeite), and have not: ye kill, and desire (zeeloute) to have, and cannot obtain: ye fight and war, yet ye have not, because ye ask not" (<span class="scripture-ref">James 4:2</span>). Are the "lust" and "desire" for something good or something evil? The second use of desire is a translation of zeeloo, "...to burn with zeal..." (Thayer). We seek what we desire, whether good or evil. In this context, it is for something evil. James condemned their pursuit of carnal things. Look at verses one through four.</p>
+        <p>"But every man is tempted, when he is drawn away of his own lust, and enticed" (<span class="scripture-ref">James 1:14</span>). Some want to neutralize the word "lust" by translating it "desire." That will not work. The thing desired leads away, hence is sinful. A desire for the sinful is sinful.</p>
+        <p>In what context, does "desire" have a neutral meaning? Study carefully.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published June 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

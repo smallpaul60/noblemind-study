@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - December 2000</title>
+  <meta name="description" content="The Strait Way newsletter, December 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12" selected>December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#justifying-righteous">Justifying Righteous</a>
+        <a href="#evangelist-tools">Evangelist's Tools</a>
+        <a href="#ad70-consequences">A.D. 70: Consequences</a>
+        <a href="#institutionalism">Institutionalism</a>
+        <a href="#doctrines-review">Doctrines Review</a>
+        <a href="#conversion-conclusion">Conversion: Conclusion</a>
+        <a href="#new-heavens">New Heavens &amp; Earth</a>
+        <a href="#compare">Compare Churches</a>
+      </nav>
+
+      <article class="article" id="justifying-righteous">
+        <span class="article-category">Commentary</span>
+        <h2>Justifying The Righteous And Condemning The Wicked</h2>
+        <p>"Keep thee far from a false matter; and the innocent and righteous slay thou not: for I will not justify the wicked" (<span class="scripture-ref">Exodus 23:7</span>). "If there be a controversy between men, and they come unto judgment, that [the judges] may judge them; then they shall justify the righteous, and condemn the wicked" (<span class="scripture-ref">Deut. 25:1</span>). "Which justify the wicked for reward, and take away the righteousness of the righteous from him!" (<span class="scripture-ref">Isaiah 5:23</span>).</p>
+        <p>Jesus condemned the Pharisees for their hypocrisy (<span class="scripture-ref">Mt. 23</span>), but he justified Mary's anointing His body (<span class="scripture-ref">John 12:7,8</span>). Paul and Barnabas condemned false teachers in Antioch (<span class="scripture-ref">Acts 15:1ff</span>).</p>
+        <p>God justified Abel in true worship (<span class="scripture-ref">Heb. 11:4</span>) and condemned Cain in vain worship (<span class="scripture-ref">Gen. 4; Jude 11</span>). The apostle John's inspired judgment of Cain and Abel: "Not as Cain, [who] was of that wicked one, and slew his brother. And wherefore slew he him? Because his own works were evil, and his brother's righteous" (<span class="scripture-ref">I John 3:12</span>).</p>
+        <p>The Corinthians, by their puffed up attitude, justified, rather than condemning, the fornicator (<span class="scripture-ref">I Cor. 5</span>). Paul did not justify the Corinthians' puffed up attitude, but commanded them to deliver such an one to Satan for the destruction of the flesh (<span class="scripture-ref">I Cor. 5</span>).</p>
+        <p>Do we have people today who justify the wicked and condemn the righteous? When one defends an adulterous union, he is justifying the wicked (<span class="scripture-ref">Gal. 5:19ff</span>). And when he condemns one who opposes such unions, he has condemned the righteous.</p>
+        <p>Have you ever heard one say, Do not withdraw from one who has quit worshipping, he has withdrawn from you? When one scripturally withdraws from another, the one withdrawn from has correcting to do before fellowship can be restored. What correction does the church have to make before one who has quit attending can fellowship it again? The one who quits worshipping has not withdrawn in the Biblical sense, he is one who knows to do good and does it not (<span class="scripture-ref">James 4:17</span>). To quit worshipping is walking disorderly, such should be withdrawn from if there is no repentance (<span class="scripture-ref">Heb. 10:25; II Th. 3:6</span>).</p>
+        <p>What about one who condemns the church when it scripturally withdraws from an impenitent sinner? Such condemns the righteous. But, when much effort has been made to restore an impenitent soul, and yet the church does not withdraw, what about the person who condemns the church for NOT withdrawing? He may be viewed as a troublemaker, but is he? Has he not judged righteous judgment?</p>
+        <p>Do we justify the righteous? Do we condemn the wicked? "Therefore the law is slacked, and judgment doth never go forth: for the wicked doth compass about the righteous; therefore wrong judgment proceedeth" (<span class="scripture-ref">Hab. 1:4</span>). Jesus commanded, "Judge not according to the appearance, but judge righteous judgment" (<span class="scripture-ref">John 7:24</span>). Righteous judgment is based on (1) the righteous standard -- the word of God (<span class="scripture-ref">II Tim. 3:16,17</span>), (2) proper motive (<span class="scripture-ref">Rom. 13:10</span>), (3) proper application of the word of God to self (<span class="scripture-ref">Mt. 7:1-5</span>), (4) judgment with mercy (<span class="scripture-ref">Mt. 5:7</span>), and (5) individual rather than group judgment (<span class="scripture-ref">John 1:46</span>). Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="evangelist-tools">
+        <span class="article-category">The Evangelist and His Work</span>
+        <h2>The Tools Of An Evangelist</h2>
+        <p>Any craftsman or tradesman treasures his tools for they are indispensable, or at least helpful, in his work. He carefully acquires those that are useful, maintains their usefulness, and learns to use them skillfully. The evangelist's most useful tools are those already discussed in earlier articles of the series: his skillful use of the Scriptures as his sword, preaching according to God's instructions, his own influence with others, his love for souls, and his humble efforts to correct and instruct people. These are most useful and irreplaceable because teaching others cannot proceed apart from his spiritual influence and the message of faith found in the gospel (<span class="scripture-ref">Mt. 10:7,16</span>).</p>
+        <p>Other, physical tools that a preacher might find useful are not essential. Just as a skilled carpenter can use an old, poorly balanced hammer or even a somewhat dull saw, so a knowledgeable teacher can spread the Word using tools that are not the best. He might find his automobile, computer, typewriter, overhead projector, and extensive personal library quite useful, but in some ways he might come to view them as a crutch. Thousands preached the Word before any of them ever existed. Many currently preach without the aid of some of them. Some of the best gospel work is being done by men who have never seen an LCD Projector or a Power Point Presentation System, and this is not to discourage their use.</p>
+        <p>It might be tempting, however, for some to depend upon such physical tools too much. The man who relaxes his study of the Bible, loosens his thinking/practice of the Lord's will, or flaunts his tools is depending on them too much. In any such case, the tool has become a master, not a tool. Attitude is the key in maintaining a proper balance in the evangelist's thinking and action. It is just as wrong for him to think more highly of himself than he ought to think as it is for any other person, regardless of which tools he might have, his expertise in their use, or the acclaim of others based on such use (<span class="scripture-ref">Rom. 12:3</span>). Of course, an improper attitude might also develop because of his knowledge of the Scriptures or some other supposed advantage (tool) he might have. It is hoped that merely pointing out this possibility will be sufficient to alert soul-seeking evangelists to be vigilant for such attitude problems.</p>
+        <p>Some guidelines regarding tools might be useful. Make sure that you and the congregation will be comfortable in the use of the tool. Buy it only if you will use it. If the price is more than you or the church can afford, delay its purchase for a time. Be sure your attitude is one of humility in its use. Do not allow the tool to "steal the show." Use it only if it helps people to understand and retain the gospel more easily. The principle stated by the apostle in his letter to Corinth clearly shows the wisdom of these guidelines: "And my speech and my preaching were not in persuasive words of wisdom, but in demonstration of the Spirit and of power: that your faith should not stand in the wisdom of men, but in the power of God." (<span class="scripture-ref">1 Cor. 2:4-5</span>, ASV) Nothing that detracts from Christ or replaces Him in conversion or edification should be allowed, even as a tool. A tool must stay in its subordinate place to be a tool.</p>
+        <p class="author-signature">Bobby Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-consequences">
+        <span class="article-category">A.D. 70 Doctrine</span>
+        <h2>Truth Or Consequences?</h2>
+        <p>All doctrines have consequences, even the doctrine of Christ. Whatever consequences truth brings are gladly accepted by those who believe and obey the truth. The 'A.D. 70' doctrine is still in the process of 'bottoming out'. Consequences that some may have refused to accept in the beginning are embraced eagerly as time passes. This is the way of any sinful endeavor. Since the doctrine itself is in a state of flux, it makes writing about it difficult. Here are some of the consequences of 'A.D. 70' doctrine that come to my mind.</p>
+        <p>According to <span class="scripture-ref">1 Cor. 11:26</span>, we are commanded to partake of the Lord's Supper till He comes. We have NO AUTHORITY to partake of the Lord's Supper past His second coming. Some that are caught up in this doctrine have 'changed the meaning' of the Supper. Others have now given it up ENTIRELY AS NON ESSENTIAL!</p>
+        <p>Some involved in this doctrine teach that the plan of salvation was not 'complete' until A.D. 70. Others have taken it to its logical end and now have pronounced the plan of salvation as 'consummated'. Water baptism for the remission of sins is NO LONGER BINDING for them. They call it a 'fleshly ordinance'. Those on the 'cutting edge' of this doctrine now say that the kingdom must be entered only by 'spiritual means' today. In other words, brethren, 'faith only' is a most 'wholesome' doctrine to them.</p>
+        <p>Some teach that the Reign of Christ actually began when Jerusalem fell and not at Pentecost. Others go all the way and teach that Christ is NO LONGER ON HIS THRONE. They say that He is literally among us now on earth. If Christ is no longer on His Throne then He is no longer our King or High Priest (<span class="scripture-ref">Heb. 8:1-4; 1 Cor. 15:24</span>). According to the prophecy of <span class="scripture-ref">Zech. 13:6</span> concerning the righteous Branch, Christ would sit and rule as King and Priest. When He quits sitting, He quits ruling (<span class="scripture-ref">1 Cor. 15:25</span>). Is there no longer a need for a Mediator between God and man? Should we approach the throne of Grace if Christ is no longer on it?</p>
+        <p>If the Great Commission has been 'consummated', then where is the gospel given for this 'eternal age'?</p>
+        <p>According to A.D. 70 doctrine, the resurrection of <span class="scripture-ref">1 Corinthians 15</span> is a FIGURATIVE one, of the kingdom of Christ rising out of Judaism. Since Christ is the firstfruits of this resurrection, how do we prove that He was LITERALLY RAISED FROM THE DEAD?</p>
+        <p>They deny that the kingdom came with power on Pentecost. It is maintained by them that <span class="scripture-ref">Luke 21:31</span> has the kingdom coming at A.D. 70. According to Paul's inspired account of <span class="scripture-ref">Psalms 110:1</span>, Christ will reign until the last enemy is destroyed, which is death (<span class="scripture-ref">1 Cor. 15:24</span>). Again, this doctrine has this fulfilled at A.D. 70. HOW CAN THE KINGDOM OF CHRIST BEGIN AND END ON THE SAME DAY?</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism">
+        <span class="article-category">Institutionalism</span>
+        <h2>Institutionalism</h2>
+        <p>Following World War II, returning soldiers who were members of the church of Christ brought back to the states a deep concern for the needs of humanity. They had observed firsthand the ravages of war, and the spiritual poverty of the teeming millions in Europe and Asia. They longed to do something for these people physically and spiritually. Feeling something needed to be done, but not fully understanding how to do this within the confines of Scripture, they began to think "We need some type of organization (institution) to accomplish this." Remember the seeds had already been planted in the previous decades.</p>
+        <p>At the same time, the churches in America were now enjoying a tremendous growth, especially in the urban areas. Prosperity was increasing and times were changing. Brethren were moving "across the tracks" into newer, even more fancy buildings. This prosperity, coupled with the compassion felt by the returning soldiers for the destitute and needy in other parts of the world helped to raise the social consciousness of brethren with the need to give attention to the spiritual and/or social needs of others.</p>
+        <p>The increase in prosperity and feeling of compassion brought about an increase in human institutions. For example, The first "orphan home" supported by churches of Christ was founded in 1909. By 1940 there were 7 "homes" in existence. By 1950 the number had increased to 10. But, by 1960 there were 27. The seeds of apostasy had been planted, and a newer generation of preachers and members arose. They had not experienced the sacrifices and toil of the previous generations who had opposed the formation and support of any human institution. They knew there were differences between "us" and "them" but had no understanding of why the differences. So, the newer generation, with a concern for the lost and needy, noticing the activities of other churches, and an ambitious breed of men who wanted to "do something big," shifted emphasis from the divine pattern to the human. To change their direction they first had to change their thinking. They would no longer appeal to the Bible for authorization to act, but rationalized, motivated by emotionalism and humanitarianism, "I think I can improve on God's plan." In doing this they abandoned the foundation principles of "speaking as the oracles of God" (<span class="scripture-ref">1 Pet. 4:11</span>), "not going beyond what is written" (<span class="scripture-ref">1 Cor. 4:6</span>), the New Testament is our pattern" (<span class="scripture-ref">1 Tim. 1:13; Heb. 8:5</span>), and asking for a "thus saith the Lord" (<span class="scripture-ref">Col. 3:17; 1 Cor. 2:13</span>) for all matters religious. They showed no respect for the silence of the scriptures by saying, "The Bible doesn't say we can't do it this way." They made the same basic assumption of the proponents of the UCMS, and the other institutions that followed.</p>
+        <p>This failure to recognize the authority and all-sufficiency of the scriptures, plus a lack of respect for the silence of the scriptures, (Note - silence DOES NOT give consent or authorize anything, it prohibits), has opened the floodgates for digressions of every kind. The last half of the 20th century has shown that what began as a trickle in the late 1940's and 50's has now become a raging torrent. I will not attempt in this limited space to name the various institutions that have arisen in the last 50 years, but NONE OF THEM exist by God's authority or approval. May God have mercy on those who go beyond.</p>
+        <p>I close this series with this thought. How can brethren, claiming to honor God do such things? Several things are involved but a very important one to notice is the tendency to transfer authority from the Book to the church. This is institutional thinking. 1. The church of Christ is the Lord's church (True). 2. The church of Christ has the truth (sounds pretty good). 3. Therefore, whatever is taught and practiced by the church of Christ must be right (This is wrong, wrong, wrong!). This causes people to accept things because the church does them, not because this is what the New Testament teaches. This is a transfer of authority from the Book to the church and is extremely deadly, no matter how good it may sound.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="doctrines-review">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>A Review Of Prominent Religious Doctrines</h2>
+        <p>This year, we have discussed several religious doctrines that are quite prominent throughout the world. In this final article, I wish for us to go back and review the past lessons we have studied, in order to keep them fresh and close at hand. In my work, I find it necessary from time to time to do just that. Let us review the topics we have studied this year, and remember that it is God's word that we must follow, and not the opinions of men (<span class="scripture-ref">I Pet. 4:11</span>). Truly, a subject such as "Prominent Religious Doctrines" could not be exhausted in twelve lessons, but I am thankful for the chance to study some of them with you, dear readers. I am grateful that I had the opportunity this year to come into your home and present the message of God's truth. It has been a pleasure for me. Below is a short summary of the lessons we have studied:</p>
+        <p>In <strong>January</strong>, we learned that man does not inherit sin, but is responsible for his own sins and no one else's (<span class="scripture-ref">Ezek. 18:4, 20; Col. 3:25; Jas. 1:14-15</span>). <strong>February's</strong> issue taught us that no one is saved by faith "alone," nor anything else "alone." The New Testament names no less than 25 things that save men. This lesson was not a denial of the importance of faith in Christ (<span class="scripture-ref">Jn. 8:24; Heb. 11:6</span>); but was necessary to show that it is a false doctrine that says that faith, or anything else, "alone" saves us! We learned in <strong>March</strong> that one cannot choose the church of his/her choice, but must belong to the church of God's choice. There is only one church mentioned in the Bible, and it belongs to our Lord (<span class="scripture-ref">Matt. 16:18; Eph. 5:23; Col. 1:18</span>).</p>
+        <p>The article on "Prominent Religious Doctrines" in <strong>April</strong>, showed that the "once saved, always saved" doctrine is a false one! It is possible for one to die in his sins after having been saved (<span class="scripture-ref">Gal. 5:4; I Cor. 9:27; Heb. 3:12-13; I Tim. 4:1-2; I Tim. 5:11-15</span>). In <strong>May</strong>, we learned that baptism is not for babies, but for those who hear the word of God (<span class="scripture-ref">Acts 2:22</span>), believe that word (<span class="scripture-ref">Rom. 10:17</span>), repent of their sins (<span class="scripture-ref">Lk. 13:3</span>); and confess their faith in Christ (<span class="scripture-ref">Matt. 10:32-33</span>). <strong>June's</strong> article taught that "calling on the name of the Lord" (<span class="scripture-ref">Rom. 10:13</span>) is a comprehensive term requiring our hearing the gospel, believing it, and obeying it (<span class="scripture-ref">Rom. 10:14-16; Acts 2:22, 36-38, 22:16</span>). It means more than merely saying "Lord" or "Lord save me."</p>
+        <p>We learned that the "sinner's prayer" is an invention of men in <strong>July</strong>. A "sinner's prayer" is nothing but a veiled attempt at circumventing God's plan for salvation (<span class="scripture-ref">Mk. 16:16; I Pet. 3:21</span>). <strong>August's</strong> issue was a study on mechanical instruments of music used in worship to God, and how they are unauthorized and sinful. God wants us all to sing (<span class="scripture-ref">Eph. 5:19; Col. 3:16; Heb. 13:15; I Cor. 14:15; Jas. 5:13</span>). We need to be satisfied with that. It was in <strong>September</strong> that we learned that John did not establish the church, but Christ did (<span class="scripture-ref">Matt. 16:18</span>). The Lord's church was not in existence at the time of John.</p>
+        <p>The article for <strong>October</strong> focused on the fact that the Godhead is composed of three beings: God the Father, God the Son, and God the Holy Spirit (<span class="scripture-ref">Gen. 1:26; Matt. 3:16-17; II Cor. 13:14; Eph. 4:4-6</span>). Finally, in <strong>November</strong>, we learned that baptism is necessary for washing away men's sin. We dealt with some arguments men use to try to teach that baptism is not necessary for salvation. For this, we discussed the following passages: <span class="scripture-ref">Mark 16:16, Acts 2:38, and I Peter 3:21</span>.</p>
+        <p>Do you remember all these lessons? If you have kept the back issues of StraitWay for 2000, you can reread these lessons in their entirety and be reminded of the truth. Peter thought that time spent being reminded of what we have been taught was very important (<span class="scripture-ref">II Pet. 1:12-15</span>). I hope that what we have done this year will spur us on to further study and give us greater knowledge of the will of God for the year 2001. God bless!</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-conclusion">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Conclusion</h2>
+        <p class="blockquote">"So, being sent on their way by the church, they passed through Phoenicia and Samaria, describing the conversion of the Gentiles; and they caused great joy to all the brethren." (<span class="scripture-ref">Acts 15:3</span>)</p>
+        <p>We now come to the end of a twelve-month series on the subject of conversion. I hope that it has been as profitable to you in receiving it as it has been to me in writing it. This study has not been academic. Rather, this series has had a definite and practical purpose. The subject of conversion is not merely an interesting Bible topic that makes for a good bulletin-filler for 12 months. On the contrary, the underlying issue that inheres in this discussion is the salvation of the soul. A person who is not converted to Christ is lost. If one dies in that condition or if Christ returns while he is in that condition, he will be lost forever.</p>
+        <p>It is fitting, then, for us to briefly but pointedly emphasize the main thoughts of the series.</p>
+        <p class="subheading">PRINCIPLES</p>
+        <p>In the initial article, I emphasized the basic principles of the subject. Conversion refers to a changing or turning. He who drives a convertible, drives a car that can change or take on a different form. One who is spiritually converted changes and becomes a different person in the eyes of God. He leaves the power and darkness of sin and is transferred into the kingdom of God's dear Son (<span class="scripture-ref">Col. 1:13</span>). Therefore, there is no conversion without the remission of sins. When one discovers how his past sins are forgiven, they will have discovered how to be converted to Jesus Christ.</p>
+        <p>Moreover, Jesus is not only the one to whom the sinner is converted, but He is also the means of that conversion. Only through the precious blood of Christ can one return to the clean, sinless relationship with God he had at birth. Peter emphasizes this wonderfully in <span class="scripture-ref">1 Pet. 1:18-21</span>. But Peter, in the same context, also highlights the fact that man plays a part in his own conversion through obedience. The sinner must yield himself to the conditions presented in the gospel in order for God to save him (<span class="scripture-ref">1 Pet. 1:22-25</span>).</p>
+        <p class="subheading">ELEMENTS</p>
+        <p>We studied throughout the last 10 installments of the series the elements of conversion requiring man's attention. We noted the things taught in the scriptures that a person must do in order to be saved, in order to be converted to Jesus Christ.</p>
+        <p>The Bible teaches that one must believe that Jesus is the Son of God and be willing to confess such (<span class="scripture-ref">Jn. 8:24; Rom. 10:10</span>). A person must resolve in his heart to become a new person who fashions the entirety of his life after the pattern of the Lord's New Testament. And we have seen that water baptism must occur in order to bury the old life and begin a new life free from sin (<span class="scripture-ref">Rom. 6:3-4; Col. 2:11-12; Acts 22:16</span>).</p>
+        <p class="subheading">EXAMPLES</p>
+        <p>As if God's word wasn't plain enough in its commands, He gives us examples of the conversion process. We studied a few of these and they consistently illustrate the elements discussed above. And where faith or repentance was not explicitly recorded, each was clearly implied.</p>
+        <p>Friend, I conclude the series by suggesting the absurdity of entrusting your soul to any other arrangement than the simple New Testament pattern of conversion. Study the following seven examples from the book of Acts of people who were converted: <span class="scripture-ref">Acts 2:14-41; 8:5-13; 8:35-39; 9:17-18; 10:34-38; 16:13; 16:32</span>. They all believed and were baptized in order to be saved and converted to Christ (<span class="scripture-ref">Mk. 16:16</span>). Why would you do any differently?</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="new-heavens">
+        <span class="article-category">Word Study</span>
+        <h2>The New Heavens And The New Earth</h2>
+        <p>What does the Bible teach about the new heavens and the new earth? There are two concepts: (1) It will be physical, or (2) it will be spiritual.</p>
+        <p>"...I create new heavens and a new earth: and the former shall not be remembered, nor come into mind....I create Jerusalem..." (<span class="scripture-ref">Isa. 65:17,18</span>). Upholding a spiritual interpretation, Homer Hailey commented, "The coming of the Messiah will introduce a new spiritual and moral order or arrangement. Paul calls this new order 'a dispensation (arrangement) of the fulness of times,' when all things will be summed up (brought together under one head) in Christ (<span class="scripture-ref">Eph. 1:10</span>). Isaiah's new heaven and new earth are the new arrangement to which Paul refers, and before which all old dispensations must pass away...." (Isaiah, p. 518). From Matthew Henry: "If these promises were in part fulfilled when the Jews, after their return out of captivity, were settled in peace in their own land and brought as it were into a new world, yet they were to have their full accomplishment in the gospel church..." (Commentary, Vol. 4, p. 386).</p>
+        <p>"For as the new heavens and the new earth, which I will make, shall remain before me, saith the Lord, so shall your seed and your name remain. And it shall come to pass, that from one new moon to another, and from one sabbath to another, shall all flesh come to worship before me saith the Lord" (<span class="scripture-ref">Isa. 66:22,23</span>). From Homer Hailey, "...the seed and name of the new Israel remain. There will always be a seed, a faithful remnant who serve God....Confusing old national Israel with the new Israel is a chief error among religious teachers today....Though fleshly (national) Israel is cast off (cf. 65:15), spiritual Israel is ever before Jehovah....It is the seed and name of the new spiritual Israel that shall endure before His presence" (Isaiah, p. 528).</p>
+        <p>To make Isaiah refer to a physical, earthly, heaven and earth is to miss his prophecy of the dispensation under Christ, a spiritual order.</p>
+        <p>"Nevertheless we, according to his promise, look for new heavens and a new earth, wherein dwelleth righteousness" (<span class="scripture-ref">II Pet. 3:13</span>). In his Commentary (vol. 10, p. 264), Barnes wrote: "The 'new heavens and new earth' referred to will be such as will exist after the world shall have been destroyed by fire; that is, after the general judgment. There is not a word expressed, and not a hint given, of any 'new heaven and earth' previous to this, in which the Saviour will reign personally over his saints, in such a renovated world, through a long millennial period." In his Commentary on II Peter (p. 188), Guy N. Woods commented, "The 'heavens and earth' to which Peter refers here is described as 'new.'...The heavens and the earth which the apostle describes in this passage will be fresh and new, and not worn and old, as are the heaven and the earth which now exist. In this new heaven and earth righteousness will dwell. Righteousness dwells wherever righteous people live. The heavens and the earth here contemplated will, therefore, be the abode of righteous and obedient people."</p>
+        <p>"And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away; and there was no more sea" (<span class="scripture-ref">Rev. 21:1</span>). In his commentary on Revelation (p. 287), John T. Hinds wrote, "In the vision of the judgment he saw the heaven and the earth flee away, because not suitable for the home of the redeemed; here he sees a new heaven and a new earth fitted for our bodies when 'conformed to the body of his glory' (<span class="scripture-ref">Phil. 3:21</span>). That new heaven and earth will be a state, place, or condition 'wherein dwelleth righteousness' (<span class="scripture-ref">2 Pet. 3:13</span>)."</p>
+        <p>Isaiah looked beyond physical Israel to the Messiah. He used "the new heavens and earth" when prophesying of the future of God's people and the great spiritual blessings under the Messiah's rule. The references from II Peter and Revelation look beyond the time when "...the heavens shall melt with fervent heat..." to the eternal state wherein dwelleth righteousness. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="compare">
+        <span class="article-category">Reference</span>
+        <h2>Compare: Lord's Church vs. Churches Begun By Men</h2>
+        <table class="comparison-table">
+          <tr>
+            <th>Time</th>
+            <th>Founder</th>
+            <th>Church</th>
+          </tr>
+          <tr style="background: rgba(232, 185, 35, 0.08);">
+            <td><strong>33 AD</strong></td>
+            <td><strong>Christ</strong></td>
+            <td><strong>Church of Christ</strong></td>
+          </tr>
+          <tr>
+            <td>606 AD</td>
+            <td>Boniface III</td>
+            <td>Roman Catholic</td>
+          </tr>
+          <tr>
+            <td>1502 AD</td>
+            <td>M. Luther</td>
+            <td>Lutheran</td>
+          </tr>
+          <tr>
+            <td>1534 AD</td>
+            <td>Henry VIII</td>
+            <td>Episcopalian</td>
+          </tr>
+          <tr>
+            <td>1536 AD</td>
+            <td>John Calvin</td>
+            <td>Presbyterian</td>
+          </tr>
+          <tr>
+            <td>1607 AD</td>
+            <td>John Smythe</td>
+            <td>Baptist</td>
+          </tr>
+          <tr>
+            <td>1739 AD</td>
+            <td>John Wesley</td>
+            <td>Methodist</td>
+          </tr>
+          <tr>
+            <td>1830 AD</td>
+            <td>Joseph Smith</td>
+            <td>Mormon</td>
+          </tr>
+          <tr>
+            <td>1872 AD</td>
+            <td>Charles Russell</td>
+            <td>Jehovah's Witness</td>
+          </tr>
+        </table>
+        <p style="text-align: center; margin-top: 1.5rem;"><strong>STUDY YOUR BIBLE — KNOW THE DIFFERENCE</strong></p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published December 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - January 2001</title>
+  <meta name="description" content="The Strait Way newsletter, January 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01" selected>January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#baptism-comparison">Baptism Comparison</a>
+        <a href="#bible-authority">Bible Authority</a>
+        <a href="#church-history">Church History</a>
+        <a href="#genesis-foundation">Genesis Foundation</a>
+        <a href="#trends-preaching">Trends: Preaching</a>
+        <a href="#church-origins">Church Origins</a>
+        <a href="#first-john">First John: Testimony</a>
+        <a href="#made-like-brethren">Made Like Brethren</a>
+      </nav>
+
+      <article class="article" id="baptism-comparison">
+        <span class="article-category">Comparison</span>
+        <h2>Holy Spirit Baptism vs. Water Baptism</h2>
+        <table class="comparison-table">
+          <tr>
+            <th>Holy Spirit Baptism</th>
+            <th>Water Baptism</th>
+          </tr>
+          <tr>
+            <td>1. A Promise (<span class="scripture-ref">Acts 1:5</span>)</td>
+            <td>1. A command (<span class="scripture-ref">Acts 10:48</span>)</td>
+          </tr>
+          <tr>
+            <td>2. Holy Spirit — Element (<span class="scripture-ref">Mt. 3:11; Acts 1:5,8</span>)</td>
+            <td>2. Water — Element (<span class="scripture-ref">I Pet. 3:20,21; Acts 10:47</span>)</td>
+          </tr>
+          <tr>
+            <td>3. Administered by Christ (<span class="scripture-ref">Mt. 3:11</span>)</td>
+            <td>3. Administered by Men (<span class="scripture-ref">Matt. 28:18; Mark 16:15,16</span>)</td>
+          </tr>
+          <tr>
+            <td>4. Not for salvation (<span class="scripture-ref">Acts 2:1-4; Acts 10; Acts 11</span>)</td>
+            <td>4. For Salvation (<span class="scripture-ref">Acts 22:16; Mark 16:16; I Pet. 3:21; Ac. 2:38</span>)</td>
+          </tr>
+          <tr>
+            <td>5. Had Signs Following (<span class="scripture-ref">Acts 2:1-4; Acts 10:44-46</span>)</td>
+            <td>5. No Signs Following (<span class="scripture-ref">Acts 8:15,16</span>)</td>
+          </tr>
+          <tr>
+            <td>6. To the apostles only (<span class="scripture-ref">Acts 1:5</span>)</td>
+            <td>6. For ALL (<span class="scripture-ref">Matt. 28:19-20; Mark 16:15,16</span>)</td>
+          </tr>
+          <tr>
+            <td>7. Ended before AD 62 (<span class="scripture-ref">Eph. 4:4,5</span>)</td>
+            <td>7. To the End of The World — As long as Christ rules (<span class="scripture-ref">I Cor. 15:24</span>)</td>
+          </tr>
+        </table>
+        <p><strong>Holy Spirit Baptism</strong> was administered directly by Christ without human agency.</p>
+        <p><strong>Water Baptism</strong> is administered by human agency by the authority of Jesus Christ.</p>
+        <p style="text-align: center; margin-top: 1.5rem;"><strong>One Lord, One Faith, One Baptism</strong></p>
+        <p>Take your Bible and make the comparison of the two baptisms (<span class="scripture-ref">Acts 17:11</span>). "Prove all things; hold fast that which is good" (<span class="scripture-ref">I Th. 5:21</span>). The truth shall make you free (<span class="scripture-ref">Jn. 8:32</span>).</p>
+        <p class="author-signature">Glenn Melton &amp; Dan Wilson<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="bible-authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>Bible Authority: The Need</h2>
+        <p>If any individual believes what the bible claims concerning the religion of Christ, that same individual must of necessity see the need for bible authority in this religion. If we are to please the Almighty we must believe and practice what He says in His word. "Without faith it is impossible to please Him" (<span class="scripture-ref">Heb. 11:6</span>); "Faith comes by hearing the word of God" (<span class="scripture-ref">Rom. 10:17</span>).</p>
+        <p>In the true religion of Christ we seek not to please men, but God (<span class="scripture-ref">Gal. 1:10</span>). Therefore, whatever we do in the name of religion we do all to glorify and please almighty God "whether therefore ye eat, or drink or whatsoever ye do, do all to the glory of God" (<span class="scripture-ref">1 Cor. 10:31</span>); and "whatsoever you do in word or deed, do all in the name of the Lord Jesus giving thanks to God and the Father by him" (<span class="scripture-ref">Col. 3:17</span>).</p>
+        <p>We therefore, always realize that God is in charge and His eternal will to ultimately be done. It will be done whether we like it or not, or whether we agree or not or whether we are even a part of it or not. The unloving, uncaring, disbeliever in the sovereign power of God and His word will never see the need for bible authority in religion. However, if we believe the bible, if we reverence God and are humble persons, we readily see the sovereign power of God and His word and a need for authority. "He spake, and it was done; He commanded, and it stood fast" (<span class="scripture-ref">Psm. 33:9</span>); "He rules by his power forever" (<span class="scripture-ref">Psm. 66:7</span>); "God is greatly to be feared in the assembly of the saints and to be had in reverence by all them who are about him" (<span class="scripture-ref">Psm. 89:7</span>) so we rely on God's word for guidance not only in religion but in life. "Thy word is a lamp unto my feet, and a light unto my path" (<span class="scripture-ref">Psm. 119:105</span>); "thru thy precepts I get understanding; therefore I hate every false way" (<span class="scripture-ref">Psm. 119:104</span>); "all scripture is given by inspiration of God and is profitable for doctrine, for reproof, for correction, for instruction in righteousness. That the man of God may be perfect, throughly furnished unto all good works" (<span class="scripture-ref">2 Tim. 3:16-17</span>).</p>
+        <p>The need for authority from the word of God has always been important. Moses stated: "Thou shalt not add unto the words of thy God neither shall ye diminish ought from it". Why Moses? "That ye may keep the words of the Lord thy God which I command you" (<span class="scripture-ref">Deut. 4:2</span>). We understand that if one adds or subtracts from God's word that they see no need for God's word, but are interested in their own ideas, for if we add or diminish it is not God's word any longer, but our own word. When we insist on bible authority we see the need to keep God's word and thus please Him and not ourselves.</p>
+        <p>When people differ on religious questions it has to be because: (1) a failure to see the need for bible authority or (2) an ignorance of how to establish bible authority. Surely anyone interested in serving God and doing His will sees the need for bible authority in religion. Remember the promise of the Savior, "If any man will do his will, he shall know of the doctrine, whether it be of God, or whether I speak of myself" (<span class="scripture-ref">Jn. 7:17</span>). Are we interested in doing His will?</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>"Kill Them All, Let God Sort Them Out!"</h2>
+        <p>This saying, actually used in some circles today and historically in military situations, got its beginning during the terrible persecution that Christians suffered in 13th Century Europe. The freedoms we enjoy could not be imagined in that world over seven hundred years ago. It is important for us today, to know the hard-hearted mindset of those who opposed the Truth fueled by the evil machinations of a Machiavellian-style papacy in Rome.</p>
+        <p>The policy set by Rome at that time is still in force doctrinally. This is known as "Nulla salus extra ecclesium" ("Outside the Church there is no salvation.") It was "open season" on those who taught any doctrine other than that which the Pope allowed and this made such people enemies of the Catholic Church.</p>
+        <p>In 1210 AD, Pope Innocent III unleashed "orders of fire and sword" against a group of heretics throughout Europe, mostly remembered as Cathars. Of special note, at the great city of Beziers, France there was a terrible massacre of heretics. Though the actual count will never be known, it is thought that perhaps 100,000 people were ultimately slaughtered. The papal forces besieged Beziers and all inside were commanded to surrender and repent. The heretics inside, also known as Waldensians or Albigensians, were believers in a widespread form of gnosticism which threatened the greedy and materialistic goals of the Papacy.</p>
+        <p>According to a Catholic source, "Caesarius of Heisterbach: Medieval Heresies," after the city was taken, at a cost in life of thousands of defenders, about 450 heretics were "examined" by the inquisitors and many of them claimed to be Christians rather than being heretics and would not repent. Others claimed to be good Catholics and did not want to die. Fearing the possibility that these were lying, must have caused the infamous phrase to first be uttered. In Latin, "Neca eos omnes. Deus suos agnoset" or "Kill them all. God will know His own." This was a misunderstood reference to <span class="scripture-ref">2 Tim. 2:19</span> which in part reads, "The Lord knoweth them that are his" (KJV). About fifty were hanged, the rest were burned to death. At this time, most Catholics felt that life on earth was simply a brief interlude to prepare for the hereafter. If one led a godly life, God would know of it, and the reward would be eternal paradise. So, this statement made perfect sense according to the concepts of Catholic righteousness. If every single soul in Beziers were killed, the good would go to Heaven and the evil would go to Hell, and so the papal killers were doing God's work. The New Testament says, <span class="scripture-ref">John 5:22</span>, "For the Father judges no one, but has committed all judgment to the Son," (NKJ) And, obviously, man is not to murder (<span class="scripture-ref">Luke 18:20; James 2:11</span>).</p>
+        <p>Were there New Testament Christians in Beziers? The Cathars were truly heretics, but we also can see from the testimonies the Catholic examiners themselves left behind, there could have been a good many true Christians among them. At this time in history and for centuries before this there were many regions of Europe that had been benign homes for the faithful. Though always a serious persecutor of the faithful, the Catholic Church truly became the main exterminator of Christians when it became militarily powerful beginning in the 12th Century.</p>
+        <p>Shouldn't we be thankful we are so blessed to live in the times we do! "Nay, in all these things we are more than conquerors..." (<span class="scripture-ref">Rom. 8:37</span>; read verses 35-39).</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis-foundation">
+        <span class="article-category">Genesis</span>
+        <h2>Genesis: A Foundation</h2>
+        <p class="blockquote">"If the foundations are destroyed, what can the righteous do?" (<span class="scripture-ref">Ps. 11:3</span>)</p>
+        <p>And so this inspired principle gives us an undeniable principle that anything is as strong as its foundation. How can the righteous, without a foundation for righteousness, be righteous? A house with a faulty foundation is itself weak and unsafe, yet with a strong foundation is itself strong, "He is like a man building a house, who dug deep and laid the foundation on the rock. And when the flood arose, the stream beat vehemently against that house, and could not shake it, for it was founded on the rock. But he who heard and did nothing is like a man who built a house on the earth without a foundation, against which the stream beat vehemently; and immediately it fell. And the ruin of that house was great" (<span class="scripture-ref">Lk. 6:48-49</span>). In our Lord's analogy, the underlying reason why one house stood and the other house fell is because of the foundation!</p>
+        <p>It has been said that the book of Genesis serves as a foundation for the Bible. There are, in fact, over 200 allusions to Genesis in the New Testament, more than any other Old Testament book. Only three books do not mention any allusion to Genesis: Philemon and 1 &amp; 2 John; yet, both of these authors quote from Genesis in their other writings often. Every New Testament writer so does. Genesis is important for many different reasons. The meaning of anything is tied up in its origin, and since Genesis shows us the origin of life, sin, marriage, clothing, government, death, etc., it serves as a book that communicates meaning. If the Bible is stripped of Genesis, it would be like a house ready to crumble without a foundation. Is it not coincidental that scoffers of the Bible often have their "cross-hairs" centered at the first 11 chapters of Genesis? Truly, "If the foundations are destroyed, what can the righteous do?"</p>
+        <p>The very first verse of the Bible is foundational for other truths revealed in Biblical history. <span class="scripture-ref">Genesis 1:1</span> serves as a test to the human mind for faith. If one cannot believe that, "In the beginning God created the heavens and the earth," how and why should he believe other miracles in the Bible? But if one can believe <span class="scripture-ref">Genesis 1:1</span>, he should be able to in faith, accept what the rest of scripture teaches. "But without faith it is impossible to please Him, for he who comes to God must believe that He is, and that He is a rewarder of those who diligently seek Him" (<span class="scripture-ref">Heb. 11:6</span>). Can one be acceptable before God without believing that "HE IS"? <span class="scripture-ref">Genesis 1:1</span> positions a foundational truth upon which all other truths are intricately cemented: God is creator of all things!</p>
+        <p>We see this exemplified in Paul's teaching when he took the gospel to the pagan (<span class="scripture-ref">Acts 17:16ff</span>). Notice the apostle's construction of three fundamentals for rejecting idolatry:</p>
+        <p>One foundational reason is that God is creator, "God who made the world and everything in it, since He is Lord of heaven and earth, does not dwell in temples made with hands" (<span class="scripture-ref">Acts 17:24; Gen. 1</span>).</p>
+        <p>A second foundational reason is that God created all life, "Nor is He worshiped with men's hands, as though He needed anything, since He gives to all life, breath, and all things" (<span class="scripture-ref">Acts 17:25; Gen. 1</span>).</p>
+        <p>A third foundational reason is that God has made all nations from one blood (<span class="scripture-ref">Acts 17:26</span>). Genesis teaches that all life is traced back to Adam and later through Noah (see <span class="scripture-ref">Gen. 1; 2; 7; 8</span>). Having established that, Paul catapults a strong and sensible application to the hearts of his listeners, saying, "Therefore, since we are the offspring of God, we ought not to think that the Divine Nature is like gold or silver or stone, something shaped by art and man's devising" (<span class="scripture-ref">Acts 17:29</span>).</p>
+        <p class="author-signature">Steven J. Wallace<br>1002 Bloom Ave., Grandview, WA 98930</p>
+      </article>
+
+      <article class="article" id="trends-preaching">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Preaching (1)</h2>
+        <p>Webster defines trend as "To have or take a particular direction; to turn in a specified or implied direction; to tend." Consistent with that definition are tendencies in the church today about which many God-fearing Christians have grave concerns. We would like to address one area of these concerns in the remainder of this article, that of preaching.</p>
+        <p>We are concerned about the Biblical quality of sermons, the length of sermons, the lack of depth of sermons, the lack of conviction produced by sermons, etc. And, although I claim no expertise in these matters, I am aware that sermons today do not have the same effect they once did. My kind reader, please consider this, are we hearing the kind of preaching today that we heard in yesteryear? Are we hearing the preaching that was done by the Lord and his apostles? New Testament preaching was characterized by plainness; it was to the point, and those in error felt the force of it (<span class="scripture-ref">Matt. 21:45; Luke 20:19</span>). My beloved, it appears to me that it needs to be preached that way again.</p>
+        <p>We have some good instructions as to what New Testament preaching is all about from the apostle to the Gentiles recorded in <span class="scripture-ref">Acts chapter 20</span>. Let us look briefly at what the apostle says, and see if we can profit from this study. No better material could be found anywhere.</p>
+        <p>The setting of this sermon is in Miletus, which was in Asia Minor about twenty miles south of Ephesus. The Ephesian elders are the apostle's audience. He instructs them of matters of the utmost importance: things which were ultimately to have an adverse effect on the church. The apostle reminds them of his teaching and manner of life from the time he came into Asia. How that "with all lowliness of mind (humility) and with tears, and with trials which befell me by the plots of the Jews; how I shrank not from declaring unto you anything that was profitable..." My beloved, do not be ashamed of your tears; especially if they are motivated by concerns for the lost, and for the deplorable conditions in the church in some places today. You are in good company for Paul and Jesus and others also wept over these conditions. See <span class="scripture-ref">Matt. 5:4</span>.</p>
+        <p>We see also from the passage quoted above that the apostle did not hold back or keep back anything that was profitable to them. Brethren, this principle needs to be applied today. We are deeply concerned today about what is not being preached. In verse 27, the apostle reminds them that he shrank not from declaring the whole counsel of God. Connect that with what he said in verse 20, and you see that the only thing profitable for them (or us) is "the whole counsel of God." It is sad but true that the whole counsel of God is not being declared in some places today. Preachers are sometimes turned into hirelings by the demands that preachers not preach on certain subjects due to existing conditions in the church. Beloved, these things ought not so to be. We need to learn that truth is supreme, and it takes precedence over everything: family, friends, money, everything; you name it.</p>
+        <p>Very serious consequences were predicted by the apostle following his departure, which came about just as he said in the organization of the church. History reveals that every major apostasy in the church originated within the organization (<span class="scripture-ref">Acts 20:29-39</span>). Perverse teaching drew away disciples from the faith, just as the apostle told them. Brethren, we need to learn a lesson from this. If we are committed to preach, then we must not approach this lightly, but with all seriousness, gravity and solemnity. It cannot be otherwise if we are to perpetuate the church of the future in the condition God would have it.</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Adventist</h2>
+        <p>Six present-day denominations exist as the fruit or consequences of the "Adventist Movement" inaugurated by William Miller. The two largest are "The Seventh-Day Adventist Church" and "The Advent Christian Church."</p>
+        <p>William Miller was born in 1782 and died in 1849. As a result of his highly speculative and mistaken interpretations of some Bible prophecies, he predicted the end of the world between March 21, 1843 and March 21, 1844. When the expected return of Christ did not materialize, Miller and his associates set another date, October 22, 1844. Afterward various advocates in the Adventist Movement set other dates: 1847, 1850, 1852, 1854, 1855, 1863, 1866, 1867, 1868, 1877, et. al. As the dates came and went, many disciples of Adventism deserted the ranks, but explanations were always forthcoming, loopholes were found, and some doggedly embraced its principles and followed its leaders. William Miller and others were, and some still are, considered prophets of God.</p>
+        <p>In spite of the failures of Miller's predictions, a sizable group met in Albany, New York in 1845 and formed the "American Millerite Association." Some afterward formed the "Evangelical Adventist," a group that has dwindled away. In 1861, under the leadership of Jonathan Cummings, the "Advent Christian Church" was organized.</p>
+        <p>James White and Ellen G. Harmon, who became Mrs. James White, found a way to patch up Miller's predictions by transferring the fulfillment from earth (where it clearly did not occur) to heaven (where they could claim that it did). They and others championed the idea of observing the Sabbath of the Old Testament. Through their efforts the "Seventh-Day Adventist Church" was organized. Headquarters were set up in Battle Creek, Michigan in 1855; in 1903 they were moved to Washington, D.C. It was in 1860 that the name "Seventh-Day Adventist" was officially adopted.</p>
+        <p>Mrs. White claimed to have had visions and to have received revelations. She authored several letters, testimonies, articles and books. Her claim: "In these letters which I write, in the testimonies I bear, I am presenting to you that which the Lord has presented to me. I do not write one article in the paper expressing merely my ideas. They are what God opened before me in vision-the precious rays of light shining from the throne" (Testimony No. 31, p. 63). She said also: "If you lessen the confidence of God's people in the testimonies he has sent them (meaning, of course, Mrs. White's testimonies), you are rebelling against God as certainly as were Kora, Dathan, and Abiram." (Testimony No. 31, p. 62). Mrs. White was no more inspired than was Joseph Smith (founder of "Mormonism") or was Mrs. Eddy (founder of "Christian Science"), and the church she established was no more the Lord's church than were the churches they established.</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline DR, Baton Rouge, LA 70814</p>
+      </article>
+
+      <article class="article" id="first-john">
+        <span class="article-category">First John</span>
+        <h2>Lessons From First John: The Testimony Of God (1)</h2>
+        <p>"If we receive the witness of men, the witness of God is greater..." (<span class="scripture-ref">I John 5:9</span>) for "...he left not himself without witness..." (<span class="scripture-ref">Acts 14:17</span>). God has left abundant testimony concerning Himself. The Bible shows that when God gave witness to anything that testimony would stand up in any court where justice and wisdom prevail. Consider some of the testimony God has given concerning Himself.</p>
+        <p class="subheading">IN THE CREATION</p>
+        <p>"In the beginning God created the heaven and the earth...The heavens declare the glory of God; and the firmament sheweth his handywork...For the invisible things of him from the creation of the world are clearly seen, being understood by the things that are made, even his eternal power and Godhead; so that they are without excuse" (<span class="scripture-ref">Gen. 1:1; Ps. 19:1; Rom. 1:21</span>).</p>
+        <p class="subheading">TO THE EGYPTIANS</p>
+        <p>God gave testimony to Himself in the plagues. "And the Egyptians shall know that I am the Lord, when I stretch forth mine hand upon Egypt, and bring out the children of Israel from among them...For I will pass through the land of Egypt this night, and will smite all the firstborn in the land of Egypt, both man and beast; and against all the gods of Egypt I will execute judgment: I am the Lord" (<span class="scripture-ref">Ex. 7:5; 12:12</span>). In demonstrating His power, God exposed the weakness of idols. No wonder the Israelites sang "Who is like unto thee, O Lord among the gods?" (<span class="scripture-ref">Ex. 15:11</span>).</p>
+        <p>God gave testimony to Himself in the crossing of Red Sea. "And I, behold, I will harden the hearts of the Egyptians, and they shall follow them; and I will get me honour upon Pharaoh, and upon all his host, upon his chariots, and upon his horsemen. And the Egyptians shall know that I am the Lord, when I have gotten me honour upon Pharaoh, upon his chariots, and upon his horsemen....the Lord looked unto the host of the Egyptians through the pillar of fire and of the cloud, and troubled the host of the Egyptians, And took off their chariot wheels...the Egyptians said, Let us flee from the face of Israel; for the Lord fighteth for them against the Egyptians" (<span class="scripture-ref">Ex. 14:17-25</span>).</p>
+        <p class="subheading">IN THE BIBLE</p>
+        <p>The Bible is an amazing book. A powerful testimony to the existence, power, might, and nature of God, it is indestructible. Men have tried, only to find its circulation increasing. Why so? The Bible reveals the mind of God (<span class="scripture-ref">Eph. 3:3-6; I Cor. 2:10-16</span>), the origin of all things (<span class="scripture-ref">Gen. 1</span>), the nature of man (<span class="scripture-ref">Gen. 1:26,27; 2:7</span>), sin and its consequences (<span class="scripture-ref">Gen. 3; Rom. 6:23</span>), the remedy for sin (<span class="scripture-ref">Isa. 53; John 3:16; Mt. 26:28</span>), and hope (<span class="scripture-ref">Rom. 8:24</span>). The perfection of the Bible is the result of divine guidance (<span class="scripture-ref">John 16:13; II Pet. 1:21; II Tim. 3:16,17; Eph. 3:1-6</span>). It is with us by divine providence.</p>
+        <p class="subheading">IN PROPHECY</p>
+        <p>"We have also a more sure word of prophecy; whereunto ye do well that ye take heed, as unto a light that shineth in a dark place, until the day dawn and the day star arise in your hearts: Knowing this first, that no prophecy of the scripture is of any private interpretation. For the prophecy came not in old time by the will of man: but holy men of God spake as they were moved by the Holy Ghost." (<span class="scripture-ref">II Pet. 1:19-21</span>). Prophecy (forthtelling, foretelling of future events, their fulfillment, and interpretation) is the exclusive work of Deity.</p>
+        <p class="subheading">IN JESUS CHRIST</p>
+        <p>"No man hath seen God at any time; the only begotten Son, which is in the bosom of the Father, he hath declared him" (<span class="scripture-ref">John 1:18</span>). "If ye had known me, ye should have known my Father also: and from henceforth ye know him and have seen him...Philip saith unto him, Lord, shew us the Father, and it sufficeth us. Jesus saith unto him Have I been so long time with you, and yet hast thou not known me, Philip? he that hath seen me hath seen the Father; and how sayest thou then, Shew us the Father?" (<span class="scripture-ref">John 14:7-9</span>). The Father was completely, gloriously manifest through the Son. Jesus fully demonstrated the attributes and qualities of Deity.</p>
+        <p>Has God's testimony concerning Himself left man any excuse for unbelief? NO! In <span class="scripture-ref">Rom. 1:21</span>, Paul said "...so that they are without excuse...." Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="made-like-brethren">
+        <span class="article-category">Doctrinal</span>
+        <h2>How Was Jesus, In All Things, Made Like Unto His Brethren?</h2>
+        <p>"Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same; that through death he might destroy him that had the power of death, that is, the devil; And deliver them who through fear of death were all their lifetime subject to bondage. For verily he took not on him the nature of angels; but he took on him the seed of Abraham. Wherefore in all things it behooved him to be made like unto his brethren, that he might be a merciful and faithful high priest in things pertaining to God, to make reconciliation for the sins of the people" (<span class="scripture-ref">Heb. 2:14-17</span>).</p>
+        <p>Being made like His brethren did not involve a change in the eternal Spirit for God changes not (<span class="scripture-ref">Mal. 3:6; Heb. 13:8</span>). The Word (<span class="scripture-ref">John 1:1</span>) was made like unto His brethren by partaking of "...flesh and blood..." (<span class="scripture-ref">Heb. 10:4,5</span>), just as men "...are partakers of flesh and blood..." (<span class="scripture-ref">Heb. 2:17; 12:9</span>).</p>
+        <p>If Jesus' being made like unto His brethren had also to do with His Spirit, then He would have (1) had two spirits (the Divine Spirit called the Word and a created spirit) — which would be possession, or (2) the Word would have changed into a created spirit (which would be impossible).</p>
+        <p>Conclusion: The Divine Spirit (the Word) took on a physical body (<span class="scripture-ref">John 1:14; Heb. 10:5</span>).</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published January 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

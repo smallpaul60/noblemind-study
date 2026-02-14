@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - July 2001</title>
+  <meta name="description" content="The Strait Way newsletter, July 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07" selected>July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#church-origins">Methodist Origins</a>
+        <a href="#authority">Bible Authority</a>
+        <a href="#church-history">Church History</a>
+        <a href="#genesis">Genesis & Marriage</a>
+        <a href="#trends">Trends</a>
+        <a href="#tongues">Gift of Tongues</a>
+        <a href="#first-john">First John</a>
+      </nav>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Methodist</h2>
+        <p>There are some twenty Methodist denominations in America today. However, the three largest (Methodist Episcopal Church, Methodist Episcopal Church South and Methodist Protestant Church) were united in 1939 into what was called the Methodist Church. In 1968 the Methodist Church and the Evangelical United Brethren Church became the United Methodist Church. Methodism in general goes back to the early 1700's and freely acknowledges John Wesley as its founder. Two words stand out: "Episcopal," which brings out the fact that the Methodist Church had its origin within the Ranks of the Episcopal or Anglican Church and "Methodist" (from "Method"), a name given in derision by enemies of the movement and later accepted by its adherents.</p>
+        <p>Methodism had its beginning in 1729 among a group of students of Oxford University in England. These students were members of the Church of England. Outstanding among them were John and Charles Wesley and George Whitefield. It was the intention of John Wesley to instill fervor and spirit within the cold, formal ritualism of the Anglican Church. At first he considered the meetings conducted and the societies formed as a movement within the Church of England, but eventually Methodism emerged as a separate and new denomination. In 1739 John Wesley drew up a set of general rules; he also prepared the Articles of Religion, which are held to this day. The Methodist Church is a human church (like all denominations), having a human founder and a human creed. The earliest name of the church in England bore the name of Wesley, and his name is still prevalent in the churches, colleges and societies of the various branches of Methodism.</p>
+
+        <h3 style="color: var(--accent); margin: 1.5rem 0 1rem;">Methodist Doctrine Vs Bible Doctrine</h3>
+        <ol class="numbered-list">
+          <li>Methodist doctrine teaches that salvation is by faith only, declaring this to be "most wholesome" and "full of comfort." The Bible teaches that salvation is by faith (<span class="scripture-ref">Rom. 5:1</span>), but denies that it is by faith only (<span class="scripture-ref">James 2:24</span>) and makes obedience to the Lord's commandments essential to salvation (<span class="scripture-ref">Matt. 7:21; Rom. 6:17-18; Heb. 5:8-9</span>).</li>
+          <li>Methodist doctrine permits infant baptism and infant church membership. The Bible teaches that infants are innocent of sin and not in need of baptism or church membership (<span class="scripture-ref">Deut. 1:39; Luke 18:15-17</span>). The Bible requires hearing of the word of God, believing in Christ, repenting of sins and confessing faith in Christ as prerequisites to baptism (<span class="scripture-ref">Matt. 28:19; Mark 16:15-16; Acts 8:35-38; Rom. 10:10; Acts 18:8</span>), infants cannot and need not comply with any of these.</li>
+          <li>Methodist doctrine encourages and permits the practice of sprinkling or pouring (of water on the head of a "candidate") for baptism. According to the Bible baptism is a burial in and resurrection from water (<span class="scripture-ref">Rom. 6:3-4; Col. 2:12; Acts 8:38; John 3:23</span>).</li>
+          <li>Methodist doctrine has arranged for the church to be centrally governed by a College of Bishops; the Bishops, in turn, who compose that ruling body are over the various districts and the conferences in the districts. Bible doctrine makes no arrangement for a central governing body over the church. Christ is the only head of His church (<span class="scripture-ref">Col. 1:18</span>), and He exercises His authority by His word (<span class="scripture-ref">Matt. 28:20; 2 John 9</span>). The only organization provided by Christ is the local congregation; each local congregation is independent and ruled by a plurality of men known as bishops or elders or pastors (<span class="scripture-ref">Acts 14:23; 20:17,28; Philip. 1:1; 1 Pet. 5:1-4</span>).</li>
+          <li>According to Methodist doctrine the Methodist Church is to be guided by the "Discipline of the Methodist Episcopal Church." The church that Jesus built was and is to be guided by the doctrine of Christ as delivered by the apostles (<span class="scripture-ref">2 John 9; Acts 2:42</span>).</li>
+          <li>Methodist doctrine provides for a "preparatory membership roll" which includes "baptized" children and others who have enrolled in "confirmation preparation." The New Testament church had no such provisions.</li>
+          <li>Methodist doctrine teaches that baptism is not essential to one's salvation. Bible doctrine places baptism between a lost soul and salvation (<span class="scripture-ref">Mark 16:16</span>), remission of sins (<span class="scripture-ref">Acts 2:38</span>), washing away of sins (<span class="scripture-ref">Acts 22:16</span>), getting into Christ (<span class="scripture-ref">Gal. 3:27</span>), getting into the death of Christ (<span class="scripture-ref">Rom. 6:3</span>).</li>
+          <li>Methodist doctrine leads one to rest his case on his "feelings," "experiences," "conscience," "satisfaction of heart," and human wisdom. According to Bible doctrine one must walk by faith (<span class="scripture-ref">2 Cor 5:7; Gal. 5:6; Rom. 1:16-17</span>), and this faith must come as a result of hearing and accepting God's word (<span class="scripture-ref">Rom. 10:17; Acts 15:7</span>).</li>
+        </ol>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <article class="article" id="authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>The Silence Of The Scriptures</h2>
+        <p>No study of bible authority would be complete without an honest examination of God's silence. What are our attitudes and actions when the word of God does not mention any certain practice either by command, example or necessary inference or an authorized expedient of a command, example or necessary inference? Does the silence of God's word authorize? Men many times follow their own wills, thoughts or think-so's in religion and then in confidence argue, "well God didn't say not to". In essence they do that which is condemned by not following God, but by doing that which is right in their own eyes (<span class="scripture-ref">Deut. 12:8</span>), follow their own ways and not God's (<span class="scripture-ref">Jer 10:23</span>) and attempt to establish their own righteousness (<span class="scripture-ref">Rom 10:1-3; Ti 3:5</span>). When people disregard God's silence they truly are not submitting themselves to God's will but strive to establish their own wills as authority (<span class="scripture-ref">Rom 10:1-3</span>).</p>
+        <p>Bible students have studied and thought many times about Nadab and Abihu, the sons of Aaron (<span class="scripture-ref">Lev 10:1-2</span>). They did that which God did not authorize. They must have reasoned from the silence of the scriptures. They must have decided that since God did not say not to offer a different kind of fire that the strange fire would be alright. They offered strange fire which he commanded them not (<span class="scripture-ref">Lev. 10:1</span>). The following statement by Moses (<span class="scripture-ref">Lev 10:3</span>) taught Aaron (and teaches us) that God is only glorified when we strictly observe His authority. The doctrines and commandments of men claim to glorify God, but they are vanity in the sight of the savior (<span class="scripture-ref">Mt. 15:9</span>). They call Him Lord but do what they desire and not what He says (<span class="scripture-ref">Lk 6:46</span>). Often these claim to obey God's will but add to God's word and will not respect His silence.</p>
+        <p>One of the greatest passages from God's word concerning the silence of the scriptures is found in <span class="scripture-ref">Hebrews 7:14</span>. In the discussion of the High Priesthood of Christ the Holy Spirit, through the Hebrew writer, makes the statement that, "it is evident that our Lord sprang out of Judah; of which tribe Moses spake nothing concerning priesthood". What did God's word say about priests from Judah? NOTHING!! Did this then authorize priests from the tribe of Judah? Certainly not! God had to only say that the priests were to come from the tribe of Levi (<span class="scripture-ref">Num 18</span>). The silence of God forbade priests from the tribe of Judah in the Old Testament economy. For the priesthood being changed, there is made of necessity a change also of the law (<span class="scripture-ref">Heb 7:12</span>). God then spoke in the New Testament about one priest from Judah (Jesus Christ) but the silence forbade those under the old law from this practice.</p>
+        <p>Jesus said that we must be willing to do God's will and we would know the doctrine (<span class="scripture-ref">Jn 7:17</span>). Problems arise when folks refuse to hear and do God's will and disrespect his word and authority. No greater disrespect and disobedience to the Almighty is shown in any manner than this (ignoring God's silence). Remember this basic principle from <span class="scripture-ref">Heb 7:14</span>. The silence of the scriptures authorize nothing.</p>
+        <p>So when men today say, "but God didn't say not to use instruments; God didn't say the church couldn't build a social hall in which to eat, drink and play; God didn't say local churches couldn't combine their contributions with a man made society to do the work God gave the church to do; God didn't say we could not have women elders, God didn't say the local church could not engage in unlimited benevolent work", and on and on, simply remember this - The silence of the scripture authorizes NOTHING!</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>An Invention Aids in the Spread of the Gospel</h2>
+        <p>Most Christians do not value or credit technology very much when it comes to preaching the Gospel. We will employ advances in technology as they are useful in this ministry but we correctly only view them as aids to achieve our goal of reaching the lost of this world. From a historical context however, we begin to notice that we owe a great debt to one particular technological improvement. In a study of the history of Lord's church we cannot help but notice that most of that early history has been written begins about the 14th Century. Of course, the most notable events of the Protestant Movement began then but there is something that happened concurrent with the unhappiness so many felt with Catholicism that often is not credited as it should be. Many of us modern day Christians do not fully comprehend the role that the invention of printing played in not just the spread of the Gospel but also the proliferation of churches of Christ.</p>
+        <p>It is no secret that the inventor of printing was a German named Johann Genstleisch zum Gutenberg, who was born in the city of Mainz, Germany in 1397. The wealth of the Gutenberg family freed Johann for a life of leisure and pleasure during which he developed an interest in technology, primarily seal-making and goldsmithing.</p>
+        <p>In 1438 Gutenberg started a business that produced religious mirrors in Strasbourg. By that time he was considered a master craftsman in metalworking. There is evidence that by 1444 Gutenberg had returned to Mainz to set up a printing shop. As a goldsmith he had cut letters and symbols into precious metals and into wax to form molds to cast jewelry. It is unknown exactly how he conceived of casting letters for printing. However, the concept of "mirror" images was common knowledge.</p>
+        <p>Gutenberg's casting process involved first cutting a letter by hand in reverse on a piece of hard metal, then punching the letter shape into a soft copper mold to form a die called a matrix. He next needed a suitable metal to cast in the matrix. He experimented with pewter hardened with large quantities of antimony, but the mixture shrank when it cooled and pulled away from the matrix. The letters formed were imperfect. Gutenberg's experience with lead in mirror manufacturing encouraged him to try a combination of lead, tin, and antimony. His original formula (5 percent tin, 12 percent antimony, and 83 percent lead) is used nearly unchanged in casting today. Characters can be perfectly cast with this alloy because it expands when it cools and forms a duplicate of the matrix cavity. Using Gutenberg's system, two workers could cast and dress (trim away excess material) twenty-five pieces of type an hour.</p>
+        <p>Gutenberg's most notable work, a forty-two-line-a-page Bible, was begun in 1452 and completed by 1455. Each page contained around 2,800 characters. Two pages were printed at the same time, so 5,600 pieces of type were needed to make each two-page printing. It was the practice for the next two pages to be composed during the press run of the current two, so at least 11,200 letters were needed to even begin printing. Working a normal workday (twelve hours), it took two craftsmen more than thirty-seven workdays just to prepare the initial type. At this rate, more than three years were needed to complete just two hundred copies of Gutenberg's Bible.</p>
+        <p>This made possible the printing of Tyndale's translation of the Bible in 1525, an unauthorized version, for which he was severely persecuted. But so many copies of this imperfect translation were put into the eager hands of believers in Britain that the furor over it eventually was at least a part of the King James, authorized translation, of 1611. Finally, believers could read in every place on earth in accurately replicated form the word of God. <span class="scripture-ref">Colossians 4:16</span>, "And when this epistle is read among you, cause that it be read also in the church of the Laodiceans; and that ye likewise read the epistle from Laodicea."</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Key To Understanding God's Purpose For Marriage</h2>
+        <p><span class="scripture-ref">"Have you not read that He who made them at the beginning 'made them male and female,' and said, 'For this reason a man shall leave his father and mother and be joined to his wife, and the two shall become one flesh'?" Matthew 19:4, 5</span></p>
+        <p>In the next series of articles we are going to focus on certain doctrinal issues that are rooted in the book of Genesis. The meaning of anything is tied up in its origin. Genesis is a book of origins and shows us the meaning of life, clothing, sin, etc. The meaning of marriage is no exception. When Jesus was questioned about marriage, he referred his inquisitors back to Genesis as <span class="scripture-ref">Matthew 19:4, 5</span> shows. Why? Because Genesis discloses the way marriage was intended to be. If we want to restore something, we do not look at how it has been corrupted over years of degeneration, but rather we go back to when it was first created. Genesis shows marriage in its uncorrupted state! For someone to suggest that marriage (as revealed in Genesis and restored by Jesus in Matthew 19) was not given for all men of all times is to suggest absurdity and rebellion against God's word. The laws that originally governed marriage in the creation are the same laws that govern marriage today. Jehovah's law of "a man leaving father and mother" could only be understood as a law given for successive generations as the first couple did not have a father and mother to leave (<span class="scripture-ref">Gen. 2:24; Matt. 19:5</span>).</p>
+        <p><strong>When you consider marriage, think about:</strong></p>
+        <ul class="bullet-list">
+          <li><strong>The historical meaning.</strong> God took dust and made man (<span class="scripture-ref">Gen. 2:7</span>). He then took a rib of man and fashioned woman. Husband and wife are "one flesh" sexually because they were of "one flesh" historically.</li>
+          <li><strong>The original unit.</strong> The original marriage unit consisted of one man to one woman for one life. Any other arrangement (two men, two women, one man to many women) is a perversion of God's law and destructive to society (cf. <span class="scripture-ref">Rom. 1:24-27; Lev. 18:22</span>).</li>
+          <li><strong>The importance of marriage.</strong> <span class="scripture-ref">"...the Lord has been witness between you and the wife of your youth, with whom you have dealt treacherously; yet she is your companion and your wife by covenant. But did He not make them one, having a remnant of the Spirit? And why one? He seeks godly offspring..." (Mal. 2:14, 15)</span>. Malachi, like Jesus, refers to the original Genesis record. One important point of marriage is procreation-not of offspring, but "godly offspring."</li>
+          <li><strong>The devastation of divorce.</strong> Divorce is destructive! God didn't create the marriage union to have it divided by man. The God of creation hates divorce and so should we (<span class="scripture-ref">Mal. 2:16</span>).</li>
+          <li><strong>The fulfillment of roles.</strong> Since God is creator, he sets the rules. His rules on roles are no opinion but doctrine. Many husbands and wives have varying and contradicting opinions as to what constitutes their behavior. The question is, "Are you willing to accept your role as God gave it?" If a couple cannot write down on paper what God expects of them in marriage, they are not ready for marriage. The woman's role is that of submission and respect to her husband, <span class="scripture-ref">"...Your desire shall be for your husband, and he shall rule over you" (Gen. 3:16)</span>. Some may incorrectly deduce that submission was a curse for Eve's sin; however, Paul, in discussing headship, refers to Genesis and shows that submission was because man was created first and woman for man (<span class="scripture-ref">1 Tim. 2:12-14; 1 Cor. 11:3, 8, 9</span>). This does not mean that man is superior to woman any more than the Father is superior to the Son (see <span class="scripture-ref">Phil. 2:5-8</span>). Man's role is headship which models Jesus' example. He is to love his wife as himself (<span class="scripture-ref">Eph. 5:25-33</span>); understand his wife (<span class="scripture-ref">1 Pet. 3:7</span>); and provide for the family's physical and spiritual needs (<span class="scripture-ref">Is. 38:19; Eph. 6:4; Josh. 24:15; 1 Tim. 2:8; 3:4, 5</span>). What is your marriage patterned after?</li>
+        </ul>
+        <p class="author-signature">Steven J. Wallace<br>313 Merrick Ave., Sunnyside, WA 98944</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Instrumental Music In Worship</h2>
+        <p>A few years ago, there was an elder of the Highland church of Christ, in Abilene, TX by the name of Roberts, who was on a mission to assist churches of Christ in implementing the chorus into their worship services. According to reports that I read, a number of churches accepted his services, but some with difficulty. Some of the elderly people had problems accepting this unscriptural innovation, but in many instances they were overruled and one eldership even suggested they (older people who objected) find another place to worship. Imagine that!</p>
+        <p>The reason I relate this is to remind all of us how one thing leads to another; sin begets sin. So, the next step from the chorus in the worship services is the instrument of music in worship.</p>
+        <p>We need to be reminded also how the mechanical instrument was introduced into the worship services of the church in the first place. Brethren who had already accepted the missionary society concept in the field of evangelism, increased their efforts in the matter of worship. The subtlety with which the instrument was introduced into the worship originally depicted a well-designed plan, and materialized through a carefully exercised time frame. Brethren conceived the idea to employ the instrument as an accompaniment to singing at weddings and funerals, and was first placed in the basement of the church buildings and initially employed in rehearsals for weddings and funerals. Eventually, after a time, it found its way into the worship service. Now, brethren today need to be reminded of this history, in light of what is being done today. One glaring discrepancy in this is the lack of proper control which should be exercised by family members in such cases.</p>
+        <p>Brother Homer Hailey (Hailey's Comments, Vol. 2, p. 680-682) is reviewing an article by Roy Deaver, in which Deaver relates how the instrument was introduced into the worship service at Thorp Spring, TX in 1894. A petition, signed by over one hundred brethren pleading that the instrument not be introduced was presented by an elderly brother, Joseph Addison Clark; on the plea that the mechanical instrument was not authorized in the New Testament to be engaged in worship to God. Brother Clark presented the petition to his son, and upon conferring with certain in the church, announced that he (the son) had promised that the instrument would be used, and then turned to the organist and said, "Play on, Miss Bertha." This was done in spite of the petition, pleas, and tears of many brethren.</p>
+        <p>Now following the brief look at some historical facts with regard to the origin of mechanical instruments of music in the church, observe, if you will, dear reader what is going on today. Within the last five years, I have attended funerals where mechanical music was played with no singing, and sometimes the music was not gospel music at all, but country or popular music. (Now these were funerals of our conservative brethren.) I have known of some brethren who played bluegrass music at funerals. Brethren, what's going on? What's happened to "Amazing Grace," and "Praise God From Whom All Blessings Flow?"</p>
+        <p>Funerals and weddings are occasions that should be characterized by the most serious and sublime thoughts and meditation. These occasions should bring out the good qualities of our spirituality, and our action on these occasions should be commensurate with those qualities. Isn't it sad, then, that an unscriptural innovation (mechanical music in the church) sprang from such solemn occasions! However, the occasion was not responsible, but the attitude of men who failed to respect the authority of the Scriptures.</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="tongues">
+        <span class="article-category">Editorial</span>
+        <h2>The Gift Of Tongues In Acts Two And First Corinthians Fourteen</h2>
+        <p>Men differ as to the meaning of the gift of tongues in Acts Two and First Corinthians Fourteen. Some say the tongues in <span class="scripture-ref">Acts 2:4</span> are languages spoken by men, others believe they refer to a "heavenly language" unknown to men, but understood by God. The same concepts are held regarding the gift of tongues in <span class="scripture-ref">First Corinthians 14:2</span>.</p>
+        <p>In Synonyms Of The New Testament (p. 359), Mr. R. C. Trench wrote, "But if in the allos there is a negation of identity, there is oftentimes much more in heteros, the negation namely, up to a certain point, of resemblance; the assertion not merely of distinctness but of difference....even as the tongues of Pentecost are heteros (other tongues) (<span class="scripture-ref">Acts 2:4</span>), being quite different in kind from any other speech of men." To me, Mr. Trench said that in <span class="scripture-ref">Acts 2:4</span> the tongues were not languages understood by men. However, <span class="scripture-ref">Acts 2:6,11</span> says they understood what the apostles spoke. In <span class="scripture-ref">Acts 2:6</span>, the apostles continued the speaking referred to in <span class="scripture-ref">Acts 2:4</span>.</p>
+        <p>The following is a lengthy quote, but worthy of consideration. In defining "tongue," W. E. Vine had this to say: "(b) the supernatural gift of speaking in another language without its having been learnt; In <span class="scripture-ref">Acts 2:4-13</span> the circumstances are recorded from the view-point of the hearers; to those in whose language the utterances were made it appeared as a supernatural phenomenon; to others, the stammering of drunkards; what was uttered was not addressed primarily to the audience but consisted in recounting 'the mighty works of God;' cp. 2:46; in <span class="scripture-ref">I Cor., chapters 12 and 14</span>, the use of the gift of tongues is mentioned as exercised in the gatherings of local churches; 12:10 speaks of the gift in general terms, and couples with it that of 'the interpretation of tongues;' chapt. 14 gives instruction concerning the use of the gift, the paramount object being the edification of the church; unless the tongue was interpreted the speaker would speak 'not unto men, but unto God,' v. 2; he would edify himself alone, ver. 4, unless he interpreted, ver. 5, in which case his interpretation would be of the same value as the superior gift of prophesying, as he would edify the church, vv. 4-6; he must pray that he may interpret, ver. 13; if there were no interpreter, he must keep silence, ver. 28, for all things were to be done 'unto edifying,' ver. 26. 'If I come....speaking with tongues, what shall I profit you,' says the Apostle (expressing the great object in all oral ministry), 'unless I speak to you either by way of revelation, or of knowledge, or of prophesying, or of teaching?' (ver. 6). Tongues were for a sign, not to believers, but to unbelievers, ver. 22, and especially to unbelieving Jews (see ver. 21): cp. the passage in the Acts." (Vol. 4, Page 142)</p>
+        <p>In <span class="scripture-ref">1 Corinthians 14:2</span>, what did Paul mean when he wrote, "...for no man understandeth him;..."? He meant the hearers did not understand. This same point was made in <span class="scripture-ref">1 Cor. 14:14-17</span>. To sing and pray with the understanding was to sing and pray SO AS TO BE UNDERSTOOD. Consider v. 17, "For thou verily givest thanks well, but the other is not edified." Why was he not edified? He did not understand what was said (v. 16). But the tongue-speaker was edified (v. 4). He and God understood what he was saying. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="first-john">
+        <span class="article-category">First John</span>
+        <h2>Lessons From First John: Man Is Fully Equipped To Know The Will Of God (4)</h2>
+        <p><strong>John wrote:</strong> 1) <span class="scripture-ref">1 John 2:20,21</span> "But ye have an unction from the Holy One, and ye know all things. I have not written unto you because ye know not the truth, but because ye know it, and that no lie is of the truth." 2) <span class="scripture-ref">1 John 2:27</span> "But the anointing which ye have received of him abideth in you, and ye need not that any man teach you: but as the same anointing teacheth you of all things, and is truth, and is no lie, and even as it hath taught you, ye shall abide in him." 3) <span class="scripture-ref">1 John 5:13,14</span> "These things have I written unto you that believe on the name of the Son of God; that ye may know that ye have eternal life, and that ye may believe on the name of the Son of God. And this is the confidence that we have in him, that, if we ask anything according to his will, he heareth us..."</p>
+        <p><strong>John implied man is fully equipped to know the will of God:</strong> 1) <span class="scripture-ref">1 John 1:7</span> "But if we walk in the light, as he is in the light, we have fellowship one with another, and the blood of Jesus Christ his Son cleanseth us from all sin." 2) <span class="scripture-ref">1 John 2:4</span> "He that saith, I know him, and keepeth not his commandments, is a liar, and the truth is not in him." 3) <span class="scripture-ref">1 John 2:17</span> "And the world passeth away, and the lust thereof: but he that doeth the will of God abideth for ever." 4) <span class="scripture-ref">1 John 4:1</span> "Beloved, believe not every spirit, but try the spirits whether they are of God because many false prophets are gone out into the world."</p>
+        <p><strong>John made it plain that God does not want His word changed:</strong> <span class="scripture-ref">2 John 9</span> "Whosoever transgresseth, and abideth not in the doctrine of Christ, hath not God.." Why if it is not complete? Consider Paul's inspired agreement: <span class="scripture-ref">Gal. 1:8,9</span> "But though we, or an angel from heaven, preach any other gospel unto you than that which we have preached unto you, let him be accursed. As we said before, so say I now again, If any man preach any other gospel unto you than that which ye have received, let him be accursed."</p>
+        <p><strong>Inspired harmony is seen in the writings of other apostles and prophets:</strong> 1) <span class="scripture-ref">2 Pet. 1:3</span> "According as his divine power hath given unto us all things that pertain unto life and godliness, through the knowledge of him that hath called us to glory and virtue..." 2) <span class="scripture-ref">2 Tim. 3:16,17</span> "All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness: That the man of God may be perfect, thoroughly furnished unto all good works." 3) <span class="scripture-ref">Eph. 3:3,4</span> "How that by revelation he made known unto me the mystery; (as I wrote afore in few words, Whereby, when ye read, ye may understand my knowledge in the mystery of Christ)..." 4) <span class="scripture-ref">Eph. 1:18</span> "The eyes of your understanding being enlightened; that ye may know what is the hope of his calling, and what the riches of the glory of his inheritance in the saints..." 5) <span class="scripture-ref">Eph. 6:11</span> "Put on the whole armour of God, that ye may be able to stand against the wiles of the devil." 6) <span class="scripture-ref">1 Thess. 5:21</span> "Prove all things; hold fast that which is good." 7) <span class="scripture-ref">James 1:25</span> "But whoso looketh into the perfect law of liberty, and continueth therein, he being not a forgetful hearer, but a doer of the work, this man shall be blessed in his deed."</p>
+        <p><strong>Jesus taught that men could know the will of God:</strong> 1) <span class="scripture-ref">Matt. 7:15</span> "Beware of false prophets, which come to you in sheep's clothing, but inwardly they are ravening wolves." How if not equipped with the perfect will of God? 2) <span class="scripture-ref">Matt. 7:21</span> "Not every one that saith unto me, Lord, Lord, shall enter into the kingdom of heaven; but he that doeth the will of my Father which is in heaven." 3) Jesus has assured man that he can know the truth and know that he knows. <span class="scripture-ref">John 8:32</span> "...And ye shall know the truth, and the truth shall make you free." How can man be free if he does not know the truth? 4) <span class="scripture-ref">John 16:13</span> "Howbeit when he, the Spirit of truth, is come, he will guide you into all truth: for he shall not speak of himself; but whatsoever he shall hear, that shall he speak: and he will shew you things to come." 5) <span class="scripture-ref">John 17:17</span> "Sanctify them through thy truth, thy word is truth." 6) <span class="scripture-ref">Matt. 5:48</span> "Be ye therefore perfect, even as your Father which is in heaven is perfect." How? Unless we have a sufficient revelation of Him? 7) <span class="scripture-ref">Matt. 9:6</span> "But that ye may know that the Son of man hath power on earth to forgive sins, (then saith he to the sick of the palsy,) Arise, take up thy bed, and go unto thine house."</p>
+        <p>If man is fully equipped to know the will of God, then he can know the truth about subjects the Bible deals with, and know that he knows the truth about those subjects. He can know the truth about Genesis One and the length of the creative days, Romans 14, marriage, divorce, and remarriage, fellowship, the AD 70 doctrine, the one covenant doctrine, and the Deity/humanity of Christ. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published July 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

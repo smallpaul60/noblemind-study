@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Principles - Noble Mind Study</title>
+  <meta name="description" content="The foundational principles behind The Noble Mind Study Tool - Scripture interprets Scripture.">
+  <style>
+    :root {
+      /* Core Colors */
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+
+      /* Accents */
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.18);
+      --accent-glow: rgba(6, 255, 165, 0.5);
+      --accent-blue: #5ee5ff;
+      --accent-blue-glow: rgba(94, 229, 255, 0.5);
+
+      /* Effects */
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(6, 255, 165, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 20px;
+    }
+
+    /* Background glow overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Main Glass Card Wrapper - wraps entire page */
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
+        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.3),
+        0 0 80px rgba(6,255,165,0.35);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Inner page container */
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    /* Inner glow at top */
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Glass tab at bottom */
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(94,229,255,0.6);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 25px var(--accent-glow);
+      transform: translateX(-4px);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin: 40px 0 16px;
+      color: var(--accent);
+      text-shadow: 0 0 15px var(--accent-glow);
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      margin: 0 0 12px;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Featured verse glass card */
+    .verse-section {
+      position: relative;
+      border-radius: 16px;
+      padding: 2px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.5), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(94,229,255,0.4), transparent 50%);
+      box-shadow: 0 0 30px rgba(6,255,165,0.2);
+      margin: 24px 0 32px;
+      z-index: 1;
+    }
+
+    .verse-inner {
+      background: linear-gradient(135deg, rgba(8,12,22,0.96), rgba(13,13,13,0.98));
+      border-radius: 14px;
+      padding: 24px 28px;
+      backdrop-filter: var(--glass-blur);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .verse-inner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .verse-text {
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+      position: relative;
+      z-index: 1;
+    }
+
+    .verse-ref {
+      color: var(--accent);
+      font-weight: 500;
+      text-shadow: 0 0 10px var(--accent-glow);
+      position: relative;
+      z-index: 1;
+    }
+
+    .verse-tab {
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 6px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.7), rgba(13,13,13,1));
+      box-shadow: 0 0 12px rgba(94,229,255,0.4);
+    }
+
+    /* Scripture quotes inline */
+    .scripture {
+      font-style: italic;
+      color: var(--text-secondary);
+      margin: 16px 0;
+      padding: 12px 16px;
+      background: rgba(6, 255, 165, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-style: normal;
+      text-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    ul, ol {
+      margin: 16px 0 16px 24px;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    strong {
+      color: var(--text-primary);
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid rgba(148,163,184,0.15);
+      margin: 32px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover {
+      text-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* Section cards */
+    .section-card {
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 24px 0;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .section-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.08), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .section-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 0 35px var(--accent-glow);
+    }
+
+    .section-card:hover::before {
+      opacity: 1;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 20px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .scripture {
+      background: none;
+      border: none;
+      padding: 0;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    footer .copyright {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.2rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .verse-inner { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <a href="index.html" class="back-link">&larr; Back to Home</a>
+
+      <h1>Principles of The Noble Mind Study Tool</h1>
+
+      <div class="verse-section">
+        <div class="verse-inner">
+          <p class="verse-text">"Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so."</p>
+          <p class="verse-ref">Acts 17:11 (NASB)</p>
+        </div>
+        <div class="verse-tab"></div>
+      </div>
+
+      <h2>The Name</h2>
+      <p>The name "Noble Mind" comes from the Bereans described in Acts 17. When Paul preached to them, they didn't simply accept or reject his teaching based on preference, tradition, or the authority of the speaker. Instead, they <strong>received the word with eagerness</strong> and then <strong>examined the Scriptures daily</strong> to verify whether what they were being taught was actually true.</p>
+      <p>This is the spirit this tool is designed to serve: eager reception of God's word combined with careful, daily examination of Scripture.</p>
+
+      <h2>Foundational Principles</h2>
+
+      <div class="section-card">
+        <h3>1. Scripture Interprets Scripture</h3>
+        <p>The Bible is its own best interpreter. When seeking to understand any passage, we look to:</p>
+        <ol>
+          <li><strong>Immediate context</strong> — the verses, paragraphs, and chapters surrounding the text</li>
+          <li><strong>Cross-references</strong> — other passages that address the same topic or use the same language</li>
+          <li><strong>The broader testimony of Scripture</strong> — the unified message of the whole Bible</li>
+        </ol>
+        <p>We do not impose meanings from outside Scripture. We let the Bible define its own terms and explain its own concepts.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>2. Biblical Authority Over Human Tradition</h3>
+        <p>Man is fallible; God's word is not.</p>
+        <p>When there is a conflict between what Scripture says and what religious tradition teaches, Scripture takes precedence. The Bereans were praised precisely because they tested even an apostle's teaching against the written word. We should do no less with any human teacher, commentary, creed, or tradition.</p>
+        <p class="scripture">"But in vain do they worship Me, teaching as doctrines the precepts of men." <span class="scripture-ref">— Matthew 15:9</span></p>
+      </div>
+
+      <div class="section-card">
+        <h3>3. The CENI Framework</h3>
+        <p>Sound biblical interpretation recognizes that God communicates His will through:</p>
+        <ul>
+          <li><strong>Commands</strong> — Direct instructions from God</li>
+          <li><strong>Examples</strong> — Approved patterns of action in Scripture</li>
+          <li><strong>Necessary Inferences</strong> — Conclusions that must logically follow from what Scripture teaches</li>
+        </ul>
+        <p>This framework helps distinguish between what God has authorized and what is merely human preference or invention.</p>
+      </div>
+
+      <div class="section-card">
+        <h3>4. Rightly Dividing the Word</h3>
+        <p class="scripture">"Be diligent to present yourself approved to God as a workman who does not need to be ashamed, accurately handling the word of truth." <span class="scripture-ref">— 2 Timothy 2:15</span></p>
+        <p>We recognize the distinction between:</p>
+        <ul>
+          <li><strong>The Old Testament</strong> (Law of Moses) — given to Israel, fulfilled in Christ</li>
+          <li><strong>The New Testament</strong> (Law of Christ) — the authority for the church today</li>
+        </ul>
+        <p>While all Scripture is profitable for teaching (2 Timothy 3:16-17), Christians live under Christ's law, not Moses' law (Galatians 6:2, Hebrews 8:13).</p>
+      </div>
+
+      <div class="section-card">
+        <h3>5. Logic and Evidence Over Consensus</h3>
+        <p>Truth is not determined by majority vote or popular opinion. We follow the evidence of Scripture wherever it leads, even when that contradicts widely-held assumptions.</p>
+        <p>This applies to:</p>
+        <ul>
+          <li>Religious questions (testing all teaching against Scripture)</li>
+          <li>Origins questions (examining assumptions, following observational evidence)</li>
+          <li>Any truth claim (testing it by sound logic and available evidence)</li>
+        </ul>
+        <p class="scripture">"Test all things; hold fast what is good." <span class="scripture-ref">— 1 Thessalonians 5:21</span></p>
+      </div>
+
+      <h2>Preferred Study Text</h2>
+      <p>While this tool supports multiple Bible translations, we use both the <strong>King James Version (KJV)</strong> and the <strong>New American Standard Bible (NASB)</strong> for study due to their commitment to formal equivalence (word-for-word translation philosophy) and their accuracy in rendering the original languages.</p>
+
+      <h2>The Mission</h2>
+      <p>This tool exists to help Bible students:</p>
+      <ol>
+        <li><strong>Create and organize</strong> Bible study materials</li>
+        <li><strong>Examine the Scriptures</strong> systematically and carefully</li>
+        <li><strong>Verify what is taught</strong> against the word of God</li>
+        <li><strong>Grow in knowledge</strong> of God's will</li>
+      </ol>
+      <p>It is offered <strong>freely</strong> to individuals and congregations, reflecting the principle that God's word and the tools to study it should be accessible to all.</p>
+      <p class="scripture">"Freely you received, freely give." <span class="scripture-ref">— Matthew 10:8</span></p>
+
+      <h2>Acknowledgments</h2>
+      <p>This tool was developed with deep appreciation for those who have modeled and taught the "Scripture interprets Scripture" approach, answering Bible questions with Bible answers (book, chapter and verse), particularly those in the churches of Christ who have faithfully called people back to the Bible as the sole authority in religion.</p>
+
+      <hr>
+
+      <p style="text-align: center;"><strong>Website:</strong> <a href="https://noblemind.study">noblemind.study</a></p>
+
+      <footer>
+        <p class="scripture">"Your word is a lamp to my feet and a light to my path." <span class="scripture-ref">— Psalm 119:105</span></p>
+        <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+</body>
+</html>

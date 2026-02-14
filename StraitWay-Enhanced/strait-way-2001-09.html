@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - September 2001</title>
+  <meta name="description" content="The Strait Way newsletter, September 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09" selected>September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#letter">A Letter (1961)</a>
+        <a href="#authority">Bible Authority</a>
+        <a href="#church-history">Church in Texas</a>
+        <a href="#genesis">Genesis & Life</a>
+        <a href="#trends">Worldliness</a>
+        <a href="#nazarene">Nazarene Origins</a>
+        <a href="#lutheran">Lutheran Origins</a>
+      </nav>
+
+      <article class="article" id="letter">
+        <span class="article-category">Historical</span>
+        <h2>A Letter</h2>
+        <div class="letter-header">
+          May 30, 1961<br>
+          2708 Milam St.<br>
+          Orange, Texas
+        </div>
+        <p class="letter-salutation">Mr. Glenn Melton<br>1805 9th Ave.<br>Lake Charles, La.</p>
+        <p>Dear Glenn,</p>
+        <p>The recent meeting I was privileged to preach in with the congregation there was an opportunity that I could not ignore. In whatever good was accomplished I rejoice. It was my intention from the very beginning to do only good and no harm at all, and I trust that only the truth was preached and God was glorified.</p>
+        <p>Since I had preached in Lake Charles (when the church met on 2nd Ave.) from July of 1949 to March of 1953, had made many friends there, and had left the church there at my own volition and with the blessings of the entire congregation, I did not think it unreasonable (in spite of the present extreme difficulties in the churches) to expect to see many friends of yester-year in the audience. Their actual response was the most personally discouraging thing I have met since I began preaching. Whether they would endorse the church there or not, or whether they would agree with all that I preached or not, I earnestly believed that some would come as friends, and more, as brethren and listen with open minds.</p>
+        <p>In reality only one old friend came because he wanted to. He came to listen and even asked some questions of me. Four other former acquaintances (two of them as close as any friends I ever had) came, but it was a bitter disappointment to me to learn that they came because they were sent. I would have had a great deal more respect for them had they openly said, "Bill, we are not here because we endorse this church or all of the things that you preach. We are here as a committee sent from the Blvd. church." Just how deep is friendship? and how strong is conviction?</p>
+        <p>Only after the meeting had begun did I learn how much the church for which you preach has been marked and opposed. Evidently minds have been closed and prejudice has set in among many members of the Blvd. church in Lake Charles and the church in Maplewood. I am convinced that such has come about as a result of two things: 1) they simply are not aware of the innovations that are pouring into churches all over the nation, and 2) they have received a diet of distorted information about some conscientious brethren--falsely portrayed as "trouble-makers," "disturbers," "church-dividers," "ambitious," "opposed to caring for orphans, to doing mission work, and to churches cooperating" and prejudicially branded as "antis."</p>
+        <p>If these brethren could simply hear a fair and open discussion of both sides of the present issues concerning the work of the church, the organization of the church, and cooperation among congregations, the situation would be quite different. Any man who refuses to make a thorough investigation, who does not want to hear or read both sides of every question, who is opposed to private and public discussion of differences, and who is not willing for all that he teaches and practices to be examined by the Scriptures does not have the truth on his side or is not on the side of the truth.</p>
+        <p>Let me say that what Bill Crews has done or not done, what he has preached or not preached, whether he has changed or not, whether he has been consistent or not, and whether he believes and practices now exactly as he believed and practiced when he lived in Lake Charles will not determine what is right with reference to the present-day differences in the Lord's church. Only the Bible can do that.</p>
+        <p>While I was at Lake Charles, I began to study a lot of things--church support of colleges, entertainment in the work of the church, benevolent work, cooperation among churches--that I had not studied before. Many of my present convictions were formed while I was there. While I was there, I preached against church support of colleges and entertainment in the work of the church. I, in time, was opposed to the "sponsoring church" plan of cooperation and church support of benevolent institutions that care for children.</p>
+        <p>Time would fail me should I go into the things that have transpired in the church from March, 1953 to May, 1961. I have a file of quotations from bulletins printed by churches scattered all over America. They are demonstrations of the truth that many churches of Christ are drifting away from the New Testament.</p>
+        <p>Glenn, as you well know, I am not ashamed of my convictions nor afraid to submit them to investigation. I am ready to tell anyone what I believe and why. Let me close this rather lengthy letter with a quotation from a bulletin I edited (March 5, 1950) while in Lake Charles: "Everything must be done by the authority of Christ. <span class="scripture-ref">Colossians 3:17</span>. All must be done within his teaching. <span class="scripture-ref">2 John 9</span>."</p>
+        <div class="letter-closing">
+          Yours in Christ,<br>
+          Bill Crews
+        </div>
+        <p><em>PS: You have my permission to use this letter as you think best to "set the record straight" and to encourage brethren to investigate present practices in the church.</em></p>
+        <div class="editor-note">
+          (This letter was written forty years ago, during the institutional controversy. Read and weep, but learn. Division in our own time over such things as Marriage, Divorce, and Remarriage, Nature of Christ on earth, fellowship, Genesis One, is causing the same things. I am rapidly going the way of all the earth. Other men will have to finish this battle. Will you stand up and be counted for truth and righteousness? God is looking for men. Will He see you? I write this with blinding tears in my eyes. --Glenn Melton)
+        </div>
+      </article>
+
+      <article class="article" id="authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>Preach The Word</h2>
+        <p>In the word of God we find bible authority for bible preaching. We find no authority from God's word either by command, example, necessary inference or an expedient of a command, example, or necessary inference to preach something else. This authority comes from the command found in <span class="scripture-ref">2 Tim. 4:2</span>; Preach the Word. We also find an approved bible example as the New Testament disciples continued steadfastly in the apostles' doctrine, <span class="scripture-ref">Acts 2:42</span>. The context of <span class="scripture-ref">Acts 2:42</span> is worship. In worship the apostles' doctrine is manifest by preaching. An approved bible example is found in <span class="scripture-ref">Acts 20:7</span>, "they came together to break bread and Paul preached unto them".</p>
+        <p>Many times it seems brethren are insistent (as well they should be) that the worship be only that which is authorized on the pages of the inspired word. So we demand truth about music in worship and the Lord's supper. Yet, when it comes to preaching, many brethren seem to be satisfied with just about anything. Why do some demand bible authority concerning music and the memorial supper but care little or nothing about authority in regard to the preaching part of worship? Is it that they had rather be entertained than enlightened? It seems many are content to be left alone in mediocrity than exhorted to do the Lord's will. Some truly seem to thrust the word of God from them, judging themselves unworthy of eternal life <span class="scripture-ref">Acts 13:46</span>. We must remember that bible authority for all is needed <span class="scripture-ref">Col. 3:17; 2 Jn 9, 1 Pet 4:11</span>. Why do some who profess to be sound in the faith want watered-down, wishy-washy, soft preaching; which is not in any way preaching the word? Why do brethren who strive to be faithful in most things put up with nonsense from the pulpit?</p>
+        <p>Some complainer might ask, "don't we have bible authority to use illustrations, or poems or even humor to make a point in preaching?". Absolutely! Paul quoted from a heathen poet to prove a point about the nature of God to the Athenians <span class="scripture-ref">Acts 17:28</span>, and the illustration of sowing wheat when writing of the resurrection <span class="scripture-ref">1 Cor 15:37</span>. The master teacher, the Lord himself, possibly used some humor when he referred to Herod as "that fox" when speaking to the Pharisees about his death and resurrection <span class="scripture-ref">Lk 13:32</span>. We would notice that this was the inspired word and the points were backed by inspiration. So yes, we have approved bible examples that establish the authority to use poetry, humor or illustrations to make points in preaching. The uses of such to make a point preaching must, however, be backed up with the inspired word to be speaking as the oracles of God <span class="scripture-ref">1 Pet 4:11</span>!</p>
+        <p>If we would learn from the Master, hear Him as He said <span class="scripture-ref">"It is written" Mt 4:4</span>; <span class="scripture-ref">"it is written" Mt 4:7</span>; <span class="scripture-ref">"it is written" Mt 4:10</span>; <span class="scripture-ref">"ye do err not knowing the scriptures" Mt 22:29</span>; <span class="scripture-ref">"have ye not read" Mt 19:4</span>; <span class="scripture-ref">"did ye never read in the scriptures" Mt 20:42</span> and He constantly quoted from the scriptures.</p>
+        <p>If a man professes to be a gospel preacher should he not back up every idea he puts forth to an audience with a "thus saith the Lord"? If not, I ask you is he preaching the word or something else which is not authorized? In times past brethren often prayed that preachers would, "hide their preaching behind the cross", or preach, "from the shadow of the cross", or some similar, prayerful statement. We don't hear these prayers much anymore - Why? Is it because more and more what some mis-designate as gospel preaching consists of not preaching the word but consists almost entirely of psychology, philosophy, humanism, secularism or one joke after another? Brother J.D. Tant often asked "are we drifting"? I would ask that same question today in regard to preaching the word.</p>
+        <p>Gospel preachers are admonished to preach the word <span class="scripture-ref">2 Tim 4:2</span> and speak that which becomes sound doctrine <span class="scripture-ref">Titus 2:1</span>, and hold fast the form of sound words <span class="scripture-ref">2 Tim 1:13</span>. Faithful men need always to realize that spiritual truths are always better taught "not in words which man's wisdom teacheth, but which the Holy Ghost teacheth comparing spiritual things with spiritual" <span class="scripture-ref">1 Cor 2:13</span>. This passage speaks of the inspired man of the 1st century but in the 21st century we have the completed and confirmed inspired book <span class="scripture-ref">2 Tim 3:16-17</span>. Let us use the words of the Holy Ghost in our preaching. Preaching the truth which is God's word <span class="scripture-ref">2 Tim 4:2; Jn 17:17</span>, is what makes gospel preaching and gospel preachers distinct from preachers of error in the devil's denominational world.</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>The Early Days of the Lord's Church in Texas, Part 1</h2>
+        <p>Having been assured by some of my own relatives that our family has been members of the church of Christ in Texas for 8 generations, I undertake to tell a brief history of how this came about. Many other Christians can tell similar accounts. I will attempt to rustle up some sources and will relate some history regarding this; which is almost 200 years old.</p>
+        <p>Born in New Jersey on April 17, 1776, Collin McKinney, son of the patriot Daniel McKinney who participated in the famous Boston Tea Party, was also an avid lover of freedom. He brought his family to just west of what is now Texarkana, Texas on September 15, 1824. He had left the Baptist church in 1821 and was converted to the truth, renouncing the Baptist faith under the teaching of Barton W. Stone in Elkton, Kentucky. This frontiersman was very instrumental in the War for Texas Independence from Mexico. However, before the revolution, it is said that he and his fellow worshippers never worshipped in a church building or organized a congregation of the Lord's people because it was against Mexican law to do so. He respected the law of the land, though it was unfair. McKinney was not a gospel preacher ("History of Texas 1685-1892" p. 14).</p>
+        <p>The first gospel preacher to arrive in Texas is thought to have been William P. Defee, a physician by profession. Born in North Carolina in 1798 of Hugenot ancestry, he arrived in East Texas in 1833. Just as McKinney had refrained from doing, Defee for fear of the Catholic authorities (and Mexican law) did not organize a congregation of the Lord's people, either, until after the beginning of the Texas War of Independence. Afterwards he preached all over East Texas as scant articles he submitted to religious journals of the day reveal.</p>
+        <p>Credit is given to Mansil W. Matthews, another physician, teacher, and preacher for getting the first congregation to be established in Texas. From his home country, he recruited a band of "adventurers" in North Alabama to accompany him to "the promised land." Most of these were members of the church of Christ and they set out in 1835 by wagon and on horseback to come to Texas. It is said that Davy Crockett accompanied this same band as far as Memphis, Tennessee. The group conducted worship services each Sunday as they traveled and became known as the "church on horseback and wheels." ("Historical Sketches," XLVIII, April, 1936, pp. 1-2).</p>
+        <p>On the first Sunday after their arrival at Ft. Clark or Clarksville, Texas, on January 17, 1836, this band of folks met for worship and constituted the first congregation of the Lord's people in Texas. All the Mexican soldiers and Catholic functionaries had withdrawn back to Mexico from North and East Texas since the outbreak of the Revolution. The Mexicans were not there to interfere with the newly organized church and the faithful could worship without fear of any molestation from the Mexican authorities. No other religion but Roman Catholicism was sanctioned under the law of Mexico during this time. The first place of worship these hardy Christians utilized was said to be a long, low, and rambling log structure that was actually part of Ft. Clark. As soon as the first winter had passed, they left these dingy accommodations and began meeting under a brush arbor. Matthews went on to serve as a surgeon in the Texas Army, with distinction. (Ibid, p. 4)</p>
+        <p>These Alabamians were only the first of Christians to come to Texas. Many others came from other areas of the U.S. but a disproportionately large number were from Alabama. This explains why so many of us multi-generational Christians in Texas can often trace the origin of our family lines as well as our faith back to Alabama. <span class="scripture-ref">1 Cor 4:15</span>, "For though ye have ten thousand instructors in Christ, yet have ye not many fathers: for in Christ Jesus I have begotten you through the gospel."</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Key To Understanding God's Purpose For Life</h2>
+        <p><span class="scripture-ref">"Then God said, 'Let Us make man in Our image, according to Our likeness; let them have dominion over the fish of the sea, over the birds of the air, and over the cattle, over all the earth and over every creeping thing that creeps on the earth.'...And the Lord God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living being. The Lord God planted a garden eastward in Eden....Then the Lord God took the man and put him in the garden of Eden to tend and keep it...And the Lord God said, 'It is not good that man should be alone; I will make him a helper comparable to him.'...And the Lord God caused a deep sleep to fall on Adam, and he slept...the rib which the Lord God had taken from man He made into a woman..." (Gen. 1:28, 2:7, 8, 15, 18, 21, 22)</span></p>
+        <p>Genesis and its creation model gives meaning to life. God created Adam and Eve with purpose. Their mission was to "Be fruitful and multiply; fill the earth and subdue it..." (<span class="scripture-ref">Gen. 1:29</span>). Man was also commissioned to keep and tend to that paradisiacal garden which God had planted for him to live in. Eve's purpose and therefore woman's foundational reason for living since creation was to be a "helper" for the man. God created Adam and Eve to live, reproduce, work and worship. Indeed, God's purpose for life gives life purpose! Man violates his fundamental purpose when he is lazy and ceases to work, when he ceases to worship and lead his family as a man of God (cf. <span class="scripture-ref">Eph. 5:23-6:4; Is. 38:19; 1 Tim. 2:8</span>; etc.). He also violates his purpose in creation when he ceases to live by choosing death over life. Woman also violates her purpose in creation when she harms rather than helps man in his spiritual and physical work (i.e., Jezebel <span class="scripture-ref">1 Kin. 21:25</span>). Perhaps Paul says it best when he appeals to the God of creation saying, <span class="scripture-ref">"God who made the world and everything in it...And He has made from one blood every nation of men to dwell on all the face of the earth...so that they should seek the Lord, in the hope that they might grope for Him and find Him, though He is not far from each one of us; for in Him we live and move and have our being..." (Acts 17:24, 26-28)</span>.</p>
+        <p>Creation gives life purpose! Because God created us, our individual purpose in life is to seek Him and find Him. But if we displace the creation foundation with an evolutionary foundation, then life is expendable and without purpose. It really does make a difference of who or what is in our ancestry. If Adam is in our ancestry, then that means that God sets the rules and there are absolutes. However, if ape is in our ancestry, then man sets the rules and morality is relative; abortion is simply a choice being neither right nor wrong, euthanasia is simply one's right or prerogative. If ape is in our ancestry, then why not buy into the philosophy of "survival of the fittest" and destroy those who are least likely to survive, the unborn, the very young, the aged, the sick, the lame. As someone once said, "You kill spare cats, why not cut up unwanted children?" If ape is our ancestor, our existence is merely a product of chance and random processes over long ages of time. Human life should not be viewed any more special than the life of cats, dogs, birds, pigs, etc., for they too are simply products of chance. Even viruses should be viewed more equally, perhaps as a distant cousin if ape is in our ancestry. If there is no God, then all that anyone does is merely one's opinion and choice. The opinion that condemns would be considered no greater than the opinion that commits, but then again, that would just be considered my opinion! But if Adam is in your ancestry and Jehovah is Creator, then life is designed and given by God and should therefore be respected (cf. <span class="scripture-ref">Gen. 9:4-7</span>). Human life, unlike animal, bears the image of God. The choices that we make are based upon what God has said, rather than what man thinks. Where evolution is about vast amounts of death and enormous amounts of time trickled in with chance; creation is all about life and design! What viewpoint gives your life meaning? <span class="scripture-ref">"Let us hear the conclusion of the whole matter: Fear God and keep His commandments, for this is man's all" (Eccl. 12:13)</span>.</p>
+        <p class="author-signature">Steven J. Wallace<br>313 Merrick Ave., Sunnyside, WA 98944</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Worldliness</h2>
+        <p>One who is worldly is one who is devoted to the cares of this world, and his concerns are the present world and the pleasures which the world affords. And, this distinguished from those of the life to come. Worldliness describes the state or condition which characterizes one whose lifestyle is influenced by the world or worldly things. However, worldliness runs much deeper than one's lifestyle.</p>
+        <p>The basic character of worldliness is rooted in the heart of the individual, and the heart cannot be passive, for it will attach itself to something. Jesus said, <span class="scripture-ref">"For out of the heart proceed evil thoughts, murders, adulteries, fornications, thefts, false witness, blasphemies: These are the things which defile a man..." (Matt. 15:19-20)</span>. This, no doubt, is the reason so much emphasis is placed on the action and direction of the heart. Worldliness involves the heart in so many things that are innocent and harmless; things which may be enjoyed by the Christian; yet, may become worldly. Within this context, Bob Harkrider wrote an article several years ago which was titled, "Respectable Worldliness." The article addressed those things which are lawful for the Christian to practice, but may become worldly with a disproportionate emphasis being placed on them, and this is the subtle danger in these things. We come to love sports, vacations, fishing trips, automobiles, houses, etc., to the extent that these become the attachment of our heart; and thus, respectable worldliness.</p>
+        <p>Sad, but true, we have preachers among "us" who defend worldly practices. Notice this statement from a sermon by a preacher in 1982: "If a man feels modest in a bathing suit, it is not wrong for him to go swimming with women, although he thinks it could be questionable if at a 'public display' area." The same preacher recently defended drinking in moderation, "but it is a sin if one becomes intoxicated." It's unthinkable that one who claims to be a gospel preacher could defend such evils, and sinful practices which have contributed to immorality, broken homes, alcoholism, and ultimately the loss of souls. And, we have preachers among us who are living in adultery; some are living with a second or third wife. Would you say, then, that there is worldliness in the church!</p>
+        <p>I want to go back now to a statement I made earlier: "Worldliness runs much deeper than one's lifestyle." When Paul said to the Colossians (3:2) <span class="scripture-ref">"Set your affection on things above, not on things on the earth."</span>, he is implementing safeguards against worldliness. One's mindset determines whether or not he is worldly. One may isolate himself from society and live the life of a hermit and still be worldly.</p>
+        <p>The apostle John said, <span class="scripture-ref">"Love not the world, neither the things that are in the world. If any man love the world, the love of the Father is not in him" (1 Jn. 2:15)</span>. Here, another apostle of Christ is showing that our affection, service, and worship should be directed toward God and not the world. And, these passages, (and others) really identify worldliness for us; it is an attitude, a focus, an orientation. The works of the flesh described by Paul in <span class="scripture-ref">Galatians 5</span> are the products of worldliness. Remember, Jesus said that these things proceed out of the heart.</p>
+        <p>A related matter which is really disturbing is the willingness of so many members of the body of Christ to compromise with worldly preachers. Friendship seems to be the basis of acceptance, and it is easy for some to make friends with false teachers, and many of these claim to be gospel preachers. It is sad to say, but it seems that preachers can get away with almost anything today, and still get the support of many in the body of Christ. Sad, indeed!</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="nazarene">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Nazarene</h2>
+        <p>The Nazarene Church, as it exists today, was brought into being at Pilot Point, Texas (north of Dallas) on October 13, 1908. On that date two denominations, the "Holiness Church of Christ" and the "Pentecostal Church of the Nazarene" united and agreed upon the name, "Church of the Nazarene." The "Pentecostal Church of the Nazarene" was the result of a merger in 1907 at Chicago of the "Association of Pentecostal Churches in America" (concentrated in New York and New England) and the "Church of the Nazarene" (of California).</p>
+        <p>"The background of the Nazarenes is definitely Methodist; they adhere closely to the original Wesleyan (from John Wesley-B.C.) ideology. Most of the early Holiness groups in this country came out of the Methodist Episcopal Church; five of the original seven general superintendents of the Church of the Nazarene were ex-Methodist ministers, and the Nazarene Manual has been called 'A rewritten and modified Methodist Discipline.'" (Handbook of Denominations, by Frank S. Mead, page 58).</p>
+        <p>A Port Arthur, Texas Nazarene preacher, W. M. Lynch, wrote, "Near the close of the 19th Century the Wesleyan doctrine of Christian perfection had become little more than a creedal matter among the larger denominations that once taught it as essential. The Church of the Nazarene was organized by church pioneers to conserve and promote this doctrine." ("Port Arthur News," May 11, 1957.)</p>
+        <p>The Nazarene Church teaches that one is regenerated and afterward, as a "second work of grace," receives sanctification by means of Holy Spirit baptism. The Bible makes no such distinction between regeneration and sanctification (<span class="scripture-ref">1 Cor. 6:11</span>) nor does it promise Holy Spirit baptism to any today.</p>
+        <p>The Nazarene Church is another of the many denominations which are entirely human in origin. In New Testament times disciples were called Christians by God (<span class="scripture-ref">Acts 11:26</span>); they were called "the sect of the Nazarenes" by men (<span class="scripture-ref">Acts 24:5</span>). They followed the apostles' doctrine (<span class="scripture-ref">Acts 2:42</span>), not a manual drawn up by an assembly of uninspired men.</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <article class="article" id="lutheran">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Lutheran</h2>
+        <p>Today there are almost a score of Lutheran denominations, but all of them wear the name "Lutheran," and look to Martin Luther as the founder of the Lutheran Church. Be it said to Luther's credit that he did not intend to found a church nor did he intend for anybody to become a "Lutheran." He even pled for those who followed in his footsteps not to call themselves Lutherans, but Christians.</p>
+        <p>Martin Luther was born in 1483. He was reared in the Roman Catholic Church. He entered a monastery at 22 and was ordained a priest at 24. Afterward he became a teacher in the University of Whittenberg in Germany. Luther's study of the Scriptures led him to oppose many of the doctrines and practices of Catholicism. He voiced his objections to the sale of indulgences and to the claims being made for them. In 1517 he nailed his famous ninety-five theses of objections to Catholicism to the door of the church building in Whittenberg. After defying a Papal "Bull," Luther was excommunicated.</p>
+        <p>Luther was the first great champion of justification by faith "only." In his zeal to support it he rejected the book of James, declaring it not inspired and added "only" to <span class="scripture-ref">Romans 3:28</span> in his German Language translation of the New Testament. (Dr. Robert G. Bratcher, Baptist, has exceeded Martin Luther; in his translation, "Good News for Modern Man, The New Testament in Today's English Version," published by the American Bible Society, he has added the word "only" in <span class="scripture-ref">Rom. 3:28</span> and <span class="scripture-ref">Gal. 2:16</span> and the word "alone" in <span class="scripture-ref">Rom. 1:17</span>.) In 1529 Luther wrote his Longer and Shorter Catechisms; in 1530 the Augsburg Confession of Faith was written by Luther's associate, Philipp Melanchthon. Lutheranism, therefore, traces itself back to Martin Luther in origin, name and principle doctrines. It was not founded by Christ and is unlike the church founded by Christ in doctrine, name, organization, mission and worship.</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published September 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

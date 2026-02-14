@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - August 2000</title>
+  <meta name="description" content="The Strait Way newsletter, August 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08" selected>August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#ot-ceremonies">OT Ceremonies</a>
+        <a href="#carnal-tactics3">Carnal Tactics 3</a>
+        <a href="#ad70-daniel-revelation">Daniel & Revelation</a>
+        <a href="#unscriptural-arguments2">Unscriptural Arguments 2</a>
+        <a href="#instruments-worship">Instruments In Worship</a>
+        <a href="#conversion-pentecost">Conversion: Pentecost</a>
+        <a href="#james-1-14">James 1:14</a>
+        <a href="#galatians-3">Galatians 3:16-25</a>
+      </nav>
+
+      <article class="article" id="ot-ceremonies">
+        <span class="article-category">Bible Study</span>
+        <h2>Old Testament Ceremonies</h2>
+        <p>"In the fourteenth day of the month, at even, ye shall keep it (the passover) in his appointed season: according to all the rites of it, and according to all the ceremonies thereof, shall ye keep it" (<span class="scripture-ref">Num. 9:3</span>). There were ceremonies the Israelites were required to keep. Sometimes people in the religious world call the regulations pertaining to these ceremonies the "Ceremonial Law." An effort is made to distinguish it from the rest of the OT, saying the Lord nailed the Ceremonial Law to the cross, but not the rest of the law. This is an effort to justify mechanical instruments of music in worship to God and other relics of the law.</p>
+        <p>The expression "ceremonial law" is not found in the word of God. The idea of a separate law pertaining to the ceremonies is not there. The laws governing the ceremonies were a part of the law that is called the law of Moses in some passages and the law of the Lord in others.</p>
+        <p>Consider the following passages. "...Jehoiada appointed the offices of the house of the Lord by the hand of the priests the Levites...to offer the burnt offerings of the Lord, as it is written in the law of Moses..." (<span class="scripture-ref">II Ch. 23:18</span>). "To offer burnt offerings unto the Lord upon the altar of the burnt offering continually morning and evening, and to do according to all that is written in the law of the Lord, which he commanded Israel" (<span class="scripture-ref">I Ch. 16:40</span>). "And they found written in the law which the Lord had commanded by Moses, that the children of Israel should dwell in booths in the feast of the seventh month" (<span class="scripture-ref">Neh. 8:14</span>).</p>
+        <p>Now consider <span class="scripture-ref">Luke 2:21-24</span>, "And when eight days were accomplished for the circumcising of the child, his name was called JESUS, which was so named of the angel before he was conceived in the womb. And when the days of her purification according to the law of Moses were accomplished, they brought him to Jerusalem, to present him to the Lord (As it is written in the law of the Lord, Every male that openeth the womb shall be called holy to the Lord;) And to offer a sacrifice according to that which is said in the law of the Lord, A pair of turtledoves, or two young pigeons."</p>
+        <p>From these passages it is easily determined that the ceremonies were a part of the law which God gave through Moses. So, whether it is called the law of Moses or the law of the Lord, the Holy Spirit was speaking of one and the same law. God's law (OT) contained all of the instructions and regulations pertaining to the nation of Israel.</p>
+        <p>The law, which the Lord gave to Moses and Moses gave to the people, was nailed to the cross: "Blotting out the handwriting of ordinances that was against us, which was contrary to us, and took it out of the way, nailing it to his cross;...Let no man therefore judge you in meat, or in drink, or in respect of an holyday, or of the new moon, or of the sabbath days: Which are a shadow of things to come; but the body is of Christ" (<span class="scripture-ref">Col. 2:14-17</span>). The Old Testament is now a dead law (<span class="scripture-ref">Rom. 7:1-4</span>).</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="carnal-tactics3">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - Carnal Tactics Faced By The Evangelist, Part III</h2>
+        <p><strong>Worldly Standards for Spiritual Efforts.</strong> In the work of the local church, a spiritual work not susceptible to the same measurements of success or failure applied to material endeavors, it is a major mistake to use the models and images created by the world. Only those provided by the Lord, the church's head, will prove effective.</p>
+        <p>Trying to fit a preacher into the mold of a church manager or administrator is a colossal mistake. Many brethren think of him as the one around whom all congregational efforts/projects must be centered (ignorant that elders are such leaders). Others think of him as an office boy with office hours, regardless of the need for him to be elsewhere doing more important things. Some view him as the church's official representative, insisting that he should wear a certain "uniform," make all announcements and be spokesman for the church. Would somebody kindly favor me with the passage teaching any of these ideas.</p>
+        <p>While disavowing the term "clergyman," some insist that a preacher must remain aloof from the common people when possible, not dirtying his hands (literally and figuratively) with the more mundane matters of life. They absolutely cringe at the sight of his doing physical labor around the church building, at his house, or at the houses of others. In all of these areas, there have been plenty of preachers who have enjoyed such special treatment and have acted so as to further these notions in people's minds.</p>
+        <p>The creation of an elite group of "big preachers" in the minds of some is another use of worldly standards inappropriate in the church. These are smoothly praised and flatteringly treated by those who would not cross the road to hear and encourage "smaller" men, as these twisted thinkers view them. <span class="scripture-ref">James 2:1-13</span> teaches a needed lesson on impartiality that many of us have not fathomed.</p>
+        <p>The lures used to attract people to hear the gospel and the devices for measuring the gospel's success also betray much carnal thinking. An impressive building, recreational programs for various ages, the improper citing of attendance and contribution figures, flattering titles for preachers, emphasis on community leaders in a local church, and other such tactics have been employed for good purpose, but without God's favor.</p>
+        <p>God's people have the only power needed to convert the lost in the gospel divinely given for that purpose (<span class="scripture-ref">Rom. 1:16</span>; <span class="scripture-ref">Jn. 6:44-45</span>). Nothing else is needed. Nothing else can accomplish God's objective. We must leave all else alone.</p>
+        <p>Jesus made it clear that in the spiritual kingdom there would be no ranking of citizens, no lording over others, and no tactics relying on arrogant power. Humble service is the only path to divine approval and exaltation, and that can be best observed in the lowly life of the Nazarene, who came "not to be served, but to serve, and to give His life a ransom for many" (<span class="scripture-ref">Matt. 20:20-28</span>).</p>
+        <p>All evangelists must remember to use only the arsenal of spiritual weaponry provided by our Commander-in-Chief and teach others in the church to employ the same. Offensive propagation of truth and opposition to error both require the tools divinely provided, not the carnal tactics often employed by faithless men. The battle is the Lord's, the weapons are from Him, and the power is His!</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-daniel-revelation">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - What About The Books of Daniel and Revelation?</h2>
+        <p>Books of prophecy are often misused as seedbeds of false doctrine. The 'AD 70' doctrine has in common with premillennial doctrine a heavy reliance on these two books. Does the book of Daniel warn of a future judgment of Jerusalem and his people, the Jews? Of course, it does (<span class="scripture-ref">Daniel 9:27</span>; <span class="scripture-ref">12:11</span>). The major theme, however, of Daniel concerns Five World Kingdoms. He is honored by God for his faith to prophesy of the Kingdom of Christ; the last world kingdom. In the Book of Revelation, John warns the brethren of Christ of an impending persecution and trial because of their faith in Christ. John brings the prophecy of Daniel forward and explains its mysteries concerning the fourth beast and the great victory that God would grant the saints over it.</p>
+        <p>Daniel reveals to Nebuchadnezzar the truth about his dream of the great image. The great image is a vision of Four World Kingdoms (Babylon, Medo-Persian, Greek, Roman). Notice in <span class="scripture-ref">Daniel 2:44-45</span>: "In the days of these kings (Roman) the God of heaven will set up a kingdom which shall never be destroyed...Inasmuch as you saw that the stone was cut out of the mountain without hands, and that it broke in pieces the iron, the bronze, the clay, the silver, and the gold - the great God has made known to the king what will come to pass after this..." Here we see not only the certainty of the fall of all of these kingdoms as world powers, but we also see the Kingdom of God being given a world dominion far beyond that of the others before it.</p>
+        <p>In Daniel chapter 7, we have the vision of the Four Sea Beasts: the lion, the bear, the leopard, and the iron beast of 11 horns. In chapter 7 also we have the vision of the glorious ascension of Christ to receive dominion, glory and a kingdom (vs. 13-14). These He would receive on the day of Pentecost over 500 years later. We also have here in this context the prophesied persecution of saints by the 11th horn (Domitian), and the judgment against him and Rome with the result that the world dominion of Rome would belong to His saints (<span class="scripture-ref">Daniel 7:18-27</span>). Much ado is made by the A.D. 70 camp in the prophecies of chapter 9 on the seventy weeks, but the main points are the certainty of the coming of the Messiah and of the future judgment of the Jews.</p>
+        <p>In Revelation we have John speaking a message of warning and comfort concerning the persecutions the fourth beast (Rome) would soon cause the saints to suffer. The parallels of Babylon and Rome are many. The foremost being the commanded worship of earthly rulers under both kingdoms. The time would come when the only god not allowed to be worshipped by wicked and wealthy Rome was the God of truth. Just as Daniel and his friends would not worship the image or the man behind it, the Christians were commanded by God not to worship the beast of Rome and the men therein. The victory of the Saints over Rome was pictured as a glorious wedding scene in chapter 21. I also believe that in the last chapters of Revelation there is a secondary application to our heavenly rewards to be given at the last great day.</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="unscriptural-arguments2">
+        <span class="article-category">Church Organization</span>
+        <h2>Institutionalism - Unscriptural Arguments (No. 2)</h2>
+        <p>When the opponents of the UCMS (the first human institution of the Restoration movement) asked "Where is the authority for the formation and existence of the Society?," Pendleton admitted there was none (see last article). He contended, however, this did not make it wrong. He said: "Does he (the opponents) say that it is not POSITIVELY and EXPRESSLY commanded; then we demand by what canon of interpretation does he make mere SILENCE prohibitory? You reply, the canon which forbids anything as a rule of Christian faith or duty, for which there cannot be expressly produced a 'Thus saith the Lord' either in express terms or by approved precedent..."</p>
+        <p>Here we have the real issue expressed. The motto, "Where the Bible speaks, we speak, and where the Bible is silent, we are silent," first spoken by Thomas Campbell years earlier, and used over and over again by the bulk of the pioneer preachers, WAS NOW CHANGED. These preachers had understood this to mean that anything unauthorized was forbidden and they should not and must not teach or practice anything not found to be authorized in the scriptures. To them, the expression was quite simple: anything practiced must be authorized by direct command, apostolic example, or necessary inference. They had been using it with great success against the various sectarian bodies, as they challenged the denominations throughout the country to show divine authority for their existence.</p>
+        <p>Up to this time this had been sufficient. When men and women learned they were members of religious bodies unknown to the word of God, they freely abandoned them and determined to return to the original ground of the New Testament. So, it was only natural for them, when brethren projected a human institution such as the Society, to ask, "Where is the authority?" When none was found, they then said, the Society has no right to exist!</p>
+        <p>Pendleton reinterpreted the motto, arguing that all Campbell meant was that human creeds and human opinions cannot be forced upon us. The crux of his interpretation was, if we want to practice a human opinion, that is our liberty; but if someone wants to force a human opinion upon us, we have the right to refuse to accept it. In fact he suggested that those who opposed the society were "simpletons" and "hypocrites" since the motto itself was announced before a group that Thomas Campbell and a few others had formed calling itself the "Christian Association of Washington." NOTE: this was an appeal to prejudice, not scripture.</p>
+        <p>Later examination of the early years show that T. Campbell meant exactly what he said when the motto was uttered. He DID MEAN that whatever was not authorized in Christianity could not be used. At the time he uttered the motto, he had not yet come to a full conception of what was involved in the motto, but his attitude was that anything unauthorized must be rejected. This was later proved, when he was asked, "How could you in the absence of any authority in the word of God, baptize a child in the name of the Father, and of the Son, and of the Holy Spirit?" He, at first became irritated and offended, and his face changed color, but a short time later, he repudiated infant baptism. On what ground? On the ground that there was no authority for it in the word of God.</p>
+        <p>Sadly, many individuals and churches accepted Pendleton's argument, and were lost to the digression, and the Christian Church resulted. But, thankfully, there remained a remnant to whom the call for divine authority still meant something. They believed that anything taught and practiced religiously must be authorized in the word of God. The silence of God did not give consent, rather, it prohibited. Thus, the church weathered the storm, and the faithful came out stronger, as it is, even to this day.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="instruments-worship">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"Mechanical Instruments In Worship"</h2>
+        <p>Probably one of the most universally accepted practices in the denominational world is the use of mechanical instruments in their worship to God. What does the Bible say about the use of mechanical instrumental music? Is this authorized of God? Is it something that is up to the individual to decide? Let us look and see what the Bible says.</p>
+        <p><strong>Establishing Bible Authority.</strong> One thing we must understand is that for whatever we wish to do in this life, we must have Bible authority. <span class="scripture-ref">Colossians 3:17</span> teaches: "And whatsoever ye do in word or deed, do all in the name of the Lord Jesus, giving thanks to God and the Father by him." Therefore, whatever I do must be based upon the positive word of God. In other words, I do not live by God's silence, but by what He has said! "If any man speak, let him speak as the oracles of God" (<span class="scripture-ref">I Pet. 4:11</span>). God's silence prohibits our action.</p>
+        <p><strong>The New Testament Does Not Authorize The Playing Of A Mechanical Instrument In Worship.</strong> When we consider the New Testament passages on this subject, we see that each time God's people sang praises without a mechanical instrument. From the time of Christ (<span class="scripture-ref">Matt. 26:30</span>; <span class="scripture-ref">Mk. 14:26</span>), we see consistency. God's people sang from the heart, without a mechanical instrument of any kind. <span class="scripture-ref">Ephesians 5:19</span> says: "Speaking to yourselves in psalms and hymns and spiritual songs, singing and making melody in your heart to the Lord." <span class="scripture-ref">Colossians 3:16</span> is parallel to this: "Let the word of Christ dwell in you richly in all wisdom; teaching and admonishing one another in psalms and hymns and spiritual songs, singing with grace in your hearts to the Lord." Further, the Hebrew writer penned, "By him therefore let us offer the sacrifice of praise to God continually, that is, the fruit of our lips giving thanks to his name" (<span class="scripture-ref">Heb. 13:15</span>). There is no doubt that "the fruit of our lips" would include such things as: preaching, praying, and singing!</p>
+        <p><strong>Justifying The Instrument.</strong> Some justify mechanical instruments by suggesting that the Greek word "psallo" implies an instrument. They say that since the word "psallo" means to pluck, or to twang on a string, then these people were "plucking" and "twanging" on harps, or similar things. It is true that the word "psallo" is found in <span class="scripture-ref">Ephesians 5:19</span> ("praising") and <span class="scripture-ref">Colossians 3:16</span> ("psalm"). Please notice what the word "psallo" means: "to pluck; to vibrate by touching, to twang; in the N.T. to sing a hymn, to celebrate the praises of God in song" (Thayer's, p. 675). W.E. Vine defines "psallo" as, "to sing a hymn, to sing praise" (Vine's, p. 740). When Paul used the word "psallo" (to pluck, vibrate), he didn't leave us wondering what the instrument was! He gave the instrument, and it is THE HEART!!! (<span class="scripture-ref">Eph. 5:19</span>; <span class="scripture-ref">Col. 3:16</span>). Therefore, the instrument on which we play is our heart, not our harp!!</p>
+        <p>Some justify their playing instruments because David did. Yes, David played on instruments in worship to God because it had been commanded (<span class="scripture-ref">II Chron. 29:25</span>; <span class="scripture-ref">Ps. 81:4</span>). Where is our command in the New Testament to use mechanical instruments?</p>
+        <p><strong>Conclusion.</strong> Let us remember that if it is true that God wants men to play a mechanical instrument, and that "psallo" means to play an instrument, then why is it never translated as such in our Bibles? Why is it always termed "sing" and not "sing and play"? Again, if God wishes for men to use mechanical instruments, then understand that we cannot do this by proxy! God is no respecter of persons (<span class="scripture-ref">Acts 10:34</span>; <span class="scripture-ref">Eph. 6:9</span>). What God told you to do, He told me to do, and vice versa. Therefore, one or a few people playing and the rest of the group singing will not do. Only those singing and playing are accepted with God if God accepts the instrument. We must all have an instrument to play every time we come to worship. Is this what the bulk of the religious world does? Of course, not! Friends, by simply studying the Bible, you can see that the use of mechanical instruments in the worship to God is not acceptable, but an abomination! God wants us to sing (<span class="scripture-ref">Eph. 5:19</span>; <span class="scripture-ref">Col. 3:16</span>; <span class="scripture-ref">Heb. 13:15</span>; <span class="scripture-ref">I Cor. 14:15</span>; <span class="scripture-ref">Jas. 5:13</span>).</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-pentecost">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Pentecost</h2>
+        <p>For seven months, we have studied together the subject of conversion. We have learned that the conversion spoken of in the Bible is a turning away from sin and to God. This conversion involves the forgiveness of sins. Conversion is accomplished through Jesus Christ. He is the means of our forgiveness (<span class="scripture-ref">Matt. 1:18</span>). The process of conversion, though founded on God's grace through His Son, also requires man's obedience (<span class="scripture-ref">Heb. 5:9</span>). In the last few articles, we have focused on those elements of conversion that require man's participation: faith, repentance, confession, and baptism. In the rest of these articles, we will see these elements at work in actual conversions.</p>
+        <p>Turning in our Bibles to the second chapter of Acts, we notice about 3,000 people turning away from their sins and being added to their Lord (vv.41,47). In a word, they were converted. Did their conversion follow the pattern I have laid down in the previous articles?</p>
+        <p><strong>FAITH</strong> - Jesus had told the apostles, "...you shall be witnesses to Me in Jerusalem..." (<span class="scripture-ref">Acts 1:8</span>). They indeed testified as to the facts concerning Jesus just ten days later as recorded in the second chapter of Acts. "...Peter, standing up with the eleven, raised his voice..." and began to preach the gospel to them in its simplicity (v.14). His divinely inspired message would basically cover three points. First, the phenomenon they witnessed that day was a miracle foretold in the old scriptures (vv.4-21). Second, Jesus of Nazareth was who He claimed to be as evidenced by the wonders He performed while in their midst (vv.22-24). Third, the scriptures that they claimed to believe and respect had foretold the arrival, power, suffering, death, and resurrection of this same Jesus (vv.25-35). Now, please read vv.36-38 before continuing.</p>
+        <p>I have defined faith as the element of conversion in which a person's intellect is changed. Notice that Peter did not tell them to believe (have faith). This is because they had already developed faith. It was their faith that compelled them to ask what they must do. But what does faith entail? Evidently, faith was simply the acceptance of new facts; a change of the intellect. They came to "know assuredly" (v.36) some new information about this Jesus they had once rejected. Notice also that this faith was not miraculously, or supernaturally, given to them. They believed after having "heard" (v.37) the word of God (Compare to <span class="scripture-ref">Rom. 10:17</span>).</p>
+        <p><strong>REPENTANCE</strong> - I have defined repentance as the element in which a person's will is changed. I clarified that repentance goes beyond the mere sorrow one feels when they recognize they have wandered from God's ways. This is evident here in that they were "cut to the heart" and clearly remorseful, yet they were told they still needed to repent (v.38). What they still lacked was the determination to change their will with regard to where they were and what they had done. This is repentance.</p>
+        <p><strong>BAPTISM</strong> - Just as we can be certain of their faith without it being written in the text of Acts 2, so we can be certain that they confessed their faith, which illustrates a change in one's allegiance (Compare <span class="scripture-ref">Rom. 10:9</span>). And having been commanded to be "baptized for the remission (forgiveness) of sins" (v.38), Peter preached some more and we read, "Then those who gladly received his word were baptized; and that day about three thousand souls were added to them" (v.41).</p>
+        <p>It is no coincidence that this inspired writer refers to the baptisms that occurred and then told of the number who had been converted to the collection of the saved; the one logically followed the other. That is, a person's relationship with God is changed upon being baptized "in the name of Jesus Christ." Next month, we'll consider another example of conversion from the book of Acts.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="james-1-14">
+        <span class="article-category">Word Study</span>
+        <h2>James 1:14</h2>
+        <p>"Let no man say when he is tempted (with evil), I am tempted (with evil) of God: for God cannot be tempted (is untemptable) with evil, neither tempteth (with evil) he any man: But every man is tempted (with evil), when he is drawn away (from the path of right) of his own lust (evil desire), and enticed (lured). Then when lust (evil desire) hath conceived, it bringeth forth sin: and sin, when it is finished, bringeth forth death" (<span class="scripture-ref">James 1:13-15</span>).</p>
+        <p>"Thus far in his treatment of temptation, James has dealt with it from the viewpoint of outward trial (<span class="scripture-ref">James 1:2-12</span>). Here, a significant change occurs. No longer does he use the noun form for temptation; thenceforth, a verbal form is used...an example of which may be seen in Satan's solicitation to evil on the occasion of our Lord's temptation in the mount (<span class="scripture-ref">Mt. 4:1ff</span>). The shift is a natural one, and to be expected. From the contemplation of those outward trials which inevitably beset men in life, it is an easy transition to the inner conflicts which are no less serious obstacles to faithfulness and piety on the part of the disciples of the Lord" (The Epistle Of James by Guy N. Woods, p. 56).</p>
+        <p>The word translated tempt (peirazo) means "...to try...to try whether a thing can be done; to attempt, endeavor...to try, make trial of, test...in a good sense <span class="scripture-ref">Mt. 22:35</span>; <span class="scripture-ref">John 6:6</span>; <span class="scripture-ref">2 Cor. 13:5</span>; <span class="scripture-ref">Rev. 2:2</span>....in a bad sense <span class="scripture-ref">Mt. 16:1</span>; <span class="scripture-ref">Mt. 19:3</span>....to try or test one's faith, virtue, character by enticement to sin; hence according to the context...to solicit to sin, to tempt: <span class="scripture-ref">James 1:13</span>; <span class="scripture-ref">Gal. 6:1</span>; <span class="scripture-ref">Rev. 2:10</span>; of the temptation of the devil, <span class="scripture-ref">Mt. 4:1,3</span>..." (Thayer, p.498).</p>
+        <p>In <span class="scripture-ref">James 1:2-12</span> James wrote about tests which come on man from without; in <span class="scripture-ref">James 1:13-16</span> he wrote about tests which come from within. Which reminds us of Christ's words in <span class="scripture-ref">Mk. 7:20-23</span>: "For from within, out of the heart of men proceed evil thoughts, adulteries, fornications, murders, thefts, covetousness, wickedness, deceit, lasciviousness, an evil eye, blasphemy, pride, foolishness: All these evil things come from within, and defile the man."</p>
+        <p>Keep in mind that <span class="scripture-ref">James 1:13-16</span> involves temptation to sin, that is the context. In <span class="scripture-ref">James 1:14</span>, should epithumia be translated "lust" or "desire"? In the KJV of the NT, "lust" means desire, or longing, for something sinful. The word "desire" can indicate desire, or longing, for something either good or bad depending on its context. That <span class="scripture-ref">James 1:14</span> is discussing the desire (lust) for something evil is seen in the words "is drawn away...and enticed...." Consider this verse in the NASV, "But each one is tempted when is carried away and enticed by his own lust." Notice the carrying (drawing) away and enticement are done by the lust/desire. What kind of desires draw away?</p>
+        <p>"For of this sort are they which creep into houses, and lead captive silly women laden with sins, led away with divers lusts" (<span class="scripture-ref">II Tim. 3:6</span>). Were these women led away with good or evil? "Ye know that ye were Gentiles, carried away unto these dumb idols, even as ye were led" (<span class="scripture-ref">I Cor. 12:2</span>). Were they being carried (led) away by good or evil? That which "leads away" cannot be good. Good thoughts and desires do not lead one away from the "strait and narrow." "Finally, brethren, whatsoever things are true...honest...just...pure...lovely...good report; if there be any virtue, and if there be any praise, think on these things" (<span class="scripture-ref">Phil. 4:8</span>). Would these things lead a person away from what is right? Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="galatians-3">
+        <span class="article-category">Bible Study</span>
+        <h2>Galatians 3:16-25</h2>
+        <p>"Now to Abraham and his seed were the promises made. He saith not, And to seeds, as of many; but as of one, And to thy seed, which is Christ. And this I say, that the covenant, that was confirmed before of God in Christ, the law,...cannot disannul, that it should make the promise of none effect....Wherefore then serveth the law? It was added because of transgressions, TILL THE SEED SHOULD COME to whom the promise was made;...Is the law then against the promises of God? God forbid: for if there had been a law given which could have given life, verily righteousness should have been by the law. But the scripture hath concluded all under sin, that the promise by faith of Jesus Christ might be given to them that believe. But before faith (the gospel) came, we were kept under the law, shut up unto the faith which should afterwards be revealed. Wherefore the law was our schoolmaster to bring us unto Christ, that we might be justified by faith. But after that faith (the gospel) is come, we are no longer under a schoolmaster" (<span class="scripture-ref">Gal. 3:16-25</span>).</p>
+        <p>When the law of Moses, the law of God, was added, what was added? The ceremonies, the ten commandments, rules which governed daily life, the historical, poetical, and prophetical books were added.</p>
+        <p>The law, which God gave to Moses to give to Israel, was a living law. Stephen called it "...the lively oracles..." (<span class="scripture-ref">Acts 7:38</span>). It lighted their way (<span class="scripture-ref">Ps. 119:105</span>), converted their soul (<span class="scripture-ref">Ps. 19:7</span>), and much more (<span class="scripture-ref">Ps. 119</span>). How long was the law of Moses to be in force? <span class="scripture-ref">Galatians 3:19</span> says it was added "till the seed should come." The seed is Christ. When did Christ come? When He was born of a virgin? At His baptism? In His ministry? When He died? When He arose? When He ascended? On the Day of Pentecost?</p>
+        <p>The law was in effect until Christ came and established His kingdom. At that point, the law was nailed to the cross (<span class="scripture-ref">Col. 2:14</span>) and we are no longer under its authority. The law served its purpose as a schoolmaster to bring us to Christ. Now that faith has come, we are no longer under that schoolmaster. We are under the law of Christ, the New Testament.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published August 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

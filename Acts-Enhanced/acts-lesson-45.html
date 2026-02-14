@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acts Lesson 45: Paul Sent to Felix | A Study of the Book of Acts</title>
+  <style>
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: rgba(35, 30, 45, 0.92);
+      --bg-inner: rgba(25, 22, 35, 0.96);
+      --text-primary: #f5f0e6;
+      --text-secondary: #c0b8a8;
+      --accent-gold: #e8b923;
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-blue: #5b9bd5;
+      --accent-blue-glow: rgba(91, 155, 213, 0.4);
+      --accent-burgundy: #8b4557;
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.3);
+      --radius-card: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Georgia', serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(91,155,213,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.55), transparent 50%),
+        radial-gradient(circle at top right, rgba(91,155,213,0.45), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,87,0.35), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(91,155,213,0.2),
+        0 0 80px rgba(232,185,35,0.25);
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 45px 40px;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.85), rgba(25,22,35,1));
+      box-shadow: 0 0 25px rgba(232,185,35,0.5);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(232,185,35,0.25);
+    }
+    .series-title {
+      font-size: 1rem;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .scripture-ref {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      background: rgba(232,185,35,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(232,185,35,0.15);
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(232,185,35,0.3);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .nav-controls select option {
+      background: #2a2535;
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+    }
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .key-verse {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: rgba(139,69,87,0.1);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(139,69,87,0.25);
+    }
+    .key-verse h2 {
+      color: var(--accent-burgundy);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent-gold);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .questions-section, .thought-questions {
+      margin-bottom: 35px;
+    }
+    .questions-section h2, .thought-questions h2 {
+      color: var(--accent-gold);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(232,185,35,0.3);
+    }
+    .thought-questions h2 {
+      color: var(--accent-blue);
+      border-bottom-color: rgba(91,155,213,0.3);
+    }
+    .questions-intro {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .question {
+      margin-bottom: 18px;
+      padding-left: 15px;
+      border-left: 3px solid rgba(232,185,35,0.3);
+    }
+    .question.thought {
+      border-left-color: rgba(91,155,213,0.3);
+    }
+    .question-num {
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .thought .question-num {
+      color: var(--accent-blue);
+    }
+    .question-text {
+      color: var(--text-primary);
+    }
+    
+    .supplementary > h2 {
+      color: var(--accent-blue);
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .supp-content {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .supp-content p { margin-bottom: 15px; }
+    .supp-content strong { color: var(--text-primary); }
+    footer {
+      margin-top: 40px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(232,185,35,0.2);
+      text-align: center;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(91,155,213,0.1);
+      border: 1px solid rgba(91,155,213,0.3);
+      transition: all 0.3s;
+    }
+    .footer-nav a:hover {
+      background: rgba(91,155,213,0.2);
+      box-shadow: 0 0 10px var(--accent-blue-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; }
+      .glass-tab, .nav-controls, .home-link, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      .series-title, .part-title { color: #666; }
+      h1 { color: #333; text-shadow: none; font-size: 18pt; }
+      .scripture-ref { color: #666; }
+      .key-verse { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #8b4557; page-break-inside: avoid; }
+      .key-verse h2 { color: #8b4557; }
+      .questions-section h2 { color: #b8860b; }
+      .thought-questions h2 { color: #5b9bd5; }
+      .question { border-left-color: #e8b923; page-break-inside: avoid; }
+      .question.thought { border-left-color: #5b9bd5; }
+      .question-num { color: #b8860b; }
+      .thought .question-num { color: #5b9bd5; }
+      .question-text { color: #333; }
+      
+      
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 25px 20px; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+    }
+
+  
+    .supplementary {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h2 {
+      color: var(--accent-burgundy, #8b4557);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h3 {
+      color: var(--accent-gold, #e8b923);
+      font-size: 1.1rem;
+      margin: 25px 0 12px 0;
+    }
+    .supplementary p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.7;
+    }
+    .supplementary .supp-list {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+    .supplementary .supp-list li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .supplementary .supp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .supplementary .supp-table th,
+    .supplementary .supp-table td {
+      padding: 12px 15px;
+      border: 1px solid rgba(232,185,35,0.25);
+      vertical-align: top;
+      text-align: left;
+    }
+    .supplementary .supp-table th {
+      background: rgba(232,185,35,0.15);
+      font-weight: 600;
+      color: var(--accent-gold, #e8b923);
+    }
+    .supplementary .supp-table tr:nth-child(even) td {
+      background: rgba(232,185,35,0.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <p class="series-title">A Study of the Book of Acts</p>
+        <p class="part-title">Part 4: Paul's Arrest, Trials, and Journey to Rome (Acts 21:17-28:31)</p>
+        <h1>Lesson Forty-Five: Paul Sent to Felix</h1>
+        <p class="scripture-ref">Acts 23:17-35</p>
+      </header>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Acts Study Index
+        </a>
+        <select id="lesson-select" onchange="goToLesson(this.value)">
+            <option value="">Jump to Lesson...</option>
+            <option value="01">Lesson 1</option>
+            <option value="02">Lesson 2: Acts 1:1-12</option>
+            <option value="03">Lesson 3: Acts 1:13-26</option>
+            <option value="04">Lesson 4: Acts 2:1-21</option>
+            <option value="05">Lesson 5: Acts 2:22-47</option>
+            <option value="06">Lesson 6: Acts 3:1-26</option>
+            <option value="07">Lesson 7: Acts 4:1-22</option>
+            <option value="08">Lesson 8: Acts 4:23-37</option>
+            <option value="09">Lesson 9: Acts 5:1-16</option>
+            <option value="10">Lesson 10: Acts 5:17-42</option>
+            <option value="11">Lesson 11: Acts 6:1-15</option>
+            <option value="12">Lesson 12: Acts 7:1-19</option>
+            <option value="13">Lesson 13: Acts 7:20-50</option>
+            <option value="14">Lesson 14: Acts 7:51-60</option>
+            <option value="15">Lesson 15: Acts 8:1-25</option>
+            <option value="16">Lesson 16: Acts 8:26-40</option>
+            <option value="17">Lesson 17: Acts 9:1-22</option>
+            <option value="18">Lesson 18: Acts 9:23-43</option>
+            <option value="19">Lesson 19: Acts 10:1-24</option>
+            <option value="20">Lesson 20: Acts 10:24-48</option>
+            <option value="21">Lesson 21: Acts 11:1-18</option>
+            <option value="22">Lesson 22: Acts 11:19-30</option>
+            <option value="23">Lesson 23: Acts 12:1-25</option>
+            <option value="24">Lesson 24: Acts 13:1-16</option>
+            <option value="25">Lesson 25: Acts 13:17-37</option>
+            <option value="26">Lesson 26: Acts 13:38-52</option>
+            <option value="27">Lesson 27: Acts 14:1-13</option>
+            <option value="28">Lesson 28: Acts 14:14-28</option>
+            <option value="29">Lesson 29: Acts 15:1-21</option>
+            <option value="30">Lesson 30: Acts 15:22-41</option>
+            <option value="31">Lesson 31: Acts 16:1-15</option>
+            <option value="32">Lesson 32: Acts 16:16-40</option>
+            <option value="33">Lesson 33: Acts 17:1-15</option>
+            <option value="34">Lesson 34: Acts 17:16-34</option>
+            <option value="35">Lesson 35: Acts 18:1-17</option>
+            <option value="36">Lesson 36: Acts 18:18-28</option>
+            <option value="37">Lesson 37: Acts 19:1-20</option>
+            <option value="38">Lesson 38: Acts 19:21-41</option>
+            <option value="39">Lesson 39: Acts 20:1-16</option>
+            <option value="40">Lesson 40: Acts 20:17-38</option>
+            <option value="41">Lesson 41: Acts 21:1-16</option>
+            <option value="42">Lesson 42: Acts 21:17-40</option>
+            <option value="43">Lesson 43: Acts 22:1-30</option>
+            <option value="44">Lesson 44: Acts 23:1-16</option>
+            <option value="45" selected>Lesson 45: Acts 23:17-35</option>
+            <option value="46">Lesson 46: Acts 24:1-27</option>
+            <option value="47">Lesson 47: Acts 25:1-12</option>
+            <option value="48">Lesson 48: Acts 25:13-27</option>
+            <option value="49">Lesson 49: Acts 26:1-32</option>
+            <option value="50">Lesson 50: Acts 27:1-20</option>
+            <option value="51">Lesson 51: Acts 27:21-44</option>
+            <option value="52">Lesson 52: Acts 28:1-14</option>
+            <option value="53">Lesson 53: Acts 28:15-31</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+
+      <section class="key-verse">
+        <h2>Key Verse</h2>
+        <blockquote>"And he called unto him two centurions, saying, Make ready two hundred
+       soldiers to go to Caesarea, and horsemen threescore and ten, and spearmen
+                        two hundred, at the third hour of the night."</blockquote>
+        <cite>— Acts 23:23</cite>
+      </section>
+
+      <section class="questions-section">
+        <h2>Lesson Questions</h2>
+        <p class="questions-intro">Read Acts 23:17-35 carefully before answering these questions.</p>
+
+        <div class="question">
+          <span class="question-num">1.</span>
+          <span class="question-text">Review: The second section of the book of Acts -- Acts 8:5-12:25</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">2.</span>
+          <span class="question-text">What did Paul do when he learned of the plot against him? 23:17-18</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">3.</span>
+          <span class="question-text">What did Paul&#x27;s nephew tell the chief captain? 23:19-21</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">4.</span>
+          <span class="question-text">What did the chief captain do? 23:22-24</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">5.</span>
+          <span class="question-text">What did the chief do next? 23:25-26</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">6.</span>
+          <span class="question-text">How did the problem begin? 23:27</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">7.</span>
+          <span class="question-text">What did Claudius Lysias do to find out why the Jews accused Paul? 23:28-29</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">8.</span>
+          <span class="question-text">What had caused Claudius Lysias to send Paul to Felix? 23:30</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">9.</span>
+          <span class="question-text">What did the soldiers do? 23:31-32</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">10.</span>
+          <span class="question-text">What did the horsemen do? 23:33</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">11.</span>
+          <span class="question-text">How did Felix handle the matter? 23:34-35</span>
+        </div>
+
+        </section>
+
+
+      <section class="thought-questions">
+        <h2>Thought Questions</h2>
+        <div class="question thought">
+          <span class="question-num">A.</span>
+          <span class="question-text">​ How did the providence of God work in Paul&#x27;s life in Acts 23?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">B.</span>
+          <span class="question-text">​ Should Christians depend on the providence of God today? Why?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">C.</span>
+          <span class="question-text">​ How might God providentially help you?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">D.</span>
+          <span class="question-text">​ What is the relationship between prayer and providence?</span>
+        </div>
+        <div class="question thought">
+          <span class="question-num">E.</span>
+          <span class="question-text">​ There is at least one falsehood in Claudius Lysias&#x27; letter. What is it?</span>
+        </div>
+      </section>
+
+
+      <section class="supplementary">
+        <h2>Supplementary Materials</h2>
+        <p>The Chain of Events (23:17-24)</p>
+        <table class="supp-table">
+<tr>
+<th>Verse</th>
+<th>Action</th>
+</tr>
+<tr>
+<td>23:17</td>
+<td>Paul called a centurion and asked him to bring his nephew to the tribune</td>
+</tr>
+<tr>
+<td>23:18</td>
+<td>The centurion presented the young man to Claudius Lysias</td>
+</tr>
+<tr>
+<td>23:19</td>
+<td>The tribune took him by the hand, went aside privately — treated him kindly, protected his identity</td>
+</tr>
+<tr>
+<td>23:20-21</td>
+<td>The nephew revealed the conspiracy: 40+ men under oath, ambush planned, waiting for the tribune&#x27;s cooperation</td>
+</tr>
+<tr>
+<td>23:22</td>
+<td>Tribune dismissed the nephew with strict instructions: &quot;Tell no man that thou hast shewed these things to me&quot;</td>
+</tr>
+<tr>
+<td>23:23-24</td>
+<td>Tribune ordered massive escort: 200 soldiers, 70 horsemen, 200 spearmen — departure at 9 PM (&quot;third hour of the night&quot;)</td>
+</tr>
+</table>
+        <p>The Military Escort: 470 Soldiers for One Prisoner! Type Number Purpose Soldiers (infantry) 200 Main protection force Horsemen (cavalry) 70 Mobility; continued escort to Caesarea Spearmen (dexiolaboi) 200 Light-armed troops; possibly bodyguards TOTAL 470 Nearly half the Jerusalem garrison!</p>
+        <p>Why so many? The tribune took the conspiracy seriously. Forty armed assassins required overwhelming force. Also, a Roman citizen under his protection had been threatened — he could not afford another incident. The departure at 9 PM (third hour of the night) ensured the conspirators would not know Paul had left until morning.</p>
+        <p>The Route: Jerusalem to Caesarea (23:31-33) Stage Distance Details Jerusalem → ~35-40 miles Night march with full escort of 470; reached Antipatris by morning Antipatris → ~25-27 miles Infantry returned; 70 horsemen continued Caesarea with Paul TOTAL ~60-65 miles Completed in less than 24 hours</p>
+        <p>Antipatris: A city built by Herod the Great and named after his father Antipater. Located on the coastal plain, it was the transition point from the hill country of Judea (where ambush was possible) to the safer coastal region. Once past this point, the infantry could return to Jerusalem while the cavalry completed the journey.</p>
+        <p>Claudius Lysias&#x27;s Letter to Felix (23:25-30) This is one of the few letters quoted in Acts. Notice its formal structure and its falsehood: Element Content Greeting (v. 26) &quot;Claudius Lysias unto the most excellent governor Felix sendeth greeting&quot; — formal Roman salutation THE LIE (v. 27) &quot;Having understood that he was a Roman&quot; — FALSE! He learned this AFTER binding Paul for scourging (22:25-29), not BEFORE rescuing him Investigation (v. Brought Paul to Sanhedrin; found the accusations concerned Jewish 28-29) law; &quot;nothing laid to his charge worthy of death or of bonds&quot; Reason for transfer &quot;When it was told me that the Jews laid wait for the man&quot; — the (v. 30) conspiracy; commanded accusers to come to Felix Omission No mention of almost scourging a Roman citizen illegally — this would have been embarrassing!</p>
+        <p>The falsehood explained: Claudius Lysias rearranged the facts to make himself look better. He claimed he rescued Paul BECAUSE he knew he was a Roman. In reality, he rescued Paul from the mob without knowing his status, then almost committed a serious crime by preparing to scourge him. Only Paul&#x27;s declaration stopped him. This is a classic &quot;spin&quot; — technically containing true elements but arranged to deceive.</p>
+        <p>Felix: The Governor (23:24, 33-35) Aspect Details Full name Antonius Felix (sometimes Marcus Antonius Felix) Position Procurator (governor) of Judea, AD 52-59/60 Background Former slave (freedman); brother of Pallas, who was influential with Emperor Claudius Character (per Tacitus) &quot;He exercised the power of a king with the mind of a slave&quot; — brutal, corrupt, greedy Wife Drusilla — Jewish princess, daughter of Herod Agrippa I (mentioned in 24:24) Headquarters Caesarea — &quot;Herod&#x27;s judgment hall&quot; (praetorium); built by Herod the Great His handling of Paul Asked Paul&#x27;s province (Cilicia); promised a hearing when accusers arrived; kept Paul in custody for 2 years hoping for a bribe (24:26-27)</p>
+        <p>The Providence of God in Acts 23 God&#x27;s providential care for Paul is evident throughout this chapter: Providential Means Result Division between Pharisees and Sadducees Pharisees defended Paul; council divided (v. 7-9) Roman soldiers (v. 10) Paul rescued from being torn apart The Lord&#x27;s personal appearance (v. 11) Paul encouraged; promise of Rome Paul&#x27;s nephew (v. 16) Conspiracy revealed Tribune&#x27;s decisive action (v. 23-24) Paul whisked away before assassins knew 470 soldiers (v. 23) No possibility of ambush succeeding Roman custody in Caesarea (v. 35) Paul safe from Jewish assassins; path to Rome opening</p>
+        <h3>Key Cross-References</h3>
+        <table class="supp-table">
+<tr>
+<th>Reference</th>
+<th>Acts 23 Verse</th>
+<th>Connection</th>
+</tr>
+<tr>
+<td>Prov. 6:16-19</td>
+<td>23:27</td>
+<td>God hates a lying tongue</td>
+</tr>
+<tr>
+<td>Rev. 21:8</td>
+<td>23:27</td>
+<td>All liars — the lake of fire</td>
+</tr>
+<tr>
+<td>Gen. 12:11-13</td>
+<td>23:27</td>
+<td>Abraham&#x27;s half-truth about Sarah</td>
+</tr>
+<tr>
+<td>Rom. 8:28</td>
+<td>23:11-35</td>
+<td>All things work together for good</td>
+</tr>
+<tr>
+<td>Acts 22:25-29</td>
+<td>23:27</td>
+<td>What actually happened with citizenship</td>
+</tr>
+</table>
+        <p>Lessons from Acts 23:17-35 1. God&#x27;s providence works through ordinary means — family members, soldiers, government officials. 2. Christians can depend on God&#x27;s providential care while still taking practical precautions. 3. Half-truths are lies — Claudius Lysias rearranged facts to deceive Felix. 4. God can use even pagan authorities to accomplish His purposes. 5. When God makes a promise (v. 11), He ensures its fulfillment. 6. Human hatred and conspiracy cannot thwart God&#x27;s plan.</p>
+      </section>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="acts-lesson-44.html">← Previous Lesson</a>
+          <a href="acts-lesson-46.html">Next Lesson →</a>
+        </div>
+        <p class="copyright">A Study of the Book of Acts — Enhanced Edition</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function goToLesson(num) {
+      if (num) window.location.href = 'acts-lesson-' + num + '.html';
+    }
+  </script>
+</body>
+</html>

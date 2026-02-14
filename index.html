@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Noble Mind Study - Bible Study Tool</title>
+  <meta name="description" content="A free Bible study tool for creating, organizing, and examining Scripture. Based on Acts 17:11 - examining the Scriptures daily.">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Noble Mind">
+  <style>
+    :root {
+      /* Core Colors */
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+
+      /* Accents */
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.18);
+      --accent-glow: rgba(6, 255, 165, 0.5);
+      --accent-blue: #5ee5ff;
+      --accent-blue-glow: rgba(94, 229, 255, 0.5);
+
+      /* Effects */
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(6, 255, 165, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* Background glow overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Main Glass Card Wrapper - wraps entire page */
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
+        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.3),
+        0 0 80px rgba(6,255,165,0.35);
+      max-width: 750px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Inner page container */
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    /* Inner glow at top */
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Glass tab at bottom */
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(94,229,255,0.6);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 16px;
+      filter: drop-shadow(0 0 25px rgba(6,255,165,0.5));
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+
+    /* Verse Section */
+    .verse-section {
+      background: rgba(6, 255, 165, 0.05);
+      border: 1px solid rgba(6, 255, 165, 0.2);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .verse-text {
+      font-style: italic;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .verse-ref {
+      color: var(--accent);
+      font-weight: 500;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* About Section */
+    .about {
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about p {
+      margin-bottom: 14px;
+    }
+
+    /* Links Section */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card {
+      display: block;
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 18px 22px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.1), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .link-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 0 35px var(--accent-glow);
+    }
+
+    .link-card:hover::before {
+      opacity: 1;
+    }
+
+    .link-card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      color: var(--accent);
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Buttons */
+    .button-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #22c55e);
+      color: #020617;
+      box-shadow: 0 0 25px rgba(6,255,165,0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(6,255,165,0.55);
+    }
+
+    .btn-install {
+      background: linear-gradient(135deg, var(--accent-blue), #3b82f6);
+      color: #020617;
+      box-shadow: 0 0 25px rgba(94,229,255,0.35);
+    }
+
+    .btn-install:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(94,229,255,0.55);
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    #installBtn {
+      display: inline-flex;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 20px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+
+    footer .copyright {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 1.7rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .button-row { flex-direction: column; }
+      .btn { justify-content: center; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <img src="icon-192.png" alt="Noble Mind Study Logo" class="logo">
+        <h1>Noble Mind Study</h1>
+        <p class="tagline">A free Bible study tool</p>
+      </header>
+
+      <div class="verse-section">
+        <p class="verse-text">"Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so."</p>
+        <p class="verse-ref">Acts 17:11 (NASB)</p>
+      </div>
+
+      <div class="about">
+        <p>The Noble Mind Study Tool helps you create, organize, and study Bible lessons. Import from PDF or scanned images, look up Scripture references, search across lessons, and export your work.</p>
+        <p>Runs entirely in your browser. No account required. Free to use.</p>
+        <p>Special thanks to <a href="https://bolls.life" target="_blank">Bolls.Life API</a> for free Bible & word study tools.</p>
+      </div>
+
+      <div class="links">
+        <a href="Noble_Mind_Study_Tool_v2.html" class="link-card">
+          <h2>Open the Study Tool</h2>
+          <p>Launch the application to create and study Bible lessons</p>
+        </a>
+
+        <div class="button-row">
+          <a href="Noble_Mind_Study_Tool_v2.html" download class="btn btn-primary">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download App
+          </a>
+          <button id="installBtn" class="btn btn-install">
+            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span id="installBtnText">Install App</span>
+          </button>
+          <div id="installStatus" style="display:none; margin-top:8px; padding:8px 12px; border-radius:8px; font-size:0.9rem;"></div>
+        </div>
+
+        <a href="user-guide.html" class="link-card">
+          <h2>User Guide</h2>
+          <p>Complete documentation for using the tool</p>
+        </a>
+
+        <a href="principles.html" class="link-card">
+          <h2>Principles</h2>
+          <p>The foundation and philosophy behind this tool</p>
+        </a>
+
+        <a href="Bible_Study_Guiding_Principles_Preface.pdf" download class="link-card">
+          <h2>AI Study Guide</h2>
+          <p>Download guiding principles to upload to any AI — devoid of denominational bias, helping it study the Bible honestly using Scripture to interpret Scripture</p>
+        </a>
+      </div>
+
+      <footer>
+        <p class="verse">"Your word is a lamp to my feet and a light to my path." — Psalm 119:105</p>
+        <p class="copyright">© 2026 Paul Hainline. All rights reserved.</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('Service Worker registered:', registration.scope);
+          })
+          .catch((err) => {
+            console.log('Service Worker registration failed:', err);
+          });
+      });
+    }
+
+    // PWA Install functionality
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    const installBtnText = document.getElementById('installBtnText');
+    const installStatus = document.getElementById('installStatus');
+
+    function showStatus(message, isError) {
+      installStatus.textContent = message;
+      installStatus.style.display = 'block';
+      installStatus.style.background = isError ? 'rgba(220,50,50,0.2)' : 'rgba(6,255,165,0.2)';
+      installStatus.style.color = isError ? '#ff6b6b' : '#06FFA5';
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) {
+        showStatus('Your browser may not support app installation, or the app is already installed. Try using the browser menu to install.', true);
+        return;
+      }
+      installBtnText.textContent = 'Installing...';
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      deferredPrompt = null;
+      if (outcome === 'accepted') {
+        showStatus('App installed! Find it in your Applications menu (search "Noble Mind").', false);
+        installBtnText.textContent = 'Installed!';
+      } else {
+        installBtnText.textContent = 'Install App';
+        showStatus('Installation cancelled.', true);
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      showStatus('App installed successfully!', false);
+      installBtnText.textContent = 'Installed!';
+    });
+  </script>
+</body>
+</html>

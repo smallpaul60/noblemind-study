@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - February 2001</title>
+  <meta name="description" content="The Strait Way newsletter, February 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02" selected>February</option>
+              <option value="03">March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#tongues">Speaking In Tongues</a>
+        <a href="#bible-authority">Bible Authority</a>
+        <a href="#church-history">Church History: Puritans</a>
+        <a href="#genesis">Genesis: Approach</a>
+        <a href="#trends-preaching">Trends: Preaching 2</a>
+        <a href="#church-origins">Church Origins: Baptist</a>
+        <a href="#first-john">First John: Testimony 2</a>
+      </nav>
+
+      <article class="article" id="tongues">
+        <span class="article-category">Doctrinal</span>
+        <h2>What About Speaking In Tongues?</h2>
+        <p>"And these signs shall follow them that believe; In my name shall they cast out devils; they shall speak with new tongues..." (<span class="scripture-ref">Mark 16:17</span>). Does the Bible teach that men TODAY "...shall speak with new tongues..."? Some say, Yes! Others say, No! The Bible is right, what does it say?</p>
+        <p>The Bible teaches that some in the first century spoke in tongues (languages which they had not learned). It is important to remember that when one spoke in a tongue he was conveying a message. IT WASN'T JUST A BUNCH OF SOUNDS. The "unknown" in <span class="scripture-ref">I Cor. 14:1</span> was added by the translators. It is not in the original texts. Consider several questions.</p>
+        <p class="subheading">Who spoke in tongues?</p>
+        <p>(1) Those who were baptized with the Holy Spirit spoke in tongues. That includes the apostles on the day of Pentecost: "And they (the twelve apostles) were all filled with the Holy Ghost, and began to speak with other tongues, as the Spirit gave them utterance" (<span class="scripture-ref">Acts 2:4</span>). The audience testified, "...we do hear them (the twelve apostles) speak in our tongues the wonderful works of God" (<span class="scripture-ref">Acts 2:11</span>). The apostle Paul also spoke in tongues (<span class="scripture-ref">I Cor. 14:18</span>). It also includes the household of Cornelius, "For they heard them (the house of Cornelius) speak with tongues, and magnify God" (<span class="scripture-ref">Acts 10:45</span>). (2) Some of those on whom the apostles laid hands spoke in tongues. "And when Paul had laid [his] hands upon them, the Holy Ghost came on them; and they spake with tongues, and prophesied" (<span class="scripture-ref">Acts 19:6</span>).</p>
+        <p class="subheading">Why did they speak in tongues?</p>
+        <p>The answer to this question involves the purpose of miracles: "How shall we escape, if we neglect so great salvation; which at the first began to be spoken by the Lord, and was confirmed unto us by them that heard him; God also bearing them witness, both with signs and wonders, and with divers miracles, and gifts of the Holy Ghost, according to his own will?" (<span class="scripture-ref">Heb. 2:3,4</span>; see also <span class="scripture-ref">Mark 16:19,20</span>). They did not have a New Testament, it had not been written. The miracles they performed were for the purpose of convincing the hearers that what they preached was the word of God (See <span class="scripture-ref">Acts 8:6</span>). Today, we take our Bibles and give book, chapter, and verse. This they could not do.</p>
+        <p class="subheading">How did they receive the power to speak in tongues?</p>
+        <p>(1) The apostles and the household of Cornelius were baptized in the Holy Spirit by Jesus Christ (<span class="scripture-ref">John 1:32-34</span>), therefore spoke in tongues. (2) The apostle Paul laid his hands on the men in <span class="scripture-ref">Acts 19:1-6</span> and gave them the miraculous gift of speaking in tongues, which is one of the nine spiritual gifts (<span class="scripture-ref">I Cor. 12:4-11</span>) bestowed by the laying on of the apostles' hands (cf. <span class="scripture-ref">Acts 8:14-17</span>).</p>
+        <p class="subheading">Today, do men have power to speak in tongues?</p>
+        <p>Miraculous gifts were to cease, that included speaking in tongues. "Charity never faileth: but whether there be prophecies, they shall fail; whether there be tongues, they shall cease; whether there be knowledge, it shall vanish away" (<span class="scripture-ref">I Cor. 13:8</span>).</p>
+        <p class="subheading">Why would they cease?</p>
+        <p>(1) God said they would cease (<span class="scripture-ref">I Cor. 13:8</span>). (2) The need for them no longer existed. When the New Testament was completed, the need for confirming miracles ceased. (3) The manner of receiving them has ceased. Jesus is no longer baptizing men in the Holy Spirit. Paul said there is one baptism (<span class="scripture-ref">Eph. 4:4,5</span>) and Peter said it is in water (<span class="scripture-ref">I Pet. 3:20,21</span>, then see <span class="scripture-ref">Acts 8:36-39</span>). Also, remember that the baptism of the Holy Spirit was a PROMISE to the apostles (<span class="scripture-ref">Acts 1:4,5</span>) and to no one else. It was for their guidance. Further, note that since the apostles are dead, they can no longer lay their hands on men and bestow those gifts. Keep in mind that the ability to bestow miraculous gifts was a sign of an apostle (<span class="scripture-ref">II Cor. 12:12</span>).</p>
+        <p class="subheading">When did miraculous powers, including speaking in tongues, cease?</p>
+        <p>"But when that which is perfect is come, then that which is in part shall be done away" (<span class="scripture-ref">I Cor. 13:10</span>). "That which is perfect" refers to the "perfect law of liberty" (<span class="scripture-ref">James 1:25</span>), or "...the faith which was once delivered unto the saints" (<span class="scripture-ref">Jude 3</span>). The miracles were "in part," the infancy of the church. The maturity of Divine revelation was the New Testament, "...that which is perfect...." Before the end of the first century, the entire Bible had been revealed. The New Testament is Christ's law for man today and it is sufficient to furnish man to every good work (<span class="scripture-ref">II Tim. 3:16,17</span>).</p>
+        <p>In the first century, certain ones spoke in languages which they had not studied. Do men do that today? NO! Why? (1) The way of obtaining them is not present: baptism of the Holy Spirit and the laying on of the apostles' hands. (2) The need for them is not present. We have a completed New Testament to confirm the word of God. (3) Sounds made by modern day "tongue speakers" are not "tongues" (languages) at all, just gibberish. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="bible-authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>Standards Of Men In Religion</h2>
+        <p>When people differ on religious questions it has to be because: (1) a failure to see the need for bible authority or (2) an ignorance of how to establish bible authority. In a previous article we discussed the need for bible authority, now let us turn our attention to some false standards men use to establish authority.</p>
+        <p>In discussing how to establish bible authority we understand that we are answering the basic question of "what saith the scriptures" (<span class="scripture-ref">Rom 4:3</span>) and that we are to speak as the oracles of God (<span class="scripture-ref">1 Pet 4:11</span>). Faithful people are forevermore interested in what God's word has to say on any particular subject. These people realize that in order to please God they do the things they do because these things are in harmony with God's will as revealed on the pages of His word (<span class="scripture-ref">2 Tim 3:16-17</span>). God's people are interested in and follow God's word.</p>
+        <p>It seems that authority for some who profess to be brethren is, "the church has always done this", or "if the church does a thing then it must be okay". If this is correct, then we must be able to establish that the church did any particular thing by finding the church doing that thing on the pages of the New Testament. If authority for what the church does is not established by the word of God then it must be branded as an unauthorized tradition of men. I sometimes wonder how these brethren think Roman Catholicism started and developed.</p>
+        <p>Others seem to think authority for anything must be established by majority consent. These fail to realize that the kingdom of God is a monarchy and not a democracy. Jesus has all authority (<span class="scripture-ref">Matt 28:18</span>) and He is the King of Kings and Lord of Lords (<span class="scripture-ref">1 Tim 6:15</span>). You do not have a vote and neither do I. We all must submit to His authority (<span class="scripture-ref">Col. 3:17</span>). In regard to what most people think or do being authority for anything we remember the words of Jesus: "Enter ye in at the strait gate for wide is the gate and broad is the way that leadeth to destruction and many there be which go in thereat: Because strait is the gate and narrow is the way which leadeth unto life and few there be that find it" (<span class="scripture-ref">Matt 7:13-14</span>).</p>
+        <p>Authority in religious matters for some is what mama or daddy did or believed. This standard is proven to be false unless and except what parents do is in harmony with the bible. Jesus said, "He that loveth father or mother more than me is not worthy of me" (<span class="scripture-ref">Matt 10:37</span>).</p>
+        <p>For many others authority rests with what the preacher says or what "I think" or "what seems right". Passages from God's word quickly condemn these methods of establishing authority. "But though we, or an angel from heaven, preach any other gospel unto you than that which we have preached unto you let him be accursed" (<span class="scripture-ref">Gal. 1:9</span>). "There is a way which seemeth right unto a man, but the end thereof are the ways of death" (<span class="scripture-ref">Prov 14:12</span>). "It is not in man that walketh to direct his steps" (<span class="scripture-ref">Jer 10:23</span>).</p>
+        <p>Authority must be established by the Word of God (<span class="scripture-ref">2 Tim 3:16-17</span>).</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>Who Were the Puritans?</h2>
+        <p>Most Christians today do not realize that at one time it was apparently a common practice to refer to members of the Lord's church as Puritans. In fact, most of us have the understanding that the Puritans of our early history who immigrated to the New England colonies were Calvinists in their beliefs. These had been "Dissenters" in England. This meant that these had opposed the Anglican Church or Church of England and suffered persecution and death at the hands of the authorities there. This persecution was the impetus for their coming here. Now while this is true for a significant number of these people called Puritans, it was not true that all those known as Puritans were of this Calvinist group. A more accurate term that is historically correct is to call them Dissenters.</p>
+        <p>Looking into the history of the "Dissenters" in England in the 1600's we quickly can see that there were a number of groups who were stereotypically termed Puritans. The majority of these were those opposed to the movement within the Church of England, known as Anglicans, who wanted the Church of England to simply be an English Catholic Church. This party came into power after Oliver Cromwell died. The Anglicans and their supporters restored the monarchy and the Church of England as the state church. They then began to oppress those who had formerly opposed them under Cromwell. Those they opposed were called "Dissenters," because they dissented against the "Catholic" practices and beliefs of the Church of England. In their dissent, the Puritans had advocated no pagan holidays, such as Easter and Christmas. They also did not believe in state paid clergy or the special religious costumes worn by priests. They opposed the use of musical instruments in worship, and stripped churches of stained glass windows, choirs, candles and candelabras, incense burning and usually infant baptism. Their call to only go by the Scriptures, and deny creeds of men, really proved their austerity and they became universally known as not just Dissenters, but now became Puritans.</p>
+        <p>Now it is easy to see from their beliefs that even those of the Puritans who were Calvinists, shared this desire to "purify the church" or in some way get back to the New Testament church. Lumped together, stereotypically, were other religious groups, like Anabaptists, early Baptists, various reform groups, and I am convinced of this, were many Christians also fleeing persecution in merry old England. So, the first "Pilgrims" who came to this country had a large contingent of members of the Lord's church among them, but the secular history books have mostly ignored the differences among the various people that became only known as Puritans.</p>
+        <p>There are those who in recent years have researched the existence of the Lord's people in Europe, and particularly in Britain prior to Alexander Campbell's Restoration Movement in this country in the early 1800s. In some cases, this work has revealed evidence of Christians going back to the First Century in England! There are fascinating glimpses of their lives being revealed from court records and other documents that these painstaking researchers are doing. Mainstream history has overlooked or ignored their part in some great historical events.</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Does It Matter How We Approach Genesis?</h2>
+        <p>"Does it really matter whether I believe the days of Genesis 1 were literal days or metaphorical ages? As long as people believe in creation, what difference does it make?" What this reasoning essentially teaches is that the actuality of creation is essential to believe, while the revealed details of it are not. As long as brethren agree in the actuality, we should not fuss about the specifics! Is this understanding correct? Consider these examples and notice the decay of Bible authority:</p>
+        <p>Does it really matter if God used special creation or evolution to bring about life? As long as people believe in God being the source, why does it matter about the means or "process" by which he brought all things into existence?</p>
+        <p>Does it really matter if Jesus was resurrected on the third day according to the scriptures as long as one believes that Jesus is God? Perhaps we shall charge Paul with preaching the "unessential gospel" when he wrote "Moreover, brethren, I declared to you the gospel which I preached to you...For I delivered to you first of all that which I also received: that Christ died for our sins according the Scriptures and that He was buried, and that He rose again the third day according to the Scriptures" (<span class="scripture-ref">1 Cor. 15:1-4</span>). Is Paul wasting the inspired pen when he stresses the "third day"? Should we suggest that, "It doesn't really matter if we believe this third day to be literal or symbolic as long as we believe Jesus arose"? What about the fellow who comes up and says, "Does it really matter whether Jesus bodily raised from the grave or symbolically raised in a cause or purpose? All we must agree on is that He died for our sins"? What about another person who suggests that it doesn't really matter whether He was really dead or merely asleep (as some advocate today), but that we must only agree that God so loved us that He sent His only Son." Where do we draw the line?</p>
+        <p>Let's apply this "Does it really matter" mentality to the subject of baptism. How about if one says, "The details of baptism are not important. Does it really matter if baptism is supposed to be in water (<span class="scripture-ref">Acts 8:36; 10:47</span>)? Does it really matter if baptism is to be a burial (<span class="scripture-ref">Rom. 6:3-4</span>)? As long as one believes baptism is for salvation, what difference does it make if one is baptized in water, in the Spirit, or metaphorically baptized in the word?"</p>
+        <p>One can see that the present controversy over the "days of Genesis" is deeper and wider than "days" per se. It deals with our fundamental approach to scripture. Someone may rebut that it doesn't matter how we view the Old Testament; all that matters is how we understand the New Covenant. Brethren, if we can be so bold to mythologize, distort and twist the Old Testament, what will keep us from doing the same to the New? If we can twist the Old Testament to make it more palatable for modern scientific skepticism, why not do the same with the New Testament? Look to New Testament examples. When the apostles quoted Old Testament scriptures, they did not do so to pervert them, or make them more acceptable to their community, but to establish a truth. Notice Deity's position regarding this subject:</p>
+        <p>We are to use the Old Testament for our learning to make us wise (<span class="scripture-ref">Rom. 15:4; 2 Tim. 3:15, 16</span>). We should carefully understand Old Testament teaching, or we will not properly understand God's historical working. Because some "willfully forgot," they became scoffers (see <span class="scripture-ref">2 Peter 3:1ff</span>). Our approach to the Old Testament will affect our understanding of the New Testament. Notice where Jesus stood "For if you believed Moses, you would believe Me; for he wrote about Me. But if you do not believe his writings, how will you believe My words?" (<span class="scripture-ref">Jn. 5:46-47</span>). Yes, it matters!</p>
+        <p class="author-signature">Steven J. Wallace<br>1002 Bloom Ave., Grandview, WA 98930</p>
+      </article>
+
+      <article class="article" id="trends-preaching">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Preaching (2)</h2>
+        <p>Our readers will recall that my first article on this subject appeared in the January issue of StraitWay. In that issue, we noted that many who are God-fearing Christians today have grave concerns regarding some tendencies prevalent among God's people. We addressed the concerns of some about failure in many places of preaching consistent with the N.T. preaching; utilizing some material by the apostle Paul from <span class="scripture-ref">Acts 20</span>. We pointed out that our preaching today should also be characterized by those same principles.</p>
+        <p>In this article, I would like to take that one step further, and try to help our readers (always my purpose) with what preachers should do after declaring the word. Responsibility does not end with declaration. However, we must make sure that the gospel of Christ, nothing more and nothing less, is that which we declare. Jesus Christ said, "...Go ye into all the world, and preach the gospel..." (<span class="scripture-ref">Mk. 16:15</span>). The apostle Paul said, "...for necessity is laid upon me; for woe is unto me if I preach not the gospel" (<span class="scripture-ref">I Cor. 9:16</span>).</p>
+        <p>Then, after I have done that, to be a true servant of Christ, I must STAND for that gospel. There is a great need today for preachers to "stand up" for God and His cause, and this in the face of all odds and opposition. Brethren, it is not enough just to declare the word; we must contend for it. As Jude would say, "When I gave all diligence to write unto you of the common salvation, it was needful for me to write unto you, and exhort you that ye should earnestly contend for the faith which was once delivered unto the saints" (<span class="scripture-ref">Jude 3</span>). Faith in this passage is in the objective case, and has reference to the body of doctrine contained in the N.T. The word contend here is an interesting word also. It means to strive, and many times as used in the N.T. the meaning is agonize (<span class="scripture-ref">Luke 13:24; I Cor. 9:25; Col. 1:29; 4:12</span>). But the word Jude uses is EPAGONIZOMAI, which is a stronger word and is given intensive force by the word earnestly. Interesting, too, is the fact that the statement makes every member of the Lord's church (saints) a trustee of the gospel: "once delivered unto the saints." So, brethren, we have no choice but to declare AND defend the gospel of Christ. What a privilege!</p>
+        <p>Observe, if you will, what the apostle Paul said to the Corinthians on this issue: "Watch ye, stand fast in the faith, quit you like men, be strong" (<span class="scripture-ref">I Cor. 16:13</span>). We see a progression here from watch ye (implying a surveillance) through each step; reaching the climax in the expression be strong. In other words, grow up into men and be strong, mature Christians. By observing conditions in the church today, and desiring the church to be what GOD WANTS IT TO BE, we know that the future doesn't belong to the faint-hearted. We must stand up boldly for the truth of the gospel.</p>
+        <p>In closing, we want to consider an example of the focus of this article in an incident in the life of the apostle Peter. In <span class="scripture-ref">Acts chapter 2</span> is recorded this incident which serves our purpose well. In verse 14, we find him "standing up with the eleven, and lifted up his voice..." Our readers will recall that just a short time prior to this, Peter denied the Lord just as Jesus predicted. Not only this but the record says that Peter in his denial, "began to curse and to swear, saying, I know not the man" (<span class="scripture-ref">Matt. 26:74</span>). But Peter was remorseful, and truly repented (unlike Judas) and now on Pentecost in front of all those Jews is declaring "...that God hath made that same Jesus, whom ye have crucified, both Lord and Christ."</p>
+        <p>Brethren, our work is cut out for us, and we must meet the challenge by declaring and standing four square for the gospel of Christ.</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Baptist</h2>
+        <p>Today there are more than twenty (about ten major divisions) Baptist denominations. Back beyond the seventeenth Century history records neither Baptist Churches nor Baptist people. They had their beginning in the early part of the seventeenth century as a fruit of the Protestant Reformation Movement.</p>
+        <p>"The first regularly organized Baptist Church of which we possess any account is dated from 1607, and was formed in London by a Mr. Smyth, who had been a clergyman of the Church of England. It was formed on the principles of the 'General Baptist.' In the year 1633 the first Particular Baptist Church was formed in London under Mr. Spilsbury." (Benedict's History of the Baptist, p.304). "The difference was small. Smyth is regarded as the founder of the General Baptists of England, which are Arminian in doctrine and 'close,' or 'restricted,' in communion; while the Particular Baptist are, for the most part, Calvinistic in doctrine and open in communion." (Story of the Baptist, by Dr. Cook, p. 2). This is Baptist History by Baptist Historians.</p>
+        <p>John Smyth, not being satisfied with his own infant baptism, baptized himself. At least he administered to himself what he considered baptism; history shows that he sprinkled water upon himself. At first Baptists were called "Anabaptists" due to the fact that they denied the validity of infant baptism and thus baptized again all who were baptized in infancy.</p>
+        <p>I have in my library a book entitled "Baptist Confessions of Faith" by W. D. McGlothlin, a former professor in the Southern Baptist Theological Seminary. The first sentence of the "Introduction" says: "Primitive Christianity drew up no Confessions of Faith." How true that is. Early Christians had the preaching and writing of inspired men; in the New Testament we still have the same, and it is complete and sufficient. But Baptists have drawn up many confessions of faith. Among the more notable are: The First London Confession of Faith (1644), The Second London Confession of Faith (1677), the Philadelphia Confession of Faith (1742) and the New Hampshire Confession of Faith (1833).</p>
+        <p>Religious practices and doctrines cannot be, at the same time and both, good and bad, right and wrong. Nor can they be neutral, neither good nor bad, neither right nor wrong. Just as surely as the Bible is the word of God, it is all the word of God, authoritative and understandable. Some Baptist doctrines and practices contrary to the scriptures are these: 1. The doctrine of original sin or that infants are born depraved, inheriting the guilt of Adam's sin (<span class="scripture-ref">Ezek. 18:20; Luke 18:15-17</span> refute it). 2. The doctrine of salvation by faith alone (<span class="scripture-ref">James 2:14-26; Gal. 5:6</span> refute it). 3. Denying that obedience is essential to salvation (<span class="scripture-ref">Matt. 7:21; Heb. 5:8-9; 2 Thess. 1:8</span> refute it). 4. Denying that baptism is essential to salvation (<span class="scripture-ref">Mark 16:16; Acts 2:38; Acts 22:16; Gal. 3:27; I Pet. 3:21</span> refute it). 5. The doctrine of the impossibility of apostasy or that a child of God cannot so sin as to be eternally lost (<span class="scripture-ref">Heb. 3:1, 12; Gal. 5:2-4; 1 Cor. 10:12; 2 Pet. 2:20-22; Heb. 6:4-6; Gal. 5:19-21</span> and many others refute it). 6. The doctrine of Premillennialism or that Christ will return to the earth, set up his kingdom and reign for a thousand years (<span class="scripture-ref">Acts 2:36; John 18:36; Col. 1:13; Rev. 1:5-6; 5:9-10</span> refute it). 7. Congregational approval by voting of all candidates for baptism (<span class="scripture-ref">Acts 2:47; 8:35-39</span> refute it). 8. Congregational government of A pastor and deacons. New Testament congregations each had pastors (also called bishops and elders), not A pastor; preachers and pastors were not identical (<span class="scripture-ref">Phil. 1:1; Acts 20:17, 28</span>).</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline DR, Baton Rouge, LA 70814</p>
+      </article>
+
+      <article class="article" id="first-john">
+        <span class="article-category">First John</span>
+        <h2>Lessons From First John: The Testimony Of God (2)</h2>
+        <p>God's testimony is of the highest character. Consider <span class="scripture-ref">First John 1:1-3</span>: "That which was from the beginning, which we have heard, which we have seen with our eyes, which we have looked upon, and our hands handled, of the Word of life; (For the life was manifested and we have seen it, and bear witness, and shew unto you that eternal life, which was with the Father, and was manifested unto us;) That which we have seen and heard declare we unto you, that ye also may have fellowship with us: and truly our fellowship is with the Father, and with his Son Jesus Christ." In his commentary on the epistles, Guy N. Woods wrote, "The verb handled suggests the most tangible, intimate, and definite evidence which John offered" (P. 211). The nature of John's testimony is that of inspiration of the Holy Spirit and his own experience of having been with Jesus (cf. <span class="scripture-ref">Acts 2:32; I Corinthians 15:1-8; II Peter 1:16</span>). "If we receive the witness of men, the witness of God is greater: for this is the witness of God which he hath testified of his Son" (<span class="scripture-ref">I John 5:9</span>).</p>
+        <p>The apostles were equipped to testify: "...the Spirit of truth....shall testify of me: And ye also shall bear witness, because ye have been with me from the beginning" (<span class="scripture-ref">John 15:26,27</span>). "But ye shall receive power, after that the Holy Ghost is come upon you: and ye shall be witnesses unto me..." (<span class="scripture-ref">Acts 1:8</span>). "For we have not followed cunningly devised fables, when we made known unto you the power and coming of our Lord Jesus Christ, but were eyewitnesses of his majesty" (<span class="scripture-ref">II Peter 1:16</span>). "This Jesus hath God raised up, whereof we all are witnesses" (<span class="scripture-ref">Acts 2:32</span>).</p>
+        <p class="subheading">What had the apostles heard?</p>
+        <p>"Blessed are...your ears, for they hear" (<span class="scripture-ref">Matthew 13:17</span>). "...This is my beloved Son, in whom I am well pleased; hear ye him. And when the disciples heard it, they fell on their face, and were sore afraid" (<span class="scripture-ref">Matthew 17:5,6</span>). "And Jesus answered and said unto it (barren fig tree), No man eat fruit of thee hereafter for ever. And his disciples heard it" (<span class="scripture-ref">Mark 11:14</span>). "For the Son of man is come to seek and to save that which was lost. And as they heard these things, he added and spake a parable..." (<span class="scripture-ref">Luke 19:10,11</span>). "...wait for the promise of the Father, which, saith he, ye have heard of me" (<span class="scripture-ref">Acts 1:4</span>).</p>
+        <p class="subheading">What had the apostles seen?</p>
+        <p>"But blessed are your eyes, for they see.." (<span class="scripture-ref">Matthew 13:16</span>). "For I tell you, that many prophets and kings have desired to see those things which ye see, and have not seen them; and to hear those things which ye hear, and have not heard them" (<span class="scripture-ref">Luke 10:24</span>). "For we have not followed cunningly devised fables, when we made known unto you the power and coming of our Lord Jesus Christ, but were eyewitnesses of his majesty" (<span class="scripture-ref">II Peter 1:16</span>). "And we have seen and do testify that the Father sent the Son to be the Saviour of the world..." (<span class="scripture-ref">I John 4:14</span>).</p>
+        <p>Paul saw Jesus Christ on the road to Damascus (<span class="scripture-ref">Acts 9</span>). "And last of all he was seen of me also, as of one born out of due time" (<span class="scripture-ref">I Corinthians 15:8</span>). "...The God of our fathers hath chosen thee, that thou shouldest know his will, and see that Just One, and shouldest hear the voice of his mouth. For thou shalt be his witness unto all men of what thou hast seen and heard" (<span class="scripture-ref">Acts 22:14,15</span>).</p>
+        <p class="subheading">What had the apostles looked upon and handled?</p>
+        <p>The word translated "look upon" means "to behold, look upon, view attentively, contemplate" (Thayer, P. 284). The twelve and Paul had seen and heard more than enough to give them pause for contemplation. "The other disciples therefore said unto him we have seen the Lord. But he said unto them, Except I shall see in his hands the print of the nails, and put my finger into the print of the nails, and thrust my hand into his side, I will not believe...Then saith he to Thomas, Reach hither thy finger, and behold my hands, and reach hither thy hand, and thrust it into my side: and be not faithless, but believing" (<span class="scripture-ref">John 20:25,27</span>).</p>
+        <p>The apostles were fully equipped to do their work. They had first hand evidence (<span class="scripture-ref">II Peter 1:16</span>) and were inspired by the Holy Spirit (<span class="scripture-ref">John 16:13; II Timothy 3:16,17</span>). If men do not believe their testimony, it is not for lack of evidence (cf. <span class="scripture-ref">John 12:37</span>). God used the highest form of testimony. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published February 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

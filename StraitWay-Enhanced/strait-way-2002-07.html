@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - July 2002</title>
+  <meta name="description" content="The Strait Way newsletter, July 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07" selected>July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#modesty">"Bare" Season</a>
+        <a href="#ultra-liberalism">Romans 14 & Fellowship</a>
+        <a href="#identity-church">Conforming to Conformity</a>
+        <a href="#preparing-sermons">Sermon Resources</a>
+        <a href="#satanism">Satanism Overview</a>
+        <a href="#premillennialism">The Rapture</a>
+        <a href="#name">To Wear His Name</a>
+        <a href="#evangelists">Instructions to Evangelists</a>
+      </nav>
+
+      <article class="article" id="modesty">
+        <span class="article-category">Front Page</span>
+        <h2>"Bare" Season Again</h2>
+        <p>No, I am not talking about hunting for black bear that occasionally make their way down from the mountains. However, with the warmer temperatures it is the season for bare or nearly bare bodies to be exposed in the name of summer temperatures. Christians, young and old must give thought to how we should dress lest the "bare" season claim you as a casualty. All need to guard carefully against being seen in public in the immodest, unchaste and ungodly attire of the season.</p>
+        <p>Please be reminded, our clothes do send a message. The promiscuous woman who set a trap for the "simple" young man "void of understanding" knew what kind of clothing would entice her victim. She met him wearing "the attire of a harlot" (<span class="scripture-ref">Prov 7:10</span>). Is it any wonder that we have been influenced by the humanistic philosophy that so dominates our society. Everything from toothpaste to big "K" cereal, health-spa membership to an automobile is sold with lewd, sexually enticing commercials. Displays of near nudity have become so common place that kids and adults justify such attire by saying, "Well, I don't see anything wrong with it?" Surely, this is a problem Christians must address.</p>
+        <p>When God had finished his creation He said it was "very good" (<span class="scripture-ref">Gen 1:27-31</span>). Remember, God made the bodies of man and woman attractive to each other. He also created in each a desire for the other sexually. However, from the beginning, God placed boundaries on man and woman, limiting their desires for one another and permitting the fulfillment of those desires only in marriage. Only in marriage can they become "one flesh"; only there is the "bed undefiled"; only there shall a man "looketh upon a woman to lust after her" (Cf. <span class="scripture-ref">Gen 2:18-25</span>; <span class="scripture-ref">Heb 13:4</span>; <span class="scripture-ref">Mt 5:27-28</span>).</p>
+        <p>God has made man responsible. When men and women dress in such a way as promotes inordinate and unlawful urges they promote lasciviousness. The apostle Paul said, "They who practice such things shall not inherit the kingdom of God" (<span class="scripture-ref">Gal 5:19-21</span>). When one either carelessly or callously displays their body in such a way to invite and provoke lust they commit sin and share a responsibility in sin committed by others. No Christian who is interested in his or her soul's welfare or the welfare of others would wantonly jeopardize that soul.</p>
+        <p>What should a Christian do? Rather than become upset, think soberly and righteously. When Adam and Eve committed sin in the garden of Eden they sewed fig leaves together to make for themselves aprons (hagorah), i.e. loin coverings. Adam was then as well attired as many today would consider themselves in their swimming attire. Yet, when God approached them in the garden, they hid themselves because as Adam said, "I was naked." Adam was not totally unclothed for he wore the apron he had made, but God, not denying that he was naked said, "Who told thee that thou wast naked...?" (<span class="scripture-ref">Gen 3:10</span>) The Lord made for Adam and his wife "coats of skins and clothed them" (<span class="scripture-ref">Gen 3:21</span>). God did not do this to protect them from thorns and elements, but rather to cover their nakedness.</p>
+        <p>Consider also Peter's reaction when he learned that Jesus was on the beach (<span class="scripture-ref">Jhn 21:7ff</span>). Peter had laid aside his outer garment while he was working catching fish. Though he had on his inner garment (tunic), he was regarded as "naked." Yet when eager to see the Lord and unwilling to wait until the boat came to shore, Peter put his outer garment back on and dove into the sea and swam to shore. When Peter swam to present himself before the Lord, he put on more clothes, not less. Peter evidently did not want to approach the Lord without proper attire.</p>
+        <p>These principles are timeless and we need to teach that human attraction is a powerful thing and the appeal generated must be respected and treated carefully. When women adorn themselves in clothing that reveals the most alluring parts of the body or when men dress so as to provoke impure thoughts, surely we are not thinking and living soberly (<span class="scripture-ref">Rom 12:3</span>; <span class="scripture-ref">Tit 2:12</span>). "...women to adorn themselves with proper clothing, modestly and discreetly,... as befits women making a claim to godliness" <span class="scripture-ref">1 Tim 2:9-11</span> (NAS).</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">Ultra-Liberalism Series</span>
+        <h2>Ultra-Liberalism, Romans 14 and Horizontal Fellowship</h2>
+        <p>Last month we discussed the fact that fellowship with God begins with New Testament baptism (<span class="scripture-ref">Rom. 6:4-11</span>). Our fellowship with God continues as long as we "walk in the light as He Himself is in the light, we have fellowship with one another, and the blood of Jesus His Son cleanses us from all sin," <span class="scripture-ref">1 John 1:7</span>. Cleansing by the blood of Jesus does not come automatically to the Christian who sins, but as we repent, confess and pray for forgiveness (<span class="scripture-ref">Acts 8:22</span>; <span class="scripture-ref">1 John 1:9</span>).</p>
+        <p>When we enter into fellowship with God we also enter into fellowship with all others who are in fellowship with God (<span class="scripture-ref">1 John 1:3</span>). This is what we mean by horizontal fellowship.</p>
+        <p>There are two dangers in extending horizontal fellowship. One is that we may refuse to extend fellowship to one who is in fellowship with God. An example of this is found with Saul of Tarsus who obeyed the gospel in Damascus, but "when he had come to Jerusalem, he was trying to associate with the disciples; and they were all afraid of him, not believing that he was a disciple," <span class="scripture-ref">Acts 9:26</span>. He was accepted only after Barnabas stood for him (<span class="scripture-ref">Acts 9:27-28</span>). Another example is found in the actions of Diotrephes who did not "receive the brethren, and he forbids those who desire to do so, and puts them out of the church," <span class="scripture-ref">3 John 10</span>.</p>
+        <p>The other danger in horizontal fellowship is in extending or maintaining fellowship with one whose fellowship with God has been broken by sin. The man living with his father's wife in <span class="scripture-ref">1 Cor. 5:1-13</span> is an example of this. Paul wrote, "And you have become arrogant, and have not mourned instead, in order that the one who had done this deed might be removed from your midst," <span class="scripture-ref">1 Corinthians 5:1-2</span>. Paul also refers to "false brethren who had sneaked in to spy out our liberty which we have in Christ Jesus, in order to bring us into bondage," <span class="scripture-ref">Gal. 2:4</span>. Speaking of such men <span class="scripture-ref">Romans 16:18</span> says, "turn away from them." <span class="scripture-ref">Titus 3:10</span> says, "Reject a factious man after a first and second warning." Any Christian who continues in sin is to have fellowship withdrawn from him (<span class="scripture-ref">Matt. 18:15-17</span>; <span class="scripture-ref">1 Cor. 5:11</span>; <span class="scripture-ref">2 Thess. 3:14-15</span>).</p>
+        <p>Some in the Lord's church today are extending and maintaining fellowship with those who are not in fellowship with God. Among ultra-liberals this is done when they accept those who were baptized with denominational baptism. Liberal and conservative churches may not accept denominational baptism, but they often refuse to practice church discipline. Thus, they continue to fellowship those in sin. Some in all three groups, ultra-liberal, liberal and conservative, use <span class="scripture-ref">Romans 14</span> as the basis for extending and maintaining fellowship with those in error.</p>
+        <p>Space does not permit a complete exposition of <span class="scripture-ref">Romans 14</span>, but a few comments should help us put things in perspective. Romans 14 cannot be used to justify extending fellowship to those outside of Christ, since it deals with those who have been accepted by God (<span class="scripture-ref">Romans 14:3</span>). Furthermore, Romans 14 cannot be used to justify fellowship with those practicing or teaching error, since the Scriptures tell us how to deal with those who do such. Romans 14 has become the battleground, even in conservative churches, over extending fellowship to those involved in unscriptural marriages. Jesus clearly taught that those in unscriptural marriages are committing adultery (<span class="scripture-ref">Matt. 5:32</span>; <span class="scripture-ref">19:9</span>). Adulterers will not inherit the kingdom of God (<span class="scripture-ref">1 Cor. 6:9</span>) and should not be fellowshipped in the church (<span class="scripture-ref">1 Cor. 5:11</span>; <span class="scripture-ref">Eph. 5:3-7</span>).</p>
+        <p>Neither can Romans 14 be used to allow instrumental music. God has specified that He wants singing (<span class="scripture-ref">Eph. 5:19</span>; <span class="scripture-ref">Col. 3:16</span>). Romans 14 cannot be used to justify adding another kind of music or any other unauthorized practice. Romans 14 deals with matters of conscience in areas of indifference to God.</p>
+        <p>Next month: Ultra-Liberalism's Rejection of the Bible as the Complete and Final Revelation of God's Will.</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">Identity Series</span>
+        <h2>Identity of A Church of Christ: Conforming to Conformity</h2>
+        <p>In <span class="scripture-ref">1 Samuel 8:5</span>, the people came to Samuel and asked for a King so that they could "become like the nations around them." From our point of view, we recognize that demand was a big mistake and one of the factors in Israel's downfall and subsequent rejection by God. The point of our lesson being offered is seeing that conformity with others is not always conformity with God's ways.</p>
+        <p>We see much the same thing today in our world in many churches of Christ. We know that many times, members of churches work very hard to conform to the image that is customary or traditional and recognized to be acceptable to others in the church of Christ. Christians are supposed to "be conformed to the image of God's Son" (<span class="scripture-ref">Romans 8:29</span>), but most appear to be conformed to the image that is expected of them by others.</p>
+        <p>Often, it appears that we are prisoners of our own traditions. Not that our traditions are wrong or unnecessary, but in the fact that we limit our possibilities out of fear of what others might think. Let us look at an example and see what we are talking about. Keep in mind that we do all things by faith, and for many of us, our faith has placed a limitation upon what we feel we can do. Sadly, when others are not withheld by the same limitations, we seem to look down upon them and label them in a sort of derogatory manner.</p>
+        <p>Consider this example (fictional of course, but similar to something actual). Bro. Jones of a neighboring congregation comes to visit at our gospel meeting. He is asked to lead the opening prayer. When the time comes, he goes to the front, lifts up both hands and addresses God in prayer. But, what he says is never considered. This does not conform to the way OUR members pray, so we assume that Bro. Jones has gone liberal, progressive, denominational, or whatever sort of weirdness we can think of. Has he done anything wrong? Does the posture of the person praying matter? Did He say anything in a wrong manner or attitude?</p>
+        <p>If Bro. Jones had done this to SPARK a reaction, or because he imitates something he saw on TV, or just wanted to SHOW-OFF, bro. Jones would have been wrong, and rightfully should receive a reprimand. But if Bro Jones was sincere in his action, and our congregation belittled him for his posture, our congregation needs the reprimand.</p>
+        <p>Following the advice of <span class="scripture-ref">1 Thessalonians 5:21</span> we should "prove all things" (KJV) or "examine everything carefully" (NASB) or "test all things" (NIV). Before we condemn something, we must examine the scripturalness of such. And if we cannot prove it wrong, be willing to accept it, even though WE have never done it that way.</p>
+        <p>Let us not be so quick to condemn anyone or anything we see that is different from the way we do things. But let us maintain the Berean spirit and search the scriptures daily on these matters. Let us not be confined to our traditions, but seek a deeper relationship with Christ and His followers through intensive Bible searching and attuning our hearts to seek the better good of all saints. Watch next month for another example. May God continue to bless you as you study His word.</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>We have noted our gratitude that good thinkers who are good Bible students have recorded their work for the benefit of those of us who need some help in our preparation. We also noted that there is a vast amount of material available to help us. We turned our attention to the sources, and we looked first at THE PULPIT COMMENTARY. We urged the wise course of knowing truth well before using this set of books, or any other material that has been touched by human mind. We have the great responsibility to teach truth, so when you read what someone else has written, whether the book is authored by a sectarian or by a faithful brother, examine it carefully, remembering that an uninspired human being can be wrong. "Let God be true, but every man a liar" (<span class="scripture-ref">Rom. 3:4</span>).</p>
+        <p>If you have access to the Internet you can find web sites maintained by sound brethren where, for the downloading, there are many great outlines and articles. You are welcome to go there and download anything you can use. At the site you will find links to several other sites, and each of them will have more links. It doesn't take long to "get lost" in the wealth of good things just waiting for you.</p>
+        <p>If you are not at the computer, there are many sermon aids in book form. One of my favorites for a lot of years is the work of Jabez Burns, a 19th Century preacher. He was in a denomination, so some of his outlines contain elements of error; hence the need to remember <span class="scripture-ref">Rom. 4:3</span>; <span class="scripture-ref">1 Pet. 4:11</span>; etc. For the most part, his outlines are good and quite easy to understand and to build upon, and there are all types (topical, expository, and textual). Each one of his books is titled by the number of outlines in the book (the four I have are "200," "300," "357," and "500"). That's a lot of outlines!</p>
+        <p>Another of my favorites among men of times gone by is Alexander Maclaren. His full sermons (not outlines) can be most helpful as you blend his thoughts with other good material in working toward a good solid lesson. Like many of the older men, and unlike most of us today, he knew how to use our language in a masterful way. The same is true of Charles Simeon, another 19th Century preacher. His 21 volumes cover the entire Bible, and they are loaded with rich material. Of course there are other men who preached before the 20th Century who left a record of their hours and years of sermon work.</p>
+        <p>And then there are countless commentaries, outlines, articles, etc. by men of modern times. If you can weed out Calvinistic teaching, along with premillennial error, and other denominational faults, you will find Warren Wiersbe to be a source of good exegesis. I enjoy alliteration, and Wiersbe is a master at it. You probably can take one of his alliterative outlines, along with any Scriptural comments he makes, merge all of it with what you find from other sources, and the result is raw material for a good outline. You then mix in the fruit of your personal Bible study, and from it all you derive a few major points, all supported by minor points, and the whole thing supported by clear passages of Scripture.</p>
+        <p>Along with the denominational men mentioned above, there were and are faithful New Testament Christians who have written many volumes to aid us. Brethren who sell books can direct you to them.</p>
+        <p>The Lord willing, next month we will find a Bible subject to work on and will try to wade around through some of the help available to see if we can develop a useful outline for teaching God's truth.</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="satanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Satanism and the Occult: The Who And The What</h2>
+        <p>Satanism is a broad term that has come to refer to all forms of spiritism. Three main forms are: (1) Wicca (female spirituality with a worship of pagan deities, normally referred to as witches) (2) Satanists (who believe in Satan as the evil one) and (3) Luciferians (who believe he is the God of Light, the good God, and the God of the Bible to be the evil God).</p>
+        <p>The two types of magic practiced by adherents are Personal Magic (use of spells, incantations, charms, etc to increase one's own power) as used in true Satanism, and in so called "black magic"; and Natural Magic (use of spells, incantations, charms, etc to derive power from nature by channeling its power) as seen in alchemy, anthroposophy (capturing the innate life force of plants, animals, etc), and Wicca. This would be the so-called "white magic". Few of these groups actually believe in Satan as the literal devil of the Bible. Most see him as simply the personification of nature.</p>
+        <p>There are about 500 organized groups in America. Though different, there are similarities among them even as we might find among so-called "Christendom." There are many more who are not in any organized occultic group, but are "self styled" following their own path in the occult. The estimate of followers is amazing. Over 100,000 in Great Britain; 200,000 in Germany; 500,000 in New York City practice Voodoo alone; over 100,000,000 involved in Santeria (mixture of Voodoo and Catholicism) around the world, and is the major religion of Brazil, Haiti, Cuba, and other Latin American countries.</p>
+        <p>Certainly we do not believe that these people possess any real powers, but that is not what is important. The real concern is what powers they THINK they will obtain from their practices. Most young people who experiment in the occult, often from the influence of heavy metal bands, are self-styled dabblers who will grow out of it. To many youth, it is a rebellion against the establishment as were the hippies of the 1960's. However, it is from the young dabblers that the organized groups recruit.</p>
+        <p>Here are two of the better-known and more organized Satanic groups:</p>
+        <p><strong>The Church of Satan.</strong> Founded in San Francisco, CA in 1966 by Anton Levey. He was a carnival huckster and more of a humanist gone-to-seed, than a true believer in the devil. To these, the devil is simply the personification of desire. They claim a membership of up to 20,000. The cost to join is a tax deductible $250. The Chaplain's Handbook of the army requires recognition of the Church of Satan as a legitimate religion.</p>
+        <p><strong>The Temple of Set.</strong> Michael Aquino was a member of the Church of Satan, and author of the infamous best seller, Satanic Bible. However, he did not believe that Levey was taking the worship of Satan serious enough and developed his own offshoot in 1975. Aquino is an ex reserve Lt Col in the army, who possessed a PHD in Political Science with a dissertation on the Neutron bomb. He worked counter intelligence and psychological warfare. Most of the members are correspondence members, making an accurate count difficult.</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: The Rapture</h2>
+        <p>In all probability you have seen a bumper sticker similar to one that says "In case of the rapture, this car will be without a driver." What does this mean? The word 'rapture' usually refers to something like an emotional high. But not in this case. The word 'rapture' does not appear in the Bible. In this case it is claimed that the rapture refers to the second coming of Christ, at which time those who "are in Christ" will be caught up secretly to meet the Lord in the air. But that is not all.</p>
+        <p>According to the theory, when the saints are raptured they will meet the Lord in the air and be with Him for a period of seven years. During this time there will be a great tribulation for those left on the earth; the Jews will have returned to the promised land (i.e., promised to the literal Jews) in unbelief. After a period of 3-1/2 years the Anti Christ will cause great tribulation to those on the earth. There is considerably more, but briefly stated, at the end of the 3-1/2 years Jesus will return to earth and establish His kingdom and reign on the earth for a literal 1,000 years, at the end of which the judgment will occur and the end of the world.</p>
+        <p>While there is much error in the preceding, the Bible does teach that Christ will return and His people will rise to meet Him in the air. One such passage is <span class="scripture-ref">1 Thessalonians 4:16-17</span>. "...The Lord Himself shall descend from heaven with a shout, with the voice of the arch angel, and with the trump of God: and the dead in Christ shall rise first: then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord."</p>
+        <p>Some things are clearly seen here that deny the rapture theory. In the first place, His coming is not "silent" as rapturists claim, but is audible. Note: the text says the Lord will descend with a SHOUT, with the VOICE of the arch angel, and with the TRUMP of God. The same point is made in <span class="scripture-ref">John 5:28</span>. In speaking of the resurrection Jesus said, "All that are in the graves WILL HEAR HIS (JESUS') VOICE and shall come forth. Again, speaking of the resurrection, <span class="scripture-ref">1 Corinthians 15:52</span>, ('...at the last trump: for the trumpet shall sound and the dead shall be raised incorruptible.')</p>
+        <p>Not only will the second coming be AUDIBLE and therefore contrary to the silent rapture theory, it will not be secret but visible and public. In <span class="scripture-ref">Revelation 1:7</span> the Bible says "Behold, He cometh with clouds; and every eye shall see Him, and they also which pierced Him." Some teach that only those who are prepared will see Him. He will be invisible to others. However, this text says those that pierced Him will see Him. These certainly were not His disciples.</p>
+        <p>A vital point in the rapture theory is that when the Lord returns He will rapture the church and after a period of 7 years He will return and set up His kingdom. An important question is "Where is the scripture that says that the so-called rapture will occur 7 years before the 2nd coming?" The rest of the rapture program is as riddled with error as this.</p>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="name">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "To Wear His Name"</h2>
+        <p class="block-quote">"And the disciples were first called Christians at Antioch" <span class="scripture-ref">Acts 11:26</span></p>
+        <p>The name "Christian" identifies one who is a follower and disciple of Christ. All who pattern their worship and work in accordance with New Testament teaching, refuse to be known by any other name. They are Christians only. In the early church many went to a violent death because they refused to deny the name of Christ; a name which has exerted a powerful influence on the world. The Bible clearly establishes the significance of wearing the name of Christ.</p>
+        <p>Today many seem to have the idea that one can be a Christian and something else religiously at the same time; that one can honor God and man equally. Regrettably this is a fundamental tenet of denominationalism. I believe our Lord addressed this matter when He said to the devil: "Begone, Satan! For it is written, you shall worship the Lord your God, and serve Him only" (<span class="scripture-ref">Matt 4:10</span>). This point is also clearly made in the book of Isaiah: "I am the Lord, that is My name; and My glory I will not give to another, nor My praise to carved images" (<span class="scripture-ref">Isaiah 42:8</span>).</p>
+        <p>Jesus taught emphatically that "No one can serve two masters; for either he will hate the one and love the other or he will hold to one and despise the other. You cannot serve God and mammon" (<span class="scripture-ref">Matt 6:24</span>). Our first loyalty must be to God and to Him only. God's word does not recognize any rivals for the simple fact that there are no such rivals. Baptist Christians, Lutheran Christians, Catholic Christians, and all other so called denominational Christians, are not founded upon Bible teaching but on the doctrines of men.</p>
+        <p>The name that God wants us to honor is our Lord Jesus Christ who, at the right hand of God is "far above all rule and authority and power and dominion, and every name that is named," (<span class="scripture-ref">Eph 1:17-21</span>). Additionally "at the name of Jesus every knee should bow, of those who are in heaven, and on earth, and under the earth, and that every tongue should confess that Jesus Christ is Lord, to the glory of God the Father" (<span class="scripture-ref">Phil 2:9-11</span>).</p>
+        <p>It is impossible to come to God except through Jesus Christ (<span class="scripture-ref">John 14:6</span>). Every single thing we do in a religious sense, we must do "in the name of the Lord Jesus, giving thanks through Him to God the Father" (<span class="scripture-ref">Col 3:17</span>). Additionally "There is no other name under heaven that has been given among men, by which we must be saved" (<span class="scripture-ref">Acts 4:10-12</span>).</p>
+        <p>One cannot divide honor with God and hope to please Him. It is all or nothing. Until the end of time, God demands that we honor Him through the name of His Son, Jesus Christ. The name "Christian" honors God through Christ. This name was given by divine approval (<span class="scripture-ref">Isa 62:2</span>; <span class="scripture-ref">Acts 11:26</span>). It was a new name never heard on earth before. Everything about it is distinctive and different. In all the world's relationships, it stands unique and apart. The name literally means, "a follower of Christ". The designation sets one apart from every other religion on earth. One cannot follow Christ and some other leader at the same time. It is impossible for one to be a Christian and at the same time be something else religiously. Only a member of the Lord's church can scripturally wear His name.</p>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <article class="article" id="evangelists">
+        <span class="article-category">Exhortation</span>
+        <h2>Instructions Given To Evangelists</h2>
+        <p>Consider instructions given by the apostle Paul to Timothy and to Titus. "I charge thee therefore before God, and the Lord Jesus Christ, who shall judge the quick and the dead at his appearing and his kingdom; Preach the word; be instant in season, out of season; reprove, rebuke, exhort with all longsuffering and doctrine. For the time will come when they will not endure sound doctrine; but after their own lusts shall they heap to themselves teachers, having itching ears; And they shall turn away their ears from the truth, and shall be turned unto fables. But watch thou in all things, endure afflictions, do the work of an evangelist, make full proof of thy ministry" <span class="scripture-ref">2 Tim 4:1-5</span>.</p>
+        <p>"Let no man despise thy youth; but be thou an example of the believers, in word, in conversation, in charity, in spirit, in faith, in purity. Till I come, give attendance to reading, to exhortation, to doctrine...Meditate upon these things; give thyself wholly to them; continue in them: for in doing this thou shalt both save thyself and them that hear thee" <span class="scripture-ref">1 Tim 4:12-16</span>.</p>
+        <p>"Thou therefore, my son, be strong in the grace that is in Christ Jesus. And the things that thou hast heard of me among many witnesses, the same commit thou to faithful men, who shall be able to teach others also. Thou therefore endure hardness, as a good soldier of Jesus Christ. No man that warreth entangleth himself with the affairs of this life; that he may please him who hath chosen him to be a soldier" <span class="scripture-ref">2 Tim 2:1-4</span>.</p>
+        <p class="author-signature">The Editors</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published July 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

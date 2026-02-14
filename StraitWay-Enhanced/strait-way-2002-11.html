@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - November 2002</title>
+  <meta name="description" content="The Strait Way newsletter, November 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11" selected>November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#editorial">Editorial</a>
+        <a href="#proverb">Arabic Proverb</a>
+        <a href="#word-studies">Word Studies</a>
+        <a href="#luke-11">Luke 11:13</a>
+        <a href="#unique-church">The Unique Church</a>
+        <a href="#morality">Morality & Faith</a>
+        <a href="#personal-work">Personal Work</a>
+        <a href="#evidence">Evidence</a>
+      </nav>
+
+      <article class="article">
+      <span class="article-category">Front Page</span>
+      <h2>False Teaching</h2>
+
+      <p>During the day of Jeremiah, the wickedness of the people could not be blamed on any shortage of preachers for they had plenty. The problems existed because they had too many of the wrong kind of preachers, men who were preaching the wrong message. In <span class="scripture-ref">Jeremiah chapters 5 and 6</span> we learn that both prophet and priest had failed, and the spiritual strength of the nation was dissipated. The people had relied on those who told them lies. God through Jeremiah, tells us plainly what the manner of false teaching was and its effect upon the hearers.</p>
+
+      <p><strong>The false assurance of the prophets resulted in vain hope.</strong> In <span class="scripture-ref">Jeremiah 23:16</span> we read, "Thus saith Jehovah of hosts, Harken not unto the words of the prophets that prophesy unto you: they teach you vanity..." There is no substitute for truth. All the eloquence in the world, emotion and pleasant platitudes can never do what truth will do. Jesus taught, "Ye shall know the truth and the truth shall make you free" <span class="scripture-ref">Jhn 8:32</span>.</p>
+
+      <p>Sincerity is no substitute for truth. In <span class="scripture-ref">Acts 23:1</span> Paul said before the Jewish council, "Brethren, I have lived before God in all good conscience until this day." As he continued his defense before Agrippa he said, "I verily thought with myself that I ought to do many things contrary to the name of Jesus of Nazareth..." <span class="scripture-ref">Acts 26:9ff</span>. Sincerity does not make that which is false truthful. When the prophets of Jeremiah's day said to the people, "Ye shall have peace... no evil shall come upon you" <span class="scripture-ref">Jer. 23:16</span>, their words instilled a vain hope. We must have the hope that is truly the "anchor of the soul" <span class="scripture-ref">Heb. 6:19</span>. That hope is rooted in the word of God, not in what men say.</p>
+
+      <p><strong>The prophets of Jeremiah's day preached their own ideas and opinions.</strong> Jeremiah said, "They speak a vision of their own heart, and not out of the mouth of Jehovah" <span class="scripture-ref">Jer. 23:16</span>. Perhaps these felt that what they said was right, but that is subjective faith; one from within one's own heart and mind. Yet, ours must be an objective faith, from outside ourselves delivered from God. Paul said, "faith comes by hearing and hearing by the word of God" <span class="scripture-ref">Rom. 10:17</span>. Too many are guided by their own feelings. Often what we feel is the result of what we have been taught to feel. If the teaching is wrong, the feelings will also be wrong. The only way to be sure that your feeling about spiritual matters is reliable is if it is based on what God said in His inspired word (Cf. <span class="scripture-ref">James 1:21</span>).</p>
+
+      <p><strong>The prophets of Jeremiah's day preached themselves not the Lord.</strong> Jeremiah said, "I sent not these prophets, yet they ran: I spake not unto them, yet they prophesied" <span class="scripture-ref">Jer. 23:21</span>. These false prophets were not listening to God, yet they were telling the people, "The Lord hath said..." vs. 17. What better way to "blind the minds of the unbelieving" <span class="scripture-ref">2 Cor. 4:4</span> than to convince the people they are following the Lord when in fact they are not?</p>
+
+      <p>Paul, when he wrote to the church in Corinth said, "And I, brethren, when I came unto you, came not with excellency of speech or of wisdom, proclaiming to you the testimony of God, For I determined not to know anything among you, save Jesus Christ, and him crucified. And I was with you in weakness, and in fear, and in much trembling. And my speech and my preaching were not in persuasive words of wisdom, but in demonstration of the Spirit and of power; that your faith should not stand in the wisdom of men, but in the power of God" <span class="scripture-ref">1 Cor. 2:1-5</span>. Paul repeatedly warned about following men. "Wherefore, let no man glory in men..." <span class="scripture-ref">1 Cor. 3:21</span>. "This I say, that no one may delude you with persuasiveness of speech" <span class="scripture-ref">Col. 2:4</span>.</p>
+
+      <p><strong>Whatever the motive, the false prophets turned people from God.</strong> Jeremiah said these false prophets "cause my people to forget my name by their dreams, which they tell every man to his neighbor, as their fathers have forgotten my name for Baal" <span class="scripture-ref">Jer. 23:27</span>. Indeed, God warned that there would be false teachers in every generation (<span class="scripture-ref">2 Pet. 2:1; 1 Tim. 4:1-2; 2 Tim. 4:3-4; Acts 20:30</span>). Does the intention of those who teach falsely really change the results of their false teaching?</p>
+
+      <p>The call of Jeremiah went forth to all Judah: "Thus saith the Lord, Stand ye in the ways, and see, and ask for the old paths, where is the good way, and walk therein, and ye shall find rest for your souls. But they said, we will not walk therein" <span class="scripture-ref">Jer. 6:16</span>.</p>
+
+      <p class="article-author">Micky Galloway, 45858 York Place, Lancaster, CA 93534</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Ultra-Liberalism Series</span>
+      <h2>Ultra-Liberalism and Church Discipline</h2>
+
+      <p>In the last couple of months I have learned that a very dear friend and brother in Christ has come under the influence of the writings of W. Carl Ketcherside. He has e-mailed me several articles by Ketcherside and others who promote "unity in diversity" and ultra-liberalism. We have been exchanging e-mails and I pray that he will see the error of Ketcherside's ways.</p>
+
+      <p>One of the subjects discussed by Ketcherside is how terrible he and those who agree with him have been treated. In an article entitled "The Legal Tangle" Ketcherside told the story of a former elder who had read Ketcherside's magazine and came to believe there were saved people in denominations. When he started advocating this "the other elders subjected him to the 'third degree' and when he admitted that he thought there were Christians in other bodies, they publicly charged him with heresy and announced that unless he repented, on a certain day he would be excluded from the congregation... He was railroaded out."</p>
+
+      <p>In another article, "The Hope That Cheers", Ketcherside tells the story of a young couple, raised in the church, who suggested that the Wednesday night service be dismissed so members could visit the services of denominational churches. The elders did not go along with this suggestion. The couple started visiting denominational churches on Sunday nights and started a prayer and study session in their home with some who agreed with them. The elders of the church attempted to get them to see the error of their way, but when they refused to repent, they were withdrawn from. Ketcherside said they were "driven out as 'liberals' after 'tiring of being harangued.'"</p>
+
+      <p>In "The Legal Tangle" article Ketcherside, speaking of a brother "who has been overtaken in a fault," quoted <span class="scripture-ref">Galatians 6:1</span>, "Brethren, if a man be overtaken in a fault, you who are spiritual should restore him in a spirit of gentleness; look to yourselves, lest you too be tempted." The examples he gave demonstrate that he believes discipline is not done in a "spirit of gentleness." I don't know about the situations he discussed, but in every act of discipline I have been involved in there was a sincere desire to restore the sinner in gentleness.</p>
+
+      <p>Ketcherside would have us to believe that, even if "gentleness" fails, we are to continue to fellowship the sinner. That is not what Jesus taught in <span class="scripture-ref">Matthew 18:15-17</span>. Verse 17 says, "And if he refuses to listen to them, tell it to the church; and if he refuses to listen even to the church, let him be to you as a Gentile and a tax-gatherer."</p>
+
+      <p>Paul did not teach that we are to continue to fellowship those who refuse to repent. In <span class="scripture-ref">2 Thess. 3:14-15</span> Paul wrote, "And if anyone does not obey our instruction in this letter, take special note of that man and do not associate with him, so that he may be put to shame. And yet do not regard him as an enemy, but admonish him as a brother."</p>
+
+      <p>Ketcherside would have us open pulpits to men who teach error and cause division, then cry "foul" when attempts are made to correct them. That is not what the Bible says. <span class="scripture-ref">Romans 16:17-18</span>, says, "Now I urge you, brethren, keep your eye on those who cause dissensions and hindrances contrary to the teaching which you learned, and turn away from them. For such men are slaves, not of our Lord Christ but of their own appetites; and by their smooth and flattering speech they deceive the hearts of the unsuspecting." <span class="scripture-ref">Titus 3:10-11</span> says, "Reject a factious man after a first and second warning, knowing that such a man is perverted and is sinning, being self-condemned."</p>
+
+      <p>I suspect, the elders in the situations cited by Ketcherside, were trying to restore the erring in gentleness, but they refused to "listen even to the church." Therefore, they were withdrawn from as the above Scriptures teach. Ultra-liberals would have us believe that poor, uninformed brethren are put out of the church for no good reason and without due process. It has been my observation that brethren are usually slow to act and often do nothing about sin and error in the church. This gives the sinner a false sense of security and allows the "leaven" of his influence to spread throughout the church, <span class="scripture-ref">1 Cor. 5:6</span>.</p>
+
+      <p><em>Next Month: "The New Antis".</em></p>
+
+      <p class="article-author">Richard C. Sims, Jr., PO Box 538, Mineola, TX</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Identity Series</span>
+      <h2>Identity of A Church of Christ: Two Divine Marks</h2>
+
+      <p>As we view the pages of the New Testament, we comprehend that there are a few things that our Lord said about us that would be the marks of identity to the rest of the world. One of these marks has been respected and followed religiously by many of us, while the other mark has been lacking to a greater degree. The first of these is one where few of us who read this have a problem. We understand it quite well, but the second is almost a rare thing among us. In my many years of being in the church, I have only seen it a few times on a congregational level. If you think about it, all the other traits of identity are secondary to these two, or we could say that the other marks of identity are built upon these two.</p>
+
+      <p>Jesus taught us that if we were to demonstrate our love towards Him, that we would have to obey Him. <span class="scripture-ref">John 14:15</span> tells us: "If you love Me, you will keep My commandments". The Hebrew writer tells us this about Jesus Christ: "...He became to all those who obey Him the source of eternal salvation." (<span class="scripture-ref">Hebrews 5:9</span>) Jesus even asked why we call Him the Lord of our lives if we are not going to obey His commands (<span class="scripture-ref">John 14:23-24; Luke 6:46</span>).</p>
+
+      <blockquote>"And by this we know that we have come to know Him, if we keep His commandments. The one who says, 'I have come to know Him,' and does not keep His commandments, is a liar, and the truth is not in him; but whoever keeps His word, in him the love of God has truly been perfected. By this we know that we are in Him: the one who says he abides in Him ought himself to walk in the same manner as He walked." (<span class="scripture-ref">1 John 2:3-6</span>)</blockquote>
+
+      <p>By being just such a person, we will be in Him. And of course, <span class="scripture-ref">Ephesians 1:3</span> teaches us that all spiritual blessings are in Christ.</p>
+
+      <p>I have full confidence that most of those who read this paper are in Christ, and that you fully understand your responsibility to God and your fellow man, and that you know the importance of obedience to all that God commands. The second Divine mark that will be discussed is a little harder to find in the church today.</p>
+
+      <blockquote>"A new commandment I give to you, that you love one another, even as I have loved you, that you also love one another. By this all men will know that you are My disciples, if you have love for one another." (<span class="scripture-ref">John 13:34-35</span>)</blockquote>
+
+      <p>John also emphasized this in his later letter: "For this is the message which you have heard from the beginning, that we should love one another" (<span class="scripture-ref">1 John 3:11</span>).</p>
+
+      <p>The phrase "one another" is used over seventy times in the New Testament. Without exception, every time that phrase is used, it is concerning our relationship with our fellow Christians. There are words in the New Testament that tell us of our responsibility to mankind in general and how we are to deal with enemies of our own and enemies of the cross, but this phrase is exclusively used in our dealings with fellow saints in the church. More specifically, it speaks of the saints in our local assembly. These are fellow Christians struggling through life such as we are. As much as we need encouragement and love shown to us, we must do so for our fellow saints.</p>
+
+      <p>Sadly, it is a poor testimony for many of our congregations because this trait is not as evident as it should be. Yes we emphasize obedience, but too often we lack love. Brethren, do your part to change this attitude in your own local assembly, and you will be blessed abundantly for such. May God bless us all in our efforts to promote love in the church.</p>
+
+      <p class="article-author">Carey Scott, 7926 Mosewood, Houston, TX 77040</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Sermon Preparation</span>
+      <h2>Preparing Sermons</h2>
+
+      <p>The ten preceding lessons may have been of some help to younger preachers. If so, I am grateful to have been of assistance. The process of learning must never cease. As long as you are active, keep your mind busy. In my half a century of preaching I have built up a library of hundreds of sermon outlines. You will do the same, but do not ever think that you are through with the work of "preparing sermons."</p>
+
+      <p>As you preach meetings, or when you move into a new local work, you will delve into that backlog of material and find some good outlines that you can use again. When you dust off an old one be sure to give it a thorough overhaul. You will find places in the outline where a different passage will make the truth even clearer, and you may see how points can be arranged differently and perhaps be presented more effectively. So the work is constantly before us - keep making new outlines, and keep making the old ones new again. Also keep reading what others have written about how to teach the Bible.</p>
+
+      <p>As we approach the end of this current series (one more article after this one), perhaps it will be of value to the readers if we give the rest of the effort to building outlines. For the remainder of this article let's take a text and develop it into encouragement for the saved and instruction for the lost.</p>
+
+      <div class="outline-section">
+        <p><strong>Title:</strong> AUTHORITY: FROM HEAVEN, OR FROM MEN?</p>
+        <p><strong>Text:</strong> <span class="scripture-ref">Matt. 21:23-27</span></p>
+
+        <p><strong>Introduction:</strong> A brief discussion of the setting of the Text, showing that Christ had authority from Heaven, and that the Jewish leaders were not honest.</p>
+
+        <p><strong>1. A CHALLENGE TO OUR CONSIDERATION</strong><br>
+        A. The Lord's questions may be applied to all we believe and practice.<br>
+        B. It seems most people take for granted there was at some time in the past a proper origin and authority for their religious practices.<br>
+        C. For the serious, there are four views as to where final authority lies:<br>
+        &nbsp;&nbsp;1. With Catholics: Authority rests in the church and in the pope.<br>
+        &nbsp;&nbsp;2. With most Protestants: It is derived from ecclesiastical councils.<br>
+        &nbsp;&nbsp;3. With vast numbers of sincere people: It is to be found in one's own personal conscience.<br>
+        &nbsp;&nbsp;4. With some: True authority rests in Christ and His Word - <span class="scripture-ref">1 Pet. 4:11</span>.<br>
+        D. The last view is right, because of His claim - <span class="scripture-ref">Mt 28:18</span>.<br>
+        E. If we are in the Will of God we do not compromise, surrender, or swap truth for human tradition - <span class="scripture-ref">Jhn. 2:5; Gal. 2:5</span>.</p>
+
+        <p><strong>2. PERSONAL APPLICATION OF THE PRINCIPLE</strong><br>
+        A. Is the church I belong to: FROM HEAVEN? OR MEN? - <span class="scripture-ref">Eph. 5:5</span><br>
+        B. What about the name I wear? - <span class="scripture-ref">Isa. 62:2; Acts 11:26; 26:28; 1 Pet. 4:16</span><br>
+        C. The baptism to which I submitted? - <span class="scripture-ref">Acts 8:36-39; 22:16; Gal. 3:27; Col. 2:12</span><br>
+        D. What about the worship in which I engage? - <span class="scripture-ref">Jhn. 4:24; 1 Tim. 2:8; Col. 3:16; Acts 20:7; 2 Cor. 9:7</span><br>
+        E. Consider the collective work I support - <span class="scripture-ref">1 Thess. 1:8; Eph. 4:16; Acts 6:1-6</span><br>
+        F. And my daily life? - <span class="scripture-ref">1 Pet. 1:16; Tit. 2:12; Col. 3:1-3; Matt. 6:33</span></p>
+
+        <p><strong>CONCLUSION:</strong> If we subscribe to ANYTHING for which there is no Book / Chapter / Verse from God's Word - We can be sure it is OF MEN - <span class="scripture-ref">2 Tim. 1:13; 1 Tim. 6:3</span>. The Law of the Lord is perfect; It is a safe rule of faith and practice always. At the Judgment bad men will not be the criterion (nor good men, nor my/your conscience) - <span class="scripture-ref">Jhn. 12:48; Heb. 12:25</span>.</p>
+      </div>
+
+      <p class="article-author">Derrel Shaw, 5927 Spruce Forest, Houston, TX 77092</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">New Age Series</span>
+      <h2>The New Age Movement - Part 2</h2>
+
+      <p><strong>What are the beliefs of the New Agers?</strong> Their beliefs are a revival of the guru-type meditation popular in the 60's, with some new twists added in. There really is not much new about the New Age. It is just old-fashioned paganism and metaphysics in new clothing. There are no particular doctrines or creeds to which one must adhere, for they deny there is any standard other than self.</p>
+
+      <p>They speak often of "submitting to self and to the god within you." By this they do not mean that God is dwelling in us, but rather that we all ARE in fact a god, and that our goal should be to bring that inner god out, exercising our full potential. Thus various human potential movements and many self-help books are often tied-in with the New Age movement. As such, they teach that Mohammed, Buddha, and Jesus were simply individuals who were able to reach the plane of letting the "god within them" rule. Since each one is a god, there can be no standard enforced upon others. This is nothing more than the old humanist values clarification with a semi-religious twist.</p>
+
+      <p>With this belief system, there cannot be any right or wrong, good or bad, BOTH are needed for the harmony and balance of things. The Chinese taught similar in their doctrine of Yin and Yang, the idea of opposite, but complimentary forces in the universe. Thus, their question is the same as that of Pilate's when he asked, "What is truth." <span class="scripture-ref">JN 18:38</span>. Jesus had already answered this however, in <span class="scripture-ref">JN 14:6</span>, stating, "I am the way, the truth and the life..." Notice Jesus' use of definite articles. He did not say He was one of many ways to the Father, but rather THE way. Nor did He say He was one of many changing truths, but rather THE truth.</p>
+
+      <p>The New Agers may even quote scripture when they can use it to their advantage, even as the devil did in <span class="scripture-ref">Matt 4:6</span>. Sometimes <span class="scripture-ref">JN 10:34</span> is used in an effort to show that each man is a god, in which Jesus said, "Is it not written in your law, 'I said ye are gods?'" They, as do the Mormons, misunderstand Jesus' entire point here. This verse is a quote from <span class="scripture-ref">PS 82:6</span> that was spoken in derision to unrighteous judges who had been made "gods" by men, and ends by saying, "but ye shall die like men."</p>
+
+      <p>The practice of "channeling" is a common activity among the New Agers. This is similar to the thought of spirit mediums, except these are supposed to be gods from far off galaxies communicating with our world. As such, we are to rush out and buy the books these channelers have recorded for us! At one time, we said that those who "hear voices" were mentally ill, now they are "cosmically tuned-in" and financially turned on, but biblically tuned-out.</p>
+
+      <p>John Denver's song "Spirit" was a salute to his spirit guide who gave him his music, not unlike the concept of the Greek muses. John Denver was an adherent to New Age. He bowed down to himself daily in a mirror, hailing himself as a god.</p>
+
+      <p>To become more in tune with these far off spirits, crystals are worn or placed around the house in strategic locations to help direct these spirits flow. This too is a big money making enterprise, as crystal shops have popped up all across the nation.</p>
+
+      <p><span class="scripture-ref">Jude 3</span> tells us that God has once for all time delivered His message, it is never to be repeated again. God has already given us all things we need for life and Godliness in His Word, and crystals and spirit entities are not one of them, <span class="scripture-ref">2 Ptr 1:3</span>. Jesus declared that all truth is delivered through His Word and not through channeling, <span class="scripture-ref">JN 17:17</span>.</p>
+
+      <p class="article-author">Wayne Goforth, 248 Merchant St, Abilene, TX 79603</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Premillennialism Series</span>
+      <h2>Premillennialism: The Second Coming Of Christ</h2>
+
+      <p>Since so much of the Premillennialist doctrine is involved with the events which deal with the second coming of Christ, it seems appropriate to give a brief summary of what the Bible teaches concerning this.</p>
+
+      <div class="highlight-box">
+        <p><strong>What the Bible Teaches:</strong></p>
+        <ol class="list-section">
+          <li>There will definitely be a second coming. Jesus said, "I will come again." (<span class="scripture-ref">John 14:3</span>).</li>
+          <li>It will be a PERSONAL coming. (<span class="scripture-ref">1 Thess. 4:16</span>). The text says the Lord HIMSELF will descend from heaven. It will not be merely a representative coming.</li>
+          <li>It will be a VISIBLE coming. "Every eye shall see Him." (<span class="scripture-ref">Rev. 1:7</span>).</li>
+          <li>It will be an AUDIBLE coming. "The trumpet shall sound." (<span class="scripture-ref">1 Cor 15:52</span>). <span class="scripture-ref">1 Thess. 4:16</span> says that there shall also be a shout, with the voice of the archangel. It will not be a secret coming.</li>
+        </ol>
+      </div>
+
+      <div class="highlight-box">
+        <p><strong>Some Things He Will NOT Do:</strong></p>
+        <ol class="list-section">
+          <li>He will NOT rapture the church for 7 years. There is no scripture for the "church rapture."</li>
+          <li>He will NOT give a second chance. (<span class="scripture-ref">Luke 16:19-31</span>)</li>
+          <li>He will NOT begin to be a sacrifice for sin. He has already made the one sacrifice for sin forever. (<span class="scripture-ref">Heb 9:27-28; 10:9-10</span>).</li>
+          <li>He will NOT begin to sit on David's throne. That began with the resurrection of Christ. <span class="scripture-ref">Acts 2:30</span> says that when God had sworn to David that of the fruit of his loins, according to the flesh, He would raise up Christ to sit on his throne; He seeing this before spake of the resurrection of Christ. This was on Pentecost. If Christ is not now seated on David's throne, He is not doing that for which God raised Him from the dead to do.</li>
+        </ol>
+      </div>
+
+      <div class="highlight-box">
+        <p><strong>What He WILL Do:</strong></p>
+        <ol class="list-section">
+          <li>He will raise ALL the dead. (<span class="scripture-ref">John 5:28</span>).</li>
+          <li>"He will change our vile body that it may be made like His glorious body." (<span class="scripture-ref">Phil 3:21; 1 Cor. 15:51-54</span>).</li>
+          <li>He will deliver up the kingdom to God. (<span class="scripture-ref">1 Cor. 15:24</span>). He will not set up His kingdom, He has already done that - but will deliver it up to God.</li>
+          <li>He will judge the world. (<span class="scripture-ref">Acts 17:31; Matt. 25:31-46</span>).</li>
+          <li>He will destroy the present physical earth. (<span class="scripture-ref">2 Peter 3:10-12</span>).</li>
+        </ol>
+      </div>
+
+      <p class="article-author">Hiram Hutto, 211 Crutcher Circle, Athens, AL 35611</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Membership Series</span>
+      <h2>Reasons For Being A Member of The Church of Christ: To Partake of the Lord's Supper</h2>
+
+      <p>The Lord's supper was instituted by Jesus Christ on the night of His betrayal and was designed to bring to our remembrance His beloved sacrifice for sin, <span class="scripture-ref">Matt 26:26-29</span>. Christians, members of the Lord's church, His body, are to partake of this memorial feast on the first day of each week, <span class="scripture-ref">Acts 20:7</span>.</p>
+
+      <p>Several years after the Lord's resurrection, the inspired Apostle Paul wrote to the church at Corinth giving instructions for acceptable partaking of this memorial:</p>
+
+      <blockquote>"For I received from the Lord that which I also delivered to you, that the Lord Jesus in the night in which He was betrayed took bread; and when He had given thanks, He broke it, and said, 'This is My body, which is for you; do this in remembrance of Me.' In the same way He took the cup also, after supper, saying, 'This cup is the new covenant in My blood; do this, as often as you drink it, in remembrance of Me.' For as often as you eat this bread and drink the cup, you proclaim the Lord's death until He comes. Therefore whoever eats the bread or drinks the cup of the Lord in an unworthy manner, shall be guilty of the body and the blood of the Lord." <span class="scripture-ref">1 Cor 11:23-27</span></blockquote>
+
+      <p>The Lord's supper is to be observed in faith. Only those who have been baptized into Christ are in the body of Christ (<span class="scripture-ref">Gal 3:26,27</span>). Only those who are in the body have a right to partake. The participants must examine themselves to see if their purpose is right. Paul made this clear saying: "But let a man examine himself, and so let him eat of the bread and drink of the cup. For he who eats and drinks, eats and drinks judgment to himself, if he does not judge the body rightly." <span class="scripture-ref">1 Cor 11:28,29</span></p>
+
+      <p>When one fails to partake of the Lord's supper with the right frame of mind, discerning the occasion, he brings the condemnation of God upon himself. The condition of heart Paul addresses here is that of considering this divine memorial as a common meal. However, any failure today on the part of Christians to prepare their minds to partake of the Lord's supper, in a worthy manner, will result in the same condemnation.</p>
+
+      <p>Paul continues in verse 30 saying, "For this reason many among you are weak and sick, and a number sleep." Some commentators believe that this verse is addressing physical sickness and death. However, the text itself denies this conclusion. God's reward (punishment) for sin is spiritual not physical. The righteous suffer physically right along with the unrighteous. I believe this is clearly seen in the Book of Job. Paul's statement, "and a number sleep", I believe has reference to those who were spiritually weak and sick and overtime, without repentance, became spiritually dead. Brethren, let us all understand the importance that God places on our faithfully observing the Lord's supper.</p>
+
+      <p>Some believe that God is indifferent as to the day on which we observe this memorial; that it was coincidental, in <span class="scripture-ref">Acts 20:1-7</span>, when Paul was in Troas that they took the occasion to gather together to break bread on the first day of the week. Brethren, the New Testament very clearly establishes the importance and significance of the first day of the week.</p>
+
+      <div class="highlight-box">
+        <p><strong>Significance of the First Day:</strong></p>
+        <ul class="list-section">
+          <li>Jesus arose on the first day of the week, <span class="scripture-ref">Luke 24:1</span>.</li>
+          <li>His first appearance to His disciples, after the resurrection, was on the first day of the week, <span class="scripture-ref">John 20:19</span>.</li>
+          <li>Jesus chose this day to commission His Apostles to carry the Word to all nations, <span class="scripture-ref">Matt 28:19,20</span>.</li>
+          <li>Our Lord ascended back to the Father on the first day, <span class="scripture-ref">Acts 1:3</span>.</li>
+          <li>The Holy Spirit came to the Apostles on the first day, <span class="scripture-ref">Acts 2:1-3</span>.</li>
+          <li>Christians assembled on the first day of the week, <span class="scripture-ref">1 Cor 16:1,2</span>.</li>
+        </ul>
+      </div>
+
+      <p>Brethren, this is sufficient inferential proof that the Lord's supper was observed on each first day of the week. Let us scripturally proclaim the Lord's death until He comes, <span class="scripture-ref">1 Cor 11:26</span>.</p>
+
+      <p class="article-author">Ray Wilson, 4203 NE Stallings Drive #302, Nacogdoches, TX 75965</p>
+    </article>
+
+    <article class="article">
+      <span class="article-category">Editorial</span>
+      <h2>Under All The Law!</h2>
+
+      <blockquote>"Wherefore I take you to record this day, that I am pure from the blood of all men. For I have not shunned to declare unto you all the counsel of God." <span class="scripture-ref">Acts 20:26-27</span></blockquote>
+
+      <p>When the apostle Paul bid farewell to the elders of the Ephesian church he could speak with surety that he had declared "all the counsel of God" Could you do the same? Are you declaring the whole Word or just those parts that are favorites?</p>
+
+      <p>As preachers and teachers we have an obligation to present all the Word. James tells us there is great responsibility involved in being a teacher of God's Word.</p>
+
+      <blockquote>"My brethren, let not many of you become teachers, knowing that we shall receive a stricter judgment." (NKJV) <span class="scripture-ref">James 3:1</span></blockquote>
+
+      <p>As preachers and teachers we have voluntarily taken on the responsibility to teach "all the counsel of God." There are some portions of Scripture which seem to be more popular than others. It is easy for the studied teacher to present lessons on first principals and the basics of our relationship with one another and God. It is often more difficult to present lessons dealing with the meatier matters of God's Law. Of course, the only way to overcome this difficulty is to spend more time with God's Word.</p>
+
+      <p>We must be careful that we as teachers of the Word do not skip the meatier topics. We have committed ourselves to informing the World of what God expects of them. If we neglect to deal with a particular topic those who listen may not be aware of what God's will is regarding something they need in their lives.</p>
+
+      <blockquote>"All we like sheep have gone astray; we have turned every one to his own way; and the LORD hath laid on him the iniquity of us all. He was oppressed, and he was afflicted, yet he opened not his mouth: he is brought as a lamb to the slaughter, and as a sheep before her shearers is dumb, so he openeth not his mouth." <span class="scripture-ref">Isaiah 53:6-7</span></blockquote>
+    </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published November 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

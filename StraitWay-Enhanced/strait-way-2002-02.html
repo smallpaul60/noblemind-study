@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - February 2002</title>
+  <meta name="description" content="The Strait Way newsletter, February 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02" selected>February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#consider-ways">Consider Your Ways</a>
+        <a href="#ultra-liberalism">Ultra-Liberalism</a>
+        <a href="#identity-church">Denomination or Not</a>
+        <a href="#preparing-sermons">Preparing Sermons</a>
+        <a href="#humanism">Humanism</a>
+        <a href="#premillennialism">Land Promise (2)</a>
+        <a href="#forgiveness">Forgiveness of Sins</a>
+        <a href="#study">Study</a>
+      </nav>
+
+      <article class="article" id="consider-ways">
+        <span class="article-category">Front Page</span>
+        <h2>"Consider Your Ways"</h2>
+        <p>The theme of the book of Haggai is: "Build The Temple!" Sixteen years earlier (536 B.C.), about 50,000 Jews had returned under the leadership of Zerubbabel. This had been prophesied 150 years before by Isaiah, that a decree would be given by Cyrus allowing the Jews to go home after 70 years of Captivity (<span class="scripture-ref">Isa. 44:24-45:7</span>; Cf. <span class="scripture-ref">Jr. 25:11</span>). Their first act was to erect the altar and to offer burnt offerings upon the altar (<span class="scripture-ref">Ezra 3:26</span>). They also gathered materials for the rebuilding of the temple, which they began in the second year (<span class="scripture-ref">Ezra 4:1-24</span>). Their enthusiasm however, was cooled when they met with opposition from the Samaritans (<span class="scripture-ref">Ezra 4:2-5</span>) and a decree forbidding the work obtained from Artaxerxes the king. The work ceased and the house of God lay in waste.</p>
+        <p>The zeal with which their labor was begun grew cold. These Exiles had returned with high hopes and great expectations of happiness and prosperity. However, their hearts were not sufficiently motivated to endure the inward distractions and outward opposition to arise and build. They acquiesced with complacency to the enforced cessation to their great work. They learned to look upon the ruins of their holy house with a certain despondency and turned to the furtherance of their own personal concerns. They were more than content to leave the restoration of the temple to other times and stronger hands than theirs. Finally, the original decree of Cyrus was discovered and the interdict of Artaxerxes was ended. Every assistance was now offered to the Jews to carry out their original design. The work on the temple however, was not resumed. Even after the violence of opposition had been lifted, the people continued to be very indifferent to the work of rebuilding and had neither interest nor courage to set about it again. They seemed glad that they had an excuse to be idle. Interestingly enough, neither danger nor difficulty had prevented them from building their own luxurious houses. Regarding the house of the Lord, they said, "The time is not come, the time that the Lord's house should be built" (<span class="scripture-ref">Haggai 1:2</span>). God raised up Haggai, the prophet, to reprove them for their indifference and slothfulness in rebuilding the temple.</p>
+        <p>Haggai calls upon them to "consider your ways" (<span class="scripture-ref">1:5,7</span>). Literally, "set your heart on your ways." They were to take a good look at themselves and consider what they had done since their return from Babylon. Their food, drink and clothing was inadequate (<span class="scripture-ref">1:6,9</span>). They were not satisfied, nor did they have enough. Their priorities were wrong, therefore Jehovah's blessings had been meager. Their failure to arise and build was due to their own carelessness (<span class="scripture-ref">Haggai 1:2</span>). They were selfishly concerned about their own luxury and comfort (<span class="scripture-ref">Haggai 1:4</span>). Their attitude was "let us build our own houses before we talk about the Lord's house."</p>
+        <p>Much good and important work is not done because it is put off. Remember, "the road to hell is paved with good intentions." Many today have lapsed into the same lethargic spiritual condition that characterized Israel, judging themselves righteous by what they don't do. "Consider your ways." A wax dummy will not lie, steal, listen to a dirty joke, but neither will he visit the sick, clean the building, teach a class, prepare for Bible Study, attend a gospel meeting or worship regularly. Think of what could be accomplished if all would "consider their ways" and follow the instructions of Haggai, "Be strong... and work (<span class="scripture-ref">2:4</span>)." The strength of Israel was not in numbers (<span class="scripture-ref">Deut. 7:8-9</span>; <span class="scripture-ref">Judges 7</span>; <span class="scripture-ref">1 Samuel 14</span>). Likewise our strength is "in the Lord, and in the strength of His might" (<span class="scripture-ref">Eph. 6:10</span>). Yet, among so many professing Christians today are those who cannot see beyond their own little selves, and who imagine that a man's chief duty upon the earth is to put himself first while "the house of God lieth waste." Perhaps it is past time that we stopped to "consider our ways."</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">Ultra-Liberalism Series</span>
+        <h2>How Ultra-Liberalism Comes Into A Congregation</h2>
+        <p>Last month we began a series on Ultra-Liberalism In Churches of Christ. We discussed nineteen items that are often seen in the development of ultra-liberalism in a congregation of God's people.</p>
+        <p>How do these views takeover or split a church? Part of the answer is found in the fact there is a lot of soft preaching going on in churches today. Many brethren do not recognize false teaching when it hits them in the face. Another reason is the smooth and flattering speech of the false teacher. Those advocating these views come into a church preaching love, joy and happiness, but they are there to have their way and they will tear up the church to get it. No better description can be found for these men than that given by the apostle Paul, "Now I urge you, brethren, keep your eye on those who cause dissension and hindrances contrary to the teaching which you learned, and turn away from them. For such men are slaves, not of our Lord Christ but of their own appetites; and by their smooth and flattering speech they deceive the hearts of the unsuspecting," <span class="scripture-ref">Romans 16:17-18</span>.</p>
+        <p>In the February 1993 issue of Firm Foundation an article appeared by the name, "Handbook for False Teachers." The article was written by Eric Brinn Hall and is a tongue-in-cheek expose of how false teachers take over a church. The article is written kind of like the old Screwtape Letters, where Satan instructs the demons on how to get people to sin.</p>
+        <p>In the article the false teacher is a preacher, but that is not always the case. When seeking the preaching job the man is told "evade difficult questions and say what they want to hear." Once the job is secured, he is told to make friends with those members who have zeal but little knowledge. Especially among the other ministers, the singles, young marrieds and if possible the elders.</p>
+        <p>What should he preach? Hall says, "You should preach love at every opportunity." Make critics look unloving. If any negative sermon is preached, direct it toward the evil critics. "Never preach about the distinctiveness of the church...Never leave the impression that we can know truth...You should constantly stress our inability to be completely sure about anything...Never preach about the qualifications of elders." When you do, don't mention <span class="scripture-ref">Titus 1:9</span>. "Never preach a sermon from Jude."</p>
+        <p>After six months or a year the false teacher is told to drop his bomb. The "bomb" is a sermon on a subject that he knows will cause trouble. "The actual subject of your bomb is only a secondary concern. Some have used instrumental music; some have used baptism; some the role of women in the church."</p>
+        <p>If the false teacher has done his job, most members who disagree will keep quiet for "fear of being labeled evil, regressive, divisive, hypercritical legalists." If some do object, make each one feel that he is the only one in the church to disagree with you. Make certain all your supporters understand that the "critics are the ones causing the trouble. If they would just let it all drop, the rest of the church could go on its merry (and hence happy and loving) way...If you follow this plan, then the congregation (or what is left, anyway) will be yours...When the dust settles, you will have a building full of zealous know-nothings and an eldership that will jump through hoops if you threaten to leave. Keep everyone jumping for awhile and then move on."</p>
+        <p>Tongue-in-cheek or not, there is a lot of truth in this article about how false teachers infiltrate churches. Brethren, "Beware of false prophets, who come to you in sheep's clothing, but inwardly are ravenous wolves," <span class="scripture-ref">Matt. 7:15</span>. Next Month: Some Examples of Ultra-liberalism.</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">Identity Series</span>
+        <h2>Identity of A Church of Christ: Denomination or Not</h2>
+        <p>Funk and Wagnalls Dictionary uses these definitions:</p>
+        <p><strong>Denominate:</strong> from the Latin de-(lay)down nomen-name v. To give a name to; adj. Having a (specific) name. <strong>Denomination:</strong> 1. The act of naming or calling by name. 2. A name; 3. Any specifically named class or group of things or people; 4. A religious group, or sect. <strong>Denominationalism:</strong> 1. A disposition to divide into or form denominations; 2. Rigid adherence or devotion to a denomination or sect; aka sectarianism.</p>
+        <p>Thus we see that having a name means we are denominated specifically as a group, whether one single group locally or (part of) a larger entity on a larger scale. Who gave us this name? It was God who named us (<span class="scripture-ref">Ephesians 3:15</span>). We are called Christians as in the fact we claim our allegiance and devotion to Christ (<span class="scripture-ref">Acts 11:26</span>). We speak of our brethren and call them members of the church of Christ. We do have a name whereby we designate ourselves, the church of Christ. We are specifically named because we are not called fill in the blank. But even then, we must realize that we are a specific group of people that meet as a religious group and participate in a particular doctrine and practice. The New Testament described the early church as a sect (<span class="scripture-ref">Acts 24:5</span>; <span class="scripture-ref">Acts 28:22</span>). Let's face it, under the definitions above, we meet all but one of the definitions. We are a peculiar sect of God's people. So why do we get so upset when someone suggests that we meet the definition of a denomination? The answer is twofold.</p>
+        <p>One, the world's view just assumes that all denominations are the same or at least related in some form, and we do not like being associated with those others.</p>
+        <p>Two, we have seen many of our brethren turn away from the truth and practice the religion that many of the false denominations practice and realize that this goes beyond God's authority. We see them act as the children of Israel did in 1 Samuel. They wanted to be like the nations around them, and were willing to do whatever was necessary to accomplish that identity. Since they wear the same name we are devoted to, our dilemma emerges. In fact we have been commanded to come out and be separate from those who do not respect God and His authority. How do we do this?</p>
+        <p>Although acting out of the deepest sense of sincerity, many brethren have adopted an adjective for the church of Christ. I am sure that we all have heard of the Non-institutional church of Christ. Rather than be content to identify ourselves as simply Christians that meet in a particular location, we give ourselves an additional name that is not recorded in scripture. Thus these brethren give the appearance of meeting the definition #1 of Denominationalism as printed above.</p>
+        <p>Some public media that is offered by certain brethren advertise that their services are for "the non-institutional church of Christ". On the internet, the religious sites all have two categories for the church of Christ. NI-COC is usually listed with the COC. And many have argued to justify the designator. And few see the danger in using such.</p>
+        <p>The liberal brethren have accomplished what they set out to do many years ago; get us to quite identifying with them. Brethren if we promote the truth rather than hide it, we will see them seek the need to separate from us. Many have already done so by dropping the name church of Christ from their literature and signs. Brethren, let us contend earnestly for the faith.</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>"Every word of God is pure: He is a shield unto them that put their trust in Him" (<span class="scripture-ref">Prov. 30:5</span>). So, brethren, let us trust Him, and let us build our sermons with His pure word. Basically there are three types of Scripture sermons, and all of them should be designed to turn the thoughts and hearts of the hearers to the Scriptures and to our Lord. Those three types are topical, textual, and expository.</p>
+        <p>Many books have been written to teach and assist us in using the three types. I will take some of the good material already in print, put it in my words, and hopefully give something useful. I encourage simplicity. My outline points are preceded by Roman numerals. The subpoints are preceded by upper case letters, sub-subpoints by Roman numerals, and sub-sub-subpoints by lower case letters.</p>
+        <p>To see the three types, let us first consider the topical sermon. This is the taking of a Bible topic, dividing it into some or all of its component parts, and presenting them in logical sequence. The topic probably will be found in numerous texts, so there will be no main "text," but each division of the lesson may have its own "text." An example from my files is an outline on "Heaven" which I mostly copied from brother Hayse Reneau. As the INTRODUCTION, I point out that time will end and we are just a heartbeat away from our eternal home. We cannot see it with a telescope, but we see it with the eye of faith. I then read to the audience the Savior's wonderful words in <span class="scripture-ref">Matt. 25:34</span>, and then move quickly to the body of the sermon.</p>
+        <p>The body of the sermon begins with: <strong>1. IT IS THERE THAT WE STAKE OUR CLAIM.</strong> Sub-points include: A. We would prefer a square inch of Heaven to many sections of perishing earth - <span class="scripture-ref">2 Pet. 3:13</span>; <span class="scripture-ref">Phil. 3:20</span>. B. Others have searched for a better country; We join the search - <span class="scripture-ref">Heb. 11:10,16</span>. C. There indeed we stake our claim - <span class="scripture-ref">2 Cor. 5:1-2</span>. D. Our names are recorded on the deed - <span class="scripture-ref">Lk. 10:20</span>; <span class="scripture-ref">Phil. 4:3</span>.</p>
+        <p><strong>2. IT IS THERE THAT WE MAKE OUR DEPOSITS OF WEALTH.</strong> A. Spiritual wealth is the only enduring possession we can have - <span class="scripture-ref">2 Pet. 3:12</span>. B. We see people slave and toil to amass material wealth -- that is vain! - <span class="scripture-ref">1 Tim. 6:7-10</span>. C. Let us recognize true wealth - <span class="scripture-ref">Isa. 55:1-2</span>; <span class="scripture-ref">John 17:3</span>. D. No one can rob us of this - <span class="scripture-ref">John 10:27-29</span>; <span class="scripture-ref">Matt. 10:28</span>. E. "The only thing one takes with him is that which he gives away" - <span class="scripture-ref">Matt. 6:19-21</span>.</p>
+        <p><strong>3. IT IS THERE THAT WE SEEK OUR ASSISTANCE.</strong> A. God's help is promised to those in His will who seek it - <span class="scripture-ref">Heb. 4:14-16</span>; <span class="scripture-ref">Psa. 40:16-17</span>. B. The promise is to those who serve faithfully - <span class="scripture-ref">Acts 26:22a</span>. C. And how we need His assistance! - <span class="scripture-ref">1 Pet. 5:7</span>; <span class="scripture-ref">1 Cor. 10:13</span>; <span class="scripture-ref">Eph. 6:10</span>.</p>
+        <p><strong>4. IT IS THERE THAT WE CENTER OUR HOPE.</strong> A. We desire and expect (HOPE) to be there - <span class="scripture-ref">1 Pet. 1:3-4</span>. B. Thus we are strongly anchored - <span class="scripture-ref">Col. 1:5</span>; <span class="scripture-ref">Heb. 6:18-19</span>.</p>
+        <p>For the CONCLUSION (try to keep it reasonably close to the INTRODUCTION): 1. Heaven can have special meaning for ANYONE - <span class="scripture-ref">Mark 16:15</span>; <span class="scripture-ref">Heb. 5:9</span>. 2. If you are in the body / church / family / kingdom, your name is there - <span class="scripture-ref">Rev. 20:12,15</span>. 3. There is nothing man-made to join - <span class="scripture-ref">Acts 2:36-47</span>. 4. Will you set your affections there NOW? - <span class="scripture-ref">Col 3:1-3</span>.</p>
+        <p>For our next visit -- the textual sermon. Thanks for reading.</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="humanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Humanism, Satanism, And The New Age Movement: Humanism</h2>
+        <p>Perhaps the best definition we could give of Humanism would be that of Protagoras (born c.480 BC) when he stated, "Man is the measure of all things." This should not be confused with humanitarianism, which all Christians should strive for, seeing that humans are made in the image of God (<span class="scripture-ref">Gen 1:27</span>) and we should teach them how to save their souls (<span class="scripture-ref">Rom 1:16</span>). Humanism, as the name implies is the doctrine (ism) or adoration of man (human) or mankind. It is this dogma which sparked the "God is dead" movement on campuses in the 1960's. A Pogo Possum cartoon from that time more aptly declared "God isn't dead, just unemployed."</p>
+        <p>Humanism has correctly been defined as a religion, both by the Supreme Court and the Humanists themselves. The 1961 Supreme Court case of Torcaso V. Watkins declared that the government could not aid religions with a belief in God as opposed to religions which did not and specifically named Secular Humanism as one example of such. In the 1963 case of Abington vs Schempp, the case which forbad the reading of the Bible in public schools, the court also stated that the state may not establish a "religion of secularism."</p>
+        <p>To the Humanist, man has replaced God. Man's achievements are his redemption. There is no need for God in his system or vocabulary. Instead of evolving, man is going full speed back to the sins of the Gentiles of <span class="scripture-ref">Romans chapter 1</span>. Like other religions, the Humanist has his creed as well. The Humanist Manifesto I and II are the documents that capture the thoughts and goals of the Humanist best. These two booklets use the phrase "religious Humanism" repeatedly to show that they accept it and recognize it as a religion. Manifesto I was signed in 1933 by 34 well known Humanists. The second was signed in 1973 by 114 individuals who represented science, education, philosophy and religion. Included were John Dewey (father of American modern education and the "Dewey decimal System" as used in American libraries), science fiction writer Isaac Assimov, B.F. Skinner (father of Behavioral Modification), Carliss Lamont (pro communist head of the ACLU) and others of considerable note.</p>
+        <p>Through these, Humanism has made its way into virtually every industry, business and subject. The Manifesto is a readily available small paperback of 31 pages, and is worth having just to know their beliefs and frank agenda. We could basically sum up the points of the Manifesto by saying do away with all religion and national borders, for these are the things that cause war. Point one of Manifesto II states "No deity will save us, we must save ourselves." Morality and religious views must not hinder science, such as point 17: "We would resist any moves to censor basic scientific research on moral, political or social grounds." Thus the advancement of cloning, stem cell research, etc. According to point 14, world population must be kept in check while euthanasia and suicide must be allowed, point 7.</p>
+        <p>The Humanists have done a better job in understanding Christianity than we have of their religion. They understand that to destroy the Bible, an all out assault is not necessary, but rather destruction of the foundation of the Bible, Genesis chapters one and two. These two chapters are dismissed, discarded and ridiculed. Yet, if they are not literal and inspired, then we must dismiss the rest of scripture. We, on the other hand, have been fighting the fruits of humanism, rather than the roots. Divorce, racism, pornography, euthanasia, abortion, homosexuality, ad nauseum, are all fruits of the Humanist tree of evil.</p>
+        <p>Humanism is not a subject, as such. It is instead a worldview, a framework upon which they would build all the other subjects. Thus, when Humanism is applied to politics, you get communism; to economics, you have socialism; for ethics, the outcome is hedonism; and to religion, the end result is atheism. Thus, Humanism should be of vital interest to everyone. Humanism fails miserably, as the answer is not in man, but rather the problem is in man, <span class="scripture-ref">Rom 3:23</span>. Man does not have all the answers, but rather the questions, for "it is not in man who walks to direct his steps." <span class="scripture-ref">Jeremiah 10:23</span>.</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: The Land Promise (2)</h2>
+        <p>In the article immediately preceding this one the importance of the promises that God made to Abraham was pointed out. Basically, these are three: (1) The land of Canaan, <span class="scripture-ref">Gen. 12:7</span>, later extended to include all the land from the river of Egypt to the great river, the river Euphrates, <span class="scripture-ref">Gen. 15:18</span>; (2) Numerous descendants, <span class="scripture-ref">Gen. 15:5</span>; and (3) in Abraham's seed all families of the earth would be blessed, <span class="scripture-ref">Gen. 22:18</span>.</p>
+        <p>It should be pointed out that in answer to the question Abraham asked, God assured him that the fulfillment of the land promise would not be to Abraham personally. Rather, he would die, (<span class="scripture-ref">Gen. 15:15</span>) and his descendants would receive the land after they had been in bondage in Egypt for 400 years (<span class="scripture-ref">Gen. 15:13</span>). Thus it was that after 400 years Moses led the Israelites out of Egypt toward the promised land (<span class="scripture-ref">Ex. 12:40-41</span>; <span class="scripture-ref">Acts 7:17</span>). Following a 40-year sojourn in the wilderness, the Israelites, under the leadership of Joshua, entered the promised land. And before Joshua died God pointed out that He "gave unto Israel all the land which He sware to give unto their fathers; and they possessed it, and dwelt therein." (<span class="scripture-ref">Joshua 21:43</span>; <span class="scripture-ref">Neh. 9:8</span>). Later, during the days of Solomon the Bible says "Solomon ruled over all the kingdoms from the River unto the land of the Philistines, and unto the border of Egypt." (<span class="scripture-ref">1 Kings 4:21</span>). Thus it is that God fulfilled the land promise to the descendants of Abraham.</p>
+        <p>While it is true that God gave to the children of Israel the land that He had promised, it is important to note that though they obtained the land, the KEEPING of the land was on the condition that they faithfully serve God. There are numerous scriptures that so state. We will give only a few.</p>
+        <p class="block-quote">"And it shall be, if thou shalt forget the Lord thy God and walk after other gods, and serve them, and worship them, I testify against you this day that you shall surely perish." (<span class="scripture-ref">Deut. 8:19</span>)</p>
+        <p class="block-quote">"When you transgress the covenant of Jehovah your God, which He commanded you, and go and serve other gods, and bow down yourself to them: then will the anger of Jehovah be kindled against you, and ye shall perish quickly from off the good land which he hath given unto you." (<span class="scripture-ref">Joshua 23:16</span>)</p>
+        <p class="block-quote">"If you shall turn away from following me, ye or your children, and not keep my commandments and my statutes which I have set before you, but shall go and serve other gods, and worship them; then will I cut off Israel out of the land which I have given them..." (<span class="scripture-ref">1 Kings 9:6-7</span>)</p>
+        <p>It is obvious that their keeping of the land was conditional on their faithfulness. Even a casual reading of the Old Testament shows they were not faithful. <span class="scripture-ref">Jeremiah 7:24</span> says "...they hearkened not, nor inclined their ear, but walked in their own counsels and in the stubbornness of their evil heart, and went backward, and not forward." And in <span class="scripture-ref">Jeremiah 32:22-23</span>, God said that He gave them this land, which He swore to their fathers to give them, a land flowing with milk and honey; and they came in, and possessed it; but they did not obey His voice, neither walked in His law; they have done nothing of all that He commanded them to do; therefore He caused all this evil to come upon them.</p>
+        <p>Scriptures similar to these could be multiplied dozens of times. Thus it is clear that God has fulfilled His land promise to Abraham's descendants. Since they were not faithful they forfeited any claim that may be made that the land belongs to them today.</p>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="forgiveness">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "In Christ There Is Forgiveness Of Sins"</h2>
+        <p>Only in Christ is there forgiveness of sins. Paul in his letter to the saints at Ephesus sets forth this truth in a way that anyone with an honest and good heart could understand. "Paul, an apostle of Christ Jesus by the will of God, to the saints who are at Ephesus, and who are faithful in Christ Jesus: Grace to you and peace from God our Father and the Lord Jesus Christ. Blessed by the God and Father of our Lord Jesus Christ, who has blessed us with every spiritual blessing in the heavenly places in Christ,...In Him we have redemption through His blood, the forgiveness of our trespasses, according to the riches of His grace." (<span class="scripture-ref">Eph 1:1-7</span>)</p>
+        <p>To be in Christ is to be in His body (<span class="scripture-ref">1 Cor 12:12-14</span>). The only way to get into His body is to believe, repent, and be baptized into Him (<span class="scripture-ref">Gal 3:26,27</span>). His body is His church (<span class="scripture-ref">Col 1:18, 24</span>). Also, in <span class="scripture-ref">Col 1:7-10</span>, we find that Paul had been informed of their love in the Spirit. This knowledge prompted Paul to pray for them that they might have all things needed "for the attaining of all steadfastness and patience; joyously giving thanks to the Father, who has qualified us to share in the inheritance of the saints in light. For He delivered us from the domain of darkness, and transferred us to the kingdom of His beloved Son, in whom we have redemption, the forgiveness of sins" (<span class="scripture-ref">Col 1:11-14</span>). Christ is the head of the church, "He Himself being the Savior of the body" (<span class="scripture-ref">Eph 5:23</span>).</p>
+        <p>Giving careful consideration to these scriptures, only one conclusion can be drawn. To be in Christ is to be in His body. To be in His body is to be in His church. To be in His church is to be in His kingdom. To be in His kingdom is to have our sins forgiven. To have our sins forgiven is to be saved, to be blessed "with every spiritual blessing in the heavenly places in Christ" (<span class="scripture-ref">Eph 1:3</span>). One such blessing is the privilege of prayer through which the penitent Christian may approach his Heavenly Father and seek forgiveness (<span class="scripture-ref">Acts 8:22</span>). The child of God is expected to oppose sin and to be constantly striving against it (<span class="scripture-ref">Heb 12:4</span>). However, even the strongest of Christians will occasionally stumble. Concerning which John writes, "And if anyone sins, we have an Advocate with the Father, Jesus Christ the righteous" (<span class="scripture-ref">1 John 2:1</span>). It is through Him we approach our Heavenly Father for forgiveness.</p>
+        <p>In conclusion, one must accept the truth set forth in <span class="scripture-ref">Eph 4:4-6</span> that, "There is one body and one Spirit, just as also you were called in one hope of your calling; one Lord, one faith, one baptism, one God and Father of all who is over all and through all and in all." It would be impossible to be in Christ, in His body, which is His church and be a member of a denominational church at the same time. Christ has not been divided physically so why believe that His spiritual body contains multiple hundreds of denominations (<span class="scripture-ref">1 Cor 1:12,13</span>). The truth is, there are no divisions in this one body, His church (<span class="scripture-ref">1 Cor 12:20-27</span>). Since the forgiveness of sins is promised only to those who are in this one body, then it necessarily follows that there is no forgiveness of sins promised to those in any other religious organization on earth. Only in Christ (His body, His church) is there forgiveness of sins.</p>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <article class="article" id="study">
+        <span class="article-category">Exhortation</span>
+        <h2>Study</h2>
+        <p class="block-quote">"Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth." <span class="scripture-ref">2 Timothy 2:15</span></p>
+        <p class="block-quote">"But continue thou in the things which thou hast learned and hast been assured of, knowing of whom thou hast learned them; And that from a child thou hast known the holy scriptures, which are able to make thee wise unto salvation through faith which is in Christ Jesus." <span class="scripture-ref">2 Tim 3:14-15</span></p>
+        <p>For several years Timothy had the benefit of the teaching of the apostle Paul as they worked together preaching the Gospel. This teaching was useful in preparing him for the work he was asked to do. Paul admonished him to continue in the things which he had learned. He was reminded of the benefit of the scriptures that he knew from his childhood. These are the things that make one wise unto salvation. Let us all follow Timothy's example and study to show ourselves approved unto God.</p>
+        <p class="author-signature">The Editors</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published February 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

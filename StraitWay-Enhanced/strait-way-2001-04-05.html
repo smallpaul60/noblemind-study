@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - April/May 2001</title>
+  <meta name="description" content="The Strait Way newsletter, April/May 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04-05" selected>April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#jesus-plan">Jesus In God's Plan</a>
+        <a href="#authority">Bible Authority</a>
+        <a href="#church-history">Church History</a>
+        <a href="#genesis">Genesis</a>
+        <a href="#trends">Trends</a>
+        <a href="#church-origins">Church Origins</a>
+        <a href="#capital-punishment">Capital Punishment</a>
+      </nav>
+
+      <article class="article" id="jesus-plan">
+        <span class="article-category">Editorial</span>
+        <h2>Jesus In God's Plan To Save Man</h2>
+        <p>More and more we are hearing that Jesus is not an absolute necessity in the salvation of man. Note the following quote (Dallas Morning News, 12-09-00):</p>
+        <p>"Tempering a controversial Vatican declaration on salvation, Pope John Paul II said Wednesday that all who live a just life will be saved even if they do not believe in Jesus Christ and the Roman Catholic Church." Two paragraphs later, we read, "The gospel teaches us that those who live in accordance with the Beatitudes -- the poor in spirit, the pure of heart, those who bear lovingly the sufferings of life -- will enter God's kingdom,' John Paul said." And in the next paragraph, "All who seek God with a sincere heart, including those who do not know Christ and his church, contribute under the influence of grace to the building of this kingdom."</p>
+        <p>Though the pope never turned from his position that one in the Catholic Church has the fullness of salvation, he nevertheless embraces some who have no knowledge of, or faith in, Jesus Christ. What does the Bible teach about the necessity of Jesus Christ in the salvation of sinful men? <span class="scripture-ref">"I said therefore unto you, that ye shall die in your sins: for if ye believe not that I am he, ye shall die in your sins" (John 8:24)</span>. Jesus said if one did not believe on Him, he would die in his sins. Who is right? The pope or Jesus?</p>
+        <p><span class="scripture-ref">"But we see Jesus, who was made a little lower than the angels...that he by the grace of God should taste death for every man" (Hebrews 2:9)</span>. If Jesus tasted death for every man, He is necessary for the salvation of every man. The pope is mistaken!</p>
+        <p><span class="scripture-ref">"...without shedding of blood is no remission...So Christ was once offered to bear the sins of many; and unto them that look for him shall he appear the second time without sin unto salvation" (Hebrews 9:22,28)</span>. The pope says one can be saved without knowing about the cleansing power of the blood of Jesus Christ. He is wrong!</p>
+        <p><span class="scripture-ref">"...God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life" (John 3:16)</span>. This is called the golden text of the Bible. It declares that one who believes in Jesus can be saved. What of one who does not believe in Jesus? <span class="scripture-ref">"...he that believeth not is condemned already, because he hath not believed in the name of the only begotten Son of God" (John 3:18)</span>. The Bible says all who do not believe are condemned. Let us believe the Bible.</p>
+        <p><span class="scripture-ref">"Being justified freely by his grace through the redemption that is in Christ Jesus: Whom God hath set forth to be a propitiation through faith in his blood, to declare his righteousness for the remission of sins that are past...that he might be just, and the justifier of him which believeth in Jesus" (Romans 3:24-26)</span>. Who is going to be justified? Paul said the believer! The pope disagrees! Let us believe Paul.</p>
+        <p><span class="scripture-ref">"For the invisible things of him from the creation of the world are clearly seen, being understood by the things that are made, even his eternal power and Godhead; so that they are without excuse: because that, when they knew God, they glorified him not as God, neither were thankful; but became vain in their imaginations, and their foolish heart was darkened" (Romans 1:20,21)</span>. Since they are without excuse, who is the pope, or any other man, to excuse them? Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>A Common Sense Understanding Of Authority</h2>
+        <p>We have studied in prior articles (1) the need for authority in religion <span class="scripture-ref">Col. 3:17</span>; (2) False standards which men use for authority other than the word of God <span class="scripture-ref">2 Tim 3:16-17</span> and (3) establishing authority by a direct statement or command, an approved bible example and by necessary inference. Now let us examine a single, common sense outline to determine the authority for any particular thing in religion.</p>
+        <p>In the chart below notice: (1) Specifics, or a thing that is specified by command, example or necessary inference from God's word or even in any secular example, (2) the generic or general category of any specific, (3) things that are not authorized or things forbidden under any specific or generic and (4) authorized expedients (or authorized things that edify - more on expedients later).</p>
+        <p>First let us notice a secular example. The purchasing officer of a company is instructed to buy the company 20 Ford automobiles. The specific included is Ford. Its generic is an automobile. There is no authority for the purchasing officer to buy 20 Chevrolets, Hondas or Buicks. He is forbidden to buy anything that is not a Ford because Fords are specified. Expedients that are authorized might be 4 door, red or V-8 so long as they are Fords.</p>
+        <p>To illustrate these things more let us notice an Old Testament bible example: Noah was instructed to build an ark of gopher wood - <span class="scripture-ref">Gen. 6:14</span>. Gopher is the specific involved in this command from the word of God to Noah. Wood is the generic. There was no authority for Noah to build the ark of pine, hickory or oak. Expedients may have been white or yellow gopher wood; winged or prickly gopher wood so long as Noah used gopher wood. He was obedient to God's command. If Noah had used any other unauthorized wood he would have been disobedient.</p>
+        <p>Notice now, a New Testament bible example. Music in worship - there are nine N.T. passages that speak of music in worship, all nine say sing - <span class="scripture-ref">Col. 3:16; Eph. 5:19</span>. The specific involved in regard to music in New Testament worship is singing. The generic would be "make music". Had God instructed us to make music then any music would be authorized, vocal or instrumental, but when singing is specified then other forms of music have no authority or are forbidden. This would include instrumental, humming or whistling. Expedients that are authorized would be any particular thing that would assist the singing - song book, song leader or 4 part harmony.</p>
+
+        <table class="chart-table">
+          <tr>
+            <th>SPECIFIC</th>
+            <th>GENERIC</th>
+            <th>NO AUTHORITY</th>
+            <th>EXPEDIENTS</th>
+          </tr>
+          <tr>
+            <td>Ford</td>
+            <td>Automobile</td>
+            <td>Chevrolet</td>
+            <td>4 door/red/V-8</td>
+          </tr>
+          <tr>
+            <td>Gopher (Gen. 6:14)</td>
+            <td>Wood</td>
+            <td>Hickory/Pine/Oak</td>
+            <td>white/yellow</td>
+          </tr>
+          <tr>
+            <td>Sing (Eph. 5:19)</td>
+            <td>"Make Music"</td>
+            <td>Instrumental</td>
+            <td>songbook/leader</td>
+          </tr>
+        </table>
+
+        <p>This simple, common sense outline can be used to determine if anything is a specific, generic or an expedient; and if it is authorized or forbidden. Can we find bible authority for all we do in the name of religion <span class="scripture-ref">2 Jn. 9</span>?</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>The "Restoration Movement" of John Wycliffe & William Tyndale</h2>
+        <p>It can be argued that "The Restoration Movement" began nearly 500 years before Alexander Campbell's time in England and not America. In the 1380s, a Catholic clergyman and very popular professor at Oxford University in England by the name of John Wycliffe (Wyclif), for the first time translated the Catholic Bible from the Latin into English. There were others that took part in this important first effort but the translation gained Wycliffe's name because of his prominence. It seems, no one had ever dared to make the Bible available in a common tongue before. Along with this valuable first production of the Bible in English, Wycliffe influenced many other professors and had a huge following. He denied the authority of Rome and believed in congregational autonomy. He also taught that the Catholic church needed to turn back to the people all material wealth and property (A Short History of England, pages 251-254). The failed Peasant's Insurrection of 1381 reflects the nationwide unrest caused by this and a new poll tax enacted mainly for Catholic benefit. This revolt ended miserably when the leader of the people, Wat Tyler at Smithfield, was dragged off his horse while honorably talking terms with the king and stabbed to death. However, this did not put to rest the growing tide of sentiment in the minds of the common folk that the Catholic Church was corrupt and the monarchy its willing ally. For John Wycliffe's part he was eventually denounced by the authorities and forced to retire to a small church where he ended his days continuing to write many publications on these same matters. A quote about Wycliffe that shows the disdain of those in authority was made by Thomas Hobbes who sourly said, "After the Bible was translated into English (by Wycliffe) every man, nay, every boy and wench that could read English, thought they spoke with God Almighty and understood what he said." (The History of English, page 110).</p>
+        <p>From the combination of Wycliffe's teachings and those of others like Walter Lollardo, the movement spread and became deeply rooted in the minds of many. Men went out, called "Poor Priests," and taught everywhere throughout England about the concepts of a return to the New Testament Church and to reject Catholicism. This teaching gave rise to those called "Lollards." These preachers were severely persecuted but were successful in deeply rooting many truths with people of faith. Though things moved very slowly in those times, restoration of the New Testament Church seems to have been on their minds. For the next several generations there were a number of religious groups that arose, collectively called "Dissidents." All of these believed in a general getting back to the Bible and not being a part of a centralized state church. Some of these groups were influenced by Calvin, though many others were not. Oliver Cromwell came from a major Calvinist faction and it is said that his daughter married a member of the Church of Christ who was a Gospel preacher.</p>
+        <p>Any of us being Christians during this difficult time would have yearned for a readable copy of the Scriptures. With Gutenberg's printing press it became possible. William Tyndale published his translation in 1525. Many believe he was a Christian based on a quotation: "the washinge preacheth unto us that we ar clensed wyth Christe's bloud shedynge which was an offering and a satisfaction for the synne of al that repent and beleve consentynge and submyttyne themselves unto the wyl of God. The plungynge into the water sygnyfyeth that we die and are buried with Christe as consernyng ye old life of synne..." (From a tract by Wyllyam Copland, London, 1561). So hated was he that he was hounded from town to town until his death; all copies of his translation commanded to be burned. Several years after his death his body was dug up and burned to show the disapproval of the Anglican Church. It did not matter that he was hated so because the Lord's Church seems to have proliferated throughout England till after the 1650s (<span class="scripture-ref">"...the word of God is living & powerful" Heb. 4:12</span>).</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Approaches Considered (2)</h2>
+        <p>We noted in our last issue that the fundamental difference between one who embraces creation and one who embraces evolution is not the data, but the approach that one brings to interpret the data. It so happens that there is a third alternative which men have concocted. This inventive group seeks to blur the lines and straddle the fence of the evolution/creation debate. They are hybrid evolutionists or creation compromisers and their approach is different yet than what we previously discussed. This alternative group is divided under two major umbrellas: theistic evolution and progressive creationism. Where as evolutionists approach the world and see not God, and creationists approach the world believing in the infallibility of God's revealed word, theistic evolutionists and progressive creationists approach God's word to find and inject evolutionary assumptions and time! Truly their quest is a circus act of attaining "respectability" from a scientific world of cynicism while walking on a tight-rope juggling the scriptures. The irony is that they become rejected by both creationists and evolutionists. Notwithstanding, human wisdom is their supreme standard of authority and scientists in white robes are their high priests. And so they will readily drop the juggling of scripture and re-interpret it, rather than fall from their lofty place on the tightrope of human speculation. David Matthews, one who rejects taking Genesis literally, wrote: "Christians should keep in mind that it is much easier to re-interpret the Bible than it is to compress billions of years of history into a six or ten thousand year time frame" (The Pronouncements of Science). Few are so honest!</p>
+
+        <h3 style="color: var(--accent); margin: 1.5rem 0 1rem;">IDENTIFYING THESE APPROACHES:</h3>
+        <ul class="bullet-list">
+          <li><strong>Theistic-evolution:</strong> Essentially believes that God "kick started" the creation but allowed evolutionary processes to bring about the organic and inorganic creation. Their approach is evolutionary.</li>
+          <li><strong>"Gap" Theory:</strong> This theory holds that there is an extremely large but undefined span of time that is crammed between <span class="scripture-ref">Genesis 1:1</span> and <span class="scripture-ref">1:2</span>. God supposedly created and destroyed the world in this alleged gap. This span of time becomes their "black hole" to throw all hard to explain things into (i.e., dinosaurs, uniformitarian geologic history, etc.). Gappists wish to translate <span class="scripture-ref">Genesis 1:2</span> as, "The earth became formless and empty" rather than as it is, "The earth WAS without form and void." The Bible nowhere teaches that the world was ruined and restored before Adam.</li>
+          <li><strong>Multiple Gap Theory:</strong> This theory teaches that the days of Genesis were literal 24 hour days, but that there were gaps of long ages between each day. Space limits us in discussing this, but we are to speak where the Bible speaks and not invent something from its silence (<span class="scripture-ref">1 Pet. 4:11</span>).</li>
+          <li><strong>Day-age Theory:</strong> This theory, as advocated by Shane Scott, Bible professor at Florida College, teaches that the days of Genesis were not literal 24 hour days, but figurative for long ages of time. In fact, brother Scott contended in his article, The Days of Genesis: "All of the other days of creation ended with the phrase, 'and there was evening and there was morning, a xth day.' I understand that phrase to mean that each of those days had a distinct conclusion. However, there is no such statement for the seventh day, which must mean that it has not ended...and that day has continued until now because He still 'rests' from creating new life" (Sentry Magazine, Vol. 21, No. 1). God's seventh-day rest was not a continuum for thousands of years any more than the Jewish Sabbath was <span class="scripture-ref">"...on the seventh day He rested and was refreshed" (Ex. 31:17; cf. Gen. 2:2)</span>.</li>
+        </ul>
+        <p>It is obvious that if it were not for the rise in popularity of long age geology in the 18th century, these "time buying" theories would not be advocated today. One thing is for sure, the confusion doesn't exist because the Bible is unclear. The confusion exists because the Bible is too clear.</p>
+        <p class="author-signature">Steven J. Wallace<br>1002 Bloom Ave., Grandview, WA 98930</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: Liberalism</h2>
+        <p>For our purpose in this study, we use Webster's #5 definition of the word liberal: "not confined or restricted to the literal sense; free; as a literal translation." Another definition by Webster is, "free from restraint; unchecked..."</p>
+        <p>Many of our readers may recall that the word liberal was employed frequently during the rage of the institutional question, and properly applied to those who went beyond what is written, in defending the right of churches to engage in general benevolence, to fund human institutions, such as benevolent societies, so called Christian schools, evangelistic institutions such as Herald of Truth, etc. etc. One was said to be liberal or conservative, depending on the stand he took on "the issues," as they became known. Those issues became the standard by which one was judged to be sound or unsound. A prominent question in those days was, "how do you stand on the issues?" But now, as it was then, those aren't the only issues which must be addressed. In fact, there are so many knotty problems or issues in the church today that should bring sorrow to our hearts, and tears to our eyes, and satan isn't going to let these issues die. Brethren, it is later than we think!</p>
+        <p>Liberalism is a term which will encompass all of these issues; for when one is "free from restraint or unchecked," it matters not what the issue may be. But the law of God is designed to restrain men in their life styles (<span class="scripture-ref">1 Tim. 1:9-10</span>). But liberals (as we all know) will not be retrained. They know what the scriptures teach; they are acquainted with divine revelation, but it is not what we know, but how we feel about it. Brethren, it all comes down to the desire of the heart, and the heart cannot be passive, for it will attach itself to something. Too many times we look at what the denominations are doing, and we want that. We look at what the liberal churches are doing, and we want that. It's the same attitude as described in <span class="scripture-ref">1 Sam. 8</span>, of God's people who said, "make us a king to judge us like the nations." It is our selfishness! They said, "Make us a king." That same attitude is strong among many today, I'm afraid. Brethren, it is later than we think!</p>
+        <p>Liberal churches today are in trouble, and they know it. Notice this from a liberal paper out of East Corinth Church of Christ in Mississippi, by Garland M. Robinson: "...We are at war! We are in a desperate battle for the souls of men. It's time we keep the sword bloody by constant use against wickedness, evil doing and false teaching until the Lord removes it from our grasp in death. If we do not, the church will continue it's headlong rush into apostasy. It will continue to split and splinter and be unrecognizable in comparison to the first century church." Brother Robinson needs to be reminded that many of those institutional churches have already gone so far as to not be recognizable as a first century church, but have more resemblance to denominational churches. Brethren, it is later than we think!</p>
+        <p>In closing, brethren, we need to be warned about these matters; as already stated, "satan will not let these issues die." There are more liberal minded brethren among conservative churches than we would like to admit. In the past we have known of preachers who preached in conservative churches for thirty years or more, and then sold out their souls to the devil by identifying with an institutional church. We could relate a number of cases like this. When members of the body of Christ attend liberal churches when they could attend a sound church, something is wrong! When preachers who claim to be sound try to persuade members of their family to identify with a liberal church, something is wrong! I have observed all of these in the recent past. Liberalism is an affront to God. We must be true to Him by <span class="scripture-ref">"holding fast the form of sound words" (2 Tim. 1:13)</span>. Liberalism has no place in the lives of God's people, and we must oppose this evil with every fiber of our being. Brethren it is later than we think!</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: Disciples of Christ</h2>
+        <p>By the time that the "Protestant Reformation" movement was well under way and had given birth to a number of new denominations, there were initiated some widely separated efforts to lay aside religious creeds, names, organizations and practices that were of human origin and to embrace only those that were of divine origin. In view of the fact that these were, basically, efforts to restore among men the primitive church set up by Christ under the divine direction of the apostles rather than efforts to reform some existing human church, these efforts have become known as the "Restoration Movement." Some of the efforts were short-lived; some fell far short of the goal; some merged; some, after seemingly accomplishing their goals, began to drift away from their lofty aims.</p>
+        <p>In the eighteenth century such efforts as described above were led in Scotland by such men as John Glas, Robert Sandeman and the Haldane brothers, James and Robert. In the United States, at the close of the eighteenth and early part of the nineteenth centuries, they were led by such men as James O'Kelly, Elias Smith, Abner Jones, Barton W. Stone and Thomas and Alexander (father and son) Campbell. O'Kelley come out of the Methodist Episcopal Church and worked in North Carolina and Virginia; Smith and Jones came out of the Baptist and worked in Vermont and New Hampshire; Stone came out of the Presbyterian Church and began his work in Kentucky; the Campbells came out of the Seceder Presbyterian Church after coming to America from Scotland.</p>
+        <p>Some of these efforts at restoration fell short of their goal and crystallized into new denominations. Such was the origin of the "Christian Church" which in 1931 united with the "Congregational Church (thus forming the "Congregational Christian Church"). However, when most people speak of the Christian Church, they have in mind that religious denomination better known as the "Disciples of Christ." Let us briefly trace her origin:</p>
+        <p>During the fourth and fifth decades of the nineteenth Century the "Restoration Movement" in America had accelerated to such a degree that tens of thousands of people in various states were forsaking denominations in order to become simply Christians and members of the Lord's church. By turning away from human creeds, names, organizations, ways of worship and practices and embracing the New Testament as the final, complete and sufficient guide, they were having part not in the birth of a new denomination but, in a sense, in the restoration among men of the church as it existed back in the first century. But then disaster came; dark clouds arose. From among the very people who seemed so intent upon being nothing more nor less than the Lord's church in the nineteenth century was destined to arise one of the most liberal of all denominations.</p>
+        <p>While, from the standpoint of numerical growth, the "Restoration Movement" was becoming so successful, at the same time a climate ripe for departure was building up. Multitudes of people had left various denominations and entered the Lord's church; so many of these had learned little more than first principles, were still steeped in denominational ideas and practices, and were certainly neglected in the matter of <span class="scripture-ref">"teaching them to observe all things whatsoever I commanded you" (Matt. 28:20)</span>. Most preachers were busy in new fields, preaching the rudiments of the first principles and reaping new converts. In so many congregations the development of babes in Christ was neglected; qualified teachers were too few to supply the need.</p>
+        <p>To make matters worse there arose a host of new preachers not of the same quality as the early evangelists who had paved frontiers before them. These new preachers had more formal education and less devotion to the principles of the restoration. Most of them were zealous and energetic, but many were beset with new ideas and goals without regard to scriptural authority.</p>
+        <p>A desire to bring the disciples and churches closer together and to keep abreast of what was going on led to area meetings of members from many churches. A desire for concerted efforts and cooperative endeavors among congregations led to voluntary county missionary societies, state missionary societies and finally a national missionary society. Out of the restoration there had arisen independent congregations after the New Testament order; now there had arisen a human institution which in time was made a test of fellowship and would eventually dominate churches. "The American Christian Missionary Society" was born in Cincinnati, Ohio in 1849. At Midway, Kentucky in 1859 an instrument of music; a melodian, was introduced into the worship; 'ere long many churches were worshiping with mechanical music.</p>
+        <p>As is usually the case, the majority of churches and disciples soon endorsed the innovations. Many who opposed them were forced by their conviction to either go elsewhere to worship or to establish new congregations. A few churches began to build elaborate buildings for show; organizations within churches were developed; organ recitals were conducted; church bazaars were held; some preachers began to accept the title "Reverend"; located preachers became "Pastors"; discrepant sounds were echoing. Within a few decades following the inception of the national missionary society many preachers and members in the church began to look upon the church as a denomination; not a few preachers began to question the inspiration of portions of scripture. The idea that what God does not specifically forbid or condemn is permissible was championed. Those who opposed the societies, the instruments and other unauthorized features were branded as "non-progressives," "legalists," "anti-missionary," "anti-cooperative," "anti-organ," and even "anti-music." In 1919 the various existing boards and societies were grouped together in the "United Christian Missionary Society." An "International Convention of Disciples of Christ" began as an annual affair.</p>
+        <p>As time continued, the liberal movement became too liberal for many among the "Disciples of Christ," and they called a halt and endeavored to hold on to some conservative ground. Some "Christian Churches" today are thus referred to as liberal (better known as "Disciples of Christ") and some as conservative.</p>
+        <p>Many of the preachers and leaders among the Disciples of Christ do not believe that the Bible is inspired of God, that Jesus was truly divine, that he was born of a virgin, that he worked miracles, that he was raised from the dead, that he ascended into heaven, that the soul of man is immortal, that the devil is a real being, that the dead will be raised in the judgement, and that heaven and hell are eternal realities. Modernism has permeated her pulpits and her "theological seminaries." The "social gospel" is highly endorsed. The road of apostasy always leads to infidelity.</p>
+        <p>Among Disciples of Christ we find the pastor system; titled preachers; women preachers and elders; open membership; organizations--inter-church and intra-church--of men, women and young people; instruments of music in worship; choirs; church benevolent, evangelistic and educational institutions; recreational and entertainment activities; and many other things that were no part of the churches that existed in New Testament times. The "Church of Christ" did not split off from the "Christian Church"; the "Christian Church" is the result of apostasy from the truth.</p>
+        <p><em>(Footnote: The Lord's Church, the body of Christ, is composed of all the saints, the dead of the past and the living of the present, and has been in existence ever since it came into existence. Technically speaking, it has never needed restoring. At any time in history since its beginning convicted sinners could and should by an obedient faith become members of it.)</em></p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline Dr, Baton Rouge, LA 70814<br><em>[Copyrighted. Used by permission. --Editor]</em></p>
+      </article>
+
+      <div class="highlight-box">
+        <h3>Unto Salvation</h3>
+        <p><span class="scripture-ref">Faith</span> is unto (eis) righteousness. <span class="scripture-ref">Romans 10:9,10</span></p>
+        <p><span class="scripture-ref">Repentance</span> is unto (eis) life. <span class="scripture-ref">Acts 11:18; Lu. 13:3</span></p>
+        <p><span class="scripture-ref">Confession</span> is unto (eis) salvation. <span class="scripture-ref">Romans 10:9,10</span></p>
+        <p><span class="scripture-ref">Baptism</span> is unto (eis) remission of sins. <span class="scripture-ref">Acts 2:38</span></p>
+        <p><strong>Have You Been Saved? Obey The Gospel Today!</strong></p>
+      </div>
+
+      <article class="article" id="capital-punishment">
+        <span class="article-category">Editorial</span>
+        <h2>Capital Punishment (1)</h2>
+        <p>What about capital punishment? <span class="scripture-ref">"Whoso sheddeth man's blood, by man shall his blood be shed: for in the image of God made he man" (Genesis 9:6)</span>. <span class="scripture-ref">"Whoso killeth any person, the murderer shall be put to death by the mouth of witnesses....ye shall take no satisfaction for the life of a murderer...So ye shall not pollute the land wherein ye are: for blood it defileth the land: and the land cannot be cleansed of the blood that is shed therein, but by the blood of him that shed it" (Numbers 35:30-33)</span>.</p>
+        <p>Paul said, <span class="scripture-ref">"For if I be an offender, or have committed any thing worthy of death, I refuse not to die: but if there be none of these things whereof these accuse me, no man may deliver me unto them, I appeal unto Caesar" (Acts 25:11)</span>.</p>
+        <p>Paul further said, <span class="scripture-ref">"Let every soul be subject unto the higher powers. For there is no power but of God: the powers that be are ordained of God. Whosoever therefore resisteth the power, resisteth the ordinance of God: and they that resist shall receive to themselves damnation. For rulers are not a terror to good works, but to the evil. Wilt thou then not be afraid of the power? do that which is good, and thou shalt have praise of the same: For he is the minister of God to thee for good. But if thou do that which is evil, be afraid; for he beareth not the sword in vain: for he is the minister of God, a revenger to execute wrath upon him that doeth evil. Wherefore ye must needs be subject, not only for wrath, but also for conscience sake. For for this cause pay ye tribute also: for they are God's ministers, attending continually upon this very thing" (Romans 13:1-6)</span>. "The sword" was an instrument of death and destruction. It is to be wielded by the proper authorities.</p>
+        <p>How do gangs and drug cartels deal with those of their number, or their enemies, who do not conform to their dictates? Swift execution!! What does that tell you? Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray St, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published April/May 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

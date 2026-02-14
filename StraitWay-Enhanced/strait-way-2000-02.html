@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - February 2000</title>
+  <meta name="description" content="The Strait Way newsletter, February 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02" selected>February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#doctrine-related">To What Is Doctrine Related?</a>
+        <a href="#located-preacher">Located Preacher</a>
+        <a href="#ad70-kingdom">A.D. 70 - Kingdom</a>
+        <a href="#institutionalism">Institutionalism</a>
+        <a href="#faith-alone">Faith Alone</a>
+        <a href="#conversion-faith">Conversion: Faith</a>
+        <a href="#romans-7">Romans 7:1-3</a>
+        <a href="#just-teach">Just Teach</a>
+      </nav>
+
+      <article class="article" id="doctrine-related">
+        <span class="article-category">Commentary</span>
+        <h2>To What Is Doctrine Related?</h2>
+        <p>In Romans six, Paul explained how the Romans had been justified by faith, thus having peace with God (<span class="scripture-ref">Rom. 5:1,2</span>). In <span class="scripture-ref">Romans 6:3,4</span>, he said they died to sin when they were baptized into Christ and into His death and raised to walk in newness of life. Did "doctrinal matters" have anything to do with their obedience? Yes! "But God be thanked, that ye were the servants of sin, but ye have obeyed from the heart that form of doctrine which was delivered you. Being then made free from sin, ye became the servants of righteousness" (<span class="scripture-ref">Rom. 6:17,18</span>). The form of doctrine they obeyed had to do with the death of Christ for sin, His burial, and His resurrection from the dead (<span class="scripture-ref">I Cor. 15:1ff</span>). Doctrine is connected with being saved.</p>
+        <p>"Whosoever transgresseth, and abideth not in the doctrine of Christ, hath not God. He that abideth in the doctrine of Christ, he hath both the Father and the Son" (<span class="scripture-ref">II John 9</span>). In this passage, having the Father and the Son are connected to the doctrine of Christ. Without the doctrine of Christ, we CANNOT have the Father and the Son.</p>
+        <p>In <span class="scripture-ref">II John 10,11</span>, John connected the doctrine of Christ with fellowship: "If there come any unto you, and bring not this doctrine, receive not into your house neither bid him God speed: For he that biddeth him God speed is partaker of his evil deeds." Doctrinal considerations must be a determining factor in fellowship. The faithful child of God cannot have fellowship with one who "...transgresseth, and abideth not in the doctrine of Christ..." because that one does not walk in fellowship with God.</p>
+        <p>Doctrinal matters are involved in withholding fellowship from a brother. "Now I beseech you, brethren, mark them which cause divisions and offence contrary to the doctrine which ye have learned; and avoid them. For they that are such serve not our Lord Jesus Christ, but their own belly; and by good words and fair speeches deceive the heart of the simple."</p>
+        <p>In <span class="scripture-ref">Titus 2:1</span>, Paul charged "...speak thou the things which become sound doctrine...." Sound doctrine is related to the way Christians live: "...adorn the doctrine of God our Saviour in all things" (<span class="scripture-ref">Tit. 2:10</span>).</p>
+        <p>Doctrinal matters are involved in inspired warnings. Jesus warned His disciples of the doctrine of the Pharisees (<span class="scripture-ref">Mt. 16:1-12</span>). Timothy was to "...charge some that they teach no other doctrine" (<span class="scripture-ref">I Tim. 1:3</span>). Paul charged Timothy to "Take heed to thyself, and unto the doctrine; continue in them: for in doing this thou shalt both save thyself, and them that hear thee" (<span class="scripture-ref">I Tim. 4:16</span>). "Preach the word...For the time will come when they will not endure sound doctrine; but after their own lusts shall they heap to themselves teachers, having itching ears" (<span class="scripture-ref">II Tim. 4:2,3</span>).</p>
+        <p>Doctrine is important because of that to which it is related. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="located-preacher">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - Located Preacher</h2>
+        <p>For many years some brethren have either questioned or opposed the practice of a church using a preacher located with that one congregation and paying him a stipulated salary. The opposition is based on two main objections. Some think of an evangelist as a roving preacher who has no lingering attachment to a particular church. More object on the basis of specified support agreed on by the parties involved.</p>
+        <p>Modern usage of the word "evangelist" sometimes implies traveling about to preach, but the word used by the Spirit does not convey it. One must look elsewhere to find this idea. One who brings the glad tidings of Christ in the gospel is doing evangelistic work regardless of his length of time in a location, a stipulated amount of support, or the focus of his work at that particular time (saints or sinners). The New Testament teaches that an evangelist teaches both the lost and the brethren (<span class="scripture-ref">Acts 8:14</span>; <span class="scripture-ref">1 Tim. 4:6</span>; <span class="scripture-ref">2 Tim. 4:5</span>). He can be located in one place for an extended time, just as Philip was in Caesarea twenty years (<span class="scripture-ref">Acts 8:40</span>; <span class="scripture-ref">21:8</span>), Luke at Philippi six years (<span class="scripture-ref">Acts 16:16,40</span>; <span class="scripture-ref">20:5-6</span>), and Paul at Ephesus three years (<span class="scripture-ref">Acts 20:31</span>). It appears he could remain in one place as long as there is work for him to do. Timothy was told to do the work of an evangelist in a church with elders (<span class="scripture-ref">Acts 20:17</span>; <span class="scripture-ref">2 Tim. 4:5</span>), though many would deny that such is scriptural.</p>
+        <p>Whether an evangelist works on an appointment or located basis should be decided by the circumstances in a given situation, because God has said nothing on this matter. Appointment preaching accomplished much good earlier in our history, but located work achieves more balanced teaching and a more highly motivated group to teach the lost.</p>
+        <p>New Testament teaching about a preacher's support is found in stated principles: the right to forbear working (<span class="scripture-ref">1 Cor. 9:6</span>), the proclaimer's living of the gospel (<span class="scripture-ref">1 Cor. 9:14</span>), and the laborer's being worthy of his hire (<span class="scripture-ref">1 Tim. 5:18</span>). Examples also demonstrate that it is right to support a preacher: Paul received wages from distant churches while working in Corinth (<span class="scripture-ref">2 Cor. 11:8</span>), and Philippi sent repeatedly to Paul (<span class="scripture-ref">Phil. 4:15</span>).</p>
+        <p>We simply do not know the arrangement between Paul and the sending congregations, nor ought we to impose restrictions that the Lord Himself has not given. To say that an understanding about such matters between a preacher and the supporting church is wrong is to state what one has no basis for knowing and to become Master rather than disciple. The realities of our modern economy dictate the wisdom of some understanding, which would not necessarily imply a mercenary motive on the part of a preacher or a proprietary attitude on the part of the congregation. If congregations and preachers would utilize their time and energy in the work of evangelism instead of dredging up obstacles to the work, like those mentioned in this article, there would be more zeal generated, more work done, more souls saved, more saints strengthened, and more honor given to Christ. After all, is this not what the work of evangelism is all about?</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-kingdom">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - The Establishment of the Kingdom</h2>
+        <p>The "A.D. 70" doctrine teaches that the Kingdom of Christ was NOT FULLY established on the day of Pentecost. They teach that the Kingdom of Christ was born in need of a 'resurrection' {dead!} in the 'decay of Judaism'. It is also taught that both the law of Christ and the law of Moses existed side by side, in the Mind of God, until the fall of Jerusalem. In this study we will look at what the Bible says about the establishment of the Kingdom and see what if anything was missing until A.D. 70.</p>
+        <p>There are four principle parts of a kingdom: a king, a law, subjects and territory. The Bible teaches that ALL of these were FULLY established on the day of Pentecost! As the years pass, I am learning to appreciate more and more just how important the day of Pentecost was. All of the following prophecies, and others, were fulfilled on that day.</p>
+        <p><span class="scripture-ref">Isaiah 2:2</span> "....the mountain of the Lord's house will be ESTABLISHED on the top of the mountains and ALL NATIONS shall flow into it..."<br>
+        <span class="scripture-ref">Isaiah 2:3</span> "...the law of the Lord shall go forth from Jerusalem"<br>
+        <span class="scripture-ref">Psalms 110:1</span> Jesus would sit down at God's right hand and begin ruling among enemies<br>
+        <span class="scripture-ref">Zechariah 6:12</span> Jesus would build the temple of the Lord, and reign as High Priest and King<br>
+        <span class="scripture-ref">Zechariah 13:1</span> The fountain for sin and uncleanness would be open from Jerusalem<br>
+        <span class="scripture-ref">Joel 2:28</span> The Spirit would be 'poured out' on the apostles and His work begun. Whosoever should call on the name of the Lord shall be saved<br>
+        <span class="scripture-ref">Daniel 2:44</span> "...In the days of these kings the God of heaven will set up a kingdom which shall never be destroyed..."<br>
+        <span class="scripture-ref">Mark 9:1</span> Some of Jesus' disciples then living would 'see' the kingdom come with power</p>
+        <p>As recorded in Acts the second chapter all of these were fulfilled. The apostles endued with power from on high (vs.4). Jesus proclaimed Lord and Christ (vs.36). The gospel, the apostle's doctrine, the law of the Lord was taught (vs.22-40). 3000 souls were saved and added to the church (vs.41-47). The Lord's Supper was first observed (vs.42). Since the gospel was for Jew and Gentile alike; this proves that the temple of the Lord WAS BUILT on that day (<span class="scripture-ref">Acts 2:39</span>; <span class="scripture-ref">Eph. 2:20</span>).</p>
+        <p>From the day of Pentecost the gospel is God's power to save all men (<span class="scripture-ref">Rom. 1:16</span>). Paul said that the kingdom of God was not in word but in POWER, long before A.D. 70 (<span class="scripture-ref">1 Cor. 4:20</span>). The Thessalonians and Colossians were spoken of as in the kingdom of Christ well before A.D. 70 (<span class="scripture-ref">1 Thess. 2:12</span>; <span class="scripture-ref">Col. 1:13</span>).</p>
+        <p>Brethren, all of the elements of the Kingdom of Christ were FULLY AND COMPLETELY ESTABLISHED on the day of Pentecost. I believe as we study this matter further we will see that one of the many dangerous consequences of this doctrine is that the kingdom would not be established AT ALL BEFORE A.D. 70!</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism">
+        <span class="article-category">Church Organization</span>
+        <h2>Institutionalism - Defined</h2>
+        <p>Anyone reading and studying religious history soon learns that man has seldom been satisfied with the Lord's arrangements. Human wisdom is forever seeking to improve upon the Lord's plans, and it seems that in every generation men will rise up to say, (in actions if not in words), "Lord, I think I can improve on your plan." This inevitably leads to a departure from "the faith which was once for all delivered to the saints" (<span class="scripture-ref">Jude 3</span>). Human wisdom is clearly seen in the development of Institutionalism.</p>
+        <p>Coming from the old school that teaches one should never assume everyone in the audience understands the subject under consideration, I feel it necessary to define "Institutionalism." Merriam Webster's Collegiate Dictionary defines it as "emphasis on organization (as in religion) at the expense of other factors." An older edition defines it as, "a belief in and support of the usefulness or sanctity of established institutions." The suffix "ism" suggests "a devotion to" the thing. And this certainly describes our society today. Probably no society in history has been so institutional minded.</p>
+        <p>This love of institutions has spilled over into the Lord's church. Today, we see a proliferation of institutions far beyond that which could have been foreseen in the 50's when I began preaching. Since we are dealing with spiritual affairs that affect the church, the secular definition above needs to be expanded. For this study, "Institutionalism," as I understand it, is "the belief that the Church of Christ is an organization, composed of individual congregations. These churches, either individually or acting collectively, have the right to organize, build, promote, and maintain dependent social organizations - such as schools, benevolent homes, welfare agencies, etc. - which aid in fulfilling society's social and spiritual needs. Since these organizations perform 'good works' sister congregations and individuals are to support them." To this mindset, loyalty to these human institutions determines one's loyalty to Christ. Institutions are necessary to the "institutional church," and the "institutional church" is necessary for such human institutions to exist.</p>
+        <p>From a purely human standpoint, supporting such institutions might be commendable, and thus deserving of our approval. BUT, from a divine standpoint they exist without God's approval (authority) and are deviations from His divine pattern for the church. There is only one religious institution that exists with God's approval, and that is the local church (<span class="scripture-ref">Phil. 1:1</span>). The existence of human institutions deny the wisdom of God and the all-sufficiency of the Lord's church. The church cannot, with divine approval, transfer the work of the local church to some humanly devised institution, nor does any human organization have the right to promote and solicit funds from churches to do the work God has given the local church to perform. Read and study <span class="scripture-ref">Col. 3:17</span>; <span class="scripture-ref">1 Cor. 4:6</span>; <span class="scripture-ref">2 Tim. 1:13</span>; <span class="scripture-ref">Phil. 4:9</span>; <span class="scripture-ref">2 Thess. 2:15</span>; <span class="scripture-ref">Heb. 8:5</span>.</p>
+        <p>Institutional perversions in church organization and function take place because people fail to understand the nature of the church, and/or fail to comprehend the word "church" is used in two senses: (1) universal, and (2) local. They view the universal church as an organization, rather than a relationship. The Church of Christ, universally, is not an institution, but a living organism (people not things). It is composed of God's saved people (<span class="scripture-ref">Acts 2:47</span>), related to Christ and one another, as members of His body, the church (<span class="scripture-ref">Col. 1:18</span>; <span class="scripture-ref">Eph. 1:22-23</span>). The church (universal or local) always denotes people in the right relationship to God. They are "called out" of the world to be "His own special people" (<span class="scripture-ref">1 Pet. 2:9-10</span>). The failure to grasp these concepts leads to institutionalism.</p>
+        <p>In the universal sense, the church is strictly a relationship. God has never authorized any machinery by which the church, universally, is to function. It has no earthly organization, hence no duty or mission to perform. When fallible men (regardless of how well-intentioned) attempt to activate the church universally, with some super-organization, they are pitting their puny human will against the infallible wisdom of God (<span class="scripture-ref">1 Cor. 3:19</span>). Institutional-minded brethren either do not comprehend, or refuse to accept this fact as they set about formulating and promoting their human organizations and institutions.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="faith-alone">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>Salvation At The Point Of Faith "Alone"</h2>
+        <p>Probably the most common doctrine in the religious world today is salvation at the point of faith alone. Almost any religious person today will tell you that once they "accepted Christ as their personal Savior," they were saved from their sins. Is this true? What does the Bible say about man's salvation?</p>
+        <p>The Bible teaches: 1) People saw salvation when John preached (<span class="scripture-ref">Lk. 1:77</span>, <span class="scripture-ref">3:6</span>). 2) Salvation came through Christ (<span class="scripture-ref">Matt. 1:21</span>; <span class="scripture-ref">Lk. 2:30</span>, <span class="scripture-ref">19:9-10</span>; <span class="scripture-ref">Jn. 3:17</span>, <span class="scripture-ref">10:9</span>, <span class="scripture-ref">12:47</span>; <span class="scripture-ref">Acts 4:12</span>; <span class="scripture-ref">1 Tim. 1:15</span>; <span class="scripture-ref">Heb. 7:25</span>; <span class="scripture-ref">Jas. 4:12</span>; <span class="scripture-ref">Rom. 4:25</span>). 3) Paul and Barnabas showed people "the way of salvation" (<span class="scripture-ref">Acts 16:17</span>). 4) The Gospel is God's power to salvation (<span class="scripture-ref">Rom. 1:16</span>; <span class="scripture-ref">Eph. 1:13</span>; <span class="scripture-ref">Jas. 1:21</span>; <span class="scripture-ref">1 Cor. 15:1-2</span>; <span class="scripture-ref">Gal. 2:16</span>). 5) Man must believe and confess Christ in order to be saved (<span class="scripture-ref">Rom. 10:9-10</span>). 6) "Godly sorrow worketh repentance to salvation" (<span class="scripture-ref">II Cor. 7:10</span>). Repentance of sins saves man (<span class="scripture-ref">Acts 2:38</span>). 7) God's grace saves us (<span class="scripture-ref">Tit. 2:11</span>, <span class="scripture-ref">3:7</span>; <span class="scripture-ref">Acts 15:11</span>; <span class="scripture-ref">Eph. 2:5, 8</span>; <span class="scripture-ref">II Tim. 1:9</span>; <span class="scripture-ref">Rom. 3:24</span>). 8) Obedience to Christ saves us (<span class="scripture-ref">Heb. 5:8-9</span>; <span class="scripture-ref">Rom. 2:13</span>; <span class="scripture-ref">Matt. 7:21</span>; <span class="scripture-ref">Jas. 2:24</span>). 9) Faith saves us (<span class="scripture-ref">Mk. 16:16</span>; <span class="scripture-ref">1 Pet. 1:9-10</span>; <span class="scripture-ref">1 Cor. 1:21</span>; <span class="scripture-ref">Heb. 10:39</span>; <span class="scripture-ref">Lk. 8:12</span>; <span class="scripture-ref">Acts 10:43</span>, <span class="scripture-ref">13:39</span>, <span class="scripture-ref">16:11</span>; <span class="scripture-ref">Eph. 2:8</span>; <span class="scripture-ref">Rom. 3:25, 28, 30</span>, <span class="scripture-ref">5:1</span>; <span class="scripture-ref">Gal. 3:8</span>). 10) Salvation is seen in God's longsuffering (<span class="scripture-ref">II Pet. 3:15</span>; <span class="scripture-ref">Rom. 3:25</span>). 11) People were commanded to "save themselves" (<span class="scripture-ref">Acts 2:40</span>; <span class="scripture-ref">1 Tim. 4:16</span>). 12) The preaching of the Gospel saves (<span class="scripture-ref">1 Cor. 1:21</span>). 13) Baptism saves us (<span class="scripture-ref">1 Pet. 3:21</span>; <span class="scripture-ref">Mk. 16:16</span>; <span class="scripture-ref">Acts 2:38</span>, <span class="scripture-ref">22:16</span>; <span class="scripture-ref">Tit. 3:5</span>; <span class="scripture-ref">1 Cor. 6:11</span>; <span class="scripture-ref">Jn. 3:3-5</span>; <span class="scripture-ref">Eph. 5:26</span>). 14) The one who endures to the end will be saved (<span class="scripture-ref">Matt. 24:13</span>; <span class="scripture-ref">Mk. 13:13</span>). 15) The word of God/Christ saves (<span class="scripture-ref">Jn. 5:34</span>; <span class="scripture-ref">2 Tim. 3:15</span>; <span class="scripture-ref">Acts 11:14</span>). 16) "Whosoever shall call upon the name of the Lord shall be saved" (<span class="scripture-ref">Acts 2:21</span>; <span class="scripture-ref">Rom. 10:13</span>). 17) The blood of Christ saves us (<span class="scripture-ref">Rom. 3:25</span>, <span class="scripture-ref">5:9</span>; <span class="scripture-ref">Matt. 26:28</span>; <span class="scripture-ref">Heb. 9:22</span>; <span class="scripture-ref">Rev. 1:5</span>). 18) We are saved by the life of Christ (<span class="scripture-ref">Rom. 5:10</span>). 19) We are saved by hope (<span class="scripture-ref">Rom. 8:24</span>). 20) We must love the truth in order to be saved (<span class="scripture-ref">II Thess. 2:10</span>). 21) God's mercy saves us (<span class="scripture-ref">Tit. 3:5</span>). 22) God saves us (<span class="scripture-ref">Rom. 3:25, 30</span>, <span class="scripture-ref">8:33</span>; <span class="scripture-ref">Gal. 3:8</span>). 23) Our own words can save or condemn us (<span class="scripture-ref">Matt. 12:36-37</span>). 24) Those whom God saves have been called by the gospel (<span class="scripture-ref">Rom. 8:30</span>; <span class="scripture-ref">II Thess. 2:14</span>). 25) Finally, the Bible says that God wants all men to be saved (<span class="scripture-ref">1 Tim. 2:4</span>).</p>
+        <p>Believe it or not, this is not a complete list! After finding 25 things that the Bible says saves us, would anyone dare say that one of these things "alone" could save us? Why is it that so many "religious" people believe that faith "alone" will save a man? We have listed several passages that state that faith will save you. Yet, where is the passage that says faith "alone" does anything? The only time we read about faith "alone," the Bible says it will not justify a man, but is dead (<span class="scripture-ref">James 2:24, 26</span>)!!!</p>
+        <p>Some may say that we are "mixing categories." That is that there are things that God has done to bring about salvation, and then things man must do. No one denies this. I believe and teach that there are things God has done in order to bring about man's salvation. For man to try to "do it on his own," would result in nothing but his dying in his sins. Dear reader, take a sheet of paper and go back through the things we have listed. Draw a line dividing the sheet in two, and on one side of the line write at the top of the page, "What God does." Then, on the other side of the line write, "What man does." Write down all that God has done to bring about salvation for man and then what man must do in response. I can assure you that you will not have a "lop-sided" list; nor will there be many things which God has done, and only one thing that man does for salvation!</p>
+        <p>If we can look into the Bible and find anything besides faith that man must do in order to be saved (ex. repent of past sins, confess Christ), then man isn't saved by faith "alone" is he? We are not denying the importance of faith in Christ at all. Without faith, we will die in our sins (<span class="scripture-ref">Jn. 8:24</span>; <span class="scripture-ref">Heb. 11:6</span>). However, we must not get caught up in the false teaching that says that faith "alone" saves us!</p>
+        <p>The salvation of man's eternal soul is the most important thing in this world (<span class="scripture-ref">Matt. 16:26</span>). Jesus came to die for us and save us (<span class="scripture-ref">1 Tim. 1:15</span>). God has given us His word (<span class="scripture-ref">2 Tim. 3:16-17</span>). Now, it is up to us to read, study, and obey His precious word (<span class="scripture-ref">Eph. 3:4</span>; <span class="scripture-ref">2 Tim. 2:15</span>; <span class="scripture-ref">Jas. 1:22-25</span>; <span class="scripture-ref">Matt. 7:21-23</span>). When we do all He said to do, we are unprofitable servants (<span class="scripture-ref">Lk. 17:10</span>). Yet, for all of this, God loves us and has provided a plan we can follow and be saved (<span class="scripture-ref">Acts 2:36-38</span>). Are you saved from your sins?</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-faith">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Faith</h2>
+        <p>In last month's article, we discussed the basic principles involved in conversion. Briefly, they were: (1) Conversion means that a change takes place in a person's life. (2) Conversion involves the forgiveness of a person's sins. (3) Jesus Christ is the means by which a person is converted. (4) Conversion cannot take place without a person's obedience.</p>
+        <p>We now begin to discover what this obedience includes. Specifically, in this article, we begin with faith.</p>
+        <p><strong>Faith is Necessary.</strong> Without faith, it is absolutely impossible to please the God of heaven (<span class="scripture-ref">Heb. 11:6</span>). The eleventh chapter of the New Testament book of Hebrews brims with examples of those who pleased God because of their abounding faith. Such faith is necessary of those who would be converted to Jesus Christ. In particular, one must believe that Jesus is the Son of God. He Himself said, "Therefore I said to you that you will die in your sins; for if you do not believe that I am He, you will die in your sins" (<span class="scripture-ref">John 8:24</span>). So one must believe that Jesus is the Christ, the Son of the living God, in order to receive the blessing of conversion (<span class="scripture-ref">Matt. 16:16-17</span>).</p>
+        <p><strong>What Faith is Not.</strong> Faith is one of those words that has become an ecclesiastical term. More plainly, it's become a "church word". The term is mostly heard in religious contexts; thus it is considered a religious term. And as is true with many "religious" terms, people want to make the concept of faith more difficult than it needs to be. Some have the idea that faith is some kind of supernatural and celestial concept that cannot be described. Most people in the religious world believe that faith is a mystical process by which a person accepts or receives Jesus into his heart. Good reader, think it not rude if I tell you that the Bible nowhere teaches this concept of faith. The good book of God nowhere teaches that faith is some experience that can be felt, but not described.</p>
+        <p><strong>What Faith is.</strong> According to the Bible, faith is that which involves the conversion of a man's intellect. Nothing more. Nothing less. Faith involves the changing (converting) of a man's knowledge. It's that which entails a change in the understanding that a person has; in this case, his understanding about spiritual things. And it is a completely normal and natural concept.</p>
+        <p>In different places while preaching on this subject, I generally ask the audience to indicate if they have been to New York City by raising their hands. Few raise their hands. I then ask for those who have not been to New York City. More raise their hands to this question. I then ask for all those who believe that there is such a place as New York City. Without fail, everyone raises their hand to this question. Now this is simple. The ones who have never been to NYC, probably believe there is such a city just as strongly as the ones who have been. But they simply believe for a different reason. They raise their hands to that last question on the basis of faith. The ones who have been there probably believed there was such a city before they went but now that they've been, they believe because of sight (compare <span class="scripture-ref">2 Cor. 5:7</span>).</p>
+        <p>Faith is that which causes a person to believe a thing before they've seen it. "Now faith is the substance of things hoped for, the evidence of things not seen" (<span class="scripture-ref">Heb. 11:1</span>). Even though I personally have not seen New York City, the evidence (notice that word in <span class="scripture-ref">Heb. 11:1</span>) in support of such a city existing is so overwhelming that it cannot be denied. That's what faith is all about - believing in light of evidence that is so strong that you just have to believe or deny the obvious. So it is with Jesus, the Christ. A person's understanding changes. They accept evidence they have learned and believe in Him on the basis of that evidence.</p>
+        <p>Now, of what benefit is this new acceptance of facts? The Bible teaches that it is of no benefit yet. The only change (conversion) that has occurred is of this person's intellect. Other changes must take place. In the next article, we will continue with the next element in conversion.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="romans-7">
+        <span class="article-category">Marriage & Divorce</span>
+        <h2>Romans 7:1-3</h2>
+        <p>Please read <span class="scripture-ref">Romans 7:1-3</span>. Does this text allow the unscripturally divorced to remarry when one party dies? No!</p>
+        <p><strong>Reason Number One: The Woman Of Romans 7:2a.</strong> The immediate context of <span class="scripture-ref">Romans 7:2a</span> is <span class="scripture-ref">Romans 7:1-6</span>. The purpose of which is to help the Jew understand that he was made dead to the Law of Moses by the body of Christ so that he could be married to Christ. To illustrate this important truth, Paul used the marriage relationship.</p>
+        <p>While <span class="scripture-ref">Romans 7:1-6</span> is not primarily a discussion of marriage, divorce, and remarriage, it does have a bearing on those matters. In the areas where it does touch such subjects, what it has to say must be given consideration. But, we must not stretch it to cover matters beyond its scope.</p>
+        <p>Consider the word translated "hath an husband" (upandros), which is a combination of upo (under) and aner (man) and means "under, i.e. subject to a man" (Thayer, p. 638), "under the power of or subject to a man, the married woman" (A&G, p. 845). This is its only occurrence in the NT. It is used in the Septuagint Version in <span class="scripture-ref">Numbers 5:20,29</span> and <span class="scripture-ref">Proverbs 6:24,29</span> of a woman married to an husband. The word is an adjective which describes a woman who is married: under the authority of an husband.</p>
+        <p>What woman is NOT the woman of <span class="scripture-ref">Rom. 7:2a</span>? (1) She is not one who has unscripturally divorced her husband. This woman is still bound to her husband. She is described by Paul as unmarried for she is instructed to "...remain unmarried, or be reconciled to her husband..." (<span class="scripture-ref">I Cor. 7:10,11</span>). This woman cannot scripturally marry anyone but the one she divorced. (2) The woman of <span class="scripture-ref">Rom. 7:2a</span> is not one who has been unscripturally divorced by her husband. She is still bound to him and <span class="scripture-ref">I Cor. 7:10,11</span> would apply to her. She is unmarried and must remain so or be reconciled to her husband. These are her only scriptural alternatives. (3) The woman of <span class="scripture-ref">Rom. 7:2a</span> is not one who has been scripturally put away for fornication. This woman can never live scripturally with another husband: "and whoso marrieth her which is put away doth commit adultery" (<span class="scripture-ref">Mt. 19:9</span>; cf. <span class="scripture-ref">Mt. 5:32</span>; <span class="scripture-ref">Lk. 16:18</span>). (4) The woman of <span class="scripture-ref">Rom. 7:2a</span> is not the woman who is living in adultery for she is living with a husband to whom she is not bound.</p>
+        <p>Who is the woman of <span class="scripture-ref">Rom. 7:2a</span>? She is a woman who, having been scripturally eligible to marry, has married a scripturally eligible mate. Who is that woman? (1) A woman who has never been married. (2) A woman who is not guilty of fornication, but who has scripturally divorced a scriptural mate for fornication (<span class="scripture-ref">Mt. 5:32</span>; <span class="scripture-ref">19:9</span>). (3) A woman whose scriptural mate has died. Either of these three could be the woman of <span class="scripture-ref">Rom. 7:2a</span>.</p>
+        <p><strong>Reason Number Two: I Cor. 7:10,11.</strong> "And unto the married I command, yet not I, but the Lord, Let not the wife depart from her husband: But and if she depart, let her remain unmarried, or be reconciled to her husband: and let not the husband put away his wife" (<span class="scripture-ref">I Cor. 7:10,11</span>). It is evident that "depart" and "put away" refer to divorce, for these are to remain UNMARRIED or be reconciled to one another. After the unscriptural divorce they are not married. Bound, yes, but not married. Their only alternatives are to remain unmarried or be reconciled. The situation under consideration in <span class="scripture-ref">I Cor. 7:10,11</span> is not under consideration in <span class="scripture-ref">Rom. 7:1-3</span>.</p>
+        <p><strong>Reason Number Three: Luke 16:18a.</strong> "Whosoever putteth away (divorces) his wife, and marrieth another, committeth adultery..." (<span class="scripture-ref">Lk. 16:18a</span>). In this case a man unscripturally divorces his wife. As a result, they are bound, but not married. Now suppose she dies. Can he remarry? No! Because <span class="scripture-ref">Lk. 16:18a</span> plainly says that he committeth adultery if he marries. Also, <span class="scripture-ref">I Cor. 7:10,11</span> applies here: It is remain unmarried or be reconciled. It was the unscriptural divorce which caused the problem, not death.</p>
+        <p><strong>Reason Number Four: Luke 16:18b; Mt. 5:32; Mt. 19:9.</strong> "...and whosoever marrieth her that is put away from her husband committeth adultery" (<span class="scripture-ref">Lk. 16:18b</span>). According to these verses, the "put away party" NEVER has the right of remarriage.</p>
+        <p><strong>Conclusion.</strong> The woman of <span class="scripture-ref">Romans 7:2a</span> is married to and bound to the husband with whom she lives. If her husband dies, she is loosed from the law of her husband and can scripturally marry a scriptural candidate for marriage. Study carefully.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <article class="article" id="just-teach">
+        <span class="article-category">Commentary</span>
+        <h2>Just Teach What The Bible Teaches</h2>
+        <p>In the first century, brethren had disagreements. (1) "...Paul and Barnabas had no small dissension and disputation..." with those who "...taught the brethren...except ye be circumcised after the manner of Moses, ye cannot be saved" (<span class="scripture-ref">Acts 15:1,2</span>). (2) In Corinth, brethren disagreed about whom they should follow. Some said, "I am of Paul; and I of Apollos; and I of Cephas; and I of Christ" (<span class="scripture-ref">I Cor. 1:12</span>).</p>
+        <p>In such conflict, you never read where Paul said, "Brethren, let's stop this debating and just preach the truth." No, in such conflict, Paul dealt with the error. (1) In Galatians 2, Paul said, "...neither Titus...was compelled to be circumcised: And that because of false brethren...who came in...to spy out our liberty which we have in Christ Jesus, that they might bring us into bondage: To whom we gave place by subjection, no, not for an hour; that the truth of the gospel might continue with you." (2) To Corinth Paul said, "...there is among you envying, and strife, and divisions...one saith, I am of Paul; and another, I am of Apollos; are ye not carnal? Who then is Paul, and who is Apollos, but ministers by whom ye believed...I have planted, Apollos watered; but God gave the increase...neither is he that planteth anything, neither he that watereth; but God that giveth the increase...therefore, let no man glory in men..." (<span class="scripture-ref">I Cor. 3:3-6, 21</span>).</p>
+        <p>In recent times, we have been advised to preach what the Bible says about the Deity and humanity of Christ and quit debating and discussing the details. That advice might be good, if someone had never said, "While on earth, Jesus was just a man." or "While on earth, Jesus was Deity, but never used any Divine attributes." Once such statements were made, faithful brethren saw the need to deal with them.</p>
+        <p>We are to "...preach the word..." (<span class="scripture-ref">II Tim. 4:2</span>) and "...contend for the faith..." (<span class="scripture-ref">Jude 3</span>), but we are also "...to stand against the wiles of the devil...for we wrestle...against spiritual wickedness..." (<span class="scripture-ref">Eph. 6:11ff</span>).</p>
+        <p>"...how good...it is for brethren to dwell together in unity" (<span class="scripture-ref">Ps. 133:1</span>). However, true unity must be based on Truth. We must stand on the truth of God's Word and not compromise the things which God has plainly revealed. When someone teaches error, we are duty bound to address it, not simply brush it aside in the name of unity. True unity comes from adherence to the same standard - God's Word.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published February 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

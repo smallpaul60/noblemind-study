@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - March 2001</title>
+  <meta name="description" content="The Strait Way newsletter, March 2001 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001" selected>2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03" selected>March</option>
+              <option value="04-05">April/May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#jews-israel-1">Jews &amp; Israel (1)</a>
+        <a href="#bible-authority">Bible Authority</a>
+        <a href="#church-history">Church History</a>
+        <a href="#genesis">Genesis: Approaches</a>
+        <a href="#trends">Trends: Man In Pew</a>
+        <a href="#church-origins">Church Origins</a>
+        <a href="#jews-israel-2">Jews &amp; Israel (2)</a>
+        <a href="#jews-israel-3">Jews &amp; Israel (3)</a>
+      </nav>
+
+      <article class="article" id="jews-israel-1">
+        <span class="article-category">Jews &amp; Israel</span>
+        <h2>Questions About The Jews And The Nation of Israel (1)</h2>
+        <p><strong>Question:</strong> In the OT book of Joshua, did God give the Jews all of the land He promised them?</p>
+        <p><strong>Answer:</strong> In <span class="scripture-ref">Genesis 12</span>, God promised to make of Abram a great nation (12:2), to bless all families of the earth through him (12:3), and to give a land to his seed, "...Unto thy seed will I give this land...." What does the Bible say about the fulfillment of the land promise? Has it already been fulfilled or is the fulfillment yet future?</p>
+        <p>The land promise was renewed to Abram (<span class="scripture-ref">Genesis 13:14-16; 15:18-21</span>), Isaac (<span class="scripture-ref">Genesis 26:3,4</span>), Jacob (<span class="scripture-ref">Genesis 28:13-15; 35:12</span>), and to the children of Israel (<span class="scripture-ref">Numbers 13:1,2</span>). Since God is not slack concerning His promises (<span class="scripture-ref">II Peter 3:9</span>), we know that He either has fulfilled the land promise or He will.</p>
+        <p>"When the Lord thy God hath cut off the nations, whose land the Lord thy God giveth thee, and thou succeedest them, and dwellest in their cities, and in their houses; Thou shalt separate three cities for thee in the midst of thy land, which the Lord thy God giveth thee to possess it....Wherefore I command thee, saying, Thou shalt separate three cities for thee. And if the Lord thy God enlarge thy coast, as he hath sworn unto thy fathers, and give thee all the land which he promised to give unto thy fathers; If thou shalt keep all these commandments to do them which I command thee this day, to love the Lord thy God, and to walk ever in his ways; then shalt thou add three cities more for thee, beside these three" (<span class="scripture-ref">Deuteronomy 19:1-10</span>).</p>
+        <p>Here is the promise: If God gave them all the land, then they would have six cities of refuge. "And they appointed Kedesh in Galilee in mount Naphtali, and Shechem in mount Ephraim, and Kirjatharba, which is Hebron, in the mountain of Judah. And on the other side Jordan by Jericho eastward, they assigned Bezer in the wilderness upon the plain out of the tribe of Reuben, and Ramoth in Gilead out of the tribe of Gad, and Golan in Bashan out of the tribe of Manasseh. These were the cities appointed for all the children of Israel..." (<span class="scripture-ref">Joshua 20:7-9</span>). Their appointing six cities of refuge is irrefutable evidence that God had given them all the land He promised to Abram, Isaac, Jacob, and Israel. They received it.</p>
+        <p>Now notice further: "And the Lord gave unto Israel all the land which he sware to give unto their fathers; and they possessed, and dwelt therein. And the Lord gave them rest round about, according to all that he sware unto their fathers: and there stood not a man of all their enemies before them; the Lord delivered all their enemies into their hand. There failed not ought of any good thing which the Lord had spoken unto the house of Israel; all came to pass" (<span class="scripture-ref">Joshua 21:43-45</span>).</p>
+        <p>"...let God be true, but every man a liar..." (<span class="scripture-ref">Romans 3:4</span>). Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="bible-authority">
+        <span class="article-category">Bible Authority</span>
+        <h2>Establishing Bible Authority</h2>
+        <p>In previous articles on bible authority we have seen the need for authority and some of the false standards that men use to establish it. Let us consider now establishing authority by the only true standard, the word of God. The apostle clearly states "all scripture is given by inspiration of God and is profitable for doctrine, for reproof, for correction, for instruction in righteousness: that the man of God may be perfect, throughly furnished unto all good works" (<span class="scripture-ref">2 Tim 3:16-17</span>).</p>
+        <p>The question then arises, how does the word of God give us this instruction and how does it furnish us to every good work? Plainly put, how does the word of God teach and instruct us, and thus assure us that we have authority from God behind us in what we do or teach? (<span class="scripture-ref">Col. 3:17</span>) The question truly asks how is bible authority established by God's word or how does the bible teach?</p>
+        <p>Throughout the bible we notice over and over that God teaches by a <strong>direct statement or command</strong>. In these direct statements we must always realize to whom God is speaking. God makes the direct statement or command "make thee an ark of gopher wood" (<span class="scripture-ref">Gen. 6:14</span>). We realize that God authorized, by his word, a man named Noah to make an ark of gopher wood for the saving of his house (<span class="scripture-ref">Heb. 11:7</span>). Noah, in thus doing so, saved his family from the great flood by faith. This faith came from "hearing the word of God" (<span class="scripture-ref">Rom. 10:17</span>).</p>
+        <p>In the New Testament we are authorized to do many things in religion by a direct statement or command. For example we know that repentance from sins is necessary in order for anyone to receive forgiveness. We know this to be true because of the direct statement or command, "God commandeth all men everywhere to repent" (<span class="scripture-ref">Acts 17:30</span>).</p>
+        <p>God's word also teaches and authorizes us by <strong>approved bible examples</strong>. We are taught that one local church is authorized by an approved bible example to send to other local churches to care for Christians who are in need. "Then the disciples, every man according to his ability, determined to send relief unto the brethren which dwelt in Judea: which also they did and sent it to the elders by the hands of Barnabas and Saul" (<span class="scripture-ref">Acts 11:29-30</span>).</p>
+        <p>A third way the bible teaches and authorizes us is by a <strong>necessary inference</strong>. A necessary inference is simply a conclusion that is drawn from any given set of circumstances. When the bible gives us the circumstances that "when they believed Philip preaching the things concerning the kingdom of God and the name of Jesus Christ, they were baptized both men and women" (<span class="scripture-ref">Acts 8:12</span>) and that Philip "preached Christ unto them" (<span class="scripture-ref">Acts 8:5</span>), we necessarily conclude or infer that preaching baptism is part of preaching Christ.</p>
+        <p>We see all three of these ways of establishing authority in things concerning the memorial supper. We learn that we are to eat and drink the supper by a direct statement or command, "this do in remembrance of me" (<span class="scripture-ref">1 Cor. 11:24-25</span>). We are taught when to eat and drink by an approved bible example, "and upon the first day of the week, when the disciples came together to break bread" (<span class="scripture-ref">Acts 20:7</span>). We establish how often by necessary inference, concluding from the circumstances given in <span class="scripture-ref">Acts 20:7</span> and knowing that every week has a first day.</p>
+        <p class="author-signature">Richard Fox<br>Rt. 3 Box 825, Mt. Pleasant, TX 75455</p>
+      </article>
+
+      <article class="article" id="church-history">
+        <span class="article-category">Church History</span>
+        <h2>How Did the Term "Booger Man" Originate?</h2>
+        <p>You may think this a ridiculous thing for Christians to examine but there is a real lesson in looking into this. When I was a child growing up in East Texas, I was sometimes warned by adults, that for instance, if I got too close to an old dangerous water well or strayed too far from the house when I was very small, that "the booger man" would get me. This had the desired effect until I got old enough to wonder, "Just who is this booger man character, anyway?" When I asked who this mysterious person was, I was sometimes told that it was the Devil or a hobo or even just a bad man, but this was always said with a wry wink, to understand that this was all a big joke and that really it was only said to scare young children away from unsafe places or doing things that were dangerous without the need for lengthy explanations.</p>
+        <p>The etymology of the word is worth studying, however. It seems that the word "bugger" in England does indeed mean a sodomite. And is still an insulting word. But the origin of the word comes from France, "bougre." "Bougre" is a French mutilation of the word "Bulgare." "Bulgare" means a person from Bulgaria. Bulgaria is a long way from France, so the question begs to be asked, "Why should a person from Bulgaria be such an evil person to someone all the way over in France?"</p>
+        <p>We know that the country now known as Bulgaria was once part of Roman Macedonia. Of course, the city of Philippi in the New Testament was a Roman colonial city of Macedonia and was the location of the first European church of Christ (<span class="scripture-ref">Acts 16:9-12</span>). Lydia and the Philippian jailor and their households made up the very first of these Christians. Even though nations and borders have changed some in recent centuries, it may be possible that Christians long remained there among the native Bulgarians.</p>
+        <p>Beginning in the early part of the 1100s a great persecution began against churches of Christ in Europe and particularly in France. We are fairly certain these must have been churches of Christ because of their "peculiar" beliefs in a Europe that the Catholic Church was mightily striving to subjugate. Rome would not permit autonomy of churches and these churches resisted being brought into the great "Mother Church." They also did not have priests nor practice infant baptism but insisted that only believers be baptized for remission of sins. As the Catholic Church gained a greater hold in these regions, the rulers, to please the Pope, began a horrible persecution of these people, burning many at the stake and rooting out all congregations they could by torture and death. During this severe persecution, gospel preachers, chiefly from this region, the home of Bulgarians, came and tried to persuade Christians to remain strong. The French Catholic authorities warned the populace of these invading "Bulgares" which became synonymous with "heretics." Further insulting these good men and to make the war of name calling even more powerful, this word evolved into "bougre," or sodomite. The word probably came into English during the Hundred Years War between France and England when other French slang words entered into "the King's English."</p>
+        <p>The wicked have always used such tactics to undermine the credibility of faithful preachers to the public, have they not? <span class="scripture-ref">Acts 24:5</span>, "For we have found this man a pestilent fellow, and a mover of sedition...a ringleader of the sect of the Nazarenes."</p>
+        <p class="author-signature">Marc Smith<br>332 Will Boleman Drive, Hewitt, TX 76643</p>
+      </article>
+
+      <article class="article" id="genesis">
+        <span class="article-category">Genesis</span>
+        <h2>Approaches Considered (1)</h2>
+        <p>In speaking of creation, Jehovah pronounced, "Remember the Sabbath day, to keep it holy. Six days you shall labor and do all your work, but the seventh day is the Sabbath of the Lord your God. In it you shall do no work...For in six days the Lord made the heavens and the earth...and rested the seventh day. Therefore the Lord blessed the Sabbath day and hallowed it" (<span class="scripture-ref">Ex. 20:8-11</span>). Jews understood that the Sabbath was literally the seventh day. Contextually they also understood the freedom to labor "six days" and the restriction to rest on day seven. Jehovah made the heavens and the earth in six days and rested on the seventh was the basis for their belief.</p>
+        <p>Evolution and long age geology has been so powerful that we actually believe that believing the world is several thousands of years old is believing in a "young earth." Of course to such fantasizing time tables of billions of years, thousands of years seem like a mere "vapor." Such philosophical arenas have entertained and captivated the modern mind of many. Gladiators of atheism march out sporting with their weapons of assumptive "evidences" (which are nothing more than godless, faulty interpretations intermixed with pseudo-science and some borderline criminal behavior). Nebraska Man, Piltdown Man, Neanderthal Man, Ramapithecus and others are illustrations of a little data with a lot of speculation and behind the scenes manipulation paraded in front of the world as "the missing link." Yet, the only thing missing was the truth, because the truth was not known or was covered up!</p>
+        <p>The fundamental difference between creation science and evolution is not so much of "true science" versus "religion," but rather how we approach the evidence with our bias. If one begins with the approach that there is no God, then one must interpret all evidence accordingly. Thus, a classic illustration is seen in the interpretation of the Grand Canyon. One approach will interpret the Grand Canyon as the work of long ages of time with a little amount of water (time + processes = reality). In contrast, another approach will formulate God + a small amount of time + a large amount of water as equally plausible. Both are beliefs, and both are based on assumptions. The difference is their approach: one leaves God out of the picture; the other sees God in the picture. Neither positions can be proven by science since science is limited to things that are observable and repeatable.</p>
+        <p>While we can observe the Grand Canyon today and the processes that are presently at work, we cannot prove scientifically that those were the same processes at work in the past 200 years let alone 2000 years—those processes were not observed by us! The only way that one can know the past is by "credible testimony" that has been preserved and passed down to the present generation. It is faith that bridges the gap to "certainty." We use credible testimony for nearly everything that we believe. For example, why do you believe that America was really 200 years old in 1976, or that the moon is not really a ball of cheese, or that your mother and father are really "mom &amp; dad"? Can you recall seeing and recognizing mom and dad the day you came out of the womb? Have you personally been to the moon to see for yourself its contents? Were you in the battlefields for independence? Yet, you believe these things to be true based on credible testimony. What is more credible than God's word, and where better to begin?</p>
+        <p class="author-signature">Steven J. Wallace<br>1002 Bloom Ave., Grandview, WA 98930</p>
+      </article>
+
+      <article class="article" id="trends">
+        <span class="article-category">Trends</span>
+        <h2>Trends Among Conservative Brethren: The Man In The Pew</h2>
+        <p>Heretofore, on this page, we have addressed some problems and concerns held by many brethren relative to trends or tendencies prevalent today among gospel preachers. We've noted that much of our preaching today fails to conform to the N.T. pattern, and is lacking in many of the characteristics of preaching done by our Lord and His apostles. We also noted that responsibility does not end with declaration, but standing firm for the truth is also enjoined upon God's servants.</p>
+        <p>In this article, we would like to address the other side of the coin; the responsibility of the man in the pew. Is this no more than being present, sitting comfortably in the pew, listening with the ear, and then go on our merry way? Brethren, do we not need to discipline ourselves better than that? Yes, and there is a trend today among many to not hear the gospel of Christ; in that they wish to "turn it off" as soon as possible. This trend must be reversed, and the sooner the better.</p>
+        <p>Words express the thoughts of the heart. Now, what is being said? What subjects are being discussed among the members following the worship service? Are the conversations spiritual or secular in their nature? The congregation has just engaged in worship to God; offering to Him the reverential fear, respect and adoration that He deserves from us. If this has been done, should it not be carried over in the hearts of the worshippers after the service is concluded? Do we hunger and thirst after righteousness as we are told in one of the beatitudes of <span class="scripture-ref">Matthew 5</span>? The index of our hearts will determine the nature of our conversations after the service is concluded.</p>
+        <p>Someone (identity unknown) has written a book entitled, "Preaching In The Thought Of Alexander Campbell." In a sermon contained in that book, Campbell made the following statement, "I am told that some members of this church are so worldly they are even discussing the weather on their way home." Now, I know we would consider that an extreme position. However, I think it illustrates the point we're trying to make in this article, and shows just how far we have gone, and how far we need to return in making the proper application of scripture to our lives.</p>
+        <p>I have lived in places where, at the conclusion of the worship service, it was most difficult to get members of the Lord's church to even engage in conversations dealing with spiritual matters. At times, we would frequent one of the local restaurants following the Sunday evening services, and I would seek conversation about the Lord and His church (spiritual matters) without success, because they had other interests. I am afraid this condition exists in a number of congregations today. Don't get me wrong; our social lives are important, but our spiritual interests should far outweigh our social interests. God's people in Old Testament times were characterized by closed minds, and were dull of hearing (<span class="scripture-ref">Heb. 2:1-2</span>). Unfortunately, this same condition is prevalent among many of God's people today.</p>
+        <p>The departure from God by His people in O.T. times was not in the worship of idols, nor in the sins of immorality. It began long before that when they decided not to hear the voice of the Lord (<span class="scripture-ref">Jer. 17:23; Prov. 1:24-33</span>). If the worship of God is no longer exciting, and we have lost our enthusiasm for the cause of Christ, I am afraid we're drifting, and maybe too far from the shore already. The cause of Christ is the greatest cause on this earth, and it deserves total commitment from every single one of its adherents. We do this by conforming to a simple, yet profound statement, "HEAR YE HIM" (<span class="scripture-ref">Matt. 17:5; Heb. 1:1-2</span>).</p>
+        <p class="author-signature">Leslie Sloan<br>1445 Rock Church Road, Dickson, TN 37055</p>
+      </article>
+
+      <article class="article" id="church-origins">
+        <span class="article-category">Church Origins</span>
+        <h2>Church Origins: "Church of God"</h2>
+        <p>Literally scores of separate religious groups wear the name "Church of God" in one form or another. Most of them have originated during the latter part of the nineteenth century or the early part of the twentieth century, but some began earlier.</p>
+        <p>About the turn of this century A.J. Tomlinson of North Carolina inaugurated a movement of which he served as general overseer from 1903 to 1923. Disagreement over the form of government and a dispute over who would be Tomlinson's successor led to the dividing of the movement into several groups. Of the three main bodies two have their headquarters in Cleveland, Tennessee and one in Queens Village, New York. Followers of Tomlinson claim that more than four denominations have arisen from his efforts. Since Jesus established His church more than 1900 years ago, I would be ashamed to have it said that I founded even one denomination.</p>
+        <p>Another "Church of God" has its headquarters at Anderson, Indiana and originated about 1880. It teaches much of the truth and is therefore much nearer to the New Testament pattern than the Tomlinson-originated bodies, but it is no less a human denomination. Another "Church of God" has its headquarters at Chattanooga, Tennessee and was organized in 1886 following a split among the followers of a preacher named H. Spurling. In 1922 the church was incorporated and the word "Original" was added to the name.</p>
+        <p>Still another "Church of God" has its headquarters at Stanberry, Missouri. Though formally organized only in 1865, the scattered remnants which were at that time united had roots that began as early as the latter part of the seventeenth century. This movement taught the observance of the Sabbath (the Seventh-day rest of the Law of Moses), and many of its followers, sometimes entire congregations, joined the Seventh-Day Adventist movement led by Mrs. Ellen G. White. Those who did not organized as the "Church of God." In 1933 a group withdrew from the main body and formed the "Church of God (Seventh-Day)," but in 1949 the two groups merged.</p>
+        <p>The "Church of God and Saints of Christ," composed of Negro people, was founded in 1896 by William S. Crowley. Crowley claimed to have seen visions and to have received a divine commission. He, naturally, became the first "Bishop" of the church and was also known as "The Prophet." "Prophet" Crowley led the people to believe that they were descendants of the "Lost tribes of Israel."</p>
+        <p>The "Church of God in Christ" is also composed of Negro people and is the largest among the groups wearing the name "Church of God." It was organized in 1897 by C.H. Manson. It is headed by a "Chief Apostle" or "General Overseer."</p>
+        <p>How can anyone familiar with the New Testament condone religious denominationalism? The Lord never sanctioned His disciples becoming divided nor men establishing other churches (<span class="scripture-ref">John 17:20-21; Matt 15:13-14</span>).</p>
+        <p class="author-signature">Bill Crews<br>9923 Sunny Cline DR, Baton Rouge, LA 70814</p>
+      </article>
+
+      <article class="article" id="jews-israel-2">
+        <span class="article-category">Jews &amp; Israel</span>
+        <h2>Questions About the Jews And The Nation Of Israel (2)</h2>
+        <p><strong>Questions:</strong> Is the land God gave the Jews as recorded in the OT book of Joshua still theirs by Divine right? Is the land God gave the Jews as recorded in the OT book of Joshua still theirs by Biblical right?</p>
+        <p><strong>Answer:</strong> The two questions of this study are the same. If the Jews have a Divine right to the land, then the Bible will tell us so. How else could we know? Therefore, a Biblical right equals a Divine right.</p>
+        <p>The giving of the land to Abraham's seed was unconditional. Their remaining on the land was conditional. For proof of this last statement, read <span class="scripture-ref">Deuteronomy chapter 28</span> and <span class="scripture-ref">II Kings 17:23</span>. In <span class="scripture-ref">Isaiah 43:28</span> the prophet said, "Therefore I (Jehovah) have profaned the princes of the sanctuary, and have given Jacob to the curse, and Israel to reproaches." Where has this ever been reversed? Read <span class="scripture-ref">Romans chapters 9-11</span> and see that in <span class="scripture-ref">Romans 11:15-32</span> Paul teaches that the natural branches (the Jews) were broken off because of unbelief.</p>
+        <p>Has God fulfilled the land promise to Abraham? Millennialists say, NO! For proof that God has fulfilled that promise, please read the front page article. Since the land promise has already been fulfilled, it cannot be fulfilled in the future.</p>
+        <p>Further, many are looking for Jesus to return to earth and set up an earthly kingdom with a throne in Jerusalem. At which time all Jews, who are not deceived by a supposed antichrist, will be converted. This earthly kingdom is to last one thousand years amid peace and tranquility. And they are to be given the land promised to Abraham. Does the Bible teach that Jesus will return to earth, vanquish an antichrist, then set up an earthly kingdom which will last one thousand years? No! Consider the following reasons.</p>
+        <p>First, many believe that Jesus came to offer the Jews a physical, earthly kingdom, but they refused it. Such is not the case. The Jews wanted to make Jesus a physical, earthly king, "When Jesus therefore perceived that they would come and take him by force, to make him a king, he departed again into a mountain himself alone" (<span class="scripture-ref">John 6:15</span>). Jesus told Pilate, "...My kingdom is not of this world..." (<span class="scripture-ref">John 18:36</span>). They wanted Him to be an earthly king, but such was not the nature of His kingdom.</p>
+        <p>Second, when Jesus returns, the righteous will meet Him in the air "For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first; Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord" (<span class="scripture-ref">I Thessalonians 4:13-18</span>). The Bible nowhere teaches that Jesus will ever set foot on earth again. Why would He come back to earth when He Himself said, "It is finished" (<span class="scripture-ref">John 19:30</span>).</p>
+        <p>Third, when Jesus comes the world will be destroyed: "But the day of the Lord will come as a thief in the night; in the which the heavens shall pass away with a great noise, and the elements shall melt with fervent heat, the earth also and the works that are therein shall be burned up" (<span class="scripture-ref">II Peter 3:10</span>).</p>
+        <p>If the righteous are going to meet the Lord in the air and the world is going to be burnt up, How can Jesus set up a kingdom on earth and how could the land promise be fulfilled?</p>
+        <p>Fourth, the Bible teaches there will be one resurrection, in which all men will be raised at the last day. The future kingdom advocates believe in more than one resurrection. But, what does the Bible say? "...for the hour is coming, in which all that are in the graves shall hear his voice, And shall come forth..." (<span class="scripture-ref">John 5:28,29</span>). "And this is the Father's will which hath sent me, that of all which he hath given me I should lose nothing, but should raise it up again at the last day" (<span class="scripture-ref">John 6:39</span>). Millennialists want the righteous raised a thousand years before the last day. Jesus and the Millennialists do not agree. Listen to Jesus!</p>
+        <p>Fifth, the kingdom was taken from the Jews: "Therefore say I unto you, The kingdom of God shall be taken away from you, and given to a nation bringing forth the fruits thereof" (<span class="scripture-ref">Matt. 21:43</span>). In the Old Testament, the kingdom of God was a physical, earthly nation of Jews, most of whom were disobedient. God rejected them and cast them off because of their unbelief (<span class="scripture-ref">Romans 9-11</span>). In the New Testament, the kingdom of God is a spiritual nation made up of all the saved, Jew and Gentile.</p>
+        <p>Today, do the Jews have a Divine, or Biblical, right to the land God promised to Abraham? NO! Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="jews-israel-3">
+        <span class="article-category">Jews &amp; Israel</span>
+        <h2>Questions About The Jews And The Nation Of Israel (3)</h2>
+        <p><strong>Question:</strong> Are the Jews still God's "chosen" people?</p>
+        <p><strong>Answer:</strong> The question implies the Jews have been God's chosen people. Moses said to Israel, "For thou [art] an holy people unto the LORD thy God: the LORD thy God hath chosen thee to be a special people unto himself, above all people that [are] upon the face of the earth" (<span class="scripture-ref">Deuteronomy 7:6</span>). So the question is not, Have the Jews ever been God's chosen people? but, Are they still God's chosen people?</p>
+        <p>"Blessed be the God and Father of our Lord Jesus Christ, who hath blessed us with all spiritual blessings in heavenly places in Christ: According as he hath chosen us in him before the foundation of the world, that we should be holy and without blame before him in love..." (<span class="scripture-ref">Ephesians 1:3,4</span>). "But ye are a chosen generation, a royal priesthood, an holy nation, a peculiar people; that ye should shew forth the praises of him who hath called you out of darkness into his marvelous light: Which in time past were not a people, but are now the people of God: which had not obtained mercy, but now have obtained mercy" (<span class="scripture-ref">I Peter 2:9</span>). Today, God has a chosen people. Who are they?</p>
+        <p>"For ye are all the children of God by faith in Christ Jesus. For as many of you as have been baptized into Christ have put on Christ. There is neither Jew nor Greek, there is neither bond nor free, there is neither male nor female: for ye are all one in Christ Jesus. And if ye be Christ's, then are ye Abraham's seed, and heirs according to the promise" (<span class="scripture-ref">Galatians 3:28,29</span>). "For he is not a Jew, which is one outwardly; neither is that circumcision, which is outward in the flesh: But he is a Jew, which is one inwardly; and circumcision is that of the heart, in the spirit, and not in the letter; whose praise is not of men, but of God" (<span class="scripture-ref">Romans 2:28,29</span>).</p>
+        <p>Today, God's chosen people are neither Jews nor Gentiles but Christians who have been baptized into Christ Jesus. Are the Jews still God's chosen people? NO! Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published March 2001 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

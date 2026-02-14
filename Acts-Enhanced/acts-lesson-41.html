@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acts Lesson 41: Journey to Jerusalem | A Study of the Book of Acts</title>
+  <style>
+    :root {
+      --bg-dark: #1a1a1a;
+      --bg-card: rgba(35, 30, 45, 0.92);
+      --bg-inner: rgba(25, 22, 35, 0.96);
+      --text-primary: #f5f0e6;
+      --text-secondary: #c0b8a8;
+      --accent-gold: #e8b923;
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-blue: #5b9bd5;
+      --accent-blue-glow: rgba(91, 155, 213, 0.4);
+      --accent-burgundy: #8b4557;
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.3);
+      --radius-card: 20px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', 'Georgia', serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(91,155,213,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.55), transparent 50%),
+        radial-gradient(circle at top right, rgba(91,155,213,0.45), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,87,0.35), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(91,155,213,0.2),
+        0 0 80px rgba(232,185,35,0.25);
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 45px 40px;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 12px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.85), rgba(25,22,35,1));
+      box-shadow: 0 0 25px rgba(232,185,35,0.5);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 35px;
+      padding-bottom: 25px;
+      border-bottom: 1px solid rgba(232,185,35,0.25);
+    }
+    .series-title {
+      font-size: 1rem;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent-gold);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .scripture-ref {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 15px 20px;
+      background: rgba(232,185,35,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(232,185,35,0.15);
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(232,185,35,0.3);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+    }
+    .nav-controls select option {
+      background: #2a2535;
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-blue);
+      font-size: 0.85rem;
+    }
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .key-verse {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: rgba(139,69,87,0.1);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(139,69,87,0.25);
+    }
+    .key-verse h2 {
+      color: var(--accent-burgundy);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent-gold);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .questions-section, .thought-questions {
+      margin-bottom: 35px;
+    }
+    .questions-section h2, .thought-questions h2 {
+      color: var(--accent-gold);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(232,185,35,0.3);
+    }
+    .thought-questions h2 {
+      color: var(--accent-blue);
+      border-bottom-color: rgba(91,155,213,0.3);
+    }
+    .questions-intro {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .question {
+      margin-bottom: 18px;
+      padding-left: 15px;
+      border-left: 3px solid rgba(232,185,35,0.3);
+    }
+    .question.thought {
+      border-left-color: rgba(91,155,213,0.3);
+    }
+    .question-num {
+      color: var(--accent-gold);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .thought .question-num {
+      color: var(--accent-blue);
+    }
+    .question-text {
+      color: var(--text-primary);
+    }
+    
+    .supplementary > h2 {
+      color: var(--accent-blue);
+      font-size: 1.4rem;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+    .supp-content {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+    .supp-content p { margin-bottom: 15px; }
+    .supp-content strong { color: var(--text-primary); }
+    footer {
+      margin-top: 40px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(232,185,35,0.2);
+      text-align: center;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(91,155,213,0.1);
+      border: 1px solid rgba(91,155,213,0.3);
+      transition: all 0.3s;
+    }
+    .footer-nav a:hover {
+      background: rgba(91,155,213,0.2);
+      box-shadow: 0 0 10px var(--accent-blue-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; }
+      .glass-tab, .nav-controls, .home-link, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      .series-title, .part-title { color: #666; }
+      h1 { color: #333; text-shadow: none; font-size: 18pt; }
+      .scripture-ref { color: #666; }
+      .key-verse { background: #f9f9f9; border: 1px solid #ddd; border-left: 4px solid #8b4557; page-break-inside: avoid; }
+      .key-verse h2 { color: #8b4557; }
+      .questions-section h2 { color: #b8860b; }
+      .thought-questions h2 { color: #5b9bd5; }
+      .question { border-left-color: #e8b923; page-break-inside: avoid; }
+      .question.thought { border-left-color: #5b9bd5; }
+      .question-num { color: #b8860b; }
+      .thought .question-num { color: #5b9bd5; }
+      .question-text { color: #333; }
+      
+      
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 25px 20px; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+    }
+
+  
+    .supplementary {
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h2 {
+      color: var(--accent-burgundy, #8b4557);
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(139,69,87,0.3);
+    }
+    .supplementary h3 {
+      color: var(--accent-gold, #e8b923);
+      font-size: 1.1rem;
+      margin: 25px 0 12px 0;
+    }
+    .supplementary p {
+      margin-bottom: 15px;
+      text-align: justify;
+      line-height: 1.7;
+    }
+    .supplementary .supp-list {
+      margin: 15px 0;
+      padding-left: 25px;
+    }
+    .supplementary .supp-list li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+    .supplementary .supp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .supplementary .supp-table th,
+    .supplementary .supp-table td {
+      padding: 12px 15px;
+      border: 1px solid rgba(232,185,35,0.25);
+      vertical-align: top;
+      text-align: left;
+    }
+    .supplementary .supp-table th {
+      background: rgba(232,185,35,0.15);
+      font-weight: 600;
+      color: var(--accent-gold, #e8b923);
+    }
+    .supplementary .supp-table tr:nth-child(even) td {
+      background: rgba(232,185,35,0.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <p class="series-title">A Study of the Book of Acts</p>
+        <p class="part-title">Part 3: Paul's Missionary Journeys (Acts 13:1-21:16)</p>
+        <h1>Lesson Forty-One: Journey to Jerusalem</h1>
+        <p class="scripture-ref">Acts 21:1-16</p>
+      </header>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Acts Study Index
+        </a>
+        <select id="lesson-select" onchange="goToLesson(this.value)">
+            <option value="">Jump to Lesson...</option>
+            <option value="01">Lesson 1</option>
+            <option value="02">Lesson 2: Acts 1:1-12</option>
+            <option value="03">Lesson 3: Acts 1:13-26</option>
+            <option value="04">Lesson 4: Acts 2:1-21</option>
+            <option value="05">Lesson 5: Acts 2:22-47</option>
+            <option value="06">Lesson 6: Acts 3:1-26</option>
+            <option value="07">Lesson 7: Acts 4:1-22</option>
+            <option value="08">Lesson 8: Acts 4:23-37</option>
+            <option value="09">Lesson 9: Acts 5:1-16</option>
+            <option value="10">Lesson 10: Acts 5:17-42</option>
+            <option value="11">Lesson 11: Acts 6:1-15</option>
+            <option value="12">Lesson 12: Acts 7:1-19</option>
+            <option value="13">Lesson 13: Acts 7:20-50</option>
+            <option value="14">Lesson 14: Acts 7:51-60</option>
+            <option value="15">Lesson 15: Acts 8:1-25</option>
+            <option value="16">Lesson 16: Acts 8:26-40</option>
+            <option value="17">Lesson 17: Acts 9:1-22</option>
+            <option value="18">Lesson 18: Acts 9:23-43</option>
+            <option value="19">Lesson 19: Acts 10:1-24</option>
+            <option value="20">Lesson 20: Acts 10:24-48</option>
+            <option value="21">Lesson 21: Acts 11:1-18</option>
+            <option value="22">Lesson 22: Acts 11:19-30</option>
+            <option value="23">Lesson 23: Acts 12:1-25</option>
+            <option value="24">Lesson 24: Acts 13:1-16</option>
+            <option value="25">Lesson 25: Acts 13:17-37</option>
+            <option value="26">Lesson 26: Acts 13:38-52</option>
+            <option value="27">Lesson 27: Acts 14:1-13</option>
+            <option value="28">Lesson 28: Acts 14:14-28</option>
+            <option value="29">Lesson 29: Acts 15:1-21</option>
+            <option value="30">Lesson 30: Acts 15:22-41</option>
+            <option value="31">Lesson 31: Acts 16:1-15</option>
+            <option value="32">Lesson 32: Acts 16:16-40</option>
+            <option value="33">Lesson 33: Acts 17:1-15</option>
+            <option value="34">Lesson 34: Acts 17:16-34</option>
+            <option value="35">Lesson 35: Acts 18:1-17</option>
+            <option value="36">Lesson 36: Acts 18:18-28</option>
+            <option value="37">Lesson 37: Acts 19:1-20</option>
+            <option value="38">Lesson 38: Acts 19:21-41</option>
+            <option value="39">Lesson 39: Acts 20:1-16</option>
+            <option value="40">Lesson 40: Acts 20:17-38</option>
+            <option value="41" selected>Lesson 41: Acts 21:1-16</option>
+            <option value="42">Lesson 42: Acts 21:17-40</option>
+            <option value="43">Lesson 43: Acts 22:1-30</option>
+            <option value="44">Lesson 44: Acts 23:1-16</option>
+            <option value="45">Lesson 45: Acts 23:17-35</option>
+            <option value="46">Lesson 46: Acts 24:1-27</option>
+            <option value="47">Lesson 47: Acts 25:1-12</option>
+            <option value="48">Lesson 48: Acts 25:13-27</option>
+            <option value="49">Lesson 49: Acts 26:1-32</option>
+            <option value="50">Lesson 50: Acts 27:1-20</option>
+            <option value="51">Lesson 51: Acts 27:21-44</option>
+            <option value="52">Lesson 52: Acts 28:1-14</option>
+            <option value="53">Lesson 53: Acts 28:15-31</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+
+      <section class="key-verse">
+        <h2>Key Verse</h2>
+        <blockquote>"What mean ye to weep and to break mine heart? for I am ready not to be
+         bound only, but also to die at Jerusalem for the name of the Lord Jesus."</blockquote>
+        <cite>— Acts 21:13</cite>
+      </section>
+
+      <section class="questions-section">
+        <h2>Lesson Questions</h2>
+        <p class="questions-intro">Read Acts 21:1-16 carefully before answering these questions.</p>
+
+        <div class="question">
+          <span class="question-num">1.</span>
+          <span class="question-text">Review: Paul&#x27;s three evangelistic tours Acts 13:1-21:16.</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">2.</span>
+          <span class="question-text">Trace Paul&#x27;s journey from Miletus to Syria. 21:1-3</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">3.</span>
+          <span class="question-text">Who had a message for Paul? What was it? 21:4</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">4.</span>
+          <span class="question-text">Describe the departure. 21:5-6</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">5.</span>
+          <span class="question-text">What did they find in Ptolemais? 21:7</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">6.</span>
+          <span class="question-text">To what city did they go next? Who lived there? 21:8</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">7.</span>
+          <span class="question-text">What did Luke say about Philip? 21:8. What did Philip have? 21:9.</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">8.</span>
+          <span class="question-text">Who came to Caesarea? What did he say? 21:10-11</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">9.</span>
+          <span class="question-text">Then what conversation took place? 21:12-14</span>
+        </div>
+
+        <div class="question">
+          <span class="question-num">10.</span>
+          <span class="question-text">To what place did they go next? 21:15. Who went with Paul&#x27;s company? 21:16</span>
+        </div>
+
+        </section>
+
+
+      <section class="supplementary">
+        <h2>Supplementary Materials</h2>
+        <p>Paul&#x27;s Route to Jerusalem (21:1-16)</p>
+        <table class="supp-table">
+<tr>
+<th>Location</th>
+<th>Duration</th>
+<th>Events/Notes</th>
+</tr>
+<tr>
+<td>Miletus</td>
+<td>Departure</td>
+<td>&quot;Gotten from them&quot; — torn away; emotional departure from Ephesian elders</td>
+</tr>
+<tr>
+<td>Cos</td>
+<td>Overnight</td>
+<td>Island; &quot;came with a straight course&quot; — favorable winds</td>
+</tr>
+<tr>
+<td>Rhodes</td>
+<td>Brief stop</td>
+<td>Famous island; site of the Colossus (one of Seven Wonders)</td>
+</tr>
+<tr>
+<td>Patara</td>
+<td>Changed ships</td>
+<td>Port in Lycia; found ship sailing to Phoenicia</td>
+</tr>
+<tr>
+<td>Past Cyprus</td>
+<td>—</td>
+<td>&quot;Discovered Cyprus, and left it on the left hand&quot; — sailed south of island</td>
+</tr>
+<tr>
+<td>Tyre</td>
+<td>7 days</td>
+<td>Ship unloaded cargo; found disciples; warned not to go to Jerusalem; farewell prayer on beach</td>
+</tr>
+<tr>
+<td>Ptolemais</td>
+<td>1 day</td>
+<td>Modern Acre/Akko; greeted brethren</td>
+</tr>
+<tr>
+<td>Caesarea</td>
+<td>Many days</td>
+<td>Stayed with Philip the evangelist; Agabus prophesied; Paul&#x27;s resolve tested</td>
+</tr>
+<tr>
+<td>Jerusalem</td>
+<td>Arrival</td>
+<td>Stayed with Mnason of Cyprus, &quot;an old disciple&quot;; end of third journey</td>
+</tr>
+</table>
+        <p>The Spirit&#x27;s Warnings Along the Way Location The Warning Scripture Every city (earlier) Bonds and afflictions await 20:23 — &quot;The Holy Ghost witnesseth in every city&quot; Tyre Disciples told Paul through 21:4 — &quot;Said to Paul through the the Spirit not to go Spirit, that he should not go up to Jerusalem&quot; Caesarea Agabus prophesied Paul 21:11 — &quot;So shall the Jews at would be bound Jerusalem bind the man that owneth this girdle&quot;</p>
+        <p>Understanding the Apparent Tension Was Paul disobedient by continuing to Jerusalem? Consider these points:</p>
+        <ul class="supp-list">
+        <li>The Spirit revealed what would happen — but did the Spirit command him not to go? At Tyre, the disciples (based on the Spirit&#x27;s revelation of</li>
+        </ul>
+        <p>danger) urged him not to go. The warning was from the Spirit; the prohibition may have been their human interpretation.</p>
+        <ul class="supp-list">
+        <li>Paul was &quot;bound in the spirit&quot; to go (20:22) — this could be the Holy Spirit&#x27;s compulsion. Paul felt divinely led to Jerusalem.</li>
+        <li>Agabus prophesied what would happen — he did not say &quot;don&#x27;t go.&quot; Old Testament prophets often predicted events without commanding avoidance.</li>
+        <li>Jesus Himself set His face toward Jerusalem knowing what awaited (Luke 9:51). Paul may have seen himself following Christ&#x27;s example.</li>
+        <li>The group finally submitted: &quot;The will of the Lord be done&quot; (21:14) — suggesting they recognized Paul&#x27;s decision was in God&#x27;s hands.</li>
+        </ul>
+        <h3>Philip the Evangelist (21:8-9)</h3>
+        <p>Aspect Details Identity &quot;One of the seven&quot; — one of the men chosen in Acts 6:5 to serve tables Title &quot;The evangelist&quot; — one who proclaims the good news; only person so titled in Acts Earlier ministry Preached in Samaria (Acts 8:5-13); baptized the Ethiopian eunuch (Acts 8:26-40); preached from Azotus to Caesarea (Acts 8:40) Current location Caesarea — he apparently settled here after Acts 8:40 (about 20 years earlier!) His daughters Four virgin daughters who prophesied — fulfillment of Joel 2:28 (Acts 2:17); &quot;your daughters shall prophesy&quot; Not the apostle Different from Philip the apostle (Matt. 10:3); Luke carefully distinguishes: &quot;one of the seven&quot;</p>
+        <p>Note: This is the last time Philip appears in Scripture. His faithful ministry over 20+ years bore fruit in his own family — all four daughters were prophetesses!</p>
+        <p>Agabus the Prophet (21:10-11) &quot;And when he was come unto us, he took Paul&#x27;s girdle, and bound his own hands and feet, and said, Thus saith the Holy Ghost, So shall the Jews at Jerusalem bind the man that owneth this girdle, and shall deliver him into the hands of the Gentiles.&quot; Aspect Details Previous appearance Acts 11:28 — predicted the famine under Claudius (which came true) Prophetic method Symbolic action — like OT prophets (Isaiah walked naked, Jeremiah wore a yoke, Ezekiel lay on his side) The girdle (belt) Used to bind his own hands and feet — dramatic visual prophecy &quot;Thus saith the Holy Ghost&quot; Claims direct divine inspiration; parallels OT prophetic formula &quot;Thus saith the LORD&quot; Fulfillment Came true — Jews seized Paul (21:30); Romans bound him (21:33); handed to Felix, Festus, Agrippa, and finally Caesar</p>
+        <p>Paul&#x27;s Resolute Response (21:12-14)</p>
+        <p>&quot;What mean ye to weep and to break mine heart? for I am ready not to be bound only, but also to die at Jerusalem for the name of the Lord Jesus.&quot;</p>
+        <ul class="supp-list">
+        <li>&quot;We... besought him&quot; — Luke includes himself; even Paul&#x27;s closest companions urged him not to go</li>
+        <li>&quot;What mean ye to weep&quot; — Paul was not callous but their tears were weakening his resolve</li>
+        <li>&quot;Break mine heart&quot; — literally &quot;crush&quot; or &quot;soften&quot;; their love was testing his determination</li>
+        <li>&quot;Ready not to be bound only&quot; — Paul accepted the prophecy; he wasn&#x27;t trying to avoid it</li>
+        <li>&quot;But also to die&quot; — ultimate commitment; willing to give his life</li>
+        <li>&quot;For the name of the Lord Jesus&quot; — not recklessness but devotion; same motivation as throughout his ministry</li>
+        </ul>
+        <p>Their final response: &quot;The will of the Lord be done&quot; (v. 14). This echoes Jesus in Gethsemane (Luke 22:42). They ceased arguing and entrusted Paul — and themselves — to God&#x27;s sovereign will.</p>
+        <p>Mnason: An Old Disciple (21:16) &quot;Mnason of Cyprus, an old disciple, with whom we should lodge.&quot;</p>
+        <ul class="supp-list">
+        <li>From Cyprus — like Barnabas (Acts 4:36); Cyprus had a significant Christian community</li>
+        <li>&quot;An old disciple&quot; — probably an early convert, perhaps from Pentecost or soon after; about 25+ years of faith</li>
+        <li>Hosted Paul&#x27;s company — a group including Gentile Christians; Mnason was apparently broad-minded enough to welcome them</li>
+        <li>Living link to the early church — he may have known Jesus or at least the earliest apostolic preaching</li>
+        </ul>
+        <h3>Key Cross-References</h3>
+        <table class="supp-table">
+<tr>
+<th>Reference</th>
+<th>Acts Verse</th>
+<th>Connection</th>
+</tr>
+<tr>
+<td>Acts 6:5</td>
+<td>Acts 21:8</td>
+<td>Philip as one of the seven</td>
+</tr>
+<tr>
+<td>Acts 8:5-40</td>
+<td>Acts 21:8</td>
+<td>Philip&#x27;s earlier evangelistic ministry</td>
+</tr>
+<tr>
+<td>Joel 2:28</td>
+<td>Acts 21:9</td>
+<td>&quot;Your daughters shall prophesy&quot;</td>
+</tr>
+<tr>
+<td>Acts 11:28</td>
+<td>Acts 21:10</td>
+<td>Agabus&#x27;s earlier prophecy of famine</td>
+</tr>
+<tr>
+<td>Luke 9:51</td>
+<td>Acts 21:13</td>
+<td>Jesus set His face toward Jerusalem</td>
+</tr>
+<tr>
+<td>Luke 22:42</td>
+<td>Acts 21:14</td>
+<td>&quot;Thy will be done&quot; — Gethsemane</td>
+</tr>
+</table>
+        <p>Lessons from Acts 21:1-16 1. Knowing danger ahead does not mean we should always avoid it — sometimes faithfulness requires facing hardship. 2. The Spirit may reveal what will happen without commanding us to avoid it. 3. Faithful service over many years bears fruit — Philip&#x27;s daughters prophesied. 4. True commitment to Christ means willingness to suffer and even die for Him.</p>
+        <p>5. When we cannot change someone&#x27;s decision, we can entrust them to God: &quot;The will of the Lord be done.&quot; 6. The early church was connected by relationships — brothers and sisters welcoming one another across the Roman world.</p>
+      </section>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="acts-lesson-40.html">← Previous Lesson</a>
+          <a href="acts-lesson-42.html">Next Lesson →</a>
+        </div>
+        <p class="copyright">A Study of the Book of Acts — Enhanced Edition</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function goToLesson(num) {
+      if (num) window.location.href = 'acts-lesson-' + num + '.html';
+    }
+  </script>
+</body>
+</html>

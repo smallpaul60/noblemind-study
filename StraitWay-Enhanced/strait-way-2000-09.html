@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - September 2000</title>
+  <meta name="description" content="The Strait Way newsletter, September 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09" selected>September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#importance-church">Importance of NT Church</a>
+        <a href="#appearance">Appearance Before Others</a>
+        <a href="#humility">Evangelist's Humility</a>
+        <a href="#ad70-matt5">A.D. 70: Matt 5:17-18</a>
+        <a href="#institutionalism-substitute">Institutionalism Substitute</a>
+        <a href="#john-church">Did John Establish Church?</a>
+        <a href="#conversion-samaritans">Conversion: Samaritans</a>
+        <a href="#psallo-ot">Psallo in OT</a>
+        <a href="#why-psallo">Why Study Psallo?</a>
+      </nav>
+
+      <article class="article" id="importance-church">
+        <span class="article-category">Commentary</span>
+        <h2>The Importance Of The NT Church</h2>
+        <p>How important is the church of the NT? Comments about the church show how little some think of it: (1) Join the church of your choice, (2) the church won't save you, (3) the church isn't important, (4) one church is as good as another, and (5) the church was not in God's original plan. Each of these statements is false for they originated with men not God. Where in the NT can one read those concepts?</p>
+        <p>Consider the importance God placed on the church: (1) The church was in the eternal purpose of God (<span class="scripture-ref">Eph. 3:10,11</span>), (2) the church manifests the manifold wisdom of God (<span class="scripture-ref">Eph. 3:10,11</span>), (3) Christ gave Himself for the church (<span class="scripture-ref">Eph. 5:25-27</span>), (4) Christ obtained the church with His blood (<span class="scripture-ref">Acts 20:28</span>), (5) the church is the bride of Christ (<span class="scripture-ref">II Cor. 11:1-3</span>), (6) when one is baptized in the name of Jesus Christ for the remission of sins, he is baptized into the body of Christ which is the church of Christ (<span class="scripture-ref">I Cor. 12:13; Eph. 1:22,23</span>), (7) when Jesus comes again, He will take the church (the kingdom) to heaven (<span class="scripture-ref">I Cor. 15:24; I Th. 4:13-18</span>).</p>
+        <p>Did God plan for Jesus to come into the world, suffer, and die for a church which is worthless or not necessary? Can men build a church just as good as the church for which Christ died? The answer is NO! Many churches exist by the power and authority of men, but none of them can compare with the church for which our Lord and Saviour died. One can read about the church of Christ in his NT, but one cannot read about the many churches made by men. Jesus has not promised to deliver the churches of men to God, only the one He built (<span class="scripture-ref">Mt. 16:18</span>). If you cannot take your NT and read about the church of which you are a member, it is not the church for which Christ died and it is not the church into which one is baptized when he is baptized in the name of Jesus Christ for the remission of sins (<span class="scripture-ref">Acts 2:38</span>).</p>
+        <p class="author-signature">Glenn Melton (Editor)<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="appearance">
+        <span class="article-category">Commentary</span>
+        <h2>Are You Concerned About The Way You Appear Before Others?</h2>
+        <p>Many seem to do that which is right in their own eyes: Believing that what is offered to God in worship, or service, He will accept. Cain (<span class="scripture-ref">Gen. 4</span>), Nadab, and Abihu (<span class="scripture-ref">Lev. 10</span>) found that one cannot offer just anything to God and be pleasing to Him. Most of us know that. Yet, some modern members of the church seem to think they can wear whatever they think is modest and God will be pleased. Not so, God has defined nakedness in His word. If not, there is no binding definition of it, except the customs of the time. It is past time for Christians to be concerned about their appearance before others (<span class="scripture-ref">I Tim. 2:9; Gen 3; Ex. 28:42; Isaiah 47:1-3</span>). Christians are to let their light shine (<span class="scripture-ref">Mt 5:16</span>). Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="humility">
+        <span class="article-category">The Evangelist and His Work</span>
+        <h2>The Evangelist's Humility, Part I</h2>
+        <p>When the apostle Paul wrote to young Timothy about his work as an evangelist, he mentioned several tasks facing him and then admonished him about the humility that must characterize him in <span class="scripture-ref">2 Timothy 2:24-26</span>. The immediate context of this warning includes sufficient basis for pride on the evangelist's part if his attitude is not right. It is easy for the pride of position, work, knowledge, accomplishment, skill, or reputation to enter the picture and to become a larger motivation than the servanthood that ought to characterize the evangelist. Beginning in verse 14 Paul instructed Timothy to remind brethren of some matters; give diligence to present himself approved to God, unashamed but handling aright the word of truth; shun empty chatter so often used by those seeking to promote the law; and flee the desires common to youth but pursue the virtues named by the Spirit. All of these tasks could promote ungodly arrogance if he failed to manage himself properly. At that juncture the Spirit gave the needed warning.</p>
+        <p>"And the Lord's servant must not strive, but be gentle towards all, apt to teach, forbearing, in meekness correcting them that oppose themselves; if peradventure God may give them repentance unto the knowledge of the truth, and they may recover themselves out of the snare of the devil, having been taken captive by him unto his will." (ASV)</p>
+        <p class="subheading">The Lord's Servant</p>
+        <p>The humility desired by the Lord of His servant is made easier when all evangelists remember they are servants of Christ, not masters in themselves. They must seek to think, speak, and act as the Master did. The servant is not above his Master. He should closely study the endeavors of Christ in teaching, warning, reproving, and commending people, and follow Him as a matter of moral obligation (indicated by the words "ought not"), not simply a matter of judgment or personal preference.</p>
+        <p>David Lipscomb commented, "Everything which is likely to be the cause of strife, heartburning, or hot words is singularly out of place in the life of the servant of the Lord." This, however, he went on to remark, is not out of harmony with the exhortation to contend earnestly for the faith that was once for all delivered to the saints in <span class="scripture-ref">Jude 3</span>. Observe that striving is forbidden—the kind of striving denoted in the word "strifes" (quarrels) in verse 23. The harsh contention prompted by the carnal spirit of rivalry and continued by improper motive is what the Spirit here prohibits, not fighting the good fight of faith or preaching the Word in season and out of season. It should then be obvious to all that honest self-examination of one's motive and attitude is essential.</p>
+        <p>An earnest desire to teach truth and to eradicate all forms of error is consistent with this warning, but the fractious attitude frequently prevalent in such efforts is clearly sinful. From their contrary and obnoxious ways, it seems that some were born in the objective case and the kickative mood. Personal victory or individual accomplishment must be subordinated to the success of truth and the winning of souls. Causing truth to stand out is a poor excuse for ruining the standing of one espousing error, when truth's angry advocate employs envy, deceit, misrepresentation, or innuendo. Truth is not advanced by such carnality, begotten by pride; indeed, such carnal pretenders poorly serve the cause of truth. Self-interest is responsible for this display of works of the flesh. The rest of the passage will show us humility in preaching.</p>
+        <p class="author-signature">Bobby Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-matt5">
+        <span class="article-category">A.D. 70 Doctrine</span>
+        <h2>Does Matt. 5:17-18 Teach An Overlapping of Covenants?</h2>
+        <p>According to "A.D. 70" doctrine, the Law of Moses would be in effect until ALL prophecy is fulfilled. This doctrine teaches that all prophecy was fulfilled at the fall of Jerusalem on that date. In this article we will examine the words of Christ in <span class="scripture-ref">Mt. 5:17-18</span>. "Do not think that I came to destroy the Law or the Prophets, I did not come to destroy but to fulfill. For assuredly, I say to you, till heaven and earth pass away, one jot or one tittle will by no means pass from the law till all is fulfilled."</p>
+        <p>In the last article we looked at prophecies in <span class="scripture-ref">Psalms 110:1, 102:25, Gen. 3:15</span>, and <span class="scripture-ref">Hosea 13:14</span> to show that there indeed are prophecies that are yet unfulfilled and will not be fulfilled until Christ returns. Since this is so, and it is obvious to all {of the truth} that the law of Moses is now done away; let us look at what Jesus is saying in this and other related contexts. I believe that <span class="scripture-ref">Matt. 5:17-18</span> must be understood with <span class="scripture-ref">Luke 24:44</span>. There He said to them, "These are the words which I spoke to you while I was still with you, that all things must be fulfilled which were written in the Law of Moses and the Prophets and the Psalms CONCERNING ME." In <span class="scripture-ref">John 17:4</span>, Jesus said that He had finished the work God the Father had given Him to do. In <span class="scripture-ref">John 19:30</span>, He said "It is finished" as Jesus gave His life on the cross. Jesus even quoted <span class="scripture-ref">Ps. 22:1</span> as He was dying to show that this context was being fulfilled at that time. Certainly, He had fulfilled all prophecies concerning His earthly ministry and redemptive work in dying on behalf of the sins of the world.</p>
+        <p>The apostle Paul said that Jesus had taken the law Moses out of the way, having nailed it to the cross (<span class="scripture-ref">Col. 2:14</span>). The Hebrew writer spoke of Jesus as the 'Mediator of a better covenant, which WAS ESTABLISHED on better promises.' Paul spoke of the veil of Moses being taken away in Christ (<span class="scripture-ref">2 Cor. 2:16</span>). The law of Moses was a 'tutor' to bring the children of Israel to Christ, but now that 'the faith' had come, they were no longer under a tutor (<span class="scripture-ref">Gal. 3:24-25</span>). The law of Moses ended, in the Mind of God, when the law of Christ began on the day of Pentecost (<span class="scripture-ref">Acts 2:38-42</span>).</p>
+        <p>What about the phrase 'till heaven and earth pass away'? In the context of <span class="scripture-ref">Mt. 5:17-18</span>, Jesus is establishing not the time frame, but the CERTAINTY that the words of the prophets concerning Him will be fulfilled. Similar language is used in <span class="scripture-ref">Isaiah 54:10</span> involving the certainty of the establishment of His covenant of peace. {"For the mountains shall depart and the hills be removed,..."} This language is used by Isaiah to describe the end of certain governments or kingdoms (<span class="scripture-ref">Isaiah 13:13; 34:4</span>). This phrase is NEVER so used in the New Testament to describe Jerusalem's fall. Heaven and Earth WILL PASS AWAY! Literally (<span class="scripture-ref">Mt. 24:34; Heb. 1:10-11; 2 Peter 3:10</span>). God is not the author of confusion. He has never had more than one law at a time for man to obey. The law of Moses ended, in God's Mind, when Christ's law began.</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism-substitute">
+        <span class="article-category">Institutionalism</span>
+        <h2>Institutionalism — A Substitute For The Church</h2>
+        <p>In previous articles it has been seen that the men who introduced and defended the first human institution (the UCMS) admitted there was no scriptural basis for the existence of such an adjunct to the church. They justified it purely on the basis of human reasoning, contrary to the teaching of the scriptures. Every human institution today exists exactly on the same basis as the UCMS, WITHOUT divine authority, and thus unacceptable to God. See <span class="scripture-ref">Col. 2:8; 3:17; 1 Cor. 2:9-13; 2 John 9</span>.</p>
+        <p>The same arguments used by the early preachers in opposing human institutions of their day can be used today against any human institution with the same telling effect. It will be profitable to review the arguments used against the missionary society in the last century for they remain true and are still valid today against any human institution that men may seek to attach to the Lord's church.</p>
+        <p>One of the first charges made against the society was that it was a SUBSTITUTE FOR THE CHURCH. Since the society had no divine authority for its existence, it owed its inception to human wisdom and human opinions. This was an impeachment against God's wisdom. It was an implication that God's plan was imperfect, and human wisdom could improve upon it. Tolbert Fanning saw this very clearly and wrote, "Our view is that, such societies are employed as substitutes for the churches, that they stand on ground the churches are entitled to occupy, and that they do, to all intents and purposes, usurp the authority of the churches, and thwart the designs of Jehovah. They make void the churches of Jesus Christ and the law of God." (Tolbert Fanning, "The Advocate and G. W. Elley," Oct. 2, 1866, pp. 627-628).</p>
+        <p>David Lipscomb wrote, "To operate through an institution of man's devising in preference to the church of God is, in our esteem, to exalt man as of superior wisdom and power to God. To call in question the efficiency of God's appointments, as the best (we had like to say the only), that can be ordained for the accomplishment of God's designs, is to call in question the wisdom or power of God. As highly as we respect Brother McGarvey (and there is no man living, of his years, that we had formed a higher appreciation of for his work) and his associates, there are questions here involving too high, holy and sacred interests, both to God and man, for us to yield an iota." (David Lipscomb, "Destroying Church Cooperation," Gospel Advocate, Vol. IX, No. 6, Feb. 7, 1867, p. 115). In the same article Lipscomb observed that since such institutions were founded on the assumption that churches cannot or will not do the work of God as well as a human society, that such institutions actually hinder and stifle local church activity. As the society prospers, the congregations become inactive, which allows these human organizations to take over the work of the church. So, instead of promoting church activity, an institution actually stops it.</p>
+        <p>John T. Walsh observed, "I think it is an undeniable truth, that men never departed from primitive Christianity until they lost faith in it. And no Christian ever yet adopted human systems and appliances until his faith became weak in the divine.... I repeat, therefore, that what we need is not a new plan of missionary work, but more faith in the old Jerusalem plan.... We want more faith and less machinery, more work and less talk, more faith and less planning. The Lord has given us the plan, and bids us go work in his vineyard; but instead of going to work with the tools He has furnished, we spend all the day in making new ones which in our wisdom, we think will work better. Let us quit it, and go to work with a hearty good will." (John T. Walsh, "Reply to G.W. Elley." American Christian Review, Vol. X, No. 25, June 18, 1867, p. 194).</p>
+        <p>"The Missionary Society had its origin in a false pride and shame, and a desire to be like the denominations around us. With all our condemnations of denominationalism, we have yet not the independence of mind to discard this machinery. We are afraid they will get ahead of us, and this fear leads us to adopt some of their machinery. The first of these human instrumentalities was the Missionary Society." (H. Christopher, "Dr. Christopher vs. Missionary Society." American Christian Review, Vol. X, No. 27, July 2, 1967, p. 211). Quotes from "The Search For the Ancient Order" Vol. 2, Earle Irvin West.</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="john-church">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>Did John Establish A Church?</h2>
+        <p>Many of our denominational friends believe and teach that John the Immerser established the church before Jesus Christ. I have heard people say that "Jesus was a Baptist." They teach that John established the church before Jesus ever died. Is this true? Let us read the Bible and learn who established the church we read about in the New Testament.</p>
+        <p class="subheading">The Testimony Of John And Christ</p>
+        <p>If John established the church before Christ, and our Lord was indeed a part of the church that John founded, why did Jesus say, "I say also unto thee, That thou art Peter, and upon this rock I will build my church; and the gates of hell (Hades, the grave, death) shall not prevail against it" (<span class="scripture-ref">Matt. 16:18</span>)? Was Jesus establishing a church in addition to the one John founded? Was He in competition with John? John said they were not in competition (<span class="scripture-ref">John 3:25-36</span>). He made it clear, "He (Christ) must increase, but I must decrease." He described himself as equivalent to the "best man" at a wedding, and not the groom. Yet if John, directed by Jehovah, established a church, why did Jesus say what He did in <span class="scripture-ref">Matthew 16:18</span>? If Jesus simply entered into the church that John established, why was He building a church and getting His apostles ready for its consummation?</p>
+        <p class="subheading">The Testimony Of The Apostles</p>
+        <p>I find it more than coincidental that the apostles, the "ambassadors for Christ" (<span class="scripture-ref">II Cor. 5:20</span>), the eyewitnesses to Him (<span class="scripture-ref">Acts 10:39, 41</span>); the ones who would preach the gospel to "all nations" and "every creature" (<span class="scripture-ref">Matt. 28:19; Mk. 16:15</span>), never once said anything about John establishing a church. They consistently speak of the church belonging to Christ. Paul said Christ purchased the church with His own blood (<span class="scripture-ref">Acts 20:28</span>). He said, "the churches of Christ salute you" (<span class="scripture-ref">Rom. 16:16</span>). Why not "churches of John"? Paul spoke of a "great mystery" concerning "Christ and the church" in <span class="scripture-ref">Ephesians 5:23-33</span>. Why did he never talk about "John and the church" if John were the founder? If John established the church, why do we not read about it being in existence until AFTER Christ's death, burial, resurrection, and ascension? (<span class="scripture-ref">Acts 2:47, 5:11, 12:5, 13:1, 14:23; I Cor. 1:1; II Cor. 1:1; Gal. 1:2; I Thess. 1:1; II Thess. 1:1; Rev. 1:4, 11</span>)</p>
+        <p class="subheading">If John Established and Founded The Church, Then....</p>
+        <ol class="numbered-list">
+          <li>Jesus did NOT purchase "the church" with His own blood, but "a church." This is contrary to Paul's statement to the Ephesian elders in <span class="scripture-ref">Acts 20:28</span>.</li>
+          <li>Paul was wrong to refer to congregations as "churches of Christ" (<span class="scripture-ref">Rom. 16:16</span>). They were, in fact, "churches of John."</li>
+          <li>Christ saying He "will build" His church meant there were two churches, or two bodies in competition with one another as John's disciples had supposed (<span class="scripture-ref">Jn. 3:25-36</span>). Paul said there was only ONE body (<span class="scripture-ref">Eph. 4:4</span>).</li>
+          <li>John is the head of the church, and not Christ, contradicting Paul (<span class="scripture-ref">Col. 1:18</span> and <span class="scripture-ref">Eph. 1:22</span>).</li>
+          <li>It was founded upon something other than the confession Peter made in <span class="scripture-ref">Matthew 16:16</span>. The Lord's church is based upon the confession of Christ as the Son of God (<span class="scripture-ref">Matt. 16:18</span>).</li>
+          <li>Death prevailed against the church, for John was beheaded (<span class="scripture-ref">Mk. 6:16, 27</span>), buried (<span class="scripture-ref">Mk. 6:29</span>), and "his grave is with us to this day." Our Lord Jesus Christ, on the other hand, was crucified, buried, but arose from the dead, never to die again (<span class="scripture-ref">Acts 2:22-24, 13:34</span>). Christ said death would NOT prevail against His church.</li>
+        </ol>
+        <p>Friends, who are we going to believe — those who say that John established a church, or the Bible which says that the church was established by the Lord and that it belongs to Him?</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-samaritans">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: The Samaritans</h2>
+        <p>Space does not allow me to give a historical look at the hostility between the Jews and the Samaritans. Suffice it to say that the Samaritans were a mixed race of Jew and heathen. Consequently, the pure stock of Hebrew people surrounding them in Palestine did not look upon them with favor. This ill feeling, by the way, ran in the opposite direction also. It is therefore a wonderful commentary on the grace of God and the power of the gospel to see Jew and Samaritan join hands and hearts in a great series of conversions that occurred there in the first century. These conversions are recorded in <span class="scripture-ref">Acts 8:4-13</span>. Please read through this text and remind yourself of its details before continuing in this article. What does the text (<span class="scripture-ref">Acts 8:4-13</span>) show us about the nature of their conversion?</p>
+        <p class="subheading">Faith</p>
+        <p>The disciple, Philip, went to Samaria for the express purpose of instilling faith in those people. But, as Paul asked, "...how shall they believe in Him of whom they have not heard? And how shall they hear without a preacher?" (<span class="scripture-ref">Rom. 10:14</span>) Thus we're told in the text of <span class="scripture-ref">Acts 8</span> that Philip went to Samaria and preached to them. What did he preach?</p>
+        <p>1. Philip preached Christ (v.5). The Samaritans accepted the Pentateuch (the first five books of the Old Testament) and studied them diligently. Therefore, they believed in a coming Messiah. They believed in One who would be the seed of Abraham (<span class="scripture-ref">Gen. 22:18</span>). They believed in One who would be a prophet like Moses (<span class="scripture-ref">Deut. 18:15-17</span>). A Samaritan woman told Jesus that she anticipated the coming of the Messiah who would tell them all things (<span class="scripture-ref">Jn. 4:25</span>). When Philip preached Christ, he preached that the Messiah (the Christ) had indeed come.</p>
+        <p>2. Philip preached the things concerning the kingdom of God (v.12). The coming of this kingdom was connected to the coming of the Messiah. At the brink of disaster and the ruin of the Jewish kingdom, Isaiah told them that in the latter days, the mountain of the Lord's house would be established and the word of the Lord would be proclaimed from Jerusalem (<span class="scripture-ref">Isa. 2:1-4</span>). Jesus came and taught the people the imminence of this kingdom (<span class="scripture-ref">Mk. 1:15</span>). In preaching the things concerning the kingdom of God, then, he would have explained that this was not a national kingdom, but a spiritual kingdom entered through the Spirit and water (<span class="scripture-ref">Jn. 3:1-5</span>).</p>
+        <p>3. Philip preached the name of Jesus Christ (v.12). Philip helped them make the connection between the Messiah they anticipated and Jesus of Nazareth. In this, he would have preached Jesus' ministry, death, burial, resurrection, and certainly His message of salvation. What was the response of the Samaritans? "And the multitudes with one accord heeded the things spoken by Philip... they believed Philip as he preached the things..." (vv.6,12)</p>
+        <p class="subheading">Repentance</p>
+        <p>Remember that repentance involves the change in a person's will. When a person believes in the gospel message he has heard, he must decide what he is going to do about it. He must decide whether he will change his life and bring it in line with the will of Jesus Christ. The decision to do such is repentance. Evidence of the Samaritans' repentance is found in their eventual rejection of a local charlatan named Simon. This was one who performed many apparent wonders and had gathered quite a number of followers (vv.11-12). Notice, however, that upon believing in the message of Christ, they rejected their "idol" and determined to follow this new master.</p>
+        <p class="subheading">Baptism</p>
+        <p>I have mentioned that in preaching "the name of Jesus Christ" (v.12), Philip would have preached His will concerning salvation. Jesus said, "Go into all the world and preach the gospel to every creature. He who believes and is baptized will be saved." (<span class="scripture-ref">Mark 16:15-16</span>) So the Samaritans believed and were baptized to be saved. This makes sense in light of the last conversion we studied from the day of Pentecost. (See last article.) Peter told them to be baptized in the name of Jesus Christ for the forgiveness of their sins (<span class="scripture-ref">Acts 2:38</span>). The Samaritans were also baptized in the name of Jesus Christ for the forgiveness of their sins (See <span class="scripture-ref">Acts 8:16</span>).</p>
+        <p>Next month, we'll consider another example of conversion from the book of Acts.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="psallo-ot">
+        <span class="article-category">Word Study</span>
+        <h2>Psallo As Used In The Old Testament</h2>
+        <p>Our purpose is to study the Greek word psallo as it is used in the Septuagint, the Greek Version of the Old Testament. We have not listed all of the occurrences which could be listed in the first part, but have listed all of the occurrences which fit into the second part and the third part. If you find a reference we have not listed and you believe it fits into the second part or third part, please forward that information to me. The words of scripture translated from psallo are in bold letters.</p>
+        <p class="subheading">References where psallo is translated sing, sing a psalm, praise, or sing praise:</p>
+        <table class="scripture-table">
+          <tr><th>Scripture Reference</th><th>Septuagint</th><th>King James Version</th></tr>
+          <tr><td><span class="scripture-ref">Judges 5:3</span></td><td>sing a psalm</td><td>sing praises</td></tr>
+          <tr><td><span class="scripture-ref">II Sam. 22:50</span></td><td>sing</td><td>sing praise</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 21:13</span></td><td>praise</td><td>praise</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 8:4</span></td><td>sing praise</td><td>sing praise</td></tr>
+        </table>
+        <p class="subheading">References where psallo is used and a mechanical instrument of music is named:</p>
+        <table class="scripture-table">
+          <tr><th>Scripture Reference</th><th>Septuagint</th><th>King James Version</th></tr>
+          <tr><td><span class="scripture-ref">I Sam. 16:16</span></td><td>skilled to play on the harp</td><td>cunning player on an harp</td></tr>
+          <tr><td><span class="scripture-ref">I Sam. 16:16</span></td><td>he shall play on his harp</td><td>he shall play with his hand</td></tr>
+          <tr><td><span class="scripture-ref">I Sam. 16:23</span></td><td>David took his harp and played with his hand</td><td>David took an harp, and played with his hand</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 33:2</span></td><td>sing...with psaltery and with instrument of ten strings</td><td>sing...with psaltery and with an instrument of ten strings</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 71:22</span></td><td>I will sing psalms to thee on the harp</td><td>I will sing with the harp</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 98:5</span></td><td>sing to the Lord with a harp</td><td>sing unto the Lord with the harp</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 144:9</span></td><td>I will play to thee on a psaltery of ten strings</td><td>upon a psaltery and an instrument of ten strings will I sing praises</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 147:7</span></td><td>I will sing praises....on the harp</td><td>sing praise upon the harp</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 149:3</span></td><td>Let them sing praises...with timbrel and psaltery</td><td>Let them sing praises...with the timbrel and harp</td></tr>
+        </table>
+        <p class="subheading">References where psallo occurs and the context implies a mechanical instrument of music:</p>
+        <table class="scripture-table">
+          <tr><th>Scripture Reference</th><th>Septuagint</th><th>King James Version</th></tr>
+          <tr><td><span class="scripture-ref">I Sam. 6:17</span></td><td>skillful player</td><td>play well</td></tr>
+          <tr><td><span class="scripture-ref">I Sam. 18:10</span></td><td></td><td>David played with hand</td></tr>
+          <tr><td><span class="scripture-ref">I Sam. 19:9</span></td><td>David was playing on the harp with his hands</td><td>David played with his hand</td></tr>
+          <tr><td><span class="scripture-ref">II Kings 3:15</span></td><td>harper, harper harped</td><td>minstral, minstral played</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 33:3</span></td><td>play skillfully with a loud noise</td><td>play skillfully with a loud noise</td></tr>
+          <tr><td><span class="scripture-ref">Ps. 68:25</span></td><td>the players on instruments</td><td>the players on instruments</td></tr>
+        </table>
+        <p class="subheading">Conclusion</p>
+        <p>In the OT, a mechanical instrument of music DOES NOT inhere in psallo. If psallo is used in a context with a mechanical instrument of music, the instrument is named or implied. If the mechanical instrument of music inhered in psallo, it would have to be so translated. A related article is on the back page. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="why-psallo">
+        <span class="article-category">Word Study</span>
+        <h2>Why Study Psallo?</h2>
+        <p>An article titled "Psallo As Used In The Old Testament" can be found on another page of this issue of StraitWay. Some of our readers may wonder: What is psallo? And why do I need to know about it? In the NT, sing (<span class="scripture-ref">I Cor. 14:15</span>), sing psalms (<span class="scripture-ref">James 5:13</span>), and making melody (<span class="scripture-ref">Eph. 5:19</span>) are translated from psallo. These passages teach that in worship to God, we are to sing "...psalms, hymns, and spiritual songs..." (<span class="scripture-ref">Eph. 5:19</span>) to God's glory and our edification. In discussions about whether or not it is scriptural to use mechanical instruments of music in worship to God, some make an appeal to psallo saying, it includes the mechanical instrument of music. In an effort to prove this claim, reference is made to the use of psallo in the Septuagint (Greek Version of the Old Testament). However, a study of psallo in the OT revealed that a mechanical instrument of music was NOT inherent in psallo.</p>
+        <p>Psallo is like our word "pick." People pick beans, cotton, guitars, etc. What is picked must be named or inferred by the context. It is not inherent in the word "pick." Psallo is the same. Psallo originally meant "...to pluck off, pull out....to cause to vibrate by touching, to twang...to touch or strike the chord, to twang the strings of a musical instrument so that they gently vibrate...to play on a stringed instrument, to play the harp...Sept. (Greek OT)...to sing to the music of a harp...in the N.T. to sing a hymn, to celebrate the praises of God in song, <span class="scripture-ref">Jas. v. 13</span>...." (Thayer's Greek Lexicon, p. 675). It can readily be seen that the meaning of psallo has changed several times. Yet, in the Bible, if psallo is translated "play" or "make melody," the instrument is ALWAYS named or inferred by the context. In <span class="scripture-ref">Eph. 5:19</span>, "melody" is made "...in the heart..." just as David played (psallo) on a harp or with his hand (<span class="scripture-ref">I Sam. 16:16-23</span>).</p>
+        <p>In the Bible, a mechanical instrument of music is NOT inherent in psallo. If you have not done so, please read the article regarding the use of psallo in the OT. Study Carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray ST, Henderson, TX 75652-2734</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published September 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

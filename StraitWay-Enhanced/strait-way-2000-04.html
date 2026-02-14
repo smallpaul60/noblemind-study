@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - April 2000</title>
+  <meta name="description" content="The Strait Way newsletter, April 2000 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000" selected>2000</option>
+              <option value="2001">2001</option>
+              <option value="2002">2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04" selected>April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#doctrine-important">Is Doctrine Important?</a>
+        <a href="#practicing-preaching">Practicing What We Preach</a>
+        <a href="#ad70-second-coming">A.D. 70 - Second Coming</a>
+        <a href="#institutionalism-history2">Institutionalism History 2</a>
+        <a href="#once-saved">Once Saved Always Saved?</a>
+        <a href="#conversion-confession">Conversion: Confession</a>
+        <a href="#gabriel-announcement">Gabriel's Announcement</a>
+        <a href="#itching-ears-present">Itching Ears Present</a>
+      </nav>
+
+      <article class="article" id="doctrine-important">
+        <span class="article-category">Commentary</span>
+        <h2>Is Doctrine Important To Those Who Say, "Doctrine is not important"?</h2>
+        <p>As I sat in my doctor's office with many others, religious subjects were discussed. Since I had just picked up extra copies of the February StraitWay, I had taken some to the doctor's office. I had found that to be a good place to put a few copies into the hands of those who would read it. I offered a copy to a man sitting next to me. Before putting a hand to take it, he saw the front page article was about doctrine. He immediately and without taking the paper said doctrine is not important. He absolutely refused to take the paper and consider what had been written about things to which doctrine is related.</p>
+        <p>Even though the man would not read what was said about doctrine, may I kindly suggest that doctrine really is important to him. Doctrine is important to him because: (1) He is a member of a religious group that has advertised evangelistic efforts to convert Jews. Since the public has been made aware of this thrust, a discussion has ensued concerning whether or not the Jew needs converting. The group making the evangelistic effort rightly contends that Jews need Christ in order to be saved. The opposition claims they do not need Jesus and therefore should be left alone. My point is this: The man sitting next to me would say the Jew needs Christ to be saved. Consider the doctrines involved in accepting Jesus as one's Saviour: (a) The Bible doctrine about the Deity and humanity of Christ (<span class="scripture-ref">John 1:1-14</span>), (b) His virgin birth (<span class="scripture-ref">Lk. 1:29-32</span>), (c) His miracles (<span class="scripture-ref">John 20:30,31</span>), (d) the sinlessness of Christ (<span class="scripture-ref">I Pet. 2:22</span>), (e) the power of the blood of Christ to cleanse sin (<span class="scripture-ref">Rev. 1:5,6</span>), (f) the doctrine that not only does the blood of Christ cleanse sin, but that it is the ONLY thing that will cleanse sin (<span class="scripture-ref">Heb. 9:1-10:39</span>), and (g) the doctrine of the resurrection of Christ (<span class="scripture-ref">I Cor. 15:1-4</span>). Does a Jew (or anyone else) have to believe those things? Read <span class="scripture-ref">John 8:21-24</span>.</p>
+        <p>(2) In the second place, I believe doctrine is important to the gentleman for another reason: Why is he a member of the church of which he is a member? I asked that question. He did not have much of an answer. So I said to him, "You are what you are by convenience, I am what I am by conviction." Now, would he change churches? If not, why not? Would it be that he disagrees with the doctrines of other churches? If that is not it, then why? Could the only other reason be personal choice based on his own likes and dislikes?</p>
+        <p>Now, is doctrine important to the gentleman? Yes! In that case, another question: How many Bible doctrines are important and who is to make that judgment? The Holy Spirit, through the apostle John, answered that question and made the judgment in <span class="scripture-ref">II John 9</span>: "Whosoever transgresseth and abideth not in the doctrine of Christ hath not God..." (Cf. <span class="scripture-ref">Gal. 1:8,9</span>). That means every doctrine contained in the doctrine of Christ is important. Consider <span class="scripture-ref">Romans 16:17,18</span>: "Now I beseech you, brethren, mark them which cause divisions and offences contrary to the doctrine which ye have learned; and avoid them. For they that are such serve not our Lord Jesus Christ, but their own belly; and by good words and fair speeches deceive the hearts of the simple." Doctrine is important, even to some who think it is not. Study carefully.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="practicing-preaching">
+        <span class="article-category">Ministry</span>
+        <h2>The Evangelist and His Work - Practicing What We Preach, Part I</h2>
+        <p>Surely all Bible students acknowledge that "practicing what we preach" more accurately conveys New Testament teaching than the idea of "preaching what we practice." Even so, there is something to be said for preaching what we are practicing. In terms of the standard of teaching (New Testament Scriptures), there should be a genuine effort to proclaim it and to conform our lives to it. While practice will probably never reach the high standard of God's will in every detail, there must be a wholehearted effort to embrace God's will in life.</p>
+        <p><strong>A Divine Imperative.</strong> To Timothy instruction was given: "Take heed to thyself, and to thy teaching. Continue in these things; for in doing this, thou shalt save both thyself and them that hear thee" (<span class="scripture-ref">1 Tim. 4:16</span>). No preacher who disregards truth's application to himself has any business trying to direct others in spiritual matters. It was for this very reason that the apostle directed Timothy to live in such a manner as to remove all opportunity for any detractor to disparage his youthfulness, as he stressed the well rounded example that a proclaimer of God's Word ought to exhibit. "Let no man despise thy youth; but be thou an ensample to them that believe, in word, in manner of life, in love, in faith, in purity" (<span class="scripture-ref">1 Tim. 4:12</span>). Paul's initial charge to the young preacher in <span class="scripture-ref">1 Timothy 1:18-20</span> emphasized the holding of faith and a good conscience, both of which depend upon practicing what one preaches. Several times in his farewell to the Ephesian elders in Acts 20, the apostle referred to his manner of life among those in Ephesus; and in verse 35 he summarized, "In all things I gave you an example...." Who can deny, or would even want to deny, the divine imperative to every proclaimer of truth, "Practice what you preach!"</p>
+        <p><strong>Help Or Hindrance.</strong> Preacher, whoever you are, whatever your background, regardless of your level of learning and the amount of time you dedicate to preaching, if you would be effective in helping others, you must give particular attention to your own life. Then it can be said of you as it was said of the village preacher in Goldsmith's "The Deserted Village," "Truth from his lips prevailed with double sway, and fools who came to scoff remained to pray." If you value the message that you convey, the souls that you can influence, and your own eternal welfare, you must learn to deny self and to crucify self as others must do. To fail to do this is to fail in life's greatest objective, the saving of oneself and all others possible. Truth is truth regardless of whether the proclaimer practices it himself, and each hearer is accountable to Christ for his own conduct in relation to truth. It is undeniable, however, that poor portrayal of the gospel in life often hinders its reception by others.</p>
+        <p>Preacher, what is your attitude toward these matters? Do you view yourself as a unique creature, possibly a cut above the average Christian? Do you somehow think that you are not answerable to the same standard as others? Is your attitude more that of a master or of a servant? Do you act as if you always must be heard, especially before others? Your answers have a bearing on your fitness for preaching. Are you willing to deny self for the sake of the gospel and saving souls? These considerations are much more important than your comfort, your interests, or your rights. It would be better for the self-centered, self-promoting, self-aggrandizing man never to start preaching, for the Lord's will and work can never come first for him. He would save himself and the brethren some embarrassment and the congregation some problems.</p>
+        <p class="author-signature">Bobby L. Graham<br>24978 Bubba Trail, Athens, AL 35613</p>
+      </article>
+
+      <article class="article" id="ad70-second-coming">
+        <span class="article-category">False Doctrine</span>
+        <h2>"A.D. 70" Doctrine - The Second Coming of Christ</h2>
+        <p>One of the major proponents of the "A.D. 70" doctrine is Max King. He writes the following in his book 'The Spirit of Prophecy': "Prophecy found its complete fulfillment in the second coming of Christ, and now may be regarded as closed and consummated" (pg. 65). "There is no scriptural basis for extending the second coming of Christ beyond the fall of Judaism" (pg. 105).</p>
+        <p>Let's look at some of the prophecies concerning the Lord's second Coming and see if indeed the fall of Jerusalem fulfills them:</p>
+        <p><span class="scripture-ref">Matt. 24:34</span>: "Heaven and earth will pass away" - In A.D. 70, only Jerusalem fell.<br>
+        <span class="scripture-ref">Matt. 25:31-32</span>: All nations to be judged by Christ - In 70, only Jews were temporally judged.<br>
+        <span class="scripture-ref">Matt. 25:41</span>: The devil, his angels, and all wicked to be cast into the lake of fire - Is the devil no longer the 'god of this age'? (<span class="scripture-ref">2 Cor. 4:4</span>) No longer the tempter?<br>
+        <span class="scripture-ref">John 5:28-29</span>: The righteous and the wicked will be raised from the dead when they hear His voice - Were millions raised to meet final rewards in A.D. 70?<br>
+        <span class="scripture-ref">Acts 1:11</span>: He will return as He left; visibly, personally, and in the clouds, with all eyes seeing Him (<span class="scripture-ref">Rev. 1:7</span>) - In A.D. 70, He returned only in the sense of executing a temporal judgment from His throne.<br>
+        <span class="scripture-ref">1 Cor. 15:23-26</span>: At His return the righteous are promised a glorified body like His. He will deliver the kingdom to the Father and step down from His throne (v.24-28). At His return death, the last enemy, will be destroyed (v.25-26) - Did all this happen at the fall of Jerusalem? Did the reign of Christ end then?<br>
+        <span class="scripture-ref">1 Thess. 4:13-18</span>; <span class="scripture-ref">5:1-10</span>: When He comes the dead in Christ will rise first - When were the unbelieving Jews ever 'in Christ'? Did the Last Trumpet sound and no one heard it? How could the Roman army surprise Jerusalem as 'a thief in the night', when they had been at war in Judea for years before A.D. 70?<br>
+        <span class="scripture-ref">2 Thess. 1:7-10</span>: He is returning with His mighty angels - Did the angels come in A.D. 70 and no one saw them?<br>
+        <span class="scripture-ref">2 Pet. 3:1-18</span>: Here is a look at two judgments. One temporal and one eternal. The flood was the greatest disaster in history. Peter is warning that the great flood is nothing to be compared to the final destruction of all things when the Lord returns (v.7-13).</p>
+        <p>In <span class="scripture-ref">1 John 3:2</span>, "...when He is revealed, we shall be like Him, for we shall see Him as He is." Do we have our glorified bodies now? (A personal observation: If what I see in my mirror is a 'glorified body', then I am of 'all men most miserable'!)</p>
+        <p>All of these events being yet unfulfilled, then we still are waiting for that both glorious and horrible day of the Lord. "Therefore, knowing the terror of the Lord, we persuade men" (<span class="scripture-ref">2 Cor. 5:11</span>).</p>
+        <p class="author-signature">Dan Wilson<br>5542 CR 4518, Larue, TX 75770</p>
+      </article>
+
+      <article class="article" id="institutionalism-history2">
+        <span class="article-category">Church Organization</span>
+        <h2>Institutionalism - History Repeating Itself (No. 2)</h2>
+        <p>When the Restoration Movement began in America (ca. 1806) the early pioneer preachers determined to "speak only as the Bible speaks, and be silent when the Bible is silent." Every practice had to be authorized by expressed command or statement, approved apostolic example or necessary conclusion. They authorized NOTHING by the silence of the scriptures. As long as these principles were adhered to, unity prevailed, and the cause of Christ grew by leaps and bounds. Churches were springing up everywhere.</p>
+        <p>This movement, by its simple appeal to the Scriptures, and organized only in a congregational (local) capacity, was evangelizing the countryside far and near. These early preachers viewed this method as both scriptural and sufficient. They co-operated without organizing; and carried the gospel into section after section of the country without any machinery other than individual and personal love for the newly discovered ancient truth. They seemed to be unstoppable. BUT, the devil intervened.</p>
+        <p>History reveals that whenever God's people begin to make inroads into the kingdom of Satan he will seek to undermine their progress, using trickery and cunning craftiness to lead people astray (<span class="scripture-ref">Eph. 4:14</span>). Paul warned that if people are ignorant of Satan's devices he will take advantage of them (<span class="scripture-ref">2 Cor. 2:11</span>). So, even as the Restoration Movement was gathering momentum in the early years, the devil was hard at work, and using his "wiles" and "craftiness" corrupted the minds of men away from the "simplicity that was in Christ" (<span class="scripture-ref">2 Cor. 11:3</span>). History was just repeating itself as we shall now see.</p>
+        <p>Early on in the Restoration Movement, Alexander Campbell, considered by many as the leader of the Movement, published a paper, "The Christian Baptist." In his first issue, he expressed opposition to all organizations of a "religious nature" outside the Lord's "societies called churches." He wrote, "The societies called churches, constituted and set in order by those ministers of the New Testament, were of such as received and acknowledged Jesus as Lord Messiah, the Saviour of the World, and had put themselves under His guidance. The ONLY BOND OF UNION among them was faith in Him and submission to His will. . .Their churches were NOT fractured into missionary societies, Bible societies, education societies; nor did they dream of organizing such in the world. . .They knew nothing of the hobbies of modern times. In their church capacity ALONE they moved. They neither transformed themselves into any other kind of association, nor did they fracture and sever themselves into divers societies. They viewed the church of Jesus Christ as the scheme of Heaven to ameliorate the world; as members of it, they considered themselves bound to do all they could for the glory of God and the good of man. They did NOT transfer to a missionary society, or Bible society, or education society, a cent or a prayer, lest in so doing they should rob the church of its glory, and exalt the inventions of men above the wisdom of God. In their church capacity ALONE they moved." Aug 3, 1823.</p>
+        <p>But, just a few years later he reflected an entirely different attitude. He believed, erroneously, as many do today, that the church universal was composed of churches, not individuals. So, in 1831, in his new paper, "The Millenial Harbinger," Campbell wrote four articles on "Cooperation" demonstrating the obligation of the church to evangelize the world. In concluding these articles he suggested that the Lord no longer employed Angels, Prophets or Apostles as His agents. He established and fitted the church for this task. He then posed the question, "How can this be done to the best advantage?" His feelings were that churches must cooperate to do this, but since no plan was given then man was free to determine the best course to follow. In 1842 he wrote, ". . .We cannot concentrate the action of the tens of thousands of Israel (the church) in any great Christian effort, but by co-operation . . . We can have no thorough co-operation without a more ample, extensive and thorough church organization." p. 522. The stage is now set for the first human institution of the Restoration Movement. (We'll see this next month).</p>
+        <p class="author-signature">Tommy Thornhill<br>13675 Hwy 341, Randolph, MS 38864</p>
+      </article>
+
+      <article class="article" id="once-saved">
+        <span class="article-category">Popular Doctrines</span>
+        <h2>"Can A Child Of God Sin And Be Lost In Hell?"</h2>
+        <p>One doctrine that continues to thrive in religious circles is the doctrine of the impossibility of apostasy, or the doctrine of "once saved, always saved." Some call it "once in grace, always in grace." The doctrine many today espouse says that once one is saved, he or she can never be lost in Hell. Is this a true doctrine? Is this taught in the Bible? Let me suggest that this doctrine has its roots in Calvinism. It is the logical conclusion to the doctrine that says man is born a sinner. We discussed this in an earlier article and found that doctrine to be without foundation and false. Therefore, the doctrine of the impossibility of apostasy must also be false. One is founded upon the other. When one doctrine falls, the other must fall as well. Seeing that God never taught that man was born a sinner, we can know that one who is a child of God does not have his "ticket punched," as it were; thus guaranteeing that he or she can not ultimately be lost in Hell after becoming a child of God. Please do not accept or reject this merely because I said it. Let us consider what the Bible says about this subject.</p>
+        <p><strong>Paul Said A Child Of God Can Fall From Grace.</strong> Please read Paul's words in <span class="scripture-ref">Galatians 5:4</span>. "Christ is become of no effect unto you, whosoever of you are justified by the law; ye are fallen from grace." Isn't this straight-forward? The Galatians had been guilty of trying to keep the Old Testament law (Law of Moses). Some Judaizing teachers had been saying that they had to keep the Law of Moses as well as the law of Christ. This was false. Paul told them if they went back to that "yoke of bondage" it makes Christ "profit you nothing" (<span class="scripture-ref">Gal. 5:1-2</span>). Therefore, there was something that could cause children of God to fall from grace! Further, consider <span class="scripture-ref">I Corinthians 9:27</span>: "But I keep under my body, and bring it into subjection: lest that by any means, when I have preached to others, I myself should be a castaway." The apostle Paul himself said he needed to discipline his body unless he became a "castaway" ("disqualified," NKJ, NAS) after preaching the truth to so many. To be a "castaway" is to be "rejected ... worthless ... reprobate" (Strong's). Therefore, we know Paul was concerned about his eternal destiny, as we should be concerned about ours!</p>
+        <p><strong>Further Proof That A Child Of God Can Be Lost.</strong> In <span class="scripture-ref">Hebrews 3:12</span>, we read, "Take heed, brethren, lest there be in any of you an evil heart of unbelief, in departing from the living God." To whom is he talking? To the brethren. Specifically, "holy brethren, partakers of the heavenly calling" (<span class="scripture-ref">Heb. 3:1</span>)! These "holy brethren" needed to "take heed" lest they departed from the living God. It is important for us to remember that one cannot depart from God unless he first has a relationship with Him. This same idea is seen in <span class="scripture-ref">I Timothy 4:1-2</span>. Therefore, the "holy brethren" were warned against leaving God after having been in a relationship with Him. Also study <span class="scripture-ref">Hebrews 12:15-16</span>. Paul said some of the Christians he knew about were in danger of casting "off their first faith" (<span class="scripture-ref">I Tim. 5:12</span>). In fact, "Some," he said, "are already turned aside after Satan" (<span class="scripture-ref">I Tim. 5:15</span>). Who were these people? They were children of God! Specifically, young Christian ladies who had been widowed and then did not live as they were supposed to, getting remarried, raising a family, etc. (<span class="scripture-ref">I Tim. 5:11-15</span>). Peter ended his second epistle by saying, "Ye therefore, beloved, seeing ye know these things before, beware lest ye also, being led away with the error of the wicked, fall from your own stedfastness" (<span class="scripture-ref">II Pet. 3:17</span>). I don't know of words any clearer than this! Peter says beware!!</p>
+        <p><strong>Is There Hope For Us?</strong> Some have the mistaken idea that if one can fall from grace, then none have any hope. This is wrong. Paul wrote Titus and spoke of his "hope of eternal life" that has been promised by God (<span class="scripture-ref">Tit. 1:2</span>). When Paul wrote the second letter to Timothy, he spoke in full assurance of his "crown of life" (<span class="scripture-ref">II Tim. 4:6-8</span>). How is it possible for him to teach such a thing? It is not because he thought there was no chance of his falling from grace, but because he had lived according to the will of God. In like manner, let us who are Christians (<span class="scripture-ref">Acts 2:38, 47</span>, <span class="scripture-ref">11:26</span>) live according to the will of God that we might look forward to a home in Heaven one day (<span class="scripture-ref">Rev. 2:10</span>; <span class="scripture-ref">I Cor. 15:58</span>). We can do it!</p>
+        <p class="author-signature">Jarrod Jacobs<br>2155 Sunset Dr., White Bluff, TN 37187</p>
+      </article>
+
+      <article class="article" id="conversion-confession">
+        <span class="article-category">Conversion</span>
+        <h2>Conversion: Confession</h2>
+        <p>Imagine the following scenario. A man has led a life of sinful indifference with regard to spiritual things. He hears a simple sermon on sin and God's plan of forgiving it. He develops faith in Jesus as the Son of God. Having developed faith, the man starts to feel very, very sorrowful. He acquires the sense of godly sorrow that leads to repentance (<span class="scripture-ref">2 Cor. 7:10</span>). And thus he repents. Is he converted? No. He has only resolved to be rid of his past life. It is, at present, still attached to him.</p>
+        <p><strong>What Man Knows?</strong> This brings us to the Bible concept of "confession" and the Ethiopian referred to in the first article. This was a man whose story is recorded in the book of Acts, chapter 8, verses 26-39. He was riding along in his chariot reading an Old Testament scripture (Isaiah 53 to be exact) and was approached by Philip, a disciple of Jesus. Philip asked the man if he understood what he was reading. Since he did not understand, Philip resolved to teach the man, give him a proper understanding of the facts of history, and thereby produce faith within his heart (v.35; compare <span class="scripture-ref">Rom. 10:17</span>).</p>
+        <p>They later came upon a body of water and the Ethiopian man said, "See here is water. What hinders me from being baptized?" (v.36) Now, the careful reader would be curious as to what prompted this man to want to be baptized in water. Of course, the simple conclusion one is forced to reach is that in preaching Jesus (v.35) there was the preaching of water baptism (v.36).</p>
+        <p>Our concern in this lesson on "confession", though, is Philip's response to the Ethiopian. He asked what hindered him from being baptized. "Then Philip said, 'If you believe with all your heart, you may.'" (v.37a) Have you ever wondered why Philip said that? Don't you think he knew this man now believed in the Jesus he had been preaching to him? I think Philip probably knew that this man believed and therefore could have simply said, "Nothing hinders you from being baptized, my friend. Let's go." But, ultimately, Philip could not know if the man had faith in his heart toward Jesus unless he revealed it to Philip (See <span class="scripture-ref">1 Corinthians 2:11a</span>).</p>
+        <p><strong>Pledging Allegiance.</strong> So this penitent man needed to make his faith known. Philip, realizing he believed and was penitent, put the condition on him. He showed the man that he needed to make his faith known. "And he answered and said, 'I believe that Jesus Christ is the Son of God.'" (v.37b) When this man issued such a response, he pledged his allegiance to a new king. Back in elementary school, we used to "pledge allegiance to the flag of the United States of America". Don't you think everyone in the classroom understood that the others present were patriotic Americans? Sure. But there was still the need to express such patriotism and the same is true with one's newfound allegiance to the Christ.</p>
+        <p>"Therefore whoever confesses Me before men, him I will also confess before My Father who is in heaven. But whoever denies Me before men, Him I will also deny before My Father who is in heaven" (<span class="scripture-ref">Matt. 10:32-33</span>). Jesus was not simply speaking of the lifestyle that should be a constant expression of one's faith in Him. But also He spoke of the verbal confession necessary to be considered one of His disciples (<span class="scripture-ref">Rom. 10:10</span>; Compare <span class="scripture-ref">John 12:42-43</span>).</p>
+        <p><strong>Confess What?</strong> So confession is a necessary element in the process of conversion. But what is to be confessed? The Ethiopian simply confessed his faith in the Savior from heaven. He did not have to confess sins to a priest. And friends, he did not confess, "I believe that God, for Christ's sake, has pardoned my sins."</p>
+        <p>The reason why he didn't confess that his sins had been pardoned is simple. No matter how strongly he had believed in the facts concerning Jesus or how soundly he had determined to change his life with regard to sin or how loudly he affirmed his intention to change before men, he had not made the change. So he couldn't say that God for Christ's sake had pardoned his sins, because at that point, his sins had not yet been pardoned. This brings us to the next element of conversion that will be discussed in the next issue.</p>
+        <p class="author-signature">Jason Malham<br>1152 Louisville Hwy., Goodlettsville, TN 37072</p>
+      </article>
+
+      <article class="article" id="gabriel-announcement">
+        <span class="article-category">Deity &amp; Humanity</span>
+        <h2>Gabriel's Announcement To Mary (1)</h2>
+        <p>"...Gabriel was sent...To a virgin espoused to a man whose name was Joseph, of the house of David; and the virgin's name was Mary...And the angel said...behold, thou shalt conceive in thy womb, and bring forth a son, and shalt call his name JESUS. He shall be called the Son of the Highest: and the Lord God shall give unto him the throne of his father David...." (<span class="scripture-ref">Lk. 1:26-32</span>).</p>
+        <p><strong>Question:</strong> In what sense was David the father of Jesus? "Concerning His Son Jesus Christ our Lord, which was made of the seed of David according to the flesh..." (<span class="scripture-ref">Rom. 1:3</span>). If the genealogy in <span class="scripture-ref">Luke 3:23-38</span> is Mary's as many believe, then Luke recorded the lineage of Jesus through her back to David. Many times people called Jesus the "...son of David..." (<span class="scripture-ref">Lk. 18:38,39</span>; <span class="scripture-ref">Mk. 10:48</span>). In <span class="scripture-ref">Mark 12:35-37</span>, Jesus asked, "How say the scribes that Christ is the son of David? For David himself said by the Holy Ghost, The Lord said to my Lord, Sit thou on my right hand, till I make thine enemies thy footstool. David therefore himself calleth him Lord; and whence is he then his son?" In <span class="scripture-ref">Heb. 2:14-17</span>, it is said of Christ: "Forasmuch then as the children are partakers of flesh and blood, he also himself likewise took part of the same...For verily he took not on him the nature of angels; but he took on him the seed of Abraham. Wherefore in all things it behoved him to be made like unto his brethren...."</p>
+        <p>The apostle Paul, who by the Holy Spirit said he was of seed of Abraham (<span class="scripture-ref">II Cor. 11:22</span>; <span class="scripture-ref">Rom. 11:1</span>), was one of the brethren Jesus was made like unto. If we can find how Paul was of the seed of Abraham, we can know how Jesus was of the seed of Abraham and how David was Jesus' father. How was Paul of the seed of Abraham? The writer of Hebrews said, "Furthermore we have had fathers of our flesh which corrected us, and we gave them reverence: shall we not much rather be in subjection unto the Father of spirits, and live?" For many years gospel preachers have correctly used this passage to show that the spirit of man comes from God and the flesh (body) of man comes from his parents. How was Paul of the seed of Abraham? He was of the fleshly lineage of Abraham. Did the spirit of Paul (the part of him made in God's image) come from the fleshly lineage of Abraham? No, it came from God for He is the Father (creator and source) of spirits (<span class="scripture-ref">Heb. 12:9</span>) and forms the spirit of man within him (<span class="scripture-ref">Zech. 12:1</span>). Did his spirit have anything to do with his being of the seed (lineage) of Abraham? NO!</p>
+        <p>If Paul was of the seed of Abraham, and that seed pertained to his body (flesh) rather than his spirit, what about Jesus Christ? When Jesus took on the seed of Abraham, what did He take on? He took on a fleshly body which was of the physical line of Abraham and David through Mary, but not through Joseph. Did the spirit of Jesus come through the physical lineage of Abraham, David, and Mary? No! The spirit of Jesus (The Word, <span class="scripture-ref">John 1:1</span>) came from heaven to dwell in that body (<span class="scripture-ref">John 1:14</span>). This is how David is the father of Jesus and Jesus is the son of David.</p>
+        <p>This harmonizes with "...a body hast thou prepared me" (<span class="scripture-ref">Heb. 10:5</span>). Notice three things: (1) "Thou" refers to God the Father, (2) "me" refers to The Word (<span class="scripture-ref">John 1:1</span>), and (3) "body" refers to that which descended from Abraham (<span class="scripture-ref">Lk. 3:34</span>) and David (<span class="scripture-ref">Lk. 3:31</span>) through the virgin Mary (<span class="scripture-ref">Lk. 1,2</span>).</p>
+        <p>What "being of the seed of Abraham" and "being the son of David" do not involve: They do not involve a fleshly body descended from Abraham through David and the virgin Mary PLUS a spirit created by God, in His image, and formed in that body for The Word to inhabit (<span class="scripture-ref">John 1:1-14</span>). God did not make a person, like Adam (body, soul, and spirit), for the word to indwell. If God did make a man (body, soul, and spirit) for The Word to indwell, then questions arise: What is wrong with saying there were two spirits in the body of Jesus Christ? How do you know which spirit did what? What is the identity of the created spirit? Which spirit was tempted (<span class="scripture-ref">Mt. 4</span>)? Which spirit laid down its life for sinful men? Where is that spirit today?</p>
+        <p>In the body of Jesus Christ, there was only one spirit: The Word (<span class="scripture-ref">John 1:1</span>).</p>
+        <p>Physically, Jesus was like His brethren in all things (<span class="scripture-ref">Heb. 2:17</span>). His body was just like Paul's. In the days of their flesh, The Word and Paul both had physical, flesh and blood, corruptible bodies.</p>
+        <p class="author-signature">Glenn Melton<br>322 Gray Street, Henderson, TX 75652-2734</p>
+      </article>
+
+      <article class="article" id="itching-ears-present">
+        <span class="article-category">Commentary</span>
+        <h2>Itching Ears Of The Present</h2>
+        <p>Are itching ears a thing of the past? We could wish. It is well-known that people of the world like preaching which smoothes the spiritual fur. But, is this true of anyone in the church of Christ?</p>
+        <p>In Ephesus, Paul preached "...all the counsel of God" (<span class="scripture-ref">Acts 20:27</span>) keeping "...back nothing that was profitable unto you..." (<span class="scripture-ref">Acts 20:20</span>). Is this the kind of preaching that many are wanting to hear? Is the pew to expect the pulpit to have the "please the customer" attitude? In the commercial world, the "customer is always right" attitude may make money; but in the spiritual realm, that attitude does not make spiritually minded, consecrated saints and strong churches.</p>
+        <p>We have witnessed a decline in doctrinal conviction in the denominations. Why has it come? An expansion of the "cafeteria" type religion: I'll pick and choose what I want religiously. The "please the pew" type of preaching in the church of the Lord is producing the same thing. Are you not aware of a decrease in doctrinal conviction and defense of truth among God's people? What happens when a doctrinal disagreement arises? People want to squash it and get it over with. They do not really want to sit down and do some mature studying, which produces growth and conviction.</p>
+        <p>The antidote for itching ears is good, solid Bible-based lessons which emphasize the distinct nature of the church. We may be fewer in number, but remember how many were in the ark and how many were on the outside.</p>
+        <p>Are our itching ears any better than those in the denominations? Study carefully.</p>
+        <p class="author-signature">Glenn Melton, Editor</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published April 2000 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

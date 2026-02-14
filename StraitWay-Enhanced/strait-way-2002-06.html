@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - June 2002</title>
+  <meta name="description" content="The Strait Way newsletter, June 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06" selected>June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#leadership">Leadership</a>
+        <a href="#ultra-liberalism">Baptism & Fellowship</a>
+        <a href="#identity-church">Unique Nature</a>
+        <a href="#preparing-sermons">Sermon Resources</a>
+        <a href="#satanism">Lure of the Occult</a>
+        <a href="#premillennialism">Kingdom Postponed?</a>
+        <a href="#heaven">Hope of Heaven</a>
+        <a href="#controversy">Controversy</a>
+      </nav>
+
+      <article class="article" id="leadership">
+        <span class="article-category">Front Page</span>
+        <h2>Leadership</h2>
+        <p>It is true that a nation cannot rise above its leadership. As we study the Old Testament this principle is abundantly clear. There is a clear correlation between the leadership of God's people and the faithfulness of those people. When leaders were faithful to God, God's people remained faithful and God blessed them. However, when those leaders turned from God because of lack of faith, weakness, ignorance, greed or whatever cause, God's people usually followed. The role of leaders in the church of the Lord is just as vital as good leadership was for the nation of Israel.</p>
+        <p>The Lord desires that elders be appointed "in every church" <span class="scripture-ref">Acts 14:23</span>. Christians are instructed to "obey them that have the rule over you, and submit to them: for they watch in behalf of your souls" <span class="scripture-ref">Heb. 13:17</span>. Preachers are told, "Be thou an example to them that believe, in word, in manner of life, in love, in faith, in purity" <span class="scripture-ref">1 Tim. 4:12</span>. Unless these who lead God's people strive to live the right kind of life, they cannot lead the Lord's people into the right kind of life.</p>
+        <p>If the family of God, the Lord's church, is to be strong, the leaders of His people must be loyal to Christ and His church. Jesus promised, "Be thou faithful unto death and I will give thee the crown of life" <span class="scripture-ref">Rev. 2:10</span>. This kind of faithfulness will "seek first the kingdom of God and His righteousness" <span class="scripture-ref">Mt. 6:33</span>. Why? The apostle Paul explains, "Ye are not your own for ye were bought with a price" <span class="scripture-ref">1 Cor. 6:19-20</span>. Jesus shed his blood to redeem us from sin (<span class="scripture-ref">1 Pet. 1:18-19</span>; <span class="scripture-ref">Rom. 5:8-10</span>). Paul shows us that this same blood purchased the church (<span class="scripture-ref">Acts 20:28</span>). As Saul of Tarsus (Paul) persecuted the church, he persecuted Christ (<span class="scripture-ref">Gal. 1:13</span>; <span class="scripture-ref">Acts 9:5</span>) who purchased the church. Therefore, loyalty to Christ is manifested in loyalty to His church which he built and purchased with his blood.</p>
+        <p><strong>Godly leadership does not just happen.</strong> Good leaders develop from solid planning, determination and preparation. Timothy was taught the sacred writings from a babe by his grandmother and his mother (<span class="scripture-ref">2 Tim. 1:5</span>; <span class="scripture-ref">3:14-15</span>). This was also true of Moses (<span class="scripture-ref">Ex. 3-4</span>) and Samuel (<span class="scripture-ref">1 Sam. 1</span>) and others. These became good leaders of God's people by developing the attributes God desired. Good elders do not just happen. When we understand the qualifications of elders (<span class="scripture-ref">1 Tim. 3:1-7</span>; <span class="scripture-ref">Tit. 1:5-11</span>), we must realize the years of preparation and experience involved for these qualities to be developed. In any field of endeavor and especially in the Lord's church it is true that, "failing to prepare is preparing to fail."</p>
+        <p><strong>God's leaders must be men of courage.</strong> Courage is not the equivalent of fearlessness. Rather courage is manifested when we, in spite of our fears, do that which is right with determination. When David opposed Goliath he said, "The God that delivered me out of the paw of the lion, and out of the paw of the bear, He will deliver me out of the hand of this Philistine" <span class="scripture-ref">1 Sam. 17:37</span>. The apostle Paul writing from a Roman prison demonstrated great courage when he affirmed, "I can do all things through Christ which strengtheneth me" <span class="scripture-ref">Phil. 4:13</span>. When Joshua prepared to conquer the land of Canaan he was told to "be strong and of good courage" <span class="scripture-ref">Josh. 1:7,9</span>. Satan, described as a "roaring lion, seeking whom he may devour" <span class="scripture-ref">1 Pet. 5:8</span>, is a formidable foe. We too must be very courageous as we battle sin and error.</p>
+        <p><strong>Those who lead God's people in the right way must be men of vision.</strong> "Where there is no vision the people perish" <span class="scripture-ref">Prov. 29:18</span>. Much of the work of good leaders bears fruit years down the line of time. There must be knowledge and vision to see that which is right and possible to accomplish. Patience, knowledge, wisdom and vision were attributes of the great leaders of God's people. Men like Moses, Joshua, Daniel, Paul and others are noteworthy examples.</p>
+        <p>Let us develop the attributes that will help us in leading the battle against sin and error. As God's warriors let us fight for truth and right. In doing so we can be victorious... "More than conquerors through him that loved us" <span class="scripture-ref">Rom. 8:37</span>.</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">Ultra-Liberalism Series</span>
+        <h2>Ultra-Liberalism, Baptism and Fellowship With God</h2>
+        <p>In the last two issues of StraitWay we discussed the false concepts of grace held by the ultra-liberal, unity-in-diversity group within the churches of Christ. Their gospel/doctrine distinction causes them to downplay the importance of doctrinal teaching and obedience to God's word. This, in turn, allows them to extend fellowship to all sincere believers, regardless of doctrinal positions and practices. It is held that the "perfect obedience" of Christ is imputed to the believer and sins of doctrinal error and ignorance are "continuously cleansed" by the Blood of Christ. This is simply a modified version of the old "once saved, always saved" position taught by the Baptist Church.</p>
+        <p>When Carl Ketcherside first started advocating the gospel/doctrine distinction, continuous cleansing was applied only to members of the church of Christ who had been Scripturally baptized. Later, he advocated the continuous cleansing of those who had submitted to denominational baptism. Cecil Hook, in Free In Christ, stated a belief that baptism is necessary, but also argues that denominational baptism fills the bill. The man I have alluded to in previous articles who advocated ultra-liberalism and unity-in-diversity also advocated the acceptance of denominational baptism, especially Baptist Church baptism.</p>
+        <p>When we talk about "fellowship" we are talking about a sharing or a joint participation. In the Bible the context tells what is being shared. In our spiritual relationships there is a vertical fellowship with God and a horizontal fellowship with others, who are also in fellowship with God. John speaks of this in <span class="scripture-ref">1 John 1:3</span>, "what we have seen and heard we proclaim to you also, that you also may have fellowship with us; and indeed our fellowship is with the Father, and with His Son Jesus Christ." Paul says, "God is faithful, through whom you were called into fellowship with His Son, Jesus Christ our Lord," <span class="scripture-ref">1 Corinthians 1:9</span>.</p>
+        <p>Fellowship with God begins when our sins are forgiven. This takes place at baptism, <span class="scripture-ref">Acts 2:38</span>. However, New Testament baptism is not just immersion in water. New Testament baptism is immersion in water preceded by faith, <span class="scripture-ref">John 3:16</span>; <span class="scripture-ref">Mark 16:16</span>, repentance, <span class="scripture-ref">Luke 13:3</span>; <span class="scripture-ref">Acts 2:38</span> and confession of faith, <span class="scripture-ref">Matt. 10:32-33</span>; <span class="scripture-ref">Rom. 10:9-10</span>. In New Testament baptism man is saved (<span class="scripture-ref">Mark 16:16</span>; <span class="scripture-ref">1 Pet. 3:21</span>), forgiven (<span class="scripture-ref">Acts 2:38</span>; <span class="scripture-ref">Acts 22:16</span>), raised up into newness of life (<span class="scripture-ref">Rom. 6:3-4</span>), added to the Lord's church (<span class="scripture-ref">Acts 2:47</span>; <span class="scripture-ref">1 Cor. 12:12-13</span>) and puts on Christ (<span class="scripture-ref">Gal. 3:26-27</span>).</p>
+        <p>Having been raised in the Baptist Church and joined it at age 13, I can assure you, Baptist baptism is not New Testament baptism. Baptist baptism is performed on a person who believes he is already saved, already forgiven, already raised up, already a member of the church universal and already in Christ. Baptist baptism makes one a member of that particular denomination, but, by their own admission, is not necessary for salvation or fellowship with God.</p>
+        <p>Fellowship with God begins at New Testament baptism. Denominational baptism is not New Testament baptism and does not establish fellowship with God. Therefore, denominational baptism cannot be accepted by faithful brethren and churches.</p>
+        <p>Fellowship with God is maintained by living in accordance with God's word. <span class="scripture-ref">2 Thess. 2:14-15</span> says, "And it was for this He called you through our gospel, that you may gain the glory of our Lord Jesus Christ. So then, brethren, stand firm and hold to the traditions which you were taught, whether by word of mouth or by letter from us." John wrote, "Anyone who goes too far and does not abide in the teaching of Christ, does not have God; the one who abides in the teaching, he has both the Father and the Son," <span class="scripture-ref">2 John 9</span>. When a Christian sins he must repent, confess and pray for forgiveness, <span class="scripture-ref">Acts 8:22</span>; <span class="scripture-ref">1 John 1:6-9</span>.</p>
+        <p>Ultra-liberals do not abide in the teaching of Christ and they extend fellowship to those who are not in fellowship with Christ, <span class="scripture-ref">2 John 10-11</span>. Faithful brethren need to be aware of this and on guard against all forms of error. Next month: Ultra-liberalism, Romans 14 and Horizontal Fellowship.</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">Identity Series</span>
+        <h2>Identity of A Church of Christ: Its Unique Nature</h2>
+        <p>We know that the identity of any object is unique in various ways. If you open a roll of pennies, each one is unique in a very minute way and the difference is not seen with the naked eye, nor even perceptible with anything other than an electron microscope. Yet for others, and us each one carries a value: one cent. If we need a penny, it would not matter which one we grabbed, because it would be worth one cent.</p>
+        <p>When an object carries a greater value, the uniqueness becomes more apparent. Why do you suppose that paper money has a unique serial number upon it? Well one reason is so that the government can track it and learn from a pattern. Knowing where it began circulation, the bills are examined each time they travel through banks or federal reserves. This way they follow the paper trail.</p>
+        <p>Living creatures have even more value and the need for identification is even greater. If your dog ran away, and you hung posters offering a reward for "your dog", can you imagine how many strays would be brought to your door, hoping that it was the right one? If your child came up missing, and people brought just any child to you, would that be acceptable. ABSOLUTELY NOT! The reason is because of the value to YOU. You want your unique child that carries all twenty-six markers of DNA, and would accept none other.</p>
+        <p>Scientific methods with DNA have been refined so much, that there is little questioning of the techniques. The courts have accepted the technology as an absolute standard of identification. Out of two hundred sixty million people, a DNA lab could narrow a search to find the right person that their sample of DNA belongs to. Soon, you can expect DNA profiles attached to birth records, driver's licenses, medical cards or any other form of identification.</p>
+        <p>Yet when it comes to the church of God, people will seemingly accept anything that looks remotely close or will be satisfied with most anything that appears like a church, but does not carry the markers of identification. It is important to only accept the church with ALL the right markers. So, like a lab, we need to investigate and put to the test the markers of the church where we are a member.</p>
+        <p>For us, there is only one profile sheet by which to judge whether we have the right church or not. That profile is found recorded in the New Testament of the Bible. We are taught about the name, mission, work, organization, fellowship, our behavior, our teaching or doctrine, and the source of authority in the church.</p>
+        <p>Some of us will only accept a church that carries ALL the markers of identification, and for that we are called legalists, fundamentalists, anti's, and many other derogatory names. Yet Jesus said He would build (<span class="scripture-ref">Matthew 16:18</span>), purchase (<span class="scripture-ref">Acts 20:7</span>), and judge (<span class="scripture-ref">John 12:48</span>) HIS CHURCH. We have the pattern of sound words (<span class="scripture-ref">1 Thessalonians 1:5-6</span>; <span class="scripture-ref">2:4,9,12-14</span>; <span class="scripture-ref">4:1-2</span>; <span class="scripture-ref">5:11</span>) and we have the commands to follow that pattern (<span class="scripture-ref">2 Timothy 1:13</span>; <span class="scripture-ref">2:2,15</span>; <span class="scripture-ref">3:14</span>; <span class="scripture-ref">4:2</span>). May we seek to live according to the pattern of sound words. May we limit our actions to Divinely approved standards. May God bless you in your study of His word.</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>Some men have the wonderful ability to think -- they can think as they sit at their desk, and think when they are in the pulpit. Good thoughts, expressed in good words, just seem to pour out of them effortlessly. If that describes you, then thank God, and you may not need these articles. But if you are like me, the thinking process has to have some help. In that case, we can be grateful that good thinkers who are good Bible students have recorded their work for the benefit of those of us who need that help.</p>
+        <p>The amount of material available for help in sermon preparation is staggering in its abundance. Not only are there untold numbers of books available, but with the Internet came a vast array of articles, charts, and outlines we can download. Let's consider a few of the sources, beginning with an "old" one:</p>
+        <p><strong>THE PULPIT COMMENTARY.</strong> These volumes were written and edited by denominational men, and therefore they must be used very carefully. A man who wants to preach is well-advised to be grounded in God's truth, for truth is what he must teach. So before using this set of books, know the plan of salvation and know how the New Testament church fits into it. Know the worship of the church, and its organization. Know the errors taught by human creeds, and know the answers to them, or at least how to find answers. With that qualification, go to this set of books and find some good material which (with a lot of work) can be made into usable outlines.</p>
+        <p>My set of PULPIT COMMENTARY (now getting pretty old!) has 23 volumes, the 23rd being a General Index. That index lists just about any topic you could ever think of, and tells you where to go in the other volumes to find information. You can look through the pages for what you want, copy anything that looks good, put it all together, and then you can see if the material will "jell" into a sermon.</p>
+        <p>If you are using the PULPIT to study and teach a text, begin by reading their commentary on the text, and then look at their homiletic treatment of the text. Usually it will go verse by verse; then after a page or a few pages there will be given the work (homilies) of various authors. If you are working on one verse or a paragraph you may find a little on the text on each of several pages. When you have all the material, then compile it into its main points and you probably can see the beginning of an outline.</p>
+        <p>If you are just beginning to use the PULPIT, you may find it a little complicated and confusing, but you quickly will catch on. Other publications also may have their particular arrangement, and each one has to be used so as to gain the good information while discarding the erroneous teaching and the wordy filler material that is less-than-useful. In the next article we will look at more helps that are available. We have the great responsibility to teach truth, so when you read what someone else has written, whether the book is authored by a sectarian or by a faithful brother, examine it carefully, remembering that man can be wrong. Let Christ and His Word be the center and circumference of our sermons.</p>
+        <p>Although you get material from others, the final outline can and will be yours if you spend the time and effort to develop the thoughts in orderly fashion. Most of the denominational men do not give many Scripture references (sadly, that has become the case with some of our brethren). So you will need to add passages to show that the Bible actually teaches what you say it teaches. Make a point, and give a verse or verses. Make another point and give more verses. Spend enough time on each point to show the power of God's Word in its proper application.</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="satanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Satanism: The Lure Of The Occult</h2>
+        <p>In Humanism, man attempts to replace God with self. In Satanism, man seeks to control god (whether they see god as being the forces of nature, or Satan or some other being as a god) to get what they desire. Humanism seeks to elevate man by means of the senses. In the Occult, man seeks elevation and superiority apart from the senses.</p>
+        <p>Spiritually speaking, mankind does not live in a vacuum. Man intuitively seeks for answers outside of self. The preacher tells us "God has set eternity in their hearts" (<span class="scripture-ref">Eccl 3:11</span>). When the Humanist removes God from the picture, man is going to turn to something as a replacement. Nations that have turned to Humanism/Atheism have all experienced a high interest in the occult, ranging from France after the revolution to the Soviet Union.</p>
+        <p>Though there may be a renewed interest in the Occult, it certainly is not new. In the Old Testament, we read of those who practiced astrology (<span class="scripture-ref">2 Kgs 23:5</span>). Some even consulted mediums (<span class="scripture-ref">1 Sam 28:7-13</span>). Israel fell to Assyria, in part, due to these practices (<span class="scripture-ref">Isa 8:19</span>, <span class="scripture-ref">47:11-15</span>).</p>
+        <p>There is a tendency to think that things such as this just occur far away from us, but the occult is practiced in virtually every city of the world. Small towns to big cities have reports of everything from cattle mutilations to active witch covens. If one does not believe this to be the case, a call to the local sheriff's department can quickly answer it. A quick trip to the bookstores in the malls will show volumes on the shelves dealing with spells, spirits, astrology, channeling, and the like. One small town library had a book on "Spells For Children" available.</p>
+        <p>We should define some terms and point out that there is a difference between cult and the occult. Whereas cult implies devotion to a person, occult means hidden and secret. They are not the same. This is a part of the lure, to know things others do not. This appeals to the pride of man as in the Garden, <span class="scripture-ref">Gen 3:5</span>, when Eve was tempted to be like God, KNOWING both good and evil. Man wants to know the secret things, failing to realize that secret things belong to God, <span class="scripture-ref">Deut 29:29</span>. That is also the lure of the so-called "lost" books of the Bible. Most who order these haven't read the "never lost" books of the Bible. This is the lure of the secret fraternal organizations as well.</p>
+        <p>The church at Colosse had a problem with those who wanted to learn more of the "secret" things (<span class="scripture-ref">Col 2:8, 18</span>). Paul's answer was that we can be filled with all knowledge and understanding (<span class="scripture-ref">1:9-10</span>) through the inspired preachers in the revealed Word (<span class="scripture-ref">1:25-27</span>). In Christ are all the "hidden" riches (<span class="scripture-ref">2:2-4</span>) found in the understanding of His Word (<span class="scripture-ref">3:10</span>).</p>
+        <p><span class="scripture-ref">Galatians 5:20</span> specifically lists sorcery as one of the sins which can keep one from heaven, yet many seek this as an answer from heaven. <span class="scripture-ref">Revelation 2:24</span> refers to those who have known the "deep things of Satan." Why not instead learn the depths of His Word?</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: Was The Kingdom Postponed?</h2>
+        <p>It is the teaching of Premillenialists that at Jesus' first coming a literal, earthly kingdom like that of David was to be set up. However, the Jews rejected Jesus and His kingdom. In fact, they killed Him. But since God had promised such a kingdom, and He cannot lie, He postponed the kingdom until the second coming. In the meantime the church or, as it is sometimes called 'the church age', was introduced. This church age was completely unknown by the Old Testament prophets or any other man. What does the scripture say?</p>
+        <p>As already noted, according to the Bible, the kingdom came during the lifetime of some of the apostles (<span class="scripture-ref">Mark 9:1</span>). And Paul and others of the first century were in it (<span class="scripture-ref">Col. 1:12-13</span>).</p>
+        <p>What about this postponement period? It implies to many people that God has some special work for the Jews who are still His special people. As O. T. Allis in his classic work Prophesy and the Church on page 78 shows by an appeal to the scriptures, "Jesus declared to the Jews that the kingdom should 'be taken from them' (<span class="scripture-ref">Matt. 21:41f</span>). The children of the kingdom (the natural and lawful heirs) are to be 'cast out' (<span class="scripture-ref">7:11f</span>). None of those 'bidden' are to taste the marriage supper (<span class="scripture-ref">Lk. 14:24</span>). The vineyard is to be given to 'other husbandmen'; to 'a nation bringing forth the fruits thereof'; men are to come from the 'highways' from 'the east and west, and north and south,' to partake with Abraham, Isaac, and Jacob of the marriage supper." As he notes, these scriptures "imply clearly that the period of Jewish particularism was ended." Nothing is said or implied about a postponement and a second chance later.</p>
+        <p>John the Baptist said the same thing. "Repent for the kingdom of heaven is at hand...Think not to say within yourselves, we have Abraham to our father: for I say unto you, that God is able of these stones to raise up children unto Abraham." (<span class="scripture-ref">Matt. 3:9</span>). As Paul says, "For ye are all sons of God, through faith, in Christ Jesus. For as many of you as were baptized into Christ did put on Christ. There can be neither Jew nor Greek..." (<span class="scripture-ref">Gal. 3:27</span>)</p>
+        <p>This doctrine of postponement has some serious consequences: (1) Did Jesus know that the Jews would reject His offer of the kingdom? If He did, did He tell the truth when He said the kingdom was at hand? (2) If it was a sincere offer, theoretically they could have accepted it. If they had, what would have happened to the cross? One of their writers said, "It can be said at once that His dying was not God's own plan."</p>
+        <p>As it relates to the theory that the establishment of the church was completely unknown to Old Testament people and it was a mystery until it was revealed, consider the following: On one occasion a leading light among Premillenialists came to the town where I lived. He had a call-in question and answer type radio program. One day the following took place. "Is it your understanding that the coming of the church in the church age was completely unexpected, not foretold in the Old Testament scriptures and was not expected and the kingdom was postponed? How do you know that when Jesus comes again that He will not be rejected and another postponement will occur? After all, that was the situation among the first century people; how do you know that it will not happen again?" His response was that we just don't think that will happen. That is an insufficient answer.</p>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="heaven">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "The Hope Of Heaven"</h2>
+        <p class="block-quote">"I have fought the good fight, I have finished the course, I have kept the faith, in the future there is laid up for me the crown of righteousness, which the Lord, the righteous Judge, will award to me on that day; and not only to me, but also to all who have loved His appearing." <span class="scripture-ref">2 Tim 4:7,8</span></p>
+        <p>Any justified hope of living with God throughout eternity is reserved for the faithful child of God. What a blessing it would be if all of mankind could only realize that the promoting of a manmade system of faith does not carry with it any hope of eternity. No matter how right or just the doctrines of men may appear or how sincere their believers are, the benefits of such organized efforts are only temporary. The pleasant associations, the sharing of common ideals, even the satisfaction of denying themselves and sacrificing for others, is all for nought unless they follow the divine pattern laid down in God's Word for becoming a Christian, a member of the Lord's church, <span class="scripture-ref">Acts 2:38, 47</span>.</p>
+        <p>In the Brotherhood, it appears that some have forgotten that walking by faith and being obedient to their Lord in baptism is only the beginning. Once becoming a child of God, the new Christian is expected to grow to maturity, <span class="scripture-ref">1 Peter 2:1,2</span>; <span class="scripture-ref">2 Peter 3:17,18</span>. Only those members of Christ's body (His church) that "continue in the faith firmly established and steadfast, and not moved away from the hope of the gospel" (<span class="scripture-ref">Colossians 1:21-23</span>), have any promise of inheriting heaven. Only those led by the Spirit of God are sons of God, and only the sons are heirs, "heirs of God and fellow heirs with Christ" if indeed we suffer with Him in order that we may also be glorified with Him. If we continue to be led by this same spirit of divine truth, then nothing "shall be able to separate us from the love of God, which is in Christ Jesus our Lord." (<span class="scripture-ref">Rom 8:14-39</span>)</p>
+        <p>Truly, as someone once said, "Heaven is a prepared place for a prepared people." Members of the Lord's church know that there is a heavenly home being prepared for the righteous, a "city which has foundations, whose architect and builder is God" (<span class="scripture-ref">Hebrews 11:10</span>). This is the eternal home of all faithful Christians and the city for which they long for. Heaven with all its beauty and solace will not be a temporary dwelling place. It is a place where Paul said, "Thus we shall always be with the Lord" (<span class="scripture-ref">1 Thess 4:17</span>). Is this not the true beauty of heaven? The glory of it all is that, in heaven, we will be in the presence of God the Father and Jesus throughout eternity. This is the hope of all faithful members of the Lord's church. This hope strengthens God's people and enables them to keep on keeping on regardless of what may confront them during life's little while.</p>
+        <p>Yes, the storms of life will come. There will be at times physical and emotional pain and suffering; temptation will be ever present; tears will be shed over the fallen; ostracism will result from standing firm on Bible truth; loneliness, uncertainty and numerous other things will trouble our hearts. However, the hope of heaven is that which lifts our spirits and enables us to be steadfast, never wavering in our service to Christ.</p>
+        <p>We will close with the comforting words of our Lord found in <span class="scripture-ref">John 14:1-3</span>: "Let not your heart be troubled; believe in God, believe also in Me, in My Father's house are many dwelling places; if it were not so, I would have told you; for I go to prepare a place for you. And if I go and prepare a place for you, I will come again, and receive you to Myself; that where I am, there you may be also."</p>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <article class="article" id="controversy">
+        <span class="article-category">Exhortation</span>
+        <h2>Controversy</h2>
+        <p class="block-quote">"Let all bitterness, and wrath, and anger, and clamour, and evil speaking, be put away from you, with all malice: And be ye kind one to another, tenderhearted, forgiving one another, even as God for Christ's sake hath forgiven you." <span class="scripture-ref">Ephesians 4:31-32</span></p>
+        <p>How do you handle controversy? When you and another disagree are you able to sit down with them and discuss what is found in Scripture? Or do you become bitter or angry and refuse to study with them on the subject of controversy?</p>
+        <p>As children of God we must not let anger get in the way of discussing the Word. Often times we will find a brother or sister with a different perspective or opinion on a given subject. We must be willing to discuss these differences with a desire to find the truth. We must approach such discussions with the Word as our ultimate and final source of truth. Let us not allow differences to divide us, but let us work together to find the truth as revealed in Scripture.</p>
+        <p class="author-signature">The Editors</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published June 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

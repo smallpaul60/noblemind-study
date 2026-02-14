@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - March 2002</title>
+  <meta name="description" content="The Strait Way newsletter, March 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03" selected>March</option>
+              <option value="04">April</option>
+              <option value="05">May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#shouting-clapping">Shouting & Clapping</a>
+        <a href="#ultra-liberalism">Ultra-Liberalism Examples</a>
+        <a href="#identity-church">Membership</a>
+        <a href="#preparing-sermons">Preparing Sermons</a>
+        <a href="#humanism">Situation Ethics</a>
+        <a href="#premillennialism">The Promises (3)</a>
+        <a href="#child-of-god">Child of God</a>
+        <a href="#diligence">Give Diligence</a>
+      </nav>
+
+      <article class="article" id="shouting-clapping">
+        <span class="article-category">Front Page</span>
+        <h2>Shouting And Hand Clapping In Worship</h2>
+        <p>God has always been particular in what he will accept in worship. When Cain attempted to offer unto God the fruit of the ground (<span class="scripture-ref">Gen. 4</span>), both Cain and his offering was rejected. When Nadab and Abihu offered a "strange fire" before the Lord (<span class="scripture-ref">Lev. 10:1-2</span>) they were consumed in fire from the Lord because they presumed to offer to God that which he had not commanded.</p>
+        <p>We must learn not to be presumptive in our worship to God. The very nature of worship means that we must offer to God that which He has commanded to express our love and adoration to the Almighty, Eternal, and Sovereign God. To "profane" our worship by doing that which God has not commanded is to express irreverence toward God.</p>
+        <p>Some appeal to practices in the Old Testament to find authority for shouting and clapping in worship. Certainly, we must be reminded that we do not live under the law of Moses today, but under the law of Christ (<span class="scripture-ref">Eph. 2:14-16</span>). In spite of this some quote from the Old Testament to justify their practice of shouting or clapping in worship assemblies. For instance, some quote <span class="scripture-ref">1 Sam. 4:5</span>, "When the ark of the covenant of the Lord came into the camp, all Israel shouted with a great shout, so that the earth rang again" as authority for shouting in worship. Some also use <span class="scripture-ref">2 Sam 6:15-16</span> to justify shouting as well as dancing in worship to God. Still others cite <span class="scripture-ref">Ezra 3:11-12</span>, affirming that Israel sang, prayed and shouted in their worship. Yet, these passages and other Old Testament passages have nothing to do with what we do in our worship assemblies in the church today.</p>
+        <p>One preacher cites <span class="scripture-ref">Psa. 47:1-2</span> "O clap your hands, all ye people, shout unto God with the voice of triumph. For the Lord most high is terrible; he is a great King over all the earth." He also quotes <span class="scripture-ref">Psa. 98:4-9</span>. He then affirms, "Here is worship which included shouting and clapping the hands." What is wrong with this reasoning? Look again at the passages! Note what is left out of the quote from Psalm 98:4-9. Between the words "Praise" and "Let" the scripture says, "Sing unto the Lord with the HARP; with the HARP, and the voice of the psalm. With TRUMPETS and sound of CORNET make a joyful noise before the Lord, the King" (verses 5-6). If these verses authorize shouting and clapping of hands in our worship assemblies today, what about the use of mechanical instruments of music in worship assemblies today? Some may express joy by shouting, others by clapping their hands, others by whistling and still others by blowing on a whistle. Have we by our false reasoning justified using instrumental music in worship? Are we ready for that?</p>
+        <p>The New Testament as revealed by Christ through the Holy Spirit is our standard of authority in religion today. To "walk by faith" is to submit to what is written therein. What is wrong with clapping, shouting, whistling or blowing on a whistle in worship assemblies today? THERE IS SIMPLY NO AUTHORITY FOR IT revealed in the New Testament. In an effort to make worship fun, exciting or emotionally stimulating, let us not resort to practices that would profane our worship and render it vain and irreverent. Let us remember that "God is a spirit and they that worship Him must worship in spirit and in truth" (<span class="scripture-ref">Jno. 4:24</span>). Save your applause for another time. It has no place in our worship assemblies.</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">Ultra-Liberalism Series</span>
+        <h2>Some Examples of Ultra-liberalism</h2>
+        <p>This month we want to look at some examples of Ultra-liberalism in churches of Christ. By the early 1990s the change agents had come to Waco, Texas. Several institutional churches were affected by their false teaching. The Robinson church of Christ, in suburban Waco, was one of the churches most affected.</p>
+        <p>On April 23, 1995 the elders of the Robinson church of Christ published "Leadership Conclusions To Worship Study." This paper discussed the changes the elders considered, the conclusions they drew and the changes they made in the services at the Robinson church. According to the paper the elders rejected suggestions of instrumental music in worship, speaking in tongues, revelations, healings, exorcisms, women preachers and women in leadership roles in the assembly. While the elders are to be commended for rejecting these false ideas, the very fact they had to discuss them shows how far some members had gone into ultra-liberalism. They did agree to changes in the Lord's Supper by taking the bread and the fruit of the vine in unison. They also agreed to having a song between the bread and the fruit of the vine and sometimes to sing a song while the Lord's Supper was being served. They agreed to "Occasionally have members read the scriptures in unison or have responsive readings where the public reader calls for a unison response from the whole congregation." After the worship assembly and announcements, "Clapping as applause is welcome. This might be spontaneous or requested by the leader." Hand clapping after a baptism was approved, but hand clapping during songs would not be encouraged. After the Sunday evening worship an evening devotional would be held. At the devotional "There might be an occasional quartet or special group...Members can raise hands during song or prayer." Even though the elders rejected speaking in tongues, revelations, healings, exorcisms, and women preachers, they seem to be well on their way to becoming a Pentecostal group ruled by emotions rather than Scripture.</p>
+        <p>In 1995 Dub McClish wrote a two part article titled "Emotionalism Versus Proper Emotions". The articles appeared in the July and August issues of the "Defender" published by the Bellview church of Christ in Pensacola, FL. According to McClish, "Since at least the late 1960s, some brethren have been aping the sects in their religious emotionalism, bringing these into congregations where they were allowed to do so. The imbibing of false doctrines concerning the direct operation of the Holy Spirit was behind much of this...Sheer emotionalism (rather than spirituality or the Scriptures) led them to such things as dimming the lights, lighting candles, burning crosses, humming during the Lord's Supper, have 'responsive readings,' 'testifying,' changing the order of worship every week, and doing away with a Gospel sermon in the assembly in favor of an insipid panel discussion." McClish also documents how the change agents ridicule the worship service, as usually conducted in churches of Christ, as being "tired" and "uninspiring." "The church is always supposed to be a party," they say.</p>
+        <p>From all corners of the United States we are hearing of similar things taking place in liberal/institutional churches. An elder in Dallas calls upon women to lead prayer in a mixed assembly. An elder in the church at Minot, ND believes instrumental music in worship is permissible. Ultra-liberalism and "unity in diversity" go hand in hand. Where you find one, you will soon find the other. "Unity in diversity" has found its way into conservative churches and if we don't stop it, ultra-liberalism will surely follow. Let us "contend earnestly for the faith which was once for all delivered to the saints" <span class="scripture-ref">Jude 3</span>.</p>
+        <p>Next month we will discuss: Ultra-liberalism and the Grace of God.</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">Identity Series</span>
+        <h2>Identity of A Church of Christ: Membership</h2>
+        <p>Today, we will view what membership is and is not. The requirements for membership in the Church, that Jesus died for and purchased with His blood (<span class="scripture-ref">Acts 20:28</span>) are provided in God's word. They are found in the obedience to the commands of Jesus and His designated speakers; the Apostles and the Holy Spirit (in other words, the Bible).</p>
+        <p>The first thing we need to do is determine what membership is and what is involved in membership, and the second thing to do will be to identify that of which we are a member.</p>
+        <p>Bible terminology can be difficult for the uninformed and ignorant. Sometimes we hear a phrase or word and associate it immediately in one sense, while the word may be used differently.</p>
+        <p>Membership is describing a relationship. How we use the word will be determined by the particular relationships within the context. We will see that one could have a relationship in one sense, but not in another. My particular relationships include Christian, husband, father, member, supervisor, neighbor, friend, acquaintance, and stranger. Some of these relationships overlap as my family attends the same congregation of believers as I. So my wife and daughter are also my brethren. But where many have misunderstanding is in trying to separate the various relationships into their proper place.</p>
+        <p>Foremost in our Christian relationship, we are members of the body of Christ. We belong to Him (<span class="scripture-ref">Romans 14:8</span>), and are members of His church. This relationship is separate from the other relationships. Other people have the same relationship with Christ, and thus they share the same type of relationship. On a local level, we have this relationship in a threefold sense. One is our individual relationship with Christ, and one is our relationship with our brethren and one is in our common (shared) alliance with Christ.</p>
+        <p>Our membership exists because God adds us to this fellowship (<span class="scripture-ref">Acts 2:47</span>). God adds us upon our obedience to His commandment to be baptized for the remission of sins. Because our sins keep us separate from God (<span class="scripture-ref">Isaiah 59:2</span>), we must have them removed. The process of baptism does this (<span class="scripture-ref">Acts 16:22</span>). Thus being clean and new, we are allowed into the presence of God through this relationship. In this relationship, we are members of Christ's body, His church (<span class="scripture-ref">Colossians 1:18</span>; <span class="scripture-ref">Ephesians 1:22-23</span>).</p>
+        <p>As long as we are faithful to Christ and His doctrine and seek to bring glory to God, we will be preserved and we will have the hope of eternal salvation in heaven.</p>
+        <p>We also recognize that membership carries with it a grave responsibility to the relationship. As a husband and wife are given instruction on how to treat each other, so Christians are instructed how they are to treat Christ and His church, the body (or other Christians). There are many parallels in the scriptures to help the Christian understand their relationship with Christ, and their relationship with other Christians. These are written in human language that we can understand, and they are written as commandments, not just suggestions. As the beloved John wrote: "And this is His commandment, that we believe in the name of His Son, Jesus Christ, and love one another, just as He commanded us. And the one who keeps His commandments abides in Him, and He in him. And we know by this that he abides in us, by the Spirit whom He has given us" (<span class="scripture-ref">1 John 3:23-24</span>).</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>We have noted that the three general types of sermons are topical, textual, and expository, and that many books have been written to teach and assist us in using the three types. Last month we briefly considered the topical sermon and gave an example of that type of outline. In this month's treatise we turn attention to the textual sermon. Whereas the topical sermon is the development of a theme, the textual sermon is the development of a text. Many verses and short passages can be found that have points and thoughts already outlined, and ready for prayerful expansion into useful lessons.</p>
+        <p>As an example of the textual type I offer an outline I began developing in 1951. Its simple title is "Following Paul," and the text is <span class="scripture-ref">1 Cor. 11:1</span> ("Be ye followers of me, even as I also am of Christ"). The Introduction to the sermon points out that if we wish to be righteous in life we will choose to be influenced by those who are righteous - <span class="scripture-ref">1 Pet. 5:3</span>; <span class="scripture-ref">1 Tim. 4:12</span>, and that a good example for us to follow is the apostle Paul. Here the TEXT is read; then it is stated that we do well to copy Paul in matters of faith, character, spiritual relationships, and spiritual activity - <span class="scripture-ref">Heb. 13:7</span>; <span class="scripture-ref">Phil. 4:9</span>.</p>
+        <p>The first point in the body of the outline is that we follow Paul when we <strong>turn from wickedness to righteousness in life</strong>. Supporting points: A. Paul saw a great need in his life - <span class="scripture-ref">Acts 9:1-9</span>; <span class="scripture-ref">Gal. 1:13</span>; <span class="scripture-ref">Rom. 12:9</span>; <span class="scripture-ref">13:12</span>; <span class="scripture-ref">Eph. 4:22-24</span>; <span class="scripture-ref">Tit. 2:12</span>. B. He began by obeying the Savior - <span class="scripture-ref">Acts 9:10-18</span>; <span class="scripture-ref">22:16</span>. C. So must we obey, since we are to be saved in the same manner as was he - <span class="scripture-ref">Heb. 5:9</span>.</p>
+        <p>The second major point is that we follow Paul when we <strong>maintain deep and unchanging love for the truth of Christ</strong>. Supporting points: A. If we do not love the Lord's truth, then we have no love for the Lord - <span class="scripture-ref">Eph. 4:15</span>; <span class="scripture-ref">2 Th. 2:10-12</span>; <span class="scripture-ref">Phil. 1:17</span>; <span class="scripture-ref">Gal. 2:5</span>; <span class="scripture-ref">Acts 20:30-32</span>. B. To enjoy recognition of God, we must accept and be governed by Paul's teaching - <span class="scripture-ref">1 Cor. 14:37</span>; <span class="scripture-ref">Gal. 1:11-12</span>. C. Regarding denominations -- Paul was not a member of one; he did not authorize anyone else to be part of one; in fact, he taught against everything that is unique to denominationalism.</p>
+        <p>Major point three: We follow Paul when we <strong>display love to Christ, faithfulness to Him, and consecration to Him in all of life</strong>. Supporting points: A. Spirituality in thinking is the basis - <span class="scripture-ref">Acts 27:23-25</span>; <span class="scripture-ref">Phil. 1:21</span>; <span class="scripture-ref">Gal. 2:20</span>; <span class="scripture-ref">Col. 3:1-3</span>. B. Then total submission to the authority of Heaven - cf <span class="scripture-ref">Mt. 26:39</span>; <span class="scripture-ref">Jn. 8:29</span>; <span class="scripture-ref">Acts 9:6</span>; <span class="scripture-ref">26:16-20</span>. C. Sacrifice and service - <span class="scripture-ref">1 Cor. 9:27</span>; <span class="scripture-ref">Phil. 3:7-8</span>; <span class="scripture-ref">2 Cor. 11:23-28</span>; <span class="scripture-ref">Rom. 12:1</span>. D. Frequent prayer - <span class="scripture-ref">1 Th. 3:9-10</span>; <span class="scripture-ref">Lk. 18:8</span>; <span class="scripture-ref">1 Th. 5:17</span>; <span class="scripture-ref">Eph 6:18</span>. E. Contentment - <span class="scripture-ref">Phil. 4:11-13,6-7,19</span>; <span class="scripture-ref">Heb. 13:5-6</span>. F. Recognize our enormous responsibility to others - <span class="scripture-ref">Rom. 1:14-15</span>; <span class="scripture-ref">15:1-3</span>; <span class="scripture-ref">1 Cor. 10:32-33</span>; <span class="scripture-ref">8:9-11,13</span>; <span class="scripture-ref">9:19-22</span>; <span class="scripture-ref">2 Tim. 2:2</span>. G. Endurance to the completion of life's mission - <span class="scripture-ref">Acts 20:24</span>; <span class="scripture-ref">2 Tim. 4:6-7</span>; <span class="scripture-ref">Heb. 3:14</span>; <span class="scripture-ref">6:11-12</span>; <span class="scripture-ref">12:1-3</span>.</p>
+        <p>For our next visit we will take a look at the expository sermon. Thanks for reading, and thanks for searching the greatest Book of Sermon Outlines available to us -- The Word of God.</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="humanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Humanism, Satanism, And The New Age Movement: Humanism Part 2 - Situation Ethics</h2>
+        <p>Humanism is the philosophy that says, "Man is the measure of all things." It is a feeble effort on the part of mankind to take God out of the picture and allow man to be the supreme being. Every one of us feel the effect of this doctrine daily in our lives as we pay for the crime and immorality of others, or become direct victims of such.</p>
+        <p>One of the most noted tenants of Humanism is the doctrine of "situational ethics." Point number three of the Humanist Manifesto II states, "Ethics is autonomous and situational, needing no theological or ideological sanction." By saying ethics are autonomous, is meant that what is true and right for you may not be so for me. Auto, meaning self; and nomos meaning law.... thus, self-governing. In some cases, such as in the local church government, autonomy is proper. But, when it comes to laws governing lives, it becomes more like the dark ages of Israel when "everyone did that which was right in his own eyes." (<span class="scripture-ref">Judges 17:6</span>, <span class="scripture-ref">21:25</span>). By saying situational is meant that right and wrong is based purely upon the circumstances and motives, so that there are no absolutes, no objective standard of right and wrong. That is, murder is wrong if to hurt someone, but acceptable if it is to aid someone in "dying with dignity." (But of course the death penalty is absolutely wrong).</p>
+        <p>This doctrine of situation ethics is practiced from Main Street to Wall Street. Most do so without even realizing there is a name for the behavior. It denies there are absolutes. If there is anything these absolutely deny, it is absolutes. Odd, considering they absolutely deny there is a God!</p>
+        <p>In <span class="scripture-ref">John 14:6</span>, Jesus said, "I am THE way, THE truth and THE life. No man comes to the Father but by me." Jesus did not say He is one of many ways along with Buddha, Confucius, Mohammed and others. Or that we are free to find our own way to spiritual enlightenment and self-actualization. He did not say He is one of many "changing truths" (if they change, were they really truths to begin with?). Instead, He stated He is THE truth (singular, not "truths") and ONE way. Ted Koppel of NightLine was speaking to a graduating class at Duke University. In his speech, he said this, "For moral absolutes, we've substituted moral ambiguity.... What Moses brought down from Mount Sinai were not the 10 suggestions; they are commandments."</p>
+        <p>As a result of this subjective Humanist philosophy of ethics, we are hearing slogans like "Get your Bible out of my pants" to try to depict anyone with a sense of values as radical (after all, point six of Manifesto II states, "A civilized society should be a tolerant one."). If opponents of morality can confine God to the four walls, then they have done their job in creating a sort-of spiritual apartheid in which religion is separate but UNequal, and hopefully harmless. Religion itself is being "sanitized" of religion. Think of the influence this has had just in the religious realm alone. Many people look for churches that teach what they want to believe rather than considering God's desire in the matter. Churches that appeal to the physical man with carnal activities, appealing to the "whole man" has fallen prey to a form of humanism. This takes away from eternity as the goal, and places the emphasis in the here and now.</p>
+        <p>In 1963, a list of 45 goals of communism was presented to the Senate Committee on Un-American activities. One such goal was: "27. Infiltrate the churches and replace revealed religion with 'social' religion. Discredit the Bible and emphasize the need for intellectual maturity, which does not need a 'religious crutch.'"</p>
+        <p>Since we realize that communism is simply humanism gone to seed, can we see how humanistic our values, ethics and religion have become in America?</p>
+        <p>We must recognize with the prophet, "O Lord, I know the way of man is not in himself; It is not in man who walks to direct his own steps." <span class="scripture-ref">Jer. 10:23</span>.</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: The Promises (3)</h2>
+        <p>One of the fundamental doctrines of most, if not all, premillenialists is that before the end of time God will give to the Jews the land of Canaan. This supposedly is because He gave them that land but has never fulfilled His promise and since God is faithful, He will give them the land. It is true that God promised to the descendants of Abraham (the Jews) this land. However, the Bible shows that it is not true that He has not yet fulfilled His promise. As already observed in <span class="scripture-ref">Joshua 4:43-45</span>, "So Jehovah gave unto Israel all the land which He sware to give unto their fathers; and they possessed it and dwelt therein.... ...There failed not aught of any good thing which Jehovah had spoken unto the house of Israel; all came to pass."</p>
+        <p>It was also observed that their keeping of the land was conditioned on their faithfulness. Clearly, they were unfaithful and therefore forfeited their keeping the land. God does not owe them this land because of their unfaithfulness.</p>
+        <p>Another promise that God made to Abraham's descendants is found in <span class="scripture-ref">Genesis 13:16</span> where he said to Abraham, "I will make thy seed as the dust of the earth; so that if a man can number the dust of the earth, then may thy seed also be numbered." Then in <span class="scripture-ref">Genesis 15:5</span> He said to Abraham, "Look now toward the heaven and number the stars, if thou be able to number them: and He said unto him, so shall thy seed be." This promise has also been fulfilled. When Baalam tried to curse Israel "Jehovah put a word in Baalam's mouth... and Baalam said 'Who can count the dust of Jacob or number the fourth part of Israel?" (<span class="scripture-ref">Numbers 23:5, 10</span>). In <span class="scripture-ref">2 Chronicles 1:9</span> Solomon says of God, "Thou hast made me king over a people like the dust of the earth for multitude." In <span class="scripture-ref">Deuteronomy 10:22</span> we read, "Thy fathers went down into Egypt with threescore and ten persons: and Jehovah thy God hath made thee as the stars of heaven for multitude." Hence, the promise of numerous descendants has been fulfilled.</p>
+        <p>The third, and without question, the most important promise to Abraham is the one found in <span class="scripture-ref">Genesis 22:18</span>. This is the occasion when God told Abraham to offer his only son, Isaac, as a burnt offering. Abraham was in the act of doing this very thing when an angel of the Lord stayed his hand and said because you have not withheld your son, your only son, "In thy seed all nations of the earth shall be blessed because you have obeyed my voice." As the Bible shows clearly, this is a spiritual blessing and promise.</p>
+        <p>There are three parts to this promise: (1) The seed. (2) All nations. (3) Blessed. It is plain from <span class="scripture-ref">Galatians 3:16</span> just who the seed is. That text says, "Now to Abraham were the promises spoken and to his seed. He saith not, And to seeds, as of many; but as of one. And to thy seed, which is Christ." In Peter's speech in <span class="scripture-ref">Acts 3:25-26</span> he said to the Jews, "You are sons of the prophets and of the covenant which God made with our fathers, saying to Abraham, 'And in thy seed shall all families of the earth be blessed. To you first, God, having raised up His servant, Jesus, sent Him to bless you, in turning away every one of you from your iniquities.'" ALL families would include Jew and Gentile. The gospel is the power of God unto salvation for everyone that believeth: to the Jew first and also to the Greek." (<span class="scripture-ref">Romans 1:16</span>). This promise has to do with the forgiveness of sins.</p>
+        <p>Thus the promise says that in Jesus Christ everyone, whether Jew or Gentile, can be blessed, i.e., have his sins forgiven.</p>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="child-of-god">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "The Right To Call God Our Father"</h2>
+        <p>Who is a child of God? The answer to this question is not so commonly understood as one might think. Many respond by saying the Holy Spirit told me so. When pressed for the exact words the Spirit said, some reply with a confused look. Others relate a "better felt than told" phenomenon. "The Spirit brought me inner peace beyond words, and I know that I am a child of God." But what does the scripture say? <span class="scripture-ref">Romans 8:16</span>, "The Spirit Himself bears witness with our spirit that we are children of God." E M Zerr comments on this verse saying, "The Spirit states through the Gospel what it takes to make one a child of God, and the spirit (mind) of man knows whether he has done that. If he has, the conclusion is that he is a child of God."</p>
+        <p>Complete submission to God's law of pardon is necessary if we hope to be sons of God in His spiritual family. Every human born into this world is a child of God through Adam, but only those who are faithful to Him, through Christ our Lord, are children of God by faith (<span class="scripture-ref">Gal 3:26</span>). This distinction is emphasized by John: "Little children, let no one deceive you; the one who practices righteousness is righteous, just as He is righteous; the one who practices sin is of the devil; for the devil has sinned from the beginning. The Son of God appeared for this purpose, that He might destroy the works of the devil. No one who is born of God practices sin, because His seed abides in him; and he cannot sin, because he is born of God. By this the children of God and the children of the devil are obvious: anyone who does not practice righteousness is not of God, nor the one who does not love his brother" (<span class="scripture-ref">1 John 3:7-10</span>). He closed this chapter with a statement that explains what it means to walk in righteousness: "And the one who keeps His commandments abides in Him, and He in him. And we know by this that He abides in us, by the Spirit whom He has given us" (verse 24).</p>
+        <p>When the "Spirit of Truth" brought the gospel down to man, He brought the right to become the Son of God. "He came to His own, and those who were His own did not receive Him. But as many as received Him, to them He gave the right to become children of God, even to those who believe in His name" (<span class="scripture-ref">John 1:11,12</span>). The act of becoming a Son comes after, and as a result of, the act of believing on Christ. After one believes and repents of his sins, he then is baptized having his sins forgiven; and the Lord adds him to those being saved, His church (<span class="scripture-ref">Acts 2:47</span>). After becoming a child of God, one has the right to call God his Father: "And because you are sons, God has sent forth the Spirit of His Son into our hearts, crying, 'Abba! Father'" (<span class="scripture-ref">Gal 4:6</span>).</p>
+        <p>This right to approach our God as Father is not promised to any one outside of Christ. The Spirit of God never led one into any church but the church we read about in the New Testament. It never led, nor will ever lead, one into any system of faith other than the faith that Christ authorized. "For all who are being led by the Spirit of God, these are sons of God" (<span class="scripture-ref">Rom 8:14</span>). To follow the doctrines of men, rather than following New Testament teaching; to bear the name Baptist, Catholic, Methodist, etc. rather than Christian as authorized by the New Testament (<span class="scripture-ref">Acts 11:26</span>); and to be in some religious body other than the body of Jesus Christ is to forfeit the right to call God your Father.</p>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <article class="article" id="diligence">
+        <span class="article-category">Exhortation</span>
+        <h2>"Give Diligence"</h2>
+        <p class="block-quote">"Study to shew thyself approved unto God, a workman that needeth not to be ashamed, rightly dividing the word of truth." <span class="scripture-ref">2 Timothy 2:15</span></p>
+        <p>Last month's article on the need to study the Word began with the above verse. This month I want to note the word "study" as found in the King James Version. The American Standard and New King James versions use the phrases "give diligence" and "be diligent" respectively. Webster's Collegiate Dictionary defines "study" as: to read in detail especially with the intention of learning. The original Greek word is spoudazo. BDB/Thayers defines this as: 1) to hasten, make haste; 2) to exert one's self, endeavour, give diligence.</p>
+        <p>When you look up "study" in Vine's Expository Dictionary you are directed to see "diligence" for a definition. Under "diligence" you will find the same idea expressed as we saw in Thayers' definition. Vine's also tells us that <span class="scripture-ref">2 Peter 1:10</span> uses the same Greek word. Note the KJV translation:</p>
+        <p class="block-quote">"Wherefore the rather, brethren, give diligence to make your calling and election sure: for if ye do these things, ye shall never fall:" <span class="scripture-ref">2 Peter 1:10</span></p>
+        <p>Using the same phrase in 2 Timothy we get "Give diligence to shew thyself approved unto God..."</p>
+        <p>It should be evident from our investigation that we must apply ourselves to God's Word with great effort. We should hasten to do so. It is our salvation that is in question. We must be busy, active, diligent in this great work, studying to show ourselves approved to our Maker.</p>
+        <p class="author-signature">The Editors</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published March 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>

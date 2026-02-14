@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Strait Way - May 2002</title>
+  <meta name="description" content="The Strait Way newsletter, May 2002 - Speaking the truth in love.">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-glass: rgba(13, 13, 13, 0.6);
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #e8b923;
+      --accent-soft: rgba(232, 185, 35, 0.18);
+      --accent-glow: rgba(232, 185, 35, 0.5);
+      --accent-secondary: #c45c5c;
+      --accent-secondary-glow: rgba(196, 92, 92, 0.5);
+      --glass-blur: blur(12px);
+      --shadow-glow: 0 0 30px rgba(232, 185, 35, 0.4);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(232,185,35,0.1), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196,92,92,0.08), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(232,185,35,0.6), transparent 50%),
+        radial-gradient(circle at top right, rgba(196,92,92,0.5), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,69,69,0.4), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(196,92,92,0.25),
+        0 0 80px rgba(232,185,35,0.3);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(232, 185, 35, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(232,185,35,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(196,92,92,0.5);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .masthead {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      letter-spacing: 0.03em;
+    }
+
+    .tagline {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      font-style: italic;
+    }
+
+    .issue-selector {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .selector-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .selector-group label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .selector-group select {
+      background: rgba(13, 13, 13, 0.8);
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 8px;
+      padding: 8px 32px 8px 12px;
+      font-size: 0.95rem;
+      color: var(--accent);
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23e8b923' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: all 0.2s ease;
+    }
+
+    .selector-group select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .selector-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .selector-group select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+
+    .btn-go {
+      background: linear-gradient(135deg, var(--accent), #c9a227);
+      color: #020617;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .btn-go:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .home-link:hover { color: var(--accent); }
+
+    .home-link svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 24px 0;
+      padding: 16px;
+      background: rgba(13, 13, 13, 0.5);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .article {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .article:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .article-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      padding: 4px 12px;
+      border: 1px solid rgba(232, 185, 35, 0.4);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      background: var(--accent-soft);
+    }
+
+    .article h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+
+    .article p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    .article ol, .article ul {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      color: var(--text-secondary);
+    }
+
+    .article li { margin-bottom: 8px; }
+
+    .scripture-ref {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    blockquote {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 185, 35, 0.05);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+
+    blockquote p {
+      margin-bottom: 0;
+      color: var(--text-primary);
+    }
+
+    .featured-scripture {
+      text-align: center;
+      border-left: none;
+      border-top: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 20px;
+      background: rgba(232, 185, 35, 0.08);
+    }
+
+    .proverb-highlight {
+      text-align: center;
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--accent);
+      padding: 20px;
+      margin: 20px 0;
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .conclusion-box {
+      background: rgba(196, 92, 92, 0.1);
+      border: 1px solid rgba(196, 92, 92, 0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .conclusion-box p {
+      color: var(--text-primary);
+      margin-bottom: 0;
+    }
+
+    .scripture-collection {
+      background: rgba(13, 13, 13, 0.5);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+
+    .scripture-collection h3 {
+      color: var(--accent);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .scripture-collection blockquote {
+      background: transparent;
+      border-left: 2px solid rgba(232, 185, 35, 0.4);
+      padding: 8px 16px;
+      margin: 12px 0;
+      font-size: 0.9rem;
+    }
+
+    .author-signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 24px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer .verse {
+      margin-bottom: 12px;
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    footer .copyright { font-size: 0.8rem; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    a:hover { text-shadow: 0 0 10px var(--accent-glow); }
+
+    em {
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    strong {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      .masthead { font-size: 1.8rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+      .issue-selector { flex-direction: column; gap: 12px; }
+      .selector-group { width: 100%; justify-content: center; }
+      .nav-links { flex-direction: column; text-align: center; }
+      .article h2 { font-size: 1.3rem; }
+    }
+
+    @media print {
+      body { background: white; color: black; padding: 0; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; }
+      .glass-page-inner { background: white; border: none; padding: 20px; }
+      .glass-tab, .issue-selector, .nav-links, .home-link { display: none; }
+      .masthead { color: #333; text-shadow: none; }
+      .article h2 { color: #333; }
+      .article p, .article li { color: #333; }
+      .scripture-ref { color: #8b4513; }
+      .article-category { border-color: #333; color: #333; background: #f0f0f0; }
+      blockquote { background: #f9f9f9; border-left-color: #8b4513; }
+      .conclusion-box { background: #f5f5f5; border-color: #999; }
+      footer { color: #666; }
+      footer .verse { color: #8b4513; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      
+      <header>
+        <h1 class="masthead">The Strait Way</h1>
+        <p class="tagline">"Speaking the truth in love" — Ephesians 4:15</p>
+        
+        <div class="issue-selector">
+          <div class="selector-group">
+            <label for="year-select">Year:</label>
+            <select id="year-select">
+              <option value="1999">1999</option>
+              <option value="2000">2000</option>
+              <option value="2001">2001</option>
+              <option value="2002" selected>2002</option>
+              <option value="2003">2003</option>
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="issue-select">Issue:</label>
+            <select id="issue-select">
+              <option value="01">January</option>
+              <option value="02">February</option>
+              <option value="03">March</option>
+              <option value="04">April</option>
+              <option value="05" selected>May</option>
+              <option value="06">June</option>
+              <option value="07">July</option>
+              <option value="08">August</option>
+              <option value="09">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+          </div>
+          
+          <button class="btn-go" onclick="loadIssue()">Go</button>
+        </div>
+
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Back to Archive
+        </a>
+      </header>
+
+      <nav class="nav-links">
+        <a href="#harvest">White to Harvest</a>
+        <a href="#ultra-liberalism">Grace & Ultra-Liberalism II</a>
+        <a href="#identity-church">Worship & Work</a>
+        <a href="#preparing-sermons">Sermon Outlines</a>
+        <a href="#humanism">Humanism in Education</a>
+        <a href="#premillennialism">What Is The Kingdom?</a>
+        <a href="#mediator">Christ Our Mediator</a>
+      </nav>
+
+      <article class="article" id="harvest">
+        <span class="article-category">Front Page</span>
+        <h2>"Fields...white already to harvest"</h2>
+        <p>When we lived in Arkansas, we had the opportunity to see huge fields of cotton that gave meaning to this expression. Just imagine four hundred acres of cotton, a literal sea of white, ready to be harvested. The Lord said, "Lift up your eyes, and look on the fields; for they are white already to harvest" <span class="scripture-ref">Jhn. 4:35</span>. These words are echoed by the apostle Paul as he spoke of an "open door" or a "door of utterance" (<span class="scripture-ref">1 Cor. 15:9</span>; <span class="scripture-ref">2 Cor. 1:12</span>; <span class="scripture-ref">Col. 4:3</span>). John wrote of the "open door" which no man can shut (<span class="scripture-ref">Rev. 3:8</span>). Opportunity "knocks," it does not beat the door down. As we drive into the Antelope Valley, where I now live in southern California and stop at Vista Point on the side of the pass to view the valley below, we are reminded of opportunity. Living in the valley are approximately 300,000 souls in need of the gospel. This writing concerns itself with opportunities that are ours to teach God's Word and our preparation and determination to take advantage of these opportunities. To be a Christian is not a dead belief, but a vibrant way of life that deeply affects our standard of conduct. A part of that conduct is our consciousness that those about us are lost.</p>
+        <p><strong>Let us pray for an "open door."</strong> The apostle Paul asked the Colossians to pray for him, "that God would open unto us a door of utterance, to speak the mystery of Christ" <span class="scripture-ref">Col. 4:3</span>. Perhaps the very reason things are not more favorable for the growth of the church is our inability to see that we live in a "lost and dying world" and our apathy to pray for it. James said, "the fervent prayer of a righteous man availeth much" <span class="scripture-ref">Jms. 5:16</span>. There are masses of souls who are hungering and thirsting for the truth. Many question their religious convictions. Some know they are at sea without chart or compass. We have great opportunity. Let us rid ourselves of the fear of the responsibility associated with open doors. This can be done by preparation.</p>
+        <p><strong>Let us get past "me-ism."</strong> Too many focus so entirely upon themselves "me first," that we fail to see opportunities and therefore fail to act when they abound. Paul said some would become "lovers of self" <span class="scripture-ref">2 Tim. 3:2</span>. Yet, the same apostle taught that we are to "bear the infirmities of the weak, and not to please ourselves. Let each one of us please (his) neighbor for (his) good, to edification" <span class="scripture-ref">Rom. 15:1-2</span>. Even among brethren there is opportunity to teach. Paul said, "Let no man seek his own, but (each) his neighbor's (good)" <span class="scripture-ref">1 Cor. 10:24</span>. Paul also said, "Look not every man on his own things, but every man also on the things of others." <span class="scripture-ref">Phil. 2:4</span>. Wouldn't that go a long way in our efforts to teach others. What a "door" of opportunity we have to restore those who have become wayward (<span class="scripture-ref">Gal. 6:1</span>; <span class="scripture-ref">Jms. 5:19-20</span>).</p>
+        <p><strong>Let us believe in the power of the gospel.</strong> The gospel is the power of God unto salvation (<span class="scripture-ref">Rom. 1:16</span>). In a world that held the gospel in contempt, Paul with the threat of persecution preached it boldly (Cf. <span class="scripture-ref">Acts 19:8</span>). Paul had seen the gospel at work among Jews first and also among Greeks. "The words of eternal life" are words that are "living and active" <span class="scripture-ref">Heb. 4:12</span>. The gospel is ever relevant and can transform your neighbor and mine if they will receive it with the realization that it is the revelation of God. Indeed, we have in our possession the power of God to change lives, but failure to proclaim it results in continued ungodly living that leads people to hell! Jesus commanded, "Enter ye in by the narrow gate: for wide is the gate, and broad is the way, that leadeth to destruction, and many are they that enter in thereby" <span class="scripture-ref">Mt. 7:13-14</span>. On that broad way leading unto destruction will be someone's mother, father, grandparent, friend, neighbor or work partner. In that great day of judgment will they say, "You met me day by day and knew I was astray, Yet never mentioned Him to me"?</p>
+        <p>Reaping the harvest of lost souls will not occur by accident. Let us prepare ourselves for the greatest work on earth. Someone has said that there are four hinges upon which the gates of opportunity swing: initiative, insight, industry, and integrity. Let us never forget that procrastination is the grave in which opportunity is buried.</p>
+        <p class="author-signature">Micky Galloway<br>Lancaster, CA</p>
+      </article>
+
+      <article class="article" id="ultra-liberalism">
+        <span class="article-category">Ultra-Liberalism Series</span>
+        <h2>The Grace of God and Ultra-liberalism II</h2>
+        <p>Last month we discussed the grace of God and ultra-liberalism. We discussed the distinction they make between "gospel" and "doctrine." We are going back to that subject again this month. This distinction, supposedly, allows us to fellowship all who have obeyed the gospel, regardless of doctrinal differences, believing the grace of God will cover those differences. We also pointed out that this is the same old unity-in-diversity error advocated by W. Carl Ketcherside, Leroy Garrett, Edward Fudge and others back in the 1970s.</p>
+        <p>The apostle Paul wrote a letter to the saints in Rome, <span class="scripture-ref">Rom. 1:7</span>. These saints were members of the church in Rome. Paul wanted to visit them and among other things "preach the gospel" <span class="scripture-ref">Rom. 1:15</span>. Paul was going to Rome to do that which those who maintain the gospel/doctrine distinction say cannot be done. He was going to preach the gospel to the church. Apparently, Paul was not aware of the gospel/doctrine distinction.</p>
+        <p><span class="scripture-ref">2 John 9-11</span> says, "Anyone who goes too far and does not abide in the teaching of Christ, does not have God; the one who abides in the teaching, he has both the Father and the Son. If anyone comes to you and does not bring this teaching, do not receive him into your house, and do not give him a greeting; for the one who gives him a greeting participates in his evil deeds." The unity-in-diversity, ultra-liberal group maintain that we should fellowship those who do not abide in the teaching of Christ, the Bible says we are not to receive or greet them.</p>
+        <p>It is sometimes argued that the "teaching of Christ" refers to the "teaching about Christ" as opposed to the "teaching from Christ." It is true 2 John does address the problem of some who deny that Jesus came in the flesh, v. 7. This would be a violation of what they call the "core gospel," but 2 John addresses more than just that point. In <span class="scripture-ref">2 John 4</span> John says, "I was very glad to find some of your children walking in truth, just as we have received commandment to do from the Father." Verse 6 says, "And this is love, that we walk according to His commandments. This is the commandment, just as you have heard from the beginning, that you should walk in it."</p>
+        <p><span class="scripture-ref">Matthew 16:12</span> speaks "of the teaching of the Pharisees and Sadducees." <span class="scripture-ref">Acts 2:42</span> speaks of "the apostles' teaching." <span class="scripture-ref">Rev. 2:14,15</span> refer to the "teaching of Balaam" and the "teaching of the Nicolaitans." In each of these examples the teaching is not "about" the individuals mentioned, but the "teaching from them." I believe the same is true in <span class="scripture-ref">2 John 9</span>, the "teaching or doctrine of Christ" refers to the teaching from Him.</p>
+        <p>Even if it is shown that 2 John 9 is talking about the "teaching about Christ" the Scriptures still teach that there is a standard by which we must live and serve God. "And by this we know that we have come to know Him, if we keep His commandments. The one who says, 'I have come to know Him,' and does not keep His commandments, is a liar, and the truth is not in him; but whoever keeps His word, in him the love of God has truly been perfected. By this we know that we are in Him: the one who says he abides in Him ought himself to walk in the same manner as He walked," <span class="scripture-ref">1 John 2:3-6</span>. Paul mentions "sound teaching, according to the glorious gospel of the blessed God, with which I have been entrusted," <span class="scripture-ref">1 Timothy 1:10-11</span>. <span class="scripture-ref">1 Timothy 6:3-4</span> warns "If anyone advocates a different doctrine, and does not agree with sound words, those of our Lord Jesus Christ, and with the doctrine conforming to godliness, he is conceited and understands nothing..." <span class="scripture-ref">2 Timothy 4:3</span> warns, "For the time will come when they will not endure sound doctrine; but wanting to have their ears tickled, they will accumulate for themselves teachers in accordance to their own desires."</p>
+        <p>The "gospel/doctrine" distinction may be very comforting to those who do not believe and practice the truth, but it is error and souls are being lost by its teaching. The grace of God will save Christians who sin, but it is not automatic. The conditions of repentance, confession of sin and prayer must be met, <span class="scripture-ref">Acts 8:22</span>; <span class="scripture-ref">1 John 1:9</span>. Meeting these conditions earns us nothing, we have simply met the conditions. It is still by grace.</p>
+        <p class="author-signature">Richard C. Sims, Jr.<br>Mineola, TX</p>
+      </article>
+
+      <article class="article" id="identity-church">
+        <span class="article-category">Identity Series</span>
+        <h2>Identity of A Church of Christ: Marks of Worship and Work</h2>
+        <p>To have an identity, most people look at certain marks. In our physical appearance, people note our features, coloring, dress, and behavior. Then when they meet us again, we are known by them. To identify the marks of the church, we do much the same thing as with the physical identification. Features, dress, and behavior are also elements of our worship and work.</p>
+        <p>Many gather on Sundays around the world to worship God. But our understanding of the Bible leads us to believe their worship is in vain. Why? Because they do not follow the pattern of sound words and teaching found in God's word, the Bible (<span class="scripture-ref">2 Timothy 1:13</span>). What do the Scriptures teach as to our identifying marks in worship?</p>
+        <p><strong>Singing</strong> in worship has Divine approval, and we have Biblical instructions of such (<span class="scripture-ref">Ephesians 5:19</span>; <span class="scripture-ref">Colossians 3:16</span>). <strong>Praying</strong> in worship has Divine approval and examples (<span class="scripture-ref">Acts 4:24ff</span>). <strong>Preaching</strong> has Divine approval and examples (<span class="scripture-ref">Acts 2</span>; <span class="scripture-ref">Acts 20</span>). The observance of the <strong>Lord's Supper</strong> was one of the primary reasons they gathered together on the first day of the week. This has Divine approval, example, and command (<span class="scripture-ref">Acts 20:7</span>; <span class="scripture-ref">1 Corinthians 11:17-34</span>). Although our <strong>giving</strong> in the worship service has examples that were limited in scope, the Scriptures do give us a pattern for any collections for whatever needs there are (<span class="scripture-ref">1 Corinthians 16:1-2</span>; <span class="scripture-ref">2 Corinthians 8:1-15</span>). The building and maintenance of a place of worship; the preaching of the Gospel, local or abroad; and benevolence which is the least done thing with the Lord's money, and in the Biblical pattern, it was the only thing that required contributions.</p>
+        <p>We have already touched a little on the work of the church by looking at what things the early church did by way of example and pattern. The work can be described best by understanding the work of the Holy Spirit. To speak those things that have been heard (those things taught to us in the Bible). The work of the Holy Spirit is to proclaim and advance the cause of Christ. That cause is the salvation of souls. So anything that promotes the salvation of souls can be a work of the church. It can also be said, that if the church is involved in something that does not contribute to the salvation of souls, it is not following the pattern.</p>
+        <p>We look at many congregations that get involved in various social programs and allow things in its building for which they have no authority. And an honest view of these things would suggest that they are good works of themselves, and should be promoted and encouraged. However, even though they do these good works, many of these churches do so without authority. There is where the problem is for us. Actually, we see them do many things that we should be doing ourselves (as individuals), but we also note that they have no authority to do so. When we reject such things as a work of the church, we are called "anti's" and people who oppose good works. There just simply is no authority for the church as a collective to do them.</p>
+        <p>It should also be pointed out that if your congregation is not involved in matters of promoting the gospel or providing benevolence in one form or another; it is failing in its duty to God. So many preachers need support and so many Christians need financial aid. Yet many churches stockpile their money for a rainy day. Well, the rain is falling.</p>
+        <p>Until next month, may God bless you exceedingly and abundantly.</p>
+        <p class="author-signature">Carey Scott<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="preparing-sermons">
+        <span class="article-category">Preaching</span>
+        <h2>Preparing Sermons</h2>
+        <p>Having briefly examined the three basic types of sermons, we turn attention to the sermon outline. You may have the unique ability to memorize your sermon, or at least to memorize the outline. If so, that is great. Most of us have to rely on notes, at least to some extent. But whether you speak entirely from memory, or write out everything and read it word for word, or do something in between, you still need an orderly presentation -- and that requires orderly preparation.</p>
+        <p>The first thing in an outline is the <strong>title</strong>. You will do well to try to capture the entire thought of your lesson in one word, or a phrase or sentence, and let that be the title of your sermon. You may not see the title clearly until you have completed the outline and made the lesson part of your thinking. The title may simply be the text that will be the subject of your exposition. If you are discussing a topic, then the topic itself can be the title. If possible, the title should be interesting, calling attention to what the audience is about to hear. It might even be catchy, but perhaps it should never be funny or sensational or crude. We are teaching the Word of God; let us maintain dignity in all areas of our work.</p>
+        <p>The outline then begins with an <strong>introduction</strong> to the sermon. Here we use a few well-chosen words to gain the attention of the listeners and to arouse their interest in the lesson. The introduction is vital, for if you do not have the audience with you from the outset you may never get their attention. Use simple sentences that can be understood, and move directly toward the text or the topic to be discussed.</p>
+        <p>The bulk of the lesson, usually called the <strong>body</strong>, consists of major points you wish to make, each one of those points probably including sub-points. It is my experience that two to five major points is the best range for most lessons. In my outlines these major points begin at the left margin and are numbered 1., 2., 3., 4., etc. You may choose Roman numerals (I., II., III., IV., etc.) The sub-points are A., B., C., D., etc., and they are indented. Under those points would be 1., 2., etc., and under those would be a., b., etc. Try to condense the thoughts and points into a few words which will serve as reminders to you. Then, as you speak, you can glance down and see words that quickly expand in your mind into the full set of information you want to present.</p>
+        <p>This body of the sermon is the major part of the lesson. Be sure to see that every point actually makes a point, and endeavor to move smoothly from one part into the next. If the transition from point to point is jerky or illogical you may lose the audience because you will make them uncomfortable and they will lose interest. In preparing the sermon and in making the outline, spend much time (and prayer of course) in keeping the subject in view and in moving toward the desired conclusion. Ask yourself, "What do I want these people to know and believe and do when I get through speaking to them?"</p>
+        <p>The sermon ends with the <strong>conclusion</strong>, and perhaps in most cases it should not be too far from the introduction. Did you ever hear a man who just did not know how to quit? He cannot seem to wrap it up and turn loose! But that time has to come, and the conclusion needs to be brief and pointed. If there is a short summary, be sure it is a summary and not a repeat of the lesson. Whatever the subject of the sermon, you can show that lost sinners need to turn to the truth and the Savior. You can list a couple of references, or you can just write H/B/R/C/B/F to remind you to tell the lost they need to Hear, Believe, Repent, Confess Christ, be Baptized, and then be Faithful. Encourage them to come, then stand and sing.</p>
+        <p>At the bottom of my outlines I list the references I used in my study. This includes preachers I have heard or from whom I have read, and any books that gave points or ideas. Lord willing, see you in June!</p>
+        <p class="author-signature">Derrel Shaw<br>Houston, TX</p>
+      </article>
+
+      <article class="article" id="humanism">
+        <span class="article-category">Apologetics</span>
+        <h2>Humanism Part 4 - The Preachers of The New State Religion</h2>
+        <p>Have you wondered why suicide is an epidemic among our young people, or why little Johnny takes a gun to school and kills his fellow classmates, or the various forms of Columbine type incidents we have witnessed in relatively recent years? It could be, in part, that Johnny had a Humanistic teacher who taught him "Nothing is right or wrong within itself, as long as you have clarified it for yourself and made it your own values."</p>
+        <p>Wagar, in Humanistic Frontiers in American Education (pg 36), declared "Juvenile delinquency may be the healthy revolt of pupils against the injustice of a social system (of which the educational system is merely the preparation, the apprenticeship)." Theobald and McInnis say on page 195 of the same, "We continue to teach young people to respect authority at a time when authority is no longer possible." Again, it must be understood that the majority of school teachers are fine citizens trying to do the best they can in a difficult environment, but we are speaking here of the federal trends among the educrats and the NEA's desires for education. The textbooks approved by these liberal groups, and espoused by the scattered teachers who are themselves change agents, seek to impart the agenda of the Humanist Manifesto in various ways.</p>
+        <p>The condemnation of patriotism, the dissolution of marriage and the traditional home, and the abandonment of codified religion (all clear goals of Humanism as expressed in the Humanist Manifesto) are intricately woven themes throughout many textbooks and lectures currently in use. In NEA: Values, Concepts and Techniques, we are told "The question of trading old values for new ones is very much a part of the educational process today. Values are taught to children in a variety of ways in the classroom." (pg 206).</p>
+        <p>How can one teach this and not be caught? Dr Sidney Simon (author of Values Clarification; Handbook for Teachers and Students) says in a Florida Pupil Quarterly "I always bootlegged the values stuff under other titles. I was assigned to teach Social Studies in the Elementary School and I taught Values Clarification. I was assigned Current Trends In American Education and I taught my trend." He states, "Time set aside during a course, English, history, or social studies, teachers may set aside one day a week to work on values clarification. Some report extending the time to two or even three days a week by popular request." (pg 45, NEA: Values, Concepts and Techniques). Thus, it is often slipped in not only within certain courses, but some classes are given misleading titles. In many cities across the nation, Sex Education was called "Home Management" or "Family Living Program."</p>
+        <p>Much of the humanistic indoctrination is in lecture form only, making it more difficult to substantiate charges against the change agent educator. Also, in most cases one is not at liberty to simply sit in a child's class to monitor what is taught. In some states, it takes a court order. On November 17, 1989, a seminar was held in the Seattle, WA area called, "Free to Learn, Free to Teach, Free to Think" sponsored by the Washington State Superintendent of Public Instruction. The purpose was to teach how to counteract parents who try to exert parental control in the public schools.</p>
+        <p>Some may see the error of what they have done. Dr W.R. Coulson, co-founder of the value-free education apologized for his part in the movement, saying, "Youthful experimentation with sex, alcohol, marijuana, and a variety of other drugs-whatever's popular at the time-has been shown to follow value free education quite predictably. We know that after these classes, students become more prone to give in to temptation than if they'd never been enrolled. One cause lies in an educational philosophy that calls on students and teachers alike to disbelieve in the concept of temptation. Moral absolutes are routed.... We owe the nation's parents an apology." (The Forerunner, May 1989)</p>
+        <p>As the prophet Isaiah wrote in <span class="scripture-ref">5:20</span>, "Woe unto them that call evil good, and good evil; that put darkness for light, and light for darkness..."</p>
+        <p class="author-signature">Wayne Goforth<br>Abilene, TX</p>
+      </article>
+
+      <article class="article" id="premillennialism">
+        <span class="article-category">Doctrine</span>
+        <h2>Premillennialism: What Is The Kingdom?</h2>
+        <p>In <span class="scripture-ref">Daniel 2</span> there is recorded a dream that Nebuchadnezzar had and the interpretation of which God gave to Daniel. Basically it foretold the coming of four kingdoms, the last one of which was Rome. In <span class="scripture-ref">Daniel 2:44</span>, Daniel explains that "in the days of those kings shall the God of heaven set up a kingdom which shall never be destroyed." The New Testament opens telling how John the Baptist came preaching "the kingdom of heaven is at hand" (<span class="scripture-ref">Matt. 3:2</span>). From <span class="scripture-ref">Luke 3:1-3</span> it is obvious that John's work was done during the reign of Rome. According to <span class="scripture-ref">Mark 1:15</span>, Jesus preached saying, "The time is fulfilled, and the kingdom of heaven is at hand." In <span class="scripture-ref">Mark 9:1</span> Jesus told some of His followers that they would not taste of death till they saw the kingdom of God come with power.</p>
+        <p>It is clear from the New Testament that He did build His kingdom, and it was built during the days of the Roman government. The inspired Apostle Paul said that he and the brethren at Colossae had been "delivered out of the power of darkness, and translated into the kingdom of God's dear Son." (<span class="scripture-ref">Col 1:13</span>). Notice the past tense. Obviously, by the time Paul wrote the letter to the church at Colossae the kingdom was in existence and they were members of it. In <span class="scripture-ref">Rev. 1</span> John said that he was a brother and partaker with the brethren of the seven churches of Asia in the kingdom. John was in it, so clearly it was in existence.</p>
+        <p>But what is the kingdom? In <span class="scripture-ref">Luke 22:29-30</span>, as Jesus instituted the Lord's Supper, he said to His apostles, "I appoint you a kingdom, even as my Father appointed me, that you may eat and drink at my table in my kingdom." The Lord's table (His Supper) is in the kingdom. But surely, His Supper is seen to be in the church. (<span class="scripture-ref">1 Cor. 11:17-34</span>). In <span class="scripture-ref">Acts 20:28</span>, Paul told the elders of Ephesus that the church was purchased with the blood of Christ. In <span class="scripture-ref">Rev. 5:9-10</span>, Christ purchased the kingdom with His blood. From these and similar passages the church and the kingdom are the same institution.</p>
+        <p>In <span class="scripture-ref">Matt. 16:17-19</span> Peter made the great confession that Jesus is the Christ, the Son of the living God. Then Jesus promised to give the keys of the kingdom of heaven to Peter. Keys indicate authority to open. Thus Peter had been given authority to open the kingdom of heaven. He did this as recorded in <span class="scripture-ref">Acts 2</span>. When Peter told people what to do to be saved, he was using the keys to open the door to the kingdom of heaven. However, <span class="scripture-ref">Acts 2:47</span> says the saved were added to the church. It is from these considerations that in <span class="scripture-ref">Matt. 16:18-19</span> it may be fairly concluded that the church and the kingdom are simply two aspects of the same institution.</p>
+        <p>In addition to the preceding, our attention has been called by E. C. Coffman to the following matters, to show that the kingdom and the church are the same institution, just looked at a little bit differently:</p>
+        <ol class="numbered-list">
+          <li>There is no difference in the "ruler" and authority. Christ is the head of the church (<span class="scripture-ref">Col. 1:18</span>) and Christ is also king of the kingdom (<span class="scripture-ref">Acts 17:7</span>; <span class="scripture-ref">Rev. 1:5</span>).</li>
+          <li>There is no difference as to how to enter: people who are born of water and the Spirit enter the kingdom (<span class="scripture-ref">John 3:3-5</span>). This is how one enters the church. (<span class="scripture-ref">1 Cor. 12:13</span>)</li>
+          <li>Both were established at the same time: the church in <span class="scripture-ref">Acts 2:16-17, 47</span>; the kingdom in <span class="scripture-ref">Acts 2:30ff</span></li>
+          <li>There is no difference in that they were established at the same place: Jerusalem (<span class="scripture-ref">Isaiah 2:3</span>) the church, which is God's house (<span class="scripture-ref">1 Tim. 3:15</span>; <span class="scripture-ref">Acts 2:5, 30-33</span>).</li>
+        </ol>
+        <p class="author-signature">Hiram Hutto<br>Athens, AL</p>
+      </article>
+
+      <article class="article" id="mediator">
+        <span class="article-category">Church</span>
+        <h2>Reasons For Being A Member of The Church of Christ: "Christ Is Our Mediator"</h2>
+        <p class="block-quote">"For there is one God, and one mediator also between God and men, the man Christ Jesus." <span class="scripture-ref">1 Tim 2:5</span></p>
+        <p>We do not claim to have full comprehension of all that the Bible reveals on this subject, but we will set forth scripture which establishes Jesus Christ as our mediator and refutes false beliefs concerning the idea of a mediator between God and man.</p>
+        <p>Vines defines mediator, "literally, a go-between, between two parties with a view to producing peace, as in <span class="scripture-ref">1 Tim 2:5</span>, though more than mere mediatorship is in view, for the salvation of men necessitated that the Mediator should Himself possess the nature and attributes of Him towards whom He acts, and should likewise participate in the nature of those for whom He acts; only by being possessed both of Deity and humanity could He comprehend the claims of the one and the needs of the other; further, the claims and the needs could be met only by One who, Himself being proved sinless, would offer Himself an expiatory sacrifice on behalf of men."</p>
+        <p>Contrary to the belief of some, there is just one mediator between God and man. Paul clearly establishes this truth in <span class="scripture-ref">1 Tim 2:3-5</span>. Can departed Christians mediate for us? No! Could the apostle Peter, or Paul, even while on earth, mediate for sinners? No! Can Mary the mother of Jesus mediate for us? No! The Holy Spirit, in <span class="scripture-ref">1 Tim 2:5</span>, is very clear, concise, and positive on this matter and is not subject to more than one interpretation. "There is ... one mediator between God and men, the man Christ Jesus." Other passages i.e. <span class="scripture-ref">Heb 7:23-25</span> and <span class="scripture-ref">Eph 2:14-22</span> that deal with this matter are just as positive in declaring that we have only one mediator and intercessor.</p>
+        <p>We cannot approach God through another person. Certainly we can not pray in the name of any one else and hope God will recognize us, <span class="scripture-ref">Col 3:17</span>. We can not serve God under the name of any one but Jesus Christ, <span class="scripture-ref">Acts 4:12</span>. There is only one mediator between God and mankind, Christ Jesus our Lord. A mediator is one who stands between those who are at variance, thus there is need for an intermediary. The privilege of having Jesus as their mediator and intercessor is a blessing to all those who are in Christ, members of His body, His church, <span class="scripture-ref">2 Tim 2:19</span>.</p>
+        <p>The details of how our Lord mediates and intercedes for us are not fully revealed. We do know He came to reveal the way of life through which reconciliation with the heavenly Father could be obtained. In the perfect life He lived; in His death on the cross; in the divine power He demonstrated; in His resurrection; in His last will and testament that He gave for us to follow; He does mediate and intercedes for all who obey Him. He is our advocate with the Father pleading our case before the bar of God's divine justice, <span class="scripture-ref">1 John 2:1</span>. As our mediator and intercessor, sitting at the right hand of God (<span class="scripture-ref">Mark 16:19</span>), having experienced all the fleshly temptations as we, our Lord is divinely qualified to represent and act in our behalf.</p>
+        <p class="author-signature">Ray Wilson<br>Nacogdoches, TX</p>
+      </article>
+
+      <footer>
+        <p class="verse">"Enter ye in at the strait gate... Because strait is the gate, and narrow is the way, which leadeth unto life" — Matthew 7:13-14</p>
+        <p class="copyright">Originally published May 2002 by The Strait Way, Colmesneil, Texas<br>Digitized for <a href="index.html">NobleMind.Study</a></p>
+      </footer>
+
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    function loadIssue() {
+      const year = document.getElementById('year-select').value;
+      const issue = document.getElementById('issue-select').value;
+      window.location.href = `strait-way-${year}-${issue}.html`;
+    }
+
+    function initializeSelectors() {
+      const currentPage = window.location.pathname.split('/').pop();
+      const match = currentPage.match(/strait-way-(\d{4})-(\d{2})\.html/);
+      if (match) {
+        document.getElementById('year-select').value = match[1];
+        document.getElementById('issue-select').value = match[2];
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeSelectors();
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('keypress', e => { if (e.key === 'Enter') loadIssue(); });
+      });
+    });
+  </script>
+</body>
+</html>
