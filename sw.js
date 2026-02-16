@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v52';
+const CACHE_NAME = 'noblemind-study-v53';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -12,7 +12,8 @@ const CACHE_FILES = [
   '/BDBT.json',
   '/manifest.json',
   '/icon-192.png',
-  '/icon-512.png'
+  '/icon-512.png',
+  '/favicon.ico'
 ];
 
 // Install event - cache essential files
