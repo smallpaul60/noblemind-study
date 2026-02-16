@@ -1,0 +1,29 @@
+[Unit]
+Description=NobleMind Analytics Console
+After=network.target
+
+[Service]
+Type=simple
+User=paul
+Group=paul
+WorkingDirectory=/home/paul/noblemind-console
+ExecStart=/home/paul/noblemind-console/noblemind-console \
+  -addr :3001 \
+  -db /home/paul/noblemind-console/analytics.db \
+  -geoip /home/paul/noblemind-console/IP2LOCATION-LITE-DB1.CSV
+EnvironmentFile=-/home/paul/noblemind-console/.env
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=noblemind-console
+
+# Security hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/paul/noblemind-console
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -21,6 +21,7 @@ rsync -avz --delete --chmod=D755,F644 \
   --exclude='.git' \
   --exclude='*.py' \
   --exclude='PRINCIPLES.md' \
+  --exclude='console/' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""

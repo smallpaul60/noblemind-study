@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NobleMind Console</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.18);
+      --accent-glow: rgba(6, 255, 165, 0.5);
+      --accent-blue: #5ee5ff;
+      --accent-blue-glow: rgba(94, 229, 255, 0.5);
+      --glass-blur: blur(12px);
+      --radius-card: 16px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.08), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(94,229,255,0.06), transparent 50%);
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-area h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .logo-area span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    select, button {
+      background: rgba(13, 13, 13, 0.6);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    select:hover, button:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    button.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, var(--accent), #22c55e);
+      color: #020617;
+      font-weight: 600;
+      border: none;
+    }
+
+    /* Summary cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .summary-card {
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-card);
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .summary-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-blue));
+      opacity: 0.6;
+    }
+
+    .summary-card .label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .summary-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .summary-card.blue .value {
+      color: var(--accent-blue);
+      text-shadow: 0 0 15px var(--accent-blue-glow);
+    }
+
+    .summary-card .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+      animation: pulse 2s infinite;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Chart containers */
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .chart-row.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .chart-row.three-col {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .card {
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-card);
+      padding: 20px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .card canvas {
+      max-height: 300px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    td {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(42, 42, 42, 0.5);
+      font-size: 0.9rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .path-cell {
+      color: var(--accent);
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+    }
+
+    .count-cell {
+      text-align: right;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .bar-cell {
+      width: 120px;
+      padding-left: 12px;
+    }
+
+    .bar-bg {
+      height: 6px;
+      background: rgba(42, 42, 42, 0.8);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-blue));
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    /* Events section */
+    .event-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .event-badge.pwa_install {
+      background: rgba(6, 255, 165, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(6, 255, 165, 0.3);
+    }
+
+    .event-badge.pwa_prompt {
+      background: rgba(94, 229, 255, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(94, 229, 255, 0.3);
+    }
+
+    .event-badge.file_download {
+      background: rgba(168, 85, 247, 0.15);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--text-muted);
+    }
+
+    .loading::after {
+      content: "";
+      display: block;
+      width: 40px;
+      height: 40px;
+      margin: 16px auto;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .chart-row.two-col,
+      .chart-row.three-col { grid-template-columns: 1fr; }
+      .summary-grid { grid-template-columns: repeat(2, 1fr); }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-area">
+        <h1>NobleMind Console</h1>
+        <span>Analytics</span>
+      </div>
+      <div class="controls">
+        <select id="periodSelect">
+          <option value="1">Today</option>
+          <option value="7" selected>7 days</option>
+          <option value="30">30 days</option>
+          <option value="90">90 days</option>
+        </select>
+        <button class="refresh-btn" onclick="loadData()">Refresh</button>
+      </div>
+    </header>
+
+    <!-- Summary Cards -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="label">Total Views</div>
+        <div class="value" id="totalViews">--</div>
+      </div>
+      <div class="summary-card blue">
+        <div class="label">Unique Visitors</div>
+        <div class="value" id="uniqueVisitors">--</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Active Now</div>
+        <div class="value"><span class="live-dot"></span><span id="activeNow">--</span></div>
+      </div>
+      <div class="summary-card blue">
+        <div class="label">Avg. Daily Views</div>
+        <div class="value" id="avgDaily">--</div>
+      </div>
+    </div>
+
+    <!-- Time Series Chart -->
+    <div class="chart-row">
+      <div class="card">
+        <h3>Traffic Over Time</h3>
+        <canvas id="timeChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Top Pages + Referrers -->
+    <div class="chart-row two-col">
+      <div class="card">
+        <h3>Top Pages</h3>
+        <div id="topPages"></div>
+      </div>
+      <div class="card">
+        <h3>Top Referrers</h3>
+        <div id="topReferrers"></div>
+      </div>
+    </div>
+
+    <!-- Browser / Device / OS -->
+    <div class="chart-row three-col">
+      <div class="card">
+        <h3>Browsers</h3>
+        <canvas id="browserChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Devices</h3>
+        <canvas id="deviceChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Operating Systems</h3>
+        <canvas id="osChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Countries + Screens -->
+    <div class="chart-row two-col">
+      <div class="card">
+        <h3>Countries</h3>
+        <canvas id="countryChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Screen Sizes</h3>
+        <div id="screenTable"></div>
+      </div>
+    </div>
+
+    <!-- Events -->
+    <div class="chart-row">
+      <div class="card">
+        <h3>Events</h3>
+        <div id="eventsTable"></div>
+      </div>
+    </div>
+
+    <footer>
+      <p>NobleMind Console &mdash; Privacy-first analytics. No cookies. No tracking across days.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Get token from URL
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token') || '';
+    const baseURL = window.location.origin;
+
+    // Chart instances
+    let timeChart, browserChart, deviceChart, osChart, countryChart;
+
+    // Chart.js defaults for dark theme
+    Chart.defaults.color = '#a0a0a0';
+    Chart.defaults.borderColor = 'rgba(42, 42, 42, 0.8)';
+    Chart.defaults.font.family = "'Segoe UI', -apple-system, Arial, sans-serif";
+
+    const accentColors = [
+      '#06FFA5', '#5ee5ff', '#c084fc', '#fb923c',
+      '#f472b6', '#facc15', '#a3e635', '#38bdf8',
+      '#e879f9', '#34d399'
+    ];
+
+    async function fetchJSON(url) {
+      const sep = url.includes('?') ? '&' : '?';
+      const res = await fetch(url + (token ? sep + 'token=' + token : ''));
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    }
+
+    function formatNum(n) {
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+      return String(n);
+    }
+
+    function buildTable(items, maxVal) {
+      if (!items || items.length === 0) return '<div class="empty-state">No data yet</div>';
+      const max = maxVal || Math.max(...items.map(i => i.count));
+      return '<table>' +
+        '<tr><th>Name</th><th style="text-align:right">Count</th><th></th></tr>' +
+        items.map(item => {
+          const pct = max > 0 ? (item.count / max * 100) : 0;
+          return '<tr>' +
+            '<td class="path-cell">' + escapeHtml(item.name || '(direct)') + '</td>' +
+            '<td class="count-cell">' + formatNum(item.count) + '</td>' +
+            '<td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%"></div></div></td>' +
+          '</tr>';
+        }).join('') +
+        '</table>';
+    }
+
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    function createDoughnut(ctx, labels, data) {
+      return new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: data,
+            backgroundColor: accentColors.slice(0, data.length),
+            borderWidth: 0,
+            hoverOffset: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          cutout: '55%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { padding: 12, usePointStyle: true, pointStyle: 'circle' }
+            }
+          }
+        }
+      });
+    }
+
+    function destroyCharts() {
+      [timeChart, browserChart, deviceChart, osChart, countryChart].forEach(c => { if (c) c.destroy(); });
+    }
+
+    async function loadData() {
+      const period = document.getElementById('periodSelect').value;
+
+      try {
+        const [stats, realtime] = await Promise.all([
+          fetchJSON(baseURL + '/api/analytics/stats?period=' + period + 'd'),
+          fetchJSON(baseURL + '/api/analytics/realtime')
+        ]);
+
+        // Summary cards
+        document.getElementById('totalViews').textContent = formatNum(stats.total_views || 0);
+        document.getElementById('uniqueVisitors').textContent = formatNum(stats.unique_visitors || 0);
+        document.getElementById('activeNow').textContent = String(realtime.active_visitors || 0);
+
+        const days = parseInt(period) || 7;
+        const avg = days > 0 ? Math.round((stats.total_views || 0) / days) : 0;
+        document.getElementById('avgDaily').textContent = formatNum(avg);
+
+        // Destroy old charts
+        destroyCharts();
+
+        // Time series
+        const ts = stats.time_series || [];
+        timeChart = new Chart(document.getElementById('timeChart'), {
+          type: 'line',
+          data: {
+            labels: ts.map(t => t.date),
+            datasets: [
+              {
+                label: 'Views',
+                data: ts.map(t => t.views),
+                borderColor: '#06FFA5',
+                backgroundColor: 'rgba(6, 255, 165, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+                pointBackgroundColor: '#06FFA5'
+              },
+              {
+                label: 'Unique Visitors',
+                data: ts.map(t => t.uniq),
+                borderColor: '#5ee5ff',
+                backgroundColor: 'rgba(94, 229, 255, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+                pointBackgroundColor: '#5ee5ff'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            interaction: { intersect: false, mode: 'index' },
+            scales: {
+              x: { grid: { color: 'rgba(42,42,42,0.5)' } },
+              y: { beginAtZero: true, grid: { color: 'rgba(42,42,42,0.5)' } }
+            },
+            plugins: {
+              legend: { labels: { usePointStyle: true, pointStyle: 'circle' } }
+            }
+          }
+        });
+
+        // Top pages & referrers
+        document.getElementById('topPages').innerHTML = buildTable(stats.top_pages);
+        document.getElementById('topReferrers').innerHTML = buildTable(stats.top_referrers);
+
+        // Doughnut charts
+        const b = stats.browsers || [];
+        browserChart = createDoughnut(
+          document.getElementById('browserChart'),
+          b.map(x => x.name), b.map(x => x.count)
+        );
+
+        const d = stats.devices || [];
+        deviceChart = createDoughnut(
+          document.getElementById('deviceChart'),
+          d.map(x => x.name), d.map(x => x.count)
+        );
+
+        const o = stats.os_stats || [];
+        osChart = createDoughnut(
+          document.getElementById('osChart'),
+          o.map(x => x.name), o.map(x => x.count)
+        );
+
+        // Countries bar chart
+        const c = stats.countries || [];
+        countryChart = new Chart(document.getElementById('countryChart'), {
+          type: 'bar',
+          data: {
+            labels: c.map(x => x.name),
+            datasets: [{
+              data: c.map(x => x.count),
+              backgroundColor: accentColors.slice(0, c.length),
+              borderWidth: 0,
+              borderRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            indexAxis: 'y',
+            scales: {
+              x: { beginAtZero: true, grid: { color: 'rgba(42,42,42,0.5)' } },
+              y: { grid: { display: false } }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+
+        // Screen sizes table
+        document.getElementById('screenTable').innerHTML = buildTable(stats.screens);
+
+        // Events table
+        const ev = stats.events || [];
+        if (ev.length === 0) {
+          document.getElementById('eventsTable').innerHTML = '<div class="empty-state">No events yet</div>';
+        } else {
+          document.getElementById('eventsTable').innerHTML = '<table>' +
+            '<tr><th>Event</th><th style="text-align:right">Count</th></tr>' +
+            ev.map(e => {
+              const cls = e.type.replace(/[^a-z_]/g, '');
+              return '<tr><td><span class="event-badge ' + cls + '">' + escapeHtml(e.type) + '</span></td>' +
+                '<td class="count-cell">' + formatNum(e.count) + '</td></tr>';
+            }).join('') +
+            '</table>';
+        }
+
+      } catch (err) {
+        console.error('Failed to load data:', err);
+        document.getElementById('totalViews').textContent = 'Error';
+      }
+    }
+
+    // Auto-refresh realtime every 30 seconds
+    setInterval(async () => {
+      try {
+        const rt = await fetchJSON(baseURL + '/api/analytics/realtime');
+        document.getElementById('activeNow').textContent = String(rt.active_visitors || 0);
+      } catch (e) { /* silent */ }
+    }, 30000);
+
+    // Period change
+    document.getElementById('periodSelect').addEventListener('change', loadData);
+
+    // Initial load
+    loadData();
+  </script>
+</body>
+</html>
