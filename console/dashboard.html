@@ -14,6 +14,7 @@
       --text-secondary: #a0a0a0;
       --text-muted: #888;
       --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.25);
       --accent: #06FFA5;
       --accent-soft: rgba(6, 255, 165, 0.18);
       --accent-glow: rgba(6, 255, 165, 0.5);
@@ -40,18 +41,19 @@
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 0;
       background:
-        radial-gradient(circle at top, rgba(6,255,165,0.08), transparent 50%),
-        radial-gradient(circle at bottom right, rgba(94,229,255,0.06), transparent 50%);
+        radial-gradient(circle at top, rgba(6,255,165,0.10), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(94,229,255,0.08), transparent 50%);
       pointer-events: none;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1300px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
 
+    /* Header */
     header {
       display: flex;
       align-items: center;
@@ -64,23 +66,26 @@
     .logo-area {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
     .logo-area h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
+      font-size: 1.6rem;
+      font-weight: 700;
       color: var(--accent);
-      text-shadow: 0 0 20px var(--accent-glow);
+      text-shadow: 0 0 25px var(--accent-glow);
     }
 
-    .logo-area span {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .logo-area .badge {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent);
       background: rgba(6,255,165,0.1);
-      border: 1px solid rgba(6,255,165,0.25);
-      padding: 2px 8px;
-      border-radius: 4px;
+      border: 1px solid rgba(6,255,165,0.3);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 600;
     }
 
     .controls {
@@ -91,24 +96,20 @@
 
     select, button {
       background: rgba(13, 13, 13, 0.6);
+      backdrop-filter: var(--glass-blur);
       color: var(--text-primary);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px 14px;
+      border-radius: 10px;
+      padding: 8px 16px;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s ease;
       font-family: inherit;
     }
 
     select:hover, button:hover {
       border-color: var(--accent);
-      box-shadow: 0 0 15px var(--accent-glow);
-    }
-
-    button.active {
-      background: var(--accent-soft);
-      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
     }
 
     .refresh-btn {
@@ -116,6 +117,58 @@
       color: #020617;
       font-weight: 600;
       border: none;
+      box-shadow: 0 0 20px rgba(6,255,165,0.3);
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(6,255,165,0.5);
+    }
+
+    /* Glass Card — the core component */
+    .card {
+      background: linear-gradient(135deg, rgba(10,17,40,0.7), rgba(13,13,13,0.7));
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-card);
+      padding: 22px 26px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.06), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .card canvas {
+      max-height: 300px;
     }
 
     /* Summary cards */
@@ -127,13 +180,14 @@
     }
 
     .summary-card {
-      background: rgba(13, 13, 13, 0.5);
+      background: linear-gradient(135deg, rgba(10,17,40,0.7), rgba(13,13,13,0.7));
       backdrop-filter: var(--glass-blur);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-card);
-      padding: 20px 24px;
+      padding: 22px 26px;
       position: relative;
       overflow: hidden;
+      transition: all 0.25s ease;
     }
 
     .summary-card::before {
@@ -142,84 +196,66 @@
       top: 0; left: 0; right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--accent), var(--accent-blue));
-      opacity: 0.6;
+      opacity: 0.5;
+      transition: opacity 0.25s ease;
+    }
+
+    .summary-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .summary-card:hover::before {
+      opacity: 1;
     }
 
     .summary-card .label {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .summary-card .value {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       color: var(--accent);
-      text-shadow: 0 0 15px var(--accent-glow);
+      text-shadow: 0 0 20px var(--accent-glow);
     }
 
     .summary-card.blue .value {
       color: var(--accent-blue);
-      text-shadow: 0 0 15px var(--accent-blue-glow);
+      text-shadow: 0 0 20px var(--accent-blue-glow);
     }
 
-    .summary-card .live-dot {
+    .live-dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 8px var(--accent-glow);
+      box-shadow: 0 0 12px var(--accent-glow);
       animation: pulse 2s infinite;
-      margin-right: 6px;
+      margin-right: 8px;
       vertical-align: middle;
     }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      50% { opacity: 0.3; }
     }
 
-    /* Chart containers */
-    .chart-row {
+    /* Layout grid */
+    .grid-row {
       display: grid;
       grid-template-columns: 1fr;
       gap: 16px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
-    .chart-row.two-col {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .chart-row.three-col {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-
-    .card {
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-card);
-      padding: 20px 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .card canvas {
-      max-height: 300px;
-    }
+    .grid-row.two-col { grid-template-columns: 1fr 1fr; }
+    .grid-row.three-col { grid-template-columns: 1fr 1fr 1fr; }
 
     /* Tables */
     table {
@@ -229,28 +265,31 @@
 
     th {
       text-align: left;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       color: var(--text-muted);
-      padding: 8px 0;
+      padding: 8px 8px;
       border-bottom: 1px solid var(--border-color);
     }
 
     td {
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(42, 42, 42, 0.5);
-      font-size: 0.9rem;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    .path-cell {
-      color: var(--accent);
-      font-family: 'Courier New', monospace;
+      padding: 9px 8px;
+      border-bottom: 1px solid rgba(42, 42, 42, 0.4);
       font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td {
+      background: rgba(6, 255, 165, 0.03);
+    }
+
+    .mono {
+      font-family: 'Courier New', 'Consolas', monospace;
+      font-size: 0.82rem;
+      color: var(--accent);
     }
 
     .count-cell {
@@ -260,12 +299,12 @@
     }
 
     .bar-cell {
-      width: 120px;
-      padding-left: 12px;
+      width: 100px;
+      padding-left: 10px;
     }
 
     .bar-bg {
-      height: 6px;
+      height: 5px;
       background: rgba(42, 42, 42, 0.8);
       border-radius: 3px;
       overflow: hidden;
@@ -278,83 +317,124 @@
       transition: width 0.5s ease;
     }
 
-    /* Events section */
+    /* Visitor hash badge */
+    .visitor-id {
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      background: rgba(94, 229, 255, 0.08);
+      border: 1px solid rgba(94, 229, 255, 0.2);
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    /* Country badge */
+    .country-badge {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background: rgba(6, 255, 165, 0.1);
+      border: 1px solid rgba(6, 255, 165, 0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Browser/device/os badges in recent table */
+    .info-badge {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-right: 4px;
+    }
+
+    /* Timestamp in recent log */
+    .ts {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* Event badges */
     .event-badge {
       display: inline-block;
       padding: 3px 10px;
       border-radius: 6px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
     }
 
     .event-badge.pwa_install {
-      background: rgba(6, 255, 165, 0.15);
+      background: rgba(6, 255, 165, 0.12);
       color: var(--accent);
       border: 1px solid rgba(6, 255, 165, 0.3);
     }
 
     .event-badge.pwa_prompt {
-      background: rgba(94, 229, 255, 0.15);
+      background: rgba(94, 229, 255, 0.12);
       color: var(--accent-blue);
       border: 1px solid rgba(94, 229, 255, 0.3);
     }
 
     .event-badge.file_download {
-      background: rgba(168, 85, 247, 0.15);
+      background: rgba(168, 85, 247, 0.12);
       color: #c084fc;
       border: 1px solid rgba(168, 85, 247, 0.3);
-    }
-
-    /* Loading state */
-    .loading {
-      text-align: center;
-      padding: 60px;
-      color: var(--text-muted);
-    }
-
-    .loading::after {
-      content: "";
-      display: block;
-      width: 40px;
-      height: 40px;
-      margin: 16px auto;
-      border: 3px solid var(--border-color);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
 
     /* Empty state */
     .empty-state {
       text-align: center;
-      padding: 40px;
+      padding: 32px;
       color: var(--text-muted);
       font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    /* Scrollable recent visitors */
+    .recent-scroll {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .recent-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .recent-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .recent-scroll::-webkit-scrollbar-thumb {
+      background: rgba(6, 255, 165, 0.25);
+      border-radius: 3px;
     }
 
     /* Footer */
     footer {
       text-align: center;
       margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(148,163,184,0.1);
       color: var(--text-muted);
       font-size: 0.8rem;
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
-      body { padding: 12px; }
-      .chart-row.two-col,
-      .chart-row.three-col { grid-template-columns: 1fr; }
+    @media (max-width: 900px) {
+      .grid-row.two-col,
+      .grid-row.three-col { grid-template-columns: 1fr; }
       .summary-grid { grid-template-columns: repeat(2, 1fr); }
       header { flex-direction: column; align-items: flex-start; }
+      .recent-scroll { overflow-x: auto; }
     }
 
     @media (max-width: 480px) {
+      body { padding: 12px; }
       .summary-grid { grid-template-columns: 1fr; }
+      .summary-card .value { font-size: 1.8rem; }
     }
   </style>
 </head>
@@ -363,7 +443,7 @@
     <header>
       <div class="logo-area">
         <h1>NobleMind Console</h1>
-        <span>Analytics</span>
+        <span class="badge">Analytics</span>
       </div>
       <div class="controls">
         <select id="periodSelect">
@@ -396,8 +476,16 @@
       </div>
     </div>
 
+    <!-- Recent Visitors -->
+    <div class="grid-row">
+      <div class="card">
+        <h3>Recent Visitors</h3>
+        <div class="recent-scroll" id="recentVisitors"></div>
+      </div>
+    </div>
+
     <!-- Time Series Chart -->
-    <div class="chart-row">
+    <div class="grid-row">
       <div class="card">
         <h3>Traffic Over Time</h3>
         <canvas id="timeChart"></canvas>
@@ -405,7 +493,7 @@
     </div>
 
     <!-- Top Pages + Referrers -->
-    <div class="chart-row two-col">
+    <div class="grid-row two-col">
       <div class="card">
         <h3>Top Pages</h3>
         <div id="topPages"></div>
@@ -417,7 +505,7 @@
     </div>
 
     <!-- Browser / Device / OS -->
-    <div class="chart-row three-col">
+    <div class="grid-row three-col">
       <div class="card">
         <h3>Browsers</h3>
         <canvas id="browserChart"></canvas>
@@ -432,20 +520,12 @@
       </div>
     </div>
 
-    <!-- Countries + Screens -->
-    <div class="chart-row two-col">
+    <!-- Countries + Events -->
+    <div class="grid-row two-col">
       <div class="card">
         <h3>Countries</h3>
         <canvas id="countryChart"></canvas>
       </div>
-      <div class="card">
-        <h3>Screen Sizes</h3>
-        <div id="screenTable"></div>
-      </div>
-    </div>
-
-    <!-- Events -->
-    <div class="chart-row">
       <div class="card">
         <h3>Events</h3>
         <div id="eventsTable"></div>
@@ -458,17 +538,14 @@
   </div>
 
   <script>
-    // Get token from URL
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token') || '';
     const baseURL = window.location.origin;
 
-    // Chart instances
     let timeChart, browserChart, deviceChart, osChart, countryChart;
 
-    // Chart.js defaults for dark theme
     Chart.defaults.color = '#a0a0a0';
-    Chart.defaults.borderColor = 'rgba(42, 42, 42, 0.8)';
+    Chart.defaults.borderColor = 'rgba(42, 42, 42, 0.6)';
     Chart.defaults.font.family = "'Segoe UI', -apple-system, Arial, sans-serif";
 
     const accentColors = [
@@ -490,15 +567,41 @@
       return String(n);
     }
 
-    function buildTable(items, maxVal) {
+    function escapeHtml(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    // Format UTC timestamp to local date+time
+    function formatTime(utcStr) {
+      if (!utcStr) return '';
+      const d = new Date(utcStr.endsWith('Z') ? utcStr : utcStr + 'Z');
+      const month = d.getMonth() + 1;
+      const day = d.getDate();
+      const year = d.getFullYear();
+      let h = d.getHours();
+      const m = String(d.getMinutes()).padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return month + '/' + day + '/' + year + ' ' + h + ':' + m + ' ' + ampm;
+    }
+
+    // Format date string for chart labels (local timezone)
+    function formatChartDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
+    }
+
+    function buildTable(items) {
       if (!items || items.length === 0) return '<div class="empty-state">No data yet</div>';
-      const max = maxVal || Math.max(...items.map(i => i.count));
+      const max = Math.max(...items.map(i => i.count));
       return '<table>' +
         '<tr><th>Name</th><th style="text-align:right">Count</th><th></th></tr>' +
         items.map(item => {
           const pct = max > 0 ? (item.count / max * 100) : 0;
           return '<tr>' +
-            '<td class="path-cell">' + escapeHtml(item.name || '(direct)') + '</td>' +
+            '<td class="mono">' + escapeHtml(item.name || '(direct)') + '</td>' +
             '<td class="count-cell">' + formatNum(item.count) + '</td>' +
             '<td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%"></div></div></td>' +
           '</tr>';
@@ -506,10 +609,24 @@
         '</table>';
     }
 
-    function escapeHtml(s) {
-      const d = document.createElement('div');
-      d.textContent = s;
-      return d.innerHTML;
+    function buildRecentTable(visits) {
+      if (!visits || visits.length === 0) return '<div class="empty-state">No visits recorded yet</div>';
+      return '<table>' +
+        '<tr><th>Time</th><th>IP</th><th>Location</th><th>Device</th><th>Referrer</th><th>Path</th></tr>' +
+        visits.map(v => {
+          const locParts = [v.city, v.region, v.country].filter(Boolean);
+          const location = locParts.length > 0 ? locParts.join(', ') : '--';
+          const device = [v.browser, v.os, v.device].filter(Boolean).join(' / ');
+          return '<tr>' +
+            '<td class="ts">' + formatTime(v.timestamp) + '</td>' +
+            '<td class="mono">' + escapeHtml(v.ip_address || '--') + '</td>' +
+            '<td>' + (locParts.length > 0 ? '<span class="country-badge">' + escapeHtml(location) + '</span>' : '<span style="color:#555">--</span>') + '</td>' +
+            '<td><span class="info-badge">' + escapeHtml(device || '--') + '</span></td>' +
+            '<td style="color:var(--text-muted);font-size:0.8rem">' + escapeHtml(v.referrer || '') + '</td>' +
+            '<td class="mono">' + escapeHtml(v.path) + '</td>' +
+          '</tr>';
+        }).join('') +
+        '</table>';
     }
 
     function createDoughnut(ctx, labels, data) {
@@ -546,9 +663,10 @@
       const period = document.getElementById('periodSelect').value;
 
       try {
-        const [stats, realtime] = await Promise.all([
+        const [stats, realtime, recent] = await Promise.all([
           fetchJSON(baseURL + '/api/analytics/stats?period=' + period + 'd'),
-          fetchJSON(baseURL + '/api/analytics/realtime')
+          fetchJSON(baseURL + '/api/analytics/realtime'),
+          fetchJSON(baseURL + '/api/analytics/recent?limit=100')
         ]);
 
         // Summary cards
@@ -560,35 +678,40 @@
         const avg = days > 0 ? Math.round((stats.total_views || 0) / days) : 0;
         document.getElementById('avgDaily').textContent = formatNum(avg);
 
+        // Recent visitors
+        document.getElementById('recentVisitors').innerHTML = buildRecentTable(recent);
+
         // Destroy old charts
         destroyCharts();
 
-        // Time series
+        // Time series — format dates for local timezone
         const ts = stats.time_series || [];
         timeChart = new Chart(document.getElementById('timeChart'), {
           type: 'line',
           data: {
-            labels: ts.map(t => t.date),
+            labels: ts.map(t => formatChartDate(t.date)),
             datasets: [
               {
-                label: 'Views',
+                label: 'Page Views',
                 data: ts.map(t => t.views),
                 borderColor: '#06FFA5',
-                backgroundColor: 'rgba(6, 255, 165, 0.1)',
+                backgroundColor: 'rgba(6, 255, 165, 0.08)',
                 fill: true,
                 tension: 0.3,
-                pointRadius: 3,
-                pointBackgroundColor: '#06FFA5'
+                pointRadius: 4,
+                pointBackgroundColor: '#06FFA5',
+                borderWidth: 2
               },
               {
                 label: 'Unique Visitors',
                 data: ts.map(t => t.uniq),
                 borderColor: '#5ee5ff',
-                backgroundColor: 'rgba(94, 229, 255, 0.1)',
+                backgroundColor: 'rgba(94, 229, 255, 0.08)',
                 fill: true,
                 tension: 0.3,
-                pointRadius: 3,
-                pointBackgroundColor: '#5ee5ff'
+                pointRadius: 4,
+                pointBackgroundColor: '#5ee5ff',
+                borderWidth: 2
               }
             ]
           },
@@ -597,11 +720,17 @@
             maintainAspectRatio: true,
             interaction: { intersect: false, mode: 'index' },
             scales: {
-              x: { grid: { color: 'rgba(42,42,42,0.5)' } },
-              y: { beginAtZero: true, grid: { color: 'rgba(42,42,42,0.5)' } }
+              x: { grid: { color: 'rgba(42,42,42,0.4)' } },
+              y: { beginAtZero: true, grid: { color: 'rgba(42,42,42,0.4)' },
+                ticks: { stepSize: 1 } }
             },
             plugins: {
-              legend: { labels: { usePointStyle: true, pointStyle: 'circle' } }
+              legend: { labels: { usePointStyle: true, pointStyle: 'circle' } },
+              tooltip: {
+                callbacks: {
+                  title: function(items) { return items[0].label; }
+                }
+              }
             }
           }
         });
@@ -612,50 +741,46 @@
 
         // Doughnut charts
         const b = stats.browsers || [];
-        browserChart = createDoughnut(
-          document.getElementById('browserChart'),
-          b.map(x => x.name), b.map(x => x.count)
-        );
+        if (b.length > 0) {
+          browserChart = createDoughnut(document.getElementById('browserChart'), b.map(x => x.name), b.map(x => x.count));
+        }
 
         const d = stats.devices || [];
-        deviceChart = createDoughnut(
-          document.getElementById('deviceChart'),
-          d.map(x => x.name), d.map(x => x.count)
-        );
+        if (d.length > 0) {
+          deviceChart = createDoughnut(document.getElementById('deviceChart'), d.map(x => x.name), d.map(x => x.count));
+        }
 
         const o = stats.os_stats || [];
-        osChart = createDoughnut(
-          document.getElementById('osChart'),
-          o.map(x => x.name), o.map(x => x.count)
-        );
+        if (o.length > 0) {
+          osChart = createDoughnut(document.getElementById('osChart'), o.map(x => x.name), o.map(x => x.count));
+        }
 
         // Countries bar chart
         const c = stats.countries || [];
-        countryChart = new Chart(document.getElementById('countryChart'), {
-          type: 'bar',
-          data: {
-            labels: c.map(x => x.name),
-            datasets: [{
-              data: c.map(x => x.count),
-              backgroundColor: accentColors.slice(0, c.length),
-              borderWidth: 0,
-              borderRadius: 4
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            indexAxis: 'y',
-            scales: {
-              x: { beginAtZero: true, grid: { color: 'rgba(42,42,42,0.5)' } },
-              y: { grid: { display: false } }
+        if (c.length > 0) {
+          countryChart = new Chart(document.getElementById('countryChart'), {
+            type: 'bar',
+            data: {
+              labels: c.map(x => x.name),
+              datasets: [{
+                data: c.map(x => x.count),
+                backgroundColor: accentColors.slice(0, c.length),
+                borderWidth: 0,
+                borderRadius: 4
+              }]
             },
-            plugins: { legend: { display: false } }
-          }
-        });
-
-        // Screen sizes table
-        document.getElementById('screenTable').innerHTML = buildTable(stats.screens);
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              indexAxis: 'y',
+              scales: {
+                x: { beginAtZero: true, grid: { color: 'rgba(42,42,42,0.4)' }, ticks: { stepSize: 1 } },
+                y: { grid: { display: false } }
+              },
+              plugins: { legend: { display: false } }
+            }
+          });
+        }
 
         // Events table
         const ev = stats.events || [];
@@ -678,18 +803,19 @@
       }
     }
 
-    // Auto-refresh realtime every 30 seconds
+    // Auto-refresh realtime + recent every 30 seconds
     setInterval(async () => {
       try {
-        const rt = await fetchJSON(baseURL + '/api/analytics/realtime');
+        const [rt, recent] = await Promise.all([
+          fetchJSON(baseURL + '/api/analytics/realtime'),
+          fetchJSON(baseURL + '/api/analytics/recent?limit=100')
+        ]);
         document.getElementById('activeNow').textContent = String(rt.active_visitors || 0);
+        document.getElementById('recentVisitors').innerHTML = buildRecentTable(recent);
       } catch (e) { /* silent */ }
     }, 30000);
 
-    // Period change
     document.getElementById('periodSelect').addEventListener('change', loadData);
-
-    // Initial load
     loadData();
   </script>
 </body>

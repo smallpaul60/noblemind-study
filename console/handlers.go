@@ -22,6 +22,7 @@ func SetupRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("/api/analytics/event", handleBeaconCORS) // OPTIONS preflight
 	mux.HandleFunc("GET /api/analytics/stats", requireAuth(handleStats))
 	mux.HandleFunc("GET /api/analytics/realtime", requireAuth(handleRealtime))
+	mux.HandleFunc("GET /api/analytics/recent", requireAuth(handleRecent))
 	mux.HandleFunc("GET /console", requireAuth(handleDashboard))
 	mux.HandleFunc("GET /console/", requireAuth(handleDashboard))
 }
@@ -52,12 +53,12 @@ func handleBeacon(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Extract and hash IP — raw IP is never stored
+	// Extract IP and hash it
 	rawIP := ExtractIP(r.Header.Get("X-Forwarded-For"), r.RemoteAddr)
 	visitorHash := HashIP(rawIP)
 
 	// GeoIP lookup
-	country := LookupCountry(rawIP)
+	loc := LookupLocation(rawIP)
 
 	// Parse User-Agent — raw UA is never stored
 	browser, osName, device := ParseUserAgent(r.Header.Get("User-Agent"))
@@ -67,7 +68,10 @@ func handleBeacon(w http.ResponseWriter, r *http.Request) {
 			beacon.Path,
 			beacon.Referrer,
 			visitorHash,
-			country,
+			rawIP,
+			loc.Country,
+			loc.Region,
+			loc.City,
 			device,
 			browser,
 			osName,
@@ -115,6 +119,25 @@ func handleRealtime(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(data)
+}
+
+// handleRecent returns the most recent individual page views.
+func handleRecent(w http.ResponseWriter, r *http.Request) {
+	limitStr := r.URL.Query().Get("limit")
+	limit := 50
+	if n, err := strconv.Atoi(limitStr); err == nil && n > 0 && n <= 200 {
+		limit = n
+	}
+
+	visits, err := QueryRecentVisitors(limit)
+	if err != nil {
+		log.Printf("recent query error: %v", err)
+		http.Error(w, "internal error", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(visits)
 }
 
 // handleDashboard serves the embedded dashboard HTML.

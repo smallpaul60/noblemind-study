@@ -8,6 +8,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -160,7 +161,7 @@ func ReduceReferrer(ref string) string {
 	return ref
 }
 
-// GeoIPDB holds the IP2Location LITE DB1 data in memory.
+// GeoIPDB holds IP geolocation data in memory.
 type GeoIPDB struct {
 	mu      sync.RWMutex
 	records []geoRecord
@@ -171,26 +172,35 @@ type geoRecord struct {
 	ipFrom  uint32
 	ipTo    uint32
 	country string
+	region  string
+	city    string
+}
+
+// GeoLocation holds the result of a GeoIP lookup.
+type GeoLocation struct {
+	Country string
+	Region  string
+	City    string
 }
 
 var geoIP = &GeoIPDB{}
 
-// LookupCountry returns the 2-letter country code for an IPv4 address.
-func LookupCountry(ip string) string {
+// LookupLocation returns the country, region, and city for an IPv4 address.
+func LookupLocation(ip string) GeoLocation {
 	geoIP.mu.RLock()
 	defer geoIP.mu.RUnlock()
 
 	if !geoIP.loaded || len(geoIP.records) == 0 {
-		return ""
+		return GeoLocation{}
 	}
 
 	parsed := net.ParseIP(ip)
 	if parsed == nil {
-		return ""
+		return GeoLocation{}
 	}
 	ipv4 := parsed.To4()
 	if ipv4 == nil {
-		return ""
+		return GeoLocation{}
 	}
 
 	ipNum := uint32(ipv4[0])<<24 | uint32(ipv4[1])<<16 | uint32(ipv4[2])<<8 | uint32(ipv4[3])
@@ -204,14 +214,16 @@ func LookupCountry(ip string) string {
 		} else if ipNum > rec.ipTo {
 			lo = mid + 1
 		} else {
-			return rec.country
+			return GeoLocation{Country: rec.country, Region: rec.region, City: rec.city}
 		}
 	}
-	return ""
+	return GeoLocation{}
 }
 
-// LoadGeoIP loads the IP2Location LITE DB1 CSV file.
-// Expected CSV format: "16777216","16777471","AU","Australia"
+// LoadGeoIP loads a GeoIP CSV file. Supports multiple formats:
+//   - City CSV: "1.0.0.0,1.0.0.255,AU,Queensland,,South Brisbane,..." (dbip-city)
+//   - Country CSV: "1.0.0.0,1.0.0.255,AU" (dbip-country)
+//   - Numeric ranges: "16777216","16777471","AU","Australia" (IP2Location)
 func LoadGeoIP(path string) {
 	if path == "" {
 		log.Println("geoip: no database path configured, country lookup disabled")
@@ -231,17 +243,66 @@ func LoadGeoIP(path string) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		fields := parseCSVLine(line)
-		if len(fields) < 4 {
-			continue
+
+		var fields []string
+		var from, to uint32
+		var country, region, city string
+
+		// Detect TSV (tab-separated hex format from GitLab/tdulcet)
+		if strings.Contains(line, "\t") {
+			fields = strings.Split(line, "\t")
+			if len(fields) < 5 {
+				continue
+			}
+			// Hex IP ranges: "1000000\t10000ff\tAU\tQueensland\tSouth Brisbane\t..."
+			f64, err1 := strconv.ParseUint(fields[0], 16, 32)
+			t64, err2 := strconv.ParseUint(fields[1], 16, 32)
+			if err1 != nil || err2 != nil {
+				continue
+			}
+			from = uint32(f64)
+			to = uint32(t64)
+			country = fields[2]
+			region = fields[3]
+			city = fields[4]
+		} else {
+			// CSV format
+			fields = parseCSVLine(line)
+			if len(fields) < 3 {
+				continue
+			}
+
+			if strings.Contains(fields[0], ".") {
+				// IP string format: "1.0.0.0,1.0.0.255,AU,Queensland,,South Brisbane,..."
+				fromIP := net.ParseIP(fields[0])
+				toIP := net.ParseIP(fields[1])
+				if fromIP == nil || toIP == nil {
+					continue
+				}
+				f4 := fromIP.To4()
+				t4 := toIP.To4()
+				if f4 == nil || t4 == nil {
+					continue
+				}
+				from = uint32(f4[0])<<24 | uint32(f4[1])<<16 | uint32(f4[2])<<8 | uint32(f4[3])
+				to = uint32(t4[0])<<24 | uint32(t4[1])<<16 | uint32(t4[2])<<8 | uint32(t4[3])
+				country = fields[2]
+				if len(fields) >= 6 {
+					region = fields[3]
+					city = fields[5]
+				}
+			} else {
+				// Numeric decimal format: "16777216","16777471","AU","Australia"
+				from = parseUint32(fields[0])
+				to = parseUint32(fields[1])
+				country = fields[2]
+			}
 		}
-		from := parseUint32(fields[0])
-		to := parseUint32(fields[1])
-		country := fields[2] // 2-letter code
+
 		if from == 0 && to == 0 {
 			continue
 		}
-		records = append(records, geoRecord{ipFrom: from, ipTo: to, country: country})
+		records = append(records, geoRecord{ipFrom: from, ipTo: to, country: country, region: region, city: city})
 	}
 
 	geoIP.mu.Lock()

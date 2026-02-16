@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	_ "modernc.org/sqlite"
@@ -32,7 +33,10 @@ func initDB(path string) error {
 		}
 	}
 
-	return createSchema()
+	if err := createSchema(); err != nil {
+		return err
+	}
+	return migrateSchema()
 }
 
 func createSchema() error {
@@ -43,7 +47,10 @@ func createSchema() error {
 		path TEXT NOT NULL,
 		referrer TEXT NOT NULL DEFAULT '',
 		visitor_hash TEXT NOT NULL,
+		ip_address TEXT NOT NULL DEFAULT '',
 		country TEXT NOT NULL DEFAULT '',
+		region TEXT NOT NULL DEFAULT '',
+		city TEXT NOT NULL DEFAULT '',
 		device TEXT NOT NULL DEFAULT '',
 		browser TEXT NOT NULL DEFAULT '',
 		os TEXT NOT NULL DEFAULT '',
@@ -82,12 +89,29 @@ func createSchema() error {
 	return err
 }
 
+// migrateSchema adds columns that may not exist in older databases.
+func migrateSchema() error {
+	migrations := []string{
+		`ALTER TABLE page_views ADD COLUMN ip_address TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE page_views ADD COLUMN region TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE page_views ADD COLUMN city TEXT NOT NULL DEFAULT ''`,
+	}
+	for _, m := range migrations {
+		// Ignore "duplicate column" errors for idempotency
+		_, err := db.Exec(m)
+		if err != nil && !strings.Contains(err.Error(), "duplicate column") {
+			log.Printf("migration skipped: %v", err)
+		}
+	}
+	return nil
+}
+
 // InsertPageView records a page view.
-func InsertPageView(path, referrer, visitorHash, country, device, browser, os, screen string) error {
+func InsertPageView(path, referrer, visitorHash, ipAddress, country, region, city, device, browser, os, screen string) error {
 	_, err := db.Exec(
-		`INSERT INTO page_views (path, referrer, visitor_hash, country, device, browser, os, screen)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-		path, referrer, visitorHash, country, device, browser, os, screen,
+		`INSERT INTO page_views (path, referrer, visitor_hash, ip_address, country, region, city, device, browser, os, screen)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		path, referrer, visitorHash, ipAddress, country, region, city, device, browser, os, screen,
 	)
 	return err
 }
@@ -250,6 +274,47 @@ func QueryRealtime() (*RealtimeResult, error) {
 		GROUP BY path ORDER BY c DESC LIMIT 10`, since)
 
 	return result, nil
+}
+
+// RecentVisit represents a single page view for the live log.
+type RecentVisit struct {
+	Timestamp   string `json:"timestamp"`
+	Path        string `json:"path"`
+	IPAddress   string `json:"ip_address"`
+	VisitorHash string `json:"visitor_hash"`
+	Country     string `json:"country"`
+	Region      string `json:"region"`
+	City        string `json:"city"`
+	Browser     string `json:"browser"`
+	OS          string `json:"os"`
+	Device      string `json:"device"`
+	Referrer    string `json:"referrer"`
+	Screen      string `json:"screen"`
+}
+
+// QueryRecentVisitors returns the last N page views.
+func QueryRecentVisitors(limit int) ([]RecentVisit, error) {
+	if limit <= 0 || limit > 200 {
+		limit = 50
+	}
+	rows, err := db.Query(`
+		SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen
+		FROM page_views
+		ORDER BY id DESC
+		LIMIT ?`, limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var results []RecentVisit
+	for rows.Next() {
+		var rv RecentVisit
+		rows.Scan(&rv.Timestamp, &rv.Path, &rv.IPAddress, &rv.VisitorHash, &rv.Country,
+			&rv.Region, &rv.City, &rv.Browser, &rv.OS, &rv.Device, &rv.Referrer, &rv.Screen)
+		results = append(results, rv)
+	}
+	return results, nil
 }
 
 // RebuildAggregates rebuilds the daily_aggregates table.
