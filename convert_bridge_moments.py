@@ -1808,8 +1808,8 @@ def generate_index_html():
       z-index: 1;
     }}
     .header-logo {{
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       object-fit: cover;
       margin-bottom: 12px;
