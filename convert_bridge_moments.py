@@ -23,26 +23,26 @@ NS = {'w': 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
 
 # Chapter metadata — titles, part assignments, epigraph scriptures
 CHAPTERS = [
-    {"num": 1,  "title": "The Weight of Words", "part": 1, "part_title": "The Foundation: Why Words Matter"},
-    {"num": 2,  "title": "The Kairos Principle", "part": 1, "part_title": "The Foundation: Why Words Matter"},
-    {"num": 3,  "title": "Love, Not Agenda", "part": 1, "part_title": "The Foundation: Why Words Matter"},
-    {"num": 4,  "title": "Give Me a Drink", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 5,  "title": "You Must Be Born Again", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 6,  "title": "I Must Stay at Your House", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 7,  "title": "Jesus Felt a Love for Him", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 8,  "title": "Neither Do I Condemn You", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 9,  "title": "Were Not Our Hearts Burning?", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 10, "title": "Follow Me", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 11, "title": "Do You See This Woman?", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 12, "title": "Do You Love Me?", "part": 2, "part_title": "Jesus, the Master of the Moment"},
-    {"num": 13, "title": "Do You Understand What You Are Reading?", "part": 3, "part_title": "Following the Pattern"},
-    {"num": 14, "title": "Men of Athens", "part": 3, "part_title": "Following the Pattern"},
-    {"num": 15, "title": "What Must I Do to Be Saved?", "part": 3, "part_title": "Following the Pattern"},
-    {"num": 16, "title": "Learning to Listen", "part": 4, "part_title": "Developing Your Voice"},
-    {"num": 17, "title": "From Natural to Spiritual", "part": 4, "part_title": "Developing Your Voice"},
-    {"num": 18, "title": "Seasoned with Salt", "part": 4, "part_title": "Developing Your Voice"},
-    {"num": 19, "title": "When They Walk Away", "part": 4, "part_title": "Developing Your Voice"},
-    {"num": 20, "title": "The Heart Behind the Words", "part": 4, "part_title": "Developing Your Voice"},
+    {"num": 1,  "title": "The Weight of Words", "part": 1, "part_title": "The Foundation: Why Words Matter", "subtitle": ""},
+    {"num": 2,  "title": "The Kairos Principle", "part": 1, "part_title": "The Foundation: Why Words Matter", "subtitle": ""},
+    {"num": 3,  "title": "Love, Not Agenda", "part": 1, "part_title": "The Foundation: Why Words Matter", "subtitle": ""},
+    {"num": 4,  "title": "\u201cGive Me a Drink\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "The Woman at the Well \u2022 John 4:1\u201342"},
+    {"num": 5,  "title": "\u201cYou Must Be Born Again\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "Nicodemus \u2022 John 3:1\u201321"},
+    {"num": 6,  "title": "\u201cI Must Stay at Your House\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "Zacchaeus \u2022 Luke 19:1\u201310"},
+    {"num": 7,  "title": "Jesus Felt a Love for Him", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "The Rich Young Ruler \u2022 Mark 10:17\u201327"},
+    {"num": 8,  "title": "\u201cNeither Do I Condemn You\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "The Woman Caught in Adultery \u2022 John 8:1\u201311"},
+    {"num": 9,  "title": "Were Not Our Hearts Burning?", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "The Road to Emmaus \u2022 Luke 24:13\u201335"},
+    {"num": 10, "title": "\u201cFollow Me\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "The Calling of the First Disciples \u2022 John 1:35\u201351"},
+    {"num": 11, "title": "\u201cDo You See This Woman?\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "Simon\u2019s House \u2022 Luke 7:36\u201350"},
+    {"num": 12, "title": "\u201cDo You Love Me?\u201d", "part": 2, "part_title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "subtitle": "Peter\u2019s Restoration \u2022 John 21:1\u201319"},
+    {"num": 13, "title": "\u201cDo You Understand What You Are Reading?\u201d", "part": 3, "part_title": "The Pattern Continued: Bridge Moments in Acts", "subtitle": "Philip & the Ethiopian \u2022 Acts 8:26\u201340"},
+    {"num": 14, "title": "\u201cMen of Athens\u201d", "part": 3, "part_title": "The Pattern Continued: Bridge Moments in Acts", "subtitle": "Paul on Mars Hill \u2022 Acts 17:16\u201334"},
+    {"num": 15, "title": "\u201cWhat Must I Do to Be Saved?\u201d", "part": 3, "part_title": "The Pattern Continued: Bridge Moments in Acts", "subtitle": "The Philippian Jailer \u2022 Acts 16:16\u201334"},
+    {"num": 16, "title": "Learning to Listen", "part": 4, "part_title": "The Practice: Living with Bridge Moment Eyes", "subtitle": "Hearing What People Are Really Saying \u2022 James 1:19"},
+    {"num": 17, "title": "From Natural to Spiritual", "part": 4, "part_title": "The Practice: Living with Bridge Moment Eyes", "subtitle": "Building the Bridge \u2022 1 Peter 3:15"},
+    {"num": 18, "title": "Seasoned with Salt", "part": 4, "part_title": "The Practice: Living with Bridge Moment Eyes", "subtitle": "Speaking Truth with Grace \u2022 Colossians 4:6"},
+    {"num": 19, "title": "When They Walk Away", "part": 4, "part_title": "The Practice: Living with Bridge Moment Eyes", "subtitle": "Handling Rejection with Grace \u2022 1 Corinthians 3:6\u20137"},
+    {"num": 20, "title": "The Heart Behind the Words", "part": 4, "part_title": "The Practice: Living with Bridge Moment Eyes", "subtitle": "Love as the Only Foundation \u2022 1 Corinthians 13:1\u20133"},
 ]
 
 DOCX_FILES = {
@@ -331,7 +331,7 @@ def extract_chapter(docx_path, ch_num):
                 continue
 
             # Regular body paragraph
-            html_text = runs_to_html(runs)
+            html_text = runs_to_html(runs, strip_body_emphasis=True)
             elements.append({'type': 'paragraph', 'text': text, 'html': html_text})
 
         elif tag == 'tbl':
@@ -354,8 +354,22 @@ def extract_chapter(docx_path, ch_num):
         'chapter_purpose': chapter_purpose,
     }
 
-def runs_to_html(runs):
-    """Convert a list of runs to HTML with formatting."""
+def runs_to_html(runs, strip_body_emphasis=False):
+    """Convert a list of runs to HTML with formatting.
+
+    If strip_body_emphasis is True and ALL runs are bold+italic,
+    the formatting is treated as a document-wide style artifact
+    and stripped (the whole paragraph was styled, not emphasized).
+    """
+    # Check if we should strip: all runs must be bold+italic
+    if strip_body_emphasis and runs and all(r['bold'] and r['italic'] for r in runs):
+        parts = []
+        for r in runs:
+            text = html_module.escape(r['text'])
+            text = text.replace('\n', '<br>')
+            parts.append(text)
+        return ''.join(parts)
+
     parts = []
     for r in runs:
         text = html_module.escape(r['text'])
@@ -676,6 +690,54 @@ def get_chapter_css():
       font-size: 0.8rem;
     }
 
+    /* Three Names Revisit (Chapter 20) */
+    .three-names-revisit {
+      margin-bottom: 32px;
+      padding: 28px 24px;
+      background: rgba(6,255,165,0.06);
+      border: 2px solid rgba(6,255,165,0.3);
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .three-names-revisit h2 {
+      color: var(--accent);
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      text-shadow: 0 0 15px var(--accent-glow);
+    }
+    .three-names-revisit .revisit-prompt {
+      color: var(--text-secondary);
+      font-style: italic;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      line-height: 1.7;
+    }
+    .three-names-revisit .revisit-names {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .three-names-revisit .revisit-name {
+      padding: 12px 24px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.35);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 1.3rem;
+      font-weight: 600;
+      min-width: 120px;
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+    .three-names-revisit .revisit-name.empty {
+      color: var(--text-muted);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 1rem;
+    }
+
     /* Navigation */
     .nav-controls {
       display: flex;
@@ -760,6 +822,12 @@ def get_chapter_css():
       font-size: 1.05rem;
       color: var(--text-secondary);
       margin-bottom: 6px;
+    }
+    .chapter-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 6px;
     }
 
     /* Epigraph */
@@ -1251,9 +1319,24 @@ def get_chapter_js(ch_num):
       }}
     }});
 
+    // Three Names Revisit (Chapter 20)
+    function renderRevisitNames() {{
+      const container = document.getElementById('revisit-names');
+      if (!container) return;
+      const names = loadNames();
+      container.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {{
+        const div = document.createElement('div');
+        div.className = 'revisit-name' + (names[k] ? '' : ' empty');
+        div.textContent = names[k] || 'Not yet named';
+        container.appendChild(div);
+      }});
+    }}
+
     // Init
     document.addEventListener('DOMContentLoaded', function() {{
       renderNamesBanner();
+      renderRevisitNames();
       markVisited();
       updateCompleteBtn();
       initNotes();
@@ -1278,6 +1361,7 @@ def generate_chapter_html(ch_meta, content):
     title = ch_meta['title']
     part = ch_meta['part']
     part_title = ch_meta['part_title']
+    subtitle = ch_meta.get('subtitle', '')
 
     prev_link = f'chapter-{ch_num-1:02d}.html' if ch_num > 1 else '#'
     next_link = f'chapter-{ch_num+1:02d}.html' if ch_num < 20 else 'appendix-a.html'
@@ -1308,6 +1392,16 @@ def generate_chapter_html(ch_meta, content):
     if content.get('chapter_purpose'):
         purpose_html = f'''
       <div class="chapter-purpose">{html_module.escape(content["chapter_purpose"])}</div>'''
+
+    # Chapter 20 special: Three Names Revisited
+    revisit_html = ''
+    if ch_num == 20:
+        revisit_html = '''
+      <section class="three-names-revisit">
+        <h2>Your Three Names &mdash; Revisited</h2>
+        <p class="revisit-prompt">You wrote these names at the beginning of this journey. They have traveled with you through every chapter, every principle, every bridge moment. As you read this final chapter, hold them close.</p>
+        <div class="revisit-names" id="revisit-names"></div>
+      </section>'''
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -1353,9 +1447,11 @@ def generate_chapter_html(ch_meta, content):
         <p class="part-title">{html_module.escape(part_title)}</p>
         <p class="chapter-num">Chapter {ch_num}</p>
         <h1>{html_module.escape(title)}</h1>
+        {f'<p class="chapter-subtitle">{html_module.escape(subtitle)}</p>' if subtitle else ''}
       </header>
 {epigraph_html}
 {purpose_html}
+{revisit_html}
 
       <div class="content">
 {body_html}
@@ -1508,9 +1604,9 @@ def generate_index_html():
 
     part_info = {
         1: {"title": "The Foundation: Why Words Matter", "chapters": "Chapters 1\u20133"},
-        2: {"title": "Jesus, the Master of the Moment", "chapters": "Chapters 4\u201312"},
-        3: {"title": "Following the Pattern", "chapters": "Chapters 13\u201315"},
-        4: {"title": "Developing Your Voice", "chapters": "Chapters 16\u201320"},
+        2: {"title": "The Master\u2019s Method: Jesus\u2019 Bridge Moments", "chapters": "Chapters 4\u201312"},
+        3: {"title": "The Pattern Continued: Bridge Moments in Acts", "chapters": "Chapters 13\u201315"},
+        4: {"title": "The Practice: Living with Bridge Moment Eyes", "chapters": "Chapters 16\u201320"},
     }
 
     for ch in CHAPTERS:
@@ -1528,9 +1624,10 @@ def generate_index_html():
         <div class="lesson-grid">''')
 
         n = ch['num']
+        subtitle_html = f'\n            <div class="lesson-ref">{html_module.escape(ch["subtitle"])}</div>' if ch.get("subtitle") else ''
         parts_html.append(f'''          <a href="chapter-{n:02d}.html" class="lesson-card" data-ch="{n}">
             <span class="lesson-num">Chapter {n}</span>
-            <div class="lesson-title">{html_module.escape(ch["title"])}</div>
+            <div class="lesson-title">{html_module.escape(ch["title"])}</div>{subtitle_html}
             <span class="progress-dot" id="dot-{n}"></span>
           </a>''')
 
@@ -1820,6 +1917,12 @@ def generate_index_html():
       color: var(--text-primary);
       font-size: 0.95rem;
       margin: 4px 0;
+    }}
+    .lesson-ref {{
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-top: 2px;
     }}
     .progress-dot {{
       position: absolute;
@@ -2141,6 +2244,14 @@ def main():
         para_count = sum(1 for e in content['elements'] if e['type'] == 'paragraph')
 
         html = generate_chapter_html(ch_meta, content)
+
+        # Docx errata: Ch 12 says "Stephen" and "Philip" but should be "Philip" and "Paul"
+        if ch_num == 12:
+            html = html.replace(
+                'a man named Stephen, a man named Philip',
+                'a man named Philip, a man named Paul',
+            )
+
         filename = f'chapter-{ch_num:02d}.html'
         with open(os.path.join(OUTPUT_DIR, filename), 'w', encoding='utf-8') as f:
             f.write(html)
