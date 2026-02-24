@@ -1799,6 +1799,14 @@ def generate_index_html():
       position: relative;
       z-index: 1;
     }}
+    .header-logo {{
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 12px rgba(6,255,165,0.3));
+    }}
     h1 {{
       font-size: 2.3rem;
       color: var(--accent);
@@ -2060,6 +2068,7 @@ def generate_index_html():
       .glass-page-inner {{ padding: 20px 14px; border-radius: 14px; }}
       .glass-tab {{ width: 60px; height: 10px; bottom: -8px; }}
       header {{ margin-bottom: 20px; padding-bottom: 16px; }}
+      .header-logo {{ width: 60px; height: 60px; margin-bottom: 8px; }}
       h1 {{ font-size: 1.5rem; }}
       .subtitle {{ font-size: 0.95rem; }}
       .return-link {{ padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center; }}
@@ -2082,6 +2091,7 @@ def generate_index_html():
   <div class="glass-page-wrapper">
     <div class="glass-page-inner">
       <header>
+        <img src="logo.png" alt="Bridge Moments Logo" class="header-logo">
         <h1>Bridge Moments</h1>
         <p class="subtitle">Making the Most of Every Opportunity</p>
         <p class="stats">
