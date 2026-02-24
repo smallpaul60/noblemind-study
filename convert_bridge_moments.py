@@ -1174,16 +1174,85 @@ def get_chapter_css():
       a { color: #333; text-decoration: none; }
     }
 
+    /* Tablet */
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+
     /* Mobile */
     @media (max-width: 600px) {
-      body { padding: 15px 10px; }
-      .glass-page-inner { padding: 1.5rem 1.2rem; }
-      h1 { font-size: 1.5rem; }
-      .nav-controls { flex-direction: column; }
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+
+      /* Three Names Banner */
+      .three-names-banner { flex-direction: column; align-items: flex-start; padding: 10px 12px; gap: 8px; }
+      .three-names-edit { gap: 6px; }
+      .three-names-edit input { min-width: 0; flex-basis: 100%; }
+
+      /* Three Names Revisit (Ch 20) */
+      .three-names-revisit { padding: 20px 16px; }
+      .three-names-revisit h2 { font-size: 1.2rem; }
+      .three-names-revisit .revisit-names { gap: 10px; }
+      .three-names-revisit .revisit-name { font-size: 1.05rem; padding: 10px 16px; min-width: 90px; }
+
+      /* Navigation */
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
       .nav-controls select { width: 100%; }
+
+      /* Header */
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      .part-label { font-size: 0.75rem; letter-spacing: 2px; }
+      .part-title { font-size: 0.85rem; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .chapter-subtitle { font-size: 0.85rem; }
+
+      /* Epigraph */
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+
+      /* Chapter purpose */
+      .chapter-purpose { padding: 12px 14px; margin-bottom: 20px; font-size: 0.95rem; }
+
+      /* Body content */
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.1rem; margin: 18px 0 10px; }
+
+      /* Scripture blockquotes */
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+
+      /* Callout boxes */
+      .principle-box, .bridge-box, .exercise-box { padding: 14px 16px; margin: 18px 0; }
+
+      /* Data tables */
+      .data-table { font-size: 0.8rem; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .data-table th, .data-table td { padding: 8px 10px; }
+
+      /* Study Questions */
+      .study-questions-section { margin-top: 28px; }
+      .study-questions-header { padding: 12px 14px; min-height: 44px; }
+      .study-questions-header h2 { font-size: 1.1rem; }
+      .study-question { padding: 12px; }
+      .study-question textarea { font-size: 1rem; min-height: 80px; }
+
+      /* Key Scriptures */
+      .key-scriptures { padding: 12px 14px; }
+
+      /* Mark Complete */
+      .mark-complete { min-height: 44px; padding: 12px; }
+
+      /* Footer */
+      footer { margin-top: 28px; }
       .footer-nav { flex-direction: column; gap: 10px; }
-      .footer-nav a { text-align: center; }
-      .three-names-banner { flex-direction: column; align-items: flex-start; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
     }'''
 
 def get_chapter_js(ch_num):
@@ -1979,12 +2048,32 @@ def generate_index_html():
       .lesson-num {{ color: #2B4C7E; }}
       .lesson-title {{ color: #333; }}
     }}
+    @media (max-width: 900px) {{
+      body {{ padding: 20px 12px; }}
+      .glass-page-inner {{ padding: 30px 24px; }}
+    }}
     @media (max-width: 600px) {{
-      body {{ padding: 15px 10px; }}
-      .glass-page-inner {{ padding: 25px 20px; }}
-      h1 {{ font-size: 1.7rem; }}
-      .lesson-grid {{ grid-template-columns: 1fr; }}
+      html {{ -webkit-text-size-adjust: 100%; }}
+      body {{ padding: 10px 6px; font-size: 1rem; }}
+      .glass-page-wrapper {{ border-radius: 16px; padding: 2px; }}
+      .glass-page-inner {{ padding: 20px 14px; border-radius: 14px; }}
+      .glass-tab {{ width: 60px; height: 10px; bottom: -8px; }}
+      header {{ margin-bottom: 20px; padding-bottom: 16px; }}
+      h1 {{ font-size: 1.5rem; }}
+      .subtitle {{ font-size: 0.95rem; }}
+      .return-link {{ padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center; }}
+      .three-names-card {{ padding: 18px 14px; }}
+      .three-names-card h2 {{ font-size: 1.1rem; }}
       .names-inputs {{ flex-direction: column; }}
+      .names-inputs input {{ padding: 12px 14px; font-size: 1rem; min-height: 44px; }}
+      .progress-bar {{ padding: 12px 14px; }}
+      .key-verse {{ padding: 16px 14px; }}
+      .key-verse blockquote {{ font-size: 0.95rem; }}
+      .part-header {{ flex-direction: column; gap: 4px; align-items: flex-start; }}
+      .part-header h2 {{ font-size: 1.15rem; }}
+      .lesson-grid {{ grid-template-columns: 1fr; gap: 10px; }}
+      .lesson-card {{ padding: 14px 16px; min-height: 44px; }}
+      .lesson-ref {{ font-size: 0.75rem; }}
     }}
   </style>
 </head>
