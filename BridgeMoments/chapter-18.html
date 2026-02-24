@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 18: Seasoned with Salt | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html" selected>Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 4</p>
+        <p class="part-title">Developing Your Voice</p>
+        <p class="chapter-num">Chapter 18</p>
+        <h1>Seasoned with Salt</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Let your speech always be with grace, as though seasoned with salt, so that you will know how you should respond to each person.”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To explore the salt metaphor from Colossians 4:6 in depth. Salt was the most versatile substance in the ancient world — it preserved, it flavored, and it created thirst. Christian speech is to do all three: preserve truth, make it attractive, and create a desire for more. This chapter examines what seasoned speech looks like in practice, what happens when there is too much salt or too little, and how to calibrate the depth of truth to the depth of the relationship.</div>
+
+      <div class="content">
+        <p><em>Speaking Truth with Grace  •  Colossians 4:6; Ephesians 4:15</em></p>
+        <h2>What Salt Did in the Ancient World</h2>
+        <p><strong><em>When Paul wrote that our speech should be “seasoned with salt,” his readers would have understood the metaphor immediately because salt was woven into every part of daily life. Three functions of salt are especially relevant to this study.</em></strong></p>
+        <h3>1. Salt Preserves</h3>
+        <p><strong><em>In a world without refrigeration, salt was the primary means of preserving food. Meat rubbed with salt resisted decay. Fish packed in salt could be transported across the empire. Salt arrested corruption and kept what was good from spoiling.</em></strong></p>
+        <p><strong><em>Applied to speech: your words should preserve truth. In a world where moral categories are dissolving, where right and wrong are treated as personal preferences, where the clear teaching of Scripture is softened or abandoned to avoid offense — </em></strong><strong><em>salty speech preserves what is true</em></strong><strong><em>. It names sin as sin. It affirms the resurrection as historical fact. It insists that Jesus is the only way to the Father (John 14:6) even when the culture finds exclusivity offensive. Preservation is not popular. But without it, the truth decays.</em></strong></p>
+        <h3>2. Salt Flavors</h3>
+        <p><strong><em>Salt makes food taste like itself. Unsalted meat is bland. Unsalted bread is flat. Salt does not change the nature of the food. It brings out what is already there. It makes the food more fully itself.</em></strong></p>
+        <p><strong><em>Applied to speech: your words should make the truth attractive. The gospel is not bland. It is the most extraordinary message in human history — that the God who made the universe became flesh, died for sinners, and rose from the dead. If that message sounds boring when you share it, the problem is not the message. It is the delivery. </em></strong><strong><em>Salty speech brings out the natural flavor of the gospel</em></strong><strong><em>. It presents truth in a way that is vivid, specific, honest, and real. Jesus did not teach in abstractions. He used water, bread, seeds, sheep, coins, children, and charcoal fires. His words had texture. They tasted like something.</em></strong></p>
+        <h3>3. Salt Creates Thirst</h3>
+        <p><strong><em>This is the function most relevant to bridge-building. Salt makes you want to drink. It creates a desire for something you did not know you needed. You eat salted food and immediately you want water.</em></strong></p>
+        <p><strong><em>Applied to speech: </em></strong><strong><em>salty speech creates a thirst for more</em></strong><strong><em>. It does not dump the entire ocean of truth on someone in a single conversation. It gives them a taste — a single insight, a provocative question, a story that lingers — and leaves them wanting more. The living water metaphor in John 4 was salt. “Fishers of men” was salt. “Do you understand what you are reading?” was salt. Each phrase created a thirst that could only be satisfied by going deeper. The goal of salty speech is not to deliver the entire gospel in one sitting. It is to leave the person thirstier than you found them.</em></strong></p>
+        <div class="principle-box">
+<p><strong>Seasoned speech preserves truth without compromise, makes truth attractive without distortion, and creates thirst without manipulation. All three functions must be present. Preservation without flavor produces harshness. Flavor without preservation produces flattery. And thirst-creation without truthfulness is just salesmanship. Salt that does all three is the speech Colossians 4:6 describes.</strong></p>
+        </div>
+        <h2>Too Much Salt and Too Little</h2>
+        <p><strong><em>Salt is powerful precisely because it is used in measure. Too much salt ruins the food. Too little salt leaves the food vulnerable to decay. The calibration matters.</em></strong></p>
+        <h3>Too Much Salt</h3>
+        <p><strong><em>Too much salt in conversation looks like this: every interaction with you becomes a theological confrontation. Every lunch break is an evangelistic opportunity you cannot let pass. Every tragedy in the news becomes a sermon illustration you deliver whether anyone asked or not. Your coworkers avoid you. Your neighbors change the subject. Your family members tense up when you walk into the room — not because the truth offends them, but because you have no other setting. You are always </em></strong><strong><em>on</em></strong><strong><em>. You are always pressing. You have confused faithfulness with relentlessness.</em></strong></p>
+        <p><strong><em>Jesus did not do this. He went to parties. He attended weddings. He cooked breakfast. He asked people about their lives before He addressed their souls. He had meals where the text records no spiritual content at all. There were moments of intensity and moments of rest. The intensity was powerful precisely because it was not constant.</em></strong></p>
+        <h3>Too Little Salt</h3>
+        <p><strong><em>Too little salt in conversation looks like this: you are a Christian, and the people closest to you do not know it. You have maintained such a careful neutrality on spiritual matters that your coworkers, neighbors, and friends have no idea what you believe. You have mistaken silence for wisdom and absence for grace. You have relationships that are five, ten, twenty years deep, and the subject of faith has never come up — not because the opportunity never presented itself, but because you let every opportunity pass in the name of not wanting to be “that person.”</em></strong></p>
+        <p><strong><em>Jesus warned against this directly: </em></strong><em>“You are the salt of the earth; but if the salt has become tasteless, how can it be made salty again? It is no longer good for anything, except to be thrown out and trampled under foot by men”</em><strong><em> (Matthew 5:13). Salt that has lost its saltiness is useless. A Christian whose speech is indistinguishable from everyone else’s has nothing to preserve and nothing to flavor. The world does not need more bland conversation. It needs words that taste like truth.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Calibration Question</strong></p>
+<p>Ask yourself honestly: Am I the person people avoid because every conversation becomes a gospel presentation? Or am I the person whose faith is invisible because I never let it into my speech? Most of us lean one direction. Knowing which direction you lean is the first step toward calibrating your salt. The goal is speech that is consistently flavored with truth — not overwhelmingly salty, not flavorlessly bland, but recognizably seasoned.</p>
+        </div>
+        <h2>Truth in Love: The Ephesians 4:15 Principle</h2>
+        <blockquote class="scripture"><p>“But speaking the truth in love, we are to grow up in all aspects into Him who is the head, even Christ.”</p>
+        </blockquote>
+        <p><strong><em>Paul’s phrase in Ephesians adds a critical element to the salt metaphor: the medium through which truth must travel is </em></strong><strong><em>love</em></strong><strong><em>. Truth spoken without love is a weapon. Love spoken without truth is sentimentality. The combination — truth </em></strong><strong><em>in</em></strong><strong><em> love — is the only speech that produces growth.</em></strong></p>
+        <p><strong><em>Examine how this operated in the encounters we have studied:</em></strong></p>
+        <p><strong><em>Jesus told the Samaritan woman the truth about her husbands </em></strong><strong><em>— but He did so in the context of a conversation where He had already treated her as a person worth talking to, crossed social barriers to reach her, and offered her a gift. The truth was delivered inside the relationship, not hurled from outside it.</em></strong></p>
+        <p><strong><em>Jesus told the rich young ruler the truth about his idol </em></strong><strong><em>— but Mark tells us that He first “looked at him and loved him” (Mark 10:21). The love preceded the truth. The truth was credible because the love was visible.</em></strong></p>
+        <p><strong><em>Jesus told Simon the truth about his judgmental heart </em></strong><strong><em>— but He did it through a story that gave Simon the dignity of arriving at the truth himself. The delivery was as loving as the content was honest.</em></strong></p>
+        <p><strong><em>Paul told the Athenians the truth about repentance, judgment, and resurrection </em></strong><strong><em>— but only after building a bridge of genuine respect, intellectual engagement, and cultural awareness. The hard truth came last, carried across a bridge of honor.</em></strong></p>
+        <p><strong><em>In every case, the truth was not softened. It was not diluted. It was not withheld. But it was delivered through a medium of genuine care for the person receiving it. This is what seasoned speech looks like: truth that is fully true and fully loving, delivered at the right time, in the right way, to the right person.</em></strong></p>
+        <h2>Matching the Depth of Truth to the Depth of Relationship</h2>
+        <p><strong><em>One of the most practical skills in seasoned speech is learning to calibrate how much truth a given relationship can bear. This is not about withholding truth. It is about pacing it. Jesus Himself practiced this:</em></strong></p>
+        <blockquote class="scripture"><p>“I have many more things to say to you, but you cannot bear them now.”</p>
+        </blockquote>
+        <p><strong><em>Even with His own disciples — men who had walked with Him for three years — Jesus acknowledged that there were truths they were not yet ready to receive. He did not dump everything at once. He paced the revelation to their capacity. This is not compromise. It is </em></strong><strong><em>wisdom</em></strong><strong><em>. A farmer does not harvest a field the day after planting. A teacher does not give the final exam on the first day of class. And a bridge-builder does not deliver the deepest truths to someone they met yesterday.</em></strong></p>
+        <p><strong><em>Consider a practical framework:</em></strong></p>
+        <p><strong><em>New acquaintances: </em></strong><strong><em>The relationship can bear your story, your kindness, your character, and perhaps a single honest observation about faith. It cannot yet bear confrontation, correction, or deep theological challenge. Salt at this level is a flavor, not a quantity. Let them taste something different in you.</em></strong></p>
+        <p><strong><em>Developing friendships: </em></strong><strong><em>The relationship can bear honest conversation about what you believe and why. It can bear a question like “Have you ever thought about that?” or “Can I share what helped me?” It can bear a gentle challenge if the trust is established. Salt at this level is a seasoning — woven naturally into conversation.</em></strong></p>
+        <p><strong><em>Deep relationships: </em></strong><strong><em>The relationship can bear direct truth, spoken with love, about specific issues. It can bear “I think you’re making a mistake,” or “Have you considered what Scripture says about this?” It can bear the kind of truth that the rich young ruler received — because the love has been demonstrated over time. Salt at this level is a preservation — protecting the relationship and the person from decay.</em></strong></p>
+        <div class="principle-box">
+<p><strong>Match the depth of your truth to the depth of your relationship. A stranger can receive your testimony. A friend can receive your perspective. A loved one can receive your correction. Do not give correction-level truth to testimony-level relationships. And do not give testimony-level truth to correction-level relationships. Both errors miscalibrate the salt.</strong></p>
+        </div>
+        <h2>Developing the Skill: Practical Exercises</h2>
+        <div class="exercise-box">
+<p><strong>Exercise 1: The Salt Audit</strong></p>
+<p>Review your conversations over the past week. On a scale from ‘too much salt’ to ‘too little salt,’ where did most of your conversations land? Were there moments where you could have seasoned a conversation with truth but did not? Were there moments where you pushed too hard? Identify one conversation from each category and consider how it could have been seasoned differently.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Exercise 2: The Thirst Test</strong></p>
+<p>This week, in one conversation where spiritual truth is relevant, try to create thirst rather than deliver a complete answer. Share one insight, one observation, or one question that opens a door — and then stop. Do not walk through the door yourself. Let the other person decide whether to step forward. Notice whether your restraint creates more interest than a full explanation would have.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Exercise 3: The Relationship Map</strong></p>
+<p>Write down the names of five people you interact with regularly. For each person, identify the depth of the relationship: new acquaintance, developing friendship, or deep relationship. Then ask: what level of truth can this relationship currently bear? Are you over-salting any of these relationships? Under-salting any of them? Write a specific, calibrated next step for one person.</p>
+        </div>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 2 (The Kairos Principle): </em></strong><strong><em>Chapter 2 exegeted the phrase “seasoned with salt” as part of the Colossians 4:5–6 framework. This chapter unpacks that phrase fully and equips the reader to practice it. The theoretical foundation was laid in Chapter 2; the practical application is here.</em></strong></p>
+        <p><strong><em>Connection to Chapter 7 (Rich Young Ruler): </em></strong><strong><em>Jesus loved the man first and then spoke the hard truth. The love was visible. The truth was clear. Neither was compromised. This is seasoned speech at its most costly: truth that risks rejection because love demands honesty.</em></strong></p>
+        <p><strong><em>Connection to Chapter 8 (Woman Caught in Adultery): </em></strong><strong><em>Grace before truth. “I do not condemn you” before “sin no more.” The ordering was the salt: grace made the truth receivable. Without the grace, the truth would have been just another condemnation. With it, the truth became direction.</em></strong></p>
+        <p><strong><em>Connection to Chapter 14 (Mars Hill): </em></strong><strong><em>Paul’s speech was salt in its most concentrated intellectual form. The altar to the Unknown God created thirst. The quotation of pagan poets flavored the message for the audience. The proclamation of resurrection preserved the truth without compromise. All three salt functions in a single speech.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>Colossians 4:6 • Ephesians 4:15 • Matthew 5:13 • John 14:6 • John 16:12 • Mark 10:21</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Salt preserves, flavors, and creates thirst. Which of these three functions is most needed in your speech right now? Are you better at preservation (holding the line on truth), flavoring (making truth attractive), or thirst-creation (leaving people wanting more)? Which function needs the most development?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus warned that salt which has lost its saltiness is ‘no longer good for anything’ (Matthew 5:13). What does saltless Christian speech look like? Have you encountered it? How does speech that is indistinguishable from the world’s speech fail the people around you?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">The ‘too much salt’ section describes a person whose every conversation becomes a theological confrontation. The ‘too little salt’ section describes a person whose faith is invisible. Which direction do you naturally lean? What would it look like to move toward the center?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Ephesians 4:15 says to speak ‘the truth in love.’ Consider a difficult truth you need to share with someone. How would you deliver that truth if love were the only medium? What would change about your timing, your tone, your setting, and your words?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">Jesus told His own disciples, ‘I have many more things to say to you, but you cannot bear them now’ (John 16:12). How does this principle of pacing apply to your relationships? Is there someone in your life to whom you are delivering correction-level truth when the relationship is only at testimony-level depth?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">The ‘Thirst Test’ exercise asks you to create thirst rather than deliver a complete answer. Why is restraint sometimes more powerful than thoroughness? When has someone created spiritual thirst in you by saying less rather than more?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. For each person, assess the current depth of the relationship and identify what level of salt it can bear. Write a specific, calibrated next step: not the most you could say, but the right amount for where the relationship is now.</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-17.html">&larr; Chapter 17</a>
+          <a href="chapter-19.html">Chapter 19 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 18;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

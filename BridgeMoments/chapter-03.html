@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3: Love, Not Agenda | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html" selected>Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 1</p>
+        <p class="part-title">The Foundation: Why Words Matter</p>
+        <p class="chapter-num">Chapter 3</p>
+        <h1>Love, Not Agenda</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“If I speak with the tongues of men and of angels, but do not have love, I have become a noisy gong or a clanging cymbal.”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To establish that the entire framework of Colossians 4:5–6 — the wisdom, the grace, the salt, the readiness — is rendered meaningless without genuine love for the person in front of you. This chapter is the guardrail for everything that follows. Technique without love is manipulation. Skill without compassion is performance. This is where we examine the heart before we train the hands.</div>
+
+      <div class="content">
+        <p><em>The Heart Check</em></p>
+        <h2>The Most Important Thing You Will Read in This Book</h2>
+        <p><strong><em>If you skip this chapter, put the book down. Everything else will be wasted.</em></strong></p>
+        <p><strong><em>That is not an overstatement. It is a conclusion drawn directly from Scripture, and it is the single most important principle in this entire study. You can master every technique of intentional conversation. You can memorize the patterns of Jesus’ encounters. You can learn to identify kairos moments with precision and speak with the eloquence of an angel. And if you do all of that without love, you have accomplished precisely nothing.</em></strong></p>
+        <p><strong><em>Paul said so. And he did not say it gently:</em></strong></p>
+        <blockquote class="scripture"><p>“If I speak with the tongues of men and of angels, but do not have love, I have become a noisy gong or a clanging cymbal. If I have the gift of prophecy, and know all mysteries and all knowledge; and if I have all faith, so as to remove mountains, but do not have love, I am nothing. And if I give all my possessions to feed the poor, and if I surrender my body to be burned, but do not have love, it profits me nothing.”</p>
+        </blockquote>
+        <p><strong><em>Read the progression carefully. Paul is not listing weak things that need love to supplement them. He is listing </em></strong><strong><em>extraordinary</em></strong><strong><em> things — the tongues of angels, prophetic knowledge, mountain-moving faith, total self-sacrifice — and declaring that without love, each of them is </em></strong><strong><em>nothing</em></strong><strong><em>. Not “less effective.” Not “diminished.” </em></strong><strong><em>Nothing.</em></strong><strong><em> The Greek in verse 2 is emphatic: </em></strong><strong><em>outhen eimi</em></strong><strong><em> — “I am nothing.” Not “I have done nothing useful” but “I </em></strong><strong><em>am</em></strong><strong><em> nothing.” Without love, the person themselves is reduced, not merely their efforts.</em></strong></p>
+        <p><strong><em>And in verse 1, the image is devastating for anyone who speaks publicly or privately about spiritual things: a noisy gong. A clanging cymbal. Sound without substance. Volume without value. Noise that fills the room and makes people wince. That is what your bridge moments become if love is not the foundation from which they are built.</em></strong></p>
+        <p><strong><em>This chapter exists to make sure that does not happen.</em></strong></p>
+        <h2>The Difference People Can Feel</h2>
+        <p><strong><em>Here is a truth that does not require a Bible verse to establish, because every human being has experienced it: people can tell the difference between being loved and being targeted.</em></strong></p>
+        <p><strong><em>You know the feeling. You are in a conversation with someone, and you gradually realize that they are not actually interested in you. They are interested in getting somewhere. Every question they ask is a setup. Every response you give is a stepping stone toward whatever point they are determined to make. You are not a person to them. You are an audience. You are a prospect. You are a project.</em></strong></p>
+        <p><strong><em>It does not matter how polite they are. It does not matter how well they listen on the surface. Something in the exchange feels transactional, and once you feel it, you shut down. You may continue the conversation out of courtesy, but internally you have withdrawn. The door that was cracked open is now firmly closed. And here is the painful irony: the person who was trying so hard to reach you is the one who closed it.</em></strong></p>
+        <p><strong><em>This happens in evangelism more often than most Christians want to admit. A believer strikes up a conversation with a neighbor, a coworker, a stranger. The conversation appears genuine at first — questions about their life, expressions of interest, warmth. But then the turn comes, and it becomes clear that the entire conversation was a funnel. The warmth was a strategy. The interest was a technique. The person on the receiving end does not think, “What a compelling message.” They think, “I was being worked.”</em></strong></p>
+        <p><strong><em>And they are usually right.</em></strong></p>
+        <p><strong><em>This is not a criticism of the desire to share the gospel. That desire is good and right and commanded. The problem is not the destination. The problem is treating the person as a means to get there rather than as someone created in the image of God who deserves to be valued for their own sake, whether they ever respond to the gospel or not.</em></strong></p>
+        <h2>Paul’s Model: Not Just the Gospel, But Our Very Lives</h2>
+        <p><strong><em>If anyone in the New Testament had reason to be agenda-driven, it was Paul. He was an apostle with a divine commission. He had seen the risen Christ. He carried the weight of knowing that people were eternally lost without the gospel. If anyone could justify treating conversations as mere delivery mechanisms for truth, it was him.</em></strong></p>
+        <p><strong><em>But listen to how he describes his approach to the church in Thessalonica:</em></strong></p>
+        <blockquote class="scripture"><p>“But we proved to be gentle among you, as a nursing mother tenderly cares for her own children. Having so fond an affection for you, we were well-pleased to impart to you not only the gospel of God but also our own lives, because you had become very dear to us.”</p>
+        </blockquote>
+        <p><strong><em>Stop and absorb the language Paul uses. </em></strong><em>“As a nursing mother tenderly cares for her own children.”</em><strong><em> This is not strategy. This is not technique. This is visceral, self-giving, intimate love. A nursing mother does not feed her child because she has an agenda. She feeds her child because the child is </em></strong><strong><em>hers</em></strong><strong><em>, and she loves the child, and the child needs what only she can give. That is the image Paul chose for how he related to the people he was trying to reach.</em></strong></p>
+        <p><strong><em>And then the phrase that should become a banner over everything we do in this study: </em></strong><em>“we were well-pleased to impart to you not only the gospel of God but also our own lives.”</em><strong><em> Paul did not hand them a message and walk away. He gave them </em></strong><strong><em>himself</em></strong><strong><em>. His time. His presence. His vulnerability. His daily life. The gospel was embedded in a relationship, not dropped from a distance.</em></strong></p>
+        <p><strong><em>He continues in the same passage:</em></strong></p>
+        <blockquote class="scripture"><p>“For you recall, brethren, our labor and hardship, how working night and day so as not to be a burden to any of you, we proclaimed to you the gospel of God. You are witnesses, and so is God, how devoutly and uprightly and blamelessly we behaved toward you believers; just as you know how we were exhorting and encouraging and imploring each one of you as a father would his own children.”</p>
+        </blockquote>
+        <p><strong><em>Notice the parental metaphors: a nursing mother in verse 7, a father in verse 11. Paul is describing the two sides of love — tender nurture and devoted guidance. And notice </em></strong><strong><em>each one of you</em></strong><strong><em> at the end. There it is again — the same principle we saw in Colossians 4:6. Not a mass approach. Each one. Individually. Personally. Because that is how love works. Love does not address crowds. Love sees faces.</em></strong></p>
+        <p><strong><em>The Thessalonians did not merely hear the gospel from Paul. They experienced it. It came wrapped in a human life that matched the message. And that is why it took root. Paul’s words had power not because of his rhetorical skill but because his life authenticated every syllable.</em></strong></p>
+        <h2>Jesus: Driven by Compassion, Not by Quota</h2>
+        <p><strong><em>When we turn to Jesus — the one whose conversations we will study for the next nine chapters — the Gospels are explicit about what drove Him. It was not efficiency. It was not mission strategy. It was not a desire to prove a point or win an argument. It was compassion.</em></strong></p>
+        <blockquote class="scripture"><p>“Seeing the people, He felt compassion for them, because they were distressed and dispirited like sheep without a shepherd.”</p>
+        </blockquote>
+        <p><strong><em>The word translated “felt compassion” is </em></strong><strong><em>esplanchnisthe</em></strong><strong><em> — from </em></strong><strong><em>splanchna</em></strong><strong><em>, meaning the inner organs, the gut. This is not a mild feeling of sympathy. It is a word that describes something that grips you in your core. When Jesus looked at people, He did not see evangelism prospects. He saw sheep without a shepherd. He saw people who were </em></strong><strong><em>distressed</em></strong><strong><em> — the Greek </em></strong><strong><em>eskulmenoi</em></strong><strong><em> means harassed, troubled, mangled. And He saw people who were </em></strong><strong><em>dispirited</em></strong><strong><em> — </em></strong><strong><em>errimmenoi</em></strong><strong><em>, thrown down, cast aside. His response was not a plan. It was a visceral ache.</em></strong></p>
+        <p><strong><em>This pattern repeats throughout His ministry:</em></strong></p>
+        <p><strong><em>When His friend Lazarus died, Jesus did not deliver a theology lecture to the grieving sisters. He wept (John 11:35). Two words in English. One word in Greek: </em></strong><strong><em>edakrusen</em></strong><strong><em>. He burst into tears. The God who had the power to raise Lazarus from the dead — and was about to do exactly that — first stood with the people who were hurting and shared their grief. He could have skipped straight to the miracle. He did not. Because love does not skip over pain to get to the point.</em></strong></p>
+        <p><strong><em>When He looked out over Jerusalem — the city that would reject Him, hand Him over, and crucify Him — He did not respond with anger or condemnation. He responded with lament: </em></strong><em>“O Jerusalem, Jerusalem, who kills the prophets and stones those who are sent to her! How often I wanted to gather your children together, the way a hen gathers her chicks under her wings, and you were unwilling”</em><strong><em> (Matthew 23:37). That is not the language of a man checking off a mission box. That is the language of a heart breaking over people He loves who are choosing their own destruction.</em></strong></p>
+        <p><strong><em>When we study His conversations in the chapters ahead, you will see this compassion in every encounter. He was not performing outreach. He was not executing a strategy. He was loving people — one at a time, face to face, with the full weight of who He was — and the truth He spoke flowed from that love as naturally as water flows downhill.</em></strong></p>
+        <h2>The Danger of Technique Without Love</h2>
+        <p><strong><em>Now let us name the danger plainly, because it is a danger that this very book could contribute to if we are not careful.</em></strong></p>
+        <p><strong><em>Any book that teaches you how to have more intentional conversations carries with it the risk of producing people who are skilled at appearing caring without actually caring. People who can identify a kairos moment and exploit it rather than redeem it. People who learn the pattern — connect, listen, bridge, share — and execute it mechanically, harvesting personal encounters like a salesman working a room.</em></strong></p>
+        <p><strong><em>If that is what you take from this study, you will be worse off than before you started. Not because the principles are wrong, but because a person who manipulates with skill does more damage than a person who is simply awkward or uninformed. An agenda-driven conversation that is poorly executed is merely annoying. An agenda-driven conversation that is skillfully executed is manipulative. And manipulation in the name of God is one of the most destructive forces in the world.</em></strong></p>
+        <p><strong><em>Consider how Jesus responded to people who used religious activity as a performance:</em></strong></p>
+        <blockquote class="scripture"><p>“Woe to you, scribes and Pharisees, hypocrites! For you travel around on sea and land to make one proselyte; and when he becomes one, you make him twice as much a son of hell as yourselves.”</p>
+        </blockquote>
+        <p><strong><em>That is a terrifying verse. It is possible to be zealous about reaching people and to actually make things worse. The Pharisees were not lazy. They traveled extensively to make converts. Their problem was not a lack of effort or even a lack of knowledge. Their problem was that they were converting people to a system rather than introducing them to a Person. They were agenda-driven, and the result was not life but deeper bondage.</em></strong></p>
+        <p><strong><em>The difference between a bridge moment and a manipulation tactic is not found in the technique. The </em></strong><strong><em>technique may look identical from the outside</em></strong><strong><em>. The difference is found entirely in the heart of the person building the bridge. And this is why Jesus said what He said in Matthew 12:35 — the passage we studied in Chapter 1: </em></strong><em>“The good man brings out of his good treasure what is good.”</em><strong><em> The treasure — the heart — determines whether the same outward action is love or exploitation.</em></strong></p>
+        <h2>What Love Looks Like in Conversation</h2>
+        <p><strong><em>So what does it actually look like to approach a conversation with love rather than agenda? Let us be concrete.</em></strong></p>
+        <h3>Love Listens Without an Exit Strategy</h3>
+        <p><strong><em>When you are listening with agenda, you are scanning for the opening. You hear someone share a struggle, and your internal response is: “There it is — I can transition to the gospel now.” You are not really listening to them. You are listening for your cue.</em></strong></p>
+        <p><strong><em>When you are listening with love, you hear someone share a struggle and your internal response is: “This person is hurting. What do they need from me right now?” Sometimes what they need is the gospel. Sometimes what they need is simply to be heard. Sometimes what they need is practical help, or a meal, or someone to sit with them in silence. Love discerns the difference. Agenda treats every conversation as having the same destination.</em></strong></p>
+        <h3>Love Values the Person Apart from the Outcome</h3>
+        <p><strong><em>Ask yourself this question honestly: if the person you are speaking with never becomes a Christian, would you still want to be in their life? Would you still care about their problems, celebrate their joys, invest your time in them? If the answer is no — if your interest in them is contingent on the possibility of conversion — then what you are feeling is not love. It is recruitment.</em></strong></p>
+        <p><strong><em>Jesus loved the rich young ruler even as the man walked away (Mark 10:21–22). He did not withdraw His love when the man rejected His invitation. The text says He </em></strong><em>“felt a love for him”</em><strong><em> </em></strong><strong><em>before</em></strong><strong><em> delivering the hard truth, and there is no indication that love ceased when the man chose not to follow. Love does not operate on a conditional basis. If it does, it is not love. It is investment with an expected return.</em></strong></p>
+        <h3>Love Is Willing to Give Without Getting</h3>
+        <p><strong><em>Paul’s language in 1 Thessalonians 2:8 is remarkable: he imparted not only the gospel but his own life. He gave himself. And giving yourself means being willing to pour into someone with no guarantee that they will respond the way you hope.</em></strong></p>
+        <p><strong><em>This is hard. It is costly. And it is non-negotiable. Jesus poured Himself into Judas for three years, knowing how it would end. He washed the feet of the man who would betray Him (John 13:2–5). That is not strategy. That is love so complete it does not exempt even the person who will hurt you most.</em></strong></p>
+        <h3>Love Tells the Truth Even When It’s Costly</h3>
+        <p><strong><em>Here is where we must guard against a misunderstanding. Some people read “love, not agenda” and hear “never bring up the gospel.” That is </em></strong><strong><em>not</em></strong><strong><em> what this chapter is saying. Love that never speaks truth is not love. It is cowardice dressed in kindness. Paul himself wrote: </em></strong><em>“Knowing the fear of the Lord, we persuade men”</em><strong><em> (2 Corinthians 5:11). There is a legitimate urgency to the message. People are lost. Eternity is real. The gospel is the power of God for salvation (Romans 1:16). To know this and stay silent is not love — it is the cruelest form of indifference.</em></strong></p>
+        <p><strong><em>The tension is real, and we must hold both truths simultaneously: love does not force the message on people, AND love does not withhold the message from people. Love finds the right moment — the kairos — and speaks with grace, seasoned with salt, in a way calibrated to the specific person in front of you. That is what Colossians 4:5–6 describes. The difference between love and agenda is not whether you share truth. It is why you share it, and how you hold the person while you do.</em></strong></p>
+        <h2>The Heart Check: Five Questions Before Every Conversation</h2>
+        <p><strong><em>Before we move into Part 2 and begin studying Jesus’ actual conversations, here are five questions to carry with you. Not as a checklist to perform but as a mirror to look into. These questions expose whether your motivation is love or something else. They are uncomfortable by design. Return to them often.</em></strong></p>
+        <div class="exercise-box">
+<p>❑ <em>Do I genuinely care about this person, or do I want a “win”?</em></p>
+        </div>
+        <p><strong><em>There is a version of evangelism that counts conversions the way a salesman counts closed deals. It feels good to report a number. It feels good to tell your Bible class, “I shared the gospel with someone this week.” But if the satisfaction comes from the telling rather than from the person’s wellbeing, something has gone wrong. Love does not keep score. Love keeps watch.</em></strong></p>
+        <div class="exercise-box">
+<p>❑ <em>Would I still invest in this relationship even if they never become a Christian?</em></p>
+        </div>
+        <p><strong><em>This is the question that separates love from recruitment. If your investment in someone is contingent on the possibility of a spiritual return, then the relationship is a transaction. Jesus invested in people who walked away. He invested in people who betrayed Him. He invested in people who would not understand who He was until long after He was gone. His investment was not conditional on their response.</em></strong></p>
+        <div class="exercise-box">
+<p>❑ <em>Am I listening to understand, or listening to find an opening?</em></p>
+        </div>
+        <p><strong><em>This is the subtlest form of agenda, and the most common. You appear to be listening. You nod at the right moments. You ask follow-up questions. But internally, you are scanning the conversation for the gap where you can insert your message. The other person almost always senses this, even if they cannot articulate it. Something about the conversation feels slightly off, slightly performative, and they pull back without knowing exactly why.</em></strong></p>
+        <p><strong><em>Real listening is dangerous because it might take the conversation somewhere you did not plan. The person might need to talk about something that has nothing to do with God, at least not directly. Love lets the conversation go where it needs to go, trusting that God is capable of creating the kairos moment in His timing, not yours.</em></strong></p>
+        <div class="exercise-box">
+<p>❑ <em>Am I willing to give them myself — my time, my attention, my honesty — or just my message?</em></p>
+        </div>
+        <p><strong><em>Paul’s standard from 1 Thessalonians 2:8 is clear: </em></strong><em>“not only the gospel of God but also our own lives.”</em><strong><em> The gospel is not a brochure you hand to someone and walk away. It is a truth that is transmitted most powerfully through a life that embodies it. If you are unwilling to give someone your time, your presence, your vulnerability, and your sustained attention, then you are not sharing the gospel the way Paul described. You are dropping a message and moving on.</em></strong></p>
+        <div class="exercise-box">
+<p>❑ <em>If Jesus were standing here watching this conversation, would He recognize what I am doing as love?</em></p>
+        </div>
+        <p><strong><em>This is the final question, and it is the simplest. Not “Would Jesus approve of my theology?” Not “Would Jesus agree with the content of what I said?” But: would He look at how I treated this person and recognize it as love? Because He defined what love looks like. He demonstrated it in every encounter we are about to study. And His standard is the only one that matters.</em></strong></p>
+        <h2>Holding the Tension: Urgency and Patience</h2>
+        <p><strong><em>Before we close this chapter, we must address a tension that thoughtful readers will already feel. On one hand, we are saying that love must be the foundation, that people must not feel like projects, that patience and genuine care must precede and accompany every spiritual conversation. On the other hand, the New Testament is clear that the gospel is urgent, that people without Christ are lost, and that we have been commissioned to reach them.</em></strong></p>
+        <p><strong><em>How do you hold both of these truths without one canceling the other?</em></strong></p>
+        <p><strong><em>Paul holds them together in a single verse:</em></strong></p>
+        <blockquote class="scripture"><p>“Therefore, knowing the fear of the Lord, we persuade men.”</p>
+        </blockquote>
+        <p><strong><em>He </em></strong><strong><em>persuades</em></strong><strong><em>. He does not merely suggest. He does not passively wait and hope someone asks a question someday. He actively, intentionally, urgently persuades. And just two verses later, he gives the reason: </em></strong><em>“For the love of Christ controls us”</em><strong><em> (2 Corinthians 5:14). The urgency comes </em></strong><strong><em>from</em></strong><strong><em> love, not in spite of it. It is </em></strong><strong><em>because</em></strong><strong><em> Paul loves people that he persuades them. It is </em></strong><strong><em>because</em></strong><strong><em> he knows what is at stake that he will not stay silent.</em></strong></p>
+        <p><strong><em>The resolution to the tension is this: love is not passive. Love acts. Love speaks. Love even presses. But love never manipulates, never deceives, never treats a person as a means to an end, and never sacrifices the relationship for the sake of the message. Love holds the truth in one hand and the person in the other, and refuses to drop either one.</em></strong></p>
+        <p><strong><em>This is precisely what we will watch Jesus do in the chapters ahead. He pressed the Samaritan woman about her husbands (John 4:16–18). He pressed Nicodemus about his inability to understand (John 3:10). He pressed the rich young ruler to sell everything (Mark 10:21). He was not passive. He was not vague. He spoke hard truths with clarity and courage. But in every case, the hard truth was delivered from a heart of love, at the right moment, in the right way, for the good of the person in front of Him.</em></strong></p>
+        <p><strong><em>That is the standard. That is what we are learning. And it begins here, with a heart that has been examined honestly before the first word is spoken.</em></strong></p>
+        <h2>The Only Foundation</h2>
+        <p><strong><em>We began this study in Chapter 1 by establishing that words carry the weight of life and death. We continued in Chapter 2 by laying out the framework of Colossians 4:5–6 — the wisdom, the kairos, the grace, the salt, the personalized response. And now, in this chapter, we have examined the foundation without which the other two are meaningless.</em></strong></p>
+        <p><strong><em>Paul put it most starkly:</em></strong></p>
+        <blockquote class="scripture"><p>“For no man can lay a foundation other than the one which is laid, which is Jesus Christ.”</p>
+        </blockquote>
+        <p><strong><em>The foundation is Christ. And Christ is love (1 John 4:8). If the foundation of your speech is anything other than genuine love for the person in front of you — if it is duty, or guilt, or ego, or habit, or a desire to be seen as faithful — then the structure you build will not stand. It may look impressive for a time, but it will not bear the weight of a real human being’s real life.</em></strong></p>
+        <div class="principle-box">
+<p><strong>Technique without love is manipulation. Skill without compassion is performance. Knowledge without care is noise. Before you learn to build bridges, make sure your heart is standing on the only foundation that can hold them: the love of Christ, flowing through you to the person He has placed in your path.</strong></p>
+        </div>
+        <p><strong><em>Part 1 is now complete. You know the weight of words. You know the framework of Colossians 4:5–6. You know the foundation of love.</em></strong></p>
+        <p><strong><em>Now it is time to watch the Master at work.</em></strong></p>
+        <p><strong><em>In Part 2, we open the Gospels and walk through nine conversations where Jesus demonstrated everything we have studied — conversations that changed lives, reshaped destinies, and showed the world what it looks like when perfect wisdom, perfect grace, and perfect love meet a real human being at the point of their deepest need.</em></strong></p>
+        <p><strong><em>We begin at a well in Samaria, under the midday sun, with a woman who came for water and left with something she never expected.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 1: </em></strong><strong><em>Jesus taught that words flow from the heart’s treasury (Matthew 12:35). This chapter examines what must be in that treasury before we speak: love. Without it, even powerful words are empty noise (1 Corinthians 13:1).</em></strong></p>
+        <p><strong><em>Connection to Chapter 2: </em></strong><strong><em>Colossians 4:6 calls for speech “with grace” (en chariti). Grace is not a technique to be applied. It is the natural overflow of a heart that genuinely cares for the person being addressed. Chapter 2 gave us the framework; this chapter gave us the fuel.</em></strong></p>
+        <p><strong><em>Connection to Chapter 7 (The Rich Young Ruler): </em></strong><strong><em>Mark 10:21 records that Jesus “felt a love for him” before delivering the hardest truth the man had ever heard. This demonstrates the principle of this chapter: love first, then truth. Not truth instead of love.</em></strong></p>
+        <p><strong><em>Connection to Chapter 12 (Peter’s Restoration): </em></strong><strong><em>Jesus restored Peter with provision before confrontation, with three questions mirroring three denials. This is love in its most deliberate, healing form — the opposite of agenda.</em></strong></p>
+        <p><strong><em>Connection to Chapter 19 (When They Walk Away): </em></strong><strong><em>The heart check question “Would I still invest in this relationship if they never become a Christian?” connects directly to how we handle rejection. If love was genuine, rejection does not end the relationship.</em></strong></p>
+        <p><strong><em>Connection to Chapter 20 (The Heart Behind the Words): </em></strong><strong><em>The final chapter of the book returns to this theme, creating a bookend with Chapter 3. The study begins and ends with love as the non-negotiable foundation.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>1 Corinthians 13:1–3 • 1 Thessalonians 2:7–12 • Matthew 9:36 • John 11:35 • Matthew 23:37 • Matthew 23:15 • Matthew 12:35 • Mark 10:21–22 • John 13:2–5 • 2 Corinthians 5:11, 14 • Romans 1:16 • 1 Corinthians 3:11 • 1 John 4:8 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Read 1 Corinthians 13:1–3 carefully. Paul does not say that great speech, knowledge, faith, and sacrifice are less effective without love. He says they are nothing. Why do you think he uses such absolute language? What does this tell us about how God evaluates our efforts?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Read 1 Thessalonians 2:7–12. Paul uses two parental metaphors — a nursing mother (v. 7) and a father (v. 11). What does each metaphor contribute to the picture of love-driven ministry? How does this compare to common approaches to evangelism you have seen or experienced?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">This chapter identified four marks of love in conversation: listening without an exit strategy, valuing the person apart from the outcome, willingness to give without getting, and telling truth even when it is costly. Which of these four is hardest for you personally? Be honest about why.</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Review the five heart check questions. Without trying to answer all of them, choose the one that convicts you most right now. Sit with it. Write down what it exposes about your current approach to the people in your life who do not know Christ.</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">The chapter addressed the tension between urgency and patience — the fact that the gospel is urgent (2 Corinthians 5:11) but that love must govern how we deliver it. In your own experience, which side of this tension do you tend to err on? Are you more likely to push too hard or to stay silent too long? What would it look like to hold both truths at the same time?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">Jesus wept at the tomb of Lazarus (John 11:35) even though He was about to raise him from the dead. He could have skipped the grief and gone straight to the miracle. Why didn’t He? What does this tell us about how love engages with people’s pain, even when we believe we have the answer to their problem?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names you wrote down at the end of Chapter 1 — three people you interact with regularly who do not know Christ. For each person, honestly answer this question: Do I love this person, or do I want to convert this person? If there is a difference, what needs to change in your heart before you are ready to build a bridge?</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Chapter 2</a>
+          <a href="chapter-04.html">Chapter 4 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 3;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

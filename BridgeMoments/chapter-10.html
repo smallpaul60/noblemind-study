@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 10: Follow Me | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html" selected>Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 2</p>
+        <p class="part-title">Jesus, the Master of the Moment</p>
+        <p class="chapter-num">Chapter 10</p>
+        <h1>Follow Me</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“And He said to them, ‘Follow Me, and I will make you fishers of men.’ Immediately they left their nets and followed Him.”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To study the shortest bridge moments in the Gospels — encounters where the bridge was not a lengthy conversation, a theological discussion, or an extended journey, but a direct, personal, tailored invitation. This chapter examines multiple callings side by side to demonstrate that every invitation Jesus issued was shaped to the specific person receiving it, and that brevity, when backed by authority and love, can be more powerful than any argument.</div>
+
+      <div class="content">
+        <p><em>The Calling of the First Disciples  •  John 1:35–51; Matthew 4:18–22; Mark 2:13–17</em></p>
+        <h2>The Power of Brevity</h2>
+        <p><strong><em>After nine chapters of studying encounters that involved extended dialogue, theological depth, careful metaphor, and lengthy journeys, this chapter may come as a surprise. Because the callings of the first disciples were breathtakingly brief.</em></strong></p>
+        <p><strong><em>Two words in Greek: </em></strong><strong><em>Akolouthei moi</em></strong><strong><em> — “Follow Me.” That was the invitation. Not “Let Me explain My theology.” Not “Consider the evidence and make an informed decision.” Not “Here is a twelve-step process for becoming My disciple.” </em></strong><strong><em>Follow Me.</em></strong><strong><em> A command. An invitation. A relationship offered in two words.</em></strong></p>
+        <p><strong><em>But brevity should not be confused with simplicity. These two words carried the weight of everything the person had already seen, heard, or experienced of Jesus before the moment of invitation. In every case, as we will see, the ground had been prepared before the call was issued. The seed had been planted before the harvest was invited. The brevity of the call was possible only because of the depth of what preceded it.</em></strong></p>
+        <p><strong><em>This is a critical principle for bridge-building: sometimes the most powerful thing you can say is the shortest thing. Not because depth does not matter, but because when the moment is ripe, when the heart is ready, when God has already been at work — a single, clear, direct invitation can accomplish what hours of conversation cannot.</em></strong></p>
+        <h2>Calling 1: “What Do You Seek?” — Andrew and John (John 1:35–42)</h2>
+        <blockquote class="scripture"><p>“Again the next day John was standing with two of his disciples, and he looked at Jesus as He walked, and said, ‘Behold, the Lamb of God!’ The two disciples heard him speak, and they followed Jesus. And Jesus turned and saw them following, and said to them, ‘What do you seek?’”</p>
+        </blockquote>
+        <p><strong><em>The very first words Jesus speaks in the Gospel of John are a question: </em></strong><em>“What do you seek?”</em><strong><em> — in Greek, </em></strong><strong><em>Ti zēteite</em></strong><strong><em>. Not “Who are you?” Not “Why are you following Me?” But </em></strong><strong><em>what are you looking for?</em></strong><strong><em> This is a question about desire, about the hunger that was driving them. Jesus’ first recorded words in John’s Gospel go straight to the human heart’s deepest question: what are you after?</em></strong></p>
+        <p><strong><em>Notice the context. These two men — Andrew and almost certainly John, the author of the Gospel — had been disciples of John the Baptist. They had been prepared. John had pointed them to Jesus: “Behold, the Lamb of God.” They were already moving in the right direction. Jesus did not need to convince them to start seeking. They were already seeking. His question simply acknowledged what was already happening and gave them space to articulate it.</em></strong></p>
+        <p><strong><em>Their response was almost endearingly awkward:</em></strong></p>
+        <blockquote class="scripture"><p>“They said to Him, ‘Rabbi (which translated means Teacher), where are You staying?’ Jesus said to them, ‘Come, and you will see.’ So they came and saw where He was staying; and they stayed with Him that day.”</p>
+        </blockquote>
+        <p><strong><em>They did not have a theological question ready. They asked where He was staying — a practical, almost fumbling question that really meant: “Can we spend time with You? We don’t have a script for this. We just want to be near You.” And Jesus’ response was an invitation, not an explanation: </em></strong><em>“Come, and you will see.”</em><strong><em> He did not hand them a pamphlet. He invited them into His presence. Experience first, theology later. Relationship before curriculum.</em></strong></p>
+        <p><strong><em>And then John records one of the most beautiful details in his Gospel:</em></strong></p>
+        <blockquote class="scripture"><p>“...for it was about the tenth hour.”</p>
+        </blockquote>
+        <p><strong><em>The tenth hour — about four in the afternoon. John wrote this Gospel decades later, and he still remembered the exact time of day. That detail tells you everything about what this moment meant to him. You remember the time when your life changed. You remember the hour. Whatever happened in that evening spent with Jesus was so transformative that the timestamp was seared into John’s memory for the rest of his life.</em></strong></p>
+        <p><strong><em>What followed immediately was a chain reaction:</em></strong></p>
+        <blockquote class="scripture"><p>“One of the two who heard John speak and followed Him, was Andrew, Simon Peter’s brother. He found first his own brother Simon and said to him, ‘We have found the Messiah’ (which translated means Christ). He brought him to Jesus.”</p>
+        </blockquote>
+        <p><strong><em>Andrew’s first instinct after encountering Jesus was to find his brother. Not to process. Not to deliberate. To go find someone he loved and bring them. This is the most natural, most unstudied, most authentic form of bridge-building there is: </em></strong><strong><em>I found something. Let me bring you to it.</em></strong><strong><em> No technique. No strategy. Just the overflow of a heart that had been set on fire.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Chain Reaction</strong></p>
+<p>Authentic bridge moments create chain reactions. When someone genuinely encounters Christ, their first instinct is almost always relational: who do I know that needs this? Andrew found Peter. Philip found Nathanael. The woman at the well found her city. Genuine encounters do not need to be marketed. They reproduce. The best bridge-builder is someone who just had their own bridge moment.</p>
+        </div>
+        <h2>Calling 2: “Come and See” — Philip and Nathanael (John 1:43–51)</h2>
+        <blockquote class="scripture"><p>“The next day He purposed to go into Galilee, and He found Philip. And Jesus said to him, ‘Follow Me.’”</p>
+        </blockquote>
+        <p><strong><em>With Philip, the invitation was direct and unadorned: </em></strong><strong><em>Follow Me.</em></strong><strong><em> Two words. No preamble. No miracle. No extended conversation. Jesus </em></strong><strong><em>found</em></strong><strong><em> Philip — the initiative was His — and issued the call. Philip’s response was not recorded. He simply followed. And then, like Andrew, he immediately went and found someone else:</em></strong></p>
+        <blockquote class="scripture"><p>“Philip found Nathanael and said to him, ‘We have found Him of whom Moses in the Law and also the Prophets wrote — Jesus of Nazareth, the son of Joseph.’ Nathanael said to him, ‘Can any good thing come out of Nazareth?’ Philip said to him, ‘Come and see.’”</p>
+        </blockquote>
+        <p><strong><em>Nathanael’s response was skeptical, even dismissive: </em></strong><em>“Can any good thing come out of Nazareth?”</em><strong><em> This was prejudice — a small-town bias against an even smaller town. And Philip did not argue. He did not debate. He did not present evidence. He said three words that echo Jesus’ own invitation to Andrew and John: </em></strong><em>“Come and see.”</em></p>
+        <p><strong><em>Philip had no training in apologetics. He had no answer to Nathanael’s objection. What he had was a personal experience and an invitation. That was enough. And it was enough because the invitation was not to accept a proposition but to meet a Person. Arguments can be debated. A Person can only be encountered.</em></strong></p>
+        <p><strong><em>When Nathanael arrived, Jesus greeted him with supernatural knowledge:</em></strong></p>
+        <blockquote class="scripture"><p>“Jesus saw Nathanael coming to Him, and said of him, ‘Behold, an Israelite indeed, in whom there is no deceit!’ Nathanael said to Him, ‘How do You know me?’ Jesus answered and said to him, ‘Before Philip called you, when you were under the fig tree, I saw you.’”</p>
+        </blockquote>
+        <p><strong><em>Whatever Nathanael had been doing under that fig tree — praying, meditating on Scripture, wrestling with God — Jesus saw it. Before Philip ever invited him, Jesus had already been watching. The ground had been prepared before the call was issued. And Nathanael’s response was instantaneous and total:</em></strong></p>
+        <blockquote class="scripture"><p>“Nathanael answered Him, ‘Rabbi, You are the Son of God; You are the King of Israel.’”</p>
+        </blockquote>
+        <p><strong><em>From “Can any good thing come out of Nazareth?” to “You are the Son of God” in the space of a few sentences. That is what happens when skepticism meets a personal encounter with someone who knows you better than you know yourself.</em></strong></p>
+        <h2>Calling 3: “Fishers of Men” — Simon, Andrew, James, and John (Matthew 4:18–22)</h2>
+        <blockquote class="scripture"><p>“Now as Jesus was walking by the Sea of Galilee, He saw two brothers, Simon who was called Peter, and Andrew his brother, casting a net into the sea; for they were fishermen. And He said to them, ‘Follow Me, and I will make you fishers of men.’ Immediately they left their nets and followed Him.”</p>
+        </blockquote>
+        <p><strong><em>This is the calling most people think of when they hear the phrase “Follow Me.” And its most striking feature is the metaphor Jesus chose: </em></strong><em>“I will make you fishers of men.”</em><strong><em> He took the one thing they knew best — fishing — and reframed it. He did not say, “Leave your old life behind and start something completely foreign.” He said, “The skills you have, the instincts you’ve developed, the patience and knowledge of waters and timing that you’ve spent your life building — I will redirect all of it toward something infinitely more important.”</em></strong></p>
+        <p><strong><em>This is the Colossians 4:6 principle applied to the invitation itself: Jesus responded to each person in terms that made sense to that person. Fishermen got a fishing metaphor. He met them in their world, in their language, in their frame of reference, and then He elevated it.</em></strong></p>
+        <p><strong><em>And then Matthew adds the word that defines the entire scene: </em></strong><strong><em>eutheos</em></strong><strong><em> — </em></strong><strong><em>immediately</em></strong><strong><em>. They left their nets immediately. No deliberation period. No request for a week to think it over. Immediately. This was not impulsiveness. These men had already encountered Jesus (John 1 records earlier meetings). The ground had been prepared. When the definitive call came, they were ready. The brevity of the moment was built on the depth of what had already transpired between them.</em></strong></p>
+        <p><strong><em>He went a little farther and found James and John in a boat with their father Zebedee, mending nets:</em></strong></p>
+        <blockquote class="scripture"><p>“Immediately He called them; and they left their father Zebedee in the boat with the hired servants, and went away to follow Him.”</p>
+        </blockquote>
+        <p><strong><em>James and John left not only their livelihood but their father. The cost was visible and immediate. Mark adds the detail that Zebedee was left with hired servants — the family fishing business would continue, but his sons would not be part of it. Following Jesus meant leaving something behind. It always does. The question is never whether it will cost you. The question is whether what you are gaining is worth more than what you are leaving.</em></strong></p>
+        <h2>Calling 4: “Follow Me” — Matthew the Tax Collector (Mark 2:13–17)</h2>
+        <blockquote class="scripture"><p>“As He passed by, He saw Levi the son of Alphaeus sitting in the tax booth, and He said to him, ‘Follow Me!’ And he got up and followed Him.”</p>
+        </blockquote>
+        <p><strong><em>The calling of Matthew may be the most socially scandalous of all the callings, and it directly parallels what we studied in the Zacchaeus encounter. Matthew was a tax collector — a man despised by his community, classified as a sinner by the religious establishment, and treated as a traitor by his own people. He was sitting in his tax booth, conducting the very business that made him an outcast.</em></strong></p>
+        <p><strong><em>And Jesus said: </em></strong><strong><em>Follow Me.</em></strong></p>
+        <p><strong><em>No condition. No “Repent first.” No “Quit this job and clean up your life, and then we’ll talk.” Jesus called him where he was, as he was, in the middle of the very activity that defined his shame. The invitation was not contingent on prior reformation. It was the </em></strong><strong><em>cause</em></strong><strong><em> of the reformation, not its reward.</em></strong></p>
+        <p><strong><em>What Matthew did next tells us everything about what this call meant to him:</em></strong></p>
+        <blockquote class="scripture"><p>“And it happened that He was reclining at the table in his house, and many tax collectors and sinners were dining with Jesus and His disciples; for there were many of them, and they were following Him.”</p>
+        </blockquote>
+        <p><strong><em>Matthew threw a party. His first instinct after being called by Jesus was to gather every friend he had — and his friends, naturally, were other tax collectors and “sinners” — and bring them into the same room with Jesus. This is the chain reaction principle again: a genuine encounter overflows into invitation. Matthew did not write a gospel tract. He hosted a dinner. He brought his people to Jesus by bringing Jesus to his people.</em></strong></p>
+        <p><strong><em>And predictably, the religious establishment objected:</em></strong></p>
+        <blockquote class="scripture"><p>“When the scribes of the Pharisees saw that He was eating with the sinners and tax collectors, they said to His disciples, ‘Why is He eating with tax collectors and sinners?’ And hearing this, Jesus said to them, ‘It is not those who are healthy who need a physician, but those who are sick; I did not come to call the righteous, but sinners.’”</p>
+        </blockquote>
+        <p><strong><em>Jesus’ response was devastating in its simplicity: a physician goes where the sick are, not where the healthy are. If the Pharisees were truly righteous (and Jesus’ tone suggests they were not as righteous as they assumed), then they did not need Him. But the tax collectors and sinners who filled Matthew’s house — they were exactly where the Physician belonged. This was not a compromise of holiness. It was the </em></strong><strong><em>purpose</em></strong><strong><em> of holiness. God did not become flesh to avoid sinners. He became flesh to save them.</em></strong></p>
+        <h2>What All Four Callings Share</h2>
+        <p><strong><em>Despite the differences in setting, personality, and circumstance, these callings share five characteristics that apply to every bridge moment:</em></strong></p>
+        <h3>1. Preparation Preceded the Call</h3>
+        <p><strong><em>In every case, something had happened before the decisive moment. Andrew and John had been pointed to Jesus by John the Baptist. Philip was sought out after Andrew’s conversion. Nathanael was already wrestling with God under a fig tree. Peter and Andrew had already met Jesus (John 1). Matthew had undoubtedly heard about the rabbi who was turning Galilee upside down. The brief call was the culmination of a longer process. The harvest was possible because someone or something had already tilled the soil.</em></strong></p>
+        <h3>2. The Invitation Was Personal</h3>
+        <p><strong><em>Jesus did not issue a mass invitation. He did not stand on a hilltop and call for volunteers. He looked at individual people, called them by name or by occupation, and issued a personal call. The fishermen received a fishing metaphor. Philip received a direct command. Matthew received the same two words but in a context that screamed acceptance. Each person was seen, known, and addressed as an individual.</em></strong></p>
+        <h3>3. The Invitation Required a Response</h3>
+        <p><strong><em>Every calling demanded a decision. </em></strong><strong><em>Follow Me</em></strong><strong><em> is not an idea to consider. It is a direction to take. There was no middle ground. You either left the nets or you kept fishing. You either got up from the tax booth or you kept collecting. Jesus did not ask them to think about it. He asked them to move.</em></strong></p>
+        <h3>4. Following Cost Something</h3>
+        <p><strong><em>Andrew and John left their teacher (the Baptist). Peter and Andrew left their livelihood. James and John left their father. Matthew left his income and whatever social security his position provided. Every call to follow involved a corresponding call to leave. Bridge moments that lead to genuine transformation always involve a cost. The question is never whether it will cost. The question is whether the person in front of you has glimpsed something worth more than what they are holding.</em></strong></p>
+        <h3>5. The Response Became a Bridge for Others</h3>
+        <p><strong><em>Andrew found Peter. Philip found Nathanael. Matthew threw a party. The chain reaction principle was present in every calling: the person who was called became a bridge for the next person. This is the natural, organic multiplication that happens when bridge moments are genuine rather than manufactured.</em></strong></p>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Not every bridge moment requires a long conversation. When the ground has been prepared, when God has already been at work, when the person is ready — sometimes all that is needed is a clear, direct, personal invitation. Learn to recognize when someone is ready and have the courage to ask the short question, issue the simple invitation, or make the direct offer. And remember: a genuine encounter with Christ naturally overflows into invitation. The best bridge-builders are people who have just had their own bridge moment and cannot help but bring others to what they have found.</strong></p>
+        </div>
+        <p><strong><em>These encounters demonstrate the Colossians 4:5–6 framework with striking economy:</em></strong></p>
+        <p><strong><em>Making the most of the kairos </em></strong><strong><em>— Every calling was a kairos moment, seized with precision. The nets were in hand. The booth was occupied. The fig tree was overhead. Jesus recognized the moment and acted.</em></strong></p>
+        <p><strong><em>Seasoned with salt </em></strong><strong><em>— “Fishers of men” is salt in its purest form: a single phrase that reframed their entire identity and created a vision for a future they had never imagined.</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— Fishermen got a fishing metaphor. A skeptic got supernatural knowledge. A tax collector got unconditional acceptance. Each call was calibrated to the person.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— To Matthew, sitting in his tax booth: “Follow Me.” No conditions. No lecture. No requirement to repent first. Grace in two words.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 4 (Woman at the Well): </em></strong><strong><em>The woman at the well experienced an extended, multi-layered conversation. The disciples received two-word invitations. Both approaches produced transformed lives. The difference was in the readiness of the recipient and the nature of the obstacle. This confirms that there is no single “correct” bridge-building method.</em></strong></p>
+        <p><strong><em>Connection to Chapter 6 (Zacchaeus): </em></strong><strong><em>Matthew’s calling closely parallels Zacchaeus’s encounter. Both were tax collectors. Both received unconditional acceptance. Both immediately brought others into contact with Jesus. Both provoked criticism from the religious establishment. The pattern is consistent: when grace reaches the excluded, the excluded become hosts.</em></strong></p>
+        <p><strong><em>Connection to Chapter 9 (Road to Emmaus): </em></strong><strong><em>The Emmaus road was a seven-mile journey. The callings in this chapter were sometimes a single sentence. Both are legitimate bridge moments. The Emmaus disciples needed time and presence before they could receive truth. The fishermen and Matthew needed only the decisive word because the preparation had already been done. Wisdom discerns which approach the moment requires.</em></strong></p>
+        <p><strong><em>Connection to Chapter 7 (Rich Young Ruler): </em></strong><strong><em>The rich young ruler also received a direct “Follow Me” (Mark 10:21). But he walked away. The first disciples did not. The difference was not in the invitation but in the heart of the recipient. Same words, different responses. The call is the same. The choice belongs to the person.</em></strong></p>
+        <p><strong><em>Connection to Chapter 15 (The Philippian Jailer): </em></strong><strong><em>Another brief, decisive bridge moment with immediate response. Some encounters require extended dialogue. Others require a single clear word at the right time. Both are faithful. Both are effective. The kairos determines the approach.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>John 1:35–51 • Matthew 4:18–22 • Mark 1:16–20 • Mark 2:13–17 • Luke 5:27–32 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Jesus’ first recorded words in John’s Gospel are ‘What do you seek?’ (John 1:38). If Jesus asked you that question today, how would you answer honestly? What are you truly seeking? How does the answer to that question shape the bridge moments you build with others?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">John remembered the exact hour of his first encounter with Jesus decades later (‘it was about the tenth hour,’ John 1:39). Do you have a moment in your spiritual life that is seared into your memory with that kind of specificity? What made it unforgettable? How does remembering that moment affect your desire to create similar moments for others?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Philip’s response to Nathanael’s skepticism was not an argument but an invitation: ‘Come and see’ (John 1:46). When have you been in a conversation where arguing would have been counterproductive, and a simple invitation would have been better? What holds you back from issuing that kind of invitation?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Jesus told fishermen they would become ‘fishers of men.’ He took what they already knew and redirected it toward kingdom purposes. What skills, experiences, or knowledge do you already have that God might redirect? How might your specific background become a bridge to people that other Christians cannot reach?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">Matthew’s first response to being called was to throw a dinner party and invite all his friends to meet Jesus (Mark 2:15). What would the equivalent look like in your life? Who are the people in your relational world that you could bring into contact with Christ — not through a formal event, but through the natural overflow of your own life?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">The Pharisees criticized Jesus for eating with tax collectors and sinners. Jesus responded: ‘I did not come to call the righteous, but sinners’ (Mark 2:17). How does the fear of being criticized by other believers affect your willingness to spend time with people outside the faith? Is that fear justified?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. For each person, ask: Have they been prepared? Has something already been at work in their life that has made them ready for a direct invitation? If so, what would that invitation sound like, in your own words? Remember: it does not need to be eloquent. ‘Come and see’ was enough for Nathanael.</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-09.html">&larr; Chapter 9</a>
+          <a href="chapter-11.html">Chapter 11 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 10;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

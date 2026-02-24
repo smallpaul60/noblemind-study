@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8: Neither Do I Condemn You | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html" selected>Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 2</p>
+        <p class="part-title">Jesus, the Master of the Moment</p>
+        <p class="chapter-num">Chapter 8</p>
+        <h1>Neither Do I Condemn You</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Straightening up, Jesus said to her, ‘Woman, where are they? Did no one condemn you?’ She said, ‘No one, Lord.’ And Jesus said, ‘I do not condemn you, either. Go. From now on sin no more.’”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To examine an encounter where Jesus navigated two bridge moments simultaneously — one with a woman in her worst moment, and one with accusers who were using her sin as a weapon. This chapter demonstrates that the order of grace and truth matters profoundly: grace opens the ears, truth changes the life. It also shows what happens when someone else’s agenda tries to hijack a bridge moment, and how Jesus refused to play by their rules while still speaking truth to everyone in the room.</div>
+
+      <div class="content">
+        <p><em>The Woman Caught in Adultery  •  John 8:1–11</em></p>
+        <h2>A Note on the Text</h2>
+        <p><strong><em>Before we study this passage, intellectual honesty requires a brief note. Many modern translations include a footnote indicating that John 7:53–8:11 is not found in the earliest and most reliable Greek manuscripts. Some translations bracket it or set it apart typographically. This has led some to question whether the story should be considered part of inspired Scripture.</em></strong></p>
+        <p><strong><em>We should acknowledge this openly. The manuscript evidence is genuine: the passage is absent from Papyrus 66 and Papyrus 75 (our earliest copies of John), from Codex Sinaiticus and Codex Vaticanus (the two most important fourth-century manuscripts), and from numerous early versions and church fathers. Some manuscripts that include it place it elsewhere — after John 7:36, after John 21:25, or even after Luke 21:38.</em></strong></p>
+        <p><strong><em>However, the passage has strong support as well. It appears in Codex Bezae (fifth century), in the majority of later manuscripts, and was cited by church fathers including Jerome, Augustine, and Ambrose. Augustine suggested that some scribes may have removed it out of concern that it would appear to treat adultery too lightly — a plausible explanation given the early church’s strict penitential practices. The story itself bears the marks of authentic Gospel narrative: the concrete details, the characteristic wisdom of Jesus, and the theological consistency with His treatment of sinners throughout the Gospels.</em></strong></p>
+        <p><strong><em>For our purposes, we proceed with the understanding that this passage records a real event in the life of Jesus, consistent in character and theology with everything else we know about Him from the Gospels, while acknowledging that its precise placement in John’s Gospel is debated. The principles we will draw from it stand firmly on their own and are reinforced by numerous other passages throughout the New Testament.</em></strong></p>
+        <h2>The Setting: A Trap Disguised as a Theological Question</h2>
+        <blockquote class="scripture"><p>“Early in the morning He came again into the temple, and all the people were coming to Him; and He sat down and began to teach them. The scribes and the Pharisees brought a woman caught in adultery, and having set her in the center of the court, they said to Him, ‘Teacher, this woman has been caught in adultery, in the very act. Now in the Law Moses commanded us to stone such women; what then do You say?’”</p>
+        </blockquote>
+        <p><strong><em>The scene is the temple courts, early morning. Jesus has been teaching. People have gathered. And into this peaceful setting, the scribes and Pharisees burst with a woman in tow and a question on their lips.</em></strong></p>
+        <p><strong><em>But before we hear the question, we need to see what is actually happening. Because what looks like a request for a legal ruling is something far darker.</em></strong></p>
+        <h3>The Woman as a Weapon</h3>
+        <p><strong><em>First, notice the phrase: </em></strong><em>“caught in adultery, in the very act.”</em><strong><em> If she was caught in the very act, there was necessarily a man involved. Where was he? The Law of Moses prescribed the same penalty for both parties (Leviticus 20:10, Deuteronomy 22:22). Yet the scribes and Pharisees brought only the woman. The man was conspicuously absent. This was not a pursuit of justice. If it were, both parties would have been brought. This was a setup, and the woman was the bait.</em></strong></p>
+        <p><strong><em>Second, they </em></strong><em>“set her in the center of the court”</em><strong><em> — </em></strong><strong><em>en mesō</em></strong><strong><em>, in the middle. They placed her on public display. Whatever shame and terror she was already feeling, they compounded it by making her the centerpiece of a spectacle in the most public religious space in Israel. She was not a person to them. She was a prop in a theological trap.</em></strong></p>
+        <h3>The Trap</h3>
+        <p><strong><em>John tells us their motive explicitly:</em></strong></p>
+        <blockquote class="scripture"><p>“They were saying this, testing Him, so that they might have grounds for accusing Him.”</p>
+        </blockquote>
+        <p><strong><em>The trap was elegant in its cruelty. If Jesus said, “Stone her,” He would contradict His own reputation for mercy and would potentially run afoul of Roman law, which reserved capital punishment for Roman courts. If He said, “Do not stone her,” He could be accused of contradicting the Law of Moses and undermining the authority of Scripture. They believed they had constructed a situation with no good exit.</em></strong></p>
+        <p><strong><em>They were wrong. But they did not yet know how wrong.</em></strong></p>
+        <h2>The Pause: Jesus Slowed the Moment</h2>
+        <blockquote class="scripture"><p>“But Jesus stooped down and with His finger wrote on the ground.”</p>
+        </blockquote>
+        <p><strong><em>This is one of the most mysterious details in the Gospels. Jesus stooped down and wrote on the ground with His finger. What He wrote, we do not know. John does not tell us. Speculation has ranged from a list of the accusers’ sins, to the text of the relevant Law, to the words of Jeremiah 17:13 (“Those who turn away from You will be written in the dust”), to simply drawing in the dirt as a way of defusing the tension. We cannot know, and we should not pretend to.</em></strong></p>
+        <p><strong><em>But what we </em></strong><strong><em>can</em></strong><strong><em> observe is what this action accomplished: it </em></strong><strong><em>slowed the moment</em></strong><strong><em>. The scribes and Pharisees had engineered a crisis that demanded an immediate response. The pressure was public and intense. A crowd was watching. A woman was standing in humiliation. The accusers were demanding a verdict. </em></strong><strong><em>Right now.</em></strong><strong><em> And Jesus responded by bending down and writing in the dirt.</em></strong></p>
+        <p><strong><em>He refused their urgency. He declined to operate on their timeline. He would not be rushed into a pronouncement that served their agenda rather than the truth. And in slowing the moment, He did something critical: He shifted the power dynamic. They had set the terms of the confrontation. Now He was setting the pace. They came with force and speed. He responded with silence and stillness. And the crowd, which had been swept up in the drama, now had to wait — and in the waiting, the emotional temperature began to change.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Power of the Pause</strong></p>
+<p>Not every bridge moment requires an immediate response. Sometimes the most powerful thing you can do is slow down. When someone presents you with a situation designed to provoke a reaction — an argument, a confrontation, a question intended to trap — the refusal to be rushed is itself a statement. It says: I will not be manipulated into responding on your terms. I will respond on mine, and I will respond when I am ready. In a world that demands instant reactions, the deliberate pause is one of the most underestimated tools in a bridge-builder’s repertoire.</p>
+        </div>
+        <h2>The One Sentence That Cleared the Room</h2>
+        <blockquote class="scripture"><p>“But when they persisted in asking Him, He straightened up, and said to them, ‘He who is without sin among you, let him be the first to throw a stone at her.’”</p>
+        </blockquote>
+        <p><strong><em>They persisted. They kept pressing. They wanted their answer, their verdict, their trap sprung. And when Jesus finally straightened up and spoke, He delivered a sentence so perfectly calibrated that it dismantled the entire scenario without violating a single principle of the Law.</em></strong></p>
+        <p><strong><em>Study what He did and did not do in this single sentence.</em></strong></p>
+        <p><strong><em>He did not deny the Law. </em></strong><strong><em>He did not say, “The Law is wrong” or “Stoning is too harsh.” He actually upheld the principle of the Law: a stone may indeed be thrown. But He added a qualification the Law itself implied but they had conveniently ignored — the requirement of righteous witnesses. Deuteronomy 17:6–7 required that in capital cases, the witnesses must cast the first stones. And the assumption embedded in the Law was that the witnesses had clean hands. Jesus made that assumption explicit.</em></strong></p>
+        <p><strong><em>He did not excuse the sin. </em></strong><strong><em>At no point in this passage does Jesus say that adultery is not a sin. He does not minimize what the woman has done. He does not suggest that the accusers are wrong about the act itself. The sin is real. It happened. Jesus never pretended otherwise.</em></strong></p>
+        <p><strong><em>He redirected the examination. </em></strong><strong><em>They had come to put the woman on trial. In a single sentence, Jesus put </em></strong><strong><em>them</em></strong><strong><em> on trial. The spotlight that was glaring on her was suddenly, devastatingly turned on each of them. The question was no longer “What should we do with this sinner?” It was “Which of you is qualified to throw the first stone?”</em></strong></p>
+        <p><strong><em>He made the conviction personal. </em></strong><strong><em>Not “Is anyone here without sin?” but </em></strong><em>“He who is without sin among you.”</em><strong><em> </em></strong><strong><em>Among you.</em></strong><strong><em> He was looking at them. They were no longer an anonymous group pressing a theological point. They were individuals, each one carrying his own secret sins, each one suddenly aware that the ground he was standing on was not as solid as he thought.</em></strong></p>
+        <h2>The Quiet Departure</h2>
+        <blockquote class="scripture"><p>“Again He stooped down and wrote on the ground. When they heard it, they began to go out one by one, beginning with the older ones, and He was left alone, and the woman, where she was, in the center of the court.”</p>
+        </blockquote>
+        <p><strong><em>Jesus stooped down again. He did not watch for their reaction. He did not stare them down. He did not press His advantage. He gave them space — space to respond to what He had said without the added pressure of His gaze. This is a detail of extraordinary graciousness. He had just exposed their hypocrisy, and then He looked away so they could process that exposure without the shame of being watched as they did.</em></strong></p>
+        <p><strong><em>And they left. One by one. Beginning with the oldest — </em></strong><strong><em>the ones who had accumulated the most sin, or perhaps the ones with the most wisdom to recognize what had just happened</em></strong><strong><em>. The younger ones followed. One at a time, the stones dropped. The crowd thinned. The trap dissolved. And when it was over, only two people remained in that space: Jesus and the woman.</em></strong></p>
+        <p><strong><em>Augustine wrote one of the most beautiful sentences in the history of biblical commentary about this moment: “Two were left — misery and mercy.” The one person in that entire courtyard who was genuinely without sin — the only one who actually had the right to throw a stone — was the one who chose not to.</em></strong></p>
+        <h2>Grace First, Then Truth: The Order That Changes Everything</h2>
+        <blockquote class="scripture"><p>“Straightening up, Jesus said to her, ‘Woman, where are they? Did no one condemn you?’ She said, ‘No one, Lord.’ And Jesus said, ‘I do not condemn you, either. Go. From now on sin no more.’”</p>
+        </blockquote>
+        <p><strong><em>This is the bridge moment with the woman. And everything — everything — depends on the order.</em></strong></p>
+        <h3>First: He Addressed Her as a Person</h3>
+        <p><em>“Woman.”</em><strong><em> The same word — </em></strong><strong><em>gynai</em></strong><strong><em> — that He used to address His own mother (John 2:4, 19:26). It was a term of respect, not of condescension. The accusers had called her “this woman” — a label, a category, an exhibit. Jesus called her </em></strong><strong><em>woman</em></strong><strong><em> — a person, addressed directly, face to face. She had been standing in the center of the court, surrounded by men who saw her as a piece of evidence. Now she was standing in the center of a conversation with the only man who saw her as a human being.</em></strong></p>
+        <h3>Second: He Established Safety</h3>
+        <p><em>“Where are they? Did no one condemn you?”</em><strong><em> He already knew the answer. He could see that they had gone. But He asked the question for </em></strong><strong><em>her</em></strong><strong><em> sake, not for His. He wanted her to look around. He wanted her to register, with her own eyes, that the people who had been ready to kill her were gone. He wanted her to feel the absence of condemnation before He spoke another word. He was creating a safe space — not to avoid truth, but to prepare her heart to receive it.</em></strong></p>
+        <p><strong><em>Her response was two words: </em></strong><em>“No one, Lord.”</em><strong><em> Notice what she called Him: </em></strong><strong><em>Kyrie</em></strong><strong><em> — Lord. Not “Teacher.” Not “Sir.” Lord. In the space of this encounter, without a single sermon being preached, she had come to see Him with a reverence that her accusers, for all their theological knowledge, had never shown.</em></strong></p>
+        <h3>Third: Grace</h3>
+        <p><em>“I do not condemn you, either.”</em><strong><em> Eight words. The only Person in that courtyard who had the right to condemn her — the sinless Son of God — chose not to. This was not a legal acquittal. Jesus was not saying that she had not sinned or that the sin did not matter. He was saying that He had not come to condemn. He echoed His own words from John 3:17: </em></strong><em>“God did not send the Son into the world to judge the world, but that the world might be saved through Him.”</em><strong><em> She stood in the presence of her Judge, and her Judge chose mercy.</em></strong></p>
+        <h3>Fourth: Truth</h3>
+        <p><em>“Go. From now on sin no more.”</em><strong><em> And now — </em></strong><strong><em>after</em></strong><strong><em> the grace — came the truth. The sin was real. It was named. And it was to stop. Jesus did not say, “It’s okay.” He did not say, “Don’t worry about it.” He said, </em></strong><strong><em>sin no more</em></strong><strong><em>. The grace did not erase the moral standard. It established the ground from which the moral standard could actually be heard.</em></strong></p>
+        <p><strong><em>This is the principle that must be understood for this chapter to do its work: the order of grace and truth is not interchangeable. If Jesus had said “Sin no more” first and “I do not condemn you” second, the effect would have been entirely different. She would have heard the command through the filter of judgment. The truth would have landed as one more stone thrown by one more accuser. But because the grace came first, because she was standing in the warmth of mercy when the truth was spoken, she could hear it as what it was — not condemnation but direction. Not a weapon but a gift. Grace opened her ears. Then truth could change her life.</em></strong></p>
+        <div class="principle-box">
+<p><strong>Grace opens ears that condemnation closes. When someone is standing in shame — when they already know they are guilty, when the whole world has already told them what they have done wrong — leading with truth is redundant at best and cruel at worst. They already know. What they do not know is whether anyone will still stand with them after what they have done. Grace answers that question. And once that question is answered, truth can be received not as an attack but as a path forward.</strong></p>
+        </div>
+        <h2>Two Bridge Moments in One Scene</h2>
+        <p><strong><em>This passage is unique in our study because Jesus was building two bridges simultaneously — one to the woman and one to her accusers. And the two bridges were built with entirely different materials.</em></strong></p>
+        <h3>The Bridge to the Accusers: Conviction</h3>
+        <p><strong><em>To the scribes and Pharisees, Jesus offered no grace in the traditional sense. He did not comfort them. He did not affirm them. He challenged them with a truth they could not escape: </em></strong><em>“He who is without sin among you, let him be the first to throw a stone.”</em><strong><em> The bridge He built to them was </em></strong><strong><em>conviction</em></strong><strong><em> — the confrontation with their own sinfulness. And it worked: one by one, they left. Their departure was its own kind of confession. They could not face the mirror Jesus held up.</em></strong></p>
+        <p><strong><em>Was this a bridge moment in the sense we have been studying? In a way, yes. Jesus gave them something to reckon with. He did not chase them. He did not explain further. He planted a seed of self-awareness that they would carry with them when they left. Whether any of them later returned to that moment and allowed it to change them, we do not know. But the seed was planted. Just as with Nicodemus, the fruit may have appeared much later, or may not have appeared at all. Jesus was faithful to speak truth. The response was theirs.</em></strong></p>
+        <h3>The Bridge to the Woman: Restoration</h3>
+        <p><strong><em>To the woman, Jesus offered a completely different bridge. He did not challenge her. She did not need to be challenged. She was standing in the center of a public square with her sin exposed for the entire city to see. The last thing she needed was another voice telling her she was guilty. She already knew. What she needed was to know that her guilt was not the final word — that someone with the authority to condemn her had chosen not to, and that there was a path forward beyond her shame.</em></strong></p>
+        <p><strong><em>That is exactly what Jesus gave her. He removed the condemnation. He pointed her forward. And He did it in eight words that contained both the grace of heaven and the call to a changed life.</em></strong></p>
+        <h2>A Contrast in Handling Sin</h2>
+        <p><strong><em>We noted in Chapter 4 that Jesus’ handling of the Samaritan woman’s sexual history was gentle, private, and designed for her growth. Here the contrast with the scribes and Pharisees is even more stark:</em></strong></p>
+        <p><strong><em>The accusers </em></strong><strong><em>dragged the woman’s sin into public to serve their agenda. They did not care about her. They cared about trapping Jesus. Her shame was their tool.</em></strong></p>
+        <p><strong><em>Jesus </em></strong><strong><em>cleared the room before addressing her sin. He removed the audience. He created privacy in the middle of a public space. When He finally spoke to her about her sin, it was face to face, with no one else listening, after every accuser had been sent home by their own conscience.</em></strong></p>
+        <p><strong><em>This contrast is one of the most important lessons in the entire book for anyone who wants to build bridges. There is a world of difference between addressing someone’s sin for their sake and using someone’s sin for your sake. The first is love. The second is exploitation. And the difference is visible in how you handle the exposure. Do you create a spectacle, or do you create a safe space? Do you use the sin to make a point, or do you address the sin to help a person? Do you need an audience, or do you clear the room?</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Exposure Test</strong></p>
+<p>Before you address someone’s sin or shortcoming, ask yourself: Am I doing this in a way that protects their dignity, or in a way that requires an audience? If you need other people to hear what you are saying — if the confrontation would lose its purpose without witnesses — then the purpose is not the person’s good. It is your own. Jesus cleared the room. So should we.</p>
+        </div>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Grace opens ears that condemnation closes. When you encounter someone in their worst moment — caught, exposed, ashamed — the order of your words determines whether they hear hope or another stone hitting the ground. Lead with grace: I am not here to destroy you. Then speak truth: now let’s talk about a better path. And refuse to let anyone else’s agenda — the crowd’s, the culture’s, or your own need to be right — dictate how you treat the person in front of you.</strong></p>
+        </div>
+        <p><strong><em>This encounter demonstrates these elements from our Colossians 4:5–6 framework:</em></strong></p>
+        <p><strong><em>Walk in wisdom </em></strong><strong><em>— Jesus navigated a trap that had no apparent exit by refusing the premise entirely. He operated with a wisdom that was beyond the accusers’ ability to anticipate.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— To the woman: “I do not condemn you.” Eight words of grace that made the truth that followed bearable.</em></strong></p>
+        <p><strong><em>Seasoned with salt </em></strong><strong><em>— To the accusers: “He who is without sin.” One sentence that preserved the standard of the Law while exposing the hypocrisy of its selective application. Salt at its most concentrated.</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— Two completely different responses to two completely different needs in the same scene. The accusers needed conviction. The woman needed restoration. Jesus gave each exactly what they needed.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 4 (Woman at the Well): </em></strong><strong><em>Both encounters involve a woman with a sexual history. In John 4, Jesus raised the topic privately, gently, for her growth. In John 8, the accusers dragged it into public for their agenda. The contrast demonstrates the difference between love-driven and agenda-driven handling of someone’s sin.</em></strong></p>
+        <p><strong><em>Connection to Chapter 3 (Love, Not Agenda): </em></strong><strong><em>The scribes and Pharisees are the perfect illustration of agenda masquerading as righteousness. They used a real sin to serve their own purposes. This is the very danger Chapter 3 warned against: using people as means to your end, even when the “end” is framed as theological.</em></strong></p>
+        <p><strong><em>Connection to Chapter 6 (Zacchaeus): </em></strong><strong><em>In both encounters, the crowd condemned while Jesus received. The grumbling crowd in Luke 19 and the stone-wielding crowd in John 8 share the same assumption: some people are beyond the reach of grace. Jesus rejected that assumption both times.</em></strong></p>
+        <p><strong><em>Connection to Chapter 7 (Rich Young Ruler): </em></strong><strong><em>Mark 10:21 records love then truth. John 8:11 records grace then truth. The pattern is consistent: Jesus always established relational safety before delivering the hard word. The order is not optional.</em></strong></p>
+        <p><strong><em>Connection to Chapter 18 (Seasoned with Salt): </em></strong><strong><em>Jesus’ statement to the accusers is one of the most perfectly “salted” statements in all of Scripture: preserving the standard of the Law, flavoring the moment with an insight no one expected, and creating a thirst for self-examination that drove every accuser from the courtyard.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>John 8:1–11 • John 3:17 • Leviticus 20:10 • Deuteronomy 22:22 • Deuteronomy 17:6–7 • Jeremiah 17:13 • John 2:4 • John 19:26 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">The woman was “caught in the very act,” yet only she was brought before Jesus. The man was conspicuously absent. What does this tell you about the accusers’ real motivation? Have you ever seen someone’s sin used selectively as a weapon while others guilty of the same thing were given a pass?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus stooped down and wrote on the ground instead of answering immediately. What did this “pause” accomplish? When have you been in a situation where the pressure to respond immediately was intense, and what happened? What might have been different if you had slowed down?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">“He who is without sin among you, let him be the first to throw a stone.” This sentence dismantled the trap without contradicting the Law. What made it so effective? How did it redirect the examination from the woman to the accusers without excusing the woman’s sin?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Jesus said “I do not condemn you” before He said “Sin no more.” Why does the order matter? What would have changed if He had reversed them? Think of a time when someone spoke truth to you. Did they lead with grace or with correction? How did the order affect whether you could hear them?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">This chapter identifies two different bridges in the same scene: conviction for the accusers and restoration for the woman. Think of a situation in your own life where multiple people needed different things from you at the same time. How do you discern who needs challenge and who needs comfort?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">The “Exposure Test” asks: Am I addressing this person’s sin in a way that protects their dignity, or in a way that requires an audience? Examine your own patterns honestly. When you have confronted someone about something wrong, was it in private or in public? Did it serve their growth, or did it serve your frustration?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. For each person, ask: Is there something in their life that they are already ashamed of — something the world has already condemned them for? If so, what would it look like for you to be the person who leads with “I do not condemn you” before ever saying “Sin no more”? What would that cost you, and what might it open?</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-07.html">&larr; Chapter 7</a>
+          <a href="chapter-09.html">Chapter 9 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 8;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

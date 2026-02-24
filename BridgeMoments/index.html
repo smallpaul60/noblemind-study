@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bridge Moments: Making the Most of Every Opportunity</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --accent: #06FFA5;
+      --accent-glow: rgba(6,255,165,0.4);
+      --accent-soft: rgba(6,255,165,0.12);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94,229,255,0.3);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.75;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 45px 40px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.3rem;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .stats {
+      margin-top: 12px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .stats span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .return-link {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 20px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      border-radius: 8px;
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    .return-link:hover {
+      background: rgba(94,229,255,0.15);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 15px var(--accent-secondary-glow);
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      margin: 20px 0;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border: 1px solid rgba(6,255,165,0.12);
+      border-radius: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .progress-bar .label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-bar .label span { color: var(--accent); font-weight: 600; }
+    .progress-track {
+      height: 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    /* Three Names Card */
+    .three-names-card {
+      margin: 24px 0;
+      padding: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .three-names-card h2 {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .three-names-card .desc {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      font-style: italic;
+    }
+    .names-inputs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .names-inputs input {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .names-inputs input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .names-inputs input::placeholder { color: var(--text-muted); }
+
+    /* Key verse */
+    .key-verse {
+      margin: 24px 0;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* TOC Parts */
+    .part-section {
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .part-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 14px;
+    }
+    .part-header h2 {
+      font-size: 1.3rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+    }
+    .part-header .chapters {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .lesson-card {
+      display: block;
+      position: relative;
+      padding: 14px 18px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid rgba(6,255,165,0.12);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .lesson-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+    .lesson-num {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .lesson-title {
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      margin: 4px 0;
+    }
+    .progress-dot {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid rgba(6,255,165,0.3);
+      transition: all 0.3s;
+    }
+    .progress-dot.visited {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.3);
+    }
+    .progress-dot.complete {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+
+    /* Appendix section */
+    .appendix-section {
+      margin-top: 16px;
+    }
+    .appendix-section h2 {
+      font-size: 1.2rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    @media print {
+      body { background: white; color: #333; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; }
+      .glass-page-inner { background: white; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .return-link, .progress-bar { display: none; }
+      h1 { color: #2B4C7E; text-shadow: none; }
+      .part-header h2 { color: #2B4C7E; text-shadow: none; }
+      .lesson-card { border: 1px solid #ddd; }
+      .lesson-num { color: #2B4C7E; }
+      .lesson-title { color: #333; }
+    }
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 25px 20px; }
+      h1 { font-size: 1.7rem; }
+      .lesson-grid { grid-template-columns: 1fr; }
+      .names-inputs { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <h1>Bridge Moments</h1>
+        <p class="subtitle">Making the Most of Every Opportunity</p>
+        <p class="stats">
+          <span>20</span> Chapters &bull; <span>4</span> Parts &bull; <span>3</span> Appendices
+        </p>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="return-link">&larr; Return to Noble Mind Study</a>
+      </header>
+
+      <section class="key-verse">
+        <blockquote>
+          &ldquo;Walk in wisdom toward outsiders, making the most of the opportunity. Let your speech always be with grace, as though seasoned with salt, so that you will know how you should respond to each person.&rdquo;
+        </blockquote>
+        <cite>&mdash; Colossians 4:5&ndash;6 (NASB)</cite>
+      </section>
+
+      <section class="three-names-card">
+        <h2>Your Three Names</h2>
+        <p class="desc">In Chapter 1, you will be asked to write three names &mdash; people in your life who need a bridge moment. These names will travel with you through all 20 chapters.</p>
+        <div class="names-inputs">
+          <input type="text" id="name1" placeholder="First name" oninput="saveIndexNames()">
+          <input type="text" id="name2" placeholder="Second name" oninput="saveIndexNames()">
+          <input type="text" id="name3" placeholder="Third name" oninput="saveIndexNames()">
+        </div>
+      </section>
+
+      <div class="progress-bar">
+        <div class="label">
+          <span>Study Progress</span>
+          <span id="progress-text">0 / 20 chapters</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+
+      <section class="part-section">
+        <div class="part-header">
+          <h2>Part 1: The Foundation: Why Words Matter</h2>
+          <span class="chapters">(Chapters 1–3)</span>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-01.html" class="lesson-card" data-ch="1">
+            <span class="lesson-num">Chapter 1</span>
+            <div class="lesson-title">The Weight of Words</div>
+            <span class="progress-dot" id="dot-1"></span>
+          </a>
+          <a href="chapter-02.html" class="lesson-card" data-ch="2">
+            <span class="lesson-num">Chapter 2</span>
+            <div class="lesson-title">The Kairos Principle</div>
+            <span class="progress-dot" id="dot-2"></span>
+          </a>
+          <a href="chapter-03.html" class="lesson-card" data-ch="3">
+            <span class="lesson-num">Chapter 3</span>
+            <div class="lesson-title">Love, Not Agenda</div>
+            <span class="progress-dot" id="dot-3"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="part-section">
+        <div class="part-header">
+          <h2>Part 2: Jesus, the Master of the Moment</h2>
+          <span class="chapters">(Chapters 4–12)</span>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-04.html" class="lesson-card" data-ch="4">
+            <span class="lesson-num">Chapter 4</span>
+            <div class="lesson-title">Give Me a Drink</div>
+            <span class="progress-dot" id="dot-4"></span>
+          </a>
+          <a href="chapter-05.html" class="lesson-card" data-ch="5">
+            <span class="lesson-num">Chapter 5</span>
+            <div class="lesson-title">You Must Be Born Again</div>
+            <span class="progress-dot" id="dot-5"></span>
+          </a>
+          <a href="chapter-06.html" class="lesson-card" data-ch="6">
+            <span class="lesson-num">Chapter 6</span>
+            <div class="lesson-title">I Must Stay at Your House</div>
+            <span class="progress-dot" id="dot-6"></span>
+          </a>
+          <a href="chapter-07.html" class="lesson-card" data-ch="7">
+            <span class="lesson-num">Chapter 7</span>
+            <div class="lesson-title">Jesus Felt a Love for Him</div>
+            <span class="progress-dot" id="dot-7"></span>
+          </a>
+          <a href="chapter-08.html" class="lesson-card" data-ch="8">
+            <span class="lesson-num">Chapter 8</span>
+            <div class="lesson-title">Neither Do I Condemn You</div>
+            <span class="progress-dot" id="dot-8"></span>
+          </a>
+          <a href="chapter-09.html" class="lesson-card" data-ch="9">
+            <span class="lesson-num">Chapter 9</span>
+            <div class="lesson-title">Were Not Our Hearts Burning?</div>
+            <span class="progress-dot" id="dot-9"></span>
+          </a>
+          <a href="chapter-10.html" class="lesson-card" data-ch="10">
+            <span class="lesson-num">Chapter 10</span>
+            <div class="lesson-title">Follow Me</div>
+            <span class="progress-dot" id="dot-10"></span>
+          </a>
+          <a href="chapter-11.html" class="lesson-card" data-ch="11">
+            <span class="lesson-num">Chapter 11</span>
+            <div class="lesson-title">Do You See This Woman?</div>
+            <span class="progress-dot" id="dot-11"></span>
+          </a>
+          <a href="chapter-12.html" class="lesson-card" data-ch="12">
+            <span class="lesson-num">Chapter 12</span>
+            <div class="lesson-title">Do You Love Me?</div>
+            <span class="progress-dot" id="dot-12"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="part-section">
+        <div class="part-header">
+          <h2>Part 3: Following the Pattern</h2>
+          <span class="chapters">(Chapters 13–15)</span>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-13.html" class="lesson-card" data-ch="13">
+            <span class="lesson-num">Chapter 13</span>
+            <div class="lesson-title">Do You Understand What You Are Reading?</div>
+            <span class="progress-dot" id="dot-13"></span>
+          </a>
+          <a href="chapter-14.html" class="lesson-card" data-ch="14">
+            <span class="lesson-num">Chapter 14</span>
+            <div class="lesson-title">Men of Athens</div>
+            <span class="progress-dot" id="dot-14"></span>
+          </a>
+          <a href="chapter-15.html" class="lesson-card" data-ch="15">
+            <span class="lesson-num">Chapter 15</span>
+            <div class="lesson-title">What Must I Do to Be Saved?</div>
+            <span class="progress-dot" id="dot-15"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="part-section">
+        <div class="part-header">
+          <h2>Part 4: Developing Your Voice</h2>
+          <span class="chapters">(Chapters 16–20)</span>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-16.html" class="lesson-card" data-ch="16">
+            <span class="lesson-num">Chapter 16</span>
+            <div class="lesson-title">Learning to Listen</div>
+            <span class="progress-dot" id="dot-16"></span>
+          </a>
+          <a href="chapter-17.html" class="lesson-card" data-ch="17">
+            <span class="lesson-num">Chapter 17</span>
+            <div class="lesson-title">From Natural to Spiritual</div>
+            <span class="progress-dot" id="dot-17"></span>
+          </a>
+          <a href="chapter-18.html" class="lesson-card" data-ch="18">
+            <span class="lesson-num">Chapter 18</span>
+            <div class="lesson-title">Seasoned with Salt</div>
+            <span class="progress-dot" id="dot-18"></span>
+          </a>
+          <a href="chapter-19.html" class="lesson-card" data-ch="19">
+            <span class="lesson-num">Chapter 19</span>
+            <div class="lesson-title">When They Walk Away</div>
+            <span class="progress-dot" id="dot-19"></span>
+          </a>
+          <a href="chapter-20.html" class="lesson-card" data-ch="20">
+            <span class="lesson-num">Chapter 20</span>
+            <div class="lesson-title">The Heart Behind the Words</div>
+            <span class="progress-dot" id="dot-20"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="appendix-section part-section">
+        <div class="part-header">
+          <h2>Appendices</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="appendix-a.html" class="lesson-card">
+            <span class="lesson-num">Appendix A</span>
+            <div class="lesson-title">Quick Reference Chart</div>
+          </a>
+          <a href="appendix-b.html" class="lesson-card">
+            <span class="lesson-num">Appendix B</span>
+            <div class="lesson-title">Scripture Index</div>
+          </a>
+          <a href="appendix-c.html" class="lesson-card">
+            <span class="lesson-num">Appendix C</span>
+            <div class="lesson-title">Small Group Exercises</div>
+          </a>
+        </div>
+      </section>
+
+      <footer>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveIndexNames() {
+      const names = {
+        name1: document.getElementById('name1').value.trim(),
+        name2: document.getElementById('name2').value.trim(),
+        name3: document.getElementById('name3').value.trim()
+      };
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function updateProgressUI() {
+      const p = loadProgress();
+      let complete = 0;
+      for (let i = 1; i <= 20; i++) {
+        const dot = document.getElementById('dot-' + i);
+        if (!dot) continue;
+        const status = p['ch' + i];
+        if (status === 'complete') {
+          dot.className = 'progress-dot complete';
+          complete++;
+        } else if (status === 'visited') {
+          dot.className = 'progress-dot visited';
+        }
+      }
+      document.getElementById('progress-text').textContent = complete + ' / 20 chapters';
+      document.getElementById('progress-fill').style.width = (complete / 20 * 100) + '%';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const names = loadNames();
+      document.getElementById('name1').value = names.name1;
+      document.getElementById('name2').value = names.name2;
+      document.getElementById('name3').value = names.name3;
+      updateProgressUI();
+    });
+  </script>
+</body>
+</html>

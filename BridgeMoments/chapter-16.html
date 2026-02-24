@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 16: Learning to Listen | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html" selected>Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 4</p>
+        <p class="part-title">Developing Your Voice</p>
+        <p class="chapter-num">Chapter 16</p>
+        <h1>Learning to Listen</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“This you know, my beloved brethren. But everyone must be quick to hear, slow to speak and slow to anger.”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To develop the foundational skill without which no bridge moment can succeed: listening. Not hearing words while formulating your response. Not waiting for your turn to speak. Not listening for an opening to insert your point. True listening — the kind that hears what people are really saying beneath the surface of their words. Every bridge moment we have studied in this book began with Jesus or the early church hearing something — a need, a question, a hunger, a grief — and responding to it. This chapter equips the reader to hear at that level.</div>
+
+      <div class="content">
+        <p><strong>PART FOUR</strong></p>
+        <p><em>The Practice: Living with Bridge Moment Eyes</em></p>
+        <p><em>Hearing What People Are Really Saying  •  James 1:19</em></p>
+        <h2>Quick to Hear: The Priority God Puts First</h2>
+        <p><strong><em>James gives three instructions in verse 19, and the order is not accidental: </em></strong><strong><em>quick to hear</em></strong><strong><em>, </em></strong><strong><em>slow to speak</em></strong><strong><em>, </em></strong><strong><em>slow to anger</em></strong><strong><em>. Hearing comes first. Speaking comes second. And anger — the emotion that most consistently destroys bridge moments — comes last, governed by the first two. If you hear well, you will speak better. And if you speak better, you will have less cause for anger. The sequence is not three separate instructions but a single discipline: let the listening drive everything else.</em></strong></p>
+        <p><strong><em>The Greek </em></strong><strong><em>tachys eis to akousai</em></strong><strong><em> — quick to hear — suggests eagerness, readiness, a posture of reception. Not “willing to hear if someone makes a good point” but </em></strong><strong><em>quick</em></strong><strong><em>: the first thing, the default setting, the instinctive response. Before you evaluate. Before you agree or disagree. Before you formulate your reply. Hear. And then: </em></strong><strong><em>bradys eis to lalēsai</em></strong><strong><em> — slow to speak. Not silent. Slow. Measured. Unhurried. Give the other person’s words time to land before you launch your own.</em></strong></p>
+        <p><strong><em>Go back through every encounter we have studied and you will find this principle operating in Jesus consistently. He asked the Samaritan woman a question and let her talk. He let the Emmaus disciples pour out their entire grief before He spoke. He stooped and wrote on the ground while the accusers pressed for a verdict. He asked the rich young ruler to recite the commandments before He named the one thing he lacked. He asked Peter three questions and waited for each answer. In every case, He listened first. The listening shaped the response. And the response was effective because it addressed what the person had actually said, not what Jesus assumed they meant.</em></strong></p>
+        <h2>Three Levels of Listening</h2>
+        <p><strong><em>Not all listening is the same. Most of us operate at the first level most of the time. Bridge moments happen at the third.</em></strong></p>
+        <h3>Level 1: Surface Listening</h3>
+        <p><strong><em>Surface listening hears words. It processes the literal content of what someone says and prepares a response to that content. When a coworker says, “I’m fine,” surface listening takes the statement at face value. When a friend says, “I’ve been busy,” surface listening accepts the information and moves on. Surface listening is sufficient for transactions — ordering coffee, exchanging pleasantries, coordinating schedules. But it will miss every bridge moment that presents itself, because bridge moments almost never announce themselves with surface-level language.</em></strong></p>
+        <h3>Level 2: Contextual Listening</h3>
+        <p><strong><em>Contextual listening hears the situation behind the words. It takes into account what you know about the person, their circumstances, their tone of voice, and the context of the conversation. When the same coworker says, “I’m fine,” contextual listening notices that she just came from a meeting with her manager, that her eyes are red, and that “fine” was said with a flat voice that contradicts the word. Contextual listening connects the statement to its surroundings and recognizes that the words may not be telling the whole story.</em></strong></p>
+        <p><strong><em>Contextual listening is better. It sees more. But it still tends to process information about the person rather than engaging with the person herself. It is observational rather than relational.</em></strong></p>
+        <h3>Level 3: Heart-Level Listening</h3>
+        <p><strong><em>Heart-level listening hears what the person is </em></strong><strong><em>really</em></strong><strong><em> saying — the need, the fear, the hope, the question beneath the question. It hears the Samaritan woman’s request for living water as a confession of thirst that five husbands could not satisfy. It hears the rich young ruler’s question about eternal life as the restless ache of a man who has everything and knows it is not enough. It hears Peter’s “I’m going fishing” as the resignation of a man who believes his calling is over. Heart-level listening goes beneath the words, beneath the context, to the person’s actual condition.</em></strong></p>
+        <p><strong><em>This is the level at which bridge moments become visible. And it requires three things that most of us find difficult: presence (you must be fully in the moment, not distracted or multitasking), empathy (you must care about the person, not just the conversation), and patience (you must be willing to let the conversation go deeper than the surface, even when that takes time and discomfort).</em></strong></p>
+        <div class="principle-box">
+<p><strong>Bridge moments are heard before they are spoken. If you are not listening at the heart level, you will miss the very moments this book has been training you to see. The Samaritan woman’s thirst, the Emmaus disciples’ grief, the jailer’s desperation — all of these were audible to someone who was truly listening. The first skill of a bridge-builder is not eloquence. It is attention.</strong></p>
+        </div>
+        <h2>What Jesus Heard That Others Missed</h2>
+        <p><strong><em>Throughout this study, Jesus consistently demonstrated heart-level listening. Look at what He heard that no one else in the room heard:</em></strong></p>
+        <p><strong><em>In Simon’s house (Chapter 11): </em></strong><strong><em>Simon’s silent judgment. The text says Simon spoke “to himself” (Luke 7:39). Jesus heard a thought that was never spoken aloud and responded to it with a parable. While we do not have Jesus’ divine ability to hear unspoken thoughts, we can develop the ability to read what people are communicating through their body language, their tone, their facial expressions, and their silence. Much of what people “say” is never spoken.</em></strong></p>
+        <p><strong><em>At the well (Chapter 4): </em></strong><strong><em>The Samaritan woman’s deflection. When Jesus raised the subject of her husband, she tried to redirect the conversation to a theological debate about worship. Jesus heard the deflection for what it was and gently brought the conversation back to the heart issue without accusing her of avoidance. People deflect when a conversation gets too close to something painful. Heart-level listening recognizes the deflection and understands what it is protecting.</em></strong></p>
+        <p><strong><em>On the Emmaus road (Chapter 9): </em></strong><strong><em>The past tense. “We were hoping.” Jesus heard a dead hope in their verb tenses. The words were informational, but the grammar was revelatory. People often tell you their deepest condition not in what they say but in how they say it — the tense they use, the qualifiers they add, the words they choose and the words they avoid.</em></strong></p>
+        <p><strong><em>At the beach (Chapter 12): </em></strong><strong><em>Peter’s decision to go fishing. No one else in the room appears to have interpreted this as anything other than a practical decision. Jesus heard it as a retreat from calling. He responded not with a correction but with a charcoal fire. The best listeners do not just hear the words. They hear what the decision means.</em></strong></p>
+        <h2>The Enemies of Listening</h2>
+        <p><strong><em>If heart-level listening is the prerequisite for bridge moments, then we need to identify what prevents it. Four enemies are most common:</em></strong></p>
+        <h3>1. The Agenda</h3>
+        <p><strong><em>When you enter a conversation with a predetermined destination — a point you want to make, a truth you want to share, a conclusion you want the other person to reach — your listening becomes selective. You hear what supports your agenda and filter out what does not. This is the precise danger Chapter 3 warned against. The scribes and Pharisees in John 8 were not listening to the woman. They were using her. Agenda-driven listening is not listening at all. It is surveillance for an opening.</em></strong></p>
+        <h3>2. The Response</h3>
+        <p><strong><em>Most of us, while the other person is speaking, are composing our reply. We are rehearsing what we will say next rather than absorbing what is being said now. The result is that we respond to the first third of what the person said, because that is all we heard before our internal composer took over. James’ instruction — quick to hear, slow to speak — is designed to break this habit. Let the person finish. Let the silence sit for a moment after they stop. And then respond to what they actually said, not to what you were planning to say before they finished.</em></strong></p>
+        <h3>3. The Fix</h3>
+        <p><strong><em>Bridge-builders are often helpers by nature, and helpers have a dangerous instinct: the urge to fix. When someone shares a problem, the fixer’s brain immediately begins generating solutions. But most people, in their first moments of sharing, do not want to be fixed. They want to be heard. The Ethiopian did not need Philip to fix his confusion about Isaiah 53 in the first sentence. He needed Philip to climb into the chariot, sit beside him, and start from where he already was. Solutions have their place — but that place is after the listening, not during it.</em></strong></p>
+        <h3>4. The Judgment</h3>
+        <p><strong><em>Simon looked at the woman in Luke 7 and saw a category: “that sort of person.” His judgment shut down his ability to see her as a human being. When we judge someone — their lifestyle, their choices, their appearance, their past — our listening becomes contaminated. We hear everything they say through the filter of what we have already decided about them. Heart-level listening requires the suspension of judgment long enough to actually hear the person. This does not mean abandoning moral convictions. It means refusing to let your evaluation of someone’s life prevent you from hearing their heart.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Listening Audit</strong></p>
+<p>In your next three conversations, pay attention to which enemy is most active in your listening. Are you waiting for an opening (agenda)? Composing your reply (response)? Generating solutions (fix)? Categorizing the person (judgment)? Simply becoming aware of the pattern is the first step toward breaking it. You cannot change what you do not see.</p>
+        </div>
+        <h2>Developing the Discipline: Practical Exercises</h2>
+        <p><strong><em>Listening at the heart level is not a natural talent. It is a discipline that can be developed. The following exercises are designed to strengthen your capacity to hear what people are really saying.</em></strong></p>
+        <div class="exercise-box">
+<p><strong>Exercise 1: The Two-Minute Discipline</strong></p>
+<p>In one conversation this week, commit to listening for a full two minutes before saying anything substantive. Ask an open-ended question (“How are you really doing?” or “What’s been on your mind lately?”), and then listen. Do not interrupt. Do not offer advice. Do not redirect. Simply listen, with eye contact, with your full attention, for two minutes. When the person finishes, ask a follow-up question based on something they said — not on something you were thinking. Notice what you hear when you give someone that much uninterrupted space.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Exercise 2: The Beneath-the-Words Question</strong></p>
+<p>After a conversation with someone you know well, ask yourself three questions: (1) What did they say? (2) What did they mean? (3) What did they need? These three are often different. A friend who says “I’ve been so busy” may mean “I’m overwhelmed” and may need “someone to acknowledge that I’m struggling.” Practice separating the words from the meaning and the meaning from the need.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Exercise 3: The Replay</strong></p>
+<p>At the end of each day this week, replay one significant conversation in your mind. Ask yourself: What did I miss? Was there a moment when the person was saying something deeper than the surface, and I did not follow it? Was there a shift in tone, a pause, a change of subject that might have been significant? What would I ask if I could go back to that moment? This exercise trains your awareness retroactively — and over time, you will begin catching these moments in real time.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Exercise 4: The Three Names</strong></p>
+<p>Return to the three names you wrote in Chapter 1. For each person, write down the last significant conversation you had with them. What did they say on the surface? What might they have meant beneath the surface? What might they need that they have not yet been able to articulate? Is there a question you could ask in your next conversation that would open the door to heart-level communication? Write that question down. And then ask it.</p>
+        </div>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Bridge moments are heard before they are built. Every encounter in this study began with someone who was paying attention — who heard the thirst beneath the request, the grief beneath the verb tense, the resignation beneath the decision, the desperation beneath the question. You cannot build a bridge to someone whose heart you have not heard. And you cannot hear their heart if you are listening for an opening instead of listening for a person. Be quick to hear. The rest follows.</strong></p>
+        </div>
+        <p><strong><em>This chapter connects to the Colossians 4:5–6 framework at its most foundational level:</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— You cannot respond to each person if you have not heard each person. Colossians 4:6 says our speech should be shaped by who is standing in front of us. That requires knowing who is standing in front of us. And knowing requires listening — not at the surface level but at the heart level.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— Gracious speech begins with gracious listening. When you have truly heard someone, your words will naturally be shaped by their need rather than your agenda. Grace in speech is the fruit of attention in listening.</em></strong></p>
+        <p><strong><em>Walk in wisdom </em></strong><strong><em>— Wisdom, in the practical sense, is the ability to perceive what is actually happening in a situation and respond appropriately. That perception begins with listening. The wise person is not the one with the best answers but the one who has understood the question.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 4 (Woman at the Well): </em></strong><strong><em>Jesus heard her thirst beneath her request and her pain beneath her deflection. Every element of His approach was shaped by what He heard. The living water metaphor, the husband question, the worship discussion — all responses to what the woman revealed through her words and her evasions.</em></strong></p>
+        <p><strong><em>Connection to Chapter 9 (Road to Emmaus): </em></strong><strong><em>Jesus asked ‘What things?’ and listened to an entire theology of disappointment before He spoke. The correction He gave was calibrated precisely to what He had heard. Without the listening, the correction would have had no target.</em></strong></p>
+        <p><strong><em>Connection to Chapter 11 (Simon’s House): </em></strong><strong><em>Simon’s silent judgment was heard by Jesus. The parable that followed was a direct response to what Simon thought but did not say. Heart-level listening catches what is communicated silently as well as what is spoken.</em></strong></p>
+        <p><strong><em>Connection to Chapter 3 (Love, Not Agenda): </em></strong><strong><em>The first enemy of listening — the agenda — is the exact danger Chapter 3 identified. When love drives the conversation, listening is natural. When agenda drives it, listening is selective. The guardrail of Chapter 3 is the prerequisite for the discipline of Chapter 16.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>James 1:19 • Proverbs 18:13 • Proverbs 20:5 • Colossians 4:5–6 • Luke 7:39 • John 4:7–26 • Luke 24:17–24</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">James 1:19 places hearing before speaking and speaking before anger. How does this sequence function as a single discipline rather than three separate instructions? What happens to your conversations when the order is reversed — when you speak before you listen, or when anger arrives before either?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Which of the three levels of listening — surface, contextual, or heart-level — do you most naturally operate at? Be honest. What would it take to move consistently deeper? What specific obstacles prevent you from listening at the heart level in your daily conversations?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Which of the four enemies of listening — agenda, response, fix, or judgment — is most active in your conversations? Can you identify a recent conversation where one of these enemies prevented you from truly hearing what someone was saying?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Jesus heard things no one else in the room heard: Simon’s silent judgment, the Samaritan woman’s deflection, the Emmaus disciples’ dead hope, Peter’s retreat into fishing. While we lack divine omniscience, we can develop attention. What practices or habits could help you notice what people are communicating beneath their words?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">Try Exercise 1 (The Two-Minute Discipline) this week. After doing it, reflect: What did you hear that you would normally have missed? How did the other person respond to being given uninterrupted space? What did the experience teach you about your own listening habits?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">Proverbs 20:5 says: ‘A plan in the heart of a man is like deep water, but a man of understanding draws it out.’ What does it mean to ‘draw out’ what is deep in someone’s heart? What kinds of questions draw people out versus shut them down?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. For each person, complete Exercise 4: What was the last significant conversation you had with them? What did they say? What did they mean? What did they need? What question could you ask next time that would open the door to something deeper? Write it down.</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-15.html">&larr; Chapter 15</a>
+          <a href="chapter-17.html">Chapter 17 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 16;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

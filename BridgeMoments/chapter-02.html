@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2: The Kairos Principle | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html" selected>Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 1</p>
+        <p class="part-title">The Foundation: Why Words Matter</p>
+        <p class="chapter-num">Chapter 2</p>
+        <h1>The Kairos Principle</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Conduct yourselves with wisdom toward outsiders, making the most of the opportunity. Let your speech always be with grace, as though seasoned with salt, so that you will know how you should respond to each person.”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To perform a careful exegesis of Colossians 4:5–6, unpacking the Greek terminology phrase by phrase, and to establish this passage as the thesis framework for the entire study. This chapter formally introduces the concept of a bridge moment as a kairos moment — an opportune, God-given window in conversation that believers are called to recognize and redeem.</div>
+
+      <div class="content">
+        <p><em>Redeeming the Moment</em></p>
+        <h2>Two Kinds of Time</h2>
+        <p><strong><em>The ancient Greeks had two different words for what we, in English, collapse into a single word: time.</em></strong></p>
+        <p><strong><em>The first word was </em></strong><strong><em>chronos</em></strong><strong><em>. This is the word from which we get </em></strong><strong><em>chronology</em></strong><strong><em>, </em></strong><strong><em>chronicle</em></strong><strong><em>, and </em></strong><strong><em>chronometer</em></strong><strong><em>. It refers to sequential, measured time — the ticking of the clock, the turning of the calendar, the passage of minutes and hours and days. Chronos is the time that moves whether you are paying attention or not. It is the time that fills your schedule. It is the backdrop against which life happens.</em></strong></p>
+        <p><strong><em>The second word was </em></strong><strong><em>kairos</em></strong><strong><em>. And this word is different in a way that changes everything we are studying. Kairos does not refer to clock time. It refers to the </em></strong><strong><em>right</em></strong><strong><em> time — the opportune moment, the decisive window, the point at which something </em></strong><strong><em>can happen</em></strong><strong><em> that could not happen a moment before and may not be able to happen a moment after. If chronos is the river, kairos is the bend in the river where the current suddenly shifts. If chronos is the field, kairos is the moment the soil is ready for the seed.</em></strong></p>
+        <p><strong><em>We experience kairos moments in everyday life, though we rarely name them. A friend who suddenly gets quiet and stares into their coffee — something just surfaced, and the next five seconds will determine whether they share it or bury it. A coworker who makes an offhand comment about feeling lost — that was not small talk, even if it was disguised as small talk. A neighbor who lingers at the mailbox a little longer than necessary, as if hoping someone will stop and talk. These are kairos moments. They are fleeting. They are real. And most of them pass unnoticed because we are too busy moving through chronos to recognize them.</em></strong></p>
+        <p><strong><em>The apostle Paul knew the difference. And when he wrote to the church at Colossae about how they should interact with the world around them, he chose his words with the precision of a man who understood that everything about the Christian’s witness depends on recognizing — and redeeming — the right moment.</em></strong></p>
+        <h2>The Text: Colossians 4:5–6</h2>
+        <p><strong><em>Let us read the passage one more time, slowly, before we take it apart:</em></strong></p>
+        <blockquote class="scripture"><p>“Conduct yourselves with wisdom toward outsiders, making the most of the opportunity. Let your speech always be with grace, as though seasoned with salt, so that you will know how you should respond to each person.”</p>
+        </blockquote>
+        <p><strong><em>In the original Greek, these two verses contain six distinct instructions, each building on the one before. Together, they form the most complete single passage in the New Testament on how believers should communicate with unbelievers. We will take them one at a time.</em></strong></p>
+        <h2>Phrase 1: “Conduct Yourselves with Wisdom”</h2>
+        <div class="exercise-box">
+<p><strong>Greek: en sophia peripateite</strong></p>
+<p><strong><em>en sophia</em></strong> = “in wisdom”</p>
+<p><strong><em>peripateite</em></strong> = “walk” (present imperative — continuous, habitual action)</p>
+<p>Literal: “In wisdom, walk.”</p>
+        </div>
+        <p><strong><em>Paul’s first instruction is not about what to </em></strong><strong><em>say</em></strong><strong><em>. It is about how to </em></strong><strong><em>live</em></strong><strong><em>. The word </em></strong><strong><em>peripateite</em></strong><strong><em> means “walk” in the sense of “conduct your life.” This is the same word Paul uses in Ephesians 5:15 (“Be careful how you walk”), Galatians 5:16 (“Walk by the Spirit”), and Colossians 2:6 (“As you have received Christ Jesus the Lord, so walk in Him”). In every case, it refers to the whole pattern of a person’s life — not a single action but a settled manner of living.</em></strong></p>
+        <p><strong><em>The wisdom Paul has in mind here is not cleverness, strategic thinking, or social intelligence. This is the wisdom that James describes:</em></strong></p>
+        <blockquote class="scripture"><p>“But the wisdom from above is first pure, then peaceable, gentle, reasonable, full of mercy and good fruits, unwavering, without hypocrisy.”</p>
+        </blockquote>
+        <p><strong><em>This is important. When Paul tells us to walk in wisdom toward outsiders, he is not prescribing a communications strategy. He is describing a quality of character. Before you speak a single word to anyone outside the faith, your life itself is speaking. They are already watching how you handle adversity, how you treat people who cannot benefit you, how you respond when things do not go your way. Your walk precedes your words. If the walk is not wise, the words will ring hollow no matter how well-crafted they are.</em></strong></p>
+        <h2>Phrase 2: “Toward Outsiders”</h2>
+        <div class="exercise-box">
+<p><strong>Greek: pros tous exo</strong></p>
+<p><strong><em>pros</em></strong> = “toward, in the direction of, face to face with”</p>
+<p><strong><em>tous exo</em></strong> = “the ones outside” — those outside the community of faith</p>
+        </div>
+        <p><strong><em>Paul specifies his audience: </em></strong><em>“the ones outside.”</em><strong><em> He uses this same phrase in 1 Corinthians 5:12–13 and 1 Thessalonians 4:12 to distinguish between the community of believers and those who are not yet part of it. This is not a term of condescension. It is simply a recognition that there are people inside the household of faith and people who are not yet there.</em></strong></p>
+        <p><strong><em>But notice something crucial that is embedded in this phrase: Paul assumes that believers are interacting with outsiders. He is not writing to people who have withdrawn into a Christian enclave. He is writing to people who are face to face — pros — with the outside world on a regular basis. The instruction presupposes contact. You cannot walk in wisdom toward people you never see, never speak to, and never engage.</em></strong></p>
+        <p><strong><em>This is worth pausing on, because there is a persistent temptation among believers to insulate. To build a life that is entirely surrounded by other Christians — Christian friends, Christian events, Christian entertainment, Christian social media — and to rarely, if ever, have meaningful interaction with someone who does not share the faith. Paul’s instruction makes no sense in that context. He is writing to people who are in the world, rubbing shoulders with their neighbors, working alongside unbelievers, living in a pagan city. And he is telling them: the way you conduct yourself in those interactions matters enormously.</em></strong></p>
+        <h2>Phrase 3: “Making the Most of the Opportunity”</h2>
+        <div class="exercise-box">
+<p><strong>Greek: ton kairon exagorazomenoi</strong></p>
+<p><strong><em>ton kairon</em></strong> = “the opportune moment” (kairos, not chronos)</p>
+<p><strong><em>exagorazomenoi</em></strong> = “buying up, redeeming, purchasing from the marketplace”</p>
+<p>Literal: “The opportune moment, buying up for yourselves.”</p>
+        </div>
+        <p><strong><em>This is the heart of the passage, and it deserves our most careful attention.</em></strong></p>
+        <p><strong><em>We have already discussed the significance of </em></strong><strong><em>kairos</em></strong><strong><em> versus </em></strong><strong><em>chronos</em></strong><strong><em>. Paul is not telling us to manage our schedules well. He is telling us to recognize the </em></strong><strong><em>God-given opportune moments</em></strong><strong><em> that arise in our interactions with outsiders, and to act on them decisively.</em></strong></p>
+        <p><strong><em>But the verb is equally important. </em></strong><strong><em>Exagorazomenoi</em></strong><strong><em> comes from the world of commerce. The root is </em></strong><strong><em>agorazo</em></strong><strong><em> — “to buy in the marketplace” (from </em></strong><strong><em>agora</em></strong><strong><em>, the marketplace). The prefix </em></strong><strong><em>ex</em></strong><strong><em> intensifies it: to buy </em></strong><strong><em>up</em></strong><strong><em>, to buy </em></strong><strong><em>out</em></strong><strong><em>, to purchase completely. Think of a shrewd merchant who sees a valuable item at a stall and snaps it up immediately because he knows it will not be there tomorrow. That is the image Paul is painting.</em></strong></p>
+        <p><strong><em>The kairos moment is the valuable item. It has appeared on the table. It is available right now. But it will not last. If you hesitate, if you are not paying attention, if you are distracted by your own agenda or your own discomfort, the moment passes. Someone else may come along, or the moment may simply close. Paul is saying: when God opens a window in a conversation — when the natural and the spiritual suddenly intersect, when someone says something that reveals a real need or a real question or a real hunger — buy that moment. Seize it. Redeem it. Do not let it slip past you.</em></strong></p>
+        <p><strong><em>Paul uses nearly identical language in Ephesians 5:15–16:</em></strong></p>
+        <blockquote class="scripture"><p>“Therefore be careful how you walk, not as unwise men but as wise, making the most of your time, because the days are evil.”</p>
+        </blockquote>
+        <p><strong><em>The NASB translates </em></strong><strong><em>ton kairon</em></strong><strong><em> here as “your time,” but it is the same Greek construction — the same kairos, the same </em></strong><strong><em>exagorazomenoi</em></strong><strong><em>. And Paul adds a reason for the urgency: </em></strong><em>“because the days are evil.”</em><strong><em> The opportunities are precious because the window is not unlimited. The world is broken. People are hurting. The need is urgent. And the moments when hearts are open do not last forever.</em></strong></p>
+        <div class="principle-box">
+<p><strong>A bridge moment is a kairos moment. It is the instant in a conversation when what a person has just shared — a fear, a hope, a question, a frustration, a joy — naturally intersects with something true about God. The skill is not in creating these moments. God provides them. The skill is in recognizing them when they appear and having the wisdom and courage to walk across the bridge.</strong></p>
+        </div>
+        <h2>Phrase 4: “Let Your Speech Always Be with Grace”</h2>
+        <div class="exercise-box">
+<p><strong>Greek: ho logos hymōn pantote en chariti</strong></p>
+<p><strong><em>ho logos hymōn</em></strong> = “your word / your speech”</p>
+<p><strong><em>pantote</em></strong> = “always, at all times” (no exceptions)</p>
+<p><strong><em>en chariti</em></strong> = “in grace” — charis: that which is pleasing, winsome, and benefits the hearer</p>
+        </div>
+        <p><strong><em>Notice the word Paul inserts: </em></strong><strong><em>pantote</em></strong><strong><em> — </em></strong><strong><em>always</em></strong><strong><em>. Not when it is convenient. Not when the other person is pleasant. Not when you feel like it. Always. This is not a suggestion. It is a standard.</em></strong></p>
+        <p><strong><em>The word </em></strong><strong><em>charis</em></strong><strong><em> is one of the richest words in the New Testament. It is the word for grace — the same word used for God’s unmerited favor toward sinners. But in the context of speech, charis carries the additional sense of that which is </em></strong><strong><em>attractive</em></strong><strong><em>, </em></strong><strong><em>winsome</em></strong><strong><em>, and </em></strong><strong><em>beneficial to the hearer</em></strong><strong><em>. Luke uses it in Luke 4:22 when he describes the crowd’s reaction to Jesus at Nazareth: they </em></strong><em>“were amazed at the gracious words which were falling from His lips.”</em><strong><em> The same root. Jesus’ speech was marked by charis — it was pleasing, compelling, full of a quality that drew people in rather than pushing them away.</em></strong></p>
+        <p><strong><em>Grace-filled speech is not weak speech. It is not vague speech. It is not speech that avoids hard truth. Jesus spoke with grace, and He also said some of the hardest things anyone has ever heard. Grace is not the absence of truth. It is the manner in which truth is delivered — with kindness, with respect for the hearer’s dignity, with genuine concern for their good. When your words carry charis, people may not always agree with you, but they will not feel attacked, manipulated, or belittled.</em></strong></p>
+        <p><strong><em>Think about the people in your life whose speech has this quality. When they speak, you want to listen. Not because they are flattering you, but because something about the way they communicate makes you feel valued, respected, and cared for. That is charis in action. And Paul says this should characterize your speech at all times — pantote — not just when you are in a spiritual conversation, but in every exchange you have.</em></strong></p>
+        <h2>Phrase 5: “As Though Seasoned with Salt”</h2>
+        <div class="exercise-box">
+<p><strong>Greek: halati ērtymenos</strong></p>
+<p><strong><em>halati</em></strong> = “with salt”</p>
+<p><strong><em>ērtymenos</em></strong> = “seasoned, prepared, made ready” (perfect passive participle — a completed action with ongoing results)</p>
+        </div>
+        <p><strong><em>This metaphor is deceptively simple, and we will explore it more fully in Chapter 18. But here, in establishing the thesis, we need to understand what Paul is drawing on.</em></strong></p>
+        <p><strong><em>Salt in the ancient world served three primary functions, and each one illuminates what Paul means for our speech:</em></strong></p>
+        <h3>Salt Preserves</h3>
+        <p><strong><em>Before refrigeration, salt was the primary means of preventing decay. Meat that was not salted would rot. Applied to speech: your words should preserve what is good and true. In a world where conversations often decay into gossip, cynicism, complaint, and emptiness, speech seasoned with salt resists that drift. It keeps the conversation from going rotten. When you speak, you are introducing something that preserves rather than corrodes.</em></strong></p>
+        <h3>Salt Flavors</h3>
+        <p><strong><em>Salt makes food appealing. Unsalted food is flat and unappealing, even if it is nutritious. Applied to speech: truth that is delivered without any flavor — without warmth, without personality, without connection to the hearer’s real life — may be technically accurate but practically useless. People do not eat bland food voluntarily, and they do not engage with bland conversation voluntarily either. Speech seasoned with salt has substance and flavor. It is interesting. It is engaging. It makes people want to stay in the conversation.</em></strong></p>
+        <h3>Salt Creates Thirst</h3>
+        <p><strong><em>This may be the most important function for our study. Salt makes you thirsty. Applied to speech: your words should leave people wanting more. Not because you were evasive or withheld information, but because something about what you said awakened a desire to hear more, to think more deeply, to explore further. When Jesus told the woman at the well about living water, He did not give her the full theological explanation on the spot. He said just enough to make her say, “Sir, give me this water” (John 4:15). That is salt-seasoned speech. It creates thirst.</em></strong></p>
+        <p><strong><em>Now notice what salt does </em></strong><strong><em>not</em></strong><strong><em> do: salt does not overwhelm. When you over-salt food, it becomes inedible. The salt is all you taste. When your speech is </em></strong><strong><em>over</em></strong><strong><em>-seasoned — when you dump the entire weight of theological truth on someone in a single conversation, when you preach at them instead of talking with them, when every sentence drips with spiritual content they did not ask for — you have not salted the conversation. You have ruined it. Seasoning requires restraint. The right amount at the right time. More is not always better.</em></strong></p>
+        <p><strong><em>And salt does not stand alone. Nobody eats a bowl of salt. Salt is always applied to something else. It enhances what is already there. In the same way, your spiritual contribution to a conversation should enhance what is already being discussed, not replace it. You enter the person’s real conversation and add something that elevates it. This is precisely what Jesus did in every encounter we will study in Part 2.</em></strong></p>
+        <h2>Phrase 6: “So That You Will Know How You Should Respond to Each Person”</h2>
+        <div class="exercise-box">
+<p><strong>Greek: eidenai pōs dei hymas heni hekastō apokrinesthai</strong></p>
+<p><strong><em>eidenai</em></strong> = “to know, to perceive”</p>
+<p><strong><em>heni hekastō</em></strong> = “each one” — individually, one at a time</p>
+<p><strong><em>apokrinesthai</em></strong> = “to answer, to respond” (implies a prior question or situation to respond to)</p>
+        </div>
+        <p><strong><em>This final phrase is the application of everything that came before it, and it contains a principle that will run through every chapter of this book: there is no one-size-fits-all approach to spiritual conversation.</em></strong></p>
+        <p><strong><em>Paul says </em></strong><strong><em>heni hekastō</em></strong><strong><em> — </em></strong><strong><em>each one</em></strong><strong><em>. Not “people in general.” Not “your audience.” Each. Individual. Person. This means that the way you speak to your skeptical coworker should be different from the way you speak to your grieving neighbor, which should be different from the way you speak to your religiously confused family member. Each person has a different starting point, a different set of needs, a different history, a different level of openness. And Paul expects you to </em></strong><strong><em>know</em></strong><strong><em> — </em></strong><strong><em>eidenai</em></strong><strong><em> — how to respond to each one.</em></strong></p>
+        <p><strong><em>Notice also that the word is </em></strong><strong><em>apokrinesthai</em></strong><strong><em> — “to respond.” This is not “to initiate” or “to deliver” or “to announce.” It is a word that implies </em></strong><strong><em>something came first</em></strong><strong><em>. Someone spoke. Something happened. A question was asked, a statement was made, a need was expressed. And now you are responding to </em></strong><strong><em>that</em></strong><strong><em>. Paul is describing reactive speech — speech that listens first and then answers. This alone eliminates the model of walking up to a stranger and launching a gospel presentation. Paul envisions a conversation already in motion, and a believer who is so well-prepared and so attuned to the moment that they know how to respond when the opportunity appears.</em></strong></p>
+        <p><strong><em>How do you develop that kind of readiness? Peter answers this in his first epistle:</em></strong></p>
+        <blockquote class="scripture"><p>“But sanctify Christ as Lord in your hearts, always being ready to make a defense to everyone who asks you to give an account for the hope that is in you, yet with gentleness and reverence.”</p>
+        </blockquote>
+        <p><strong><em>The preparation happens </em></strong><strong><em>before</em></strong><strong><em> the conversation begins. </em></strong><em>“Sanctify Christ as Lord in your hearts”</em><strong><em> — that is the heart preparation from Chapter 1. </em></strong><em>“Always being ready”</em><strong><em> — that is ongoing, not occasional. </em></strong><em>“To everyone who asks”</em><strong><em> — again, this is responsive: someone asks, and you are prepared to answer. </em></strong><em>“With gentleness and reverence”</em><strong><em> — with charis, with salt, with grace. Peter and Paul are saying the same thing from different angles.</em></strong></p>
+        <h2>Putting It All Together</h2>
+        <p><strong><em>Let us reassemble Colossians 4:5–6 now, with the full weight of what we have unpacked:</em></strong></p>
+        <p><strong><em>Walk in wisdom</em></strong><strong><em> — let your entire manner of life be governed by the wisdom from above, so that your words are backed by a life that matches them.</em></strong></p>
+        <p><strong><em>Toward outsiders</em></strong><strong><em> — be in the world, engaged with people who do not yet know Christ, not isolated from them.</em></strong></p>
+        <p><strong><em>Buying up the kairos moments</em></strong><strong><em> — recognize the God-given opportune windows when they appear in conversation, and seize them like a merchant who knows a valuable thing when he sees it.</em></strong></p>
+        <p><strong><em>Let your speech always be with grace</em></strong><strong><em> — every word, every time, carrying the quality that draws people in rather than pushing them away.</em></strong></p>
+        <p><strong><em>Seasoned with salt</em></strong><strong><em> — your words preserving what is good, flavoring the conversation with substance, and creating thirst for more — without overwhelming.</em></strong></p>
+        <p><strong><em>So that you will know how to respond to each person</em></strong><strong><em> — having prepared your heart in advance, listening first, and then answering each individual according to their specific situation, need, and readiness.</em></strong></p>
+        <p><strong><em>That is the framework. That is the thesis of this entire study. Everything that follows — every conversation of Jesus we examine, every principle we extract, every practical skill we develop — is an application of these two verses.</em></strong></p>
+        <h2>Defining the Bridge Moment</h2>
+        <p><strong><em>With the exegesis of Colossians 4:5–6 now established, we can formally define what this book means by a bridge moment:</em></strong></p>
+        <div class="principle-box">
+<p><strong>A bridge moment is a kairos moment in conversation — a God-given, opportune window where what a person has shared naturally intersects with something true about God, about His design for us, or about what Christ offers. It is the point where the natural and the spiritual meet, and where a believer who is walking in wisdom, speaking with grace, and seasoned with salt can respond to that specific person in a way that moves them one step closer to the truth.</strong></p>
+        </div>
+        <p><strong><em>Bridge moments are not manufactured. You do not create them by steering conversations toward spiritual topics. God provides them. Your job is threefold:</em></strong></p>
+        <p><strong><em>First, </em></strong><strong><em>be present</em></strong><strong><em>. You cannot recognize a kairos moment if you are not genuinely engaged in the conversation. Half-listening while formulating your next point is not presence. Scrolling your phone while someone talks is not presence. Presence means your full attention is on the person in front of you.</em></strong></p>
+        <p><strong><em>Second, </em></strong><strong><em>be prepared</em></strong><strong><em>. Sanctify Christ as Lord in your heart. Know the Scriptures. Have your own story — your own testimony of what God has done in your life — ready to share in a sentence or two, not a sermon. Preparation is what separates the believer who recognizes the moment from the one who sees it only in hindsight.</em></strong></p>
+        <p><strong><em>Third, </em></strong><strong><em>be willing</em></strong><strong><em>. The moment will cost you something. It may cost you comfort. It may cost you the approval of whoever is watching. It may cost you the safety of a surface-level relationship. Walking across a bridge always involves leaving where you were standing. You have to be willing to step out.</em></strong></p>
+        <h2>What We Will See in Jesus</h2>
+        <p><strong><em>In Part 2 of this study, we will walk through nine conversations that Jesus had with real people in real situations. And in every single one, you will see Colossians 4:5–6 in action — not because Jesus was following Paul’s instruction (Paul was following His example), but because Paul was describing what he had seen and learned from the Master.</em></strong></p>
+        <p><strong><em>You will see Jesus walk in wisdom with a Samaritan woman at a well, entering her world through something as ordinary as a drink of water. You will see Him respond to a Pharisee at night with a truth that shattered the man’s categories. You will see Him call a tax collector out of a tree with nothing more than his name and an invitation. You will see Him say the hardest thing a rich young man had ever heard — and say it with love. You will see Him protect a woman from accusers, walk alongside two grieving disciples on a road, and restore a broken fisherman with three questions over breakfast.</em></strong></p>
+        <p><strong><em>In every case, the pattern is the same. He was present. He was prepared. He was willing. He started in the natural. He recognized the kairos. And He built a bridge.</em></strong></p>
+        <p><strong><em>Before we get there, however, we have one more foundational chapter to address. Because there is something that can make all of this — the wisdom, the grace, the salt, the readiness, the bridge — ring completely hollow. And that something is a heart that is driven by agenda rather than love. Chapter 3 is where we deal with that honestly.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 1: </em></strong><strong><em>Chapter 1 established that words carry the weight of life and death (Proverbs 18:21), that every idle word will be accounted for (Matthew 12:36), and that our speech flows from the treasury of the heart (Matthew 12:35). Colossians 4:5–6 now provides the framework for how to steward that weight: with wisdom, toward outsiders, in kairos moments, with grace, seasoned with salt, tailored to each person.</em></strong></p>
+        <p><strong><em>Connection to Chapter 3 (Love, Not Agenda): </em></strong><strong><em>The grace (charis) that Paul calls for in verse 6 is not a technique. It flows from genuine love. Chapter 3 will examine why love must be the motivation behind everything Colossians 4:5–6 describes, and what happens when it is not.</em></strong></p>
+        <p><strong><em>Connection to Part 2: </em></strong><strong><em>Every conversation of Jesus in Chapters 4–12 demonstrates the six elements of Colossians 4:5–6. The exegesis in this chapter provides the analytical lens through which we will examine each encounter.</em></strong></p>
+        <p><strong><em>Connection to Chapter 18 (Seasoned with Salt): </em></strong><strong><em>The salt metaphor introduced here will be developed fully in Chapter 18 with practical guidance on the balance between too much and too little.</em></strong></p>
+        <p><strong><em>Key parallel passage: </em></strong><strong><em>Ephesians 5:15–16 uses the same Greek construction (ton kairon exagorazomenoi) and adds the urgency: “because the days are evil.” 1 Peter 3:15 provides the companion instruction on readiness and manner.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>Colossians 4:5–6 • Ephesians 5:15–16 • James 3:17 • Colossians 2:6 • Galatians 5:16 • 1 Corinthians 5:12–13 • 1 Thessalonians 4:12 • Luke 4:22 • John 4:15 • 1 Peter 3:15</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Read Colossians 4:5–6 slowly, one phrase at a time. Which of the six phrases we examined strikes you as most challenging for you personally right now? Why?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">This chapter distinguished between chronos (clock time) and kairos (opportune time). Think back over the past month. Can you identify a moment in a conversation that, looking back, was a kairos moment — a window that opened briefly and then closed? What happened? Did you recognize it at the time?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Paul assumes believers are in regular contact with “outsiders” (pros tous exo). Honestly evaluate your own life: how much meaningful interaction do you have with people who do not share your faith? If the answer is “not much,” what would need to change?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">The verb exagorazomenoi (buying up) implies urgency and decisiveness. Why do you think Paul used a marketplace metaphor instead of a more passive image? What does this tell us about the attitude we should bring to kairos moments?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">Paul says our speech should “always” (pantote) be with grace. Is there a relationship or a context in your life where your speech consistently falls short of this standard? What would change if you applied this word “always” seriously?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">The salt metaphor involves three functions: preserving, flavoring, and creating thirst. Which of these three does your speech most often accomplish? Which one is most lacking? Give a specific example.</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">The final phrase — “so that you will know how you should respond to each person” — implies that preparation happens before the conversation. Read 1 Peter 3:15. What specific preparation can you do this week so that you are more ready when the next kairos moment arrives? Consider both heart preparation and practical preparation (knowing your own story, knowing key Scriptures).</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-01.html">&larr; Chapter 1</a>
+          <a href="chapter-03.html">Chapter 3 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 2;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

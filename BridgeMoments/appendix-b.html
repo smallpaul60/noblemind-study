@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix B: Scripture Index | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select onchange="if(this.value)window.location.href=this.value">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html" selected>Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Appendix B</p>
+        <h1>Scripture Index</h1>
+        
+      </header>
+
+      <div class="content">
+        <p>APPENDIX B</p>
+        <p><strong>Scripture Index</strong></p>
+        <h2>Index by Book</h2>
+        <p><strong>Genesis</strong></p>
+        <p><strong>Genesis 3:15</strong> — Ch 9 (Emmaus road — Moses and all the prophets)</p>
+        <p><strong>Deuteronomy</strong></p>
+        <p><strong>Deuteronomy 18:15</strong> — Ch 9 (prophet like Moses)</p>
+        <p><strong>Deuteronomy 23:1</strong> — Ch 13 (eunuch exclusion from assembly)</p>
+        <p><strong>Psalms</strong></p>
+        <p><strong>Psalm 119:105</strong> — Ch 9 (Word as lamp)</p>
+        <p><strong>Proverbs</strong></p>
+        <p><strong>Proverbs 18:13</strong> — Ch 16 (answering before listening)</p>
+        <p><strong>Proverbs 18:21</strong> — Ch 1 (death and life in the tongue)</p>
+        <p><strong>Proverbs 20:5</strong> — Ch 16 (drawing out deep water)</p>
+        <p><strong>Isaiah</strong></p>
+        <p><strong>Isaiah 53:7–8</strong> — Ch 13 (Ethiopian reading suffering servant)</p>
+        <p><strong>Isaiah 56:3–5</strong> — Ch 13 (promise to eunuchs)</p>
+        <p><strong>Zechariah</strong></p>
+        <p><strong>Zechariah 12:10; 13:7</strong> — Ch 9 (Emmaus — prophets concerning Christ)</p>
+        <p><strong>Matthew</strong></p>
+        <p><strong>Matthew 4:18–22</strong> — Ch 10 (calling of Peter, Andrew, James, John)</p>
+        <p><strong>Matthew 5:13</strong> — Ch 18 (salt of the earth)</p>
+        <p><strong>Matthew 10:14</strong> — Ch 19 (shake dust off feet)</p>
+        <p><strong>Matthew 12:35–37</strong> — Ch 1 (accounting for every word)</p>
+        <p><strong>Matthew 26:53</strong> — Ch 15 (twelve legions of angels)</p>
+        <p><strong>Matthew 28:7, 10</strong> — Ch 12 (go to Galilee)</p>
+        <p><strong>Mark</strong></p>
+        <p><strong>Mark 2:13–17</strong> — Ch 10 (calling of Matthew/Levi)</p>
+        <p><strong>Mark 6:4</strong> — Ch 19 (prophet without honor)</p>
+        <p><strong>Mark 10:17–27</strong> — Ch 7 (rich young ruler)</p>
+        <p><strong>Mark 10:21</strong> — Ch 7, 18, 20 (Jesus loved him)</p>
+        <p><strong>Mark 14:29, 31</strong> — Ch 12 (Peter’s boast)</p>
+        <p><strong>Mark 16:7</strong> — Ch 12 (tell disciples and Peter)</p>
+        <p><strong>Luke</strong></p>
+        <p><strong>Luke 7:36–50</strong> — Ch 11 (Simon’s house, sinful woman)</p>
+        <p><strong>Luke 19:1–10</strong> — Ch 6 (Zacchaeus)</p>
+        <p><strong>Luke 22:54–62</strong> — Ch 12 (Peter’s denial, bitter weeping)</p>
+        <p><strong>Luke 24:13–35</strong> — Ch 9 (road to Emmaus)</p>
+        <p><strong>John</strong></p>
+        <p><strong>John 1:11</strong> — Ch 19 (His own did not receive Him)</p>
+        <p><strong>John 1:35–51</strong> — Ch 10 (calling of first disciples)</p>
+        <p><strong>John 3:1–21</strong> — Ch 5 (Nicodemus)</p>
+        <p><strong>John 4:1–42</strong> — Ch 4 (woman at the well)</p>
+        <p><strong>John 4:4</strong> — Ch 4 (He had to — dei — pass through Samaria)</p>
+        <p><strong>John 6:66–67</strong> — Ch 19 (many disciples withdrew)</p>
+        <p><strong>John 8:1–11</strong> — Ch 8 (woman caught in adultery)</p>
+        <p><strong>John 13:34–35</strong> — Ch 20 (new commandment — love)</p>
+        <p><strong>John 14:6</strong> — Ch 18 (the way, truth, life)</p>
+        <p><strong>John 16:12</strong> — Ch 18 (cannot bear them now)</p>
+        <p><strong>John 18:18</strong> — Ch 12 (charcoal fire — denial)</p>
+        <p><strong>John 18:25–27</strong> — Ch 12 (Peter’s three denials)</p>
+        <p><strong>John 21:1–19</strong> — Ch 12 (Peter’s restoration)</p>
+        <p><strong>John 21:9</strong> — Ch 12 (charcoal fire — restoration)</p>
+        <p><strong>Acts</strong></p>
+        <p><strong>Acts 1:3–5</strong> — Ch 12 (forty days, wait in Jerusalem)</p>
+        <p><strong>Acts 2:41</strong> — Ch 12 (Pentecost — 3,000 baptized)</p>
+        <p><strong>Acts 4:12</strong> — Ch 12 (no other name)</p>
+        <p><strong>Acts 6:1–6</strong> — Ch 13 (selection of the seven)</p>
+        <p><strong>Acts 8:26–40</strong> — Ch 13 (Philip and the Ethiopian)</p>
+        <p><strong>Acts 14:17</strong> — Ch 14 (God not without witness)</p>
+        <p><strong>Acts 16:16–34</strong> — Ch 15 (Philippian jailer)</p>
+        <p><strong>Acts 17:11</strong> — Introduction, Ch 12 (Bereans)</p>
+        <p><strong>Acts 17:16–34</strong> — Ch 14 (Mars Hill)</p>
+        <p><strong>Romans</strong></p>
+        <p><strong>Romans 1:19–20</strong> — Ch 14 (what is known about God)</p>
+        <p><strong>Romans 11:33</strong> — Ch 15 discussion (depth of riches)</p>
+        <p><strong>1 Corinthians</strong></p>
+        <p><strong>1 Corinthians 3:6–7</strong> — Ch 19 (planted, watered, God gave growth)</p>
+        <p><strong>1 Corinthians 13:1–3</strong> — Ch 3, 20 (without love — nothing)</p>
+        <p><strong>Ephesians</strong></p>
+        <p><strong>Ephesians 4:15</strong> — Ch 18 (speaking truth in love)</p>
+        <p><strong>Ephesians 5:15–16</strong> — Ch 20 (be careful how you walk)</p>
+        <p><strong>Colossians</strong></p>
+        <p><strong>Colossians 4:3</strong> — Ch 19 (pray for open door)</p>
+        <p><strong>Colossians 4:5–6</strong> — Ch 2, 4–15, 17–20 (thesis verse — throughout)</p>
+        <p><strong>James</strong></p>
+        <p><strong>James 1:19</strong> — Ch 16 (quick to hear, slow to speak)</p>
+        <p><strong>James 3:1–12</strong> — Ch 1 (the tongue)</p>
+        <p><strong>1 Peter</strong></p>
+        <p><strong>1 Peter 3:15</strong> — Ch 17 (ready to give an account)</p>
+        <h2>Index by Theme</h2>
+        <p><strong>Bridge-Building Principles</strong></p>
+        <p><strong>Colossians 4:5–6</strong> — Thesis verse — Ch 2 (exegesis), applied in every chapter</p>
+        <p><strong>1 Peter 3:15</strong> — Ch 17 (always ready, with gentleness)</p>
+        <p><strong>James 1:19</strong> — Ch 16 (quick to hear, slow to speak)</p>
+        <p><strong>Ephesians 4:15</strong> — Ch 18 (truth in love)</p>
+        <p><strong>The Power of Words</strong></p>
+        <p><strong>Proverbs 18:21</strong> — Ch 1 (death and life in the tongue)</p>
+        <p><strong>Matthew 12:35–37</strong> — Ch 1 (account for every careless word)</p>
+        <p><strong>James 3:1–12</strong> — Ch 1 (the tongue as fire)</p>
+        <p><strong>Love as Foundation</strong></p>
+        <p><strong>1 Corinthians 13:1–3</strong> — Ch 3 (guardrail), Ch 20 (foundation)</p>
+        <p><strong>John 13:34–35</strong> — Ch 20 (by this all men will know)</p>
+        <p><strong>Mark 10:21</strong> — Ch 7 (Jesus loved him)</p>
+        <p><strong>Divine Appointments</strong></p>
+        <p><strong>John 4:4</strong> — Ch 4 (dei — He had to pass through Samaria)</p>
+        <p><strong>Luke 19:5</strong> — Ch 6 (dei — I must stay at your house)</p>
+        <p><strong>Luke 24:26</strong> — Ch 9 (dei — was it not necessary)</p>
+        <p><strong>Acts 8:26–29</strong> — Ch 13 (angel and Spirit directing Philip)</p>
+        <p><strong>Grace Before Truth</strong></p>
+        <p><strong>John 8:10–11</strong> — Ch 8 (neither do I condemn → sin no more)</p>
+        <p><strong>Luke 19:5–9</strong> — Ch 6 (acceptance → repentance)</p>
+        <p><strong>John 21:9–15</strong> — Ch 12 (breakfast → three questions)</p>
+        <p><strong>Handling Rejection</strong></p>
+        <p><strong>Matthew 10:14</strong> — Ch 19 (shake dust off feet)</p>
+        <p><strong>1 Corinthians 3:6–7</strong> — Ch 19 (God gives the growth)</p>
+        <p><strong>Mark 10:22</strong> — Ch 7 (he went away grieving)</p>
+        <p><strong>John 6:66–67</strong> — Ch 19 (many withdrew)</p>
+        <p><strong>Restoration After Failure</strong></p>
+        <p><strong>John 21:1–19</strong> — Ch 12 (Peter’s restoration)</p>
+        <p><strong>John 18:18; 21:9</strong> — Ch 12 (anthrakia — charcoal fire)</p>
+        <p><strong>Luke 22:61–62</strong> — Ch 12 (the Lord turned and looked)</p>
+        <p><strong>The Suffering Servant</strong></p>
+        <p><strong>Isaiah 53:7–8</strong> — Ch 13 (Ethiopian reading)</p>
+        <p><strong>Isaiah 56:3–5</strong> — Ch 13 (promise to eunuchs)</p>
+        <p><strong>Acts 8:32–35</strong> — Ch 13 (Philip preached Jesus from this Scripture)</p>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="appendix-a.html">&larr; Appendix A</a>
+          <a href="appendix-c.html">Appendix C &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+</body>
+</html>

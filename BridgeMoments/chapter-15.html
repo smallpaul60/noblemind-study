@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 15: What Must I Do to Be Saved? | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html" selected>Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 3</p>
+        <p class="part-title">Following the Pattern</p>
+        <p class="chapter-num">Chapter 15</p>
+        <h1>What Must I Do to Be Saved?</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“And after he brought them out, he said, ‘Sirs, what must I do to be saved?’”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To study a bridge moment that was not created by a sermon, a question, a parable, or a conversation. It was created by character under suffering. Paul and Silas did not plan this encounter. They did not seek out the jailer. They were beaten, imprisoned, and locked in stocks — and they sang hymns at midnight. When the earthquake came and the doors opened, they stayed. That decision — to remain when they could have fled — was the bridge. The jailer’s question was not prompted by theology. It was prompted by witnessing something he had never seen before: men who suffered without bitterness, sang without freedom, and stayed without obligation. This chapter demonstrates that your character in suffering may be the most powerful bridge you ever build.</div>
+
+      <div class="content">
+        <p><strong>“WHAT MUST I DO TO BE SAVED?”</strong></p>
+        <p><em>The Philippian Jailer  •  Acts 16:16–34</em></p>
+        <h2>The Backstory: How Paul and Silas Ended Up in Prison</h2>
+        <p><strong><em>The events leading to this encounter are important because they reveal the cost of the bridge. Paul and Silas did not arrive in the Philippian jail because of poor planning. They arrived because they did the right thing and suffered for it.</em></strong></p>
+        <blockquote class="scripture"><p>“It happened that as we were going to the place of prayer, a slave-girl having a spirit of divination met us, who was bringing her masters much profit by fortune-telling. Following after Paul and us, she kept crying out, saying, ‘These men are bond-servants of the Most High God, who are proclaiming to you the way of salvation.’ She continued doing this for many days. But Paul was greatly annoyed, and turned and said to the spirit, ‘I command you in the name of Jesus Christ to come out of her!’ And it came out at that very moment.”</p>
+        </blockquote>
+        <p><strong><em>Paul cast a spirit out of a slave girl. What she had been saying was technically true — they were servants of the Most High God, and they were proclaiming the way of salvation. But the source of her proclamation was demonic, and Paul would not accept testimony from that source, regardless of its accuracy. He did the right thing. He freed the girl. And the consequence was immediate:</em></strong></p>
+        <blockquote class="scripture"><p>“But when her masters saw that their hope of profit was gone, they seized Paul and Silas and dragged them into the market place before the authorities.”</p>
+        </blockquote>
+        <p><strong><em>The girl’s masters did not care about her spiritual condition. They cared about their revenue stream. Paul had not committed a crime. He had freed a girl from spiritual bondage. But because that freedom cost powerful people money, he and Silas were dragged before the magistrates, falsely accused of advocating unlawful customs, stripped, beaten with rods (a Roman punishment that left the back torn and bloodied), and thrown into prison.</em></strong></p>
+        <blockquote class="scripture"><p>“When they had struck them with many blows, they threw them into prison, commanding the jailer to guard them securely; and he, having received such a command, threw them into the inner prison and fastened their feet in the stocks.”</p>
+        </blockquote>
+        <p><strong><em>The inner prison. The stocks. This was maximum security — the darkest, most restrictive part of the facility. Their backs were bleeding from the rods. Their feet were locked in wooden blocks that spread the legs painfully apart. They were in a Roman dungeon in a foreign city with no legal recourse, no advocate, and no apparent way out. This was the setting. This was the soil from which the bridge moment grew.</em></strong></p>
+        <h2>The Midnight Hymn: The Bridge That Was Not a Sermon</h2>
+        <blockquote class="scripture"><p>“But about midnight Paul and Silas were praying and singing hymns of praise to God, and the prisoners were listening to them.”</p>
+        </blockquote>
+        <p><strong><em>About midnight. Beaten. Bleeding. Locked in stocks in the inner prison. And they were </em></strong><strong><em>singing</em></strong><strong><em>.</em></strong></p>
+        <p><strong><em>This is the detail that changes everything. This is the bridge. Not a sermon. Not a theological argument. Not a carefully crafted question. Singing. Praying. Praising God. In the dark. In pain. At midnight. When no one was watching except the prisoners in the surrounding cells.</em></strong></p>
+        <p><strong><em>Luke adds: </em></strong><em>“and the prisoners were listening to them.”</em><strong><em> The Greek </em></strong><strong><em>epēkroonto</em></strong><strong><em> means more than casual hearing. It means they were listening intently, paying close attention. These prisoners had heard men scream in that prison. They had heard men curse, weep, beg, and rage against their circumstances. They had never heard men </em></strong><strong><em>sing</em></strong><strong><em>. The sound of praise coming from the inner cell, from the two men who had been most severely beaten, at the darkest hour of the night — that sound was so incongruous, so unexpected, so utterly unlike anything the prisoners had experienced, that they stopped whatever they were doing and listened.</em></strong></p>
+        <p><strong><em>This is the principle that makes this chapter different from every other chapter in this book: Paul and Silas were not trying to build a bridge. They were not strategizing. They were not thinking about evangelism. They were worshiping. They were doing what their faith compelled them to do in the worst possible circumstances — and their faithfulness, completely unconscious of its effect, became the most powerful testimony in the prison. The bridge was not constructed. It was revealed. Their character under suffering made visible something that no argument could have demonstrated: they believed what they preached. Their faith was real. Their God was real. And whatever they had was worth singing about even when everything was taken away.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Unconscious Bridge</strong></p>
+<p>Some of the most powerful bridge moments are not planned at all. They happen when your character under pressure reveals what you truly believe. People are watching you in your worst moments more closely than they watch you in your best. The way you respond to suffering, injustice, loss, or pain speaks louder than anything you say from a position of comfort. Paul and Silas were not performing. They were worshiping. And the prisoners were listening. Your faith at midnight — when it costs you everything and benefits you nothing — is the bridge that cannot be faked.</p>
+        </div>
+        <h2>The Earthquake: God Shook the Foundation</h2>
+        <blockquote class="scripture"><p>“And suddenly there came a great earthquake, so that the foundations of the prison house were shaken; and immediately all the doors were opened and everyone’s chains were unfastened.”</p>
+        </blockquote>
+        <p><strong><em>God answered the midnight hymn with an earthquake. The foundations shook. The doors opened. The chains fell off — not just Paul and Silas’s chains, but </em></strong><strong><em>everyone’s</em></strong><strong><em> chains. Every prisoner in that facility was suddenly free. The earthquake was not a targeted rescue. It was a comprehensive liberation. And it set the stage for the most important decision in this passage — not the jailer’s decision, but Paul’s.</em></strong></p>
+        <h2>The Decision That Built the Bridge: They Stayed</h2>
+        <blockquote class="scripture"><p>“When the jailer awoke and saw the prison doors opened, he drew his sword and was about to kill himself, supposing that the prisoners had escaped. But Paul cried out with a loud voice, saying, ‘Do not harm yourself, for we are all here!’”</p>
+        </blockquote>
+        <p><strong><em>The jailer awoke to open doors. Under Roman military law, a guard who allowed prisoners to escape was subject to the same punishment the prisoners would have received — which could mean death. The jailer drew his sword. He was going to take his own life rather than face the consequences of what he assumed had happened.</em></strong></p>
+        <p><strong><em>And Paul shouted: </em></strong><em>“Do not harm yourself, for we are all here!”</em></p>
+        <p><strong><em>This is the moment. This is the bridge. Examine what Paul did and what it cost him.</em></strong></p>
+        <p><strong><em>The doors were open. </em></strong><strong><em>The chains were off. Paul and Silas were free. They were Roman citizens who had been illegally beaten and imprisoned without trial (Acts 16:37). They had every legal and moral right to walk out of that prison. No one would have blamed them. God had literally opened the door. It would have been easy — perhaps even logical — to interpret the earthquake as God’s provision for their escape.</em></strong></p>
+        <p><strong><em>And they stayed.</em></strong></p>
+        <p><strong><em>Not only did Paul and Silas stay, but somehow all the other prisoners stayed too. Whatever Paul and Silas had been singing at midnight had done something to the atmosphere of that prison. The doors were open and no one left. The chains were off and no one ran. The authority of two men worshiping in the dark was greater than the pull of freedom through an open door.</em></strong></p>
+        <p><strong><em>And then Paul called out to save the life of his jailer. The man who had locked them in stocks, who had fastened their bleeding bodies into the most restrictive cell in the prison, who was responsible for their suffering — Paul saved his life. He shouted across the dark to prevent a desperate man from killing himself. He </em></strong><strong><em>cared</em></strong><strong><em> about the jailer. Not as a potential convert. Not as a strategy. As a human being with a sword at his own throat. Paul’s first instinct was not freedom. It was compassion.</em></strong></p>
+        <div class="principle-box">
+<p><strong>The decision to stay when you could leave — to remain in a painful situation for the sake of someone else’s life — is one of the most Christlike decisions a human being can make. Paul could have walked. He stayed. Jesus could have called twelve legions of angels (Matthew 26:53). He stayed. The bridge is not always built by what you say. Sometimes it is built by what you refuse to do when you have every right to do it.</strong></p>
+        </div>
+        <h2>The Question: Prompted by Character, Not by Preaching</h2>
+        <blockquote class="scripture"><p>“And he called for lights and rushed in, and trembling with fear he fell down before Paul and Silas, and after he brought them out, he said, ‘Sirs, what must I do to be saved?’”</p>
+        </blockquote>
+        <p><strong><em>The jailer called for lights. He rushed in. He was trembling. He fell down before Paul and Silas. And then he asked the most important question a human being can ask: </em></strong><em>“What must I do to be saved?”</em></p>
+        <p><strong><em>Consider what had happened in this man’s experience over the last several hours. He had received two prisoners who had been beaten raw. He had locked them in the inner cell and fastened their feet in stocks. And then, from that cell, he heard singing. Prayers. Praise. From men who should have been cursing, weeping, or silent with pain. Then an earthquake that should have ended his career and his life. Then a voice in the dark telling him not to harm himself. Then the discovery that not a single prisoner had fled — that the men he had brutalized had stayed to save his life.</em></strong></p>
+        <p><strong><em>The jailer did not ask “What must I do to be saved?” because Paul delivered a compelling theological argument. He asked because he had witnessed something that his entire framework could not explain. Men who sang in suffering. Men who stayed when the door was open. Men who saved the life of their captor. Whatever these men had, whatever power sustained them, whatever God they served — the jailer wanted it. The question was not intellectual. It was existential. It came from the deepest place a human question can come from: the recognition that everything you thought you understood about how the world works is insufficient, and these men clearly have access to something you do not.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>When They Ask</strong></p>
+<p>The most powerful bridge moments are the ones where you do not have to initiate the conversation. The jailer asked Paul. The question came to him. And the question came because of what the jailer had witnessed, not because of what Paul had said. There are people in your life who are watching you. They are watching how you handle suffering, disappointment, injustice, and loss. They are taking notes even when you do not know they are in the room. And one day, when they have seen enough, they will ask. Your job is to live in such a way that the question becomes inevitable.</p>
+        </div>
+        <h2>The Answer: The Simplest Gospel in Acts</h2>
+        <blockquote class="scripture"><p>“They said, ‘Believe in the Lord Jesus, and you will be saved, you and your household.’ And they spoke the word of the Lord to him together with all who were in his house.”</p>
+        </blockquote>
+        <p><strong><em>The answer was as direct and clear as the question. </em></strong><em>“Believe in the Lord Jesus, and you will be saved.”</em><strong><em> No elaborate theological system. No prerequisites. No conditions beyond faith itself. The man asked what he must do. Paul told him: believe. Trust. Put your weight on this Person. The Lord Jesus. And you will be saved — not might be, not could be, </em></strong><strong><em>will be</em></strong><strong><em>.</em></strong></p>
+        <p><strong><em>The addition of </em></strong><em>“you and your household”</em><strong><em> was not a promise that the jailer’s faith would automatically save his family. It was an extension of the invitation: this salvation is available not just to you but to everyone in your house. Your faith can open the door for them to hear, and the same promise applies to each of them individually. And indeed, Luke tells us that Paul and Silas </em></strong><em>“spoke the word of the Lord to him together with all who were in his house”</em><strong><em> — they taught the entire household. The gospel was proclaimed to each person present.</em></strong></p>
+        <h2>The Response: Immediate, Complete, and Joyful</h2>
+        <blockquote class="scripture"><p>“And he took them that very hour of the night and washed their wounds, and immediately he was baptized, he and all his household. And he brought them into his house and set food before them, and rejoiced greatly, having believed in God with his whole household.”</p>
+        </blockquote>
+        <p><strong><em>The transformation was instantaneous and total. Trace the jailer’s actions:</em></strong></p>
+        <p><strong><em>He washed their wounds. </em></strong><strong><em>The same hands that had fastened the stocks now cleaned the blood from their backs. The first visible evidence of his conversion was an act of service toward the men he had been responsible for brutalizing. He reversed his own cruelty. He undid, as far as he could, the damage he had been part of. This is what repentance looks like in real time: the hands that hurt become the hands that heal.</em></strong></p>
+        <p><strong><em>He was immediately baptized. </em></strong><strong><em>He and his entire household. In the middle of the night. There was no waiting period. No catechism class. No probationary period to prove sincerity. The question was asked. The answer was given. The word was taught. The response was faith. And the faith was acted upon immediately in baptism. The same urgency we saw in the Ethiopian (“Look! Water! What prevents me?”) was present here: when the heart is ready, the response does not wait for a convenient hour.</em></strong></p>
+        <p><strong><em>He set food before them. </em></strong><strong><em>He brought them into his home and fed them. The jailer became the host. The prisoners became honored guests. The power dynamic was completely inverted. This is the same pattern we saw with Zacchaeus — the one who has received grace becomes the one who gives. The jailer’s table, like Matthew’s dinner party and Zacchaeus’s house, became the place where new life was celebrated.</em></strong></p>
+        <p><strong><em>He rejoiced greatly. </em></strong><strong><em>The Greek </em></strong><strong><em>ēgalliasato</em></strong><strong><em> means to exult, to be overjoyed, to overflow with gladness. This is the same root word Luke used for the Ethiopian who “went on his way rejoicing” (Acts 8:39). Hours earlier this man had a sword at his own throat. Now he was overflowing with joy. That is the distance the gospel covers in a single night: from despair to delight, from a drawn sword to a set table, from a prison cell to a family celebration.</em></strong></p>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Your character in suffering may be the most powerful bridge you ever build. When people see faith that holds in the dark — faith that sings at midnight, stays when the door is open, and saves the life of its captor — they encounter something no argument can produce: living proof that what you believe is real. You cannot manufacture this bridge. It is forged in suffering and revealed under pressure. And when it is real, people do not need to be pursued. They pursue you. They come trembling in the dark and ask the question you have been living your way toward: what must I do to be saved?</strong></p>
+        </div>
+        <p><strong><em>This encounter brings the Colossians 4:5–6 framework full circle:</em></strong></p>
+        <p><strong><em>Walk in wisdom toward outsiders </em></strong><strong><em>— Paul and Silas’s behavior in prison was itself the walk. They walked in wisdom by worshiping when wisdom said to despair, by staying when wisdom said to flee, and by caring for their jailer when wisdom said to resent him.</em></strong></p>
+        <p><strong><em>Making the most of the kairos </em></strong><strong><em>— The earthquake created a kairos moment. Paul recognized it instantly. He did not use the open door for himself. He used it for the jailer. He turned a moment of crisis into a moment of salvation.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— “Do not harm yourself, for we are all here.” Grace to a man who did not deserve it. And then: “Believe in the Lord Jesus, and you will be saved.” The clearest, most grace-filled sentence in the book of Acts.</em></strong></p>
+        <p><strong><em>Seasoned with salt </em></strong><strong><em>— The singing at midnight was the salt. It created a thirst in the prisoners and in the jailer for whatever these men had. By the time the earthquake came, the thirst was already present. The salt had done its work before a single word of gospel was spoken.</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— The jailer needed exactly what he received: a direct, simple answer to a desperate question. No nuance. No extended dialogue. No parable. Just: believe in the Lord Jesus. The simplicity was the gift, because the man was standing in the wreckage of his world and needed a foundation, not a lecture.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 6 (Zacchaeus): </em></strong><strong><em>Both the jailer and Zacchaeus demonstrated immediate, visible, practical transformation. Zacchaeus gave half his possessions to the poor. The jailer washed the wounds he had helped inflict. Both show that genuine conversion produces spontaneous acts of restoration without being instructed.</em></strong></p>
+        <p><strong><em>Connection to Chapter 10 (Follow Me): </em></strong><strong><em>The brevity of the gospel in Acts 16:31 parallels the brevity of “Follow Me” in the calling of the disciples. When the heart is ready and the moment is ripe, the message does not need to be long. It needs to be clear.</em></strong></p>
+        <p><strong><em>Connection to Chapter 13 (Philip &amp; the Ethiopian): </em></strong><strong><em>Both the Ethiopian and the jailer responded with immediate baptism and overwhelming joy. Both encountered the gospel through a single conversation with a person God had placed in their path. Both demonstrate the kairos principle: when God arranges the moment, the response can be swift and total.</em></strong></p>
+        <p><strong><em>Connection to Chapter 12 (Peter’s Restoration): </em></strong><strong><em>Jesus fed Peter before restoring him. Paul stayed and saved the jailer before answering his question. The pattern is consistent: provision and care precede the gospel word. The body is served before the soul is addressed.</em></strong></p>
+        <p><strong><em>Connection to Chapter 14 (Mars Hill): </em></strong><strong><em>Mars Hill was the most intellectually sophisticated bridge moment in Acts. The Philippian jail was the most viscerally powerful. Paul the philosopher on the Areopagus and Paul the prisoner in the cell were the same man, adapting to radically different audiences. The intellectual elite received a carefully constructed speech. The desperate jailer received eight words. Both were faithful. Both were effective. The audience determines the approach.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>Acts 16:16–34 • Matthew 26:53 • Acts 8:39 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <p><strong>Part 3 Complete</strong></p>
+        <p><strong><em>In three chapters, we have seen the bridge-building principles of Jesus operating through ordinary believers in the book of Acts. Philip demonstrated availability and the power of starting from where the person already is. Paul on Mars Hill demonstrated intellectual engagement, genuine common ground, and the courage to proclaim hard truth after building the bridge. And Paul and Silas in Philippi demonstrated the most startling bridge of all: character under suffering that was so real, so visible, so inexplicable by any natural means, that a desperate man fell at their feet and asked how to be saved.</em></strong></p>
+        <p><strong><em>The pattern is consistent across every encounter in this study, from the well in Samaria to the prison in Philippi. Presence. Listening. Meeting people where they are. Grace before truth. Responding to each person. And underneath all of it, the conviction that the gospel is worth sharing — at a well, on a road, in a chariot, on Mars Hill, and at midnight in a Roman jail.</em></strong></p>
+        <p><strong><em>Now we turn to Part 4: the practice. The question shifts from “What did Jesus and the early church do?” to “What do </em></strong><strong><em>we</em></strong><strong><em> do?” How do we live with bridge moment eyes? How do we recognize the kairos when it comes? How do we build the habits, the awareness, and the character that make us ready when God opens the door? The principles have been established. The examples have been studied. Now it is time to put feet on the ground and hands to the work.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Paul and Silas were beaten, imprisoned, and locked in stocks — and they sang hymns at midnight. What does it take to worship in the darkest moments of life? Have you ever experienced a time when worship was possible only because there was nothing else left? What did that moment teach you about the reality of your faith?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">The prisoners ‘were listening intently’ (Acts 16:25). They had heard men scream, curse, and weep in that prison. They had never heard men sing. What does your behavior in suffering communicate to the people around you? Are they hearing something they have never heard before, or are they hearing what they expect?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">The earthquake opened every door and unfastened every chain. Paul and Silas could have walked free. They stayed. What did that decision cost them, and what did it produce? Is there a situation in your life where God has opened a door of escape, but staying might build a bridge that leaving would destroy?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Paul shouted ‘Do not harm yourself!’ to save the life of the man who had locked him in stocks. What does this tell us about Paul’s heart? How does the ability to care about someone who has hurt you relate to the bridge moments we have studied throughout this book? Is compassion for your captor natural, or is it the evidence of something supernatural?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">The jailer’s question was not prompted by a sermon but by witnessing character under suffering. Who in your life is watching you right now — not listening to your words but watching your life? What are they seeing? If they asked you today, ‘What must I do to be saved?’ — would they be asking because of something they witnessed in you?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">Paul’s answer was eight words: ‘Believe in the Lord Jesus, and you will be saved.’ No qualifications. No prerequisites. No conditions beyond faith. Why was this the right answer for this man in this moment? When is simplicity more powerful than sophistication?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1 one final time in Part 3. For each person, ask: What kind of bridge do they need — a Philip bridge (meeting them where they already are, answering the question they are already asking), a Mars Hill bridge (engaging their worldview, finding common ground, building toward truth), or a Philippian jailer bridge (living with such visible faith that the question becomes inevitable)? What would it cost you to build that specific bridge for that specific person?</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-14.html">&larr; Chapter 14</a>
+          <a href="chapter-16.html">Chapter 16 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 15;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

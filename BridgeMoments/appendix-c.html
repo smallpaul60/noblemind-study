@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendix C: Small Group Exercises | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select onchange="if(this.value)window.location.href=this.value">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html" selected>Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Appendix C</p>
+        <h1>Small Group Exercises</h1>
+        <p class="subtitle">Role-Play Scenarios &amp; Group Activities</p>
+      </header>
+
+      <div class="content">
+        <p>APPENDIX C</p>
+        <p><strong>Small Group Exercises</strong></p>
+        <p><em>Role-Playing Scenarios &amp; Discussion Activities</em></p>
+        <p><strong><em>These exercises are designed for small groups studying Bridge Moments together. They provide safe, low-stakes opportunities to practice bridge-building skills before encountering them in real life. Each scenario involves two people role-playing a conversation while the group observes and debriefs.</em></strong></p>
+        <p><strong><em>Guidelines for Role-Playing:</em></strong></p>
+        <p><strong><em>•  Keep each role-play to 3–5 minutes. The goal is practice, not perfection.</em></strong></p>
+        <p><strong><em>•  Person A should play the role realistically — not making it artificially easy or impossibly hard.</em></strong></p>
+        <p><strong><em>•  Person B should practice the principles from the study: listen first, ask questions, offer rather than impose.</em></strong></p>
+        <p><strong><em>•  After each scenario, the group debriefs together. Focus on what worked, not what failed.</em></strong></p>
+        <p><strong><em>•  Rotate roles so everyone practices being both the friend and the bridge-builder.</em></strong></p>
+        <h2>Role-Playing Scenarios</h2>
+        <div class="bridge-box">
+<p><strong>Scenario 1: The Grieving Coworker</strong></p>
+<p>Setup: Your coworker’s mother died last week. They have returned to work but are clearly struggling. During a lunch break, they say: “I just don’t understand why this happened. She was a good person.”</p>
+<p><strong>Person A (the friend): </strong>You are grieving and confused. You are not hostile to faith but you are not a churchgoer. You are open to honest conversation but will shut down if you feel preached at.</p>
+<p><strong>Person B (the bridge-builder): </strong>Practice heart-level listening (Ch 16). Do not rush to answer the “why.” Acknowledge the pain. Ask a follow-up question. If the conversation opens naturally, share from your own experience with loss. Do not force a gospel presentation.</p>
+<p><em>Debrief: Did Person B listen before speaking? Did the conversation feel natural or forced? At what point, if any, was there an opening for a spiritual observation? Was it taken gently or pushed too hard?</em></p>
+        </div>
+        <div class="bridge-box">
+<p><strong>Scenario 2: The Skeptical Neighbor</strong></p>
+<p>Setup: Your neighbor mentions over the fence that they saw you leaving for church on Sunday. They say: “I don’t know how you can believe in all that. I’m a science person.”</p>
+<p><strong>Person A (the friend): </strong>You are not hostile but genuinely skeptical. You respect your neighbor but consider religious belief to be irrational. You will engage if treated with respect but will disengage if condescended to.</p>
+<p><strong>Person B (the bridge-builder): </strong>Practice the Mars Hill approach (Ch 14). Find what they have gotten right (valuing evidence, seeking truth). Do not argue against science — affirm the pursuit of truth and build from there. Use a bridge phrase from Chapter 17.</p>
+<p><em>Debrief: Did Person B get defensive or stay gracious? Did they find genuine common ground? Did the conversation end with the door open for future discussion? Would Person A want to talk about this again?</em></p>
+        </div>
+        <div class="bridge-box">
+<p><strong>Scenario 3: The Friend Who Failed</strong></p>
+<p>Setup: A close friend confesses that they had an affair and their marriage is falling apart. They say: “I’ve ruined everything. I don’t even know if God could forgive something like this.”</p>
+<p><strong>Person A (the friend): </strong>You are devastated by your own choices. You grew up in church but walked away years ago. You are drowning in shame and are terrified of judgment. You need grace desperately but expect condemnation.</p>
+<p><strong>Person B (the bridge-builder): </strong>Practice the grace-before-truth pattern from Chapters 8 and 12. Do NOT lead with the sin — they already know. Lead with presence and compassion. Listen to the full story before speaking. When you do speak, address the question they actually asked: “Can God forgive this?”</p>
+<p><em>Debrief: Did Person B lead with grace or with correction? How did Person A feel during the conversation — safe or judged? Was truth eventually spoken? Was it delivered inside the relationship or hurled from outside it?</em></p>
+        </div>
+        <div class="bridge-box">
+<p><strong>Scenario 4: The Joyful Moment</strong></p>
+<p>Setup: A friend just got a promotion they have been working toward for years. Over dinner, they are celebrating. They say: “I just feel so grateful. Everything is finally coming together.”</p>
+<p><strong>Person A (the friend): </strong>You are genuinely happy. You are not thinking about spiritual things at all. You are open but would be surprised by a religious turn in the conversation.</p>
+<p><strong>Person B (the bridge-builder): </strong>Practice recognizing joy as a bridge-ready moment (Ch 17). This is not about dampening the celebration. Join the joy fully. Then, if the moment feels right, gently direct the gratitude upward: “Who do you feel grateful to?” or share your own perspective on where blessings come from. If the moment is not right, simply celebrate with them — your presence in their joy is itself a bridge.</p>
+<p><em>Debrief: Did Person B celebrate genuinely before transitioning? Did the spiritual element feel natural or shoehorned? Was there a moment where it would have been better to simply enjoy the celebration without pressing?</em></p>
+        </div>
+        <div class="bridge-box">
+<p><strong>Scenario 5: The Questioning Teenager</strong></p>
+<p>Setup: Your teenage niece or nephew says: “I don’t think I believe in God anymore. My friends say religion is just for people who can’t think for themselves.”</p>
+<p><strong>Person A (the friend): </strong>You are 16 and genuinely wrestling. You are not being rebellious — you are being honest. You respect the adult you are talking to but you are testing whether they can handle your doubts without panicking.</p>
+<p><strong>Person B (the bridge-builder): </strong>Practice the Nicodemus approach (Ch 5) — patience with process. Do NOT panic. Do NOT lecture. Ask what specifically they are struggling with. Affirm the courage it took to be honest. Share that doubt is not the enemy of faith — it can be the doorway to a faith that is genuinely their own. Resist the urge to solve it in one conversation.</p>
+<p><em>Debrief: Did Person B stay calm? Did they treat the teenager as a sincere seeker or as a problem to fix? Did they ask questions or deliver answers? Would the teenager come back to this person with more questions?</em></p>
+        </div>
+        <div class="bridge-box">
+<p><strong>Scenario 6: The Hostile Conversation</strong></p>
+<p>Setup: At a family gathering, a relative says loudly: “I don’t know how anyone can be a Christian with all the hypocrisy in the church. You all talk about love but you’re the most judgmental people I know.”</p>
+<p><strong>Person A (the friend): </strong>You are angry and have been hurt by Christians in the past. Your hostility is real but it comes from pain, not from philosophy. Underneath the anger is a wound.</p>
+<p><strong>Person B (the bridge-builder): </strong>Practice Chapter 19’s wisdom: not every moment is a kairos moment. A hostile public confrontation is almost never the right time for a gospel conversation. Stay calm. Do not match the anger. Acknowledge the pain: “It sounds like you’ve been hurt by people in the church, and I’m sorry.” Do not defend all of Christianity. Speak only for yourself. If possible, redirect to a private conversation later.</p>
+<p><em>Debrief: Did Person B avoid escalating? Did they acknowledge the pain behind the hostility? Did they resist the urge to defend or argue? Did they leave the door open for a future, private conversation?</em></p>
+        </div>
+        <h2>Group Discussion Activities</h2>
+        <div class="exercise-box">
+<p><strong>Discussion 1: The Bridge Moment Review</strong></p>
+<p>Each group member shares one real conversation from the past month that they now recognize as a bridge-ready moment they missed. No judgment — the goal is recognition, not guilt. After each person shares, the group discusses: What category was it (need, wonder, questioning, failure, joy, loss)? What bridge phrase might have opened the door? What would a gentle next step have looked like? This exercise trains bridge moment eyes by working backward from real experience.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Discussion 2: The Three Names Share</strong></p>
+<p>Each group member shares one of their three names from Chapter 1 (only the first name, to protect privacy). For each name, the group helps the person identify: What kind of bridge does this person need — a Philip bridge, a Mars Hill bridge, or a Philippian jailer bridge? What is the current depth of the relationship? What is one specific, calibrated next step? The group prays together for each name shared. This exercise makes the study personal and accountable.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Discussion 3: The Salt Calibration Exercise</strong></p>
+<p>Present three fictional scenarios to the group. For each, ask: Is this person getting too much salt, too little salt, or the right amount? Scenario A: A Christian mentions God in every conversation with coworkers, including casual lunch talk, Monday morning greetings, and email sign-offs. Scenario B: A Christian has worked alongside a colleague for five years and has never mentioned their faith despite multiple bridge-ready moments. Scenario C: A Christian shares their testimony when a friend asks about their weekend church attendance, then lets the conversation return to normal without pressing further. Discuss what adjustment each scenario needs.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Discussion 4: The Encounter Walk-Through</strong></p>
+<p>Choose one encounter from the study (Chapters 4–15). Read the key passage aloud as a group. Then map it onto the practical framework: (1) What was the entry point? (2) What was the connection from natural to spiritual? (3) What was the invitation? (4) What was the response? (5) What Colossians 4:5–6 element was most prominent? Then ask: What is the modern equivalent of this encounter? Where in our daily lives might this same pattern appear? This exercise bridges the ancient text to present-day application.</p>
+        </div>
+        <div class="exercise-box">
+<p><strong>Discussion 5: The Commissioning Prayer</strong></p>
+<p>As a final exercise for the study, gather the group in a circle. Each person shares one thing they have learned and one specific commitment they are making as a result of this study. Then the group prays together — for bridge moment eyes, for wisdom, for grace, for salt, and for love. Pray specifically for the names that have been shared throughout the study. Close with Colossians 4:5–6 read aloud together. This is not the end of the study. It is the commissioning. Send one another out.</p>
+        </div>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="appendix-b.html">&larr; Appendix B</a>
+          <a href="#" class="disabled"></a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+</body>
+</html>

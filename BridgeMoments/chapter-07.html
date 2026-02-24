@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 7: Jesus Felt a Love for Him | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html" selected>Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 2</p>
+        <p class="part-title">Jesus, the Master of the Moment</p>
+        <p class="chapter-num">Chapter 7</p>
+        <h1>Jesus Felt a Love for Him</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Looking at him, Jesus felt a love for him and said to him, ‘One thing you lack: go and sell all you possess and give to the poor, and you will have treasure in heaven; and come, follow Me.’ But at these words he was saddened, and he went away grieving, for he was one who owned much property.”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To study the bridge moment that did not end in conversion — and to understand why it was not a failure. This chapter addresses the hardest reality in all of bridge-building: sometimes you do everything right, you speak truth with genuine love, and the person still walks away. This encounter teaches us about the relationship between love and truth, about the things that hold people back, and about the freedom that comes from releasing the outcome to God. For every parent, teacher, friend, or fellow Christian who has watched someone they love turn away from Christ, this chapter is written for you.</div>
+
+      <div class="content">
+        <p><em>The Rich Young Ruler  •  Mark 10:17–27</em></p>
+        <h2>The Setting: A Man Who Came Running</h2>
+        <blockquote class="scripture"><p>“As He was setting out on a journey, a man ran up to Him and knelt before Him, and asked Him, ‘Good Teacher, what shall I do to inherit eternal life?’”</p>
+        </blockquote>
+        <p><strong><em>This encounter is recorded in all three Synoptic Gospels (Matthew 19:16–22, Mark 10:17–22, Luke 18:18–23), and each writer contributes a detail the others omit. Matthew tells us he was young. Luke tells us he was a ruler — likely a synagogue leader or a member of a local council. Mark tells us something neither Matthew nor Luke included: he ran, and he knelt.</em></strong></p>
+        <p><strong><em>The running matters. In the culture of the ancient Near East, a man of standing did not run. Running was undignified — the same cultural expectation that made Zacchaeus’s tree-climbing remarkable. A young ruler, a man of wealth and position, sprinting toward a traveling rabbi and dropping to his knees in the dust — this was not casual interest. This was </em></strong><strong><em>urgency</em></strong><strong><em>. Something was driving this man, and it was powerful enough to override his concern for appearance.</em></strong></p>
+        <p><strong><em>And his question reveals what was driving him: </em></strong><em>“What shall I do to inherit eternal life?”</em><strong><em> This was not an academic question. This was a man who had everything the world promised would satisfy — youth, authority, wealth, moral reputation — and knew in his core that it was not enough. He was asking the most important question a human being can ask, and he was asking it of the only Person who could answer it with authority.</em></strong></p>
+        <p><strong><em>By every external measure, this man was doing well. But something was missing, and he knew it. The ache that brought him running to Jesus was the honest recognition that everything he had accumulated had not filled the place inside him that mattered most. This is often how bridge moments begin in our own lives — not with someone at rock bottom, but with someone at the top who has realized the view from the summit is not what they expected.</em></strong></p>
+        <h2>The Conversation: Peeling Back the Layers</h2>
+        <h3>The Title and the Redirect</h3>
+        <blockquote class="scripture"><p>“And Jesus said to him, ‘Why do you call Me good? No one is good except God alone.’”</p>
+        </blockquote>
+        <p><strong><em>Jesus’ first response was not to answer the question but to examine the assumptions behind it. The man called Him “Good Teacher.” Jesus pressed on the word </em></strong><strong><em>good</em></strong><strong><em>. This was not a denial of His own goodness — Jesus was not saying, “I am not good.” He was doing what He often did with thoughtful people: He forced the questioner to think more deeply about what he had just said. If only God is truly good, and you are calling Me good, then what are you really saying about who I am?</em></strong></p>
+        <p><strong><em>Jesus was also beginning to dismantle the man’s framework. The young ruler operated in a system where goodness was measured by behavior — what you did, how well you kept the rules, how your moral performance compared to others. Jesus was pointing him toward a different standard: the absolute goodness of God. If that is the measure, then no human performance qualifies. This seed would become critically important in a few moments.</em></strong></p>
+        <h3>The Commandments</h3>
+        <blockquote class="scripture"><p>“You know the commandments: ‘Do not murder, Do not commit adultery, Do not steal, Do not bear false witness, Do not defraud, Honor your father and mother.’”</p>
+        </blockquote>
+        <p><strong><em>Jesus listed commandments from the second table of the Law — the commandments governing relationships with other people. Notice which commandments He </em></strong><strong><em>did not</em></strong><strong><em> mention: the first four, which govern the relationship with God. “You shall have no other gods before Me. You shall not make idols. You shall not take the name of the Lord your God in vain. Remember the Sabbath.” Jesus left God out of the list. This was deliberate, and the reason would become clear very shortly.</em></strong></p>
+        <p><strong><em>The young man’s response was immediate and confident:</em></strong></p>
+        <blockquote class="scripture"><p>“And he said to Him, ‘Teacher, I have kept all these things from my youth up.’”</p>
+        </blockquote>
+        <p><strong><em>He was not boasting. He was being honest. By the external measures of the Law, he </em></strong><strong><em>had</em></strong><strong><em> kept these commandments. He had not murdered, committed adultery, stolen, lied, or dishonored his parents. He had lived a morally upright life from his youth. And in the framework he understood, that should have been enough. So why wasn’t it? Why was he still running to Jesus with an unsettled heart? If keeping the commandments was the answer, why did he still feel the question?</em></strong></p>
+        <p><strong><em>Because there was one commandment he had not kept. And it was the first one.</em></strong></p>
+        <h2>The Bridge: Love First, Then the Hardest Truth</h2>
+        <p><strong><em>Now we arrive at the most important verse in this passage — the verse I chose as the title of this chapter, because it reveals everything about how Jesus builds a bridge even when He knows the bridge will be refused:</em></strong></p>
+        <blockquote class="scripture"><p>“Looking at him, Jesus felt a love for him and said to him, ‘One thing you lack: go and sell all you possess and give to the poor, and you will have treasure in heaven; and come, follow Me.’”</p>
+        </blockquote>
+        <p><strong><em>Mark gives us three details in sequence, and the order is everything.</em></strong></p>
+        <h3>First: He Looked at Him</h3>
+        <p><strong><em>The Greek is </em></strong><strong><em>emblepsas autō</em></strong><strong><em> — He looked </em></strong><strong><em>into</em></strong><strong><em> him. This is not a glance. This is the penetrating, seeing gaze of God. Jesus saw past the fine robes, past the confident claim of commandment-keeping, past the respectable reputation. He saw the man. He saw what was underneath. He saw the thing the young ruler could not see about himself, or perhaps could see but could not bear to name.</em></strong></p>
+        <h3>Second: He Felt a Love for Him</h3>
+        <p><strong><em>The Greek is </em></strong><strong><em>ēgapēsen auton</em></strong><strong><em> — He loved him. Mark is the only Gospel writer who records this detail, and it is perhaps the most important detail in the entire passage. Before the hard words came, love came. Before the challenge that would break this man’s heart, the love that broke Jesus’ heart was already there.</em></strong></p>
+        <p><strong><em>This is not a generic love. The verb is aorist — it refers to a specific, in-the-moment experience: Jesus looked at this young man and </em></strong><strong><em>felt</em></strong><strong><em> love for him. Personally. Individually. In that instant. This was not duty. This was not the general benevolence of God toward all humanity. This was the specific, felt love of a Savior for a particular person standing in front of Him. Jesus loved him </em></strong><strong><em>and then</em></strong><strong><em> spoke the hard truth. Not the other way around. The order matters more than almost anything else in this study.</em></strong></p>
+        <p><strong><em>In Chapter 3, we established that love is the only legitimate foundation for bridge moments. Here is the proof. Jesus knew that what He was about to say would cause this man pain. He knew it might drive him away. He said it anyway — not in spite of loving him, but because He loved him. Love that withholds hard truth to keep the peace is not love. It is cowardice wearing love’s name. And love that delivers hard truth without genuinely caring about the person is not love either. It is cruelty wearing righteousness’s name. Jesus held both: He loved, and He spoke. He cared, and He challenged. He felt, and He did not flinch.</em></strong></p>
+        <h3>Third: He Named the One Thing</h3>
+        <p><em>“One thing you lack.”</em><strong><em> Not ten things. Not a comprehensive reformation of his life. One thing. Jesus had the precision of a surgeon. He identified the exact point where this man’s faith broke down, and He pressed on it with devastating accuracy.</em></strong></p>
+        <p><strong><em>The command was threefold: </em></strong><strong><em>go and sell all you possess and give to the poor</em></strong><strong><em> (release what you’re holding onto), </em></strong><strong><em>and you will have treasure in heaven</em></strong><strong><em> (gain what actually lasts), </em></strong><strong><em>and come, follow Me</em></strong><strong><em> (enter a relationship with the One standing in front of you). The selling was not the point. The giving was not the point. The point was: </em></strong><strong><em>follow Me</em></strong><strong><em>. But the wealth stood between this man and that invitation like a wall he could not climb over while carrying everything he owned.</em></strong></p>
+        <p><strong><em>Now we see why Jesus omitted the first commandments from His earlier list. He did not need to ask this man about idols. The man’s idol was about to be exposed. The first commandment says, “You shall have no other gods before Me.” This young ruler had kept every commandment except the one that mattered most. He had another god. It was his wealth. It was his security. It was the life he had built for himself on a foundation other than God. And Jesus — with love, with clarity, with surgical precision — named it.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Precision of Love</strong></p>
+<p>Jesus did not overwhelm this man with a catalogue of shortcomings. He identified the one thing. In any bridge moment, the goal is not to address everything but to address the right thing. This requires discernment, patience, and the kind of seeing that only comes from genuine engagement with the person in front of you. When you speak truth to someone, ask: What is the one thing that stands between this person and Christ? Not the ten things you could mention. The one thing that matters right now.</p>
+        </div>
+        <h2>The Response: He Went Away Grieving</h2>
+        <blockquote class="scripture"><p>“But at these words he was saddened, and he went away grieving, for he was one who owned much property.”</p>
+        </blockquote>
+        <p><strong><em>This is one of the saddest sentences in the New Testament.</em></strong></p>
+        <p><strong><em>The Greek word for “saddened” is </em></strong><strong><em>stugnasas</em></strong><strong><em> — it describes a face becoming dark, like the sky clouding over before a storm. The light went out of his face. And then he </em></strong><strong><em>went away</em></strong><strong><em> — </em></strong><strong><em>apēlthen</em></strong><strong><em> — he departed. He left. He walked away from Jesus. The One who had just looked at him with love, who had just offered him treasure in heaven and an invitation to follow — he turned his back and walked away.</em></strong></p>
+        <p><strong><em>And he went away </em></strong><strong><em>grieving</em></strong><strong><em> — </em></strong><strong><em>lupoumenos</em></strong><strong><em>, present participle: he was continuously grieving as he walked away. This was not a man who shrugged off Jesus’ words and went happily back to his wealth. He was in pain. He knew, at some level, that he was choosing wrongly. The treasure in heaven was real. The invitation to follow was genuine. And he walked away from both because he could not let go of what he was holding.</em></strong></p>
+        <p><strong><em>Mark tells us why in a short, devastating clause: “for he was one who owned much property.” Or perhaps more accurately: his property owned him. The very thing that gave him status, security, and identity in the world was the thing that kept him from the kingdom of God. He was not too wicked for the kingdom. He was too full.</em></strong></p>
+        <h2>What Jesus Did Not Do</h2>
+        <p><strong><em>Now pay close attention to what happened next — or rather, what did not happen.</em></strong></p>
+        <p><strong><em>Jesus did not chase him. </em></strong><strong><em>He did not call out, “Wait — let’s talk about this. Maybe we can work something out.” He did not offer a compromise: “Sell half, then. Sell a quarter. Let’s start small.” He did not lower the standard to keep the man in the conversation.</em></strong></p>
+        <p><strong><em>Jesus did not apologize. </em></strong><strong><em>He did not say, “I’m sorry — I know that was hard to hear.” He did not soften the truth after the fact to make the rejection less painful for either of them.</em></strong></p>
+        <p><strong><em>Jesus did not withdraw His love. </em></strong><strong><em>There is no indication that the love He felt in verse 21 ceased in verse 22. He loved the man before the hard truth. He loved the man during the hard truth. And there is every reason to believe He loved the man as he walked away. The love was not contingent on the response.</em></strong></p>
+        <p><strong><em>Jesus did not blame Himself. </em></strong><strong><em>He did not turn to the disciples and say, “I should have said it differently.” He did not analyze what went wrong in His approach. He spoke truth in love, and the man chose. That is how it works. The bridge was built. It was the man’s choice not to cross it.</em></strong></p>
+        <p><strong><em>This is one of the hardest things in all of bridge-building to accept: you can do everything right — love genuinely, speak truthfully, identify the precise need, deliver the message with grace and courage — and the person can still walk away. And when they do, it is not your failure. It is their choice. Jesus, the perfect Son of God, the most skilled communicator who ever lived, the embodiment of love itself — watched this young man walk away. If it happened to Him, it will happen to you. And it does not mean you did something wrong.</em></strong></p>
+        <h2>For Those Who Watch Someone Walk Away</h2>
+        <p><strong><em>There is a grief that is unique among all griefs, and if you have experienced it, you know exactly what it is. It is the grief of watching someone you love — someone you taught, someone you prayed for, someone you poured your life into — turn and walk away from the faith.</em></strong></p>
+        <p><strong><em>It may be a child you raised in the church, who sat beside you in worship, who was baptized, who knew the songs and the Scriptures — and who, upon reaching adulthood, walked away. It may be a friend you studied with for months or years, who seemed so close, who asked all the right questions — and then one day stopped coming. It may be a spouse, a sibling, a parent. The person varies. The grief is the same.</em></strong></p>
+        <p><strong><em>And the question that haunts you is always the same: </em></strong><strong><em>What did I do wrong? What could I have done differently? If I had said the right thing at the right moment, would they still be here?</em></strong></p>
+        <p><strong><em>This passage speaks directly to that grief, and what it says is both harder and more merciful than you might expect.</em></strong></p>
+        <p><strong><em>It is harder because it says: sometimes there is nothing you could have done differently. Jesus Himself — with perfect love, perfect wisdom, perfect knowledge of the human heart, perfect timing, and the authority of God Almighty — spoke directly to a man’s deepest need, and the man walked away. If the Son of God did not prevent this outcome, then the idea that </em></strong><strong><em>you</em></strong><strong><em> could have prevented it by saying the right thing at the right moment is not faith. It is the subtle pride of believing that the outcome depended on you rather than on the person’s own free choice and God’s sovereign work in their life.</em></strong></p>
+        <p><strong><em>But it is more merciful because it releases you. If the outcome was never entirely in your hands, then you are not guilty for the outcome. You are responsible for what you can control: love them genuinely, speak truth when the moment comes, live a life that matches the message, and pray without ceasing. You are </em></strong><strong><em>not</em></strong><strong><em> responsible for what you cannot control: another person’s heart. God Himself does not override the human will. He did not override the rich young ruler’s will. He will not override the will of the person you love. And His refusal to do so is not indifference. It is the terrible, necessary cost of love that is genuine rather than coerced.</em></strong></p>
+        <blockquote class="scripture"><p>“The Lord is not slow about His promise, as some count slowness, but is patient toward you, not wishing for any to perish but for all to come to repentance.”</p>
+        </blockquote>
+        <p><strong><em>God does not wish for any to perish. </em></strong><strong><em>Any.</em></strong><strong><em> That includes the person you are thinking of right now. God’s desire for their salvation is greater than yours, and His patience is longer. He is still working, even when you cannot see it. The seed you planted may still be alive under the surface, waiting for a season you cannot predict. Remember Nicodemus — years passed between the night visit and the burial spices. You do not know what chapter of someone’s story you are in. You may be in chapter three of a twenty-chapter journey.</em></strong></p>
+        <p><strong><em>And consider this: the fact that the rich young ruler </em></strong><strong><em>grieved</em></strong><strong><em> as he walked away is significant. He was not happy about his choice. He was not indifferent. He was in pain. The truth Jesus spoke had landed. It was working in him even as he turned away. Mark does not tell us what happened to this man after verse 22. We do not know if he came back. We do not know if the grief eventually brought him to his knees. We are not given that resolution — and perhaps that is deliberate. Because we are not given the resolution for most of the people </em></strong><strong><em>we</em></strong><strong><em> love either. We live in the not-knowing. And we are called to trust in the not-knowing, because the God who is not willing for any to perish is still at work in lives we can no longer see.</em></strong></p>
+        <h2>What Jesus Said After</h2>
+        <p><strong><em>After the young man left, Jesus turned to His disciples with a statement that astonished them:</em></strong></p>
+        <blockquote class="scripture"><p>“And Jesus, looking around, said to His disciples, ‘How hard it will be for those who are wealthy to enter the kingdom of God!’ The disciples were amazed at His words. But Jesus answered again and said to them, ‘Children, how hard it is to enter the kingdom of God! It is easier for a camel to go through the eye of a needle than for a rich man to enter the kingdom of God.’”</p>
+        </blockquote>
+        <p><strong><em>The disciples’ astonishment is telling. In the first-century Jewish worldview, wealth was widely understood as a sign of God’s blessing. If a rich man could not enter the kingdom, then who could? The disciples voiced this exact question: </em></strong><em>“Then who can be saved?”</em><strong><em> (Mark 10:26). And Jesus’ answer cut through every system of human merit in a single sentence:</em></strong></p>
+        <blockquote class="scripture"><p>“Looking at them, Jesus said, ‘With people it is impossible, but not with God; for all things are possible with God.’”</p>
+        </blockquote>
+        <p><strong><em>With people it is </em></strong><strong><em>impossible</em></strong><strong><em>. Not difficult. Not unlikely. Impossible. No human effort, no moral achievement, no amount of commandment-keeping or wealth or position can earn entrance into the kingdom. If it depends on us, it cannot happen. This was the truth that neither Nicodemus nor the rich young ruler could grasp: the kingdom is not a reward for the qualified. It is a gift for the unqualified, made possible by a God for whom all things are possible.</em></strong></p>
+        <p><strong><em>The rich young ruler was trying to earn what could only be received. He was trying to add one more accomplishment to his resume — eternal life, the final merit badge. But Jesus was not offering a merit badge. He was offering Himself. And the cost of receiving Him was letting go of everything else you are trusting in. For this man, that meant his wealth. For Nicodemus, it meant his knowledge. For the Samaritan woman, it meant her hiddenness. The cost is different for every person, but the principle is the same: you cannot follow Jesus while clinging to the thing that has been taking His place.</em></strong></p>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Love speaks truth even when the truth might drive someone away. The measure of a bridge moment is not whether the person crosses the bridge. The measure is whether you loved them enough to build it honestly. Jesus looked at this man with love and then told him the one thing he did not want to hear. He did not chase when the man left. He did not lower the standard. He did not blame Himself. He loved, He spoke, and He released the outcome to the Father. That is the model for every bridge moment that does not end the way you hoped.</strong></p>
+        </div>
+        <p><strong><em>This encounter completes a three-chapter progression that demonstrates the full range of bridge moment outcomes:</em></strong></p>
+        <p><strong><em>Chapter 4 (The Samaritan Woman): </em></strong><strong><em>Immediate, dramatic response. She left her water jar and brought the whole city to Jesus.</em></strong></p>
+        <p><strong><em>Chapter 5 (Nicodemus): </em></strong><strong><em>No immediate response, but a slow-burning seed that bore fruit across years.</em></strong></p>
+        <p><strong><em>Chapter 6 (Zacchaeus): </em></strong><strong><em>Immediate, spontaneous transformation through experienced grace.</em></strong></p>
+        <p><strong><em>Chapter 7 (The Rich Young Ruler): </em></strong><strong><em>Rejection, grief, and departure — with the outcome left unresolved.</em></strong></p>
+        <p><strong><em>Together, these four encounters teach us the most important lesson in all of bridge-building: the outcome is not yours to control. Your job is to be present, to be prepared, to be willing, and to love. God’s job is the rest. Sometimes the rest is glorious. Sometimes it is grievous. In every case, it is His.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 3 (Love, Not Agenda): </em></strong><strong><em>Mark 10:21 is the definitive proof text for Chapter 3’s principle. Jesus felt love first, then spoke hard truth. Not truth instead of love. Not truth despite love. Truth from love.</em></strong></p>
+        <p><strong><em>Connection to Chapter 5 (Nicodemus): </em></strong><strong><em>Both were men of status whose existing framework was the obstacle. Nicodemus’s barrier was knowledge; the ruler’s was wealth. Both encounters demonstrate that Jesus identified the specific obstacle for each person.</em></strong></p>
+        <p><strong><em>Connection to Chapter 6 (Zacchaeus): </em></strong><strong><em>The sharpest contrast in Part 2. Both men were wealthy. Zacchaeus received unconditional acceptance and spontaneously gave his wealth away. The rich young ruler received a direct challenge and chose his wealth over Jesus. Same obstacle, opposite responses — proving that the bridge-builder’s technique does not determine the outcome. The human heart does.</em></strong></p>
+        <p><strong><em>Connection to Chapter 19 (When They Walk Away): </em></strong><strong><em>This chapter provides the foundational narrative for Chapter 19’s practical teaching on handling rejection and releasing outcomes to God.</em></strong></p>
+        <p><strong><em>Connection to Colossians 4:6 (“seasoned with salt”): </em></strong><strong><em>Jesus’ statement was salt in its most concentrated form — preserving truth, creating the thirst for something better (“treasure in heaven”), but also, for this man, more salt than he could bear. Sometimes the right amount of salt for the truth is still more than the person can swallow. That does not mean you used too much. It means the truth was costly.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>Mark 10:17–27 • Matthew 19:16–22 • Luke 18:18–23 • Exodus 20:3 • Leviticus 19:18 • 2 Peter 3:9 • Romans 5:8 • 1 Corinthians 3:6–7 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Mark 10:21 records that Jesus “looked at him” and “felt a love for him” before delivering the hardest challenge of the man’s life. Why does the order matter? What happens to truth when it is not preceded by genuine love? What happens to love when it is never followed by truth?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus listed the second-table commandments (duties toward people) but omitted the first-table commandments (duties toward God). Why? What was He setting up? What did the man’s response to the final challenge reveal about his relationship with the first commandment?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">The rich young ruler went away “grieving” (lupoumenos) — not indifferent, not angry, but grieving. What does grief tell us about what was happening inside him? Is grief a hopeful sign, even in someone who is walking away? Why or why not?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Jesus did not chase the man, lower the standard, or apologize. Which of these responses would you have been most tempted to pursue, and why? What does Jesus’ restraint teach us about respecting another person’s choice?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">This chapter addresses parents and loved ones who have watched someone walk away from the faith. If you have experienced this, what false guilt have you carried? How does the fact that this happened to Jesus Himself — that the Son of God spoke perfect truth in perfect love and the man still left — speak to that guilt?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">Jesus said, “With people it is impossible, but not with God; for all things are possible with God” (Mark 10:27). What does this tell you about the person in your life who has walked away? What role does continued prayer play when you have already spoken the truth and the person has left?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. For each person, ask: What is their “one thing” — the thing they are holding onto that may stand between them and Christ? You may not know for certain. But ask God for the discernment to see it when the time comes, and the courage to name it with love when the kairos moment arrives.</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-06.html">&larr; Chapter 6</a>
+          <a href="chapter-08.html">Chapter 8 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 7;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

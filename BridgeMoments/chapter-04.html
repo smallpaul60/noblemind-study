@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: Give Me a Drink | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html" selected>Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 2</p>
+        <p class="part-title">Jesus, the Master of the Moment</p>
+        <p class="chapter-num">Chapter 4</p>
+        <h1>Give Me a Drink</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Jesus answered and said to her, ‘If you knew the gift of God, and who it is who says to you, ‘Give Me a drink,’ you would have asked Him, and He would have given you living water.’”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: This is the foundational case study of the entire book. In this single encounter, Jesus demonstrates every element of a bridge moment: crossing barriers to engage, entering the other person’s world, starting with the natural, creating curiosity, addressing the real need without shaming, and allowing the person’s own discovery to carry the conversation forward. Every principle from Part 1 is on display. If you understand this chapter, you understand what Bridge Moments is about.</div>
+
+      <div class="content">
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <p><em>The Woman at the Well  •  John 4:1–42</em></p>
+        <h2>The Setting: Everything Was Against This Conversation</h2>
+        <p><strong><em>Before we hear a single word of dialogue, John tells us five things about the circumstances of this encounter. Every one of them matters, because every one of them represents a barrier that Jesus chose to cross.</em></strong></p>
+        <h3>He Had to Pass Through Samaria</h3>
+        <blockquote class="scripture"><p>“He left Judea and went away again into Galilee. And He had to pass through Samaria.”</p>
+        </blockquote>
+        <p><strong><em>The phrase “had to” translates the Greek </em></strong><strong><em>edei</em></strong><strong><em>, which indicates divine necessity — the same word used in Luke 24:26 (“Was it not necessary that the Christ should suffer?”) and John 3:14 (“The Son of Man must be lifted up”). This was not merely the shortest route. John is telling us that this meeting was appointed. There was a woman at a well who needed to meet her Messiah, and Jesus </em></strong><strong><em>had to</em></strong><strong><em> be there.</em></strong></p>
+        <p><strong><em>But the geography alone was a barrier. Jews and Samaritans had a centuries-old hostility rooted in the Assyrian conquest of the northern kingdom in 722 BC. The Samaritans were descended from the intermarriage of the remaining Israelites with the foreign peoples the Assyrians settled in the land (2 Kings 17:24–41). They had their own temple on Mount Gerizim, their own version of the Pentateuch, and their own religious practices. To devout Jews, Samaritans were neither fully Gentile nor acceptably Jewish — they occupied a uniquely despised middle ground. Many Jews traveling between Judea and Galilee would take the longer route through the Jordan Valley specifically to avoid setting foot in Samaria.</em></strong></p>
+        <p><strong><em>Jesus walked straight through.</em></strong></p>
+        <h3>The Time and the Place</h3>
+        <blockquote class="scripture"><p>“So He came to a city of Samaria called Sychar, near the parcel of ground that Jacob gave to his son Joseph; and Jacob’s well was there. So Jesus, being wearied from His journey, was sitting thus by the well. It was about the sixth hour.”</p>
+        </blockquote>
+        <p><strong><em>The sixth hour in Jewish reckoning was noon — the hottest part of the day. Women typically drew water in the early morning or the late evening, when temperatures were bearable and when they could socialize with other women at the well. A woman coming to draw water alone at high noon was almost certainly avoiding the other women. She was an outcast among her own people.</em></strong></p>
+        <p><strong><em>And notice the detail John includes about Jesus: He was </em></strong><em>“wearied from His journey.”</em><strong><em> The Greek is </em></strong><strong><em>kekopiakos</em></strong><strong><em> — exhausted from labor, worn out. Jesus was not performing strength when He sat at that well. He was genuinely tired. He was genuinely thirsty. He was genuinely human. This matters because the conversation that follows did not begin from a position of power or strategy. It began from a position of authentic need. He needed water, and she had the means to provide it.</em></strong></p>
+        <h3>The Social Barriers</h3>
+        <p><strong><em>When the Samaritan woman arrives and Jesus speaks to her, she immediately identifies three barriers:</em></strong></p>
+        <blockquote class="scripture"><p>“There came a woman of Samaria to draw water. Jesus said to her, ‘Give Me a drink.’ ... Therefore the Samaritan woman said to Him, ‘How is it that You, being a Jew, ask me for a drink since I am a Samaritan woman?’ (For Jews have no dealings with Samaritans.)”</p>
+        </blockquote>
+        <p><strong><em>She saw three problems with this interaction: He was a Jew, she was a Samaritan (ethnic and religious hostility). He was a man, she was a woman (social convention forbade a rabbi from speaking privately with a woman, particularly a stranger). And the parenthetical note John adds — “Jews have no dealings with Samaritans” — makes the cultural wall explicit. Everything about this encounter was socially impermissible.</em></strong></p>
+        <p><strong><em>Jesus knew all of this. He spoke anyway. He did not ask permission from the cultural norms of His day. He did not calculate the social risk. He saw a person, and He spoke to her. This is the first lesson of this chapter, and it has not yet even become a conversation about spiritual things: bridge moments often require crossing barriers that other people would never cross.</em></strong></p>
+        <h2>The Connection: Starting with Vulnerability</h2>
+        <p><strong><em>Jesus’ opening words are four in English and three in Greek:</em></strong></p>
+        <blockquote class="scripture"><p>“Give Me a drink.”</p>
+        </blockquote>
+        <p><strong><em>This is remarkable for what it is </em></strong><strong><em>not</em></strong><strong><em>. It is not a theological statement. It is not a question about her spiritual condition. It is not a declaration of His identity. It is a request for help. Jesus opened the conversation by </em></strong><strong><em>asking her for something</em></strong><strong><em>. He entered her world as someone who had a need she could meet.</em></strong></p>
+        <p><strong><em>Think about what this did psychologically. She was accustomed to being looked down on — by Jews, by men, by the other women of her own town. And here was a Jewish rabbi asking her for a favor. He put Himself in a position of dependence. He gave her agency. He made her the one with something to offer. Before a single spiritual word was spoken, Jesus had communicated something that many people never communicate in a lifetime of evangelistic effort: I am not above you. I need something from you. You have value.</em></strong></p>
+        <p><strong><em>This is the connection principle: Jesus entered her context and used what was already in front of both of them. A well. A bucket. Water. Heat. Thirst. He did not import a foreign subject. He started with what was shared, what was immediate, what was real. The conversation did not feel like it was being steered. It felt like it was arising naturally from the situation they were both in.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Connection Pattern</strong></p>
+<p>Jesus started every significant conversation by entering the other person’s world — their circumstances, their language, their immediate reality. He did not ask people to come to His ground first. He went to theirs. A well became a classroom. A fishing boat became a calling. A tax booth became an invitation. A tree became an encounter. Start where they are, not where you want them to be.</p>
+        </div>
+        <h2>The Bridge: From Water to Living Water</h2>
+        <p><strong><em>Her response to His request was surprise and resistance:</em></strong></p>
+        <blockquote class="scripture"><p>“How is it that You, being a Jew, ask me for a drink since I am a Samaritan woman?”</p>
+        </blockquote>
+        <p><strong><em>She expected Him to behave like every other Jewish man she had encountered. She expected distance, avoidance, or contempt. Instead, He had asked her for something. She did not know what to do with that. And it is precisely in that moment of off-balance surprise that Jesus builds the bridge:</em></strong></p>
+        <blockquote class="scripture"><p>“Jesus answered and said to her, ‘If you knew the gift of God, and who it is who says to you, “Give Me a drink,” you would have asked Him, and He would have given you living water.’”</p>
+        </blockquote>
+        <p><strong><em>Study this verse carefully. There are layers here that repay close attention.</em></strong></p>
+        <p><strong><em>First, Jesus pivoted from her question to His identity. She asked about social convention (“How is it that You, a Jew...”). He redirected to something infinitely bigger: </em></strong><em>“If you knew the gift of God, and who it is who says to you...”</em><strong><em> He did not answer her question. He elevated the conversation. She was thinking about ethnic divisions. He was pointing to the gift of God. She was looking at a thirsty traveler. He was revealing the Source of living water.</em></strong></p>
+        <p><strong><em>Second, He used the word she already knew — </em></strong><strong><em>water</em></strong><strong><em> — but filled it with new meaning. She came for physical water. He offered </em></strong><strong><em>living water</em></strong><strong><em>. The Greek </em></strong><strong><em>hydōr zōn</em></strong><strong><em> would have had a double meaning to her ear. In ordinary usage, “living water” simply meant flowing water — spring water as opposed to still cistern water. It was the better kind of water. But Jesus was loading the term with spiritual meaning that she would only gradually come to understand. He was building a bridge using a word from </em></strong><strong><em>her</em></strong><strong><em> world that also belonged to </em></strong><strong><em>His</em></strong><strong><em>.</em></strong></p>
+        <p><strong><em>Third — and this is critical — He </em></strong><strong><em>did not explain what He meant</em></strong><strong><em>. He did not say, “Living water is a metaphor for the Holy Spirit and eternal life.” He said just enough to create curiosity. </em></strong><em>“You would have asked Him.”</em><strong><em> He told her she would have wanted it — if only she knew what it was and who was offering it. He created a gap between what she knew and what she could know, and He left that gap open for her to step into.</em></strong></p>
+        <p><strong><em>This is the art of salt-seasoned speech. Not too much. Not everything at once. Enough to create thirst.</em></strong></p>
+        <h2>The Curiosity Factor: Letting Her Lean In</h2>
+        <p><strong><em>It worked. She leaned in:</em></strong></p>
+        <blockquote class="scripture"><p>“She said to Him, ‘Sir, You have nothing to draw with and the well is deep; where then do You get that living water? You are not greater than our father Jacob, are You, who gave us the well, and drank of it himself and his sons and his cattle?’”</p>
+        </blockquote>
+        <p><strong><em>She was still thinking in physical terms — “you don’t even have a bucket” — but she was engaged. She was asking questions. She was pushing back, which is actually a </em></strong><strong><em>good</em></strong><strong><em> sign in any conversation. Pushback means someone is thinking. Silence or a quick subject change means they have checked out. She was in the conversation now.</em></strong></p>
+        <p><strong><em>And notice her second question: </em></strong><em>“You are not greater than our father Jacob, are You?”</em><strong><em> In the Greek, the construction (</em></strong><strong><em>mē</em></strong><strong><em> with the indicative) expects a negative answer — she was asking, “You’re not greater than Jacob, are you?” But the irony, which John’s readers would catch immediately, is that </em></strong><strong><em>yes, He is infinitely greater than Jacob</em></strong><strong><em>. She was closer to the truth than she realized, and the question she asked almost mockingly was actually the most important question she could have asked.</em></strong></p>
+        <p><strong><em>Jesus does not answer her question directly. Instead, He deepens the mystery:</em></strong></p>
+        <blockquote class="scripture"><p>“Jesus answered and said to her, ‘Everyone who drinks of this water will thirst again; but whoever drinks of the water that I will give him shall never thirst; but the water that I will give him will become in him a well of water springing up to eternal life.’”</p>
+        </blockquote>
+        <p><strong><em>Now the contrast is explicit: this water (pointing to Jacob’s well) satisfies temporarily. My water satisfies permanently. This water must be drawn again and again. My water becomes a spring inside you, flowing upward to eternal life. He still has not defined “living water” in theological terms. He has simply made the offer so compelling that she has to respond.</em></strong></p>
+        <p><strong><em>And she does:</em></strong></p>
+        <blockquote class="scripture"><p>“The woman said to Him, ‘Sir, give me this water, so I will not be thirsty nor come all the way here to draw.’”</p>
+        </blockquote>
+        <p><strong><em>She still misunderstands. She is thinking practically: no more daily trips to the well in the scorching heat, no more avoiding the other women. But her request is the exact response Jesus was leading her toward: </em></strong><em>“Give me this water.”</em><strong><em> She is asking for what He came to give. She does not yet know what she is asking for, but her desire has been awakened. The salt has created thirst.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Curiosity Principle</strong></p>
+<p>Jesus did not dump information. He created desire. He said just enough to make her want more, and then He let her curiosity drive the conversation forward. Bridge moments work the same way: you do not need to explain everything in one sitting. You need to awaken a thirst that only the truth can satisfy. If you have to force someone to listen, you have already lost the moment. If they are leaning in and asking questions, the bridge is being built.</p>
+        </div>
+        <h2>The Honest Moment: Seeing Without Shaming</h2>
+        <p><strong><em>What happens next is one of the most masterful turns in any conversation recorded in Scripture:</em></strong></p>
+        <blockquote class="scripture"><p>“He said to her, ‘Go, call your husband and come here.’ The woman answered and said, ‘I have no husband.’ Jesus said to her, ‘You have correctly said, “I have no husband”; for you have had five husbands, and the one whom you now have is not your husband; this you have said truly.’”</p>
+        </blockquote>
+        <p><strong><em>On the surface, this looks like an abrupt change of subject. They were talking about water. Now suddenly He is asking about her husband. But Jesus was not changing subjects. He was going deeper. The living water He offered was not a commodity to be added to her existing life. It was a transformation of her whole life. And for her to receive it, she needed to be honest about where she actually was — not where she presented herself to be.</em></strong></p>
+        <p><strong><em>But study </em></strong><strong><em>how</em></strong><strong><em> He did this. He did not say, “I know about your five husbands and the man you’re living with now.” He asked her to go get her husband. He gave </em></strong><strong><em>her</em></strong><strong><em> the opportunity to tell the truth. And when she gave a half-truth — “I have no husband” (technically accurate, but deliberately incomplete) — He honored what she said before revealing what she had not: </em></strong><em>“You have correctly said.”</em><strong><em> He affirmed her honesty before extending it. He did not ambush her. He did not expose her. He </em></strong><strong><em>saw</em></strong><strong><em> her, and He let her know she was seen — not with condemnation, but with full knowledge and continued engagement.</em></strong></p>
+        <p><strong><em>This is the principle we studied in Chapter 3 in action: love that tells the truth without weaponizing it. Compare what Jesus did here with what the scribes and Pharisees did with the woman caught in adultery (which we will study in Chapter 8). They dragged a woman’s sin into public to score a theological point. Jesus brought this woman’s situation into the conversation gently, privately, and for her benefit — so she could receive what He was offering from a place of honesty rather than pretense.</em></strong></p>
+        <p><strong><em>And notice her response. She did not shut down. She did not walk away. She did not become defensive. Instead:</em></strong></p>
+        <blockquote class="scripture"><p>“The woman said to Him, ‘Sir, I perceive that You are a prophet.’”</p>
+        </blockquote>
+        <p><strong><em>She escalated her understanding of who He was. At the beginning, He was a Jewish stranger. Then she addressed Him as “Sir” (</em></strong><strong><em>Kyrie</em></strong><strong><em>). Now He is a prophet. She is moving in the right direction. And she was not offended by His knowledge of her life. She was </em></strong><strong><em>impressed</em></strong><strong><em> by it. Because it was delivered without judgment, she received it as insight rather than attack. This is what happens when truth is seasoned with grace.</em></strong></p>
+        <h2>The Detour That Wasn’t: Worship on the Mountain</h2>
+        <p><strong><em>What she says next is often read as a deflection — an attempt to change the subject away from her personal life to a safe theological debate:</em></strong></p>
+        <blockquote class="scripture"><p>“Our fathers worshiped in this mountain, and you people say that in Jerusalem is the place where men ought to worship.”</p>
+        </blockquote>
+        <p><strong><em>And maybe there was an element of deflection in it. But maybe not entirely. If she genuinely believed Jesus was a prophet, then the most important question she could ask a prophet was a </em></strong><strong><em>worship</em></strong><strong><em> question: where is God, and how do I find Him? Samaritans worshiped on Mount Gerizim. Jews worshiped in Jerusalem. Which is it? If this man really knew God, he would know the answer.</em></strong></p>
+        <p><strong><em>Jesus did not dismiss her question. He did not say, “We’re not talking about that right now.” He answered it — and in answering it, He took the conversation to its highest point:</em></strong></p>
+        <blockquote class="scripture"><p>“Jesus said to her, ‘Woman, believe Me, an hour is coming when neither in this mountain nor in Jerusalem will you worship the Father. You worship what you do not know; we worship what we know, for salvation is from the Jews. But an hour is coming, and now is, when the true worshipers will worship the Father in spirit and truth; for such people the Father seeks to be His worshipers. God is spirit, and those who worship Him must worship in spirit and truth.’”</p>
+        </blockquote>
+        <p><strong><em>Jesus addressed her question with honesty — </em></strong><em>“you worship what you do not know; we worship what we know”</em><strong><em> — He did not pretend the Samaritan position was equally valid. Salvation is from the Jews, and He said so plainly. But He did not stop there. He moved past the debate entirely by announcing something that rendered the entire argument obsolete: a new era of worship was coming, and it was coming </em></strong><strong><em>now</em></strong><strong><em>. Not on this mountain. Not in Jerusalem. In spirit and truth.</em></strong></p>
+        <p><strong><em>And then He said something extraordinary about God that should not be missed: the Father is actively seeking worshipers. Not waiting for them. Seeking them. This Samaritan woman, with her five failed marriages and her current arrangement, drawing water at noon to avoid the stares of respectable people — the Father was seeking her. Jesus was at that well because the Father was seeking this particular woman.</em></strong></p>
+        <p><strong><em>Jesus was the bridge. He had always been the bridge. The entire conversation was God reaching toward a woman who did not even know she was being sought.</em></strong></p>
+        <h2>The Reveal: “I Who Speak to You Am He”</h2>
+        <p><strong><em>The conversation reaches its climax with the most direct self-revelation Jesus gives anywhere in the Gospels before His trial:</em></strong></p>
+        <blockquote class="scripture"><p>“The woman said to Him, ‘I know that Messiah is coming (He who is called Christ); when that One comes, He will declare all things to us.’ Jesus said to her, ‘I who speak to you am He.’”</p>
+        </blockquote>
+        <p><strong><em>In the Greek, Jesus’ response is even more striking: </em></strong><strong><em>Egō eimi, ho lalōn soi</em></strong><strong><em> — “I AM, the one speaking to you.” The phrase </em></strong><strong><em>ego eimi</em></strong><strong><em> (“I am”) echoes the divine name from Exodus 3:14. To a Samaritan woman — not to the Sanhedrin, not to a gathering of disciples, not to a crowd of thousands — Jesus first declared plainly that He was the Messiah.</em></strong></p>
+        <p><strong><em>Consider who received this revelation. Not a priest. Not a scholar. Not a religious leader. A Samaritan woman with a scandalous personal history who came to draw water in the heat of the day because she was too ashamed to come when anyone else was around. The God of Israel, in human flesh, chose her as the first person to hear His full identity spoken without parable or ambiguity.</em></strong></p>
+        <p><strong><em>That is not strategy. That is love.</em></strong></p>
+        <h2>The Response: The Water Jar Left Behind</h2>
+        <blockquote class="scripture"><p>“So the woman left her waterpot, and went into the city and said to the men, ‘Come, see a man who told me all the things that I have done; this is not the Christ, is it?’”</p>
+        </blockquote>
+        <p><strong><em>She left her water jar. This is one of the most evocative details in the entire Gospel of John. She came to the well for water. She met Jesus. And she left </em></strong><strong><em>without the water</em></strong><strong><em>. She forgot why she came. What she received was so much greater than what she came for that the original purpose of her trip simply ceased to matter.</em></strong></p>
+        <p><strong><em>And then she went back to the very town she had been avoiding. The woman who came to the well at noon to escape the gaze of her community went straight back to the center of that community and said, </em></strong><em>“Come, see a man who told me all the things that I have done.”</em><strong><em> The very thing she was hiding from — her past, her shame, the “all the things” she had done — became the basis of her testimony. She was not embarrassed by Jesus’ knowledge of her life. She was </em></strong><strong><em>amazed</em></strong><strong><em> by it. Because He had seen everything and stayed. He had known everything and offered her living water anyway.</em></strong></p>
+        <p><strong><em>Notice also her invitation: </em></strong><em>“This is not the Christ, is it?”</em><strong><em> She did not preach a sermon. She did not present a theological argument. She asked a question — and her question was an invitation. She was not telling them what to believe. She was telling them what she had experienced and inviting them to see for themselves. This is the most natural, most authentic form of bridge-building there is: </em></strong><strong><em>Come and see. I met someone. Let me tell you what happened to me.</em></strong></p>
+        <p><strong><em>The result:</em></strong></p>
+        <blockquote class="scripture"><p>“From that city many of the Samaritans believed in Him because of the word of the woman who testified, ‘He told me all the things that I have done.’ ... and they were saying to the woman, ‘It is no longer because of what you said that we believe, for we have heard for ourselves and know that this One is indeed the Savior of the world.’”</p>
+        </blockquote>
+        <p><strong><em>Many believed because of her testimony. Then they invited Jesus to stay, and after two days of hearing Him for themselves, even more believed. Her bridge moment was the spark. But it led people to Jesus Himself, not to her. That is the mark of an authentic bridge: it does not point to the bridge-builder. It points to the One on the other side.</em></strong></p>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Start where people are, not where you want them to be. Use what is already in the conversation — the natural, shared, present reality — as the starting point. Create curiosity rather than delivering lectures. Address the real person, not a generic audience. Be willing to cross whatever barriers stand between you and the person God has placed in your path. And trust that truth, delivered with grace from a heart of love, draws people in rather than pushing them away.</strong></p>
+        </div>
+        <p><strong><em>This single encounter demonstrates every element we studied in Part 1:</em></strong></p>
+        <p><strong><em>Walk in wisdom toward outsiders </em></strong><strong><em>— Jesus crossed ethnic, religious, and gender barriers to engage a woman His culture told Him to avoid.</em></strong></p>
+        <p><strong><em>Making the most of the kairos </em></strong><strong><em>— A woman, a well, midday heat. The moment was ripe, and Jesus recognized it.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— He revealed her past without shaming her. He corrected her theology without condescending to her.</em></strong></p>
+        <p><strong><em>Seasoned with salt </em></strong><strong><em>— He did not explain everything at once. He said just enough to create thirst: “You would have asked Him.”</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— His approach to this woman was completely different from His approach to Nicodemus (Chapter 5), to Zacchaeus (Chapter 6), to the rich young ruler (Chapter 7). He calibrated everything to her.</em></strong></p>
+        <h2>A Journey in Names: How She Saw Him</h2>
+        <p><strong><em>One of the most beautiful threads in this passage is the progression of how the woman addressed and understood Jesus. Trace it through the conversation:</em></strong></p>
+        <p><strong><em>Verse 9: </em></strong><strong><em>A Jew. A category. An outsider defined by His ethnicity.</em></strong></p>
+        <p><strong><em>Verse 11: </em></strong><em>“Sir”</em><strong><em> (Kyrie). A term of respect. She has moved from category to courtesy.</em></strong></p>
+        <p><strong><em>Verse 19: </em></strong><em>“A prophet.”</em><strong><em> She recognizes spiritual authority. He has demonstrated knowledge no ordinary man would have.</em></strong></p>
+        <p><strong><em>Verse 25–26: </em></strong><strong><em>She raises the Messiah, and Jesus reveals Himself. The journey from “a Jew” to “the Christ” is now complete.</em></strong></p>
+        <p><strong><em>Verse 29: </em></strong><em>“Is not this the Christ?”</em><strong><em> She takes what she has discovered to others.</em></strong></p>
+        <p><strong><em>This progression did not happen because Jesus forced her through a series of logical steps. It happened because He was genuinely present with her, responding to her at each stage of understanding, and letting her own discovery carry her forward. Bridge moments do not require you to drag someone to the finish line. They require you to walk with them, one step at a time, and trust the process.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Colossians 4:5–6: </em></strong><strong><em>This single encounter is the most complete demonstration of the thesis passage in action. Every element — wisdom, engagement with outsiders, recognizing kairos, grace, salt, and personalized response — is present.</em></strong></p>
+        <p><strong><em>Connection to Chapter 3 (Love, Not Agenda): </em></strong><strong><em>Jesus’ revelation of her past (vv. 16–18) was love, not exposure. He did not use her shame as a teaching tool. He addressed her situation for her benefit, privately, with grace. This is what the heart check looks like in practice.</em></strong></p>
+        <p><strong><em>Connection to Chapter 5 (Nicodemus): </em></strong><strong><em>The contrast is striking. With the Samaritan woman, Jesus used everyday imagery (water) and created curiosity. With Nicodemus, He challenged theological assumptions (“you must be born again”). Same Jesus, completely different approach. Both demonstrate Colossians 4:6: responding to each person individually.</em></strong></p>
+        <p><strong><em>Connection to Chapter 8 (Woman Caught in Adultery): </em></strong><strong><em>Compare how Jesus handled this woman’s sexual history (privately, gently, for her growth) with how the Pharisees handled the other woman’s sin (publicly, harshly, for their agenda). The contrast reveals the difference between love and exploitation.</em></strong></p>
+        <p><strong><em>Connection to Chapter 17 (From Natural to Spiritual): </em></strong><strong><em>This encounter is the primary case study for the transition principle. Water to living water. Physical thirst to spiritual thirst. The natural as the bridge to the spiritual.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>John 4:1–42 • 2 Kings 17:24–41 • Exodus 3:14 • Luke 24:26 • John 3:14 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Read John 4:4. The text says Jesus “had to” (edei) pass through Samaria. This word indicates divine necessity. What does this tell you about God’s role in creating bridge moments? How does this change the way you think about the “coincidences” in your own daily routine?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus opened the conversation by asking the woman for help (“Give Me a drink”). Why is this significant? What does it communicate when you approach someone as a person with a need rather than as an authority with a message? How could you apply this in your own conversations?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Trace the woman’s progression in how she addressed Jesus: “a Jew” (v. 9), “Sir” (v. 11), “a prophet” (v. 19), and implicitly the Christ (v. 29). What does this gradual journey tell us about how people typically come to faith? What does it suggest about our expectations for a single conversation?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Jesus knew about the woman’s five husbands and current situation. He could have opened with that information. Why didn’t He? What does the timing of this revelation (after curiosity was already established) teach us about when to address personal issues in a spiritual conversation?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">The woman asked about worship on Mount Gerizim versus Jerusalem (v. 20). Many commentators call this a deflection. Do you agree? Could she have been asking a genuine question? How did Jesus handle it either way, and what can we learn from His willingness to engage the question?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">The woman “left her waterpot” (v. 28) and went back to the city she had been avoiding. What does it mean when someone forgets their original purpose because they have found something greater? Have you experienced or witnessed a moment like this?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names you wrote down in Chapter 1. For each person, ask: What is their “water” — the everyday, natural concern or need that is most real to them right now? How might that become a bridge to something deeper? You do not need to manufacture the bridge. You need to recognize it.</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Chapter 3</a>
+          <a href="chapter-05.html">Chapter 5 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 4;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

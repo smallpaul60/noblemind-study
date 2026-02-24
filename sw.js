@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v53';
+const CACHE_NAME = 'noblemind-study-v54';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -13,7 +13,31 @@ const CACHE_FILES = [
   '/manifest.json',
   '/icon-192.png',
   '/icon-512.png',
-  '/favicon.ico'
+  '/favicon.ico',
+  '/BridgeMoments/index.html',
+  '/BridgeMoments/chapter-01.html',
+  '/BridgeMoments/chapter-02.html',
+  '/BridgeMoments/chapter-03.html',
+  '/BridgeMoments/chapter-04.html',
+  '/BridgeMoments/chapter-05.html',
+  '/BridgeMoments/chapter-06.html',
+  '/BridgeMoments/chapter-07.html',
+  '/BridgeMoments/chapter-08.html',
+  '/BridgeMoments/chapter-09.html',
+  '/BridgeMoments/chapter-10.html',
+  '/BridgeMoments/chapter-11.html',
+  '/BridgeMoments/chapter-12.html',
+  '/BridgeMoments/chapter-13.html',
+  '/BridgeMoments/chapter-14.html',
+  '/BridgeMoments/chapter-15.html',
+  '/BridgeMoments/chapter-16.html',
+  '/BridgeMoments/chapter-17.html',
+  '/BridgeMoments/chapter-18.html',
+  '/BridgeMoments/chapter-19.html',
+  '/BridgeMoments/chapter-20.html',
+  '/BridgeMoments/appendix-a.html',
+  '/BridgeMoments/appendix-b.html',
+  '/BridgeMoments/appendix-c.html'
 ];
 
 // Install event - cache essential files

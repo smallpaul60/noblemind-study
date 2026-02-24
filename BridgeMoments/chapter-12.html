@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 12: Do You Love Me? | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html">Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html" selected>Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 2</p>
+        <p class="part-title">Jesus, the Master of the Moment</p>
+        <p class="chapter-num">Chapter 12</p>
+        <h1>Do You Love Me?</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“He said to him the third time, ‘Simon, son of John, do you love Me?’ Peter was grieved because He said to him the third time, ‘Do you love Me?’ And he said to Him, ‘Lord, You know all things; You know that I love You.’ Jesus said to him, ‘Tend My sheep.’”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To study a bridge moment designed not to convert but to restore. Peter had denied Jesus three times. He had failed at the moment that mattered most. And Jesus, after the resurrection, sought him out and rebuilt him — not with a lecture on failure, but with a meal, a memory, and three questions that undid the three denials. This chapter closes Part 2 by demonstrating that bridge moments are not only for outsiders. They are also for the broken believer who needs to be brought back.</div>
+
+      <div class="content">
+        <p><em>Peter’s Restoration  •  John 21:1–19</em></p>
+        <h2>The Backstory: What Peter Did</h2>
+        <p><strong><em>To understand John 21, you must first feel the weight of John 18. On the night Jesus was arrested, Peter followed at a distance. In the courtyard of the high priest, he was recognized three times and asked if he was one of Jesus’ disciples. Three times he denied it.</em></strong></p>
+        <blockquote class="scripture"><p>“Simon Peter was standing and warming himself. So they said to him, ‘You are not also one of His disciples, are you?’ He denied it and said, ‘I am not.’”</p>
+        </blockquote>
+        <p><strong><em>The third denial was the worst. A relative of the man whose ear Peter had cut off said, “Did I not see you in the garden with Him?” And Peter denied it again. And immediately, John tells us, a rooster crowed (John 18:27). Luke adds the devastating detail that the other Gospels omit: </em></strong><em>“The Lord turned and looked at Peter”</em><strong><em> (Luke 22:61). In that moment, across a crowded courtyard, Jesus — bound, beaten, being led to His death — looked directly at the man who had just denied knowing Him. And Peter remembered the prophecy: “Before a rooster crows today, you will deny Me three times.”</em></strong></p>
+        <blockquote class="scripture"><p>“And he went out and wept bitterly.”</p>
+        </blockquote>
+        <p><strong><em>The Greek </em></strong><strong><em>eklausen pikrōs</em></strong><strong><em> — he wept bitterly, with the kind of tears that come from the deepest place of self-recognition. This was not guilt over being caught. This was the anguish of a man who had just discovered that he was not who he thought he was. Peter, who had boasted that he would die before denying Jesus (Mark 14:31), had crumbled at the question of a servant girl. The gap between who he thought he was and who he actually was had opened like a chasm beneath his feet.</em></strong></p>
+        <p><strong><em>And then Jesus died. And for three days, Peter lived in that chasm. He had denied the Son of God, and then the Son of God was dead. There was no chance to take it back. No opportunity to explain. No moment for restoration. Just silence, and a memory he could not escape.</em></strong></p>
+        <p><strong><em>That is the Peter who stands in John 21. That is the man Jesus came to restore.</em></strong></p>
+        <h2>The Setting: Gone Fishing</h2>
+        <blockquote class="scripture"><p>“Simon Peter said to them, ‘I am going fishing.’ They said to him, ‘We will also come with you.’ They went out and got into the boat; and that night they caught nothing.”</p>
+        </blockquote>
+        <p><strong><em>Peter went back to fishing. The man who had been called to be a fisher of men went back to being a fisher of fish. There is enormous weight in this detail. After the resurrection, after the appearances, after the locked room — Peter returned to the one thing he knew how to do, the life he had before Jesus ever called him from the nets. It is difficult to read this as anything other than a man who believed his calling was over. He had failed. He was disqualified. Whatever he had been to Jesus, he was that no longer. So he did the only thing left: he went back to the beginning.</em></strong></p>
+        <p><strong><em>And they caught nothing. All night on the water, and the nets came up empty. The thing Peter went back to was not working either. His old life could not satisfy any more than his new life could resume. He was stranded between the man he used to be and the man he thought he had forfeited the right to become.</em></strong></p>
+        <h2>The Morning: Provision Before Confrontation</h2>
+        <blockquote class="scripture"><p>“But when the day was now breaking, Jesus stood on the beach; yet the disciples did not know that it was Jesus. So Jesus said to them, ‘Children, you do not have any fish, do you?’ They answered Him, ‘No.’ And He said to them, ‘Cast the net on the right-hand side of the boat and you will find a catch.’ So they cast, and then they were not able to haul it in because of the great number of fish.”</p>
+        </blockquote>
+        <p><strong><em>Jesus stood on the shore in the early morning light and called out to men who did not yet recognize Him. His first words were not about the denial. They were about fish. </em></strong><em>“Children, you do not have any fish, do you?”</em><strong><em> The word </em></strong><strong><em>paidia</em></strong><strong><em> — children, little ones — was a term of tender address. And the question was gentle, not accusatory. He knew they had caught nothing. He asked because He was about to provide.</em></strong></p>
+        <p><strong><em>And He did. The net filled with 153 large fish — a number so specific that it reads like the kind of detail you remember because you were the one counting. The empty night was over. The Provider was standing on the shore.</em></strong></p>
+        <p><strong><em>It was John who recognized Him first:</em></strong></p>
+        <blockquote class="scripture"><p>“Therefore that disciple whom Jesus loved said to Peter, ‘It is the Lord.’ So when Simon Peter heard that it was the Lord, he put his outer garment on (for he was stripped for work), and threw himself into the sea.”</p>
+        </blockquote>
+        <p><strong><em>Peter’s response is one of the most human moments in all of Scripture. When he heard it was Jesus, he did not wait for the boat. He put on his garment — you do not appear before the Lord undressed — and threw himself into the water. He swam to shore. He could not wait. Whatever shame he was carrying, whatever fear of what Jesus might say, was overridden by the desperate need to be </em></strong><strong><em>near</em></strong><strong><em> Him. This is what the woman at Simon’s house felt (Chapter 11). This is what Zacchaeus felt in the tree. The pull of Jesus was stronger than the weight of failure.</em></strong></p>
+        <h2>The Charcoal Fire: The Detail That Changes Everything</h2>
+        <blockquote class="scripture"><p>“So when they got out upon the land, they saw a charcoal fire already laid and fish placed on it, and bread.”</p>
+        </blockquote>
+        <p><strong><em>A charcoal fire. In Greek: </em></strong><strong><em>anthrakian</em></strong><strong><em>. John uses this word exactly twice in his entire Gospel. The first time was in John 18:18:</em></strong></p>
+        <blockquote class="scripture"><p>“Now the slaves and the officers were standing there, having made a charcoal fire, for it was cold and they were warming themselves; and Peter was also with them, standing and warming himself.”</p>
+        </blockquote>
+        <p><strong><em>A charcoal fire. </em></strong><strong><em>Anthrakian.</em></strong><strong><em> The same word. The same fire. The last time Peter stood by a charcoal fire, he denied Jesus three times. And now, on a beach at dawn, Jesus had built another one.</em></strong></p>
+        <p><strong><em>This was not an accident. John was one of the most deliberate writers in the New Testament. He did not repeat this rare word by coincidence. Jesus constructed this scene with surgical intentionality. He recreated the setting of Peter’s greatest failure. The same smell of burning charcoal. The same warmth on the skin. The same glow in the early light. Every sensory detail would have flooded Peter’s memory the moment he stepped onto that beach and saw the fire.</em></strong></p>
+        <p><strong><em>Why would Jesus do this? Why take Peter back to the worst moment of his life?</em></strong></p>
+        <p><strong><em>Because you cannot heal what you will not face. Peter’s denial was a wound that would fester in the dark if it was not brought into the light. Jesus did not ignore what had happened. He did not pretend it away. He rebuilt the scene so that Peter could face it again — but this time, instead of denial, there would be a different conversation by the fire. Instead of three denials, three affirmations. Instead of a rooster’s crow, a commission. Jesus redeemed the very place where Peter fell.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Redemption of Memory</strong></p>
+<p>Jesus did not avoid the painful memory. He entered it and transformed it. He took the setting of Peter’s worst moment and made it the setting of his restoration. This is a profound principle for bridge moments with people who have failed: do not pretend the failure did not happen. Do not avoid it. Walk back into it with them, and let grace rewrite what shame has written. The goal is not to erase the memory but to redeem it — to replace the association of failure with the association of restoration.</p>
+        </div>
+        <h2>The Meal: He Fed Them First</h2>
+        <blockquote class="scripture"><p>“Jesus said to them, ‘Come and have breakfast.’ ... Jesus came and took the bread and gave it to them, and the fish likewise.”</p>
+        </blockquote>
+        <p><strong><em>Before the conversation. Before the questions. Before the restoration. Jesus made breakfast. He had the fire going when they arrived. He had fish on the coals and bread ready. The risen Lord of the universe was cooking breakfast on a beach for men who had abandoned Him.</em></strong></p>
+        <p><strong><em>This follows the same pattern we have seen throughout this study. With Zacchaeus, acceptance came before repentance. With the woman caught in adultery, grace came before truth. With the Emmaus disciples, Jesus walked miles before He corrected. And here, with Peter, He fed him before He questioned him. Provision preceded confrontation. The body was nourished before the soul was addressed. Every physical need was met before the spiritual conversation began.</em></strong></p>
+        <p><strong><em>This is not a minor detail. It is a theological statement about the character of God. He does not address your failure on an empty stomach. He does not demand accountability before He demonstrates care. He feeds you. He warms you. He serves you. And </em></strong><strong><em>then</em></strong><strong><em>, in the fullness of that provision, He asks the question.</em></strong></p>
+        <h2>The Three Questions: Undoing the Three Denials</h2>
+        <p><strong><em>After breakfast, Jesus turned to Peter. And what followed was one of the most carefully constructed conversations in all of Scripture.</em></strong></p>
+        <h3>The First Question</h3>
+        <blockquote class="scripture"><p>“So when they had finished breakfast, Jesus said to Simon Peter, ‘Simon, son of John, do you love Me more than these?’ He said to Him, ‘Yes, Lord; You know that I love You.’ He said to him, ‘Tend My lambs.’”</p>
+        </blockquote>
+        <p><strong><em>Notice the name: </em></strong><em>“Simon, son of John.”</em><strong><em> Not “Peter.” Not the Rock. Jesus used Peter’s original name — the name he had before Jesus renamed him. There is tenderness in this, and perhaps also a quiet stripping away: we are going back to the beginning, Simon. Before the calling. Before the boasting. Before the failure. Who are you, underneath it all?</em></strong></p>
+        <p><strong><em>The question: </em></strong><em>“Do you love Me more than these?”</em><strong><em> The phrase “more than these” has been interpreted various ways — more than these other disciples love Me? More than you love these boats and nets? More than these other things? The most natural reading, given the context of Peter’s boast in Mark 14:29 (“Even though all may fall away, yet I will not”), is: do you love Me more than these other men do? That was the claim Peter had made before the denial. Jesus was giving him the chance to address it.</em></strong></p>
+        <p><strong><em>Peter’s answer was humble and honest: </em></strong><em>“Yes, Lord; You know that I love You.”</em><strong><em> He did not claim superiority. He did not say “more than these.” He appealed to Jesus’ knowledge of his heart rather than asserting his own strength. The boasting was gone. In its place was a chastened, honest dependence: You know. I am no longer telling You who I am. You know who I am.</em></strong></p>
+        <p><strong><em>And Jesus responded: </em></strong><em>“Tend My lambs.”</em><strong><em> He did not say, “Good, but we need to talk about what you did.” He gave Peter a commission. A responsibility. A future. You denied Me, and I am still entrusting you with My sheep. The restoration was not conditional on further penance. It was immediate and it was practical: there is work to do, and you are still the one I want doing it.</em></strong></p>
+        <h3>The Second Question</h3>
+        <blockquote class="scripture"><p>“He said to him again a second time, ‘Simon, son of John, do you love Me?’ He said to Him, ‘Yes, Lord; You know that I love You.’ He said to him, ‘Shepherd My sheep.’”</p>
+        </blockquote>
+        <p><strong><em>The second question dropped the “more than these.” Jesus narrowed the focus. No more comparisons with others. Just the core question: do </em></strong><strong><em>you</em></strong><strong><em> love </em></strong><strong><em>Me</em></strong><strong><em>? And Peter answered the same way, with the same humble appeal: You know that I love You. And the commission came again: Shepherd My sheep. The language shifted slightly — from “lambs” to “sheep,” from “tend” to “shepherd” — but the message was consistent: you are still called. You are still needed. Your failure did not cancel your purpose.</em></strong></p>
+        <h3>The Third Question</h3>
+        <blockquote class="scripture"><p>“He said to him the third time, ‘Simon, son of John, do you love Me?’ Peter was grieved because He said to him the third time, ‘Do you love Me?’ And he said to Him, ‘Lord, You know all things; You know that I love You.’ Jesus said to him, ‘Tend My sheep.’”</p>
+        </blockquote>
+        <p><strong><em>The third question grieved Peter. The word is </em></strong><strong><em>elypēthē</em></strong><strong><em> — the same root word used for the rich young ruler’s grief in Mark 10:22 and the Emmaus disciples’ sadness in Luke 24:17. Peter was pierced by the repetition. Why? Because three. Three questions. Three denials. He understood what Jesus was doing. Every question corresponded to a denial. Every affirmation of love was being placed over a memory of betrayal. The architecture of the conversation was the architecture of redemption: one question to undo each denial, one commission to replace each failure.</em></strong></p>
+        <p><strong><em>And Peter’s final answer was the deepest: </em></strong><em>“Lord, You know all things; You know that I love You.”</em><strong><em> He had moved beyond appealing to Jesus’ knowledge of his heart. Now he appealed to Jesus’ knowledge of </em></strong><strong><em>all things</em></strong><strong><em>. You know everything. You know the denial. You know the weeping. You know the failure, the cowardice, the gap between what I promised and what I did. You know all of it. And You know that underneath all of it, I love You. I cannot prove it. My track record argues against it. But You know. And that is enough.</em></strong></p>
+        <p><strong><em>And Jesus said, for the third time: </em></strong><em>“Tend My sheep.”</em><strong><em> Three denials, three questions, three commissions. The symmetry was complete. The restoration was finished. Not by erasing the failure, but by building something over it. The charcoal fire of denial had become the charcoal fire of restoration. The man who had said “I do not know Him” had now said, three times, “You know that I love You.” And the One who had been denied had responded, three times, with a commission that said: I still trust you with what is most precious to Me.</em></strong></p>
+        <div class="principle-box">
+<p><strong>Restoration does not erase the failure. It redeems it. Jesus did not pretend Peter’s denial had not happened. He walked Peter back through it, one question at a time, and replaced each memory of betrayal with a declaration of love and a renewed commission. The wound was not ignored. It was healed — not by avoidance, but by a conversation that addressed it with surgical precision, wrapped in grace, and sealed with purpose.</strong></p>
+        </div>
+        <h2>The Final Commission: Your Failure Is Not the End of Your Story</h2>
+        <blockquote class="scripture"><p>“Truly, truly, I say to you, when you were younger, you used to gird yourself and walk wherever you wished; but when you grow old, you will stretch out your hands, and someone else will gird you, and bring you where you do not wish to go.’ Now this He said, signifying by what kind of death he would glorify God. And when He had spoken this, He said to him, ‘Follow Me!’”</p>
+        </blockquote>
+        <p><strong><em>After the restoration came a prophecy: Peter would die a martyr’s death. Tradition holds that Peter was crucified upside down in Rome, requesting to be inverted because he felt unworthy to die in the same manner as his Lord. Whether or not the tradition is precisely accurate, the prophecy is clear: Peter’s death would glorify God.</em></strong></p>
+        <p><strong><em>And then Jesus said the two words that had started it all: </em></strong><strong><em>Follow Me.</em></strong><strong><em> The same invitation from the shores of Galilee (Matthew 4:19). The same two words that had called Peter out of his boat and into a life he never imagined. And now, after the calling, after the years of following, after the boasting, after the denial, after the bitter weeping, after the empty nets, after the charcoal fire, after the three questions — the same invitation. Follow Me. Again. Still. Even now.</em></strong></p>
+        <p><strong><em>Peter’s story did not end at the denial. It did not end at the empty tomb. It did not end at the beach. It continued — through Pentecost, where he preached and three thousand were baptized (Acts 2:41). Through miracles and imprisonments and journeys and letters. The man who denied Jesus by a charcoal fire became the man who stood before the Sanhedrin and declared that there is no other name under heaven by which we must be saved (Acts 4:12). The failure was real. The restoration was realer.</em></strong></p>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Bridge moments are not only for outsiders. They are also for believers who have fallen, who have failed, who have denied what they know to be true. When you encounter someone who has walked away from their faith out of shame, guilt, or a sense of disqualification, do not begin with the failure. Begin with provision. Feed them. Warm them. Be present. Then, when the time is right, address what happened — not to punish but to heal. Ask the question that gives them the chance to say what they need to say. And then give them back their purpose. Failure is not the end of anyone’s story unless it is the last conversation they ever have about it.</strong></p>
+        </div>
+        <p><strong><em>This encounter completes Part 2 and demonstrates the full range of bridge moment elements:</em></strong></p>
+        <p><strong><em>Walk in wisdom </em></strong><strong><em>— Jesus did not address the denial publicly. He did it at breakfast, on a beach, in the intimacy of a small group. The setting was chosen for restoration, not for spectacle.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— Three questions, not three accusations. “Do you love Me?” not “Why did you deny Me?” The questions were forward-looking, not backward-punishing.</em></strong></p>
+        <p><strong><em>Seasoned with salt </em></strong><strong><em>— The charcoal fire itself was the salt. It created a connection between the denial and the restoration that Peter could not miss — a single sensory detail that carried the weight of the entire conversation before a word was spoken.</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— This was a restoration designed specifically for Peter and his specific failure. Three denials required three questions. The architecture of the conversation matched the architecture of the wound.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 6 (Zacchaeus): </em></strong><strong><em>Both encounters follow the pattern of provision before confrontation. Jesus entered Zacchaeus’s house before Zacchaeus repented. Jesus fed Peter before asking the hard questions. Grace creates the space in which truth can be heard.</em></strong></p>
+        <p><strong><em>Connection to Chapter 8 (Woman Caught in Adultery): </em></strong><strong><em>In both encounters, Jesus addressed someone in their worst moment with grace first, truth second. “I do not condemn you; sin no more” parallels “Do you love Me? Tend My sheep.” Both encounters demonstrate that the person’s failure is not the end of their story.</em></strong></p>
+        <p><strong><em>Connection to Chapter 9 (Road to Emmaus): </em></strong><strong><em>Both encounters involve Jesus meeting disciples in the aftermath of the cross. The Emmaus disciples were grieving. Peter was ashamed. In both cases, Jesus approached, provided, and restored before correcting or commissioning.</em></strong></p>
+        <p><strong><em>Connection to Chapter 10 (Follow Me): </em></strong><strong><em>The chapter that recorded Peter’s original calling now finds its completion. The same invitation — “Follow Me” — bookends Peter’s journey. The first call was to begin. The second call was to continue. The calling survived the failure.</em></strong></p>
+        <p><strong><em>Connection to Chapter 7 (Rich Young Ruler): </em></strong><strong><em>The grief Peter felt at the third question (elypēthē) uses the same root word as the rich young ruler’s grief. But the outcomes diverge: the ruler walked away from his grief; Peter stayed in his and received restoration through it. Sometimes staying in the pain is the path to healing.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>John 21:1–19 • John 18:15–27 • Luke 22:54–62 • Mark 14:29–31 • Matthew 4:19 • Acts 2:41 • Acts 4:12 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <p><strong>Part 2 Complete</strong></p>
+        <p><strong><em>Over nine chapters, we have studied nine encounters where Jesus built bridges from the natural to the spiritual, from isolation to belonging, from shame to restoration. Each encounter was different. Each person was different. The approach, the tone, the words, the timing — all calibrated to the individual standing in front of Him. But in every case, the same elements from Colossians 4:5–6 were present: wisdom, engagement with outsiders, recognition of the kairos moment, speech with grace, words seasoned with salt, and a response shaped to the person.</em></strong></p>
+        <p><strong><em>Now we move to Part 3, where we will see this pattern continue after Jesus’ ascension. The same principles. The same Spirit. Different hands. The bridge-building did not stop at the resurrection. It was </em></strong><strong><em>multiplied</em></strong><strong><em> — through ordinary people empowered by an extraordinary God. We begin in Acts, with a man named Stephen, a man named Philip, and a midnight earthquake that changed a jailer’s life forever.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Peter went back to fishing after the resurrection (John 21:3). What does it look like when someone returns to their ‘old life’ because they believe they are disqualified from their calling? Have you seen this happen? Have you experienced it yourself? What brought you back — or what is keeping you away?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus had a charcoal fire burning when Peter arrived on the beach (John 21:9). John uses the word anthrakia only twice: here and at Peter’s denial (John 18:18). Why did Jesus recreate the setting of Peter’s failure? What does this teach about how God addresses our worst moments — does He avoid them, or does He walk us back through them?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Jesus fed Peter breakfast before asking a single hard question. How does this pattern of provision before confrontation shape the way you should approach someone who has failed? What might it look like to ‘make breakfast’ for someone in your life before addressing their failure?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">Three denials. Three questions. Three commissions. Why was the repetition important? What would have been different if Jesus had asked only once? What does the three-for-three structure tell us about the thoroughness of God’s restoration?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">Peter’s final answer was: ‘Lord, You know all things; You know that I love You’ (John 21:17). He stopped asserting his own strength and appealed entirely to Jesus’ knowledge. How does failure change the way we talk to God? Is there a kind of honesty that only becomes possible after you have been broken?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">After the restoration, Jesus said ‘Follow Me’ — the same words He spoke at Peter’s original calling. The calling survived the failure. Is there a calling or a purpose that you have believed was revoked because of something you did? What does this passage say to that belief?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. Is any of them someone who has walked away from the faith — not because they never believed, but because they failed and believe they are disqualified? If so, what would it look like for you to be the person who builds a charcoal fire on the beach for them? Not to confront. Not to lecture. To feed them, warm them, and when the time is right, ask the question that lets them come home.</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-11.html">&larr; Chapter 11</a>
+          <a href="chapter-13.html">Chapter 13 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 12;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>

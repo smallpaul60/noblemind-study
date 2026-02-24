@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: I Must Stay at Your House | Bridge Moments</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.12);
+      --accent-glow: rgba(6, 255, 165, 0.4);
+      --accent-secondary: #5ee5ff;
+      --accent-secondary-glow: rgba(94, 229, 255, 0.3);
+      --box-principle: #4A90D9;
+      --box-principle-bg: rgba(74, 144, 217, 0.08);
+      --box-bridge: #06FFA5;
+      --box-bridge-bg: rgba(6, 255, 165, 0.06);
+      --box-exercise: #D4A574;
+      --box-exercise-bg: rgba(212, 165, 116, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.8;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(6,255,165,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.15),
+        0 0 80px rgba(6,255,165,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(6,255,165,0.4);
+    }
+
+    /* Three Names Banner */
+    .three-names-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      background: rgba(6,255,165,0.05);
+      border: 1px solid rgba(6,255,165,0.15);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .three-names-banner:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.08);
+    }
+    .three-names-banner .label {
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .three-names-banner .name-tag {
+      padding: 3px 10px;
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.25);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-banner .name-tag.empty {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .three-names-edit {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .three-names-edit input {
+      flex: 1;
+      min-width: 100px;
+      padding: 6px 10px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.3);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+    }
+    .three-names-edit input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .three-names-edit button {
+      padding: 6px 14px;
+      background: var(--accent);
+      color: #0d0d0d;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Navigation */
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(6,255,165,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(6,255,165,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2306FFA5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .part-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 4px;
+    }
+    .part-title {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    /* Epigraph */
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(6,255,165,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(6,255,165,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+
+    /* Chapter purpose */
+    .chapter-purpose {
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      background: var(--box-exercise-bg);
+      border-left: 3px solid var(--box-exercise);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Body content */
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.35rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(6,255,165,0.2);
+    }
+    .content h3 {
+      color: var(--box-exercise);
+      font-size: 1.1rem;
+      margin: 24px 0 12px;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+
+    /* Scripture blockquotes */
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(6,255,165,0.04);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    /* Callout boxes */
+    .principle-box, .bridge-box, .exercise-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      position: relative;
+    }
+    .principle-box {
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,144,217,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .bridge-box {
+      background: var(--box-bridge-bg);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-left: 4px solid var(--box-bridge);
+    }
+    .bridge-box p { color: var(--text-primary); }
+    .exercise-box {
+      background: var(--box-exercise-bg);
+      border: 1px solid rgba(212,165,116,0.25);
+      border-left: 4px solid var(--box-exercise);
+    }
+    .exercise-box p { color: var(--text-primary); }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(6,255,165,0.15);
+      text-align: left;
+      vertical-align: top;
+    }
+    .data-table th {
+      background: rgba(6,255,165,0.1);
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .data-table tr:nth-child(even) td {
+      background: rgba(6,255,165,0.03);
+    }
+
+    /* Study Questions */
+    .study-questions-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(74,144,217,0.3);
+      padding-top: 24px;
+    }
+    .study-questions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(74,144,217,0.08);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .study-questions-header:hover {
+      border-color: var(--box-principle);
+      background: rgba(74,144,217,0.12);
+    }
+    .study-questions-header h2 {
+      color: var(--box-principle);
+      font-size: 1.2rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .study-questions-header .arrow {
+      color: var(--box-principle);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .study-questions-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .study-questions-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .study-questions-body.expanded {
+      display: block;
+    }
+    .study-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(74,144,217,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(74,144,217,0.1);
+    }
+    .study-question .q-num {
+      color: var(--box-principle);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .study-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .study-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74,144,217,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .study-question textarea:focus {
+      outline: none;
+      border-color: var(--box-principle);
+      box-shadow: 0 0 8px rgba(74,144,217,0.3);
+    }
+    .study-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Key Scriptures */
+    .key-scriptures {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212,165,116,0.06);
+      border: 1px solid rgba(212,165,116,0.2);
+      border-radius: 10px;
+    }
+    .key-scriptures h3 {
+      color: var(--box-exercise);
+      margin-bottom: 8px;
+    }
+    .key-scriptures p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Divider */
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+
+    /* Mark Complete */
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(6,255,165,0.06);
+      border: 1px solid rgba(6,255,165,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(6,255,165,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(6,255,165,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(6,255,165,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(94,229,255,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+
+    /* Print styles */
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .three-names-banner, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2B4C7E; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #2B4C7E; border-bottom-color: #2B4C7E; }
+      .content h3 { color: #8B4513; }
+      .content p { color: #333; }
+      .principle-box { background: #f0f4f8; border-color: #4A90D9; }
+      .bridge-box { background: #f0f5f0; border-color: #2a8a2a; }
+      .exercise-box { background: #fdf8f0; border-color: #8B4513; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #2a8a2a; }
+      .study-questions-body { display: block !important; }
+      .study-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      body { padding: 15px 10px; }
+      .glass-page-inner { padding: 1.5rem 1.2rem; }
+      h1 { font-size: 1.5rem; }
+      .nav-controls { flex-direction: column; }
+      .nav-controls select { width: 100%; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; }
+      .three-names-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <div class="three-names-banner" onclick="toggleNamesEdit()">
+        <span class="label">Your Three Names:</span>
+        <span id="names-display"></span>
+        <div id="names-edit" class="three-names-edit" onclick="event.stopPropagation()">
+          <input type="text" id="name1-input" placeholder="First name">
+          <input type="text" id="name2-input" placeholder="Second name">
+          <input type="text" id="name3-input" placeholder="Third name">
+          <button onclick="saveNamesFromInputs()">Save</button>
+        </div>
+      </div>
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Bridge Moments
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to Chapter...</option>
+            <option value="chapter-01.html">Ch 1: The Weight of Words</option>
+            <option value="chapter-02.html">Ch 2: The Kairos Principle</option>
+            <option value="chapter-03.html">Ch 3: Love, Not Agenda</option>
+            <option value="chapter-04.html">Ch 4: Give Me a Drink</option>
+            <option value="chapter-05.html">Ch 5: You Must Be Born Again</option>
+            <option value="chapter-06.html" selected>Ch 6: I Must Stay at Your House</option>
+            <option value="chapter-07.html">Ch 7: Jesus Felt a Love for Him</option>
+            <option value="chapter-08.html">Ch 8: Neither Do I Condemn You</option>
+            <option value="chapter-09.html">Ch 9: Were Not Our Hearts Burning?</option>
+            <option value="chapter-10.html">Ch 10: Follow Me</option>
+            <option value="chapter-11.html">Ch 11: Do You See This Woman?</option>
+            <option value="chapter-12.html">Ch 12: Do You Love Me?</option>
+            <option value="chapter-13.html">Ch 13: Do You Understand What You Are Reading?</option>
+            <option value="chapter-14.html">Ch 14: Men of Athens</option>
+            <option value="chapter-15.html">Ch 15: What Must I Do to Be Saved?</option>
+            <option value="chapter-16.html">Ch 16: Learning to Listen</option>
+            <option value="chapter-17.html">Ch 17: From Natural to Spiritual</option>
+            <option value="chapter-18.html">Ch 18: Seasoned with Salt</option>
+            <option value="chapter-19.html">Ch 19: When They Walk Away</option>
+            <option value="chapter-20.html">Ch 20: The Heart Behind the Words</option>
+            <option value="appendix-a.html">Appendix A: Quick Reference</option>
+            <option value="appendix-b.html">Appendix B: Scripture Index</option>
+            <option value="appendix-c.html">Appendix C: Small Group Exercises</option>
+        </select>
+        <a href="../Noble_Mind_Study_Tool_v2.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Noble Mind Study
+        </a>
+      </nav>
+
+      <header>
+        <p class="part-label">Part 2</p>
+        <p class="part-title">Jesus, the Master of the Moment</p>
+        <p class="chapter-num">Chapter 6</p>
+        <h1>I Must Stay at Your House</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“When Jesus came to the place, He looked up and said to him, ‘Zacchaeus, hurry and come down, for today I must stay at your house.’”</blockquote>
+        
+      </section>
+
+      <div class="chapter-purpose">Chapter Purpose: To examine a bridge moment where the bridge was not a word or an argument but an action. Jesus did not engage Zacchaeus in theological dialogue. He did not create curiosity through metaphor. He did not challenge assumptions. He simply showed up and said, “I’m coming to your house.” This chapter demonstrates that sometimes the most powerful bridge moment is the decision to be present with someone that everyone else avoids — and that transformed behavior flows from experienced grace, not from moral instruction.</div>
+
+      <div class="content">
+        <p><em>Zacchaeus  •  Luke 19:1–10</em></p>
+        <h2>The Setting: A Hated Man in a Hostile City</h2>
+        <blockquote class="scripture"><p>“He entered Jericho and was passing through. And behold, there was a man called by the name Zacchaeus; and he was a chief tax collector and he was rich.”</p>
+        </blockquote>
+        <p><strong><em>Luke tells us three things about Zacchaeus in rapid succession, and each detail would have landed like a hammer blow on a first-century Jewish audience.</em></strong></p>
+        <p><strong><em>First, his name: </em></strong><strong><em>Zacchaeus</em></strong><strong><em>. The name comes from the Hebrew </em></strong><strong><em>Zakkay</em></strong><strong><em>, meaning “pure” or “innocent.” This is one of the quiet ironies Luke embeds in the narrative. Here was a man named “pure” who was regarded by his entire community as anything but.</em></strong></p>
+        <p><strong><em>Second, he was </em></strong><strong><em>a chief tax collector</em></strong><strong><em>. Not merely a tax collector, but an </em></strong><strong><em>architelones</em></strong><strong><em> — the prefix </em></strong><strong><em>archi-</em></strong><strong><em> indicates a supervisory role. Zacchaeus oversaw other tax collectors. He ran the operation. To understand why this mattered, you must understand what tax collection meant in first-century Palestine. Tax collectors were Jews who had contracted with the Roman occupying government to extract taxes from their own people. The system was designed for abuse: Rome set a quota, and anything the collector extracted beyond that quota was his to keep. There was no external audit. The only limit on how much a tax collector took was his own conscience — and the system selected for people without much of one.</em></strong></p>
+        <p><strong><em>But the offense went deeper than economics. Tax collectors were considered traitors. They had aligned themselves with the pagan empire that occupied the Promised Land. They served the very power that oppressed God’s people. In the eyes of devout Jews, a tax collector had sold his soul — not figuratively, but in a very real spiritual sense. They were excluded from synagogue worship. Their testimony was inadmissible in court. They were classified alongside robbers and murderers in rabbinic literature. To eat with a tax collector was to defile yourself.</em></strong></p>
+        <p><strong><em>Third, </em></strong><strong><em>he was rich</em></strong><strong><em>. And everyone knew where the money came from. His wealth was not a sign of God’s blessing, as wealth often was in Jewish thinking. His wealth was the accumulated evidence of years of extracting more than was owed from people who could not fight back. Every fine robe he wore, every addition to his house, every luxury he enjoyed was purchased with money taken from his neighbors under the threat of Roman enforcement. His riches were not a credit to his name. They were an indictment.</em></strong></p>
+        <p><strong><em>So here was a man who was isolated in every direction. The Romans used him but did not respect him. The Jewish community despised him. He had wealth but no honor. He had power but no belonging. He had a name that meant “pure” and a reputation that meant the opposite.</em></strong></p>
+        <p><strong><em>And he wanted to see Jesus.</em></strong></p>
+        <h2>The Desire: Something Was Already Stirring</h2>
+        <blockquote class="scripture"><p>“And he was trying to see who Jesus was, and was unable because of the crowd, for he was small in stature. So he ran on ahead and climbed up into a sycamore tree in order to see Him, for He was about to pass through that way.”</p>
+        </blockquote>
+        <p><strong><em>Do not pass over this detail too quickly. Zacchaeus was not standing on the roadside hoping to catch a glimpse as the procession passed. He was </em></strong><strong><em>trying</em></strong><strong><em> to see Jesus. The Greek </em></strong><strong><em>ezētei</em></strong><strong><em> is in the imperfect tense — he kept trying, he was making repeated effort. The crowd was blocking him, and he was </em></strong><strong><em>small in stature</em></strong><strong><em> (</em></strong><strong><em>tē hēlikia mikros</em></strong><strong><em>), so he could not see over them. But instead of giving up, he did something remarkable.</em></strong></p>
+        <p><strong><em>He ran ahead. And he climbed a tree.</em></strong></p>
+        <p><strong><em>Consider what this cost a man in his position. In the ancient Near East, it was considered undignified for a grown man — especially a man of means and status — to run. Running was for children and servants. Climbing a tree was even more undignified. Zacchaeus was a chief tax collector, a wealthy man, a man who traded on power and intimidation. And here he was, hiking up his robes and scrambling into a sycamore-fig tree like a child, in full view of a city that already had every reason to mock him.</em></strong></p>
+        <p><strong><em>Why? Because something inside him was worth more to him than his dignity. Whatever he had heard about Jesus — and we do not know what he had heard, only that something had reached him — it was enough to make him abandon his image to get a look. This is important: before Jesus ever said a word to Zacchaeus, something was already at work in this man. There was a hunger. A curiosity. A need. The kairos moment did not begin at the tree. It began somewhere before this passage, in a heart that was already being drawn.</em></strong></p>
+        <div class="bridge-box">
+<p><strong>The Pre-Moment</strong></p>
+<p>Bridge moments rarely appear from nothing. In most cases, God has already been at work in the person’s life before you arrive. Something has stirred. A question has surfaced. A dissatisfaction with the way things are has crept in. You may never know what that prior work was. But when you see someone making an effort — asking questions, showing up in unexpected places, doing something that costs them their comfort — pay attention. Something is already in motion. Your role may be to recognize it and respond, not to create it from scratch.</p>
+        </div>
+        <h2>The Bridge: Presence Before Preaching</h2>
+        <blockquote class="scripture"><p>“When Jesus came to the place, He looked up and said to him, ‘Zacchaeus, hurry and come down, for today I must stay at your house.’”</p>
+        </blockquote>
+        <p><strong><em>This is one of the shortest and most powerful bridge moments in the Gospels. Study every element of it.</em></strong></p>
+        <h3>He Stopped</h3>
+        <p><strong><em>Jesus was passing through Jericho — a city on the way to somewhere else, with crowds pressing around Him, with Jerusalem and the cross ahead. He had every reason to keep moving. But when He came to the place where Zacchaeus was, He stopped. The crowd did not stop Him. An appointment did not stop Him. A man in a tree stopped Him. Jesus saw someone making an effort to get close, and He responded to that effort with His full attention.</em></strong></p>
+        <h3>He Looked Up</h3>
+        <p><strong><em>The text says He </em></strong><em>“looked up.”</em><strong><em> This means Jesus was the one who initiated. Zacchaeus was watching from above, probably hoping to observe without being observed. But Jesus found him. And He looked up — which means He put Himself in the position of looking </em></strong><strong><em>toward</em></strong><strong><em> someone the crowd looked </em></strong><strong><em>down on</em></strong><strong><em>. The entire city looked down on Zacchaeus. Jesus looked up at him.</em></strong></p>
+        <h3>He Knew His Name</h3>
+        <blockquote class="scripture"><p>“Zacchaeus, hurry and come down...”</p>
+        </blockquote>
+        <p><strong><em>He called him by name. In a crowd of hundreds, Jesus looked into a tree and spoke a name. We are not told how Jesus knew it — whether by divine knowledge, or whether someone in the crowd had pointed him out, or whether Zacchaeus was already known to Him. What matters is this: being called by name changed everything. It is one thing to be noticed. It is another thing entirely to be </em></strong><strong><em>known</em></strong><strong><em>. When someone uses your name, you exist to them as a person, not as a face in a crowd, not as a category, not as a label. Zacchaeus had been called many things by this city: cheat, traitor, sinner. Jesus called him Zacchaeus — </em></strong><strong><em>pure</em></strong><strong><em>. The name his parents had given him. The name that carried a hope he had long since abandoned.</em></strong></p>
+        <h3>He Invited Himself</h3>
+        <blockquote class="scripture"><p>“...for today I must stay at your house.”</p>
+        </blockquote>
+        <p><strong><em>This is the bridge. And the bridge was not a word about sin. It was not a sermon about repentance. It was not a theological proposition or a spiritual challenge. The bridge was </em></strong><strong><em>presence</em></strong><strong><em>. “I must stay at your house.”</em></strong></p>
+        <p><strong><em>Notice the word </em></strong><strong><em>must</em></strong><strong><em> — the Greek </em></strong><strong><em>dei</em></strong><strong><em>, the same word of divine necessity we saw in John 4:4 when Jesus “had to” pass through Samaria. This was not a casual social call. It was another appointed meeting. Jesus was not asking permission. He was announcing a divine appointment: today, I </em></strong><strong><em>must</em></strong><strong><em> be at your house. Heaven has arranged this. This is not optional.</em></strong></p>
+        <p><strong><em>And consider what “your house” meant in this context. In the first-century Jewish world, entering someone’s home and eating at their table was an act of acceptance. It declared fellowship. It said: I consider you worthy of my company. The Pharisees understood this perfectly, which is why they were perpetually scandalized by Jesus eating with sinners (Luke 5:30, 15:2). To eat with someone was to identify with them. Jesus did not just acknowledge Zacchaeus from a safe distance. He announced that He would enter the most private space in Zacchaeus’s life — his home — and share a meal with him.</em></strong></p>
+        <p><strong><em>In a single sentence, Jesus communicated: I see you. I know you. I am not ashamed to be associated with you. I am coming into your world. Today.</em></strong></p>
+        <p><strong><em>No sermon preceded this. No conditions were attached. No moral lecture was required before the invitation was extended. Jesus offered presence first. Everything else followed.</em></strong></p>
+        <h2>The Response: Joy, Grumbling, and Transformation</h2>
+        <blockquote class="scripture"><p>“And he hurried and came down and received Him gladly.”</p>
+        </blockquote>
+        <p><strong><em>Zacchaeus’s response was immediate, physical, and joyful. He </em></strong><strong><em>hurried</em></strong><strong><em> — the same urgency Jesus had used (“hurry and come down”) was mirrored in his response. He came down from the tree and </em></strong><strong><em>received Him gladly</em></strong><strong><em>. The Greek </em></strong><strong><em>hypedexato auton chairōn</em></strong><strong><em> — he welcomed Him with joy, with delight, with celebration. This was not reluctant compliance. This was a man who had been starving for exactly what Jesus was offering — not a lecture, not a condition, but acceptance — and who was overwhelmed to receive it.</em></strong></p>
+        <p><strong><em>But not everyone was glad:</em></strong></p>
+        <blockquote class="scripture"><p>“When they saw it, they all began to grumble, saying, ‘He has gone to be the guest of a man who is a sinner.’”</p>
+        </blockquote>
+        <p><strong><em>The word </em></strong><strong><em>all</em></strong><strong><em> is significant: </em></strong><strong><em>hapantes</em></strong><strong><em> — everyone. Not just the Pharisees. Not just the religious leaders. The entire crowd. Jesus’ decision to enter Zacchaeus’s home scandalized the whole city. They could accept Jesus as a teacher, a healer, a prophet. They could not accept Him as a friend of </em></strong><strong><em>this</em></strong><strong><em> man. Their categories did not allow for a holy person to associate with someone so thoroughly despised.</em></strong></p>
+        <p><strong><em>This is a pattern we will see repeatedly in the Gospels, and it contains a sober warning for anyone who wants to build bridges the way Jesus did: the people who are most offended by your bridge moments may not be the outsiders. They may be the insiders. The religious community may grumble when you choose to sit at the table of someone they have written off. Building bridges sometimes means accepting criticism from people you respect. Jesus did not let the crowd’s grumbling stop Him from entering that house, and neither should we.</em></strong></p>
+        <h2>The Transformation: Grace Produces What Law Cannot</h2>
+        <p><strong><em>What happened inside that house, Luke does not record in detail. We do not know what was said over the meal. We do not know if Jesus delivered a teaching, told a parable, or simply ate and talked. But we know what came out of that encounter, because Zacchaeus emerged a different man:</em></strong></p>
+        <blockquote class="scripture"><p>“Zacchaeus stopped and said to the Lord, ‘Behold, Lord, half of my possessions I will give to the poor, and if I have defrauded anyone of anything, I will give back four times as much.’”</p>
+        </blockquote>
+        <p><strong><em>Read what Zacchaeus did </em></strong><strong><em>not</em></strong><strong><em> say. He did not say, “Tell me what I need to do.” He did not ask for the rules. He did not wait for Jesus to instruct him on proper restitution. He </em></strong><strong><em>volunteered</em></strong><strong><em>. Unprompted. Spontaneously. Out of a heart that had been so radically changed by the experience of being received that his entire relationship with money was transformed in a single afternoon.</em></strong></p>
+        <p><strong><em>And the generosity is staggering. Half of his possessions to the poor — not a tithe, not a percentage calculated for tax benefit, but </em></strong><strong><em>half</em></strong><strong><em>. And for anyone he had defrauded: fourfold restitution. Under the Mosaic Law, the standard restitution for theft was the principal plus one-fifth (Leviticus 6:5, Numbers 5:7). Only in the case of the most egregious offenses — such as stealing and killing an ox — was fourfold restitution required (Exodus 22:1). Zacchaeus imposed on himself the harshest standard the Law allowed. No one demanded this. Grace demanded it — from the inside out.</em></strong></p>
+        <p><strong><em>This is the principle that must not be missed: Jesus did not lecture Zacchaeus about his sin. He did not present a list of behavioral changes required before fellowship could begin. He offered presence and acceptance first, and the behavioral change flowed spontaneously from the transformation that acceptance produced. Grace did what law could never do. Law says, “Change, and then I will accept you.” Grace says, “I accept you, and now watch what happens.”</em></strong></p>
+        <p><strong><em>This does not mean that truth and repentance do not matter. They matter enormously. But notice the order: Jesus’ acceptance came first, and Zacchaeus’s repentance was the fruit of that acceptance, not the prerequisite for it. This is the gospel in miniature: while we were still sinners, Christ died for us (Romans 5:8). He did not wait for us to clean up before He came close. He came close, and the closeness changed everything.</em></strong></p>
+        <div class="principle-box">
+<p><strong>You cannot demand transformation from someone you have not first been willing to sit with. Presence precedes preaching. Acceptance precedes accountability. When people experience genuine, unconditional welcome from someone who represents Christ, the Holy Spirit does what no lecture, sermon, or moral argument can accomplish: He changes them from the inside out.</strong></p>
+        </div>
+        <h2>The Declaration: What Jesus Saw That the Crowd Did Not</h2>
+        <blockquote class="scripture"><p>“And Jesus said to him, ‘Today salvation has come to this house, because he, too, is a son of Abraham. For the Son of Man has come to seek and to save that which was lost.’”</p>
+        </blockquote>
+        <p><strong><em>Jesus’ response to Zacchaeus’s declaration contains three statements, and each one would have landed on the grumbling crowd like a shockwave.</em></strong></p>
+        <p><strong><em>First: </em></strong><em>“Today salvation has come to this house.”</em><strong><em> Not “someday, if he keeps his promise.” Not “provided he follows through.” </em></strong><strong><em>Today.</em></strong><strong><em> Salvation arrived in the person of Jesus, and it arrived at the house of a man the whole city considered beyond saving. The word “today” connects to the urgency Jesus expressed at the tree: “today I must stay at your house.” The divine appointment had its divine fulfillment. This was a </em></strong><strong><em>kairos</em></strong><strong><em> day for Zacchaeus.</em></strong></p>
+        <p><strong><em>Second: </em></strong><em>“He, too, is a son of Abraham.”</em><strong><em> The crowd had excluded Zacchaeus from the people of God. Tax collectors were considered to have forfeited their covenant standing. And Jesus said: no. He is a son of Abraham. He belongs. He was always part of the family that God was calling — a lost part, but not a discarded part. The shepherd does not write off the lost sheep. He goes after it.</em></strong></p>
+        <p><strong><em>Third: </em></strong><em>“For the Son of Man has come to seek and to save that which was lost.”</em><strong><em> This is Luke’s thesis statement for the entire ministry of Jesus, and it is no accident that it appears here, in the home of a despised tax collector in Jericho. Jesus defined His own mission: </em></strong><strong><em>seeking</em></strong><strong><em> and </em></strong><strong><em>saving</em></strong><strong><em>. Not waiting to be found. Seeking. Going to the tree. Looking up. Calling by name. Entering the house. The Son of Man does not stand at the door and call out conditions. He crosses the room, sits down at the table, and stays.</em></strong></p>
+        <p><strong><em>And notice the word </em></strong><strong><em>lost</em></strong><strong><em> — </em></strong><strong><em>to apolōlos</em></strong><strong><em>. This is the same word Jesus used in Luke 15 for the lost sheep, the lost coin, and the lost son. Zacchaeus was not a project. He was not a case study. He was a lost member of the family. And Jesus came to bring him home.</em></strong></p>
+        <h2>What Jesus Did Not Do</h2>
+        <p><strong><em>Before we draw the transferable principle from this encounter, it is worth pausing to notice what is absent from this passage. Because what Jesus did not do is as instructive as what He did.</em></strong></p>
+        <p><strong><em>He did not </em></strong><strong><em>preach</em></strong><strong><em> to Zacchaeus. There is no recorded sermon, no gospel presentation, no theological explanation in this text.</em></strong></p>
+        <p><strong><em>He did not </em></strong><strong><em>confront</em></strong><strong><em> Zacchaeus about his sin. Not a single word of rebuke appears in this passage.</em></strong></p>
+        <p><strong><em>He did not </em></strong><strong><em>set conditions</em></strong><strong><em>. He did not say, “If you repent, I will come to your house.” He announced His coming first.</em></strong></p>
+        <p><strong><em>He did not </em></strong><strong><em>explain</em></strong><strong><em> to the crowd why He was doing this. He did not apologize for entering a sinner’s home. He did not justify His choice.</em></strong></p>
+        <p><strong><em>What He </em></strong><strong><em>did</em></strong><strong><em> do was show up. He stopped. He looked. He called a name. He announced His presence. And that presence — the presence of God in human flesh, offering unconditional, public, unashamed fellowship — accomplished what no sermon in the world could have accomplished. It reached through years of isolation, past walls of guilt and defensiveness and cynicism, and touched the man underneath.</em></strong></p>
+        <p><strong><em>This is not the only way bridge moments work. We have already seen Jesus use deep theological dialogue (Nicodemus), masterful metaphor (the Samaritan woman), and He will use still other approaches in the chapters ahead. But this encounter teaches us something the other methods cannot: sometimes the bridge is not what you say. It is that you showed up at all.</em></strong></p>
+        <h2>The Transferable Principle</h2>
+        <div class="principle-box">
+<p><strong>Sometimes the most powerful bridge moment is not a conversation but a presence. When you choose to enter someone’s world — their home, their mess, their isolation — without conditions and without pretense, you communicate something that words alone cannot: you are worth my time, my reputation, and my discomfort. Presence precedes preaching. Grace precedes demand. And transformed behavior flows from experienced love, not from moral instruction.</strong></p>
+        </div>
+        <p><strong><em>This encounter demonstrates these elements from our Colossians 4:5–6 framework:</em></strong></p>
+        <p><strong><em>Walk in wisdom toward outsiders </em></strong><strong><em>— Jesus did not avoid the most despised person in Jericho. He went directly to him, publicly, knowing it would cost Him the crowd’s approval.</em></strong></p>
+        <p><strong><em>Making the most of the kairos </em></strong><strong><em>— A man in a tree was a window that would not stay open long. Jesus stopped, looked up, and seized it.</em></strong></p>
+        <p><strong><em>Speech with grace </em></strong><strong><em>— Not a single word of condemnation. A name, an urgency, and an invitation. That was enough.</em></strong></p>
+        <p><strong><em>Responding to each person </em></strong><strong><em>— Zacchaeus did not need a theological lecture (Nicodemus) or a curiosity-building metaphor (the Samaritan woman). He needed someone to stop, look at him, and say: I want to be with you. Jesus gave him exactly what he needed and nothing he did not.</em></strong></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Cross-References &amp; Connections</h2>
+        <p><strong><em>Connection to Chapter 4 (Woman at the Well): </em></strong><strong><em>Both encounters feature divine necessity (dei — “I must”). Both involve Jesus crossing social boundaries. But the Woman at the Well involved extended dialogue while Zacchaeus involved almost none. The bridge with the woman was a word (water). The bridge with Zacchaeus was an action (coming to his house).</em></strong></p>
+        <p><strong><em>Connection to Chapter 3 (Love, Not Agenda): </em></strong><strong><em>This is the purest demonstration of the heart check principle. If Jesus had an “agenda” with Zacchaeus, it was invisible. What was visible was acceptance, presence, and willingness to be publicly associated with a despised man. The transformation that followed was entirely spontaneous — the fruit of love, not the product of persuasion.</em></strong></p>
+        <p><strong><em>Connection to Chapter 7 (Rich Young Ruler): </em></strong><strong><em>A striking contrast. Both Zacchaeus and the rich young ruler were wealthy. Both encountered Jesus personally. But their outcomes were opposite. The rich young ruler received a direct challenge and walked away. Zacchaeus received unconditional acceptance and gave everything away. The comparison between these two chapters illuminates how different people respond to different kinds of bridges.</em></strong></p>
+        <p><strong><em>Connection to Chapter 8 (Woman Caught in Adultery): </em></strong><strong><em>In both encounters, the crowd condemned while Jesus accepted. Both demonstrate the principle that grace precedes truth and that the person Jesus is willing to receive is often the person the religious community has already discarded.</em></strong></p>
+        <p><strong><em>Connection to Luke 15 (Lost sheep, coin, son): </em></strong><strong><em>Jesus’ declaration in 19:10 (“to seek and to save that which was lost”) uses the same vocabulary as the three parables of Luke 15. Zacchaeus is the living embodiment of the lost sheep brought home, the lost coin found, the prodigal son embraced by the father.</em></strong></p>
+        <h3>Key Scriptures Referenced in This Chapter</h3>
+          <p>Luke 19:1–10 • John 4:4 • Leviticus 6:5 • Numbers 5:7 • Exodus 22:1 • Romans 5:8 • Luke 5:30 • Luke 15:1–32 • Colossians 4:5–6</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <section class="study-questions-section">
+          <div class="study-questions-header" onclick="toggleQuestions()">
+            <h2>Study &amp; Discussion Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="study-questions-body">
+            <div class="study-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Zacchaeus climbed a tree to see Jesus — an act that would have been deeply undignified for a wealthy man. What does this tell you about what was already happening inside him before Jesus arrived? When you see someone making an awkward or costly effort to get closer to spiritual things, how should that shape your response?</span>
+              <textarea data-question="1" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus called Zacchaeus by name. Think about the power of being known versus being categorized. Who in your life do you tend to think of by category (“my difficult coworker,” “that neighbor who...”) rather than by name? What would change if you saw them the way Jesus saw Zacchaeus?</span>
+              <textarea data-question="2" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Jesus said “I must stay at your house” before Zacchaeus had repented, confessed, or changed anything about his life. How does this challenge the common assumption that people need to clean up before they can be welcomed? Where is the line between accepting people as they are and endorsing their behavior?</span>
+              <textarea data-question="3" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">4.</span>
+              <span class="q-text">The entire crowd grumbled when Jesus entered Zacchaeus’s home (Luke 19:7). Have you ever faced criticism from fellow believers for being too close to someone they considered unworthy? How did you handle it? How should you handle it?</span>
+              <textarea data-question="4" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">5.</span>
+              <span class="q-text">Zacchaeus’s restitution (half his possessions to the poor, fourfold to those he defrauded) was entirely spontaneous — no one demanded it. What does this tell us about the difference between behavioral change produced by guilt or pressure versus behavioral change produced by experienced grace? Which is more lasting, and why?</span>
+              <textarea data-question="5" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">6.</span>
+              <span class="q-text">Read Romans 5:8: “While we were yet sinners, Christ died for us.” How does the Zacchaeus encounter illustrate this principle? What does it look like for you to “enter someone’s house” while they are still in their sin — without condoning the sin but also without waiting for change before you show up?</span>
+              <textarea data-question="6" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+            <div class="study-question">
+              <span class="q-num">7.</span>
+              <span class="q-text">Return to the three names from Chapter 1. For each person, ask: Am I willing to “enter their house” — to be publicly associated with them, to give them my time and presence without conditions? If the answer is no, what is holding you back? Is it concern for their wellbeing, or concern for your own reputation?</span>
+              <textarea data-question="7" placeholder="Your notes..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-05.html">&larr; Chapter 5</a>
+          <a href="chapter-07.html">Chapter 7 &rarr;</a>
+        </div>
+        <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+
+  <script>
+    // Three Names
+    const NAMES_KEY = 'bridgeMoments_threeNames';
+    const PROGRESS_KEY = 'bridgeMoments_progress';
+    const CH_NUM = 6;
+
+    function loadNames() {
+      try { return JSON.parse(localStorage.getItem(NAMES_KEY)) || {name1:'',name2:'',name3:''}; }
+      catch { return {name1:'',name2:'',name3:''}; }
+    }
+
+    function saveNames(names) {
+      localStorage.setItem(NAMES_KEY, JSON.stringify(names));
+    }
+
+    function renderNamesBanner() {
+      const names = loadNames();
+      const display = document.getElementById('names-display');
+      const edit = document.getElementById('names-edit');
+      if (!display) return;
+
+      display.innerHTML = '';
+      ['name1','name2','name3'].forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'name-tag' + (names[k] ? '' : ' empty');
+        span.textContent = names[k] || 'Name ' + k.slice(-1);
+        display.appendChild(span);
+      });
+    }
+
+    function toggleNamesEdit() {
+      const edit = document.getElementById('names-edit');
+      const names = loadNames();
+      if (edit.style.display === 'flex') {
+        edit.style.display = 'none';
+      } else {
+        edit.style.display = 'flex';
+        document.getElementById('name1-input').value = names.name1;
+        document.getElementById('name2-input').value = names.name2;
+        document.getElementById('name3-input').value = names.name3;
+        document.getElementById('name1-input').focus();
+      }
+    }
+
+    function saveNamesFromInputs() {
+      const names = {
+        name1: document.getElementById('name1-input').value.trim(),
+        name2: document.getElementById('name2-input').value.trim(),
+        name3: document.getElementById('name3-input').value.trim()
+      };
+      saveNames(names);
+      renderNamesBanner();
+      document.getElementById('names-edit').style.display = 'none';
+    }
+
+    // Progress
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function markVisited() {
+      const p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      const p = loadProgress();
+      const key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      const p = loadProgress();
+      const btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      const done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    // Study Questions
+    function toggleQuestions() {
+      const header = document.querySelector('.study-questions-header');
+      const body = document.querySelector('.study-questions-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      return localStorage.getItem(key) || '';
+    }
+
+    function saveNote(qNum, value) {
+      const key = 'bridgeMoments_notes_ch' + CH_NUM + '_q' + qNum;
+      localStorage.setItem(key, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.study-question textarea').forEach(ta => {
+        const qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    // Chapter navigation
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        const prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        const next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    // Init
+    document.addEventListener('DOMContentLoaded', function() {
+      renderNamesBanner();
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+</body>
+</html>
