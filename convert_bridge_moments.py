@@ -542,7 +542,8 @@ def get_chapter_css():
       font-family: 'Segoe UI', Georgia, serif;
       background: var(--bg-dark);
       color: var(--text-primary);
-      line-height: 1.8;
+      font-size: 1.1rem;
+      line-height: 1.85;
       min-height: 100vh;
       padding: 30px 20px;
     }
@@ -749,14 +750,14 @@ def get_chapter_css():
       margin-bottom: 14px;
     }
     h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: var(--accent);
       text-shadow: 0 0 20px var(--accent-glow);
       margin-bottom: 6px;
       font-weight: 600;
     }
     .chapter-num {
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: var(--text-secondary);
       margin-bottom: 6px;
     }
@@ -774,7 +775,7 @@ def get_chapter_css():
     }
     .epigraph blockquote {
       font-style: italic;
-      font-size: 1.05rem;
+      font-size: 1.15rem;
       color: var(--text-primary);
       line-height: 1.8;
       margin-bottom: 0;
@@ -807,14 +808,14 @@ def get_chapter_css():
     .content { position: relative; z-index: 1; }
     .content h2 {
       color: var(--accent);
-      font-size: 1.35rem;
+      font-size: 1.45rem;
       margin: 32px 0 16px;
       padding-bottom: 8px;
       border-bottom: 2px solid rgba(6,255,165,0.2);
     }
     .content h3 {
       color: var(--box-exercise);
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin: 24px 0 12px;
     }
     .content p {
@@ -914,7 +915,7 @@ def get_chapter_css():
     }
     .study-questions-header h2 {
       color: var(--box-principle);
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       margin: 0;
       border: none;
       padding: 0;
@@ -959,7 +960,7 @@ def get_chapter_css():
       border-radius: 8px;
       color: var(--text-primary);
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 1rem;
       line-height: 1.6;
       resize: vertical;
       min-height: 60px;
@@ -1292,10 +1293,10 @@ def generate_chapter_html(ch_meta, content):
     epigraph_html = ''
     if content.get('epigraph'):
         ep = content['epigraph']
-        # Split scripture text and reference
-        lines = ep.split('\n')
+        # Split scripture text and reference (skip empty lines)
+        lines = [l.strip() for l in ep.split('\n')]
         quote_text = lines[0] if lines else ep
-        ref_text = lines[1].strip() if len(lines) > 1 else ''
+        ref_text = next((l for l in lines[1:] if l), '')
         epigraph_html = f'''
       <section class="epigraph">
         <blockquote>{html_module.escape(quote_text)}</blockquote>
@@ -1418,9 +1419,9 @@ def build_body_html(content):
             continue
 
         if etype == 'scripture':
-            lines = elem['text'].split('\n')
+            lines = [l.strip() for l in elem['text'].split('\n')]
             quote = lines[0] if lines else elem['text']
-            ref = lines[1].strip() if len(lines) > 1 else ''
+            ref = next((l for l in lines[1:] if l), '')
             parts.append(f'        <blockquote class="scripture"><p>{html_module.escape(quote)}</p>')
             if ref:
                 parts.append(f'          <cite>{html_module.escape(ref)}</cite>')
@@ -1563,7 +1564,8 @@ def generate_index_html():
       font-family: 'Segoe UI', Georgia, serif;
       background: var(--bg-dark);
       color: var(--text-primary);
-      line-height: 1.75;
+      font-size: 1.1rem;
+      line-height: 1.8;
       min-height: 100vh;
       padding: 30px 20px;
     }}
