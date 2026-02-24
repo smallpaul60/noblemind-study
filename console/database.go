@@ -138,6 +138,8 @@ type StatsResult struct {
 	OSStats        []PathCount      `json:"os_stats"`
 	Countries      []PathCount      `json:"countries"`
 	Events         []EventSummary   `json:"events"`
+	EventDetails   []EventDetail    `json:"event_details"`
+	AvgTimeOnPage  float64          `json:"avg_time_on_page"`
 	Screens        []PathCount      `json:"screens"`
 }
 
@@ -155,6 +157,12 @@ type PathCount struct {
 type EventSummary struct {
 	Type  string `json:"type"`
 	Count int    `json:"count"`
+}
+
+type EventDetail struct {
+	Timestamp string `json:"timestamp"`
+	Type      string `json:"type"`
+	Metadata  string `json:"metadata"`
 }
 
 // QueryStats returns dashboard stats for the given number of days.
@@ -224,7 +232,7 @@ func QueryStats(days int) (*StatsResult, error) {
 		SELECT screen, COUNT(*) as c FROM page_views WHERE timestamp >= ? AND screen != ''
 		GROUP BY screen ORDER BY c DESC LIMIT 10`, since)
 
-	// Events
+	// Events summary
 	eventRows, err := db.Query(`
 		SELECT event_type, COUNT(*) as c FROM events WHERE timestamp >= ?
 		GROUP BY event_type ORDER BY c DESC`, since)
@@ -236,6 +244,28 @@ func QueryStats(days int) (*StatsResult, error) {
 			result.Events = append(result.Events, es)
 		}
 	}
+
+	// Recent event details (exclude page_exit from the detail log — those are for time tracking)
+	detailRows, err := db.Query(`
+		SELECT timestamp, event_type, metadata FROM events
+		WHERE timestamp >= ? AND event_type != 'page_exit'
+		ORDER BY id DESC LIMIT 50`, since)
+	if err == nil {
+		defer detailRows.Close()
+		for detailRows.Next() {
+			var ed EventDetail
+			detailRows.Scan(&ed.Timestamp, &ed.Type, &ed.Metadata)
+			result.EventDetails = append(result.EventDetails, ed)
+		}
+	}
+
+	// Average time on page (from page_exit events, metadata = seconds)
+	row = db.QueryRow(`
+		SELECT COALESCE(AVG(CAST(metadata AS REAL)), 0)
+		FROM events
+		WHERE event_type = 'page_exit' AND timestamp >= ?
+		AND CAST(metadata AS REAL) > 0 AND CAST(metadata AS REAL) < 3600`, since)
+	row.Scan(&result.AvgTimeOnPage)
 
 	return result, nil
 }

@@ -600,6 +600,10 @@
         <div class="label">Avg. Daily Views</div>
         <div class="value" id="avgDaily">--</div>
       </div>
+      <div class="summary-card">
+        <div class="label">Avg. Time on Page</div>
+        <div class="value" id="avgTime">--</div>
+      </div>
     </div>
 
     <!-- Recent Visitors -->
@@ -791,6 +795,17 @@
       return d.innerHTML;
     }
 
+    function formatDuration(seconds) {
+      if (!seconds || seconds <= 0) return '--';
+      seconds = Math.round(seconds);
+      if (seconds < 60) return seconds + 's';
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      if (m < 60) return m + 'm ' + (s > 0 ? s + 's' : '');
+      const h = Math.floor(m / 60);
+      return h + 'h ' + (m % 60) + 'm';
+    }
+
     // Format UTC timestamp to local date+time
     function formatTime(utcStr) {
       if (!utcStr) return '';
@@ -895,6 +910,7 @@
         const days = parseInt(period) || 7;
         const avg = days > 0 ? Math.round((stats.total_views || 0) / days) : 0;
         document.getElementById('avgDaily').textContent = formatNum(avg);
+        document.getElementById('avgTime').textContent = formatDuration(stats.avg_time_on_page);
 
         // Recent visitors
         document.getElementById('recentVisitors').innerHTML = buildRecentTable(recent);
@@ -1000,20 +1016,41 @@
           });
         }
 
-        // Events table
+        // Events — summary counts + detail log
         const ev = stats.events || [];
-        if (ev.length === 0) {
-          document.getElementById('eventsTable').innerHTML = '<div class="empty-state">No events yet</div>';
-        } else {
-          document.getElementById('eventsTable').innerHTML = '<table>' +
-            '<tr><th>Event</th><th style="text-align:right">Count</th></tr>' +
-            ev.map(e => {
+        const evDetails = stats.event_details || [];
+        let evHTML = '';
+
+        // Summary counts (exclude page_exit from display)
+        const evFiltered = ev.filter(e => e.type !== 'page_exit');
+        if (evFiltered.length > 0) {
+          evHTML += '<table>' +
+            '<tr><th>Event Type</th><th style="text-align:right">Count</th></tr>' +
+            evFiltered.map(e => {
               const cls = e.type.replace(/[^a-z_]/g, '');
               return '<tr><td><span class="event-badge ' + cls + '">' + escapeHtml(e.type) + '</span></td>' +
                 '<td class="count-cell">' + formatNum(e.count) + '</td></tr>';
             }).join('') +
             '</table>';
         }
+
+        // Detail log with metadata
+        if (evDetails.length > 0) {
+          evHTML += '<h3 style="margin-top:18px">Recent Events</h3>' +
+            '<div class="recent-scroll" style="max-height:300px"><table>' +
+            '<tr><th>Time</th><th>Type</th><th>Details</th></tr>' +
+            evDetails.map(d => {
+              const cls = d.type.replace(/[^a-z_]/g, '');
+              return '<tr>' +
+                '<td class="ts">' + formatTime(d.timestamp) + '</td>' +
+                '<td><span class="event-badge ' + cls + '">' + escapeHtml(d.type) + '</span></td>' +
+                '<td class="mono" style="font-size:0.78rem;word-break:break-all">' + escapeHtml(d.metadata || '') + '</td>' +
+              '</tr>';
+            }).join('') +
+            '</table></div>';
+        }
+
+        document.getElementById('eventsTable').innerHTML = evHTML || '<div class="empty-state">No events yet</div>';
 
       } catch (err) {
         console.error('Failed to load data:', err);

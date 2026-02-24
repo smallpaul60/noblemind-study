@@ -42,4 +42,20 @@
       send({ type: 'file_download', path: location.pathname, metadata: href });
     }
   });
+
+  // Time on page — send duration when leaving
+  var startTime = Date.now();
+  var sent = false;
+  function sendExit() {
+    if (sent) return;
+    sent = true;
+    var seconds = Math.round((Date.now() - startTime) / 1000);
+    if (seconds > 0 && seconds < 3600) {
+      send({ type: 'page_exit', path: location.pathname, metadata: String(seconds) });
+    }
+  }
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') sendExit();
+  });
+  window.addEventListener('pagehide', sendExit);
 })();
