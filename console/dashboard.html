@@ -387,6 +387,113 @@
       border: 1px solid rgba(168, 85, 247, 0.3);
     }
 
+    /* Login overlay */
+    .login-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 1000;
+      background: var(--bg-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-overlay::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.10), transparent 50%),
+        radial-gradient(circle at bottom right, rgba(94,229,255,0.08), transparent 50%);
+      pointer-events: none;
+    }
+    .login-card {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(135deg, rgba(10,17,40,0.7), rgba(13,13,13,0.7));
+      backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-card);
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-card h1 {
+      font-size: 1.6rem;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+      margin-bottom: 6px;
+    }
+    .login-card .login-subtitle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 28px;
+    }
+    .login-card input[type="password"] {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.25s;
+      margin-bottom: 16px;
+    }
+    .login-card input[type="password"]:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .login-card input[type="password"]::placeholder {
+      color: var(--text-muted);
+    }
+    .login-card .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--accent), #22c55e);
+      color: #020617;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 0 20px rgba(6,255,165,0.3);
+    }
+    .login-card .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(6,255,165,0.5);
+    }
+    .login-card .login-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .login-error {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-top: 12px;
+      display: none;
+    }
+    .login-card .badge {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--accent);
+      background: rgba(6,255,165,0.1);
+      border: 1px solid rgba(6,255,165,0.3);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .dashboard-content { display: none; }
+    .dashboard-content.visible { display: block; }
+
     /* Empty state */
     .empty-state {
       text-align: center;
@@ -442,7 +549,22 @@
   </style>
 </head>
 <body>
-  <div class="container">
+  <!-- Login Screen -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <h1>NobleMind Console</h1>
+      <span class="badge">Analytics</span>
+      <p class="login-subtitle">Enter your access token to continue</p>
+      <form id="loginForm" onsubmit="return handleLogin(event)">
+        <input type="password" id="tokenInput" placeholder="Access token" autocomplete="off" autofocus>
+        <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+      </form>
+      <p class="login-error" id="loginError">Invalid token. Please try again.</p>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="container dashboard-content" id="dashboardContent">
     <header>
       <div class="logo-area">
         <h1>NobleMind Console</h1>
@@ -456,6 +578,7 @@
           <option value="90">90 days</option>
         </select>
         <button class="refresh-btn" onclick="loadData()">Refresh</button>
+        <button onclick="logout()" style="font-size:0.8rem;color:var(--text-muted)">Logout</button>
       </div>
     </header>
 
@@ -542,9 +665,98 @@
   </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token') || '';
     const baseURL = window.location.origin;
+    let token = '';
+
+    // Auth: check sessionStorage first, then URL param for backwards compat
+    function getToken() {
+      return sessionStorage.getItem('console_token') || '';
+    }
+
+    function setToken(t) {
+      sessionStorage.setItem('console_token', t);
+      token = t;
+    }
+
+    function showLogin() {
+      document.getElementById('loginOverlay').style.display = 'flex';
+      document.getElementById('dashboardContent').classList.remove('visible');
+      document.getElementById('tokenInput').value = '';
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('tokenInput').focus();
+    }
+
+    function showDashboard() {
+      document.getElementById('loginOverlay').style.display = 'none';
+      document.getElementById('dashboardContent').classList.add('visible');
+      // Clean token from URL for security
+      if (window.location.search.includes('token=')) {
+        history.replaceState(null, '', window.location.pathname);
+      }
+      loadData();
+    }
+
+    function logout() {
+      sessionStorage.removeItem('console_token');
+      token = '';
+      showLogin();
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById('tokenInput').value.trim();
+      const btn = document.getElementById('loginBtn');
+      const error = document.getElementById('loginError');
+      if (!input) return;
+
+      btn.disabled = true;
+      btn.textContent = 'Verifying...';
+      error.style.display = 'none';
+
+      try {
+        const res = await fetch(baseURL + '/api/analytics/verify', {
+          headers: { 'Authorization': 'Bearer ' + input }
+        });
+        if (res.ok) {
+          setToken(input);
+          showDashboard();
+        } else {
+          error.style.display = 'block';
+          document.getElementById('tokenInput').select();
+        }
+      } catch (err) {
+        error.textContent = 'Connection error. Please try again.';
+        error.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+      return false;
+    }
+
+    // Initialize auth
+    (function initAuth() {
+      // Check URL param first (backwards compat / bookmarks)
+      const params = new URLSearchParams(window.location.search);
+      const urlToken = params.get('token');
+      if (urlToken) {
+        setToken(urlToken);
+      } else {
+        token = getToken();
+      }
+
+      if (token) {
+        // Verify stored token is still valid
+        fetch(baseURL + '/api/analytics/verify', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        }).then(res => {
+          if (res.ok) { showDashboard(); }
+          else { sessionStorage.removeItem('console_token'); showLogin(); }
+        }).catch(() => { showLogin(); });
+      } else {
+        showLogin();
+      }
+    })();
 
     let timeChart, browserChart, deviceChart, osChart, countryChart;
 
@@ -559,8 +771,10 @@
     ];
 
     async function fetchJSON(url) {
-      const sep = url.includes('?') ? '&' : '?';
-      const res = await fetch(url + (token ? sep + 'token=' + token : ''));
+      const res = await fetch(url, {
+        headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+      });
+      if (res.status === 401) { showLogin(); throw new Error('unauthorized'); }
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return res.json();
     }
@@ -820,7 +1034,6 @@
     }, 30000);
 
     document.getElementById('periodSelect').addEventListener('change', loadData);
-    loadData();
   </script>
 </body>
 </html>

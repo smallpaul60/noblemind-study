@@ -23,8 +23,9 @@ func SetupRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/analytics/stats", requireAuth(handleStats))
 	mux.HandleFunc("GET /api/analytics/realtime", requireAuth(handleRealtime))
 	mux.HandleFunc("GET /api/analytics/recent", requireAuth(handleRecent))
-	mux.HandleFunc("GET /console", requireAuth(handleDashboard))
-	mux.HandleFunc("GET /console/", requireAuth(handleDashboard))
+	mux.HandleFunc("GET /api/analytics/verify", handleVerify)
+	mux.HandleFunc("GET /console", handleDashboard)  // Dashboard serves login UI itself
+	mux.HandleFunc("GET /console/", handleDashboard)
 }
 
 // handleBeaconCORS handles OPTIONS preflight for the beacon endpoint.
@@ -90,6 +91,29 @@ func handleBeacon(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{"ok":true}`))
+}
+
+// handleVerify checks if a token is valid (for the login UI).
+func handleVerify(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	if authToken == "" {
+		// No token configured — always valid
+		w.Write([]byte(`{"valid":true}`))
+		return
+	}
+
+	token := r.URL.Query().Get("token")
+	if token == "" {
+		token = extractBearerToken(r.Header.Get("Authorization"))
+	}
+
+	if token == authToken {
+		w.Write([]byte(`{"valid":true}`))
+	} else {
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte(`{"valid":false}`))
+	}
 }
 
 // handleStats returns dashboard statistics.
