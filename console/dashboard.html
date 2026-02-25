@@ -604,6 +604,10 @@
         <div class="label">Avg. Time on Page</div>
         <div class="value" id="avgTime">--</div>
       </div>
+      <div class="summary-card" style="border-color: rgba(168,85,247,0.3);">
+        <div class="label">Downloads</div>
+        <div class="value" id="totalDownloads" style="color:#c084fc;text-shadow:0 0 20px rgba(168,85,247,0.5)">--</div>
+      </div>
     </div>
 
     <!-- Recent Visitors -->
@@ -650,11 +654,15 @@
       </div>
     </div>
 
-    <!-- Countries + Events -->
-    <div class="grid-row two-col">
+    <!-- Countries + Downloads + Events -->
+    <div class="grid-row three-col">
       <div class="card">
         <h3>Countries</h3>
         <canvas id="countryChart"></canvas>
+      </div>
+      <div class="card">
+        <h3>Downloads</h3>
+        <div id="downloadsTable"></div>
       </div>
       <div class="card">
         <h3>Events</h3>
@@ -1014,6 +1022,26 @@
               plugins: { legend: { display: false } }
             }
           });
+        }
+
+        // Downloads summary card + breakdown table
+        document.getElementById('totalDownloads').textContent = formatNum(stats.total_downloads || 0);
+        const dl = stats.downloads || [];
+        if (dl.length > 0) {
+          const dlMax = Math.max(...dl.map(d => d.count));
+          document.getElementById('downloadsTable').innerHTML = '<table>' +
+            '<tr><th>File</th><th style="text-align:right">Count</th><th></th></tr>' +
+            dl.map(item => {
+              const pct = dlMax > 0 ? (item.count / dlMax * 100) : 0;
+              return '<tr>' +
+                '<td><span class="event-badge file_download">' + escapeHtml(item.name) + '</span></td>' +
+                '<td class="count-cell">' + formatNum(item.count) + '</td>' +
+                '<td class="bar-cell"><div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%;background:linear-gradient(90deg,#a855f7,#c084fc)"></div></div></td>' +
+              '</tr>';
+            }).join('') +
+            '</table>';
+        } else {
+          document.getElementById('downloadsTable').innerHTML = '<div class="empty-state">No downloads yet</div>';
         }
 
         // Events — summary counts + detail log

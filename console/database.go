@@ -141,6 +141,8 @@ type StatsResult struct {
 	EventDetails   []EventDetail    `json:"event_details"`
 	AvgTimeOnPage  float64          `json:"avg_time_on_page"`
 	Screens        []PathCount      `json:"screens"`
+	Downloads      []PathCount      `json:"downloads"`
+	TotalDownloads int              `json:"total_downloads"`
 }
 
 type TimePoint struct {
@@ -266,6 +268,16 @@ func QueryStats(days int) (*StatsResult, error) {
 		WHERE event_type = 'page_exit' AND timestamp >= ?
 		AND CAST(metadata AS REAL) > 0 AND CAST(metadata AS REAL) < 3600`, since)
 	row.Scan(&result.AvgTimeOnPage)
+
+	// Downloads breakdown (file_download events, metadata = filename)
+	result.Downloads = queryPathCounts(`
+		SELECT metadata, COUNT(*) as c FROM events
+		WHERE event_type = 'file_download' AND timestamp >= ? AND metadata != ''
+		GROUP BY metadata ORDER BY c DESC LIMIT 20`, since)
+
+	// Total downloads
+	row = db.QueryRow(`SELECT COUNT(*) FROM events WHERE event_type = 'file_download' AND timestamp >= ?`, since)
+	row.Scan(&result.TotalDownloads)
 
 	return result, nil
 }

@@ -328,6 +328,99 @@
       margin-bottom: 14px;
     }
 
+    /* Download editions section */
+    .editions-section {
+      margin-top: 36px;
+      padding: 28px 24px;
+      background: rgba(94,229,255,0.03);
+      border: 1px solid rgba(94,229,255,0.15);
+      border-radius: 14px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .editions-section h2 {
+      font-size: 1.2rem;
+      color: var(--accent-secondary);
+      margin-bottom: 6px;
+    }
+    .editions-desc {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .editions-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .edition-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .edition-btn .btn-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .edition-btn .btn-label { display: flex; flex-direction: column; align-items: flex-start; }
+    .edition-btn .btn-format { font-size: 0.7rem; font-weight: 400; opacity: 0.7; }
+
+    /* Preview (active) style */
+    .edition-btn.preview {
+      background: rgba(94,229,255,0.08);
+      border: 1px solid rgba(94,229,255,0.3);
+      color: var(--accent-secondary);
+    }
+    .edition-btn.preview:hover {
+      background: rgba(94,229,255,0.15);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 20px var(--accent-secondary-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Coming soon (disabled) style */
+    .edition-btn.coming-soon {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      cursor: default;
+      opacity: 0.6;
+    }
+    .edition-btn .badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+    .badge-preview {
+      background: rgba(94,229,255,0.15);
+      color: var(--accent-secondary);
+    }
+    .badge-soon {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-muted);
+    }
+    .editions-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
     footer {
       margin-top: 40px;
       padding-top: 24px;
@@ -381,6 +474,9 @@
       .lesson-grid { grid-template-columns: 1fr; gap: 10px; }
       .lesson-card { padding: 14px 16px; min-height: 44px; }
       .lesson-ref { font-size: 0.75rem; }
+      .editions-section { padding: 20px 14px; }
+      .editions-buttons { flex-direction: column; align-items: center; }
+      .edition-btn { width: 100%; max-width: 280px; justify-content: center; min-height: 44px; }
     }
   </style>
 </head>
@@ -598,6 +694,31 @@
         </div>
       </section>
 
+      <section class="editions-section">
+        <h2>Print &amp; eBook Editions</h2>
+        <p class="editions-desc">The complete 187-page study &mdash; all 20 chapters and 3 appendices &mdash; formatted for print and e-readers.</p>
+        <div class="editions-buttons">
+          <!-- To activate: change <span> to <a href="..." download>, change class to "preview", update badge -->
+          <span class="edition-btn coming-soon" id="btn-pdf" title="PDF download coming soon">
+            <span class="btn-icon">&#128196;</span>
+            <span class="btn-label">
+              PDF Edition
+              <span class="btn-format">187 pages &bull; Print-ready</span>
+            </span>
+            <span class="badge badge-soon">Coming Soon</span>
+          </span>
+          <span class="edition-btn coming-soon" id="btn-epub" title="EPUB download coming soon">
+            <span class="btn-icon">&#128214;</span>
+            <span class="btn-label">
+              EPUB Edition
+              <span class="btn-format">For Kindle, Apple Books &amp; more</span>
+            </span>
+            <span class="badge badge-soon">Coming Soon</span>
+          </span>
+        </div>
+        <p class="editions-note">Downloadable editions coming soon.</p>
+      </section>
+
       <footer>
         <p class="copyright">Bridge Moments: Making the Most of Every Opportunity &copy; Paul Hainline 2026<br>
         Digitized for <a href="../index.html">NobleMind.Study</a></p>
@@ -654,6 +775,34 @@
       document.getElementById('name3').value = names.name3;
       updateProgressUI();
     });
+  </script>
+  <script>
+    // Download tracking — fires a file_download beacon event.
+    // Called when download buttons are activated.
+    function trackDownload(filename) {
+      try {
+        var payload = JSON.stringify({
+          type: 'file_download',
+          path: window.location.pathname,
+          metadata: filename
+        });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/analytics/event', payload);
+        } else {
+          fetch('/api/analytics/event', {
+            method: 'POST',
+            body: payload,
+            keepalive: true
+          });
+        }
+      } catch (e) { /* silent */ }
+    }
+
+    // To activate downloads, replace the coming-soon spans with:
+    //   <a href="Bridge_Moments_Complete.pdf" download class="edition-btn preview"
+    //      onclick="trackDownload('Bridge Moments PDF')">
+    //   <a href="Bridge_Moments_Complete.epub" download class="edition-btn preview"
+    //      onclick="trackDownload('Bridge Moments EPUB')">
   </script>
   <script src="/nm-beacon.js" defer></script>
 </body>
