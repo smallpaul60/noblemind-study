@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Front Matter | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    .dedication {
+      margin: 28px 0;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .dedication p {
+      color: var(--text-primary);
+      font-style: italic;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .dedication p:last-child { margin-bottom: 0; }
+    .section-heading {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .front-content { position: relative; z-index: 1; }
+    .front-content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html" selected>Front Matter</option>
+            <option value="chapter-01.html">Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html">Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html">Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html">Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html">Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html">Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <h1>Through the Valley</h1>
+        <p class="subtitle">What God Says When the Shadow Is Real</p>
+        <p class="chapter-num">by Paul Hainline</p>
+      </header>
+
+      <section class="dedication">
+        <p>To Mark and Bonnie.</p>
+        <p>You are not walking into the valley; you are walking through it.</p>
+        <p>The Shepherd is already there.</p>
+      </section>
+
+      <div class="front-content content">
+        <h2 class="section-heading">How to Use This Book</h2>
+        <p>This book was not written to offer an explanation for the valley. It was written to provide a Companion within it.</p>
+        <p>Because the shadow is disorienting and the silence of God can feel like absence, these chapters are built on five specific principles meant to keep your feet on solid ground:</p>
+        <div class="principle-box">
+          <p><strong>The Bible as Sole Authority.</strong> We do not rely on human tradition, near-death stories, or clinical speculation. Every word in these chapters is anchored in what the text actually says. When man says one thing and God says another, we believe God.</p>
+        </div>
+        <div class="principle-box">
+          <p><strong>Word-for-Word Accuracy.</strong> We use the New American Standard Bible for its precision in rendering the original Greek and Hebrew. When a word in the original language adds genuine depth, we look at it closely. When it does not, we leave it alone.</p>
+        </div>
+        <div class="principle-box">
+          <p><strong>Scripture Interprets Scripture.</strong> Where one passage is difficult, we look to the rest of the Bible to provide light. We let the revealed things sustain us while we leave the secret things to God (Deuteronomy 29:29). When the text is clear, we are clear. When the text is silent, we are silent.</p>
+        </div>
+        <div class="principle-box">
+          <p><strong>Intellectual Honesty.</strong> This book will not offer platitudes. It acknowledges that the pain is real, the body decays, and the questions are often loud. It does not pretend the valley is not dark. It simply trusts that the Light is brighter.</p>
+        </div>
+        <div class="principle-box">
+          <p><strong>A Shared Journey.</strong> These chapters are meant to be read together — by the one who is facing what is ahead and the one who is facing what will be left behind. The promises that sustain the one who is departing are the same promises that hold the one who remains.</p>
+        </div>
+
+        <h2 class="section-heading">A Note on "Through"</h2>
+        <p>David did not say, “If I walk into the valley.” He said, “Even though I walk <em>through</em>.”</p>
+        <p>The valley is a passage, not a permanent home. It has an entrance and an exit. As you read, remember that the Third Strand — the God who has been woven into your lives from the beginning — is the One holding the cord together right now. He was there before the valley. He is here inside it. And He will be there when you walk out the other side.</p>
+        <p>This book is short enough to read in a hospital room. It is meant to be.</p>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="#" class="disabled">&larr; Previous</a>
+          <a href="chapter-01.html">Ch 1: Even Though I Walk &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

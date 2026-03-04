@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v65';
+const CACHE_NAME = 'noblemind-study-v66';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -42,7 +42,18 @@ const CACHE_FILES = [
   '/BridgeMoments/chapter-20.html',
   '/BridgeMoments/appendix-a.html',
   '/BridgeMoments/appendix-b.html',
-  '/BridgeMoments/appendix-c.html'
+  '/BridgeMoments/appendix-c.html',
+  '/ThroughTheValley/index.html',
+  '/ThroughTheValley/front-matter.html',
+  '/ThroughTheValley/chapter-01.html',
+  '/ThroughTheValley/chapter-02.html',
+  '/ThroughTheValley/chapter-03.html',
+  '/ThroughTheValley/chapter-04.html',
+  '/ThroughTheValley/chapter-05.html',
+  '/ThroughTheValley/chapter-06.html',
+  '/ThroughTheValley/chapter-07.html',
+  '/ThroughTheValley/chapter-08.html',
+  '/ThroughTheValley/scripture-index.html'
 ];
 
 // Install event - cache essential files

@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER SIX: Things Too Wonderful for Me | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html">Front Matter</option>
+            <option value="chapter-01.html">Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html">Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html">Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html">Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html">Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html" selected>Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SIX</p>
+        <h1>Things Too Wonderful for Me</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“I have declared that which I did not understand,<br>things too wonderful for me, which I did not know.”</blockquote>
+        <cite>— Job 42:3 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>The question does not always come in words. Sometimes it is just a feeling — a weight behind the eyes at three in the morning, a tightness in the chest in the hospital parking lot, a silence in the middle of a prayer that was going fine until it wasn’t. But when it does find words, it is always some version of the same question.</p>
+        <p><em>Why?</em></p>
+        <p>Why him? Why this? Why now? And the variation that cuts deepest of all: what did he do to deserve this?</p>
+        <p>He didn’t. That needs to be said immediately and plainly, before another word is written. What is happening to Mark is not a punishment. It is not a consequence of hidden sin. It is not God settling an account. The Bible does not teach that every instance of suffering is traceable to a specific failure, and the one book in Scripture that most thoroughly addresses that idea — the book of Job — exists in large part to dismantle it.</p>
+        <p>But knowing that the suffering is not a punishment does not make the question go away. It only removes the wrong answer. The space where the right answer should be remains empty.</p>
+        <p>This chapter will not fill that space. Not because the question does not matter — it does. Not because God is offended by it — He is not. But because the Bible does not provide a specific answer to why this man, this disease, this timeline. And a book that claims to stand on Scripture cannot offer what Scripture does not give.</p>
+        <p>What this chapter will do is walk with you to the place where the question was asked more loudly than anywhere else in all of Scripture — and show you what God did with it.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Man Who Asked</h2>
+        <p>His name was Job. He was blameless and upright, one who feared God and turned away from evil. God Himself said so — twice (Job 1:8, 2:3). And in the space of a single day, he lost nearly everything. His livestock. His servants. His children — all ten of them. Then his health. He sat among the ashes and scraped his skin with a piece of broken pottery, and his wife told him to curse God and die (Job 2:9).</p>
+        <p>He did not curse God. But he did ask why.</p>
+        <p>He asked loudly. He asked repeatedly. He asked with a rawness that has made Bible readers uncomfortable for three thousand years. “Why did I not die at birth, come forth from the womb and expire?” (Job 3:11). “What is my strength, that I should wait? And what is my end, that I should endure?” (Job 6:11). He demanded an audience with the Almighty: “Oh that I had one to hear me! Behold, here is my signature; let the Almighty answer me!” (Job 31:35).</p>
+        <p>This was not a man whispering polite questions into a journal. This was a man in agony, shouting at the sky, demanding to know why the God he had served faithfully had allowed his life to be torn apart.</p>
+        <p>And here is what matters most: God did not rebuke Job for asking.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Friends Who Had Answers</h2>
+        <p>Before God spoke, Job’s friends spoke. For thirty-five chapters. Eliphaz, Bildad, Zophar — and later Elihu. They arrived with theology, logic, and explanations. They had a framework, and they were determined to make Job’s suffering fit inside it.</p>
+        <p>Their framework was simple: God blesses the righteous and punishes the wicked. You are suffering. Therefore you must have sinned. Repent, and He will restore you.</p>
+        <p>They said some true things along the way. They spoke accurately about God’s power, His sovereignty, His holiness. Eliphaz was not wrong that God is greater than man (Job 33:12). Bildad was not wrong that God does not pervert justice (Job 8:3). The problem was not the individual pieces. The problem was the conclusion they built from them — that Job’s suffering could be explained, categorized, and resolved with the right theological formula.</p>
+        <p>They were wrong. And God told them so directly.</p>
+        <blockquote class="scripture">
+          <p>“My wrath is kindled against you and against your two friends, because you have<br>not spoken of Me what is right as My servant Job has.”</p>
+          <cite>— Job 42:7</cite>
+        </blockquote>
+        <p>This is one of the most important verses in the entire book, and it is easy to miss in the rush to get to the ending. The friends who tried to explain the suffering were rebuked. The man who sat in the ashes and cried out — who said things that were raw, unfiltered, and at times bordered on accusation — was the one God said had spoken rightly.</p>
+        <p>God does not rebuke honest grief. He rebukes tidy explanations that misrepresent Him.</p>
+        <p>This matters for you — for both of you — because you will encounter people who try to explain what is happening. People who mean well. People who love you. And some of them will say things like “God has a plan” or “everything happens for a reason” or “He must need another angel in heaven.” They will say these things in waiting rooms and church hallways and text messages, and however kindly they are meant, they will land like stones on an open wound.</p>
+        <p>Job’s friends were not bad people. They were wrong people. And the difference between the two matters enormously when you are the one sitting in the ashes.</p>
+        <p>You do not owe anyone an explanation for your grief. You do not owe anyone a performance of peace you do not feel. And when the well-meaning answers come — and they will — you are free to let them pass without carrying them. The God who rebuked the explainers is the same God who honored the man who simply told the truth about his pain.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>When God Speaks</h2>
+        <p>Job 38. After thirty-five chapters of human theology, God arrives. Out of the whirlwind. And He does not explain.</p>
+        <blockquote class="scripture">
+          <p>“Where were you when I laid the foundation of the earth?<br>Tell Me, if you have understanding, who set its measurements?<br>Since you know. Or who stretched the line on it?<br>On what were its bases sunk? Or who laid its cornerstone,<br>when the morning stars sang together<br>and all the sons of God shouted for joy?”</p>
+          <cite>— Job 38:4–7</cite>
+        </blockquote>
+        <p>Four chapters of questions. Not accusations — questions. The foundations of the earth. The boundaries of the sea. The storehouses of snow and hail. The constellations in their courses. The hawk that soars by God’s wisdom. The war horse that laughs at fear. Behemoth. Leviathan. God walks Job through the created order — not to humiliate him, but to reorient him. To show him that the universe operates at a scale and a complexity that no human mind can hold.</p>
+        <p>Not one of these questions addresses Job’s suffering directly. Not one explains why. God does not say “here is why I allowed this.” He does not open the curtain on the conversation with Satan from chapters one and two. He does not offer a formula. He does not apologize.</p>
+        <p>He says, in effect, “Here is who I am.”</p>
+        <p>And that turns out to be the answer — not the answer Job was looking for, but the answer Job needed. Because the question behind the question was never really “why is this happening?” The question behind the question was “can I trust the God who is allowing it?” And God’s response — this breathtaking tour of His power, His wisdom, His intimate involvement in every corner of creation — was not a deflection. It was the most direct answer possible to the real question.</p>
+        <p>If this is the God who holds the sea in its boundaries and calls the stars by name and knows when the mountain goat gives birth on a cliff face no human eye has ever seen — then this is a God whose judgments can be trusted even when they cannot be understood.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What Job Found</h2>
+        <p>Job’s response, when it comes, is not what you might expect from a man who has spent thirty-five chapters demanding answers.</p>
+        <blockquote class="scripture">
+          <p>“I know that You can do all things, and that no purpose of Yours can be thwarted.”</p>
+          <cite>— Job 42:2</cite>
+        </blockquote>
+        <blockquote class="scripture">
+          <p>“I have declared that which I did not understand, things too wonderful for me,<br>which I did not know.”</p>
+          <cite>— Job 42:3</cite>
+        </blockquote>
+        <p>That word — “wonderful.” In Hebrew, <em>nipla’ot,</em> from the root <em>pala.</em> It does not mean pleasant or enjoyable. It means beyond human capacity to comprehend. Things that exceed the boundaries of what a finite mind can hold. The same root appears in Psalm 139:6 — “Such knowledge is too wonderful for me; it is too high, I cannot attain to it.” And in Psalm 131:1, where David said, “I do not involve myself in great matters, or in things too wonderful for me.”</p>
+        <p>Job was not saying his suffering made sense now. He was saying he had been speaking about things that operate at a level he could not reach — and he knew it now. The questions did not go away. They got repositioned. They moved from the center of his vision to the periphery. Not because they stopped mattering, but because something larger moved into the center.</p>
+        <blockquote class="scripture">
+          <p>“I have heard of You by the hearing of the ear; but now my eye sees You.”</p>
+          <cite>— Job 42:5</cite>
+        </blockquote>
+        <p>Before the valley, Job knew <em>about</em> God. Inside the valley, Job <em>knew</em> God. The secondhand became firsthand. The theology became encounter. Hearing became seeing.</p>
+        <p>This is the hardest truth in this chapter, and it must be said gently: sometimes the valley is where God becomes most real. Not because suffering is good — it is not. Not because God sends disease to teach lessons — that is the theology of Job’s friends, and God rejected it. But because when everything else is stripped away — health, independence, control, the future you planned — the God who remains is the God you can finally see without distraction.</p>
+        <p>The Fourth Figure who appeared in the furnace with Shadrach, Meshach, and Abed-nego was only visible inside the fire (Daniel 3:25). He did not appear before they were thrown in. He did not call to them from outside. He was walking where they walked. Present where the heat was most intense. That has not changed.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Prophet Who Complained</h2>
+        <p>A different man, a different century, a different kind of suffering — but the same kind of honesty.</p>
+        <p>Habakkuk opened his book with a complaint.</p>
+        <blockquote class="scripture">
+          <p>“How long, O LORD, will I call for help, and You will not hear?<br>I cry out to You, ‘Violence!’ Yet You do not save.<br>Why do You make me see iniquity, and cause me to look on wickedness?”</p>
+          <cite>— Habakkuk 1:2–3</cite>
+        </blockquote>
+        <p>He was watching injustice and demanding to know why God was not intervening. God’s answer was not what Habakkuk expected. He was raising up the Babylonians — a nation more wicked than the one Habakkuk was complaining about — to bring judgment (1:5–11). The answer made the question harder, not easier.</p>
+        <p>But Habakkuk did not walk away. He stood on his guard post and waited (2:1). He took his confusion to God and then he stayed long enough to hear what God would say next. And by the end of the book, without a single one of his circumstances changing, he arrived somewhere extraordinary.</p>
+        <blockquote class="scripture">
+          <p>“Though the fig tree should not blossom and there be no fruit on the vines,<br>though the yield of the olive should fail and the fields produce no food,<br>though the flock should be cut off from the fold<br>and there be no cattle in the stalls,<br>yet I will exult in the LORD,<br>I will rejoice in the God of my salvation.”</p>
+          <cite>— Habakkuk 3:17–18</cite>
+        </blockquote>
+        <p>“Though… yet.” That word <em>yet</em> carries the weight of the entire book. Everything on the left side of it is real — the barrenness, the loss, the absence of everything that was supposed to be there. Nothing on that side is denied or minimized. But on the right side of <em>yet</em> stands something that does not depend on any of it. Habakkuk’s trust was not contingent on his circumstances improving. It was anchored in the character of God — a character he had come to know more deeply precisely because he had been honest enough to bring his hardest questions directly to the source.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What Belongs to God</h2>
+        <p>Moses, near the end of his life, told Israel something that belongs in this conversation.</p>
+        <blockquote class="scripture">
+          <p>“The secret things belong to the LORD our God,<br>but the things revealed belong to us and to our sons forever,<br>that we may observe all the words of this law.”</p>
+          <cite>— Deuteronomy 29:29</cite>
+        </blockquote>
+        <p>There are two categories. The secret things — the ones God has not disclosed, the purposes He has not explained, the reasons that operate behind the curtain of His sovereignty. And the revealed things — what He has spoken, what He has promised, what He has put in writing and preserved for three thousand years so that a man in a hospital bed and a woman in a chair beside him could read it and know it was true.</p>
+        <p>Why this man? Why this disease? Why this timeline? These belong to Him. They are among the secret things. And carrying questions that belong to God is a weight no human frame was designed to bear. You were not built for omniscience. You were built for trust.</p>
+        <p>But what belongs to you is not small.</p>
+        <p>You know that He is near to the brokenhearted (Psalm 34:18). You know that the valley has an exit — <em>through,</em> not <em>into</em> (Psalm 23:4). You know that the tent is temporary but you are not (2 Corinthians 5:1). You know that what is sown in weakness will be raised in power, and what is sown a natural body will be raised a spiritual body (1 Corinthians 15:43–44). You know that absent from the body means at home with the Lord (2 Corinthians 5:8). You know that He cannot lie (Titus 1:2). You know that the departure and being with Christ is very much better (Philippians 1:23).</p>
+        <p>You may not know why. But you know who. And in the silence where the answer to “why” should be, He has placed Himself.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>A Word to Both of You</h2>
+        <p>Mark — the questions may take a particular shape for you. Why my body? Why this disease and not another? Why couldn’t there be more time? Some of these belong among the secret things, and you are free to set them down. You do not have to solve them before you can rest. Job did not solve them. He saw God instead, and said it was enough.</p>
+        <p>And the question about Bonnie — the one that may surface when you are too tired to push it away — that one has an answer. The third strand holds (Ecclesiastes 4:12). The God who has walked with both of you through this valley will not leave her when you reach the far side. He has never abandoned the brokenhearted. Not once in the entire record of Scripture. He will not begin with her.</p>
+        <p>Bonnie — your questions have their own weight. Why him? Why not someone else? Why do I have to watch this? And the one that may be hardest of all: why does prayer sometimes feel like it reaches the ceiling and stops?</p>
+        <p>Psalm 13. David asked “how long” four times in two verses. He did not whisper it. He did not dress it up. He poured it out raw, and God did not turn away. He preserved it — in Scripture, in permanence — so that three thousand years later, a woman sitting beside a hospital bed could open her Bible and find someone who understood the exact shape of her exhaustion.</p>
+        <p>Your questions are not a failure of faith. They are the sound of a faith that is honest enough to carry the full weight of what it is carrying. Job asked. David asked. Habakkuk asked. God did not turn away from any of them. He will not turn away from you.</p>
+        <p>There is a kind of rest that does not require answers.</p>
+        <p>David found it. “I have composed and quieted my soul; like a weaned child rests against his mother, my soul is like a weaned child within me. O Israel, hope in the LORD from this time forth and forever” (Psalm 131:2–3). Not a child still demanding — a child who has settled. Not because every question has been answered, but because the arms holding him are enough.</p>
+        <p>Job found it. Not in explanation, but in encounter. “I have heard of You by the hearing of the ear; but now my eye sees You” (Job 42:5).</p>
+        <p>Habakkuk found it. “Though… yet.” Everything stripped away on one side. Trust standing firm on the other.</p>
+        <p>It is not the rest of resolution. It is the rest of trust — the kind that comes when you stop carrying what was never yours to carry and let the secret things belong to the One they have always belonged to. The questions are real. The silence where answers should be is real. And the God who stands in that silence — who did not explain the suffering to Job but showed up inside it, who did not remove the fire from the furnace but walked in it beside three men who trusted Him, who does not promise to make the valley disappear but promises to walk with you through every step of it — He is real too.</p>
+        <p>You do not have to understand the valley to walk through it. You only have to know the Shepherd.</p>
+        <p>And you do.</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">God rebuked Job's friends who tried to explain the suffering, but honored Job who simply told the truth about his pain. Have you received well-meaning explanations that hurt rather than helped? How did you respond?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Job said, &quot;I have heard of You by the hearing of the ear; but now my eye sees You.&quot; Has the valley changed your knowledge of God from secondhand to firsthand in any way?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Moses distinguished &quot;the secret things&quot; from &quot;the things revealed.&quot; What questions are you carrying that might belong in the first category — and what revealed promises can you hold on to instead?</span>
+              <textarea data-question="3" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-05.html">&larr; Ch 5: What No Eye Has Seen</a>
+          <a href="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'throughTheValley_progress';
+    const CH_NUM = 6;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

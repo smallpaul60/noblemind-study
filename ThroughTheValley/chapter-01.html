@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER ONE: Even Though I Walk | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html">Front Matter</option>
+            <option value="chapter-01.html" selected>Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html">Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html">Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html">Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html">Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html">Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ONE</p>
+        <h1>Even Though I Walk</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Even though I walk through the valley of the shadow of death,<br>I fear no evil, for You are with me;”</blockquote>
+        <cite>— Psalm 23:4 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>You didn’t choose this.</p>
+        <p>Nobody sits down one morning and decides that today is the day their life will divide into “before” and “after.” Nobody plans for the conversation where a doctor’s careful language lands in the room like a stone dropped into still water, and everything ripples outward from that moment. You didn’t choose the diagnosis. You didn’t choose the treatments that work for a while and then stop working. You didn’t choose the hospital stays that grow longer and the stretches of home that grow shorter. You didn’t choose any of this.</p>
+        <p>But here you are.</p>
+        <p>And if you are reading these words, you are probably in the hardest season a human being can walk through — the slow, grinding, day-by-day reality of watching someone you love move toward the end of their life on this earth. Or you are the one whose body is failing, watching your own strength leave you in measures that are sometimes sudden and sometimes so gradual you barely notice until you try to do something you did easily a month ago and find that you cannot. Either way, you know something that most people around you do not fully understand: this valley is real, it is dark, and it does not care about your schedule or your prayers or your plans.</p>
+        <p>This chapter is not going to fix that. Nothing written on a page can stop what is happening in your body or in your home. These words will not reverse a diagnosis or add months or take away the ache that settles in at two in the morning when the house is quiet and the future feels unbearable. If someone has handed you this book and told you it will make everything better, they meant well, but they promised you something no book can deliver.</p>
+        <p>What this chapter can do — what this whole book will try to do — is walk with you. Not around the valley. Not over it. Through it. And the first step of walking through something honestly is admitting where you are.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>You Are in the Valley</h2>
+        <p>David, the shepherd-king who wrote the twenty-third Psalm, did not say, “If I walk through the valley.” He said, “<em>Even though</em> I walk through the valley of the shadow of death.” The language assumes the valley is real and that the walk through it is happening. David was not writing about a hypothetical. He was writing about a certainty — one that every person who has ever drawn breath will eventually face, either for themselves or for someone they love.</p>
+        <p>But notice what David called it. He did not call it the valley of death. He called it the valley of the <em>shadow</em> of death. A shadow can be dark. A shadow can be frightening. But a shadow cannot actually harm you. A shadow requires a light source somewhere behind it — and the greater the light, the more defined the shadow becomes. The very fact that the shadow is so dark tells you that the light behind it is very bright.</p>
+        <p>That does not make the valley easier to walk through. Shadows are disorienting. They make it difficult to see where you are going. They play tricks on your perception and make threats feel closer than they are. And when you have been in the shadow for weeks or months, when the days blur together and the hospital room becomes more familiar than your own kitchen, it can feel like the shadow is all there is.</p>
+        <p>It is not. But you may not be able to see past it right now, and that is all right. David did not say, “I see the end of the valley.” He said, “You are with me.” The comfort was not in seeing the destination. The comfort was in the Companion.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The God Who Does Not Look Away</h2>
+        <p>One of the cruelest lies that suffering whispers is that God has turned His face. That the silence in the room is the silence of heaven. That if He truly cared, if He truly had the power everyone says He has, then this would not be happening.</p>
+        <p>Scripture never makes that argument. What Scripture does, with remarkable honesty, is the opposite: it shows God walking <em>into</em> the suffering, not away from it.</p>
+        <p>Consider what happened at the tomb of Lazarus. Jesus had received word that His friend was sick. He stayed where He was for two more days. By the time He arrived, Lazarus had been dead for four days. Martha met Him on the road and said what anyone in her place would say: “Lord, if You had been here, my brother would not have died” (John 11:21). Mary came and said the same thing, word for word (v. 32). The people standing around were saying it too: “Could not this man, who opened the eyes of the blind man, have kept this man also from dying?” (v. 37).</p>
+        <p>And then comes one of the most important verses in the entire Bible:</p>
+        <blockquote class="scripture">
+          <p>“Jesus wept.”</p>
+          <cite>— John 11:35</cite>
+        </blockquote>
+        <p>Two words in English. One word in the Greek: <em>edakrusen</em> — He shed tears. Not metaphorical tears. Not a theological expression of sympathy. Real tears, from real eyes, running down a real face. And here is what makes this moment so staggering: Jesus <em>knew what He was about to do</em>. He was standing minutes away from calling Lazarus out of that tomb. He was not weeping because the situation was hopeless. He was weeping because the people He loved were in pain, and their pain moved Him — even though He held the power to reverse it.</p>
+        <p>That matters for you right now. It matters because it tells you something about the character of the God you are trusting with the hardest thing you have ever faced: He does not observe your suffering from a distance. He is not unmoved by it. He does not look at your tears and say, “They should be stronger than this.” He looks at your tears and weeps with you. Even when He sees the whole picture that you cannot see. Even when He knows things about eternity that would change everything if you could know them too.</p>
+        <p>The writer of Hebrews tells us that we do not have a High Priest who cannot sympathize with our weaknesses, but One who has been tempted in all things as we are (Hebrews 4:15). The God who sits on the throne of the universe has been here. He has worn human skin, drawn human breath, felt human exhaustion, and wept real human tears at the grave of a friend. When you cry out to Him from the valley, you are not crying out to Someone who has to imagine what you feel. You are crying out to Someone who knows.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Permission to Grieve</h2>
+        <p>Somewhere along the way, a well-meaning tradition crept into the church that says strong faith does not grieve deeply. That if you really trust God, you will face loss with a steady voice and dry eyes and an unwavering confidence that everything is fine because heaven is real. That grief, especially prolonged grief, signals a deficiency of belief.</p>
+        <p>That is not what Scripture teaches.</p>
+        <p>When Jacob was told that Joseph was dead, he “tore his clothes, and put sackcloth on his loins and mourned for his son many days” (Genesis 37:34). Many days. Not an afternoon. When David learned that Saul and Jonathan had fallen in battle, he composed a lament and ordered that it be taught to the people of Judah (2 Samuel 1:17–18). He institutionalized his grief. He made it public and permanent. When Job lost everything — his children, his livelihood, his health — he sat in ashes for seven days, and his friends sat with him in silence (Job 2:13). Seven days of saying nothing, because the grief was too heavy for words.</p>
+        <p>And then there is Paul, who wrote the single most important passage in the New Testament about Christian grief:</p>
+        <blockquote class="scripture">
+          <p>“But we do not want you to be uninformed, brethren, about those who are<br>asleep, so that you will not grieve as do the rest who have no hope.”</p>
+          <cite>— 1 Thessalonians 4:13</cite>
+        </blockquote>
+        <p>Read that verse carefully, because it does not say what many people think it says. Paul did not write, “<em>so that you will not grieve</em>.” He wrote, “so that you will not grieve <em>as do the rest who have no hope</em>.” The distinction matters enormously. Paul assumed they would grieve. He expected it. Grief is the natural, God-given response of a heart that loves deeply when it faces separation. What Paul wanted them to understand was that their grief was not the same as the grief of those who have no hope. Not because it hurt less. Not because it was shorter. Not because faith gives you a shortcut through the valley. But because their grief carried something inside it that the world’s grief does not: a promise.</p>
+        <p>We will come to that promise later in this book, and we will examine it closely, because you deserve to see exactly what God has said and not one word more or less. But for now, in this first chapter, the point is simpler and more immediate: <em>you are allowed to grieve</em>.</p>
+        <p>You are allowed to be exhausted. You are allowed to cry until you cannot cry anymore and then cry again the next morning. You are allowed to feel angry at the unfairness of it, confused by the silence of God, and afraid of what is coming. You are allowed to sit beside a hospital bed and hold a hand and have absolutely no idea what to say. You are allowed to drive home afterward and pull over because your eyes are too blurred to see the road. You are allowed to be a believer who is falling apart.</p>
+        <p>Because David was. Because Job was. Because Martha and Mary were. Because Jesus Himself stood at a graveside and wept. If grief were a failure of faith, then the Son of God failed at the tomb of Lazarus. And since that is not possible, grief must be something else entirely — something human, something holy, something that God Himself has made room for in the story He is writing.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Shadow Is Not the Story</h2>
+        <p>There is a detail in Psalm 23:4 that is easy to miss because the verse is so familiar that we tend to hear it as a single, undivided thought. But David actually said two things, and the second one matters as much as the first:</p>
+        <blockquote class="scripture">
+          <p>“Even though I walk through the valley of the shadow of death,<br>I fear no evil, for You are with me;<br>Your rod and Your staff, they comfort me.”</p>
+          <cite>— Psalm 23:4</cite>
+        </blockquote>
+        <p>The rod and the staff were the tools of a shepherd. The rod was used for protection — to fight off predators, to defend the sheep from danger. The staff, with its crook, was used for guidance — to pull a sheep back from a ledge, to direct it along the right path, to draw it close. David’s comfort in the valley came not only from the shepherd’s presence but from the shepherd’s <em>activity</em>. God was not merely walking alongside him as a silent companion. He was actively protecting and actively guiding.</p>
+        <p>You may not be able to feel that right now. When you are deep in the valley, the rod and the staff are not always visible. The protection does not always look like what you asked for — you asked for healing, and what you have received is endurance. You asked for more time, and what you have received is the grace to be present in the time you have. That is not the answer you wanted. But it may be the rod and the staff doing exactly what they were designed to do: not removing you from the valley, but getting you through it.</p>
+        <p>And there is one more word in David’s sentence that must not be overlooked: <em>through</em>. “Even though I walk <em>through</em> the valley.” Not into. Not around. Through. The valley has an entrance, and the valley has an exit. It is a passage, not a permanent address. For the one who walks with the Shepherd, the shadow is not the final chapter. It is the hardest chapter. But it is not the last one.</p>
+        <p>This is where faith and grief walk side by side. They are not enemies. They are not contradictions. They are two responses to the same reality: that life in this world involves loss, and that the God who made this world has not left us alone in it. You can hold both at the same time — the grief that says <em>this is devastating</em> and the faith that says <em>He is with me</em>. Neither one cancels the other. Neither one needs to wait its turn.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>A Word to Both of You</h2>
+        <p>If you are walking this valley together — one of you facing what is ahead, the other facing what will be left behind — then you already know something that no one outside your door fully understands: you are grieving the same loss from two completely different directions.</p>
+        <p>One of you is coming to terms with leaving. The other is coming to terms with remaining. One of you watches your body weaken and wonders what the transition will feel like. The other lies awake at night in a house that already feels too quiet and wonders what the first morning alone will be like. You are in the same valley, but you are not having the same experience of it, and there are days when the distance between those two experiences feels almost as painful as the valley itself.</p>
+        <p>This book is written for both of you. Not in separate sections — his chapter and her chapter, the dying and the living. That kind of division would only widen the distance that the valley is already trying to create between you. Instead, every chapter in this book is meant to be read by both, because the promises of God that sustain the one who is departing are the same promises that sustain the one who remains. The Shepherd walks with both of you. The rod and the staff protect and guide both of you. The valley has an exit for both of you — though you will not walk out of it at the same time, and that is one of the hardest truths in this entire book.</p>
+        <p>But you are not alone in it. Not either of you. And you are not alone with each other, which is something, but you are also not alone with just each other. There is a third Presence in the valley, and He has been there longer than you have.</p>
+        <blockquote class="scripture">
+          <p>“The LORD is near to the brokenhearted<br>and saves those who are crushed in spirit.”</p>
+          <cite>— Psalm 34:18</cite>
+        </blockquote>
+        <p>Not near to the strong. Not near to those who have it all figured out. Near to the brokenhearted. Near to the crushed. If that is where you are today, then by God’s own word, you are exactly where His presence is closest.</p>
+        <p>The valley is real. The shadow is real. The grief is real. And so is He.</p>
+        <p>That is where we begin.</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">David said, &quot;You are with me.&quot; In what specific moment this week have you sensed — or struggled to sense — God's presence in the valley?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">This chapter says grief and faith are not enemies. Where in your own experience have you tried to choose one over the other instead of holding both?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">&quot;The shadow is not the story.&quot; What shadow feels most overwhelming right now, and what would it look like to trust the light behind it?</span>
+              <textarea data-question="3" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="front-matter.html">&larr; Front Matter</a>
+          <a href="chapter-02.html">Ch 2: For You Are With Me &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'throughTheValley_progress';
+    const CH_NUM = 1;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER TWO: For You Are With Me | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html">Front Matter</option>
+            <option value="chapter-01.html">Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html" selected>Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html">Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html">Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html">Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html">Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TWO</p>
+        <h1>For You Are With Me</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Do not fear, for I am with you;<br>do not anxiously look about you, for I am your God.<br>I will strengthen you, surely I will help you,<br>surely I will uphold you with My righteous right hand.”</blockquote>
+        <cite>— Isaiah 41:10 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>There are moments in this valley when God feels very far away.</p>
+        <p>You know the moments. They come at two in the morning when you cannot sleep and the house is so quiet that you can hear the clock on the wall and nothing else. They come in the hospital room when the machines are humming their steady, indifferent rhythm and the person you love is sleeping and you are sitting in a chair that was not made for sitting in for hours, watching their chest rise and fall and wondering how many more times you will watch it. They come in the car on the way home when a song comes on the radio that belonged to a different season of your life, a season when the future was something you looked forward to instead of something you dreaded.</p>
+        <p>In those moments, the silence of God can feel enormous. You have prayed. You have begged. You have bargained, though you know bargaining is not how prayer works. You have asked for healing and received treatment plans. You have asked for a miracle and received another scan. You have poured out your heart to the Creator of the universe, and what has come back — or what seems to have come back — is silence.</p>
+        <p>If you have felt this, you are not the first believer to feel it, and you are not failing.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Silence Is Not Absence</h2>
+        <p>David knew this silence. The man who wrote “The LORD is my shepherd” also wrote this:</p>
+        <blockquote class="scripture">
+          <p>“How long, O LORD? Will You forget me forever?<br>How long will You hide Your face from me?<br>How long shall I take counsel in my soul,<br>having sorrow in my heart all the day?”</p>
+          <cite>— Psalm 13:1–2</cite>
+        </blockquote>
+        <p>That is not a man who had everything figured out. That is a man who loved God deeply and could not understand why God was not answering. “How long” appears four times in two verses. It is the language of someone who has been waiting and waiting and the waiting has become its own kind of suffering. David did not whisper this prayer politely. He cried it out. He accused God of forgetting him. He asked God how long His face would remain hidden.</p>
+        <p>And God put it in the Bible.</p>
+        <p>That matters. God did not edit David’s frustration out of the record. He preserved it. He put it in the hymnal of His people, where it has been read and sung and prayed for three thousand years by believers who found themselves in the same silence and needed to know that they were not the first to wonder where God had gone. The very fact that Psalm 13 exists in Scripture is itself an act of comfort: God is not offended by your honesty. He is not threatened by your questions. He would rather you cry out to Him in confusion than retreat into a silence of your own.</p>
+        <p>But here is what David knew, even in the crying out, even in the “how long” — and what you can know too: silence is not the same thing as absence. A parent who is quiet in the next room has not left the house. A shepherd who does not speak is still watching. God’s silence in your suffering does not mean He has removed Himself from your situation. It may mean that what He is doing cannot yet be explained in terms you would understand. It may mean that the answer He is giving does not sound like the answer you asked for. It may simply mean that His presence in this season is something you will have to trust before you can feel it.</p>
+        <p>And David, even from the depths of Psalm 13, arrived at exactly that trust. The same psalm that begins with “How long will You forget me?” ends with this:</p>
+        <blockquote class="scripture">
+          <p>“But I have trusted in Your lovingkindness;<br>my heart shall rejoice in Your salvation.<br>I will sing to the LORD,<br>because He has dealt bountifully with me.”</p>
+          <cite>— Psalm 13:5–6</cite>
+        </blockquote>
+        <p>Nothing changed between verse 1 and verse 5. David’s circumstances did not improve in the space of four verses. God did not suddenly appear with an explanation. What changed was that David made a decision — not a feeling, a <em>decision</em> — to trust in the lovingkindness of a God who had not yet answered him. That is not blind faith. That is faith built on a history of faithfulness. David had seen God deliver him before. He had seen the rod and the staff at work in a hundred earlier valleys. And he chose, in the silence, to trust what he had already seen rather than doubt what he could not currently feel.</p>
+        <p>You may be in Psalm 13:1 right now. That is all right. But Psalm 13:5 is written by the same hand, in the same breath, about the same God. Hold on to it even if you cannot feel it yet.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Through the Waters, Through the Fire</h2>
+        <p>God spoke through the prophet Isaiah to a people who had every reason to believe they had been abandoned. Israel was heading toward exile. Their world was coming apart. And into that coming darkness, God said something that was not a promise of rescue from the suffering but a promise of presence <em>within</em> it:</p>
+        <blockquote class="scripture">
+          <p>“But now, thus says the LORD, your Creator, O Jacob,<br>and He who formed you, O Israel,<br>‘Do not fear, for I have redeemed you;<br>I have called you by name; you are Mine!<br>When you pass through the waters, I will be with you;<br>and through the rivers, they will not overflow you.<br>When you walk through the fire, you will not be scorched,<br>nor will the flame burn you.”</p>
+          <cite>— Isaiah 43:1–2</cite>
+        </blockquote>
+        <p>Study the structure of that promise. God did not say “if” you pass through the waters. He said “<em>when</em>.” He did not promise the waters would not come. He did not promise the fire would not burn. He promised that when they came — not if, when — He would be there. The waters would not overflow. The flame would not consume. Not because the danger was not real, but because the Presence in the danger was greater than the danger itself.</p>
+        <p>And before He said any of that, He said something that is easy to rush past but that carries the full weight of the passage: “I have called you by name; you are Mine.” The promise of presence is rooted in the promise of possession. You belong to Him. Not in the abstract, not as a line item in a cosmic ledger, but by name. He knows your name. He knows the name of the one you love who is lying in that hospital bed. He knows both of you by name, and you are His, and the waters that are rising around you right now have not changed that and cannot change that.</p>
+        <p>There is a moment in the book of Daniel that brings Isaiah’s promise out of poetry and into visible, historical reality. Three young men — Shadrach, Meshach, and Abed-nego — were thrown into a furnace for refusing to worship Nebuchadnezzar’s image. The fire was heated seven times hotter than normal. The soldiers who threw them in were killed by the heat. And then Nebuchadnezzar looked into the furnace and said:</p>
+        <blockquote class="scripture">
+          <p>“Look! I see four men loosed and walking about in the midst of the<br>fire without harm, and the appearance of the fourth is like a son<br>of the gods!”</p>
+          <cite>— Daniel 3:25</cite>
+        </blockquote>
+        <p>Three went in. Four were seen walking. The fourth figure appeared only <em>inside</em> the furnace. He was not standing outside shouting instructions. He was not watching from a safe distance. He was in the fire with them, walking where they walked, present in the very place where the heat was most intense.</p>
+        <p>That is the character of your God. He does not wait for you on the other side of the fire. He does not stand outside the valley and call to you to hurry through. He enters it. He walks in it. And His presence in it does not remove the heat, but it changes what the heat can do. The fire burned the ropes that bound them. It did not burn them. When they came out, the text says their clothes did not even smell like smoke (Daniel 3:27).</p>
+        <p>You are in a furnace right now. The heat is real. And the Fourth Figure is in it with you.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>When the Answer Is Not What You Asked For</h2>
+        <p>There is a prayer that Paul the apostle prayed that does not get enough attention in conversations about suffering. It is important here because it is the prayer of a faithful man who asked God to remove something painful and was told no:</p>
+        <blockquote class="scripture">
+          <p>“And because of the surpassing greatness of the revelations, for this<br>reason, to keep me from exalting myself, there was given me a<br>thorn in the flesh, a messenger of Satan to torment me — to keep<br>me from exalting myself! Concerning this I implored the Lord three<br>times that it might leave me. And He said to me, ‘My grace is<br>sufficient for you, for power is perfected in weakness.’”</p>
+          <cite>— 2 Corinthians 12:7–9</cite>
+        </blockquote>
+        <p>We do not know what the thorn was. Paul did not say, and centuries of speculation have not produced a definitive answer. But we know several things about it: it was physical or deeply personal (“in the flesh”), it was painful enough that Paul called it torment, and Paul wanted it gone badly enough to plead with God three separate times.</p>
+        <p>God said no. But He did not simply say no and walk away. He said, “My grace is sufficient for you.” In other words: I am not going to take this from you, but I am going to be in it with you, and what I give you in it will be enough. Not enough to make it painless. Not enough to make it make sense. Enough.</p>
+        <p>This is one of the hardest truths in all of Scripture, and it would be dishonest to soften it. Sometimes God’s answer to our most desperate prayer is not the removal of the suffering but the provision of His presence and His grace within it. You have probably prayed for healing. You may still be praying for it, and you should — God hears prayer, and miracles are not impossible. But if healing does not come in the way you have asked for it, that does not mean God did not answer. It may mean that His answer is what He said to Paul: My grace is sufficient. My power shows up best in your weakness. I have not left you. I am enough.</p>
+        <p>Paul’s response to God’s answer reveals something remarkable about what happens when a person accepts the sufficiency of grace, even in the absence of the answer they wanted:</p>
+        <blockquote class="scripture">
+          <p>“Most gladly, therefore, I will rather boast about my weaknesses,<br>so that the power of Christ may dwell in me. Therefore I am well<br>content with weaknesses, with insults, with distresses, with<br>persecutions, with difficulties, for Christ’s sake; for when I am<br>weak, then I am strong.”</p>
+          <cite>— 2 Corinthians 12:9–10</cite>
+        </blockquote>
+        <p>Paul did not say he enjoyed the thorn. He did not say he stopped wanting it removed. He said he found a strength in his weakness that he could not have found any other way. The thorn did not become pleasant. It became the place where the power of Christ was most visible.</p>
+        <p>Your valley may be that place. Not a punishment. Not an oversight. Not evidence of God’s absence. But the place where, stripped of every self-sufficiency, you discover that He really is enough. That His grace really does hold. That the promise “I will be with you” really does mean something when every other comfort has been taken away and all that remains is Him.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>He Is Here</h2>
+        <p>Let us return to where this chapter began — to the quiet room, the late hour, the feeling that God is very far away.</p>
+        <p>He is not.</p>
+        <p>He is the God who preserved the cries of David in sacred Scripture so that you would know your own cries are not strange to Him. He is the God who said “when you pass through the waters” — not if — and promised to be in them with you. He is the Fourth Figure in the furnace, visible only when the fire is hottest. He is the One who said to Paul, “My grace is sufficient,” and meant it — not as a dismissal of Paul’s pain, but as a declaration of His own faithfulness.</p>
+        <p>He is the Shepherd whose rod protects and whose staff guides, even through the darkest valley. Even when you cannot see the rod. Even when you cannot feel the staff. Even when the shadow is so thick that you can barely see the next step in front of you.</p>
+        <p>David said, “I fear no evil, for You are with me.” David did not say, “I fear no evil because I understand what is happening,” or “because I can see the way out,” or “because I feel Your presence.” He said, “You are with me.” The reason for his courage was not understanding or feeling. It was a fact. God was with him. Period. Whether he felt it or not. Whether the valley made sense or not. Whether the shadow lifted or lingered.</p>
+        <p>That same God is with you tonight. In the hospital room. In the quiet house. In the car when the tears come and you cannot stop them. In the conversation you do not know how to have. In the fear you have not spoken out loud to anyone.</p>
+        <p>He is not far away. He is not silent because He is indifferent. He is present — as present as He was in the furnace, as present as He was at the tomb of Lazarus, as present as He was when He said to Paul, “My grace is sufficient.”</p>
+        <p>You may not feel Him. Trust the promise anyway. Feelings rise and fall. The word of God stands.</p>
+        <blockquote class="scripture">
+          <p>“The grass withers, the flower fades,<br>but the word of our God stands forever.”</p>
+          <cite>— Isaiah 40:8</cite>
+        </blockquote>
+        <p>His word says He is with you. He is with you.</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">David moved from &quot;How long will You forget me?&quot; to &quot;I have trusted in Your lovingkindness&quot; within the same psalm. What would your own psalm look like if you wrote it honestly today?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">God's answer to Paul was &quot;My grace is sufficient.&quot; Where in this valley have you received an answer that was not the one you asked for — and what has it looked like to live with it?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">The Fourth Figure appeared only inside the furnace. Have you experienced a closeness to God that came specifically because of the fire, not in spite of it?</span>
+              <textarea data-question="3" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-01.html">&larr; Ch 1: Even Though I Walk</a>
+          <a href="chapter-03.html">Ch 3: My Flesh and My Heart May Fail &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'throughTheValley_progress';
+    const CH_NUM = 2;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

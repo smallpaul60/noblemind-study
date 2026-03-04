@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER FOUR: Two Are Better Than One | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html">Front Matter</option>
+            <option value="chapter-01.html">Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html">Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html">Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html" selected>Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html">Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html">Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>Two Are Better Than One</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Two are better than one because they have a good return for their<br>labor. For if either of them falls, the one will lift up his companion.<br>But woe to the one who falls when there is not another to lift him up.”</blockquote>
+        <cite>— Ecclesiastes 4:9–10 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>You are losing him in pieces.</p>
+        <p>Not all at once. Not in a single moment that you can point to and say, “That is when everything changed.” It has been slower than that, and in some ways the slowness is the cruelest part. A little less energy this week than last. A medication that stops working, replaced by another that works differently, or less. A conversation that he would have carried easily six months ago but that now exhausts him in minutes. An afternoon where he sleeps and you sit beside him with nothing to do but watch and wait and try not to think too far ahead.</p>
+        <p>You are grieving, and he is still here. That is one of the most disorienting experiences a human being can have. The world has a word for the person whose spouse has died. It does not have a good word for the person whose spouse is dying. You occupy a space that has no name — no longer the wife whose husband is healthy, not yet the woman who has lost him, but something in between that carries the weight of both without the resolution of either.</p>
+        <p>If anyone has told you that you should not be grieving yet — that you should be “staying positive” or “being strong for him” or “focusing on the time you have left” — they mean well, but they do not understand what you are carrying. You are not grieving prematurely. You are grieving <em>accurately.</em> The loss is already happening. It is happening every day, in small withdrawals that add up to something enormous, and your heart knows it even when your words cannot explain it.</p>
+        <p>This chapter is for you.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Naomi Knew</h2>
+        <p>There is a woman in Scripture who understood the kind of loss that hollows you out from the inside. Her name was Naomi, and the book of Ruth tells her story with a honesty that has no equal in ancient literature.</p>
+        <p>Naomi and her husband Elimelech left Bethlehem during a famine and settled in the land of Moab. There, both of their sons married Moabite women. And then, in the space of what the text covers in three verses, everything came apart: Elimelech died. Then both sons died. Three sentences in the Hebrew text. An entire life dismantled.</p>
+        <p>When Naomi decided to return to Bethlehem, she told her daughters-in-law to go back to their own families. Ruth refused. She clung to Naomi with words that have been read at weddings for centuries, though they were not spoken by a bride to a groom but by a bereaved woman to another bereaved woman: “Where you go, I will go, and where you lodge, I will lodge. Your people shall be my people, and your God, my God” (Ruth 1:16).</p>
+        <p>But it is Naomi’s words, not Ruth’s, that matter most for this chapter. When they arrived in Bethlehem and the women of the town recognized her and called her by name, Naomi said:</p>
+        <blockquote class="scripture">
+          <p>“Do not call me Naomi; call me Mara, for the Almighty has dealt<br>very bitterly with me. I went out full, but the LORD has brought<br>me back empty.”</p>
+          <cite>— Ruth 1:20–21a</cite>
+        </blockquote>
+        <p>Naomi means “pleasant.” Mara means “bitter.” She was not being melodramatic. She was being devastatingly honest. She had left this town with a husband and two sons. She was returning with nothing but a Moabite daughter-in-law and a grief so deep that she could no longer bear to hear her own name. “I went out full, but the LORD has brought me back empty.”</p>
+        <p>And God put those words in Scripture. He did not correct her. He did not insert an editorial note explaining that she should have been more grateful for what she still had. He did not send a prophet to tell her that her attitude was unbecoming of a woman of faith. He let her speak her emptiness, and He recorded it as sacred text, because the emptiness was real and God does not require His people to perform contentment they do not feel.</p>
+        <p>You may know this emptiness. You may know what it means to feel it settling into your bones while the person you love is still breathing in the next room. The house already feels different. The future already feels hollow. The chair he used to sit in, the side of the bed he used to sleep on, the particular way he said your name — you are already beginning to memorize these things with a new kind of attention, the attention of someone who knows they are cataloging what will soon become memories.</p>
+        <p>That is not weakness. That is love doing what love does when it faces separation. And if Naomi could stand in the gate of Bethlehem and rename herself after her bitterness and still be held by God, carried by God, and ultimately redeemed by God — then you can be honest about yours.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Exhaustion No One Sees</h2>
+        <p>There is a particular kind of tiredness that belongs to the person who is caring for someone who is dying, and it is different from any other kind of tiredness in the world.</p>
+        <p>It is not the tiredness of a long day at work, which a good night’s sleep can fix. It is not the tiredness of a difficult week, which a weekend can restore. It is a tiredness that goes to the center of who you are and sits there, and sleep does not fully reach it, because even when your body rests your mind does not. You lie in bed and listen for sounds from the other room. You check your phone to see if the hospital has called. You run through medication schedules and appointment dates and insurance questions and the dozen decisions that nobody warned you would fall on your shoulders, and you do all of this while carrying a grief that has no outlet because the person you would normally talk to about your hardest days is the person you are grieving.</p>
+        <p>That last part deserves to be said again. For most of your life, when things were hard, you talked to him. He was your sounding board. Your processing partner. The person who sat across from you at the kitchen table and listened while you worked through whatever was weighing on you. And now the heaviest thing you have ever carried is the losing of him, and you cannot take it to him without adding to the weight he is already carrying himself. So you hold it. You hold it in the car. You hold it in the shower. You hold it at three in the morning when there is no one to tell and no one to hear and the loneliness is so thick you can almost touch it.</p>
+        <p>The psalmist wrote:</p>
+        <blockquote class="scripture">
+          <p>“I am weary with my sighing;<br>every night I make my bed swim,<br>I dissolve my couch with my tears.<br>My eye has wasted away with grief.”</p>
+          <cite>— Psalm 6:6–7a</cite>
+        </blockquote>
+        <p>That is not poetic exaggeration. If you have spent nights soaking your pillow with tears you did not choose and could not stop, David has been where you are. And David was not a weak man. David was a warrior, a king, a man after God’s own heart. And he dissolved his couch with his tears. The Bible does not present this as failure. It presents it as the reality of a human heart under unbearable pressure. Your exhaustion is not a sign that you are doing this wrong. It is a sign that you are carrying something enormously heavy and you have been carrying it for a long time.</p>
+        <p>There is a promise in Scripture that speaks directly to this kind of bone-deep weariness:</p>
+        <blockquote class="scripture">
+          <p>“Do you not know? Have you not heard?<br>The Everlasting God, the LORD, the Creator of the ends of the earth<br>does not become weary or tired.<br>His understanding is inscrutable.<br>He gives strength to the weary,<br>and to him who lacks might He increases power.<br>Though youths grow weary and tired,<br>and vigorous young men stumble badly,<br>yet those who wait for the LORD<br>will gain new strength;<br>they will mount up with wings like eagles,<br>they will run and not get tired,<br>they will walk and not become faint.”</p>
+          <cite>— Isaiah 40:28–31</cite>
+        </blockquote>
+        <p>Notice the progression. Eagles. Running. Walking. Most people read this passage and focus on the soaring. But Isaiah ordered it deliberately. Sometimes you soar. Sometimes you run. And sometimes — in seasons like this one — the victory is simply walking and not becoming faint. Putting one foot in front of the other. Getting through the day. Making it to the hospital and back. Holding his hand for another hour. Walking, not fainting.</p>
+        <p>That is not failure. That is Isaiah’s third promise, and it is no less miraculous than the first. The strength to walk without fainting when everything in you wants to collapse — that is God’s strength. Not yours. His. Given to the weary. Increased for the one who lacks might.</p>
+        <p>You lack might right now. That is not a confession of weakness. That is the qualification for the promise.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Guilt That Has No Right to Be There</h2>
+        <p>There is something else you are carrying that you may not have spoken aloud to anyone, and it needs to be named so it can be set down.</p>
+        <p>You have thought about “after.”</p>
+        <p>Not in a planning, practical way — although there is that, too, and it carries its own burden. But in the deeper way. You have caught yourself, in an unguarded moment, imagining the house without him. Imagining a morning when you wake up and he is simply not there and will not be there again. Imagining what holidays will feel like, what Sundays will feel like, what the silence will sound like when it is no longer the silence of someone sleeping in the other room but the silence of genuine absence.</p>
+        <p>And then the guilt arrived. Because how dare you think about that while he is still alive. How dare your mind go to that place while he is still fighting, still here, still needing you to be present. It feels like betrayal. It feels like you are mentally burying him before his time. It feels like a failure of love, a failure of faith, a failure of the kind of devotion that a wife is supposed to have.</p>
+        <p>It is none of those things.</p>
+        <p>Your mind is doing what minds do when they face an approaching reality: it is trying to prepare. It is trying to build some small framework, however fragile, for what is coming, because human beings are not designed to face enormous loss with no preparation whatsoever. The fact that your thoughts go to “after” does not mean you have given up on “now.” It means you are a human being who is facing the hardest thing she has ever faced, and your mind is reaching ahead, trying to find ground that will hold.</p>
+        <p>Jesus Himself anticipated the cross before He reached it. In the Garden of Gethsemane, He was not yet on the cross, but His soul was already in the suffering:</p>
+        <blockquote class="scripture">
+          <p>“Then He said to them, ‘My soul is deeply grieved, to the point of<br>death; remain here and keep watch with Me.’ And He went a little<br>beyond them, and fell on His face and prayed, saying, ‘My Father,<br>if it is possible, let this cup pass from Me; yet not as I will,<br>but as You will.’”</p>
+          <cite>— Matthew 26:38–39</cite>
+        </blockquote>
+        <p>Jesus grieved the thing before it happened. He felt the weight of it before it landed. His soul was grieved “to the point of death” — and the cross was still hours away. If the Son of God experienced anticipatory grief, then it is not a failure for you to experience it. It is human. It is the natural response of a heart that can see what is coming and cannot stop it.</p>
+        <p>Let the guilt go. It does not belong to you. You are not betraying him by thinking about the future. You are loving him in the present while being honest about what the present is leading toward. Those are not contradictions. They are the two hands of the same faithful heart.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>You Were Not Meant to Carry This Alone</h2>
+        <p>Solomon, the wisest man who ever lived apart from Christ, wrote the words that open this chapter:</p>
+        <blockquote class="scripture">
+          <p>“Two are better than one because they have a good return for their<br>labor. For if either of them falls, the one will lift up his<br>companion. But woe to the one who falls when there is not<br>another to lift him up. Furthermore, if two lie down together<br>they keep warm, but how can one be warm alone? And if one can<br>overpower him who is alone, two can resist him. A cord of three<br>strands is not quickly torn apart.”</p>
+          <cite>— Ecclesiastes 4:9–12</cite>
+        </blockquote>
+        <p>You have lived the truth of this passage for years. You know what it means to have someone who lifts you when you fall, who keeps you warm when the world is cold, who stands with you when you would otherwise stand alone. That is what marriage is, and that is what makes the approaching loss so devastating: you are losing the person who was built into the structure of how you survive.</p>
+        <p>But notice where Solomon ended: “A cord of three strands is not quickly torn apart.” Two strands are good. Three are stronger. And in a marriage built on faith, the third strand has always been God. He has been woven into your life together from the beginning — in the prayers you prayed side by side, in the Scriptures you studied together, in the faith that has held you both through every season that came before this one.</p>
+        <p>When one strand is taken away, the third strand does not unravel. It holds. It was always the strongest strand in the cord. It was the one that kept the other two from breaking in the storms that came before this one, and it will keep you from breaking in this one too. Not because the pain will be less. But because the God who has been woven into your marriage from the beginning will still be woven into your life after it.</p>
+        <p>The psalmist wrote:</p>
+        <blockquote class="scripture">
+          <p>“The LORD is near to the brokenhearted<br>and saves those who are crushed in spirit.”</p>
+          <cite>— Psalm 34:18</cite>
+        </blockquote>
+        <p>We read this verse in Chapter 1, and it returns here because it is more specific to your situation than it might appear at first glance. The Hebrew word for “near” is <em>qarov</em> — it means close, present, intimate. Not near in the sense of being in the same general area. Near in the sense of being right beside you. The LORD is <em>right beside</em> the brokenhearted. Not watching from across the room. Not monitoring from a distance. Right there. In the chair beside the bed. In the driver’s seat on the way home. In the kitchen at midnight when the house is too quiet and the tears come again.</p>
+        <p>You were not meant to carry this alone. And you are not carrying it alone, even when it feels like you are. The Third Strand holds.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What You Are Doing Matters</h2>
+        <p>Before this chapter closes, something needs to be said that you may not be hearing from anyone else, because the people around you may not know how to say it, or may not realize it needs to be said:</p>
+        <p>What you are doing right now is one of the most sacred things a human being can do.</p>
+        <p>You are being present with someone you love in their most vulnerable hours. You are showing up day after day to a situation that offers you nothing but heartbreak, and you are showing up anyway. You are managing medications and making decisions and absorbing information that no one should have to absorb, and you are doing it with a broken heart. You are sitting in hospital rooms when you would rather be anywhere else on earth, because the person in that bed matters more to you than your own comfort. You are, in the truest and most literal sense, laying down your life for another person — not in a single dramatic moment, but in the slow, unglamorous, day-after-day way that real love actually works.</p>
+        <p>Jesus said:</p>
+        <blockquote class="scripture">
+          <p>“Greater love has no one than this, that one lay down his life<br>for his friends.”</p>
+          <cite>— John 15:13</cite>
+        </blockquote>
+        <p>You are doing that. Not on a battlefield. Not in front of an audience. In a hospital room, in a quiet house, in the thousand invisible decisions of a caregiver who has nothing left to give and gives anyway. That is greater love. And it does not go unseen by the God who watches sparrows fall and numbers the hairs on your head.</p>
+        <p>You may feel like you are not doing enough. You may feel like a better wife would be handling this with more composure, more faith, more grace. You may look at yourself and see only the cracks — the moments you lost patience, the nights you resented the exhaustion, the times you walked into the bathroom and closed the door and fell apart because you could not fall apart in front of him.</p>
+        <p>Those are not failures. Those are the fracture lines of a heart that is carrying more than it was designed to carry. And the God who is near to the brokenhearted is not cataloging your fractures. He is holding you together through them.</p>
+        <blockquote class="scripture">
+          <p>“He heals the brokenhearted<br>and binds up their wounds.”</p>
+          <cite>— Psalm 147:3</cite>
+        </blockquote>
+        <p>He heals. He binds. Not after the valley is over. In it. Right now. In the binding, in the holding, in the quiet sustaining of a woman who gets up every morning and walks back into the hardest thing she has ever done because love will not let her stay away.</p>
+        <p>You are not failing. You are not falling apart. You are walking, and not fainting, and that is the eagle’s promise dressed in ordinary clothes.</p>
+        <p>And you are not alone.</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Naomi renamed herself Mara — &quot;bitter&quot; — and God recorded it without correction. What name would you give yourself in this season, and what does it tell you that God is not offended by your honesty?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Isaiah described a progression: eagles, running, walking. Which one describes where you are right now — and can you accept that walking without fainting is its own miracle?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">&quot;You are not alone.&quot; The Third Strand — God woven into your life — holds even when one strand is taken. Where have you seen evidence of that holding, even in small ways?</span>
+              <textarea data-question="3" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Ch 3: My Flesh and My Heart May Fail</a>
+          <a href="chapter-05.html">Ch 5: What No Eye Has Seen &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'throughTheValley_progress';
+    const CH_NUM = 4;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

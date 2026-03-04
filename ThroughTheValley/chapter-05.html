@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER FIVE: What No Eye Has Seen | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html">Front Matter</option>
+            <option value="chapter-01.html">Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html">Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html">Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html">Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html" selected>Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html">Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FIVE</p>
+        <h1>What No Eye Has Seen</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“Things which eye has not seen and ear has not heard,<br>and which have not entered the heart of man,<br>all that God has prepared for those who love Him.”</blockquote>
+        <cite>— 1 Corinthians 2:9 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>At some point in this valley — late at night, or in a quiet moment between hospital visits, or in the car on the way home when the radio is off and there is nothing between you and your own thoughts — the question surfaces. It may come as a whisper or it may come with the force of a wave, but it comes:</p>
+        <p><em>What happens next?</em></p>
+        <p>It is the oldest question human beings have ever asked, and the one that every generation has tried to answer. Philosophers have speculated. Poets have imagined. Religions have constructed elaborate frameworks. Near-death accounts have been published by the thousands, each one claiming a glimpse behind the curtain. The world is flooded with voices telling you what happens after the last breath, and most of them are guessing.</p>
+        <p>This chapter is not going to guess. It is not going to speculate, and it is not going to build a picture from sources outside of Scripture. What it is going to do is walk carefully through what God has actually said. Not one word more. Not one word less. Because what He has said, though it does not answer every question you have, answers the ones that matter most — and answers them with a certainty that no human speculation can match.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What Paul Knew</h2>
+        <p>The apostle Paul faced death more times than most people can count. He was beaten, stoned, shipwrecked, imprisoned, and threatened by his own countrymen, by Gentiles, by false brothers, and by the Roman state. He wrote many of his letters from prison cells, fully aware that any of them might be his last. If anyone in the New Testament had reason to think carefully about what lay on the other side of death, it was Paul.</p>
+        <p>And he was remarkably clear about it. Writing to the church at Philippi from a Roman prison, not knowing whether he would live or die, Paul said:</p>
+        <blockquote class="scripture">
+          <p>“For to me, to live is Christ and to die is gain. But if I am to<br>live on in the flesh, this will mean fruitful labor for me; and<br>I do not know which to choose. But I am hard-pressed from both<br>directions, having the desire to depart and be with Christ, for<br>that is very much better; yet to remain on in the flesh is more<br>necessary for your sake.”</p>
+          <cite>— Philippians 1:21–24</cite>
+        </blockquote>
+        <p>Read that slowly, because Paul was not speaking in the abstract. He was facing the real possibility of execution, and he was telling the Philippians what he actually felt about it. And what he felt was <em>torn.</em> Not between living and annihilation. Not between existence and emptiness. He was torn between two <em>good</em> things: fruitful labor here and being with Christ there. He wanted to stay because the people he loved still needed him. He wanted to go because what was waiting for him was, in his own words, “very much better.”</p>
+        <p>The Greek phrase Paul used — <em>pollō mallon kreisson</em> — is emphatic. It is not “a little better” or “somewhat better.” It is “far better,” “very much better,” “better by far.” Paul stacked comparatives. He wanted there to be no ambiguity about what he was saying: to depart and be with Christ is not merely acceptable, not merely a relief from suffering, not merely the end of pain. It is <em>very much better</em> than the best this life has to offer. And Paul’s life, for all its suffering, was not a small life. He had seen churches planted across the Roman Empire, lives transformed by the gospel, and the resurrected Christ Himself on the road to Damascus. Yet all of that, weighed against what was waiting for him, was the lesser thing.</p>
+        <p>Notice also what Paul assumed about the timing. He did not say, “I desire to depart and eventually, at some future date, after a period of unconscious waiting, be with Christ.” He said, “to depart and be with Christ.” The departure and the being with Christ are presented as immediate. One follows the other without a gap. For the believer, death is not a passage into uncertainty. It is a passage into presence.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>Absent from the Body, at Home with the Lord</h2>
+        <p>Paul said the same thing even more directly in his second letter to the Corinthians. After the passage about the tent and the building that we explored in Chapter 3, he continued:</p>
+        <blockquote class="scripture">
+          <p>“Therefore, being always of good courage, and knowing that while<br>we are at home in the body we are absent from the Lord — for we<br>walk by faith, not by sight — we are of good courage, I say, and<br>prefer rather to be absent from the body and to be at home with<br>the Lord.”</p>
+          <cite>— 2 Corinthians 5:6–8</cite>
+        </blockquote>
+        <p>The language Paul chose here is the language of <em>home.</em> He did not say “to be absent from the body and to exist in some other state.” He said “to be at home with the Lord.” Home. The word carries everything you feel when you have been away for a long time and finally walk through your own door. The ease. The familiarity. The sense of being where you belong. Paul is saying that for the believer, death is not going <em>away</em> from home. It is going <em>to</em> home. The body was the temporary dwelling. The presence of the Lord is the permanent one.</p>
+        <p>And notice the word “courage.” Paul used it twice in three verses: “being always of good courage” and “we are of good courage.” This was not the language of a man who was nervous about what lay ahead. It was the language of a man who knew where he was going and was at peace with it. Not because he had all the details. Not because someone had drawn him a map of the afterlife. But because he knew <em>who</em> was there. The destination was not a place. It was a Person.</p>
+        <p>That matters enormously for the person who is facing death and wondering what the transition will feel like. Scripture does not give us a moment-by-moment description of the passage from this life to the next. It does not tell us what the first five seconds are like, or the first five minutes, or the first five hours. What it tells us is <em>who is on the other side.</em> And who is on the other side is the same Christ who walked on water, calmed the storm, raised the dead, and said, “I am the resurrection and the life; he who believes in Me will live even if he dies” (John 11:25). The details of the crossing are not revealed. But the One who meets you on the far shore is fully revealed, and He is not a stranger. He is the Savior who has known you and carried you your entire life.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What Jesus Himself Said</h2>
+        <p>On the night before His crucifixion, Jesus gathered His disciples in an upper room and spoke to them about what was coming. He knew they were afraid. He knew they were confused. And He said:</p>
+        <blockquote class="scripture">
+          <p>“Do not let your heart be troubled; believe in God, believe also<br>in Me. In My Father’s house are many dwelling places; if it were<br>not so, I would have told you; for I go to prepare a place for<br>you. If I go and prepare a place for you, I will come again and<br>receive you to Myself, that where I am, there you may be also.”</p>
+          <cite>— John 14:1–3</cite>
+        </blockquote>
+        <p>There are four things in these three verses that deserve careful attention.</p>
+        <p>First, Jesus began with a command that is also an invitation: “Do not let your heart be troubled.” He did not say, “Do not be sad.” He did not say, “Stop feeling what you feel.” He said, “Do not let your heart be troubled.” It is a call to a decision, not a denial of emotion. The trouble is real. The choice is whether to let it govern you or to set it against something bigger.</p>
+        <p>Second, He said, “In My Father’s house are many dwelling places.” The Greek word is <em>monai</em> — dwelling places, abiding rooms, permanent residences. Not temporary quarters. Not a waiting room. A home within the Father’s house, prepared specifically for those who belong to Him. The imagery is of a household large enough for everyone, where no one is an afterthought and no one is crowded out.</p>
+        <p>Third — and this is one of the most tender things Jesus ever said — He added, “If it were not so, I would have told you.” Think about what that means. Jesus was saying: I would not let you believe something that was not true. I would not allow you to walk toward a hope that does not exist. If the Father’s house were not real, if the dwelling places were not there, if the promise were empty — I would have told you. I would not deceive you. Not about this. The fact that I am telling you this is itself the proof that it is true, because I do not lie to the people I love.</p>
+        <p>Fourth, He said, “I will come again and receive you to Myself, that where I am, there you may be also.” The purpose of the destination is not the place. It is the presence. “That where <em>I am,</em> there <em>you</em> may be.” The promise is not merely a better location. It is an unbroken, permanent, face-to-face companionship with Christ. Whatever heaven is in its details — and Scripture reveals some of those details, as we will see — the center of it, the reason it is home, is Him.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What Will Be Gone</h2>
+        <p>Near the end of the Bible, in the final chapters of Revelation, God pulled the curtain back further than anywhere else in Scripture and allowed the apostle John to see what is coming:</p>
+        <blockquote class="scripture">
+          <p>“And He will wipe away every tear from their eyes; and there will<br>no longer be any death; there will no longer be any mourning, or<br>crying, or pain; the first things have passed away.”</p>
+          <cite>— Revelation 21:4</cite>
+        </blockquote>
+        <p>Read that verse against everything you are living through right now. Every tear. Every death. Every morning of mourning. Every hour of pain. Every night of crying. God did not say these things would be reduced or managed or made bearable. He said they would be <em>gone.</em> “The first things have passed away.” Everything that belongs to this fallen, broken, cancer-ridden world — all of it — categorized by God as “first things” and declared passed away. Finished. Over. Not diminished. Eliminated.</p>
+        <p>And notice the intimacy of the first image: “He will wipe away every tear from their eyes.” Not “tears will cease.” Not “crying will stop.” <em>He</em> will wipe them away. Personally. Individually. The Creator of the universe, with His own hand, wiping tears from the faces of His children. That is not the language of a distant deity managing a cosmic program. That is the language of a Father holding His child’s face and gently wiping away every trace of sorrow.</p>
+        <p>For the one whose body is failing: there will be no more pain. No more nausea. No more exhaustion. No more needles, no more scans, no more waiting rooms, no more results. The body that has been your burden will be replaced with something that does not decay, does not ache, does not fail.</p>
+        <p>For the one who is watching and waiting: there will be no more grief. No more hospital drives. No more three-in-the-morning fear. No more holding together what keeps trying to fall apart. Every tear you have shed in this valley — every single one — will be wiped away by a hand that has known your face since before you were born.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What Will Be There</h2>
+        <p>Scripture does not give us a floor plan of heaven. It does not describe it in the kind of architectural detail that would satisfy our curiosity. And there is a reason for that. Paul hinted at it when he wrote to the Corinthians:</p>
+        <blockquote class="scripture">
+          <p>“Things which eye has not seen and ear has not heard,<br>and which have not entered the heart of man,<br>all that God has prepared for those who love Him.”</p>
+          <cite>— 1 Corinthians 2:9</cite>
+        </blockquote>
+        <p>The reason Scripture does not describe heaven in complete detail is not that God is withholding information to be mysterious. It is that the reality exceeds the capacity of human language to convey. What God has prepared has not entered the heart of man. Your best imagination, your most vivid dream, your most expansive conception of what “wonderful” means — none of it has reached what is actually there. It is not that the description would be disappointing. It is that the description is impossible. The thing itself is too large for the words.</p>
+        <p>But Scripture does tell us some things, and what it tells us is enough.</p>
+        <p>It tells us that Christ is there. “To depart and be with Christ” (Philippians 1:23). “Absent from the body, at home with the Lord” (2 Corinthians 5:8). “Where I am, there you may be also” (John 14:3). Whatever else heaven contains, it contains the presence of the One who loved you enough to die for you and who rose again so that death would not have the final word over your life.</p>
+        <p>It tells us that rest is there. “Blessed are the dead who die in the Lord from now on… so that they may rest from their labors” (Revelation 14:13). For the one who has been fighting a disease that will not relent, who has endured treatment after treatment, who has watched their own body become a battleground — there is rest. Real rest. Not the temporary relief of a good day between bad ones. Rest that does not end.</p>
+        <p>It tells us that wholeness is there. Paul wrote that the body is sown “in dishonor” but raised “in glory,” sown “in weakness” but raised “in power,” sown a natural body but raised a spiritual body (1 Corinthians 15:43–44). Whatever the resurrected body is, it is not the broken version you are living in now. It is the version God always intended — free from decay, free from limitation, free from the long humiliation of disease. The seed that goes into the ground does not look like the tree that comes up. But the tree was always inside the seed.</p>
+        <p>And it tells us that recognition is there. Paul wrote to the Thessalonians about the return of Christ and the gathering of believers, and his entire argument in 1 Thessalonians 4:13–18 assumes that the relationships we have in this life carry into the next. He told the Thessalonians to “comfort one another with these words” — and the comfort would mean nothing if the reunion were not a reunion of people who knew each other. The separation is real. But it is not permanent. The people you love in Christ, you will see again — and you will know them, and they will know you.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Thief on the Cross</h2>
+        <p>There is one more passage that must be included in this chapter, because it addresses a fear that many people carry but rarely voice: the fear that at the moment of death, something could go wrong. That somehow, even after a life of faith, the passage itself might be uncertain or frightening or lonely.</p>
+        <p>On the cross, hanging beside Jesus, there were two criminals. One mocked Him. The other said:</p>
+        <blockquote class="scripture">
+          <p>“Jesus, remember me when You come in Your kingdom!”</p>
+          <cite>— Luke 23:42</cite>
+        </blockquote>
+        <p>And Jesus replied:</p>
+        <blockquote class="scripture">
+          <p>“Truly I say to you, today you shall be with Me in Paradise.”</p>
+          <cite>— Luke 23:43</cite>
+        </blockquote>
+        <p><em>Today.</em> Not eventually. Not after a waiting period. Not after a review of his record. Today. This man had no time to build a lifetime of service. He had no opportunity to prove himself or earn his way. All he had was a moment of faith and a dying Savior next to him. And Jesus said, “Today you will be with Me.”</p>
+        <p>The thief’s request was modest: “Remember me.” He did not ask for Paradise. He asked to be remembered. And Jesus did not merely remember him. He brought him home.</p>
+        <p>The generosity of God’s grace in that moment is almost too large to hold. A criminal, in his last hours, received the same promise that Paul the apostle spent a lifetime anticipating: to be with Christ. Today.</p>
+        <p>That promise holds for every believer. The transition from this life to the next, for the one who belongs to Christ, is not a leap into darkness. It is a step from the tent into the building. From the temporary into the permanent. From the shadow into the light. And the One who meets you on the other side is not a judge behind a bench. He is the Savior who hung on a cross beside a thief and said, “Today. With Me. In Paradise.”</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>For Both of You</h2>
+        <p>This chapter has spoken about what comes next primarily from the perspective of the one who is going. But it is written for both of you, because the promises in these pages sustain both sides of the valley.</p>
+        <p>If you are the one whose body is failing: what is ahead of you is not an ending. It is an arrival. Paul called it “very much better.” Jesus called it “My Father’s house.” The writer of Revelation described it as a place where every tear has been wiped away and death itself has been destroyed. You are not walking toward darkness. You are walking toward the most real, most solid, most alive thing that exists. And the One who is preparing the place knows your name.</p>
+        <p>If you are the one who will remain: the same God who receives him receives you. The same promises that comfort him are meant to comfort you. The separation is real, and no one is asking you to pretend it is not. But the separation is temporary, and the reunion will be permanent. The day is coming when you will see him again, not weakened by disease, not diminished by treatment, but whole. Raised in glory. Raised in power. And you will know him, and he will know you, and the valley will be behind both of you forever.</p>
+        <p>Jesus said, “If it were not so, I would have told you.”</p>
+        <p>He cannot deceive you. It is not in His nature. The God who spoke the universe into existence with words does not use those words carelessly, and He does not make promises He will not keep. The dwelling places are real. The reunion is real. The absence of pain, the absence of tears, the absence of death — all of it is as certain as the character of the God who promised it.</p>
+        <p>You do not know what eye has not seen. You cannot imagine what has not entered the heart of man. But you know who prepared it. And you know He said it was very much better.</p>
+        <p>That is enough.</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Paul called the departure &quot;very much better.&quot; If you are the one whose body is failing, does that phrase bring comfort or does it feel distant? If you are the one remaining, how does it land differently for you?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Jesus said, &quot;If it were not so, I would have told you.&quot; What does it mean to you that the God who cannot lie has staked His character on this promise?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">Revelation 21:4 says God will wipe away every tear personally. As you sit with the specific pain of this season — the scans, the exhaustion, the fear — what would it feel like for all of that to be gone?</span>
+              <textarea data-question="3" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-04.html">&larr; Ch 4: Two Are Better Than One</a>
+          <a href="chapter-06.html">Ch 6: Things Too Wonderful for Me &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'throughTheValley_progress';
+    const CH_NUM = 5;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

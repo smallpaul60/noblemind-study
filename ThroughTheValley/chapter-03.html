@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER THREE: My Flesh and My Heart May Fail | Through the Valley</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Through the Valley
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="front-matter.html">Front Matter</option>
+            <option value="chapter-01.html">Ch 1: Even Though I Walk</option>
+            <option value="chapter-02.html">Ch 2: For You Are With Me</option>
+            <option value="chapter-03.html" selected>Ch 3: My Flesh and My Heart May Fail</option>
+            <option value="chapter-04.html">Ch 4: Two Are Better Than One</option>
+            <option value="chapter-05.html">Ch 5: What No Eye Has Seen</option>
+            <option value="chapter-06.html">Ch 6: Things Too Wonderful for Me</option>
+            <option value="chapter-07.html">Ch 7: So We Do Not Grieve as Those Who Have No Hope</option>
+            <option value="chapter-08.html">Ch 8: I Will Fear No Evil</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>My Flesh and My Heart May Fail</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>“My flesh and my heart may fail,<br>but God is the strength of my heart and my portion forever.”</blockquote>
+        <cite>— Psalm 73:26 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>Your body used to do what you told it to.</p>
+        <p>There was a time — and it may not feel that long ago — when you got out of bed without thinking about it. When you walked to the kitchen and poured your own coffee and drove yourself wherever you needed to go. When your hands were steady and your legs were reliable and the basic mechanics of living were so automatic that they required no thought at all. Your body was a tool you used without noticing it, the way you use a light switch without thinking about the wiring behind the wall.</p>
+        <p>Now you notice everything. You notice the weight of a glass of water. You notice the distance from the bed to the bathroom. You notice the effort it takes to form a sentence on a day when the medication is heavy or the exhaustion has settled in so deeply that even your words feel slow. You have become a student of your own decline, tracking losses that no one else sees — the things you could do last month that you cannot do this month, the capabilities that slip away so quietly that sometimes you only discover they are gone when you reach for them and find nothing there.</p>
+        <p>This chapter is for you. Not for the person sitting beside your bed, though they may read it too. This is for the one whose body is betraying them. The one who is still fully present inside a frame that is shutting down around them. The one who knows what is happening and has to live inside that knowledge every waking hour.</p>
+        <p>What Scripture says to you in this place is not what you might expect. It does not minimize what you are losing. It does not tell you to pretend the decline is not real. It says something far more extraordinary than that.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Outer Man and the Inner Man</h2>
+        <p>Paul knew something about physical suffering. His body bore the scars of a ministry that most of us can barely imagine. He had been beaten with rods three times, received thirty-nine lashes five times, been stoned and left for dead, been shipwrecked three times, and spent a night and a day adrift in the sea (2 Corinthians 11:24–27). He carried a thorn in the flesh that God refused to remove, and he labored under conditions that would have broken most people long before they broke him.</p>
+        <p>This was not a man writing about suffering from a comfortable distance. This was a man whose body had been systematically dismantled by the demands of his calling. And from that body, with those scars, he wrote something that may be the most important passage in the New Testament for the person whose flesh is failing:</p>
+        <blockquote class="scripture">
+          <p>“Therefore we do not lose heart, but though our outer man is<br>decaying, yet our inner man is being renewed day by day. For<br>momentary, light affliction is producing for us an eternal weight<br>of glory far beyond all comparison, while we look not at the<br>things which are seen, but at the things which are not seen; for<br>the things which are seen are temporal, but the things which are<br>not seen are eternal.”</p>
+          <cite>— 2 Corinthians 4:16–18</cite>
+        </blockquote>
+        <p>Read that first sentence again: “Though our outer man is decaying, yet our inner man is being renewed day by day.” Paul did not deny the decay. He named it plainly. The outer man — the body, the physical frame, the part of you that the doctors are treating and the cancer is attacking — is decaying. Paul used the present tense. It is happening. It is ongoing. He did not pretend otherwise.</p>
+        <p>But he set it against something else that is also happening, also ongoing, also in the present tense: the inner man is being renewed. Day by day. Not <em>despite</em> the decay, but <em>concurrent with</em> it. Two things are happening to you at the same time. One of them is visible to everyone who walks into your room. The other is visible only to God and, in quiet moments, to you. Your body is failing. And something inside you that is not your body is being made new.</p>
+        <p>You may have experienced this already without having a name for it. There are moments, even in the worst of this — maybe especially in the worst of this — when something clarifies. When the things that used to matter so much simply fall away, and what remains is a kind of clear-eyed vision of what was always real: God, the people you love, the faith that has carried you this far, the hope of what comes next. The outer man loses things every day. But the inner man, stripped of everything unnecessary, sometimes sees more clearly than it ever did when the body was strong and the world was full of distractions.</p>
+        <p>Paul called the suffering “momentary” and “light.” That may sound almost offensive to someone who has been enduring months of treatment and pain and hospital stays. But Paul was not measuring the suffering against a human timeline. He was measuring it against eternity. Against the weight of glory that the suffering is producing. And in that comparison — the only comparison that ultimately matters — even the longest suffering is brief, and even the heaviest suffering is light. Not because it feels light. Because of what it is being weighed against.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Tent and the Building</h2>
+        <p>Paul did not stop at verse 18. He continued directly into one of the most vivid images in all his writing:</p>
+        <blockquote class="scripture">
+          <p>“For we know that if the earthly tent which is our house is torn<br>down, we have a building from God, a house not made with hands,<br>eternal in the heavens.”</p>
+          <cite>— 2 Corinthians 5:1</cite>
+        </blockquote>
+        <p>The image is unmistakable. Your body is a tent. Tents are temporary by nature. They are useful, even necessary, but nobody confuses a tent with a permanent home. A tent wears out. Its canvas thins. Its poles weaken. Its seams eventually fail. That is not a defect in the tent. That is what tents do. They were never built to last forever.</p>
+        <p>But when the tent comes down, there is a building waiting. Not another tent. A building. A house not made with hands. Eternal. In the heavens. Paul chose his words with precision. Everything about the tent is temporary, fragile, earthly, handmade. Everything about the building is permanent, solid, heavenly, God-made. The contrast is total.</p>
+        <p>What you are experiencing right now is the tent wearing out. The canvas is thinning. The seams are giving way. And it is hard — harder than anyone who has not been through it can understand — because you are still living inside the tent while it comes apart around you. You are aware of every new tear, every weakening pole, every part of the structure that used to hold and no longer does.</p>
+        <p>But you are not the tent. That is the point Paul is making, and it is the point this chapter exists to deliver to you. Your body is something you inhabit. It is not something you are. The <em>you</em> who thinks, believes, loves, prays, remembers, and hopes — that person is not decaying. That person is being renewed day by day. And that person has a building from God waiting — not a wish, not a theory, but a certainty that Paul stated in the indicative: “we <em>have</em> a building from God.” Present tense. It already exists. It is already yours.</p>
+        <p>Paul went even further:</p>
+        <blockquote class="scripture">
+          <p>“For indeed in this house we groan, longing to be clothed with<br>our dwelling from heaven, inasmuch as we, having put it on, will<br>not be found naked. For indeed while we are in this tent, we<br>groan, being burdened, because we do not want to be unclothed<br>but to be clothed, so that what is mortal will be swallowed up<br>by life.”</p>
+          <cite>— 2 Corinthians 5:2–4</cite>
+        </blockquote>
+        <p>The groaning is real. Paul did not dismiss it or spiritualize it away. He said <em>we groan</em> — including himself. But the groaning is not the groan of despair. It is the groan of anticipation. It is the discomfort of a caterpillar in the chrysalis, not the misery of a creature without hope. Something is coming. What is mortal will be swallowed up — not by death, but by life. The mortality does not win. The life wins. The tent falls, and what replaces it is not emptiness but something so substantial that mortality itself is consumed by it.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>The Indignity of Dependence</h2>
+        <p>There is an aspect of this season that Scripture does not address directly in a single proof text but that runs beneath the surface of many passages, and it must be spoken to honestly: the loss of independence.</p>
+        <p>You may have reached the point where you need help with things you have done for yourself your entire adult life. Getting dressed. Getting to the bathroom. Eating. You may need someone to manage your medication, help you move from the bed to the chair, drive you where you need to go. You may have gone from being the person in your family who did things for others to being the person others do things for, and that shift carries its own quiet grief that has nothing to do with dying and everything to do with dignity.</p>
+        <p>If you feel that grief, you are not being proud. You are being human. God made you to work, to act, to contribute. From the beginning, He gave Adam a job before He gave him a wife (Genesis 2:15). The ability to do things — to provide, to help, to carry your own weight — is woven into what it means to bear the image of God. Losing that ability, piece by piece, is a real loss. It is not vanity to mourn it.</p>
+        <p>But here is what you need to hear, and what the people around you may not know how to say: your value in the eyes of God has never been a function of what you can do. It has always been a function of whose you are.</p>
+        <p>Consider the last week of Jesus’ life on this earth. The Son of God, who had healed the sick, calmed the sea, fed thousands, and raised the dead, spent His final hours in a condition of complete physical helplessness. He was arrested. He was bound. He was struck in the face by men who were not worthy to speak His name. He was nailed to a cross where He could not move His hands or His feet, could barely draw breath, and had to push up against the nails just to fill His lungs enough to speak. He was dependent on a stranger to carry His cross. He was dependent on a soldier to offer Him something to drink. He was, in every physical sense, utterly powerless.</p>
+        <p>And He was, in that very moment, accomplishing the most important work in the history of the universe.</p>
+        <p>His value did not decrease when His body was broken. His identity did not diminish when He could no longer stand under His own power. The cross was not the failure of His mission. It was the fulfillment of it. And the most powerful act God has ever performed in human history was carried out by a Man who could not even wipe the blood from His own eyes.</p>
+        <p>You are not useless because you are dependent. You are not less because you need help. The kingdom of God has never measured worth the way the world measures it. The world measures by output, productivity, self-sufficiency. God measures by faithfulness, trust, and the willingness to let Him be your strength when yours is gone.</p>
+        <blockquote class="scripture">
+          <p>“But He said to me, ‘My grace is sufficient for you, for power<br>is perfected in weakness.’”</p>
+          <cite>— 2 Corinthians 12:9a</cite>
+        </blockquote>
+        <p>Power is perfected in weakness. Not <em>despite</em> weakness. <em>In</em> it. The weakness is not the obstacle to God’s work. It is the location of it.</p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>What the Mirror Cannot Show You</h2>
+        <p>There is a version of you that the mirror shows and a version of you that the mirror cannot show. The mirror shows the tent. It shows the thinning canvas, the weakening frame, the effects of treatment and disease and the slow accumulation of days in the valley. The mirror tells a story of decline, and that story is not false — but it is incomplete.</p>
+        <p>The version of you that the mirror cannot show is the one that Paul described as being “renewed day by day.” It is the version that has been bought with the blood of Christ (1 Corinthians 6:19–20), sealed with the Holy Spirit (Ephesians 1:13–14), and held in the hand of a God from which no one and nothing can snatch you (John 10:28–29). It is the version that is known by name by the Creator of the universe, loved before the foundation of the world, and destined for an inheritance that is imperishable, undefiled, and will not fade away (1 Peter 1:4).</p>
+        <p>The tent is failing. But the person inside the tent is being held by hands that do not fail.</p>
+        <p>Asaph, the psalmist who wrote Psalm 73, arrived at this truth from a place of deep frustration. He had watched the wicked prosper while he suffered, and he nearly lost his faith over it. He said his feet had almost slipped (Psalm 73:2). He envied the arrogant (v. 3). He saw their ease and it made his own pain feel unbearable and unjust. But then he entered the sanctuary of God, and everything shifted:</p>
+        <blockquote class="scripture">
+          <p>“Whom have I in heaven but You?<br>And besides You, I desire nothing on earth.<br>My flesh and my heart may fail,<br>but God is the strength of my heart and my portion forever.”</p>
+          <cite>— Psalm 73:25–26</cite>
+        </blockquote>
+        <p><em>My flesh and my heart may fail.</em> Asaph did not say “if.” He said “may” — as in, even when it happens, even when it is happening right now. The flesh fails. The heart fails. But God does not fail. And God is not merely a helper in the crisis. He is the <em>portion.</em> The inheritance. The thing itself. When every other possession has been stripped away, when the body can no longer function, when the heart can no longer pump on its own, God remains. And He is enough. Not enough in addition to other things. Enough by Himself. The strength of the failing heart. The portion that does not diminish.</p>
+        <p><em>Forever.</em></p>
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+        <h2>You Are Still Here</h2>
+        <p>This chapter has spoken hard truths. The body is a tent. Tents come down. The outer man decays. These are not comfortable things to read when the decay is happening to <em>your</em> body, in <em>your</em> room, on <em>your</em> watch.</p>
+        <p>But here is the truth that holds all the other truths together: you are still here. Right now, today, you are alive. Your eyes are reading these words. Your mind is turning them over. Your spirit is reaching toward the God who has not let go of you and will not let go of you. Whatever today holds, it holds you in it, and God holds today.</p>
+        <p>You do not know how many days remain. Neither does the person who loves you most and is reading this beside you or in the next room. But every one of those days is a day in which the inner man is being renewed. Every one of those days is a day in which the eternal weight of glory is being produced. Every one of those days is a day in which God is the strength of your heart and your portion.</p>
+        <p>The tent is temporary. You are not.</p>
+        <p>And what is coming — what is already yours, already built, already waiting — is not a tent. It is a building from God. A house not made with hands. Eternal in the heavens.</p>
+        <p>Hold on. The canvas is thin. But what is on the other side of it is more solid than anything you have ever known.</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection Questions</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">Paul described the body as a tent and what awaits as a building. When you look at the physical decline — yours or your loved one's — how does this distinction change how you process it?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">This chapter speaks about the &quot;indignity of dependence.&quot; If that is where you are, what has been the hardest thing to let go of — and what, if anything, has become clearer because of it?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <div class="reflection-question">
+              <span class="q-num">3.</span>
+              <span class="q-text">&quot;My flesh and my heart may fail, but God is the strength of my heart and my portion forever.&quot; What does it mean for God to be your portion when everything else is being stripped away?</span>
+              <textarea data-question="3" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Ch 2: For You Are With Me</a>
+          <a href="chapter-04.html">Ch 4: Two Are Better Than One &rarr;</a>
+        </div>
+        <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'throughTheValley_progress';
+    const CH_NUM = 3;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('throughTheValley_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>
