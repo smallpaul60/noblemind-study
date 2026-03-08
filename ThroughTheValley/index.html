@@ -589,6 +589,84 @@
       color: var(--accent-secondary);
       margin-bottom: 14px;
     }
+    /* Download editions section */
+    .editions-section {
+      margin-top: 36px;
+      padding: 28px 24px;
+      background: rgba(139,155,122,0.04);
+      border: 1px solid rgba(139,155,122,0.18);
+      border-radius: 14px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .editions-section h2 {
+      font-size: 1.2rem;
+      color: var(--accent-secondary);
+      margin-bottom: 6px;
+    }
+    .editions-desc {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .editions-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .edition-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .edition-btn .btn-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .edition-btn .btn-label { display: flex; flex-direction: column; align-items: flex-start; }
+    .edition-btn .btn-label small { font-size: 0.7rem; font-weight: 400; opacity: 0.7; }
+    .edition-btn.preview {
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.3);
+      color: var(--accent-secondary);
+    }
+    .edition-btn.preview:hover {
+      background: rgba(139,155,122,0.15);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 20px var(--accent-secondary-glow);
+      transform: translateY(-2px);
+    }
+    .edition-btn .badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+    .badge-preview {
+      background: rgba(139,155,122,0.15);
+      color: var(--accent-secondary);
+    }
+    .editions-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
     @media (max-width: 600px) {
       .return-link { padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center; }
       .progress-bar { padding: 12px 14px; }
@@ -597,6 +675,9 @@
       .section-header h2 { font-size: 1.15rem; }
       .lesson-grid { grid-template-columns: 1fr; gap: 10px; }
       .lesson-card { padding: 14px 16px; min-height: 44px; }
+      .editions-section { padding: 20px 14px; }
+      .editions-buttons { flex-direction: column; align-items: center; }
+      .edition-btn { width: 100%; max-width: 280px; justify-content: center; min-height: 44px; }
     }
   </style>
 </head>
@@ -694,6 +775,24 @@
         </div>
       </section>
 
+      <section class="editions-section">
+        <h2>Download Edition</h2>
+        <p class="editions-desc">The complete study &mdash; all 8 chapters and scripture index &mdash; formatted for reading and printing.</p>
+        <div class="editions-buttons">
+          <a href="Through_the_Valley.pdf" download class="edition-btn preview" onclick="trackDownload('Through the Valley PDF')">
+            <span class="btn-icon">&#128196;</span>
+            <span class="btn-label">PDF Edition<small>Free download</small></span>
+            <span class="badge badge-preview">Download</span>
+          </a>
+          <a href="Through_the_Valley.epub" download class="edition-btn preview" onclick="trackDownload('Through the Valley EPUB')">
+            <span class="btn-icon">&#128214;</span>
+            <span class="btn-label">EPUB Edition<small>For Kindle, Apple Books &amp; more</small></span>
+            <span class="badge badge-preview">Download</span>
+          </a>
+        </div>
+        <p class="editions-note">Free to download, share, and study. If you quote from this work, please credit: <em>Through the Valley</em> by Paul Hainline.</p>
+      </section>
+
       <footer>
         <p class="copyright">Through the Valley: What God Says When the Shadow Is Real &copy; Paul Hainline 2026<br>
         Digitized for <a href="../index.html">NobleMind.Study</a></p>
@@ -702,6 +801,25 @@
     <div class="glass-tab"></div>
   </div>
   <script>
+    function trackDownload(filename) {
+      try {
+        var payload = JSON.stringify({
+          type: 'file_download',
+          path: window.location.pathname,
+          metadata: filename
+        });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/analytics/event', payload);
+        } else {
+          fetch('/api/analytics/event', {
+            method: 'POST',
+            body: payload,
+            keepalive: true
+          });
+        }
+      } catch (e) { /* silent */ }
+    }
+
     var PROGRESS_KEY = 'throughTheValley_progress';
 
     function loadProgress() {
