@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conclusion: Your Move | Your Name Means Everything</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content h3 {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin: 24px 0 12px;
+      font-style: italic;
+      text-align: center;
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Your Name Means Everything
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction</option>
+            <option value="chapter-01.html">Ch 1: Your Name Is Your Most Valuable Asset</option>
+            <option value="chapter-02.html">Ch 2: The Man in the Mirror</option>
+            <option value="chapter-03.html">Ch 3: When Nobody's Watching</option>
+            <option value="chapter-04.html">Ch 4: Made On Purpose, For a Purpose</option>
+            <option value="chapter-05.html">Ch 5: The Relationship You Need Most</option>
+            <option value="chapter-06.html">Ch 6: The Bible Isn't What You Think</option>
+            <option value="chapter-07.html">Ch 7: Putting Down the Phone</option>
+            <option value="chapter-08.html">Ch 8: She Is Somebody's Daughter</option>
+            <option value="chapter-09.html">Ch 9: The Friends You Choose</option>
+            <option value="chapter-10.html">Ch 10: Honor Your Father and Mother</option>
+            <option value="chapter-11.html">Ch 11: Work Like It Matters</option>
+            <option value="chapter-12.html">Ch 12: Money Will Test Your Character</option>
+            <option value="chapter-13.html">Ch 13: The Church Is Not Optional</option>
+            <option value="conclusion.html" selected>Conclusion: Your Move</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CONCLUSION</p>
+        <h1>Your Move</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>"Choose for yourselves today whom you will serve... but as for me and my house, we will serve the LORD."</blockquote>
+        <cite>— Joshua 24:15 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>Choose for yourselves <em>today</em>.</p>
+        <p>Not tomorrow. Not when life settles down. Not when you feel ready. Not after you have had your fun. Today. Joshua understood something that every generation needs to hear: the decision to serve God is not a decision that waits for a convenient moment. It is a decision that demands an answer now, because every day you do not choose is a day the world chooses for you.</p>
+        <p>Joshua did not beg them. He did not manipulate them. He stated his own position clearly — as for me and my house, we will serve the Lord — and then he put the decision in their hands.</p>
+        <p>This book is doing the same thing. The decision is yours.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Story That Changes Everything</h2>
+        <p>Before you can make that decision well, you need to understand clearly what God has done. Not religion. Not tradition. Not what some church told you or what you vaguely picked up from culture. What God Himself has done — according to His own Word.</p>
+        <p>Here it is, as plainly as it can be said.</p>
+        <p>God made you. He made you on purpose, for a purpose, in His image. We talked about that in the first four chapters of this book. You are not an accident. You are not a product of blind chance. You were designed, intentionally, by a God who knew your name before you were born.</p>
+        <blockquote class="scripture">
+          <p>"For You formed my inward parts; You wove me in my mother's womb. I will give thanks to You, for I am fearfully and wonderfully made."</p>
+          <cite>— Psalm 139:13–14 (NASB)</cite>
+        </blockquote>
+        <p>But something went wrong. Not with God. With us. From the very beginning of human history, man chose his own way over God's way. Adam and Eve were given everything and told to trust God on one point — and they chose not to. And that choice — the Bible calls it sin — broke the relationship between God and man. It entered the human race like a disease, and every person since has been infected by it.</p>
+        <blockquote class="scripture">
+          <p>"For all have sinned and fall short of the glory of God."</p>
+          <cite>— Romans 3:23 (NASB)</cite>
+        </blockquote>
+        <p>All. Not most. Not the especially bad ones. All. That includes you. It includes every person who has ever lived. And the consequence of that sin is not a slap on the wrist. It is death — separation from the God who made you:</p>
+        <blockquote class="scripture">
+          <p>"For the wages of sin is death."</p>
+          <cite>— Romans 6:23a (NASB)</cite>
+        </blockquote>
+        <p>That is the problem. And it is a problem no human being can solve. You cannot be good enough to erase it. You cannot work hard enough to overcome it. You cannot donate enough, volunteer enough, or behave well enough to bridge the gap that sin has created between you and God. Every religion that tells you otherwise is asking you to build a ladder to heaven with broken materials. It cannot be done.</p>
+        <p>So God did it Himself.</p>
+        <blockquote class="scripture">
+          <p>"But God demonstrates His own love toward us, in that while we were yet sinners, Christ died for us."</p>
+          <cite>— Romans 5:8 (NASB)</cite>
+        </blockquote>
+        <p>While we were yet sinners. Not after we cleaned ourselves up. Not after we proved we deserved it. While we were still guilty, still broken, still separated from Him — God sent His Son, Jesus Christ, into the world. Jesus lived the perfect life that no human being has ever lived. He fulfilled every commandment. He never sinned — not once, not in thought, not in deed, not in a single moment of His entire life. And then He went to a cross and died, voluntarily, taking on Himself the punishment that belonged to you and to me.</p>
+        <p>That is not a metaphor. That is not religious poetry. That is what happened. The Son of God was nailed to a cross, bled, suffocated, and died — and the reason He did it was to pay the debt that your sin created. A debt you could not pay. A debt no human effort could cover. He paid it in full.</p>
+        <blockquote class="scripture">
+          <p>"He made Him who knew no sin to be sin on our behalf, so that we might become the righteousness of God in Him."</p>
+          <cite>— 2 Corinthians 5:21 (NASB)</cite>
+        </blockquote>
+        <p>And then, three days later, He rose from the dead. Not symbolically. Not in the hearts of His followers. Physically, bodily, actually — He walked out of that tomb. He was seen by the apostles. He was seen by more than five hundred people at one time. He ate with them. He spoke with them. He showed them His hands and His side. And then He ascended to the right hand of God the Father, where He sits right now, as Lord of everything.</p>
+        <blockquote class="scripture">
+          <p>"...that Christ died for our sins according to the Scriptures, and that He was buried, and that He was raised on the third day according to the Scriptures, and that He appeared to Cephas, then to the twelve. After that He appeared to more than five hundred brethren at one time."</p>
+          <cite>— 1 Corinthians 15:3–6 (NASB)</cite>
+        </blockquote>
+        <p>That is the Gospel. That is the good news. God solved the problem you could not solve. He bridged the gap you could not bridge. He paid the price you could not pay. And He offers the result — forgiveness, a restored relationship with God, and eternal life — as a free gift to anyone who will receive it.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>What He Asks of You</h2>
+        <p>The Gospel is free, but it is not passive. It requires a response. And the New Testament is clear about what that response looks like.</p>
+
+        <h3>Believe</h3>
+        <p>First, you must believe. Not a vague, general belief that God probably exists. A specific, personal trust that Jesus Christ is the Son of God, that He died for your sins, and that God raised Him from the dead.</p>
+        <blockquote class="scripture">
+          <p>"...if you confess with your mouth Jesus as Lord, and believe in your heart that God raised Him from the dead, you will be saved."</p>
+          <cite>— Romans 10:9 (NASB)</cite>
+        </blockquote>
+        <p>Believe in your heart. That is not intellectual agreement. That is trust. The same kind of trust that Shadrach, Meshach, and Abednego had when they said "Our God is able to deliver us . . . but even if He does not." It is a trust that stakes everything on the truth of who Jesus is and what He has done.</p>
+
+        <h3>Repent</h3>
+        <p>Second, you must repent. Repentance means to change your mind — to turn around. It means you stop walking in the direction you have been walking and you turn toward God. It means you acknowledge that your way has not worked, that your sin is real, and that you need what only He can give.</p>
+        <blockquote class="scripture">
+          <p>"Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit."</p>
+          <cite>— Acts 2:38 (NASB)</cite>
+        </blockquote>
+        <p>This is what Peter preached on the day the church was born. Thousands of people heard the Gospel that day, and when they asked "What shall we do?" Peter did not say "Just believe in your heart and you're fine." He said repent and be baptized. Both.</p>
+
+        <h3>Confess</h3>
+        <p>Third, you must confess. Not confess your sins to a priest. Confess Jesus as Lord. Say it out loud. Declare it publicly. The same verse from Romans 10:9 says to confess with your mouth Jesus as Lord. Faith is not a private, silent, internal thing that never shows itself. It is declared. It is spoken. It is a public identification with the One who died for you.</p>
+
+        <h3>Be Baptized</h3>
+        <p>Fourth, you must be baptized. Baptism is not a church ritual that some denominations practice and others skip. It is a command from Jesus Himself:</p>
+        <blockquote class="scripture">
+          <p>"Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit."</p>
+          <cite>— Matthew 28:19 (NASB)</cite>
+        </blockquote>
+        <p>In the New Testament, every single person who came to faith in Christ was baptized. There is not one example of an unbaptized believer in the book of Acts. When the Ethiopian eunuch heard the Gospel from Philip, his immediate response was "Look! Water! What prevents me from being baptized?" He did not wait. He did not schedule it for a convenient Sunday. He saw water and he acted.</p>
+        <p>Baptism is where you are buried with Christ and raised to walk in a new life. Paul described it this way:</p>
+        <blockquote class="scripture">
+          <p>"Or do you not know that all of us who have been baptized into Christ Jesus have been baptized into His death? Therefore we have been buried with Him through baptism into death, so that as Christ was raised from the dead through the glory of the Father, so we too might walk in newness of life."</p>
+          <cite>— Romans 6:3–4 (NASB)</cite>
+        </blockquote>
+        <p>Buried with Him. Raised with Him. That is not symbolic language for something optional. That is the moment where the old man dies and the new man is born. That is where your new life begins.</p>
+
+        <h3>Live It</h3>
+        <p>And then, fifth — you live it. Every single chapter of this book has been about what that life looks like. Guard your name. Guard your heart. Stand when the world says bow. Seek God first. Read His Word. Put down the screen. Treat women with honor. Choose your friends with intention. Honor your parents. Work heartily as for the Lord. Hold your money with open hands. Commit to the church.</p>
+        <p>That is the life. Not a perfect life. Not a life without failure. But a life of direction, purpose, repentance, and growth — lived under the authority of the One who bought you with His blood and calls you His own.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Decision</h2>
+        <p>You are standing right now where Joshua's generation stood. The words have been spoken. The truth has been laid out. The evidence has been presented — not from human tradition, not from a denomination, not from popular opinion, but from the Word of God itself.</p>
+        <p>And now you choose.</p>
+        <p>Nobody can make this decision for you. Your parents cannot make it for you. Your grandparents cannot make it for you, though they love you more than you know and want this for you more than you can imagine. Your friends cannot make it for you. Your church cannot make it for you. This is between you and God, and it is the most important decision you will ever face.</p>
+        <div class="principle-box">
+          <p><em>Choose for yourselves today whom you will serve.</em></p>
+        </div>
+        <p>If you choose to walk away — to close this book and go back to the life you were living before you opened it — that is your right. God will not force you. He never has. He will let you go, and the world will be happy to have you back.</p>
+        <p>But if something in these pages has spoken to you — if the Word of God has done what Hebrews 4:12 says it does, piercing as far as the division of soul and spirit, judging the thoughts and intentions of the heart — then do not ignore that. Do not set it aside and tell yourself you will deal with it later. Later is the lie the enemy has been selling since the garden of Eden. There is no guarantee of later.</p>
+        <p>Today is the day.</p>
+        <blockquote class="scripture">
+          <p>"...Today if you hear His voice, do not harden your hearts."</p>
+          <cite>— Hebrews 3:15 (NASB)</cite>
+        </blockquote>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>Your Name Is Not Finished Yet</h2>
+        <p>This book began with your name. It is going to end there too.</p>
+        <p>In the first chapter, you read about men whose names were changed by God — Abram to Abraham, Jacob to Israel, Simon to Peter. In every case, the new name was not a description of who they were. It was a declaration of who they would become. God looked at a childless old man and called him the father of nations. He looked at a schemer and called him one who strives with God. He looked at an impulsive fisherman and called him the rock.</p>
+        <p>Your name is not finished yet.</p>
+        <p>Whatever you have done up to this point — whatever is written in the story so far — does not have to be the final chapter. Peter denied Christ three times and went on to preach the sermon that launched the church. David committed adultery and murder and was still called a man after God's own heart — not because the sin did not matter, but because the repentance was real. Paul persecuted Christians and became the greatest missionary the world has ever known.</p>
+        <p>God is in the business of rewriting names. But He will not rewrite yours without your permission. He stands at the door and knocks. He does not break it down.</p>
+        <blockquote class="scripture">
+          <p>"Behold, I stand at the door and knock; if anyone hears My voice and opens the door, I will come in to him and will dine with him, and he with Me."</p>
+          <cite>— Revelation 3:20 (NASB)</cite>
+        </blockquote>
+        <p>If anyone. That includes you. That includes the young man who has never opened a Bible before this book. That includes the young man who grew up in church and walked away. That includes the young man who has done things he is ashamed of and does not believe he qualifies for what God is offering. You qualify. Not because of what you have done, but because of what He has done.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>As For Me and My House</h2>
+        <p>The people who gave you this book made their decision a long time ago. They chose the Lord. Not because life was easy. Not because they had all the answers. Not because they never struggled or doubted or stumbled. They chose Him because He is true, because His Word is true, and because there is no foundation in this world that holds weight except the one He laid.</p>
+        <p>They wrote this book for you because they believe with everything in them that you are capable of making the same choice. They believe you are a young man of substance, of potential, of God-given purpose. They are not asking you to be perfect. They are asking you to be honest with yourself, honest with God, and brave enough to take the first step.</p>
+        <p>Joshua told his people where he stood. This book has told you where yours stand.</p>
+        <div class="principle-box">
+          <p><em>Now it's your move.</em></p>
+        </div>
+        <p>Open the Bible this week. Read the Gospel of John from start to finish. Ask God to show you the truth. Find a church that takes His Word seriously. And if you are ready — if the Spirit of God has been working in you as you read these pages — then respond. Believe. Repent. Confess. Be baptized. Begin the life you were made for.</p>
+        <p>You were made on purpose, for a purpose, by a God who knows your name and has not given up on you.</p>
+        <p>Your name means everything.</p>
+        <p>Now go live like it.</p>
+        <blockquote class="scripture">
+          <p>"But as for me and my house, we will serve the Lord." — Joshua 24:15 (NASB)<br><br>"The fear of the Lord is the beginning of wisdom, and the knowledge of the Holy One is understanding." — Proverbs 9:10 (NASB)</p>
+        </blockquote>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-13.html">&larr; Ch 13: The Church Is Not Optional</a>
+          <a href="scripture-index.html">Scripture Index &rarr;</a>
+        </div>
+        <p class="copyright">Your Name Means Everything &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

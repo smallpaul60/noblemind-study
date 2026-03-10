@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER THREE: When Nobody's Watching Becomes When Everybody's Watching | Your Name Means Everything</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C9956B;
+      --accent-glow: rgba(201, 149, 107, 0.4);
+      --accent-soft: rgba(201, 149, 107, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --box-principle: #C9956B;
+      --box-principle-bg: rgba(201, 149, 107, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139,155,122,0.15),
+        0 0 80px rgba(201,149,107,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(201,149,107,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(201,149,107,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(201,149,107,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(201,149,107,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(201,149,107,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139,155,122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(201,149,107,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .reflection-section {
+      margin-top: 40px;
+      border-top: 2px solid rgba(201,149,107,0.3);
+      padding-top: 24px;
+    }
+    .reflection-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      padding: 14px 18px;
+      background: rgba(201,149,107,0.08);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 12px;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .reflection-header:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.12);
+    }
+    .reflection-header h2 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    .reflection-header .arrow {
+      color: var(--accent);
+      font-size: 1.3rem;
+      transition: transform 0.3s;
+    }
+    .reflection-header.expanded .arrow {
+      transform: rotate(180deg);
+    }
+    .reflection-body {
+      display: none;
+      padding-top: 20px;
+    }
+    .reflection-body.expanded {
+      display: block;
+    }
+    .reflection-question {
+      margin-bottom: 24px;
+      padding: 16px;
+      background: rgba(201,149,107,0.04);
+      border-radius: 10px;
+      border: 1px solid rgba(201,149,107,0.1);
+    }
+    .reflection-question .q-num {
+      color: var(--accent);
+      font-weight: 700;
+      margin-right: 8px;
+    }
+    .reflection-question .q-text {
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+    .reflection-question textarea {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 1rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 60px;
+      transition: border-color 0.3s;
+    }
+    .reflection-question textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+    .reflection-question textarea::placeholder {
+      color: var(--text-muted);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(201,149,107,0.06);
+      border: 1px solid rgba(201,149,107,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(201,149,107,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(201,149,107,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(201,149,107,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139,155,122,0.08);
+      border: 1px solid rgba(139,155,122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139,155,122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .principle-box { background: #fdf8f0; border-color: #C9956B; }
+      .reflection-body { display: block !important; }
+      .reflection-question textarea { display: none; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .reflection-section { margin-top: 28px; }
+      .reflection-header { padding: 12px 14px; min-height: 44px; }
+      .reflection-header h2 { font-size: 1.1rem; }
+      .reflection-question { padding: 12px; }
+      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Your Name Means Everything
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction</option>
+            <option value="chapter-01.html">Ch 1: Your Name Is Your Most Valuable Asset</option>
+            <option value="chapter-02.html">Ch 2: The Man in the Mirror</option>
+            <option value="chapter-03.html" selected>Ch 3: When Nobody's Watching</option>
+            <option value="chapter-04.html">Ch 4: Made On Purpose, For a Purpose</option>
+            <option value="chapter-05.html">Ch 5: The Relationship You Need Most</option>
+            <option value="chapter-06.html">Ch 6: The Bible Isn't What You Think</option>
+            <option value="chapter-07.html">Ch 7: Putting Down the Phone</option>
+            <option value="chapter-08.html">Ch 8: She Is Somebody's Daughter</option>
+            <option value="chapter-09.html">Ch 9: The Friends You Choose</option>
+            <option value="chapter-10.html">Ch 10: Honor Your Father and Mother</option>
+            <option value="chapter-11.html">Ch 11: Work Like It Matters</option>
+            <option value="chapter-12.html">Ch 12: Money Will Test Your Character</option>
+            <option value="chapter-13.html">Ch 13: The Church Is Not Optional</option>
+            <option value="conclusion.html">Conclusion: Your Move</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>When Nobody's Watching Becomes When Everybody's Watching</h1>
+      </header>
+
+      <section class="epigraph">
+        <blockquote>"But Daniel made up his mind that he would not defile himself"</blockquote>
+        <cite>— Daniel 1:8 (NASB)</cite>
+      </section>
+
+      <div class="content">
+        <p>There is a question that every young man will eventually have to answer. Not once, but repeatedly, throughout his entire life. And the way he answers it — especially early on, especially when the cost is real — will determine more about the shape of his character than almost anything else.</p>
+        <p>The question is this:</p>
+        <div class="principle-box">
+          <p><em>Will you stand for what is right when standing costs you something?</em></p>
+        </div>
+        <p>Not when it's easy. Not when everyone around you agrees. Not when the crowd is on your side and the wind is at your back. But when the most powerful people in the room are telling you to sit down — and sitting down would be so much simpler.</p>
+        <p>There were four young men in the Bible who answered that question, and answered it well. Their story begins in the rubble of a conquered city and ends with kings bowing before the God of Israel. And it starts the same way most great stories of character start — not in a palace, not in a moment of high drama, but in an ordinary daily decision that nobody was paying much attention to.</p>
+        <p>Their names were Daniel, Hananiah, Mishael, and Azariah. You probably know the last three by the Babylonian names given to them by their captors: Shadrach, Meshach, and Abednego.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>Taken</h2>
+        <p>To understand what these young men faced, you have to understand what had just happened to them.</p>
+        <p>Jerusalem had fallen. The Babylonian king Nebuchadnezzar — one of the most powerful rulers the ancient world had ever seen — had conquered Judah, destroyed the city, and taken its people captive. Among those taken were young men from the best families. Intelligent, capable, well-built young men who could be trained and used in service to the Babylonian court.</p>
+        <p>Daniel and his three friends were among them. Teenagers. Ripped from their homes, their families, their land, and everything familiar. Transported hundreds of miles to a foreign empire that worshipped foreign gods. And immediately enrolled in a three-year program designed — deliberately — to remake them. New names. New language. New education. New food. The Babylonians understood something that still holds true today: if you want to reshape a man's identity, start with what he consumes and what he answers to.</p>
+        <p>These young men had every excuse in the world to go along with it. Nobody back home would ever know. They were far from their families, in the middle of a hostile empire, with no power and no protection. The path of least resistance was simply to blend in — absorb the new culture, eat the food, take the new name, and survive.</p>
+        <p>That is what most young men would have done.</p>
+        <div class="principle-box">
+          <p><em>It is not what Daniel did.</em></p>
+        </div>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The First Test — The Quiet One</h2>
+        <blockquote class="scripture">
+          <p>"But Daniel made up his mind that he would not defile himself with the king's choice food or with the wine which he drank; so he sought permission from the commander of the officials that he might not defile himself."</p>
+          <cite>— Daniel 1:8 (NASB)</cite>
+        </blockquote>
+        <p>Notice what the text says. Daniel made up his mind. Before the food was ever placed in front of him. Before the pressure arrived. He had already decided, in the quiet of his own conviction, that there was a line he would not cross.</p>
+        <p>This is the part of the Daniel story that doesn't make it into most sermons. Everyone knows about the lion's den. Everyone knows about the fiery furnace. But both of those moments were made possible by this one — this quiet, private, unglamorous decision about food.</p>
+        <p>Daniel didn't storm in and make a scene. He didn't lecture anyone. He went to the commander respectfully and asked for an alternative. He proposed a test — ten days of vegetables and water, and then compare the results. The commander agreed.</p>
+        <p>At the end of ten days, Daniel and his three friends looked healthier and better nourished than all the young men who had eaten the king's food.</p>
+        <blockquote class="scripture">
+          <p>"God gave them knowledge and intelligence in every branch of literature and wisdom; Daniel even understood all kinds of visions and dreams."</p>
+          <cite>— Daniel 1:17 (NASB)</cite>
+        </blockquote>
+        <p>God honored the quiet faithfulness. He didn't honor it with a thunderclap or a vision or an angelic visitation. He honored it with wisdom. With favor. With the slow, steady fruit of a life that was keeping its convictions intact even when nobody was watching.</p>
+        <p>Here is what this means for you: the faithfulness that nobody sees is the foundation for the courage that everybody will eventually see. Daniel didn't become the man who survived the lion's den on the night he was thrown in. He became that man in the years of quiet daily faithfulness that preceded it.</p>
+        <div class="principle-box">
+          <p><em>Character is always built in private before it is tested in public.</em></p>
+        </div>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Second Test — The Furnace</h2>
+        <p>Years passed. Daniel and his three friends served faithfully in the Babylonian court. They had risen in position, earned respect, and demonstrated the kind of wisdom and character that God had been building in them since those early days.</p>
+        <p>And then Nebuchadnezzar built a gold statue ninety feet tall and commanded everyone in the empire to bow down and worship it. The penalty for refusal was immediate and explicit:</p>
+        <blockquote class="scripture">
+          <p>"Whoever does not fall down and worship shall immediately be cast into the midst of a furnace of blazing fire."</p>
+          <cite>— Daniel 3:6 (NASB)</cite>
+        </blockquote>
+        <p>Shadrach, Meshach, and Abednego refused.</p>
+        <p>They were brought before the king — furious, powerful, surrounded by all the authority of the greatest empire on earth — and they were given one more chance. Bow, or burn.</p>
+        <p>Their answer is one of the most remarkable statements of faith in all of Scripture:</p>
+        <blockquote class="scripture">
+          <p>"Our God whom we serve is able to deliver us from the furnace of blazing fire; and He will deliver us out of your hand, O king. But even if He does not, let it be known to you, O king, that we are not going to serve your gods or worship the golden image that you have set up."</p>
+          <cite>— Daniel 3:17-18 (NASB)</cite>
+        </blockquote>
+        <p>Read those words carefully. They did not say God would deliver them. They said He was able to — and then they added four words that should stop every reader cold:</p>
+        <div class="principle-box">
+          <p><em>"But even if He does not."</em></p>
+        </div>
+        <p>They were not bargaining with God. They were not standing firm because they had a guarantee of rescue. They were standing firm because it was right — regardless of the outcome. Their obedience was not conditional on God's deliverance. Their faithfulness was not a transaction.</p>
+        <p>That is a level of conviction that cannot be manufactured in a moment of crisis. It can only come from years of smaller, quieter, private faithfulness — exactly the kind that started with a decision about food in a foreign palace when nobody important was watching.</p>
+        <p>They were thrown into the furnace. The fire was so hot it killed the soldiers who threw them in. And then Nebuchadnezzar leaped to his feet in astonishment:</p>
+        <blockquote class="scripture">
+          <p>"Look! I see four men loosed and walking about in the midst of the fire without harm, and the appearance of the fourth is like a son of the gods!"</p>
+          <cite>— Daniel 3:25 (NASB)</cite>
+        </blockquote>
+        <p>They were not alone in the fire. They were never alone in the fire.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Third Test — The Lions</h2>
+        <p>Daniel continued to serve faithfully through multiple kingdoms — long after Nebuchadnezzar was gone, into the reign of the Medes and Persians. He had become so trusted, so clearly exceptional, that the king was planning to set him over the entire empire.</p>
+        <p>Which is exactly why his enemies came after him.</p>
+        <p>They watched him. They looked for corruption, for misconduct, for any crack in his integrity. And they found nothing.</p>
+        <blockquote class="scripture">
+          <p>"...they could find no ground of accusation or evidence of corruption, inasmuch as he was faithful, and no negligence or corruption was to be found in him."</p>
+          <cite>— Daniel 6:4 (NASB)</cite>
+        </blockquote>
+        <p>Think about what that means. These men were specifically, deliberately trying to find something wrong with Daniel — and they found nothing. His public life matched his private life. There was no gap between who he was in the palace and who he was when the doors were closed.</p>
+        <p>So they went after the one thing they knew they could trap him on: his faithfulness to God. They convinced the king to sign a law forbidding prayer to anyone except the king for thirty days. And then they waited.</p>
+        <blockquote class="scripture">
+          <p>"Now when Daniel knew that the document was signed, he entered his house (now in his roof chamber he had windows open toward Jerusalem); and he continued kneeling on his knees three times a day, praying and giving thanks before his God, as he had been doing previously."</p>
+          <cite>— Daniel 6:10 (NASB)</cite>
+        </blockquote>
+        <p><em>As he had been doing previously.</em> Daniel didn't heroically decide in that moment to be faithful. He simply continued doing what he had always done. The crisis didn't create his character. It revealed it.</p>
+        <p>He was thrown to the lions. And the next morning, when the king rushed to the den and called out — Daniel answered from inside:</p>
+        <blockquote class="scripture">
+          <p>"My God sent His angel and shut the lions' mouths and they have not harmed me, inasmuch as I was found innocent before Him."</p>
+          <cite>— Daniel 6:22 (NASB)</cite>
+        </blockquote>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>What These Four Men Have to Say to You</h2>
+        <p>You are not in Babylon. But you are living in a culture that is doing exactly what Babylon did — it is systematically trying to reshape your identity. New names, new values, new definitions of what a man is supposed to be, constant pressure to consume what everyone else is consuming and bow to what everyone else is bowing to.</p>
+        <p>And you will face your own versions of these tests. They won't come with a ninety-foot golden statue or a den of lions. They'll come in smaller, quieter, more ordinary packaging.</p>
+        <p>They'll come when your friends are looking at things online you know you shouldn't look at, and saying nothing would be so much easier than saying something. They'll come when telling the truth about something you did wrong will cost you, and a half-truth would slide right by. They'll come when everyone in the room bows — to the crowd, to the culture, to whatever the current pressure is — and you have to decide whether you're going to bow too.</p>
+        <p>What Daniel and his three friends show you is this: the man who stands in the big moment is the man who practiced standing in the small moments first. Nobody stumbles into that kind of courage. It is built, day by day, decision by decision, in the ordinary faithfulness of a life lived before an audience of One.</p>
+        <p>Shadrach, Meshach, and Abednego did not know there would be a fourth man in the fire with them. They only knew that they would not bow.</p>
+        <div class="principle-box">
+          <p><em>That was enough.</em></p>
+        </div>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>For Further Study</h2>
+        <p>Read these accounts in full. They are gripping stories, and the details matter:</p>
+        <p>Daniel 1:1-21 — The first test; the decision about food</p>
+        <p>Daniel 3:1-30 — The furnace; "But even if He does not"</p>
+        <p>Daniel 6:1-28 — The lion's den; the life that had no gap in it</p>
+
+        <section class="reflection-section">
+          <div class="reflection-header" onclick="toggleReflection()">
+            <h2>Reflection</h2>
+            <span class="arrow">&#x25BC;</span>
+          </div>
+          <div class="reflection-body">
+            <h2>One Question to Sit With</h2>
+            <div class="reflection-question">
+              <span class="q-num">1.</span>
+              <span class="q-text">What are the things in your life right now that everyone around you accepts without question — that you know, deep down, you probably shouldn't? What would it cost you to quietly draw a line?</span>
+              <textarea data-question="1" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+            <h2>One Thing to Do</h2>
+            <div class="reflection-question">
+              <span class="q-num">2.</span>
+              <span class="q-text">Read Daniel chapter 1 slowly. The whole chapter. Not a devotional summary — the actual text. Pay attention to what Daniel did and how he did it. Then ask yourself: Where could I do the same?</span>
+              <textarea data-question="2" placeholder="Your thoughts..." rows="3"></textarea>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="principle-box" style="margin-top: 32px; text-align: center;">
+        <p><em>"If we are thrown into the blazing furnace, the God we serve is able to deliver us from it... But even if He does not... we will not serve your gods"</em></p>
+        <p style="color: var(--accent); font-weight: 500; font-size: 0.9rem; margin-bottom: 0;">— Daniel 3:17-18 (NASB)</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Ch 2: The Man in the Mirror</a>
+          <a href="chapter-04.html">Ch 4: Made On Purpose, For a Purpose &rarr;</a>
+        </div>
+        <p class="copyright">Your Name Means Everything &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'yourNameMeansEverything_progress';
+    const CH_NUM = 3;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function toggleReflection() {
+      var header = document.querySelector('.reflection-header');
+      var body = document.querySelector('.reflection-body');
+      if (!header || !body) return;
+      header.classList.toggle('expanded');
+      body.classList.toggle('expanded');
+    }
+
+    function loadNote(qNum) {
+      return localStorage.getItem('yourNameMeansEverything_notes_ch' + CH_NUM + '_q' + qNum) || '';
+    }
+
+    function saveNote(qNum, value) {
+      localStorage.setItem('yourNameMeansEverything_notes_ch' + CH_NUM + '_q' + qNum, value);
+    }
+
+    function initNotes() {
+      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
+        var qNum = ta.dataset.question;
+        ta.value = loadNote(qNum);
+        ta.addEventListener('input', function() {
+          saveNote(qNum, this.value);
+        });
+      });
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+      initNotes();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

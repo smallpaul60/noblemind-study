@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Books — NobleMind Press</title>
+  <meta name="description" content="Scripture study books from NobleMind Press. Read online, download PDF, or grab the EPUB.">
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-panel: #1a1a1a;
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text-primary: #f5f5f5;
+      --text-secondary: #a0a0a0;
+      --text-muted: #888;
+      --border-color: #2a2a2a;
+      --border-glass: rgba(148, 163, 184, 0.45);
+      --accent: #06FFA5;
+      --accent-soft: rgba(6, 255, 165, 0.18);
+      --accent-glow: rgba(6, 255, 165, 0.5);
+      --accent-blue: #5ee5ff;
+      --accent-blue-glow: rgba(94, 229, 255, 0.5);
+      --radius-card: 22px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
+        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
+      pointer-events: none;
+    }
+
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
+        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
+        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(94,229,255,0.3),
+        0 0 80px rgba(6,255,165,0.35);
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .glass-page-inner {
+      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      backdrop-filter: blur(22px);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
+      box-shadow: 0 0 30px rgba(94,229,255,0.6);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      transition: opacity 0.2s;
+    }
+
+    .back-link:hover {
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: var(--accent);
+      text-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .imprint {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-style: italic;
+    }
+
+    .books-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-card {
+      background: rgba(13, 13, 13, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px 24px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .book-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: radial-gradient(ellipse at top, rgba(6,255,165,0.1), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .book-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px var(--accent-glow);
+    }
+
+    .book-card:hover::before {
+      opacity: 1;
+    }
+
+    .book-card h2 {
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-subtitle {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-style: italic;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-description {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #22c55e);
+      color: #020617;
+      box-shadow: 0 0 20px rgba(6,255,165,0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(6,255,165,0.5);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #020617;
+    }
+
+    .book-meta {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .book-meta span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+      padding-top: 20px;
+      border-top: 1px solid rgba(148,163,184,0.15);
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 1.7rem; }
+      .glass-page-inner { padding: 2rem 1.5rem; }
+      .book-actions { flex-direction: column; }
+      .btn { justify-content: center; }
+      .glass-page-wrapper { border-radius: 18px; }
+      .glass-page-inner { border-radius: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+      <header>
+        <a href="index.html" class="back-link">&larr; Back to Noble Mind Study</a>
+        <h1>Books</h1>
+        <p class="imprint">NobleMind Press</p>
+      </header>
+
+      <div class="books-list">
+
+        <div class="book-card">
+          <h2>Bridge Moments</h2>
+          <p class="book-subtitle">Making the Most of Every Opportunity</p>
+          <p class="book-description">A 20-chapter study exploring how Jesus and the early church turned everyday encounters into life-changing conversations. Learn to recognize and respond to the bridge moments God places in your path.</p>
+          <div class="book-actions">
+            <a href="BridgeMoments/index.html" class="btn btn-primary">Read Online</a>
+            <a href="BridgeMoments/Bridge_Moments_Complete.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="BridgeMoments/Bridge_Moments_Complete.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>20 Chapters</span>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <h2>Through the Valley</h2>
+          <p class="book-subtitle">What God Says When the Shadow Is Real</p>
+          <p class="book-description">An 8-chapter Scripture study for those walking through grief, loss, illness, or the shadow of death. Every word anchored in what God actually says — no platitudes, only His promises.</p>
+          <div class="book-actions">
+            <a href="ThroughTheValley/index.html" class="btn btn-primary">Read Online</a>
+            <a href="ThroughTheValley/Through_the_Valley.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="ThroughTheValley/Through_the_Valley.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>8 Chapters</span>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <h2>The Character No One Could Invent</h2>
+          <p class="book-description">A deep look at the character of Jesus Christ as portrayed in the Gospels — examining why the person described in Scripture could not have been fabricated by human imagination.</p>
+          <div class="book-actions">
+            <a href="TheCharacterNoOneCouldInvent/index.html" class="btn btn-primary">Read Online</a>
+            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.pdf" target="_blank" class="btn btn-outline">PDF</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>13 Chapters</span>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <h2>A New and Living Way</h2>
+          <p class="book-subtitle">What the Bible Teaches About Prayer</p>
+          <p class="book-description">A 12-chapter journey through Scripture's teaching on prayer — from the first cries of Genesis through the torn veil, the Lord's Prayer, and into the living practice of the early church.</p>
+          <div class="book-actions">
+            <a href="ANewAndLivingWay/index.html" class="btn btn-primary">Read Online</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>12 Chapters</span>
+          </div>
+        </div>
+
+        <div class="book-card">
+          <h2>Your Name Means Everything</h2>
+          <p class="book-subtitle">A Straight-Talk Guide for Young Men Who Want to Matter</p>
+          <p class="book-description">A 13-chapter guide rooted in Scripture for young men stepping into adulthood — covering identity, integrity, purpose, relationships, work, money, and the church. Every chapter built on what God's Word actually says.</p>
+          <div class="book-actions">
+            <a href="YourNameMeansEverything/index.html" class="btn btn-primary">Read Online</a>
+            <a href="YourNameMeansEverything/YourNameMeansEverything.pdf" target="_blank" class="btn btn-outline">PDF</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul &amp; Pam Hainline</span>
+            <span>13 Chapters</span>
+          </div>
+        </div>
+
+      </div>
+
+      <footer>
+        <p><a href="index.html">Noble Mind Study</a> &middot; NobleMind Press</p>
+        <p style="margin-top:8px;">&copy; 2026 Paul Hainline. All rights reserved.</p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>
