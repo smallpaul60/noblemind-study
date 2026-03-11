@@ -33,6 +33,17 @@ When there is a conflict between what Scripture says and what religious traditio
 
 *"But in vain do they worship Me, teaching as doctrines the precepts of men."* — Matthew 15:9
 
+### Denominational Neutrality
+
+All content must be free of denominational terminology, titles, and concepts. When working from source material — especially rewrites of older denominational works — we must carefully remove any language that reflects a particular denomination's traditions rather than Scripture itself.
+
+This includes:
+- **Denominational titles:** Use "preacher" or "evangelist" rather than "pastor," "bishop," "reverend," or "father" when referring to those who preach the gospel (these terms carry denominational baggage that differs from their biblical usage)
+- **Denominational concepts:** Do not import organizational structures, practices, or assumptions that belong to a particular denomination rather than to the New Testament pattern
+- **Unwarranted inferences about the text:** Do not add descriptors or characterizations that go beyond what Scripture actually states (e.g., calling someone "wealthy" when the text only says they "contributed from their own means")
+
+The goal is to let Scripture speak for itself without any denominational filter.
+
 ### 3. The CENI Framework
 
 Sound biblical interpretation recognizes that God communicates His will through:
