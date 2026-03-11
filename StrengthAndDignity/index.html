@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table of Contents | Your Name Means Everything: Strength and Dignity</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c4b8c8;
+      --text-muted: #8a7e8e;
+      --accent: #D4849A;
+      --accent-glow: rgba(212, 132, 154, 0.4);
+      --accent-soft: rgba(212, 132, 154, 0.12);
+      --accent-secondary: #7BA7BC;
+      --accent-secondary-glow: rgba(123, 167, 188, 0.3);
+      --scripture-border: #7BA7BC;
+      --box-principle: #D4849A;
+      --box-principle-bg: rgba(212, 132, 154, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212,132,154,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(123,167,188,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212,132,154,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(123,167,188,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212,132,154,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(123,167,188,0.15),
+        0 0 80px rgba(212,132,154,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212,132,154,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212,132,154,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212,132,154,0.4);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212,132,154,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .stats {
+      margin-top: 12px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    .stats span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .return-link {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 20px;
+      background: rgba(123,167,188,0.08);
+      border: 1px solid rgba(123,167,188,0.25);
+      border-radius: 8px;
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    .return-link:hover {
+      background: rgba(123,167,188,0.15);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 15px var(--accent-secondary-glow);
+    }
+    .key-verse {
+      margin: 24px 0;
+      padding: 22px;
+      background: rgba(212,132,154,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(212,132,154,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .key-verse blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    .key-verse cite {
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .progress-bar {
+      margin: 20px 0;
+      padding: 14px 18px;
+      background: rgba(212,132,154,0.04);
+      border: 1px solid rgba(212,132,154,0.12);
+      border-radius: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .progress-bar .label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .progress-bar .label span { color: var(--accent); font-weight: 600; }
+    .progress-track {
+      height: 8px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    .chapter-section {
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+    }
+    .section-header h2 {
+      font-size: 1.3rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-bottom: 14px;
+    }
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .lesson-card {
+      display: block;
+      position: relative;
+      padding: 14px 18px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid rgba(212,132,154,0.12);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .lesson-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+      transform: translateY(-2px);
+    }
+    .lesson-num {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .lesson-title {
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      margin: 4px 0;
+    }
+    .progress-dot {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 2px solid rgba(212,132,154,0.3);
+      transition: all 0.3s;
+    }
+    .progress-dot.visited {
+      border-color: var(--accent);
+      background: rgba(212,132,154,0.3);
+    }
+    .progress-dot.complete {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+    .appendix-section h2 {
+      font-size: 1.2rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .editions-section {
+      margin-top: 36px;
+      padding: 28px 24px;
+      background: rgba(123,167,188,0.04);
+      border: 1px solid rgba(123,167,188,0.18);
+      border-radius: 14px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .editions-section h2 {
+      font-size: 1.2rem;
+      color: var(--accent-secondary);
+      margin-bottom: 6px;
+    }
+    .editions-desc {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .editions-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .edition-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    .edition-btn .btn-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .edition-btn .btn-label { display: flex; flex-direction: column; align-items: flex-start; }
+    .edition-btn .btn-label small { font-size: 0.7rem; font-weight: 400; opacity: 0.7; }
+    .edition-btn.preview {
+      background: rgba(123,167,188,0.08);
+      border: 1px solid rgba(123,167,188,0.3);
+      color: var(--accent-secondary);
+    }
+    .edition-btn.preview:hover {
+      background: rgba(123,167,188,0.15);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 20px var(--accent-secondary-glow);
+      transform: translateY(-2px);
+    }
+    .edition-btn .badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+    .badge-preview {
+      background: rgba(123,167,188,0.15);
+      color: var(--accent-secondary);
+    }
+    .editions-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,132,154,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #9B4D6A; text-shadow: none; font-size: 18pt; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .return-link { padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center; }
+      .progress-bar { padding: 12px 14px; }
+      .key-verse { padding: 16px 14px; }
+      .key-verse blockquote { font-size: 0.95rem; }
+      .section-header h2 { font-size: 1.15rem; }
+      .lesson-grid { grid-template-columns: 1fr; gap: 10px; }
+      .lesson-card { padding: 14px 16px; min-height: 44px; }
+      .editions-section { padding: 20px 14px; }
+      .editions-buttons { flex-direction: column; align-items: center; }
+      .edition-btn { width: 100%; max-width: 280px; justify-content: center; min-height: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <header>
+        <h1>Your Name Means Everything</h1>
+        <p style="font-size: 1.4rem; color: var(--accent-secondary); font-weight: 600; margin-bottom: 6px;">Strength and Dignity</p>
+        <p class="subtitle">What the Bible Says to Young Women About Character, Wisdom, and Faith</p>
+        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 4px;">Paul &amp; Pam Hainline</p>
+        <p class="stats">
+          <span>13</span> Chapters &bull; Introduction &bull; Conclusion &bull; <span>1</span> Scripture Index
+        </p>
+        <a href="../index.html" class="return-link">&larr; Return to Noble Mind Study</a>
+      </header>
+
+      <section class="key-verse">
+        <blockquote>
+          &ldquo;Strength and dignity are her clothing, and she smiles at the future.&rdquo;
+        </blockquote>
+        <cite>&mdash; Proverbs 31:25 (NASB)</cite>
+      </section>
+
+      <div class="progress-bar">
+        <div class="label">
+          <span>Study Progress</span>
+          <span id="progress-text">0 / 13 chapters</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <section class="chapter-section">
+        <div class="lesson-grid">
+          <a href="introduction.html" class="lesson-card">
+            <span class="lesson-num">Introduction</span>
+            <div class="lesson-title">Nobody Told You This</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part One: Who You Are</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-01.html" class="lesson-card" data-ch="1">
+            <span class="lesson-num">Chapter 1</span>
+            <div class="lesson-title">Your Name Is Your Most Valuable Asset</div>
+            <span class="progress-dot" id="dot-1"></span>
+          </a>
+          <a href="chapter-02.html" class="lesson-card" data-ch="2">
+            <span class="lesson-num">Chapter 2</span>
+            <div class="lesson-title">The Woman in the Mirror Isn&rsquo;t the Whole Story</div>
+            <span class="progress-dot" id="dot-2"></span>
+          </a>
+          <a href="chapter-03.html" class="lesson-card" data-ch="3">
+            <span class="lesson-num">Chapter 3</span>
+            <div class="lesson-title">When Nobody&rsquo;s Watching Becomes When Everybody&rsquo;s Watching</div>
+            <span class="progress-dot" id="dot-3"></span>
+          </a>
+          <a href="chapter-04.html" class="lesson-card" data-ch="4">
+            <span class="lesson-num">Chapter 4</span>
+            <div class="lesson-title">You Were Made On Purpose, For a Purpose</div>
+            <span class="progress-dot" id="dot-4"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part Two: Who God Is</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-05.html" class="lesson-card" data-ch="5">
+            <span class="lesson-num">Chapter 5</span>
+            <div class="lesson-title">The Relationship You Actually Need Most</div>
+            <span class="progress-dot" id="dot-5"></span>
+          </a>
+          <a href="chapter-06.html" class="lesson-card" data-ch="6">
+            <span class="lesson-num">Chapter 6</span>
+            <div class="lesson-title">The Bible Isn&rsquo;t What You Think It Is</div>
+            <span class="progress-dot" id="dot-6"></span>
+          </a>
+          <a href="chapter-07.html" class="lesson-card" data-ch="7">
+            <span class="lesson-num">Chapter 7</span>
+            <div class="lesson-title">Putting Down the Phone Long Enough to Hear Something True</div>
+            <span class="progress-dot" id="dot-7"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part Three: How You Treat People</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-08.html" class="lesson-card" data-ch="8">
+            <span class="lesson-num">Chapter 8</span>
+            <div class="lesson-title">He Is Somebody&rsquo;s Son</div>
+            <span class="progress-dot" id="dot-8"></span>
+          </a>
+          <a href="chapter-09.html" class="lesson-card" data-ch="9">
+            <span class="lesson-num">Chapter 9</span>
+            <div class="lesson-title">The Friends You Choose Will Choose Your Future</div>
+            <span class="progress-dot" id="dot-9"></span>
+          </a>
+          <a href="chapter-10.html" class="lesson-card" data-ch="10">
+            <span class="lesson-num">Chapter 10</span>
+            <div class="lesson-title">Honor Your Father and Mother (Even When It&rsquo;s Hard)</div>
+            <span class="progress-dot" id="dot-10"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part Four: How You Build a Life</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="chapter-11.html" class="lesson-card" data-ch="11">
+            <span class="lesson-num">Chapter 11</span>
+            <div class="lesson-title">Work Like It Matters Because It Does</div>
+            <span class="progress-dot" id="dot-11"></span>
+          </a>
+          <a href="chapter-12.html" class="lesson-card" data-ch="12">
+            <span class="lesson-num">Chapter 12</span>
+            <div class="lesson-title">Money Will Test Your Character</div>
+            <span class="progress-dot" id="dot-12"></span>
+          </a>
+          <a href="chapter-13.html" class="lesson-card" data-ch="13">
+            <span class="lesson-num">Chapter 13</span>
+            <div class="lesson-title">The Church Is Not Optional</div>
+            <span class="progress-dot" id="dot-13"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="chapter-section">
+        <div class="lesson-grid">
+          <a href="conclusion.html" class="lesson-card">
+            <span class="lesson-num">Conclusion</span>
+            <div class="lesson-title">Your Move</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="appendix-section chapter-section">
+        <div class="section-header">
+          <h2>Appendix</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="scripture-index.html" class="lesson-card">
+            <span class="lesson-num">Scripture Index</span>
+            <div class="lesson-title">Every passage referenced, organized by book</div>
+          </a>
+        </div>
+      </section>
+
+      <section class="editions-section">
+        <h2>Download Edition</h2>
+        <p class="editions-desc">The complete book &mdash; all 13 chapters, introduction, conclusion, and scripture index &mdash; formatted for reading and printing.</p>
+        <div class="editions-buttons">
+          <a href="Strength_and_Dignity.pdf" download class="edition-btn preview" onclick="trackDownload('Your Name Means Everything PDF')">
+            <span class="btn-icon">&#128196;</span>
+            <span class="btn-label">PDF Edition<small>Free download</small></span>
+            <span class="badge badge-preview">Download</span>
+          </a>
+        </div>
+        <p class="editions-note">Free to download, share, and study. If you quote from this work, please credit: <em>Your Name Means Everything: Strength and Dignity</em> by Paul &amp; Pam Hainline.</p>
+      </section>
+
+      <footer>
+        <p class="copyright">Your Name Means Everything: Strength and Dignity &copy; Paul &amp; Pam Hainline 2026. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function trackDownload(filename) {
+      try {
+        var payload = JSON.stringify({
+          type: 'file_download',
+          path: window.location.pathname,
+          metadata: filename
+        });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon('/api/analytics/event', payload);
+        } else {
+          fetch('/api/analytics/event', {
+            method: 'POST',
+            body: payload,
+            keepalive: true
+          });
+        }
+      } catch (e) { /* silent */ }
+    }
+
+    var PROGRESS_KEY = 'strengthAndDignity_progress';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function updateProgressUI() {
+      var p = loadProgress();
+      var complete = 0;
+      for (var i = 1; i <= 13; i++) {
+        var dot = document.getElementById('dot-' + i);
+        if (!dot) continue;
+        var status = p['ch' + i];
+        if (status === 'complete') {
+          dot.className = 'progress-dot complete';
+          complete++;
+        } else if (status === 'visited') {
+          dot.className = 'progress-dot visited';
+        }
+      }
+      document.getElementById('progress-text').textContent = complete + ' / 13 chapters';
+      document.getElementById('progress-fill').style.width = (complete / 13 * 100) + '%';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      updateProgressUI();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>
