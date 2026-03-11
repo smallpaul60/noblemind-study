@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHAPTER SEVEN: What He Came to Do | The Character No One Could Invent</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0a8c0;
+      --text-muted: #807890;
+      --accent: #8B7FC7;
+      --accent-glow: rgba(139, 127, 199, 0.4);
+      --accent-soft: rgba(139, 127, 199, 0.12);
+      --accent-secondary: #5C8FBC;
+      --accent-secondary-glow: rgba(92, 143, 188, 0.3);
+      --scripture-border: #5C8FBC;
+      --box-principle: #8B7FC7;
+      --box-principle-bg: rgba(139, 127, 199, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(139,127,199,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(92,143,188,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(139,127,199,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(92,143,188,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139,127,199,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(92,143,188,0.15),
+        0 0 80px rgba(139,127,199,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(139,127,199,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(139,127,199,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(139,127,199,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(139,127,199,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(139,127,199,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(139,127,199,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238B7FC7' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(139,127,199,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(139,127,199,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(139,127,199,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content h2 {
+      color: var(--accent);
+      font-size: 1.45rem;
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid rgba(139,127,199,0.2);
+    }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(92,143,188,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 22px;
+      border-radius: 12px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(139,127,199,0.25);
+      border-left: 4px solid var(--box-principle);
+    }
+    .principle-box p { color: var(--text-primary); }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(139,127,199,0.06);
+      border: 1px solid rgba(139,127,199,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(139,127,199,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(139,127,199,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(139,127,199,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(92,143,188,0.08);
+      border: 1px solid rgba(92,143,188,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(92,143,188,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #5B4F8C; text-shadow: none; font-size: 18pt; }
+      .content h2 { color: #5B4F8C; border-bottom-color: #5B4F8C; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #4a6b8a; }
+      .principle-box { background: #fdf8f0; border-color: #8B7FC7; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .principle-box { padding: 14px 16px; margin: 18px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Character No One Could Invent
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="foreword.html">Foreword</option>
+            <option value="chapter-01.html">Ch 1: The Character in the Books</option>
+            <option value="chapter-02.html">Ch 2: The Writers vs. the Character</option>
+            <option value="chapter-03.html">Ch 3: Not a Myth</option>
+            <option value="chapter-04.html">Ch 4: Not a Natural Product</option>
+            <option value="chapter-05.html">Ch 5: How He Knew</option>
+            <option value="chapter-06.html">Ch 6: How He Taught</option>
+            <option value="chapter-07.html" selected>Ch 7: What He Came to Do</option>
+            <option value="chapter-08.html">Ch 8: The Impossible Mission</option>
+            <option value="chapter-09.html">Ch 9: The Way of Perishing</option>
+            <option value="chapter-10.html">Ch 10: What He Claims</option>
+            <option value="chapter-11.html">Ch 11: What He Built</option>
+            <option value="chapter-12.html">Ch 12: The One Universal Man</option>
+            <option value="chapter-13.html">Ch 13: The Verdict</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SEVEN</p>
+        <h1>What He Came to Do</h1>
+        <p class="subtitle">Part II: Unlike Any Mere Man</p>
+      </header>
+
+      <div class="content">
+        <p>Every leader who has ever mattered had a mission. Moses wanted to liberate a nation. Alexander wanted to conquer the world. Marx wanted to restructure the economy. Gandhi wanted to end colonial rule. Martin Luther King Jr. wanted to dismantle racial injustice. Each one looked at the human situation, identified something wrong with it, and set out to fix it.</p>
+
+        <p>Jesus of Nazareth also had a mission. He stated it plainly, in words no one can misunderstand: "For the Son of Man has come to seek and to save that which was lost" (Luke 19:10).</p>
+
+        <p>That sentence sounds familiar enough to pass right through us. It shouldn't. Because when you press on what Jesus meant by it -- when you compare what He came to do with what every other leader, reformer, and would-be savior in history came to do -- you find yourself standing in front of something that has no parallel. Not a partial parallel. Not a rough analogy. No parallel at all.</p>
+
+        <p>Every other great figure in human history works on man's circumstances. Jesus alone works on man's character.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Diagnosis No One Else Makes</h2>
+
+        <p>Here is how Jesus saw the human problem. All evil, in His view, is moral evil. All moral evil is sin. And sin, at its root, is not a behavior -- it is a condition. It is the state of a human being who is out of harmony with God.</p>
+
+        <p>This is not how most people think about what is wrong with the world. Ask a thousand people on the street what the biggest problem facing humanity is, and you will get answers like: poverty, inequality, climate change, political corruption, access to healthcare, war, ignorance, greed. Every one of those answers locates the problem somewhere outside the individual. The trouble is out there -- in systems, in circumstances, in other people.</p>
+
+        <p>Jesus never said that. Not once.</p>
+
+        <p>He said things like this: "For from within, out of the heart of men, proceed the evil thoughts, fornications, thefts, murders, adulteries, deeds of coveting and wickedness, as well as deceit, sensuality, envy, slander, pride and foolishness. All these evil things proceed from within and defile the man" (Mark 7:21-23).</p>
+
+        <p>Notice how precise that is. He did not say evil things happen to a man from without and damage him. He said evil things proceed from within and defile him. The direction matters. The problem is not the world pressing in on you. The problem is what is already inside you pressing out.</p>
+
+        <p>This was His unwavering position. He never modified it. He never softened it. From the Sermon on the Mount to the Upper Room, from His first recorded teaching to His last, the diagnosis is always the same: the trouble is in you, not around you.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>How He Applied It</h2>
+
+        <p>Watch how this plays out in His actual encounters with people.</p>
+
+        <p>A woman identified by the text only as &quot;a sinner&quot; &mdash; unnamed, unidentified beyond her reputation &mdash; crashed a dinner party at the home of a Pharisee named Simon. She wept over Jesus' feet, wiped them with her hair, and anointed them with perfume (Luke 7:37-38). She was a woman whose social circumstances were utterly destroyed. She had no reputation, no standing, no future in polite society. A social reformer would have talked about restoring her dignity, giving her a second chance, addressing the conditions that led to her downfall.</p>
+
+        <p>Jesus said: "Your sins have been forgiven... Your faith has saved you; go in peace" (Luke 7:48, 50).</p>
+
+        <p>Not a word about her social position. Not a word about the economic factors or the cultural pressures. He went straight to the root.</p>
+
+        <p>Or take the paralytic at Capernaum. Four friends tore open a roof to lower him down to Jesus (Mark 2:3-5). The man was paralyzed. His problem, as far as anyone in the room could see, was physical. He needed healing. That is what everyone expected Jesus to do.</p>
+
+        <p>Jesus looked at him and said: "Son, your sins are forgiven" (Mark 2:5).</p>
+
+        <p>The scribes in the room objected to the theology. But notice what nobody objected to: the priorities. Jesus treated the man's sin as more urgent than his paralysis. He did eventually heal him -- but only after making the point that forgiveness was the real gift.</p>
+
+        <p>Then there was Nicodemus, a ruler of the Jews who came to Jesus at night (John 3:1-2). Nicodemus was educated, respected, morally serious, and religiously devout. He was not the kind of man anyone would have looked at and said, "There is someone who needs help." His circumstances were excellent. By every external measure, he was doing fine.</p>
+
+        <p>Jesus told him: "Unless one is born again he cannot see the kingdom of God" (John 3:3).</p>
+
+        <p>Nicodemus was baffled. The passage records his confusion in plain terms: "How can a man be born when he is old?" (John 3:4). He could not grasp what Jesus was saying because Jesus was not talking about anything Nicodemus could fix with effort, education, or obedience. Jesus was saying that Nicodemus -- righteous, learned, respectable Nicodemus -- needed to be remade from the inside out.</p>
+
+        <p>And then there is the rich fool. A man's fields produced abundantly, and he decided to tear down his barns and build bigger ones so he could store everything and take life easy (Luke 12:16-19). By any worldly standard, this man was a success. He had worked hard, prospered, and planned wisely for the future. A financial advisor would have approved. A life coach would have congratulated him.</p>
+
+        <p>Jesus called him a fool: "You fool! This very night your soul is required of you; and now who will own what you have prepared?" (Luke 12:20).</p>
+
+        <p>The man's problem was not economic. He had plenty of money. His problem was that in all his planning and accumulating, he had left out God entirely. He was, in Jesus' phrase, one who "stores up treasure for himself, and is not rich toward God" (Luke 12:21).</p>
+
+        <p>The prodigal son. The woman at the well. Zacchaeus in his sycamore tree. The rich young ruler who walked away sad. In every case, Jesus cut through the circumstances and went straight to the condition of the soul. The consistent message is staggering in its simplicity: your real problem is not what is happening to you; it is what is happening in you.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>What Makes This Unique</h2>
+
+        <p>Now, someone might object: surely other religious teachers have said similar things. Surely the idea that human beings have a moral problem is not unique to Jesus.</p>
+
+        <p>That is partly true. Many teachers have recognized moral evil in the world. The Buddha identified desire as the root of suffering. Confucius stressed moral cultivation. The Hebrew prophets thundered against injustice and idolatry.</p>
+
+        <p>But there is a difference, and it is not a small one. Jesus did not simply identify sin as a problem alongside other problems. He identified it as the only problem. Every other evil -- poverty, sickness, oppression, death itself -- is, in His teaching, a symptom. Sin is the disease. Deal with the disease and the symptoms resolve. Treat only the symptoms and you have accomplished nothing of lasting value.</p>
+
+        <p>This is what He meant in the most piercing question ever asked: "For what does it profit a man to gain the whole world, and forfeit his soul?" (Mark 8:36).</p>
+
+        <p>Read that carefully. He is not saying the world does not matter. He is saying that even if you got everything the world has to offer -- every reform achieved, every injustice corrected, every physical need met -- and your soul remained alienated from God, you would have gained nothing. The whole world weighed against one human soul, and the soul is heavier.</p>
+
+        <p>No other teacher in history has made that claim with such absolute conviction.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Mythological Contrast</h2>
+
+        <p>The uniqueness of Jesus' mission becomes even sharper when you compare Him with the incarnate gods of mythology. Haygood made this comparison in 1889, and it remains devastating.</p>
+
+        <p>The concept of divine incarnation is not unique to Christianity. Nearly every ancient culture had stories of gods taking on flesh and appearing among human beings. The question is not whether other traditions have incarnations. The question is what those incarnations come to do.</p>
+
+        <p>Vishnu, the supreme deity in Hindu mythology, is said to have incarnated numerous times. But for what purpose? To slay a demon king. To rescue the earth from a cosmic flood. To destroy a tyrant. To combat pestilence and famine. In the mythology of India, the evils that called for divine intervention were shaped by the harsh realities of Indian life -- the jungles teeming with tigers and venomous serpents, the plagues that swept through dense populations, the famines that followed war and drought. The gods came to fix circumstances.</p>
+
+        <p>The twelve labors of Hercules tell the same story from the Greek side. The divine hero kills a lion, slays a hydra, captures a boar, cleans stables, drives away birds, subdues a bull. Every labor is external. Every labor deals with something in the world around man, not something inside man.</p>
+
+        <p>Homer's <em>Iliad</em> places the Greek gods directly on the battlefield at Troy. Athena fights. Ares fights. Apollo fights. They take sides in a human war and throw their divine weight behind their favorites. Their incarnate activity is entirely about circumstances -- who wins, who loses, who lives, who dies.</p>
+
+        <p>Now set Jesus beside all of that. He enters the world. He has the power to do anything -- and He demonstrates that power repeatedly. He heals the sick, feeds thousands, calms storms, raises the dead. But none of that is His mission. Those acts serve His mission, which is something no other incarnate deity ever conceived of: to seek and save the lost by dealing with sin.</p>
+
+        <p>He does not fight Israel's political enemies. He does not overthrow Rome. He does not end poverty or cure every disease or establish a golden age of material prosperity. He forgives sins. He transforms hearts. He makes people new from the inside out.</p>
+
+        <p>The Jewish nation of His day wanted exactly the kind of incarnation every other culture had imagined -- a divine warrior-king who would crush their enemies and restore their national glory. When Jesus offered them something infinitely greater, they killed Him for it.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Modern Version of the Same Mistake</h2>
+
+        <p>We are still making the same mistake, just in updated packaging.</p>
+
+        <p>Every major political movement in the modern era operates on the same assumption: the problem is in our circumstances, and if we fix the circumstances, we fix the people. The left says the problem is economic inequality -- redistribute wealth and people will flourish. The right says the problem is government overreach -- restore freedom and people will thrive. Libertarians say the problem is coercion. Progressives say the problem is systemic injustice. Each one points to an external condition and says: fix that, and human beings will be fine.</p>
+
+        <p>The self-help industry runs the same engine. Change your habits. Optimize your morning routine. Rewire your brain. Manifest your best life. The assumption is always that you are basically good and just need better tools, better systems, better circumstances.</p>
+
+        <p>Social media has amplified this conviction to a deafening volume. Every day, millions of people share their analysis of what is wrong with the world, and it is always something out there -- a policy, a politician, a corporation, a system, a cultural trend. The implicit message is constant: if we could just fix that thing, we would all be okay.</p>
+
+        <p>Jesus says none of it is enough. Not because those things do not matter, but because they do not reach the root. You can give a man a perfect government, a thriving economy, excellent healthcare, a supportive community, and meaningful work -- and he can still be lost. You can remove every external obstacle from a person's life, and the thing that is actually destroying them will remain untouched, because it is inside them.</p>
+
+        <p>This is not a popular message. It was not popular in the first century and it is not popular now. People would much rather hear that their problems are someone else's fault. Jesus insists that the deepest problem is your own.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>Not Indifference to Suffering</h2>
+
+        <p>Let me be clear about what Jesus is not saying, because this point gets distorted constantly.</p>
+
+        <p>Jesus is not saying that suffering does not matter. He is not saying that injustice should be ignored. He is not saying that poverty, disease, and oppression are unimportant. He healed the sick. He fed the hungry. He wept at a friend's grave. He was moved with compassion again and again by human suffering.</p>
+
+        <p>But He never treated those things as the ultimate problem. He treated them as consequences of the ultimate problem. And His mission was to address the cause, not merely to manage the effects.</p>
+
+        <p>This is why He said to His disciples: "But seek first His kingdom and His righteousness, and all these things will be added to you" (Matthew 6:33). The logic is clear: get the root right and the fruit follows. A good tree bears good fruit. A bad tree cannot bear good fruit no matter how carefully you tend the branches.</p>
+
+        <p>The angel announced this mission before Jesus was even born: "You shall call His name Jesus, for He will save His people from their sins" (Matthew 1:21). Not from Rome. Not from poverty. Not from sickness. From their sins. That was the mission from the first moment.</p>
+
+        <div class="divider">&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;</div>
+
+        <h2>The Weight of the Claim</h2>
+
+        <p>Step back and consider what this means.</p>
+
+        <p>Here is a man who walks into a world full of visible, tangible, urgent problems -- and He says the real problem is invisible. He lives in an occupied country under a brutal empire, surrounded by poverty, disease, and oppression -- and He says none of those things are the actual enemy. He has the power to fix circumstances -- He demonstrates that power repeatedly -- and yet He insists that fixing circumstances is not His mission.</p>
+
+        <p>Instead, He targets something that no one else has ever targeted in the same way: the moral condition of the individual human soul. He says that every person He meets, from the most outwardly righteous Pharisee to the most obviously broken sinner, has the same fundamental problem. And He claims to be the only solution to it.</p>
+
+        <p>"I did not come to call the righteous, but sinners" (Mark 2:17). "For God did not send the Son into the world to judge the world, but that the world might be saved through Him" (John 3:17). "I did not come to judge the world, but to save the world" (John 12:47).</p>
+
+        <p>This is either the most profound understanding of the human condition ever articulated, or it is the delusion of a man who missed the point entirely. There is no middle ground. If Jesus is wrong -- if the real problems are external and the real solutions are political, economic, and social -- then He wasted His life on a misdiagnosis. But if He is right -- if the deepest sickness of the human race is moral and spiritual, if sin really is the root from which all other evils grow -- then every other program that ignores that root is treating symptoms while the patient dies.</p>
+
+        <p>Two thousand years of evidence suggest that the symptom-treaters have not solved the problem. We have made extraordinary progress in science, medicine, technology, education, and governance. We have reduced poverty, extended lifespans, expanded rights, and connected the globe. And yet the human heart remains what it has always been. The same greed, the same cruelty, the same selfishness, the same capacity for evil that plagued the ancient world plagues us still. Better tools in the hands of unchanged people produce better-equipped sinners, not better human beings.</p>
+
+        <p>Jesus saw that from the beginning. His mission was calibrated to the actual problem. He came not to rearrange the furniture of human life but to renovate the house from the foundation up.</p>
+
+        <p>Only one thing He came to destroy -- sin. Only one thing He came to give -- a new heart. And in that singular focus, He stands alone in all of human history.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-06.html">&larr; Ch 6: How He Taught</a>
+          <a href="chapter-08.html">Ch 8: The Impossible Mission &rarr;</a>
+        </div>
+        <p class="copyright">The Character No One Could Invent &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'characterNoOneCouldInvent_progress';
+    const CH_NUM = 7;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev && !prev.classList.contains('disabled')) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

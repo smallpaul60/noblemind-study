@@ -167,9 +167,12 @@ type EventDetail struct {
 	Metadata  string `json:"metadata"`
 }
 
-// QueryStats returns dashboard stats for the given number of days.
-func QueryStats(days int) (*StatsResult, error) {
-	since := time.Now().UTC().AddDate(0, 0, -days).Format("2006-01-02T15:04:05Z")
+// QueryStats returns dashboard stats since the given ISO timestamp.
+// If since is empty, falls back to the given number of days ago (UTC).
+func QueryStats(since string, fallbackDays int) (*StatsResult, error) {
+	if since == "" {
+		since = time.Now().UTC().AddDate(0, 0, -fallbackDays).Format("2006-01-02T15:04:05Z")
+	}
 	result := &StatsResult{}
 
 	// Total views
@@ -334,16 +337,28 @@ type RecentVisit struct {
 	Screen      string `json:"screen"`
 }
 
-// QueryRecentVisitors returns the last N page views.
-func QueryRecentVisitors(limit int) ([]RecentVisit, error) {
+// QueryRecentVisitors returns the last N page views, optionally filtered to those since a given timestamp.
+func QueryRecentVisitors(limit int, since string) ([]RecentVisit, error) {
 	if limit <= 0 || limit > 200 {
 		limit = 50
 	}
-	rows, err := db.Query(`
-		SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen
-		FROM page_views
-		ORDER BY id DESC
-		LIMIT ?`, limit)
+
+	var rows *sql.Rows
+	var err error
+	if since != "" {
+		rows, err = db.Query(`
+			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen
+			FROM page_views
+			WHERE timestamp >= ?
+			ORDER BY id DESC
+			LIMIT ?`, since, limit)
+	} else {
+		rows, err = db.Query(`
+			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen
+			FROM page_views
+			ORDER BY id DESC
+			LIMIT ?`, limit)
+	}
 	if err != nil {
 		return nil, err
 	}

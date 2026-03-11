@@ -789,7 +789,8 @@
 
     async function fetchJSON(url) {
       const res = await fetch(url, {
-        headers: token ? { 'Authorization': 'Bearer ' + token } : {}
+        headers: token ? { 'Authorization': 'Bearer ' + token } : {},
+        cache: 'no-store'
       });
       if (res.status === 401) { showLogin(); throw new Error('unauthorized'); }
       if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -910,12 +911,19 @@
       const btn = document.querySelector('.refresh-btn');
       if (btn) { btn.disabled = true; btn.textContent = 'Loading...'; }
       const period = document.getElementById('periodSelect').value;
+      const days = parseInt(period) || 7;
+
+      // Compute timezone-aware "since" timestamp: midnight local time, (days-1) days ago
+      const now = new Date();
+      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const since = new Date(startOfToday.getTime() - (days - 1) * 86400000);
+      const sinceParam = '&since=' + encodeURIComponent(since.toISOString());
 
       try {
         const [stats, realtime, recent] = await Promise.all([
-          fetchJSON(baseURL + '/api/analytics/stats?period=' + period + 'd'),
+          fetchJSON(baseURL + '/api/analytics/stats?period=' + period + 'd' + sinceParam),
           fetchJSON(baseURL + '/api/analytics/realtime'),
-          fetchJSON(baseURL + '/api/analytics/recent?limit=100')
+          fetchJSON(baseURL + '/api/analytics/recent?limit=100' + sinceParam)
         ]);
 
         // Summary cards
@@ -923,9 +931,16 @@
         document.getElementById('uniqueVisitors').textContent = formatNum(stats.unique_visitors || 0);
         document.getElementById('activeNow').textContent = String(realtime.active_visitors || 0);
 
-        const days = parseInt(period) || 7;
-        const avg = days > 0 ? Math.round((stats.total_views || 0) / days) : 0;
-        document.getElementById('avgDaily').textContent = formatNum(avg);
+        // Avg daily views — redundant for "Today", so show "Views Today" instead
+        const avgLabel = document.querySelector('#avgDaily').closest('.summary-card').querySelector('.label');
+        if (days === 1) {
+          avgLabel.textContent = 'Views Today';
+          document.getElementById('avgDaily').textContent = formatNum(stats.total_views || 0);
+        } else {
+          avgLabel.textContent = 'Avg. Daily Views';
+          const avg = days > 0 ? Math.round((stats.total_views || 0) / days) : 0;
+          document.getElementById('avgDaily').textContent = formatNum(avg);
+        }
         document.getElementById('avgTime').textContent = formatDuration(stats.avg_time_on_page);
 
         // Recent visitors
@@ -1100,9 +1115,16 @@
     // Auto-refresh realtime + recent every 30 seconds
     setInterval(async () => {
       try {
+        // Recompute since for the current period selection
+        const p = parseInt(document.getElementById('periodSelect').value) || 7;
+        const n = new Date();
+        const sot = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+        const s = new Date(sot.getTime() - (p - 1) * 86400000);
+        const sp = '&since=' + encodeURIComponent(s.toISOString());
+
         const [rt, recent] = await Promise.all([
           fetchJSON(baseURL + '/api/analytics/realtime'),
-          fetchJSON(baseURL + '/api/analytics/recent?limit=100')
+          fetchJSON(baseURL + '/api/analytics/recent?limit=100' + sp)
         ]);
         document.getElementById('activeNow').textContent = String(rt.active_visitors || 0);
         document.getElementById('recentVisitors').innerHTML = buildRecentTable(recent);

@@ -120,8 +120,9 @@ func handleVerify(w http.ResponseWriter, r *http.Request) {
 func handleStats(w http.ResponseWriter, r *http.Request) {
 	periodStr := r.URL.Query().Get("period")
 	days := parsePeriod(periodStr)
+	since := r.URL.Query().Get("since")
 
-	stats, err := QueryStats(days)
+	stats, err := QueryStats(since, days)
 	if err != nil {
 		log.Printf("stats query error: %v", err)
 		http.Error(w, "internal error", http.StatusInternalServerError)
@@ -129,6 +130,7 @@ func handleStats(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
 	json.NewEncoder(w).Encode(stats)
 }
 
@@ -142,6 +144,7 @@ func handleRealtime(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
 	json.NewEncoder(w).Encode(data)
 }
 
@@ -152,8 +155,9 @@ func handleRecent(w http.ResponseWriter, r *http.Request) {
 	if n, err := strconv.Atoi(limitStr); err == nil && n > 0 && n <= 200 {
 		limit = n
 	}
+	since := r.URL.Query().Get("since")
 
-	visits, err := QueryRecentVisitors(limit)
+	visits, err := QueryRecentVisitors(limit, since)
 	if err != nil {
 		log.Printf("recent query error: %v", err)
 		http.Error(w, "internal error", http.StatusInternalServerError)
@@ -161,6 +165,7 @@ func handleRecent(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Cache-Control", "no-store")
 	json.NewEncoder(w).Encode(visits)
 }
 

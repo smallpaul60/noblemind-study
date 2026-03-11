@@ -1,10 +1,11 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v68';
+const CACHE_NAME = 'noblemind-study-v78';
 
 // Files to cache for offline use
 const CACHE_FILES = [
   '/',
   '/index.html',
+  '/books.html',
   '/Noble_Mind_Study_Tool_v2.html',
   '/principles.html',
   '/user-guide.html',
@@ -53,7 +54,38 @@ const CACHE_FILES = [
   '/ThroughTheValley/chapter-06.html',
   '/ThroughTheValley/chapter-07.html',
   '/ThroughTheValley/chapter-08.html',
-  '/ThroughTheValley/scripture-index.html'
+  '/ThroughTheValley/scripture-index.html',
+  '/ThroughTheValley/Through_the_Valley.pdf',
+  '/ThroughTheValley/Through_the_Valley.epub',
+  '/TheCharacterNoOneCouldInvent/index.html',
+  '/TheCharacterNoOneCouldInvent/foreword.html',
+  '/TheCharacterNoOneCouldInvent/chapter-01.html',
+  '/TheCharacterNoOneCouldInvent/chapter-02.html',
+  '/TheCharacterNoOneCouldInvent/chapter-03.html',
+  '/TheCharacterNoOneCouldInvent/chapter-04.html',
+  '/TheCharacterNoOneCouldInvent/chapter-05.html',
+  '/TheCharacterNoOneCouldInvent/chapter-06.html',
+  '/TheCharacterNoOneCouldInvent/chapter-07.html',
+  '/TheCharacterNoOneCouldInvent/chapter-08.html',
+  '/TheCharacterNoOneCouldInvent/chapter-09.html',
+  '/TheCharacterNoOneCouldInvent/chapter-10.html',
+  '/TheCharacterNoOneCouldInvent/chapter-11.html',
+  '/TheCharacterNoOneCouldInvent/chapter-12.html',
+  '/TheCharacterNoOneCouldInvent/chapter-13.html',
+  '/ANewAndLivingWay/index.html',
+  '/ANewAndLivingWay/authors-note.html',
+  '/ANewAndLivingWay/chapter-01.html',
+  '/ANewAndLivingWay/chapter-02.html',
+  '/ANewAndLivingWay/chapter-03.html',
+  '/ANewAndLivingWay/chapter-04.html',
+  '/ANewAndLivingWay/chapter-05.html',
+  '/ANewAndLivingWay/chapter-06.html',
+  '/ANewAndLivingWay/chapter-07.html',
+  '/ANewAndLivingWay/chapter-08.html',
+  '/ANewAndLivingWay/chapter-09.html',
+  '/ANewAndLivingWay/chapter-10.html',
+  '/ANewAndLivingWay/chapter-11.html',
+  '/ANewAndLivingWay/chapter-12.html'
 ];
 
 // Install event - cache essential files
