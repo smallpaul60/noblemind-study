@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 13: Press On | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html" selected>Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THIRTEEN</p>
+        <h1>Press On</h1>
+        <p class="subtitle">The last thing to say. And the first thing to do tomorrow morning.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Brethren, I do not regard myself as having laid hold of it yet; but one thing I do: forgetting what lies behind and reaching forward to what lies ahead, I press on toward the goal for the prize of the upward call of God in Christ Jesus.&rdquo;
+        </blockquote>
+        <cite>&mdash; Philippians 3:13&ndash;14 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>We started this book with a man in a Roman prison.</p>
+
+        <p>He was old. He was in chains. His body bore the scars of thirty years of beatings, stonings, shipwrecks, sleepless nights, and the relentless weight of caring for every congregation he had helped build. His earthly future was not promising. By any measure the world uses, the best was behind him.</p>
+
+        <p>And he sat down and wrote a letter that included these words:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Brethren, I do not regard myself as having laid hold of it yet; but one thing I do: forgetting what lies behind and reaching forward to what lies ahead, I press on toward the goal for the prize of the upward call of God in Christ Jesus.&rdquo;</p>
+          <cite>&mdash; Philippians 3:13&ndash;14 (NASB)</cite>
+        </blockquote>
+
+        <p>When you read those words in Chapter 1, they were an introduction. A statement of direction. A man refusing to look in the rearview mirror and choosing instead to face forward, straining toward something he hadn&rsquo;t yet reached.</p>
+
+        <p>Now you know what he was straining toward.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>You&rsquo;ve spent twelve chapters walking through what lies ahead of the aging believer, and it is not what the world told you it was. The world told you the best was behind you. The world told you to manage your decline, enjoy what&rsquo;s left, be grateful for what you had. The world handed you a rearview mirror and told you that was all there was to see.</p>
+
+        <p>But you&rsquo;ve seen something else now.</p>
+
+        <p>You stood with Simeon in the temple &mdash; an old man who had spent his entire old age leaning forward, not backward. He didn&rsquo;t define his final years by what he had already seen. He defined them by what he was <em>waiting</em> for. And when the moment came &mdash; when he held the fulfillment of God&rsquo;s promise in his own weathered hands &mdash; he was ready. His eyes had been pointed in the right direction.</p>
+
+        <p>You stood with Anna &mdash; eighty-four years old, a widow for most of her life, and she never left the temple. She didn&rsquo;t retire from the work of God because the years had piled up. She went deeper into it. Fasting. Praying. Serving. And when the moment of redemption arrived, she was there to see it &mdash; not because she got lucky, but because she had never left her post. Faithfulness put her in the room.</p>
+
+        <p>You stood with Caleb at eighty-five &mdash; a man with every right to ask for the easy ground, the level field, the quiet valley where an old man could rest. Instead, he looked at the mountain with the giants on it and said, &ldquo;Give me this mountain.&rdquo; His past wasn&rsquo;t a rocking chair. It was a launching pad. And he charged.</p>
+
+        <p>Those were the examples. Real people, in real Scripture, who show you that age is not the end of the story. It never was.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Then the book turned, and the examples gave way to the theology &mdash; the truths that God, through the pens of Paul and the writer of Hebrews and the apostle John, laid down to anchor you for the final stretch.</p>
+
+        <p>Paul told you that the outer man is decaying &mdash; and he didn&rsquo;t flinch from it. He named it. The body is wasting away. You feel it every morning. But he said something is happening at the same time, in the opposite direction: the inner man is being renewed. Day by day. <em>Hemera kai hemera</em>. Not in spite of the decay, but alongside it. Two things, moving in opposite directions, inside the same person. And the one that&rsquo;s growing is the one that lasts.</p>
+
+        <p>He told you that the body you live in is a tent &mdash; temporary, groaning, wearing thin &mdash; and that God has a building waiting for you. Not made with hands. Eternal in the heavens. And he told you that to be absent from this body is to be at home with the Lord. Home. The word means what it means. You are not going to a strange place. You are going home.</p>
+
+        <p>He told you that the body that goes into the ground is a seed &mdash; and what comes out of the ground is something so far beyond what went in that there is no comparison. Perishable becomes imperishable. Dishonor becomes glory. Weakness becomes power. The natural body is sown; the spiritual body is raised. Not less physical. More. Not less real. More real than anything you&rsquo;ve ever touched.</p>
+
+        <p>You walked with Abraham toward a city with foundations, whose architect and builder is God. Abraham lived in tents his whole life in the promised land &mdash; a stranger, a temporary resident, never quite at home. And the writer of Hebrews tells you why: he was looking for something better. A heavenly country. And God was not ashamed to be called his God, because He had prepared a city for him. The homesickness you feel &mdash; the sense that this world isn&rsquo;t quite right, that you don&rsquo;t quite fit, that something is missing &mdash; is not a sign that something is wrong with you. It&rsquo;s a sign that you were made for somewhere else.</p>
+
+        <p>You learned that the fear of death &mdash; the slavery that holds people captive their entire lives &mdash; was broken when Jesus took on flesh and blood, walked into death, and came out the other side. The devil&rsquo;s most powerful weapon was disarmed from the inside. The chains were cut. And you don&rsquo;t have to be owned by that fear anymore. The fear may whisper. But it no longer commands.</p>
+
+        <p>You learned Paul&rsquo;s math. You put your afflictions on one side of the scale &mdash; every ache, every loss, every hard day &mdash; and you put the eternal weight of glory on the other side, and the scale wasn&rsquo;t even close. Momentary. Light. And almost over. The glory, on the other hand, has a weight that buries the scale and never comes back.</p>
+
+        <p>And you saw what John saw on Patmos &mdash; the curtain pulled back, the end of the story revealed. A new heaven and a new earth. God Himself coming down to dwell with His people. Every tear wiped away by His own hand. No more death. No more mourning. No more crying. No more pain. The first things passed away, and all things made new. Faithful and true, because the One who promised it does not lie.</p>
+
+        <p>That is what lies ahead of you.</p>
+
+        <p>That is what Paul was straining toward when he wrote from that prison cell. Not a memory. Not a wish. A promise &mdash; backed by the character of God, sealed by the blood of Christ, and confirmed by the resurrection that proved it all true.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And if, somewhere in the reading, you realized the promises were not yet yours &mdash; if Chapter 12 spoke to something you had been putting off, something you knew needed to happen &mdash; then today is the day. Not tomorrow. Today. Believe with all your heart. Repent. Confess Jesus as Lord. Be buried with Him in baptism and raised to walk in newness of life. Every spiritual blessing is in Christ, and baptism is how you get into Christ. Don&rsquo;t wait. Ananias&rsquo;s question is still ringing: <em>Why do you delay?</em></p>
+
+        <p>The door is open. Walk through it.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>But this final chapter is not only for the one who hasn&rsquo;t yet obeyed. It is for you &mdash; the one who has been walking this road for years, maybe decades. The one who was baptized into Christ a long time ago and has been pressing on ever since. The one whose body aches and whose friends are fewer and whose mornings are quieter than they used to be.</p>
+
+        <p>This chapter is for you because the race is not over yet. And the last laps matter.</p>
+
+        <p>Paul didn&rsquo;t write Philippians 3:13&ndash;14 as a young man setting out. He wrote it as an old man pressing on. The word he used &mdash; <em>epekteinomenos</em> &mdash; is the image of a runner in full stretch, body extended toward the finish line. Not coasting. Not drifting. Straining forward. And the thing he was straining toward was not behind him. It was not beneath him. It was above him. The upward call of God in Christ Jesus.</p>
+
+        <p>That call hasn&rsquo;t changed. It is still upward. It is still ahead. And it is still worth everything you have.</p>
+
+        <p>You may not be able to do what you once did. Your body has made that clear. But Simeon couldn&rsquo;t do what a young man does, either &mdash; and he held the Messiah in his arms. Anna couldn&rsquo;t keep up with the pace of a younger woman &mdash; and she was standing in the temple when redemption arrived. Caleb&rsquo;s bones were eighty-five years old &mdash; and he took the mountain.</p>
+
+        <p>The race is not about what your body can do. It&rsquo;s about which direction your heart is facing.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>So here is the last thing I want to say to you &mdash; and it&rsquo;s the same thing I said at the beginning, but now you know why.</p>
+
+        <p>Turn around.</p>
+
+        <p>Not because the past wasn&rsquo;t real. It was. The laughter was real. The love was real. The people were real, and you will see them again. But the past is not your destination. It was never meant to be.</p>
+
+        <p>Your destination is a building not made with hands. A body raised in glory. A city with foundations whose architect and builder is God. A place where God Himself dwells with His people, where death is gone, where every tear has been wiped away, where the first things have finally, permanently, irreversibly passed away.</p>
+
+        <p>And every single day &mdash; every morning you wake up with the ache in your back and the quiet in your house and the weight of another day in the tent &mdash; is one day closer to that.</p>
+
+        <p>Not one day farther from the good days.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">One day closer to the best day.</p>
+
+        <p>Forget what lies behind. Reach forward to what lies ahead. Press on toward the goal for the prize of the upward call of God in Christ Jesus.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">The sunrise ahead is better than anything behind you.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">One day closer to home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-12.html">&larr; Ch 12: Why Are You Still Waiting?</a>
+          <a href="index.html">Table of Contents &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 13;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-12.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

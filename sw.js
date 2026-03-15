@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v80';
+const CACHE_NAME = 'noblemind-study-v83';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -103,7 +103,22 @@ const CACHE_FILES = [
   '/StrengthAndDignity/chapter-13.html',
   '/StrengthAndDignity/conclusion.html',
   '/StrengthAndDignity/scripture-index.html',
-  '/StrengthAndDignity/Strength_and_Dignity.pdf'
+  '/StrengthAndDignity/Strength_and_Dignity.pdf',
+  '/OneDayCloserToHome/index.html',
+  '/OneDayCloserToHome/chapter-01.html',
+  '/OneDayCloserToHome/chapter-02.html',
+  '/OneDayCloserToHome/chapter-03.html',
+  '/OneDayCloserToHome/chapter-04.html',
+  '/OneDayCloserToHome/chapter-05.html',
+  '/OneDayCloserToHome/chapter-06.html',
+  '/OneDayCloserToHome/chapter-07.html',
+  '/OneDayCloserToHome/chapter-08.html',
+  '/OneDayCloserToHome/chapter-09.html',
+  '/OneDayCloserToHome/chapter-10.html',
+  '/OneDayCloserToHome/chapter-11.html',
+  '/OneDayCloserToHome/chapter-12.html',
+  '/OneDayCloserToHome/chapter-13.html',
+  '/OneDayCloserToHome/One_Day_Closer_to_Home.pdf'
 ];
 
 // Install event - cache essential files

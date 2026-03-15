@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8: Abraham's City | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html" selected>Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER EIGHT</p>
+        <h1>Abraham&rsquo;s City</h1>
+        <p class="subtitle">Living as a stranger who knows where he&rsquo;s going.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;For he was looking for the city which has foundations, whose architect and builder is God.&rdquo;
+        </blockquote>
+        <cite>&mdash; Hebrews 11:10 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>There&rsquo;s a kind of loneliness that only comes with age.</p>
+
+        <p>It&rsquo;s not the loneliness of being alone in a room, though that happens too. It&rsquo;s the loneliness of being alone in a world that has moved on without you. The neighborhood doesn&rsquo;t look like it used to. The church pew has empty spaces where familiar faces sat for decades. The phone numbers in your address book belong to people who don&rsquo;t answer anymore. The language has changed, the music has changed, the rules have changed, and somewhere along the way you stopped recognizing the place you&rsquo;ve lived your whole life.</p>
+
+        <p>You feel like a stranger. Not because you moved &mdash; but because everything around you did.</p>
+
+        <p>If that resonates with you, then Abraham has something to say. Because Abraham spent the last hundred years of his life feeling exactly that &mdash; and the writer of Hebrews tells us it was by design.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Abraham&rsquo;s story begins with a command and a departure.</p>
+
+        <p>God spoke to a man living in Ur of the Chaldeans &mdash; a settled, sophisticated city in Mesopotamia &mdash; and told him to leave. Leave your country. Leave your relatives. Leave your father&rsquo;s house. Go to a land that I will show you. That&rsquo;s it. No map. No address. No description of what was waiting. Just: go.</p>
+
+        <p>And Abraham went.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;By faith Abraham, when he was called, obeyed by going out to a place which he was to receive for an inheritance; and he went out, not knowing where he was going.&rdquo;</p>
+          <cite>&mdash; Hebrews 11:8 (NASB)</cite>
+        </blockquote>
+
+        <p>Read that last phrase again: &ldquo;not knowing where he was going.&rdquo; Abraham packed up his household &mdash; his wife Sarah, his nephew Lot, his servants, his livestock, everything &mdash; and walked away from the only home he had ever known, heading toward a destination God had not yet named. He went on nothing but the word of the One who called him.</p>
+
+        <p>That takes a kind of faith most of us can barely imagine. We want the five-year plan. We want the destination confirmed before we book the ticket. Abraham had a voice and a direction. That was enough.</p>
+
+        <p>But here&rsquo;s what makes Abraham&rsquo;s story relevant to this book. He arrived in Canaan &mdash; the land God had promised &mdash; and he never owned it. He never settled. He never built a permanent house or established a family estate or planted roots the way a man does when he&rsquo;s home.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;By faith he lived as an alien in the land of promise, as in a foreign land, dwelling in tents with Isaac and Jacob, fellow heirs of the same promise.&rdquo;</p>
+          <cite>&mdash; Hebrews 11:9 (NASB)</cite>
+        </blockquote>
+
+        <p>An alien. In the land of <em>promise</em>. The very place God had called him to, and Abraham lived there as a foreigner. Dwelling in tents &mdash; the same temporary, fragile shelters Paul would later use as a metaphor for the human body. Abraham had the promise, but he didn&rsquo;t have the permanence. He was in the right place but never at home.</p>
+
+        <p>The writer of Hebrews tells us why:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;For he was looking for the city which has foundations, whose architect and builder is God.&rdquo;</p>
+          <cite>&mdash; Hebrews 11:10 (NASB)</cite>
+        </blockquote>
+
+        <p>Abraham wasn&rsquo;t confused. He wasn&rsquo;t lost. He wasn&rsquo;t wandering aimlessly hoping something would turn up. He was looking for something &mdash; a city. A real destination. But not a city built by human hands. A city with foundations &mdash; <em>themelios</em> in the Greek, meaning something laid down as a base, something permanent, something that cannot be moved. And the architect and builder of that city was God Himself.</p>
+
+        <p>The word translated &ldquo;architect&rdquo; &mdash; <em>technites</em> &mdash; means a craftsman, a skilled designer. The word for &ldquo;builder&rdquo; &mdash; <em>demiourgos</em> &mdash; means a maker, a creator who brings something into existence. God designed the city, and God built the city. Abraham was walking toward it his entire life, and every tent he pitched along the way was just another night on the road.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>A few verses later, the writer of Hebrews expands the picture &mdash; and this is where the passage reaches across the centuries and takes hold of anyone who has ever felt displaced by age.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;All these died in faith, without receiving the promises, but having seen them and having welcomed them from a distance, and having confessed that they were strangers and exiles on the earth. For those who say such things make it clear that they are seeking a country of their own. And indeed if they had been thinking of that country from which they went out, they would have had opportunity to return. But as it is, they desire a better country, that is, a heavenly one. Therefore God is not ashamed to be called their God; for He has prepared a city for them.&rdquo;</p>
+          <cite>&mdash; Hebrews 11:13&ndash;16 (NASB)</cite>
+        </blockquote>
+
+        <p>Take this apart slowly, because nearly every phrase matters.</p>
+
+        <p>&ldquo;All these died in faith, without receiving the promises.&rdquo; Abraham, Isaac, Jacob, Sarah &mdash; they all died without seeing the fullness of what God had promised. They believed it. They lived toward it. But they died before it arrived. The promise was real, but the fulfillment was beyond their lifetime.</p>
+
+        <p>&ldquo;Having seen them and having welcomed them from a distance.&rdquo; This is remarkable language. They <em>saw</em> the promises &mdash; not with physical eyes, but with the eyes of faith. And they didn&rsquo;t just acknowledge them. They <em>welcomed</em> them. The Greek word &mdash; <em>aspazomai</em> &mdash; means to greet, to embrace, the way you would welcome a guest you&rsquo;ve been waiting for. They reached toward the promises the way a traveler reaches toward the lights of home from miles away. The promises were still distant, but they were already welcome.</p>
+
+        <p>&ldquo;Having confessed that they were strangers and exiles on the earth.&rdquo; They said it out loud. This is who we are. We don&rsquo;t belong here. We are passing through. The word for &ldquo;strangers&rdquo; &mdash; <em>xenos</em> &mdash; is the root of our word &ldquo;xenophobia,&rdquo; fear of the foreign. They were the foreign ones. And &ldquo;exiles&rdquo; &mdash; <em>parepidemos</em> &mdash; means a temporary resident, someone living alongside a country but not belonging to it. They pitched their tents in the land of promise and said: this isn&rsquo;t home.</p>
+
+        <p>&ldquo;For those who say such things make it clear that they are seeking a country of their own.&rdquo; Their confession wasn&rsquo;t despair. It was direction. When you say &ldquo;I&rsquo;m a stranger here,&rdquo; you&rsquo;re also saying &ldquo;I belong somewhere else.&rdquo; The writer says their words made it <em>clear</em> &mdash; unmistakable, obvious &mdash; that they were heading toward something.</p>
+
+        <p>&ldquo;And indeed if they had been thinking of that country from which they went out, they would have had opportunity to return.&rdquo; This is the Hebrews writer closing the back door. Abraham could have gone back to Ur. Nobody was stopping him. The road went both ways. But he never turned around. He never looked back and said, &ldquo;Maybe the old country was good enough.&rdquo; The place he came from held no pull for him, because the place he was going was better.</p>
+
+        <p>&ldquo;But as it is, they desire a better country, that is, a heavenly one.&rdquo;</p>
+
+        <p>Better. Not different for the sake of different. <em>Better.</em> The heavenly country isn&rsquo;t just an alternative to this one. It surpasses it in every way. And that&rsquo;s what they desired &mdash; that&rsquo;s what drew them forward through decades of tent-dwelling and promise-waiting and never quite being home.</p>
+
+        <p>And then the response from God that should make every aging stranger&rsquo;s heart swell:</p>
+
+        <p>&ldquo;Therefore God is not ashamed to be called their God; for He has prepared a city for them.&rdquo;</p>
+
+        <p>God is not ashamed. Of these tent-dwelling, wandering, never-quite-settled people who spent their lives looking for something they hadn&rsquo;t yet reached &mdash; God was proud to be called their God. And the reason is the last phrase: He has prepared a city for them. It&rsquo;s ready. It&rsquo;s real. It&rsquo;s built. The architect designed it, the builder made it, and it is waiting.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now here&rsquo;s where Abraham&rsquo;s story walks through your front door.</p>
+
+        <p>You feel like a stranger. The world you grew up in &mdash; the values, the pace, the assumptions, the way people treated each other &mdash; feels like a foreign country now. The friends who understood you without explanation are fewer every year. The church that felt like family has changed in ways you didn&rsquo;t ask for. You walk through your own town and it doesn&rsquo;t feel like yours anymore.</p>
+
+        <p>And the voice in your head &mdash; the one that whispers in the quiet hours &mdash; says: <em>You don&rsquo;t belong here anymore.</em></p>
+
+        <p>The voice is right. But not for the reason it thinks.</p>
+
+        <p>You don&rsquo;t belong here because you never did. Not fully. Not permanently. If you are in Christ, you have been a stranger and an exile on this earth your entire life &mdash; you just didn&rsquo;t feel it as sharply when you were young and busy and surrounded by people who were walking the same direction. Now the crowd has thinned. The road feels lonelier. The foreignness is harder to ignore.</p>
+
+        <p>But the foreignness is not a malfunction. It&rsquo;s a signal. It&rsquo;s telling you what Abraham knew, what Isaac knew, what Jacob and Sarah knew: you are seeking a country of your own. And it isn&rsquo;t behind you.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>This connects to something we said in the very first chapter of this book. The rearview mirror is a powerful pull. The old neighborhood, the old friends, the old church, the way things used to be &mdash; nostalgia invites you to live there, to camp out in the past and call it home.</p>
+
+        <p>But the Hebrews writer says Abraham had the opportunity to return and didn&rsquo;t take it. He could have gone back. He could have looked at his tent and looked at the road behind him and said, &ldquo;Ur had stone houses and paved streets and I knew where everything was.&rdquo; But he kept walking. Because what was ahead was better than what was behind, even if he couldn&rsquo;t see it yet.</p>
+
+        <p>If you had been thinking of that country from which you went out, you would have had opportunity to return.</p>
+
+        <p>The old days are available to you. The photo albums, the memories, the &ldquo;I remember when.&rdquo; You can pitch your tent in the past any time you want. Nobody will stop you. The road goes both ways.</p>
+
+        <p>But there&rsquo;s a city ahead. And God built it.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>The loneliness of aging is real. The displacement is real. The feeling of being a stranger in a world you used to understand &mdash; that&rsquo;s real. This book has never pretended otherwise, and it won&rsquo;t start now.</p>
+
+        <p>But the loneliness is not the whole story. Abraham was lonely too. He spent a hundred years in tents, in a land he was promised but never possessed, burying his wife in a cave he had to purchase from the locals because he didn&rsquo;t even own a burial plot. If anyone had grounds for feeling displaced, it was Abraham.</p>
+
+        <p>And yet the writer of Hebrews says he was looking for the city with foundations. His eyes were forward. His displacement wasn&rsquo;t a failure &mdash; it was evidence that he was still on the road. Still moving. Still seeking.</p>
+
+        <p>You are on that same road. The tents are getting thinner, the company is getting smaller, and the landscape doesn&rsquo;t look familiar anymore. But the city is ahead. Its foundations are laid. Its architect is God. And He is not ashamed to be called your God.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Every day you feel a little more like a stranger here is one day closer to the country where you finally belong.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">One day closer to home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-07.html">&larr; Ch 7: Sown Perishable, Raised Imperishable</a>
+          <a href="chapter-09.html">Ch 9: Free from the Fear of Death &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 8;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-07.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

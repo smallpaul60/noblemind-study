@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 10: A Momentary Light Affliction | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html" selected>Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TEN</p>
+        <h1>A Momentary Light Affliction</h1>
+        <p class="subtitle">When Paul did the math, this is what he found.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;For momentary, light affliction is producing for us an eternal weight of glory far beyond all comparison.&rdquo;
+        </blockquote>
+        <cite>&mdash; 2 Corinthians 4:17 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>You&rsquo;ve carried heavy things.</p>
+
+        <p>Not just physically &mdash; though you&rsquo;ve done that too, and your back remembers it. But heavy things that don&rsquo;t weigh anything on a scale. The phone call at 3 AM. The diagnosis. The empty chair at Christmas. The year that felt like it would never end, and then the year after it that felt the same way. You know what heaviness is. You&rsquo;ve felt it in your chest, in your sleep, in the effort it takes some mornings just to stand up and face another day.</p>
+
+        <p>And if someone walked up to you in the middle of the heaviest season of your life and called it &ldquo;light,&rdquo; you might have a few words for them.</p>
+
+        <p>Paul called it light.</p>
+
+        <p>The man who was beaten with rods three times, stoned and left for dead, shipwrecked three times, adrift on the open sea, who went without sleep and food and warmth &mdash; the man who carried the daily pressure of every congregation he had helped establish, who worried about their faithfulness the way a father worries about his children &mdash; that man sat down and described the sum total of every affliction he had ever endured, and the word he chose was <em>light</em>.</p>
+
+        <p>He wasn&rsquo;t being careless with the language. He was doing math. And when you see the math, you&rsquo;ll understand why he chose the word he did.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Earlier in this book, we spent time in the verses just before the ones we&rsquo;re coming to now. In Chapter 5, we looked at Paul&rsquo;s paradox in 2 Corinthians 4:16 &mdash; the outer man decaying while the inner man is renewed day by day. That was about the <em>paradox</em>: two things happening at once, in opposite directions, inside the same person.</p>
+
+        <p>But Paul wasn&rsquo;t finished. He went on to do something different with the very next breath &mdash; something that isn&rsquo;t a paradox at all. It&rsquo;s a comparison. A weighing. And what he puts on each side of the scale changes the way you see everything you&rsquo;re going through.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;For momentary, light affliction is producing for us an eternal weight of glory far beyond all comparison, while we look not at the things which are seen, but at the things which are not seen; for the things which are seen are temporal, but the things which are not seen are eternal.&rdquo;</p>
+          <cite>&mdash; 2 Corinthians 4:17&ndash;18 (NASB)</cite>
+        </blockquote>
+
+        <p>Two verses. One sentence. And inside it, a complete recalibration of how to measure suffering.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Start with what Paul puts on the left side of the scale: &ldquo;momentary, light affliction.&rdquo;</p>
+
+        <p>The Greek word translated &ldquo;momentary&rdquo; is <em>parautika</em> &mdash; it means just for the present, lasting only for now, passing. And the word translated &ldquo;light&rdquo; is <em>elaphron</em> &mdash; literally, having little weight. Easy to carry. Insignificant on the scale.</p>
+
+        <p>Now hold those two words in your mind and ask a question: What exactly is Paul calling momentary and light?</p>
+
+        <p>The answer is in his own autobiography, written just a few chapters later in this same letter. In 2 Corinthians 11, Paul lays out a catalog of what he had endured for the sake of Christ. And it is not a short list.</p>
+
+        <p>Five times he received thirty-nine lashes from the Jews. Three times he was beaten with rods. Once he was stoned &mdash; dragged outside the city and left in a heap. Three times he was shipwrecked. He spent a night and a day drifting in the open sea. He had been in constant danger &mdash; danger from rivers, from robbers, from his own countrymen, from Gentiles, in the city, in the wilderness, at sea, from false brothers. He had gone without sleep, without food, without adequate clothing. And on top of all of it, the daily pressure of his concern for the churches &mdash; every congregation a weight on his heart (2 Corinthians 11:23&ndash;28).</p>
+
+        <p>That is what Paul is calling &ldquo;light.&rdquo;</p>
+
+        <p>This is not a man who had an easy life and didn&rsquo;t know what real suffering felt like. This is a man who had been through more physical pain, emotional anguish, and relentless hardship than most of us will ever experience &mdash; and he weighed it all, every last ounce of it, and pronounced it <em>light</em>.</p>
+
+        <p>He wasn&rsquo;t minimizing it. He wasn&rsquo;t pretending it didn&rsquo;t hurt. He was comparing it to something else. And what he put on the other side of the scale made everything on this side look like nothing.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Here&rsquo;s the other side: &ldquo;an eternal weight of glory far beyond all comparison.&rdquo;</p>
+
+        <p>Watch what Paul does with the language. On the left side, the affliction is <em>momentary</em>. On the right side, the glory is <em>eternal</em>. On the left, the affliction is <em>light</em> &mdash; it has no weight. On the right, the glory is heavy &mdash; it has <em>weight</em>. The Greek word is <em>baros</em>, and it means heaviness, burden, substance. Glory isn&rsquo;t wispy or thin or floating somewhere in the abstract. It has mass. It has heft. It is the most solid, substantial, weighty thing that exists.</p>
+
+        <p>And then, as if the contrast between momentary and eternal, light and weighty, weren&rsquo;t enough, Paul piles on a phrase that nearly breaks the language: <em>kath&rsquo; hyperbol&#x113;n eis hyperbol&#x113;n</em> &mdash; &ldquo;far beyond all comparison.&rdquo; The NASB is doing its best with that phrase, but the Greek is stacking the word <em>hyperbol&#x113;</em> on top of itself. Beyond excess unto excess. Surpassing upon surpassing. It&rsquo;s the kind of expression a man uses when the thing he&rsquo;s trying to describe has outrun every word in his vocabulary.</p>
+
+        <p>Paul is saying: I have stood on both sides of this. I have felt the affliction. I know what it weighs. And I am telling you &mdash; when you put it on the scale next to what God has prepared, it doesn&rsquo;t register.</p>
+
+        <p>Not because the suffering isn&rsquo;t real. But because the glory is <em>that</em> heavy.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There&rsquo;s a word in the middle of verse 17 that&rsquo;s easy to miss, but it changes everything once you see it. Paul says that this momentary, light affliction &ldquo;is producing for us&rdquo; that eternal weight of glory.</p>
+
+        <p><em>Producing</em>. The Greek is <em>katergazetai</em> &mdash; it means to work out, to bring about, to accomplish. Paul isn&rsquo;t just saying that suffering and glory happen to exist in sequence &mdash; that you endure one and then receive the other, like standing in a line. He&rsquo;s saying the affliction is actually <em>producing</em> the glory. Working it out. Accomplishing it.</p>
+
+        <p>This is not a transactional claim &mdash; as if God is paying you in glory for the suffering you endure. It&rsquo;s deeper than that. The affliction itself, borne in faith, is part of the process by which God is shaping the eternal thing He has prepared for you. The suffering isn&rsquo;t just the road to glory; it&rsquo;s doing something. It&rsquo;s working.</p>
+
+        <p>James said something similar: &ldquo;the testing of your faith produces endurance&rdquo; (James 1:3). And Peter: &ldquo;so that the proof of your faith, being more precious than gold which is perishable, even though tested by fire, may be found to result in praise and glory and honor at the revelation of Jesus Christ&rdquo; (1 Peter 1:7). There is a consistent testimony in the New Testament that trials, endured in faith, are not wasted. They are productive. They are accomplishing something that outlasts the trial itself.</p>
+
+        <p>The morning your knees hurt so badly you weren&rsquo;t sure you could get out of bed &mdash; but you did, and you prayed, and you went on about the work of faith &mdash; that morning was not wasted. The year you spent at the bedside of someone you loved, watching them slip away one piece at a time, and you kept trusting God through every awful day of it &mdash; that year was not wasted. The quiet suffering that nobody sees and nobody applauds and nobody writes a card about &mdash; it is not wasted.</p>
+
+        <p>It is producing something. And what it&rsquo;s producing has weight.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Then Paul tells you how to live in this reality. Not just how to believe it &mdash; how to see it.</p>
+
+        <p>&ldquo;While we look not at the things which are seen, but at the things which are not seen.&rdquo;</p>
+
+        <p>The word &ldquo;look&rdquo; here &mdash; <em>skope&#x14D;</em> &mdash; is deliberate. It means to fix your attention on, to consider, to direct your gaze. It&rsquo;s the root of the English word &ldquo;scope,&rdquo; and the idea is the same: a focused, intentional act of looking. Paul is not describing passive sight &mdash; what happens to fall in front of your eyes. He&rsquo;s describing a decision about where to aim them.</p>
+
+        <p>And the decision is counterintuitive: look at the things which are <em>not</em> seen.</p>
+
+        <p>That sounds like a contradiction until you realize what Paul means. The things that are &ldquo;seen&rdquo; &mdash; visible, tangible, right in front of you &mdash; are your aching body, your shrinking calendar, your empty house, your thinning circle of friends. Those are real. You see them every day. And they press in hard.</p>
+
+        <p>But they are temporary. The Greek word is <em>proskaira</em> &mdash; lasting for a season, bound by time. What you see is real, but it is passing.</p>
+
+        <p>The things which are &ldquo;not seen&rdquo; &mdash; the building that replaces the tent, the imperishable body that replaces the perishable one, the city with foundations whose architect and builder is God &mdash; those you cannot see yet. But they are <em>eternal</em>. Not bound by time. Not passing. Not going anywhere.</p>
+
+        <p>Paul is asking you to do the thing that goes against every instinct of the body you live in: take your eyes off the visible, temporary evidence and fix them on the invisible, eternal reality. Not because the pain isn&rsquo;t real. But because the pain is not the whole picture. And the part you can&rsquo;t see yet is the part that weighs the most.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>This is where the math changes everything.</p>
+
+        <p>When you&rsquo;re lying in bed at night and the body aches and the house is quiet and the losses stack up in your mind like stones, the scale feels tipped all in one direction. The suffering is heavy. The grief is heavy. The loneliness is heavy. And the future &mdash; the earthly future &mdash; looks like more of the same, only less of it.</p>
+
+        <p>But Paul says you&rsquo;re looking at the wrong side of the scale. You&rsquo;re weighing your affliction against your circumstances. You&rsquo;re measuring your suffering against the years you have left. And by that math, the scale is crushing.</p>
+
+        <p>His math is different. He puts your affliction on one side and eternity on the other. He puts your momentary, passing, time-bound pain on the left &mdash; all of it, every last ounce &mdash; and on the right he puts the weight of glory that God has been preparing for you since before the world began. And the right side isn&rsquo;t just heavier. It isn&rsquo;t just a little more. It is <em>beyond all comparison</em>. It buries the scale. The left side goes up so fast it isn&rsquo;t even a contest.</p>
+
+        <p>That&rsquo;s what Paul saw. That&rsquo;s why he could call it light. Not because it didn&rsquo;t hurt. Because he had seen what it weighed against.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And here is where it becomes personal.</p>
+
+        <p>You are not Paul. You probably haven&rsquo;t been stoned or shipwrecked or beaten with rods. But you&rsquo;ve carried your own afflictions, and they don&rsquo;t feel light to you. The slow loss of independence. The friends who aren&rsquo;t here anymore. The body that won&rsquo;t do what it used to do. The days that feel more like endurance than enjoyment. Those are your thirty-nine lashes, your open sea, your night without warmth.</p>
+
+        <p>And Paul, who carried more than you and more than me and more than almost anyone, looked at the whole pile and said: <em>This is producing something. And what it&rsquo;s producing outweighs everything on this side of the scale so completely that there isn&rsquo;t even a unit of measurement for the comparison.</em></p>
+
+        <p>You don&rsquo;t have to pretend the suffering is easy. Paul didn&rsquo;t. You don&rsquo;t have to paste a smile over the hard days and call it faith. Paul groaned in the tent &mdash; he told you that himself.</p>
+
+        <p>But you can recalibrate the scale. You can take the thing that feels like it&rsquo;s crushing you and set it next to the thing God has promised &mdash; the eternal, weighty, real, solid glory that your affliction is producing right now, today, in this very season of your life &mdash; and you can see it for what it is.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Momentary. Light. And almost over.</p>
+
+        <p>The glory, on the other hand, is forever. And it has a weight that nothing in this world can match.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Every hard day is one day less of the momentary. One day closer to the weight of glory. One day closer to the thing that tips the scale so far it never comes back.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">One day closer to home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-09.html">&larr; Ch 9: Free from the Fear of Death</a>
+          <a href="chapter-11.html">Ch 11: No More Tears &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 10;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-09.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

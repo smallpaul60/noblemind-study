@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: The Rearview Mirror | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html" selected>Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ONE</p>
+        <h1>The Rearview Mirror</h1>
+        <p class="subtitle">Why we spend more time looking back than looking forward &mdash; and what it costs us.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Brethren, I do not regard myself as having laid hold of it yet; but one thing I do: forgetting what lies behind and reaching forward to what lies ahead, I press on toward the goal for the prize of the upward call of God in Christ Jesus.&rdquo;
+        </blockquote>
+        <cite>&mdash; Philippians 3:13&ndash;14 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>You know the moment. You&rsquo;re cleaning out a closet, or a drawer you haven&rsquo;t opened in years, and your hand closes around something &mdash; a photograph, a letter, a program from a wedding or a graduation. And just like that, you&rsquo;re not standing in your hallway anymore. You&rsquo;re standing in 1978. You can hear the music. You can smell the perfume. You can see the face of someone who&rsquo;s been gone for twenty years, and for just a second, they&rsquo;re alive again.</p>
+
+        <p>It hits you somewhere behind the ribs.</p>
+
+        <p>And then you&rsquo;re back. The hallway. The drawer. The quiet house. And the present feels a little thinner than it did a moment ago.</p>
+
+        <p>If you&rsquo;re over sixty, you know exactly what I&rsquo;m describing. You&rsquo;ve felt it looking through old photo albums. You&rsquo;ve felt it hearing a song on the radio that hasn&rsquo;t played in decades. You&rsquo;ve felt it driving past the house where you raised your children, the one with the different color shutters now and someone else&rsquo;s car in the driveway. The past reaches out and grabs you, and honestly &mdash; you don&rsquo;t always fight it. Sometimes you go willingly. Sometimes the past feels more real, more vivid, more <em>alive</em> than anything happening today.</p>
+
+        <p>There&rsquo;s a phrase for it. &ldquo;The good old days.&rdquo;</p>
+
+        <p>And here&rsquo;s the thing &mdash; those days really were good. I&rsquo;m not here to take that from you. The laughter around that table was real. The love was real. The feeling of purpose and strength and being in the middle of things &mdash; all real. Nostalgia isn&rsquo;t a sin. Memory is a gift from God. The ability to carry people and places and moments inside your heart long after they&rsquo;ve passed from sight &mdash; that&rsquo;s not a flaw in the design. That&rsquo;s part of what it means to be made in the image of a God who remembers (Psalm 105:8).</p>
+
+        <p>So let me be clear from the start: this book is not going to tell you to stop remembering. It&rsquo;s not going to scold you for looking at old photographs or getting misty-eyed at Thanksgiving. That&rsquo;s not the problem.</p>
+
+        <p>The problem is when the rearview mirror becomes the windshield.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There&rsquo;s a difference between glancing back with gratitude and <em>living</em> back there. And the older we get, the easier it is to cross that line without noticing.</p>
+
+        <p>Think about it. When you were thirty, the future was enormous. It stretched out in front of you &mdash; decades of plans, possibilities, things you hadn&rsquo;t done yet. The past was short by comparison. There wasn&rsquo;t that much to look back on. So you naturally leaned forward. You thought about what was next.</p>
+
+        <p>But somewhere along the way, the balance shifted. The past grew longer and richer. The future &mdash; at least the earthly future &mdash; started feeling shorter. And without anyone making a conscious decision, the gaze turned around. The best stories are behind you. The strongest years are behind you. The people you loved most &mdash; some of them are behind you. And so, almost by gravity, that&rsquo;s where your eyes go.</p>
+
+        <p>The world reinforces this. Notice how our culture talks about aging. &ldquo;You&rsquo;ve had a good run.&rdquo; &ldquo;Enjoy your golden years.&rdquo; &ldquo;You&rsquo;ve earned a rest.&rdquo; All of it backward-looking. All of it assumes the meaningful part is over and what&rsquo;s left is to sit comfortably and remember it. The message, spoken or unspoken, is that you&rsquo;ve crossed the peak and now you&rsquo;re on the way down.</p>
+
+        <p>Even in the church, we can fall into this without meaning to. We honor our older members &mdash; and we should &mdash; but sometimes the honoring sounds a lot like a conclusion. A tribute to what <em>was</em>. And the older Christian sits in the pew and smiles and accepts the gratitude and quietly wonders if anyone sees them as anything other than a monument to the past.</p>
+
+        <p>But what if that entire framework is wrong?</p>
+
+        <p>What if the reason the rearview mirror feels so compelling isn&rsquo;t because the best is behind you &mdash; but because you haven&rsquo;t yet seen what&rsquo;s ahead?</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There was a man who had every reason to live in the past. His r&eacute;sum&eacute; was staggering &mdash; by any measure, religious or otherwise, he had accomplished more than most people could fit into three lifetimes. He had been a rising star in Judaism, a Roman citizen, a Pharisee trained under one of the most respected teachers in Israel. Then his life had been torn apart and rebuilt from the ground up. He had planted churches across the known world. He had survived beatings, shipwrecks, stonings, and betrayals. He had stood before governors and kings. He had written letters that would be read for two thousand years.</p>
+
+        <p>And he had also done things he deeply regretted. Before his conversion, he had dragged men and women out of their homes for believing in Jesus. He had approved of the execution of Stephen, one of the first martyrs of the faith. He carried that weight.</p>
+
+        <p>By the time he wrote his letter to the church at Philippi, Paul was an older man &mdash; and he was in chains. A Roman prison. Not the dramatic, defiant imprisonment of a young revolutionary, but the confined, uncertain waiting of a man whose body had taken decades of punishment and whose earthly future was very much in question.</p>
+
+        <p>If anyone had earned the right to look backward &mdash; to rehearse the victories, or for that matter, to dwell on the regrets &mdash; it was Paul.</p>
+
+        <p>He refused.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Brethren, I do not regard myself as having laid hold of it yet; but one thing I do: forgetting what lies behind and reaching forward to what lies ahead, I press on toward the goal for the prize of the upward call of God in Christ Jesus.&rdquo;</p>
+          <cite>&mdash; Philippians 3:13&ndash;14 (NASB)</cite>
+        </blockquote>
+
+        <p>Read that again slowly, because every phrase is doing work.</p>
+
+        <p><em>&ldquo;I do not regard myself as having laid hold of it yet.&rdquo;</em> Paul is not writing from a place of spiritual arrival. He&rsquo;s not looking back at a completed journey. At the end of a life most of us can barely comprehend, he says, &ldquo;I&rsquo;m not there yet.&rdquo; There is still something ahead of him that he has not yet taken hold of.</p>
+
+        <p><em>&ldquo;But one thing I do.&rdquo;</em> Not ten things. Not a program. One deliberate, continuous act of the will.</p>
+
+        <p><em>&ldquo;Forgetting what lies behind.&rdquo;</em> The Greek word here &mdash; <em>epilanthanomai</em> &mdash; doesn&rsquo;t mean amnesia. Paul hasn&rsquo;t literally forgotten his past; he&rsquo;s just recounted parts of it in the verses immediately before this one (Philippians 3:4&ndash;6). The forgetting he&rsquo;s talking about is a <em>refusal to be defined by it.</em> A refusal to let the past &mdash; good or bad &mdash; become the thing that holds his gaze. He&rsquo;s not erasing the memories. He&rsquo;s declining to live in them.</p>
+
+        <p><em>&ldquo;And reaching forward to what lies ahead.&rdquo;</em> Here&rsquo;s where the language gets physical. The word Paul uses &mdash; <em>epekteinomenos</em> &mdash; is an image of a runner in full stretch. Leaning into the race. Body extended toward the finish line. It&rsquo;s not casual. It&rsquo;s not passive. This is a man straining forward with everything he has. An old man, in chains, straining forward.</p>
+
+        <p><em>&ldquo;I press on toward the goal for the prize of the upward call of God in Christ Jesus.&rdquo;</em> The call is <em>upward</em>. Not backward. The prize is ahead, not behind. And Paul, with all his history &mdash; the glories and the failures alike &mdash; has made a decision about which direction to face.</p>
+
+        <p>This is not a young man&rsquo;s bravado. This is an aging man&rsquo;s clarity.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now, I need to say something here that might not be comfortable, because it&rsquo;s not comfortable for me either.</p>
+
+        <p>The rearview mirror is not just about warm memories. Sometimes it&rsquo;s about regret. Sometimes the past that grabs you isn&rsquo;t the golden, glowing kind &mdash; it&rsquo;s the 2:00 AM kind. The things you said. The things you didn&rsquo;t say. The years you wasted. The relationships you damaged. The silence where there should have been words, or the words where there should have been silence.</p>
+
+        <p>For some of you, the past isn&rsquo;t an old photo album. It&rsquo;s an old wound.</p>
+
+        <p>And the temptation is the same in either case &mdash; to set up camp there. To replay it. To turn it over and over in your hands as if examining it one more time will finally change what happened.</p>
+
+        <p>Paul knew both versions. He had the pedigree, the accomplishments, the mountaintop experiences &mdash; and he also had the memory of holding the coats of the men who killed Stephen. He had the faces of the families he tore apart before the Damascus road. He calls himself the foremost of sinners (1 Timothy 1:15), and he&rsquo;s not being modest. He means it.</p>
+
+        <p>And his answer to <em>both</em> versions of the past is the same: forget what lies behind. Not because it didn&rsquo;t matter. But because it&rsquo;s not where you&rsquo;re going.</p>
+
+        <p>The warm nostalgia and the sharp regret have something in common &mdash; they both face the wrong direction. And they both, if you let them, will keep you from seeing what God has put in front of you.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Paul isn&rsquo;t the only one in Scripture who makes this point. Writing to the church at Colossae, he puts it differently but drives the same direction:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Therefore if you have been raised up with Christ, keep seeking the things above, where Christ is, seated at the right hand of God. Set your mind on the things above, not on the things that are on earth.&rdquo;</p>
+          <cite>&mdash; Colossians 3:1&ndash;2 (NASB)</cite>
+        </blockquote>
+
+        <p>&ldquo;Set your mind on the things above.&rdquo; That&rsquo;s a present imperative in the Greek &mdash; it&rsquo;s continuous action. Keep setting. Keep directing your thoughts upward. It&rsquo;s not a one-time decision; it&rsquo;s a daily discipline of orientation. Where are you pointing?</p>
+
+        <p>And then there&rsquo;s a moment recorded by Luke that&rsquo;s brief but striking. Jesus is on the road, and someone says to Him, &ldquo;I will follow You wherever You go.&rdquo; But they want to handle a few things first. Look back at the life they&rsquo;re leaving. Settle accounts. Say goodbyes. And Jesus responds:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;No one, after putting his hand to the plow and looking back, is fit for the kingdom of God.&rdquo;</p>
+          <cite>&mdash; Luke 9:62 (NASB)</cite>
+        </blockquote>
+
+        <p>That sounds harsh until you understand what plowing looked like in the first century. A man guiding a plow behind an animal had to look straight ahead. If he turned to look behind him, the furrow went crooked. It wasn&rsquo;t a moral judgment &mdash; it was a practical reality. You cannot move forward in a straight line while looking backward. The geometry doesn&rsquo;t work.</p>
+
+        <p>And neither does the spiritual geometry. You cannot fully lean into what God has ahead of you while your heart is anchored in what&rsquo;s behind you.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>So here&rsquo;s the question this book is going to spend the next twelve chapters answering &mdash; and I want you to sit with it, because it might be the most important question you consider this year:</p>
+
+        <p><em>What if the best is not behind you?</em></p>
+
+        <p>What if every day that passes isn&rsquo;t taking something from you but bringing you closer to something?</p>
+
+        <p>What if the aches in your body and the thinning of your calendar and the quiet of your house are not signs that life is winding down &mdash; but that you&rsquo;re approaching something so enormous it makes everything behind you look like a shadow?</p>
+
+        <p>The world will tell you to manage your decline gracefully. Make the best of it. Enjoy what&rsquo;s left.</p>
+
+        <p>This book is going to tell you something different. Not because I&rsquo;m an optimist, and not because I think aging is easy. It isn&rsquo;t. The losses are real. The grief is real. The loneliness is real. My father-in-law used to say that growing old wasn&rsquo;t for the faint of heart, and he was right. We&rsquo;re going to talk about all of it honestly.</p>
+
+        <p>But we&rsquo;re going to talk about it facing the right direction.</p>
+
+        <p>In the chapters ahead, you&rsquo;ll meet an old man named Simeon who spent his entire old age leaning forward, waiting for something &mdash; and saw it with his own eyes. You&rsquo;ll meet an 84-year-old widow named Anna who never stopped serving, not for a single day. You&rsquo;ll stand with Caleb at 85 as he asks for the mountain with the giants on it. You&rsquo;ll walk with Abraham, a stranger in a foreign land, looking for a city whose architect and builder is God.</p>
+
+        <p>You&rsquo;ll hear Paul describe the body as a tent &mdash; temporary, fragile, and not your permanent address. You&rsquo;ll hear him describe what comes next in language so vivid it takes your breath: perishable becomes imperishable, dishonor becomes glory, weakness becomes power.</p>
+
+        <p>And at the end, if you&rsquo;ve never surrendered your life to Jesus Christ, there will be a chapter for you too &mdash; not sentimental, but honest, urgent, and grounded in exactly what the New Testament teaches. Because every day closer to home is also one day less to respond.</p>
+
+        <p>But all of that starts here. With a decision about which direction to face.</p>
+
+        <p>Paul made his decision in a Roman prison, with chains on his wrists and a body that bore the scars of thirty years of hard service. He was not young. He was not free. He was not comfortable. And he said, &ldquo;One thing I do &mdash; forgetting what lies behind, reaching forward to what lies ahead, I press on.&rdquo;</p>
+
+        <p>The rearview mirror will always be there. The memories aren&rsquo;t going anywhere. But they were never meant to be your destination.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Turn around.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">The sunrise ahead is better than anything behind you.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="index.html">&larr; Table of Contents</a>
+          <a href="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 1;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'index.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

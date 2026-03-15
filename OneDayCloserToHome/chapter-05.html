@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 5: Outwardly Wasting, Inwardly New | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html" selected>Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FIVE</p>
+        <h1>Outwardly Wasting, Inwardly New</h1>
+        <p class="subtitle">The paradox of aging in Christ.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Therefore we do not lose heart, but though our outer man is decaying, yet our inner man is being renewed day by day.&rdquo;
+        </blockquote>
+        <cite>&mdash; 2 Corinthians 4:16 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>You know the moment I mean.</p>
+
+        <p>It might have been getting out of a chair and hearing your knees announce themselves before you were fully standing. It might have been catching your reflection in a store window and wondering, for half a second, who that older person was. It might have been reaching for a word you&rsquo;ve used a thousand times and finding it just&hellip; gone. Somewhere between your brain and your tongue, it slipped away, and you stood there with your mouth half open, waiting for it to come back.</p>
+
+        <p>The body is talking to you. And what it&rsquo;s saying is: <em>I&rsquo;m not what I used to be.</em></p>
+
+        <p>Nobody has to tell you this. You live it. You live it when you wake up stiff and it takes twenty minutes to feel like yourself. You live it when the doctor starts a sentence with &ldquo;At your age&hellip;&rdquo; and you realize he&rsquo;s not being rude &mdash; he&rsquo;s being accurate. You live it when you look at a photograph from thirty years ago and the distance between that face and the one in the mirror feels like a canyon.</p>
+
+        <p>The world has a word for all this. It calls it <em>decline</em>. And it isn&rsquo;t wrong &mdash; not exactly. Things are declining. Strength, stamina, vision, hearing, memory, mobility &mdash; the list gets longer every year. The world sees the trajectory and draws the obvious conclusion: you are on your way down.</p>
+
+        <p>But the world is only seeing half of it.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>The first four chapters of this book showed you people. Simeon, leaning forward his whole life, waiting for a promise. Anna, widowed for decades and never once stepping back from service. Caleb at eighty-five, asking for the mountain with the giants on it. Those are real people who lived real lives, and their examples speak.</p>
+
+        <p>But now we turn a corner. From here forward, we are in the hands of the apostle Paul &mdash; and Paul doesn&rsquo;t just show us an example to follow. He tells us what is actually happening inside of us right now.</p>
+
+        <p>Paul knew something about suffering in the body. By the time he wrote his second letter to the Corinthians, the man had been beaten with rods three times, received thirty-nine lashes on five separate occasions, been stoned and left for dead, been shipwrecked three times, and spent a night and a day adrift in the open sea. He catalogued it all in the same letter &mdash; not as a complaint, but as a credential. This was a man whose body had been through more than most of us will ever face.</p>
+
+        <p>And in the verses leading up to our passage, Paul has been describing what that life felt like from the inside: &ldquo;afflicted in every way&hellip; perplexed&hellip; persecuted&hellip; struck down&rdquo; (2 Cor. 4:8&ndash;9). He compared himself to a clay jar &mdash; something fragile, ordinary, easily broken &mdash; carrying an extraordinary treasure inside it. That contrast between the fragile container and the priceless content is the setup for everything that follows.</p>
+
+        <p>It was this man &mdash; not a comfortable theologian in a quiet study, but a scarred, weary, aging apostle &mdash; who wrote these words:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Therefore we do not lose heart, but though our outer man is decaying, yet our inner man is being renewed day by day. For momentary, light affliction is producing for us an eternal weight of glory far beyond all comparison, while we look not at the things which are seen, but at the things which are not seen; for the things which are seen are temporal, but the things which are not seen are eternal.&rdquo;</p>
+          <cite>&mdash; 2 Corinthians 4:16&ndash;18 (NASB)</cite>
+        </blockquote>
+
+        <p>Start with that first word: &ldquo;Therefore.&rdquo; Paul is connecting what he&rsquo;s about to say to everything he&rsquo;s just described &mdash; the affliction, the clay jars, the life of Jesus being manifested in mortal flesh. The &ldquo;therefore&rdquo; means: <em>given all of that</em> &mdash; given the beatings, the aging, the wearing down &mdash; here is the conclusion.</p>
+
+        <p>&ldquo;We do not lose heart.&rdquo;</p>
+
+        <p>The word Paul uses &mdash; <em>egkakeo</em> in the Greek &mdash; means to grow weary, to lose courage, to give in. It&rsquo;s the temptation to stop. To sit down on the side of the road and say, &ldquo;I&rsquo;m done.&rdquo; And Paul says: we don&rsquo;t. Not because the circumstances have improved. Not because the body has rallied. But because of what he sees happening beneath the surface.</p>
+
+        <p>&ldquo;Though our outer man is decaying.&rdquo;</p>
+
+        <p>He doesn&rsquo;t soften it. He doesn&rsquo;t say &ldquo;slowing down&rdquo; or &ldquo;entering a new season.&rdquo; The word is <em>diaphtheiro</em> &mdash; it means to be progressively destroyed, to waste away. It&rsquo;s the same word family used for corruption and ruin. Paul looks at the physical deterioration of the human body and calls it exactly what it is. No euphemism. No spin.</p>
+
+        <p>If you are living in a body that aches, that forgets, that can no longer do what it once did &mdash; Paul is not going to pretend otherwise. He sees what you see. He felt what you feel.</p>
+
+        <p>But he doesn&rsquo;t stop there.</p>
+
+        <p>&ldquo;Yet our inner man is being renewed day by day.&rdquo;</p>
+
+        <p>That word &ldquo;yet&rdquo; carries the whole passage. Two things are happening at the same time. Not one after the other &mdash; not &ldquo;first you suffer, then you&rsquo;re renewed someday.&rdquo; Simultaneously. The outer man is wasting away, and the inner man is being made new. Right now. In the same person. At the same moment.</p>
+
+        <p>The word for &ldquo;renewed&rdquo; &mdash; <em>anakainoo</em> &mdash; means to make new again, to restore to a fresh condition. And it&rsquo;s in the present tense. This isn&rsquo;t a one-time event. It isn&rsquo;t something that happened at conversion and stopped. It is happening to you <em>today</em>. Day by day. The Greek literally reads <em>hemera kai hemera</em> &mdash; &ldquo;day and day.&rdquo; Every single day the body loses a little more ground, the spirit is being refreshed, restored, rebuilt.</p>
+
+        <p>Paul used the same language elsewhere. To the Colossians, he wrote of the new self &ldquo;who is being renewed to a true knowledge according to the image of the One who created him&rdquo; (Col. 3:10). To the Ephesians, he prayed that God would grant them &ldquo;to be strengthened with power through His Spirit in the inner man&rdquo; (Eph. 3:16). This is not a passing metaphor. It is Paul&rsquo;s settled understanding of what God is doing inside the believer &mdash; a renovation that does not stop, even when the building it&rsquo;s happening in is falling apart.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>The world can only see one side of this. It sees the outer man &mdash; the slower steps, the reading glasses, the hearing aids, the medications lined up on the counter. It draws its graph line going down and says, &ldquo;This is your story.&rdquo; And if the outer man is all there is, then the world is right.</p>
+
+        <p>Paul says there is more. And he says it not as a theory, but as a man who lived it.</p>
+
+        <p>There is a reason this matters specifically for those of us in the later years. When you&rsquo;re young, you can outrun the decay. The body heals fast. The losses are small. You pull a muscle and it&rsquo;s gone in a week. You lose a night of sleep and bounce back the next day. The outer man&rsquo;s decline is so gradual it&rsquo;s nearly invisible.</p>
+
+        <p>But there comes a point &mdash; and if you&rsquo;re reading this book, you may already be past it &mdash; where the decay announces itself every morning. It shows up in the mirror, in the pharmacy, in the things you used to do without thinking that now require help. And that&rsquo;s when the temptation hits hardest: <em>to lose heart.</em></p>
+
+        <p>Paul wrote this for you.</p>
+
+        <p>Not for the young athlete who can&rsquo;t imagine decline. Not for the middle-aged professional too busy to notice it. For you. The one who feels the outer man decaying and wonders what&rsquo;s left.</p>
+
+        <p>What&rsquo;s left is the part of you that matters most. And it isn&rsquo;t winding down. It&rsquo;s waking up.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>But let&rsquo;s be careful here, because Paul is careful. Notice what he does <em>not</em> say. He does not say the inner renewal cancels out the outer decay. He doesn&rsquo;t promise that if you pray hard enough, the body will stop declining. He doesn&rsquo;t offer a spiritual formula for physical healing. The decay is real, and it continues. Paul lived in that reality every day of his life.</p>
+
+        <p>What he says is that something else is also real. Something the world cannot measure, cannot photograph, cannot chart on a graph. And that something is not merely holding steady &mdash; it is being <em>renewed</em>. Made new. Not patched. Not maintained. <em>Made new.</em> Day by day.</p>
+
+        <p>This is the paradox at the heart of aging in Christ. You are not simply getting older. You are not simply wearing out. Two things are true about you, and they are both happening right now: you are wasting away, and you are being made new.</p>
+
+        <p>And if you&rsquo;re honest, you&rsquo;ve seen the evidence. Maybe not in the mirror &mdash; but in the life behind it. The peace that arrived uninvited when the diagnosis came. The clarity that deepened when the noise of ambition finally quieted. The prayer life that grew richer when the calendar grew emptier. The faith that used to be something you talked about on Sundays and became the thing you actually lean on when you get out of bed on Monday morning.</p>
+
+        <p>That&rsquo;s not decline. That&rsquo;s renewal. And it&rsquo;s happening day by day, whether the world can see it or not.</p>
+
+        <p>But there&rsquo;s a harder version of this question, and it would be dishonest to walk past it.</p>
+
+        <p>What about when the decay reaches the mind?</p>
+
+        <p>Not just the knees or the eyes or the stamina &mdash; the <em>mind</em>. The memory. The ability to recognize faces, to finish sentences, to recall the Scripture you memorized sixty years ago. If you are living with Parkinson&rsquo;s disease, or if someone you love is disappearing behind the fog of Alzheimer&rsquo;s, you know the fear this question carries. It&rsquo;s not just &ldquo;I&rsquo;m getting older.&rdquo; It&rsquo;s &ldquo;Am I still <em>me</em>? Does God still know me when I can&rsquo;t remember Him?&rdquo;</p>
+
+        <p>This is the paradox of 2 Corinthians 4:16 pushed to its most agonizing point. The outer man is decaying &mdash; and now the decay has reached the place where you experienced faith, where you talked to God, where you held the truths that held you. If the inner man is being renewed day by day, what happens when the mind can no longer perceive the renewal?</p>
+
+        <p>The answer is not in 2 Corinthians 4. It&rsquo;s in Romans 8.</p>
+
+        <p>Paul writes: &ldquo;In the same way the Spirit also helps our weakness; for we do not know how to pray as we should, but the Spirit Himself intercedes for us with groanings too deep for words; and He who searches the hearts knows what the mind of the Spirit is, because He intercedes for the saints according to the will of God&rdquo; (Rom. 8:26&ndash;27). The Spirit intercedes when we have no words. When the language is gone, when the prayers won&rsquo;t form, when the mind that once ran to God in every crisis can no longer find the path &mdash; the Spirit is praying for you. Not because you asked Him to. Because that is what He does.</p>
+
+        <p>And in Paul&rsquo;s second letter to Timothy, he writes one of the most quietly powerful sentences in the New Testament: &ldquo;If we are faithless, He remains faithful, for He cannot deny Himself&rdquo; (2 Tim. 2:13). Your faithfulness may falter. Your memory of faith may dissolve. But His faithfulness does not depend on yours. He remains faithful because faithfulness is who He is. He cannot deny Himself.</p>
+
+        <p>The shepherd holds the sheep. The sheep does not hold the shepherd.</p>
+
+        <p>If you are watching someone you love drift behind a wall of confusion &mdash; if the woman who taught you to pray no longer knows your name &mdash; hear this: her faith is not stored in her memory. It is stored in her Savior. And He does not forget. The inner man is being renewed day by day, even when the mind can no longer report it. The Spirit is interceding, even when the tongue has gone silent. And the God who began a good work in her will be faithful to complete it &mdash; not because she can hold on, but because He can.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">That&rsquo;s not disappearing. That&rsquo;s still one day closer to home.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Paul closes this passage by pointing forward &mdash; to a momentary, light affliction producing an eternal weight of glory, to the things not seen, to what is eternal rather than temporal. Those words deserve their own space, and they&rsquo;ll get it later in this book. What Paul does with the <em>scale</em> of suffering and glory is a different work from what he does here, and we&rsquo;ll take the time it deserves.</p>
+
+        <p>But for now, stay here. Stay with the paradox. Because the temptation for someone in the final chapters of life is to look in the mirror and believe that the story the mirror tells is the whole story.</p>
+
+        <p>It isn&rsquo;t.</p>
+
+        <p>The outer man is decaying. Paul said it, and you know it.</p>
+
+        <p>But the inner man is being renewed. Day by day. Today.</p>
+
+        <p>You are not on your way down. You are being remade from the inside out &mdash; and the part being remade is the part that lasts forever.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">That&rsquo;s not decline. That&rsquo;s one day closer to home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-04.html">&larr; Ch 4: Give Me This Mountain</a>
+          <a href="chapter-06.html">Ch 6: The Tent and the Building &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 5;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-04.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

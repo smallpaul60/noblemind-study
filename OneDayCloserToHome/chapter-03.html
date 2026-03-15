@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3: Anna Never Left | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html" selected>Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>Anna Never Left</h1>
+        <p class="subtitle">An 84-year-old widow who refused to stop serving.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;And there was a prophetess, Anna the daughter of Phanuel, of the tribe of Asher. She was advanced in years and had lived with her husband seven years after her marriage, and then as a widow to the age of eighty-four. She never left the temple, serving night and day with fastings and prayers. At that very moment she came up and began giving thanks to God, and continued to speak of Him to all those who were looking for the redemption of Jerusalem.&rdquo;
+        </blockquote>
+        <cite>&mdash; Luke 2:36&ndash;38 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>She almost gets missed.</p>
+
+        <p>Simeon is the one everyone remembers from that day in the temple. His prayer is famous. His words about the child &mdash; &ldquo;a light of revelation to the Gentiles, and the glory of Your people Israel&rdquo; &mdash; are quoted and studied and sung in liturgies around the world. Painters have imagined the scene a thousand times: the old man, the infant, the light streaming through the temple.</p>
+
+        <p>But there was someone else there. Standing close enough to hear Simeon&rsquo;s words. Close enough to see the child in his arms. An 84-year-old widow who had been in that temple longer than most people could remember. And Luke, under the inspiration of the Holy Spirit, makes sure we don&rsquo;t miss her.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;And there was a prophetess, Anna the daughter of Phanuel, of the tribe of Asher. She was advanced in years and had lived with her husband seven years after her marriage, and then as a widow to the age of eighty-four. She never left the temple, serving night and day with fastings and prayers. At that very moment she came up and began giving thanks to God, and continued to speak of Him to all those who were looking for the redemption of Jerusalem.&rdquo;</p>
+          <cite>&mdash; Luke 2:36&ndash;38 (NASB)</cite>
+        </blockquote>
+
+        <p>Three verses. That&rsquo;s all Luke gives us. But packed into those three verses is one of the most remarkable portraits of faithfulness in the entire Bible &mdash; and a direct answer to one of the deepest fears of growing old.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Let&rsquo;s start with what Luke tells us about her, because as with Simeon, every detail is deliberate.</p>
+
+        <p><em>A prophetess.</em> This is noteworthy. The role of prophet in Israel was not self-appointed. Anna had a recognized spiritual function among God&rsquo;s people. She wasn&rsquo;t simply a devout old woman who spent a lot of time at the temple &mdash; she was identified by Luke as someone through whom God had worked. This matters because it tells us that Anna&rsquo;s years of service were not invisible to God or to the community around her. She had a role. She filled it.</p>
+
+        <p><em>The daughter of Phanuel, of the tribe of Asher.</em> Luke gives us her father&rsquo;s name and her tribal lineage. This is more remarkable than it might appear. By the first century, most Israelites had lost track of their tribal identities &mdash; the Assyrian exile centuries earlier had scattered the northern tribes so thoroughly that they were commonly referred to as &ldquo;the lost tribes of Israel.&rdquo; Asher was one of those northern tribes. The fact that Anna&rsquo;s tribal identity was still known suggests a family that had carefully preserved its heritage, its connection to God&rsquo;s people, across generations of upheaval. She came from people who remembered who they were.</p>
+
+        <p><em>She was advanced in years and had lived with her husband seven years after her marriage, and then as a widow to the age of eighty-four.</em></p>
+
+        <p>Here we need to do a little arithmetic, and there&rsquo;s an honest question about the text that&rsquo;s worth noting. The Greek can be read two ways. Some take it to mean Anna was eighty-four years old at the time of this event. Others read it to mean she had been a widow for eighty-four years &mdash; which, if she married young as was customary and was widowed after seven years, would put her well over a hundred years old. Either reading is grammatically possible. The NASB translates it &ldquo;to the age of eighty-four,&rdquo; which is the more straightforward reading, and that&rsquo;s what we&rsquo;ll work with &mdash; while acknowledging that faithful students have read this differently.</p>
+
+        <p>What&rsquo;s not in question is the shape of her life. She was married for seven years. Then her husband died. And what followed was not a few years of widowhood before she moved on to something else. It was <em>decades</em>. Decades of being alone. Decades without the companionship, the provision, the partnership that marriage had given her. In a culture where a woman&rsquo;s security was closely tied to her husband or her sons, Anna&rsquo;s widowhood would have been more than an emotional loss. It was a social and economic vulnerability that lasted most of her adult life.</p>
+
+        <p>And what did she do with those decades?</p>
+
+        <p><em>She never left the temple, serving night and day with fastings and prayers.</em></p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Let that sink in for a moment. She <em>never left</em>.</p>
+
+        <p>Now, this likely doesn&rsquo;t mean Anna literally lived inside the temple complex twenty-four hours a day for sixty or more years, though some have suggested it. The temple had chambers and courts where devout people could spend extended periods, and the phrase &ldquo;never left&rdquo; may be Luke&rsquo;s way of expressing that the temple was her constant, daily, unwavering place of devotion. She was always there. If you went to the temple at dawn, Anna was there. If you went at dusk, Anna was there. She was as much a fixture of that place as the stones themselves.</p>
+
+        <p>But what I don&rsquo;t want us to miss is <em>what</em> she was doing there. Luke doesn&rsquo;t say she was sitting. He doesn&rsquo;t say she was resting. He says she was <em>serving</em>. The Greek word is <em>latreu&omacr;</em> &mdash; it&rsquo;s a word used for priestly service, for worship rendered to God as an act of devoted labor. It&rsquo;s the same word Paul uses when he describes his own ministry: &ldquo;I serve God with my spirit&rdquo; (Romans 1:9, NASB).</p>
+
+        <p>Anna&rsquo;s presence in the temple was not retirement. It was active, purposeful, costly service &mdash; night and day, with fastings and prayers.</p>
+
+        <p>Think about what that means. Fasting at eighty-four. Praying through the night at eighty-four. Not occasionally, not when she felt up to it, but as a pattern of life. A rhythm. A discipline sustained over decades. This woman was not winding down. She was not marking time. She was doing the hardest, most invisible, most demanding work there is &mdash; bringing the needs of God&rsquo;s people before God&rsquo;s throne, day after day, year after year, with nothing to show for it that the world could see.</p>
+
+        <p>And she didn&rsquo;t stop.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>I want to pause here and speak directly to something that many of you feel but may not say out loud.</p>
+
+        <p>One of the cruelest lies of aging is that you&rsquo;re no longer useful. That the years when you could contribute are behind you. That whatever you had to offer, you&rsquo;ve already offered it, and now it&rsquo;s time to step aside and let younger people carry the load.</p>
+
+        <p>The world says this in a thousand ways. The workplace says it with mandatory retirement ages and early buyout packages. The culture says it with its obsession with youth, with energy, with innovation, with the next new thing. Even the church, without meaning to, can say it by quietly moving older members out of meaningful roles and into honorary ones &mdash; appreciated but not needed. Valued for what they were, not for what they are.</p>
+
+        <p>And if you hear that message long enough, you start to believe it. You start to feel like you&rsquo;re taking up space. Like the most loving thing you can do is stay out of the way. Like your season of usefulness has a natural expiration date, and you&rsquo;ve passed it.</p>
+
+        <p>Anna demolishes that lie.</p>
+
+        <p>At eighty-four years old, after decades of widowhood, she was not retired. She was not sidelined. She was serving God with an intensity that would exhaust most people half her age. And she wasn&rsquo;t serving despite her age &mdash; as if she were defying some natural limitation. She was serving <em>from</em> her age. The decades of prayer and fasting hadn&rsquo;t weakened her spiritual life &mdash; they had deepened it. Every year of faithfulness had added to her capacity, not subtracted from it.</p>
+
+        <p>Her body was eighty-four. Her usefulness was undiminished.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And then the moment came. The same moment Simeon experienced &mdash; but Anna&rsquo;s response was different, and the difference matters.</p>
+
+        <p><em>At that very moment she came up and began giving thanks to God, and continued to speak of Him to all those who were looking for the redemption of Jerusalem.</em></p>
+
+        <p>Simeon held the child and spoke a prayer of release. His words were directed to God: &ldquo;Now let Your bond-servant depart in peace.&rdquo; It was personal. It was between him and the Lord. And it was beautiful.</p>
+
+        <p>But Anna did something else. She gave thanks to God &mdash; and then she <em>spoke</em>. She spoke of Jesus. And she didn&rsquo;t speak to one person or two. She spoke to &ldquo;all those who were looking for the redemption of Jerusalem.&rdquo;</p>
+
+        <p>She became, in that moment, a proclaimer. An eighty-four-year-old widow became one of the very first people in history to announce to others that the Messiah had arrived.</p>
+
+        <p>Notice Luke&rsquo;s language: she &ldquo;continued to speak.&rdquo; This wasn&rsquo;t a single remark. It was ongoing. She kept telling people. She became a woman with a message, and she delivered it to everyone she could find who had ears to hear.</p>
+
+        <p>Decades of prayer and fasting &mdash; invisible, hidden, known only to God &mdash; had prepared her for a public moment she could never have anticipated. She didn&rsquo;t know, during all those years of serving night and day, that one ordinary morning in the temple would change everything. She didn&rsquo;t know that the moment would come and she would be the one standing there, ready, positioned, prepared by a lifetime of faithfulness.</p>
+
+        <p>But she was. Because she never left.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There&rsquo;s a practical dimension to Anna&rsquo;s story that I want to draw out, because it speaks to something you may be living right now.</p>
+
+        <p>Anna&rsquo;s decades of service were almost entirely invisible. Nobody was writing about her in the Jerusalem newspapers. Nobody was giving her awards. For year after year, she prayed and fasted and served, and from any earthly vantage point, nothing was happening. The temple routine continued. The Roman occupation continued. The silence of God &mdash; no prophet had spoken in Israel for four hundred years &mdash; continued. And Anna continued.</p>
+
+        <p>That is not glamorous work. That is the kind of faithfulness that doesn&rsquo;t make for a compelling social media post. It is getting up and doing the same faithful thing today that you did yesterday and the day before, with no visible evidence that it matters.</p>
+
+        <p>Some of you are living in that exact space right now. You pray, and you&rsquo;re not sure anyone hears. You serve, and you&rsquo;re not sure it changes anything. You show up for worship, you encourage the people around you, you study your Bible, you do the quiet, unglamorous work of being faithful &mdash; and the world yawns. Nobody notices. Nobody applauds. And you wonder, sometimes, if it adds up to anything.</p>
+
+        <p>Anna&rsquo;s story says it does.</p>
+
+        <p>Every prayer she prayed positioned her for the moment she didn&rsquo;t know was coming. Every fast she endured kept her spiritually sharp when the world would have expected her to go dull. Every morning she showed up at the temple when she could have stayed home was another day of preparation for the day when preparation would matter most.</p>
+
+        <p>And when the moment arrived &mdash; when the Christ child was brought through those temple doors &mdash; she was ready. Not because she was lucky. Not because she happened to be in the right place. But because she had <em>always</em> been in the right place, doing the right thing, for the right reasons, for as long as anyone could remember.</p>
+
+        <p>She never left. And because she never left, she was there when it counted.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Here&rsquo;s what Anna&rsquo;s story means for you.</p>
+
+        <p>If Simeon teaches us that aging can be defined by anticipation &mdash; by leaning forward toward something God has promised &mdash; Anna teaches us something equally important: aging does not end your usefulness. It deepens it.</p>
+
+        <p>You may not feel useful. The world may not treat you as useful. Your body may not cooperate the way it once did. The roles you held may have been given to someone else. The phone may ring less often than it used to.</p>
+
+        <p>But if Anna at eighty-four could serve God with fastings and prayers &mdash; if she could be the one God chose to be standing in the temple at the exact moment His Son was brought through the door &mdash; then your age is not a disqualification. It is a credential.</p>
+
+        <p>Every year of faithful prayer is a year that has deepened your capacity. Every day of quiet service is a day that has positioned you for something you may not yet see coming. You are not obsolete. You are not finished. You are not taking up space.</p>
+
+        <p>You are Anna in the temple. And you have no idea what God might bring through the door tomorrow.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">So don&rsquo;t leave.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Ch 2: Simeon&rsquo;s Eyes</a>
+          <a href="chapter-04.html">Ch 4: Give Me This Mountain &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 3;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-02.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

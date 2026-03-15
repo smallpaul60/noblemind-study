@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 11: No More Tears | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html" selected>Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ELEVEN</p>
+        <h1>No More Tears</h1>
+        <p class="subtitle">What John saw when the curtain pulled back.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;And He will wipe away every tear from their eyes; and there will no longer be any death; there will no longer be any mourning, or crying, or pain; the first things have passed away.&rdquo;
+        </blockquote>
+        <cite>&mdash; Revelation 21:4 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>You still set the table wrong sometimes.</p>
+
+        <p>Not every time. But sometimes &mdash; when your mind is somewhere else, when you&rsquo;re moving through the kitchen on habit instead of thought &mdash; your hand reaches for one too many plates. Or you pour two cups of coffee before you remember there&rsquo;s only one to pour. Or you hear something funny on the television and you turn to say something, and the chair is empty, and the words just stop in your mouth.</p>
+
+        <p>It&rsquo;s the small things that get you. Not the big moments &mdash; you&rsquo;ve learned to brace for those. The anniversary. The birthday. The holidays. You know those are coming, and you steel yourself, and you get through them. But it&rsquo;s Tuesday afternoon at the grocery store, standing in front of the brand of crackers he always liked, that undoes you. It&rsquo;s hearing her name in someone else&rsquo;s conversation. It&rsquo;s the smell of a jacket you haven&rsquo;t moved from the closet because moving it would mean something you&rsquo;re not ready for it to mean.</p>
+
+        <p>Grief doesn&rsquo;t shout. Not after the first year. After the first year, it whispers. And it whispers at the strangest times.</p>
+
+        <p>If you&rsquo;ve lived long enough to be reading this book, you&rsquo;ve buried people. Maybe a spouse. Maybe a parent you took care of at the end. Maybe a friend who was fine in September and gone by Christmas. Maybe &mdash; and this is the one nobody is ever ready for &mdash; a child. You&rsquo;ve stood in funeral homes and signed guest books and sat through services and driven home afterward to a house that felt different than it did that morning.</p>
+
+        <p>And you&rsquo;ve carried it. You&rsquo;ve carried it because that&rsquo;s what you do. You get up. You go to worship. You take meals to other people who are hurting. You answer &ldquo;I&rsquo;m fine&rdquo; to the question everyone asks because the real answer would take longer than anyone has time for. And somewhere underneath all of it, there&rsquo;s a question that doesn&rsquo;t go away, a question you may never have said out loud:</p>
+
+        <p><em>Will it always hurt like this?</em></p>
+
+        <p>Not the fear of your own death &mdash; we talked about that in Chapter 9, and the chains have been broken. This is something different. This is the ache of living in a world where the people you love leave it, one by one, and you are still here. This is the weight of accumulated goodbyes. This is the grief that doesn&rsquo;t come from fearing what&rsquo;s ahead &mdash; it comes from missing what&rsquo;s already gone.</p>
+
+        <p>The Bible has an answer for that question. And it doesn&rsquo;t come from Paul or from the writer of Hebrews. It comes from a vision &mdash; the most detailed picture Scripture gives us of what the end of the story looks like. And it was shown to an old man who knew exactly what it felt like to be the last one still standing.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>John was the last of the original twelve apostles. By the time he received the Revelation, he was an old man &mdash; likely the only one of Jesus&rsquo; inner circle who had not been killed for his faith. Peter was gone. James had been executed decades earlier. Paul, who had joined the work later and carried it farther than anyone, was gone too. The men and women John had labored alongside for an entire generation &mdash; most of them were gone.</p>
+
+        <p>And John himself was in exile on Patmos, a small island in the Aegean Sea, banished there &mdash; the text says &mdash; &ldquo;because of the word of God and the testimony of Jesus&rdquo; (Revelation 1:9). He was not in a comfortable retirement. He was isolated, removed from the churches he loved, an old man on a rock in the sea.</p>
+
+        <p>It was there &mdash; in that isolation, at that age, carrying that weight of loss &mdash; that God pulled back the curtain and showed him how the story ends.</p>
+
+        <p>What John saw fills the closing chapters of Scripture. And in seven verses near the end, he records a vision so direct, so tender, and so complete that it answers the deepest ache a human being can carry.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Then I saw a new heaven and a new earth; for the first heaven and the first earth passed away, and there is no longer any sea. And I saw the holy city, new Jerusalem, coming down out of heaven from God, made ready as a bride adorned for her husband.&rdquo;</p>
+          <cite>&mdash; Revelation 21:1&ndash;2 (NASB)</cite>
+        </blockquote>
+
+        <p>The first thing John sees is newness. A new heaven and a new earth. The old order &mdash; the one you and I live in right now, the one with the pain and the funerals and the Tuesday afternoons at the grocery store &mdash; has passed away.</p>
+
+        <p>The word &ldquo;new&rdquo; here is important. The Greek is <em>kainos</em>, and it doesn&rsquo;t mean new in the sense of &ldquo;recently made&rdquo; &mdash; that would be <em>neos</em>. <em>Kainos</em> means new in character, new in quality, new in kind. It&rsquo;s the difference between buying a new car off the lot and having your old car completely restored and transformed into something better than it was the day it rolled off the assembly line. The creation isn&rsquo;t discarded. It&rsquo;s renewed. Made what it was always meant to be.</p>
+
+        <p>And notice the direction: the holy city comes <em>down</em>. Out of heaven. From God. To where humanity is. This is not a vision of people escaping the world and floating away to some distant place. This is God coming down. The dwelling of God arriving to be with human beings.</p>
+
+        <p>John describes it as a bride adorned for her husband &mdash; the language of preparation, of anticipation, of something beautiful that has been made ready for a specific moment. And the moment has come.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <blockquote class="scripture">
+          <p>&ldquo;And I heard a loud voice from the throne, saying, &lsquo;Behold, the tabernacle of God is among men, and He will dwell among them, and they shall be His people, and God Himself will be among them.&rsquo;&rdquo;</p>
+          <cite>&mdash; Revelation 21:3 (NASB)</cite>
+        </blockquote>
+
+        <p>If you&rsquo;ve been reading this book carefully, a word in that verse should stop you. <em>Tabernacle</em>. The Greek is <em>sk&#275;n&#275;</em>.</p>
+
+        <p>In Chapter 6, we sat with Paul&rsquo;s metaphor for the human body: a tent &mdash; <em>sk&#275;nos</em> in the Greek, from the same root. A temporary shelter. Fabric over poles. Something that wears thin, that groans under the weather, that was never meant to be permanent. And Paul said we groan in this tent, longing to be clothed with our dwelling from heaven.</p>
+
+        <p>Here, in the last pages of the Bible, the tent image returns &mdash; but it has been completely transformed. The <em>sk&#275;n&#275;</em> of God is among men. Not a frail, human tent being torn down, but the dwelling of God Himself, coming down to be with His people. The tent you lived in was temporary. The tabernacle He brings is permanent.</p>
+
+        <p>And the word &ldquo;dwell&rdquo; &mdash; <em>sk&#275;no&#333;</em> &mdash; means literally to pitch a tent, to tabernacle. It&rsquo;s the same word John used at the very beginning of his Gospel: &ldquo;The Word became flesh, and <em>dwelt</em> among us&rdquo; (John 1:14). When Jesus walked the roads of Galilee, that was a tabernacling &mdash; temporary, bounded by thirty-three years and a cross. What John sees in Revelation 21 is the permanent version. God among men. Not for a visit. Not for a generation. Forever.</p>
+
+        <p>&ldquo;They shall be His people, and God Himself will be among them.&rdquo;</p>
+
+        <p>That&rsquo;s the destination. Not a place, primarily. A presence. The journey Abraham began &mdash; the city with foundations, whose architect and builder is God &mdash; this is where it arrives. The homesickness the stranger feels in a foreign land &mdash; this is where it ends. God with His people. Permanently. Completely. Without barrier, without separation, without a veil between.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And then comes the verse that breaks you open &mdash; if you let it.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;And He will wipe away every tear from their eyes; and there will no longer be any death; there will no longer be any mourning, or crying, or pain; the first things have passed away.&rdquo;</p>
+          <cite>&mdash; Revelation 21:4 (NASB)</cite>
+        </blockquote>
+
+        <p>Read it again, slowly, and let every phrase land.</p>
+
+        <p>&ldquo;He will wipe away every tear from their eyes.&rdquo; The Greek word &mdash; <em>exaleiph&#333;</em> &mdash; means to wipe off, to smear away, to obliterate completely. It&rsquo;s a physical word. A hands-on word. This is not a decree issued from a distant throne. This is God, close enough to touch your face, wiping the tears away with His own hand.</p>
+
+        <p>And notice &mdash; He doesn&rsquo;t prevent the tears. He wipes them away. That means they were real. Every tear you&rsquo;ve cried over every person you&rsquo;ve lost, every lonely night, every grief you carried quietly because you didn&rsquo;t want to burden anyone else &mdash; those tears were real, and God saw every one of them. The Psalms already told you that: &ldquo;You have taken account of my wanderings; put my tears in Your bottle. Are they not in Your book?&rdquo; (Psalm 56:8). He has kept count. He hasn&rsquo;t missed a single one. And the day is coming when He will wipe away the last of them &mdash; not by telling you to stop crying, but by removing every reason you ever had to cry.</p>
+
+        <p>&ldquo;There will no longer be any death.&rdquo; Gone. Not reduced. Not managed. Not pushed to the margins. Gone. The thing that has haunted every chapter of this book &mdash; the decaying body, the tent being torn down, the fear that holds people in slavery &mdash; it is gone. Death came into the world through sin (Romans 5:12), and it has stalked every generation since. But it does not get the last word. It was swallowed up in victory when Christ rose (1 Corinthians 15:54 &mdash; the <em>katapino</em> we traced through Chapters 6 and 7). And in this vision, the victory is final and complete. Death is no more.</p>
+
+        <p>&ldquo;There will no longer be any mourning, or crying, or pain.&rdquo; John lists them one by one, as if he wants to make sure you don&rsquo;t miss any. Mourning &mdash; the heavy, ongoing weight of loss. Crying &mdash; the sharp, immediate sting of it. Pain &mdash; the broad, relentless companion of life in a fallen body. Every one of them: gone.</p>
+
+        <p>And then the summary, the phrase that gathers it all up: &ldquo;The first things have passed away.&rdquo;</p>
+
+        <p><em>The first things.</em> That&rsquo;s what all of this is &mdash; everything you&rsquo;re enduring right now. The aching joints. The funerals. The loneliness. The nights. The grief. All of it belongs to the first order of things. And first things pass. They are <em>proskaira</em>, to use the word Paul gave us in the last chapter &mdash; temporary, lasting for a season, bound by time. They feel permanent when you&rsquo;re in the middle of them. But they are first things. And first things have an expiration date.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <blockquote class="scripture">
+          <p>&ldquo;And He who sits on the throne said, &lsquo;Behold, I am making all things new.&rsquo; And He said, &lsquo;Write, for these words are faithful and true.&rsquo;&rdquo;</p>
+          <cite>&mdash; Revelation 21:5 (NASB)</cite>
+        </blockquote>
+
+        <p>&ldquo;I am making all things new.&rdquo; Not: I am making all <em>new</em> things. The emphasis matters. God is not scrapping the creation and starting over. He is taking what exists &mdash; what is broken, what is groaning, what is worn thin &mdash; and making it new. <em>Kainos</em>. Renewed. Restored. Transformed into what it was always designed to be.</p>
+
+        <p>This is the same pattern we saw in Chapter 7. The body that goes into the ground is not replaced with a different body. It is <em>raised</em> &mdash; the same body, transformed. Perishable becomes imperishable. Dishonor becomes glory. Weakness becomes power. The seed goes in one thing and comes out something beyond recognition &mdash; but it is the same seed. Continuity and transformation, not annihilation and replacement.</p>
+
+        <p>And then God says something you should underline if you own a pen: &ldquo;Write, for these words are faithful and true.&rdquo;</p>
+
+        <p>He commands John to write it down. And He gives the reason: because what He has just said is <em>faithful and true</em>. Reliable. Trustworthy. Not symbolic hand-waving. Not poetic overstatement. Faithful. And true. God is staking His own character on the promise. The tears will be wiped away. Death will end. Pain will pass. He has said it, and He does not lie (Titus 1:2).</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Then He said to me, &lsquo;It is done. I am the Alpha and the Omega, the beginning and the end. I will give to the one who thirsts from the spring of the water of life without cost. He who overcomes will inherit these things, and I will be his God and he will be My son.&rsquo;&rdquo;</p>
+          <cite>&mdash; Revelation 21:6&ndash;7 (NASB)</cite>
+        </blockquote>
+
+        <p>&ldquo;It is done.&rdquo; Three words, and they carry the finality of everything God set out to accomplish from the beginning. The plan that started in Genesis &mdash; the plan that ran through Abraham and Moses and David and the prophets, through the incarnation and the cross and the empty tomb &mdash; it is done. Complete. Finished.</p>
+
+        <p>&ldquo;I am the Alpha and the Omega, the beginning and the end.&rdquo; He was there before the first things began, and He will be there when the first things pass away. He is not inside the story, subject to its twists and uncertainties. He is the Author. He knows how it ends because He wrote the ending.</p>
+
+        <p>And the promise is personal: &ldquo;He who overcomes will inherit these things, and I will be his God and he will be My son.&rdquo;</p>
+
+        <p><em>Inherit</em>. Not earn. Inherit. The language is familial &mdash; a father and his children. The overcomer doesn&rsquo;t purchase this future; he receives it as an heir. And the inheritance isn&rsquo;t a mansion or a reward or a title. It is a relationship: &ldquo;I will be his God and he will be My son.&rdquo; The deepest longing of the human heart &mdash; to belong, fully and permanently, to the One who made you &mdash; is the inheritance that waits on the other side.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>This is what you are walking toward.</p>
+
+        <p>Every truth this book has traced &mdash; the inner man being renewed, the tent giving way to the building, the perishable seed being raised in glory, the city with foundations, the fear of death broken, the affliction that is momentary and light &mdash; every one of those truths was a thread, and they all lead here. To this. To God dwelling with His people, death gone forever, every tear wiped away by the hand of the One who kept count of them all.</p>
+
+        <p>You are not walking toward a void. You are not walking toward an ending. You are walking toward the moment when God looks at everything that has ever caused you pain and says, &ldquo;The first things have passed away,&rdquo; and then &mdash; with His own hand &mdash; wipes the last tear from your face.</p>
+
+        <p>The grief you carry right now is real. The empty chair is real. The quiet house is real. I am not going to stand here and tell you it doesn&rsquo;t hurt, because it does, and pretending otherwise would be a lie.</p>
+
+        <p>But it is a first thing. And first things pass away.</p>
+
+        <p>The day is coming &mdash; faithful and true, because the One who promised it does not lie &mdash; when there will be nothing left to grieve. No more death. No more crying. No more pain. Only the presence of God, permanent and close, and a world made new.</p>
+
+        <p>Every tear you cry between now and then is one He has counted. And every day that passes is one day closer to the day He wipes the last one away.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">One day closer to home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-10.html">&larr; Ch 10: A Momentary Light Affliction</a>
+          <a href="chapter-12.html">Ch 12: Why Are You Still Waiting? &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 11;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-10.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

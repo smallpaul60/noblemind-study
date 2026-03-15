@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 12: Why Are You Still Waiting? | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html" selected>Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TWELVE</p>
+        <h1>Why Are You Still Waiting?</h1>
+        <p class="subtitle">The question Ananias asked. And the one this book has been leading to.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Now why do you delay? Get up and be baptized, and wash away your sins, calling on His name.&rdquo;
+        </blockquote>
+        <cite>&mdash; Acts 22:16 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>This chapter is different from the others.</p>
+
+        <p>For eleven chapters, this book has been speaking to you about hope &mdash; the hope of the aging believer, the hope that comes from knowing that every day is one day closer to home. We&rsquo;ve walked with Simeon and Anna and Caleb. We&rsquo;ve sat with Paul&rsquo;s paradox and his tent and his seed and his scale. We&rsquo;ve looked at Abraham&rsquo;s city and the fear of death broken and the tears that God will one day wipe away with His own hand.</p>
+
+        <p>And maybe, as you read, something didn&rsquo;t sit right. Not because the words were wrong, but because you knew &mdash; quietly, in the place you don&rsquo;t talk about &mdash; that the promises weren&rsquo;t yours. Not yet.</p>
+
+        <p>Maybe you&rsquo;ve been around the church your whole life. You know the songs. You know the stories. You can quote the verses from memory. But if you&rsquo;re honest &mdash; completely honest, the kind of honest that only happens when nobody else is listening &mdash; you&rsquo;ve never done what the New Testament says to do in order to be in Christ. You&rsquo;ve believed, in a general sense. You&rsquo;ve tried to live a good life. But you&rsquo;ve never taken the step. And you&rsquo;ve told yourself there would be time.</p>
+
+        <p>Or maybe you&rsquo;ve never been in a church at all. Maybe someone handed you this book, or you picked it up out of curiosity, and you&rsquo;ve been surprised by what you found. The Scriptures were clearer than you expected. The hope was more real than you thought it would be. And something in you leaned toward it.</p>
+
+        <p>Either way, this chapter is for you.</p>
+
+        <p>I&rsquo;m not going to pressure you. I&rsquo;m not going to play on your emotions or try to scare you into something. But I am going to be honest with you &mdash; as honest as this book has been from the beginning &mdash; because the stakes are too high for anything less. And what I&rsquo;m going to do is very simple: I&rsquo;m going to show you what the New Testament says. Not what tradition says. Not what any particular group or creed says. What the text itself says, in plain language, supported by every example of conversion recorded in the first century.</p>
+
+        <p>You can judge for yourself whether it&rsquo;s true.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Start here, because everything else rests on this.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Unless you believe that I am He, you will die in your sins.&rdquo;</p>
+          <cite>&mdash; John 8:24 (NASB)</cite>
+        </blockquote>
+
+        <p>Jesus said those words Himself. And they are as clear as anything in the New Testament: without belief, there is no salvation. If you do not believe that Jesus is who He claimed to be &mdash; the Christ, the Son of the living God, the one sent by the Father to do what no one else could do &mdash; then nothing that follows in this chapter applies. It all starts here.</p>
+
+        <p>But the New Testament is careful about what belief means. It is not merely agreeing that Jesus existed, or that He was a good teacher, or even that He rose from the dead. James writes that &ldquo;the demons also believe, and shudder&rdquo; (James 2:19). The demons have no shortage of factual knowledge about who Jesus is. What they lack is surrender. What they lack is the kind of belief that bends the knee and changes the life.</p>
+
+        <p>The belief the New Testament calls for is a conviction &mdash; deep enough to act on, strong enough to reorder your priorities, real enough to carry you through what comes next. It is the foundation. Nothing is built without it. But it is not the whole building.</p>
+
+        <p>And Jesus Himself made that clear. In His final commission to the apostles before ascending to heaven, He said:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;He who has believed and has been baptized shall be saved; but he who has not believed shall be condemned.&rdquo;</p>
+          <cite>&mdash; Mark 16:16 (NASB)</cite>
+        </blockquote>
+
+        <p>Look at what Jesus joins together in that sentence: believed <em>and</em> baptized. Not believed alone. Not baptized alone. The two are bound together by the Lord Himself, and together they lead to the result &mdash; &ldquo;shall be saved.&rdquo; What Jesus has joined, no man has the authority to separate. You cannot take the belief and leave the baptism and claim you have what He promised. He put them together. They stay together.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>On the day of Pentecost &mdash; the first day the gospel was ever preached in its fullness, after the death, burial, and resurrection of Jesus &mdash; Peter stood before a crowd that had just come to believe. They had heard the evidence. They had been convinced. Luke records their response:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Now when they heard this, they were pierced to the heart, and said to Peter and the rest of the apostles, &lsquo;Brethren, what shall we do?&rsquo;&rdquo;</p>
+          <cite>&mdash; Acts 2:37 (NASB)</cite>
+        </blockquote>
+
+        <p>They believed. And their belief produced a question: <em>What do we do now?</em> If belief alone were sufficient, Peter&rsquo;s answer should have been, &ldquo;Nothing. You believed. You&rsquo;re saved.&rdquo; But that is not what he said.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit.&rdquo;</p>
+          <cite>&mdash; Acts 2:38 (NASB)</cite>
+        </blockquote>
+
+        <p>Two things. Repent and be baptized. For the forgiveness of sins.</p>
+
+        <p>Repentance is a turning. The Greek word &mdash; <em>metanoe&#333;</em> &mdash; means a change of mind, but in the New Testament it is never merely intellectual. It produces a change of direction. You were walking one way; now you walk another. You were living for one set of priorities; now you live for a different one. God &ldquo;is now declaring to men that all people everywhere should repent&rdquo; (Acts 17:30). It&rsquo;s not optional. It&rsquo;s not for some people and not others. It&rsquo;s a command that applies to everyone who hears the gospel.</p>
+
+        <p>But notice &mdash; Peter doesn&rsquo;t stop at repentance. He joins it directly to baptism. Repent <em>and</em> be baptized. For the forgiveness of sins. The two are linked in the same sentence, aiming at the same result. And on that day, Luke tells us, about three thousand people did exactly what Peter said (Acts 2:41). They didn&rsquo;t go home to think about it. They didn&rsquo;t schedule it for a more convenient time. They heard. They believed. They repented. They were baptized. That day.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Paul, writing to the church at Rome, describes what happens in baptism &mdash; and the picture is one of the most vivid in the entire New Testament.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Or do you not know that all of us who have been baptized into Christ Jesus have been baptized into His death? Therefore we have been buried with Him through baptism into death, so that as Christ was raised from the dead through the glory of the Father, so we too might walk in newness of life. For if we have become united with Him in the likeness of His death, certainly we shall also be in the likeness of His resurrection.&rdquo;</p>
+          <cite>&mdash; Romans 6:3&ndash;5 (NASB)</cite>
+        </blockquote>
+
+        <p>Read that slowly, because what Paul describes is not a ritual. It&rsquo;s not a ceremony. It&rsquo;s not a symbol of something that has already happened somewhere else. It is a burial and a resurrection.</p>
+
+        <p>When you go down into the water, you are being buried with Christ. The old life &mdash; the sin, the guilt, the separation from God &mdash; goes into that grave. And when you come up out of the water, you are raised with Christ to walk in newness of life. It is a death and a birth in the same moment. The old man dies. The new man rises. United with Christ in the likeness of His death. United with Christ in the likeness of His resurrection.</p>
+
+        <p>That is what baptism is. Not an outward sign of an inward change that already took place. Not an optional step you get around to when it&rsquo;s convenient. It is the moment of transition &mdash; the point at which you pass from the old life into the new, from death into life, from outside of Christ to inside of Christ. Paul says you are baptized <em>into</em> Christ Jesus. That&rsquo;s how you get in.</p>
+
+        <p>And the beauty of it is the picture itself. The gospel is the death, burial, and resurrection of Jesus (1 Corinthians 15:1&ndash;4). And in baptism, you reenact that gospel with your own body. You die with Him. You are buried with Him. You are raised with Him. The most important event in the history of the world becomes your personal story &mdash; not as a metaphor, but as a real, tangible act of faith that changes your standing before God.</p>
+
+        <p>And consider what that means for every promise in this book. Paul writes to the Ephesians that God &ldquo;has blessed us with every spiritual blessing in the heavenly places <em>in Christ</em>&rdquo; (Ephesians 1:3). Every spiritual blessing &mdash; redemption, forgiveness, the sealing of the Holy Spirit, the inheritance, the hope &mdash; all of it is located <em>in Christ</em>. Not outside of Him. Not near Him. <em>In</em> Him. And the question becomes unavoidable: How does a person get <em>into</em> Christ? Paul answers it in Galatians 3:27 &mdash; &ldquo;For all of you who were baptized into Christ have clothed yourselves with Christ.&rdquo; That is the only door the New Testament describes. Every blessing is in Christ, and baptism is how you get into Christ. The building that replaces the tent, the body raised imperishable, the city with foundations, the tears wiped away &mdash; every one of those promises belongs to those who are <em>in Him</em>. And this is how you get there.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is one more piece, and it comes before the water.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;If you confess with your mouth Jesus as Lord, and believe in your heart that God raised Him from the dead, you will be saved; for with the heart a person believes, resulting in righteousness, and with the mouth he confesses, resulting in salvation.&rdquo;</p>
+          <cite>&mdash; Romans 10:9&ndash;10 (NASB)</cite>
+        </blockquote>
+
+        <p>Confession. Saying it out loud. Declaring with your mouth that Jesus is Lord &mdash; not just a teacher, not just a good man, but <em>Lord</em>. It&rsquo;s the moment where belief stops being private and becomes public. You are saying, before God and before anyone who will hear, that you have put your trust in Jesus as the risen Son of God.</p>
+
+        <p>We see this in the only detailed one-on-one conversion account in the New Testament. In Acts 8, Philip meets an Ethiopian man on a desert road, teaches him about Jesus from the book of Isaiah, and when they come to water, the man asks, &ldquo;What prevents me from being baptized?&rdquo; And Philip tells him: &ldquo;If you believe with all your heart, you may.&rdquo; The man&rsquo;s response &mdash; &ldquo;I believe that Jesus Christ is the Son of God&rdquo; &mdash; is the confession. And then, immediately, they go down into the water, and Philip baptizes him (Acts 8:36&ndash;39).</p>
+
+        <p>No waiting period. No class. No special building. A desert road, a body of water, a confession of faith, and a burial with Christ. That&rsquo;s the New Testament pattern.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And now we come to the verse that gives this chapter its title.</p>
+
+        <p>There was a man named Saul &mdash; a Pharisee, a persecutor of Christians, a man who had watched with approval as Stephen was stoned to death. On the road to Damascus, the risen Jesus appeared to him in blinding light and said, &ldquo;Saul, Saul, why are you persecuting Me?&rdquo; (Acts 9:4). Saul was struck blind. For three days, he sat in darkness in a house in Damascus. He didn&rsquo;t eat. He didn&rsquo;t drink. He prayed.</p>
+
+        <p>If belief alone were the point of conversion, Saul was already there. He had seen the risen Lord with his own eyes. He believed. He was praying. Three days had passed. And yet he was still in his sins.</p>
+
+        <p>God sent a man named Ananias to him. And when Ananias arrived, he didn&rsquo;t say, &ldquo;Good news &mdash; you were saved on the road.&rdquo; He said this:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Now why do you delay? Get up and be baptized, and wash away your sins, calling on His name.&rdquo;</p>
+          <cite>&mdash; Acts 22:16 (NASB)</cite>
+        </blockquote>
+
+        <p>&ldquo;Wash away your sins.&rdquo; After three days of belief. After three days of prayer. After seeing the risen Christ face to face. Saul&rsquo;s sins were still there. They were washed away in the water of baptism &mdash; not before.</p>
+
+        <p>And the question Ananias asked is the one I&rsquo;m asking you: <em>Why do you delay?</em></p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>The pattern in the New Testament is not complicated. It is consistent across every account of conversion Luke records in the book of Acts. People heard the gospel. They believed it. They repented of their sins. They confessed Jesus as Lord. And they were baptized &mdash; immediately, urgently, without delay.</p>
+
+        <p>The three thousand on Pentecost &mdash; that day (Acts 2:41). The Ethiopian &mdash; on a desert road, as soon as they found water (Acts 8:38). The Philippian jailer &mdash; in the middle of the night, &ldquo;that very hour&rdquo; (Acts 16:33). Saul &mdash; as soon as Ananias told him to stop waiting (Acts 22:16).</p>
+
+        <p>Not one of them was told to say a prayer and wait. Not one of them was told that belief alone was enough. Not one of them was told that baptism was optional, or symbolic, or something to schedule for later. In every case, the response to the gospel was immediate, and in every case, it included baptism. Not because the water has magic in it &mdash; it doesn&rsquo;t. But because baptism is the act of faith in which God does the work. It&rsquo;s where you are buried with Christ and raised with Christ. It&rsquo;s where sins are washed away. It&rsquo;s the transition point.</p>
+
+        <p>If the New Testament says it is, I don&rsquo;t have the authority to say it isn&rsquo;t. And neither does anyone else.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now, let me speak to you directly, because this is not an academic exercise.</p>
+
+        <p>You&rsquo;ve read eleven chapters about what God has prepared for those who belong to Him. The inner man being renewed day by day. The building that replaces the tent. The imperishable body that will be raised in glory and power. The city with foundations whose architect and builder is God. Freedom from the slavery of the fear of death. A weight of glory beyond all comparison. Every tear wiped away. No more death. No more pain. God dwelling with His people forever.</p>
+
+        <p>Every one of those promises is real. And every one of them belongs to those who are in Christ.</p>
+
+        <p>The question is whether you are.</p>
+
+        <p>If you are not &mdash; if you have never believed with all your heart, repented of your sins, confessed Jesus as Lord, and been buried with Him in baptism to be raised in newness of life &mdash; then every promise in this book is waiting for you. Not behind you. Ahead of you. Today.</p>
+
+        <p>The writer of Hebrews, quoting the Psalm, put it as urgently as language allows:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Today if you hear His voice, do not harden your hearts.&rdquo;</p>
+          <cite>&mdash; Hebrews 3:15 (NASB)</cite>
+        </blockquote>
+
+        <p><em>Today.</em> Not when you feel ready. Not when you&rsquo;ve cleaned your life up enough. Not when the circumstances are better. Today. Because tomorrow is not promised to anyone &mdash; and this book, more than most, has reminded you of that.</p>
+
+        <p>You may be seventy. You may be eighty. You may feel like you&rsquo;ve waited too long, that too many years have passed, that too much has happened. But Ananias didn&rsquo;t ask Saul how long he had waited. He asked him why he was <em>still</em> waiting. The length of the delay doesn&rsquo;t matter. What matters is that it ends.</p>
+
+        <p>If you hear His voice today &mdash; in these words, in this chapter, in the quiet of your own heart &mdash; don&rsquo;t harden your heart. Don&rsquo;t set the book down and tell yourself you&rsquo;ll think about it later. Find a faithful Christian. Open your Bible. Ask them to show you these passages for yourself. And when you&rsquo;ve seen what the text says &mdash; when you&rsquo;ve believed it with your whole heart &mdash; don&rsquo;t wait.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Get up. Be baptized. Wash away your sins, calling on His name.</p>
+
+        <p>And then every promise in this book &mdash; every single one &mdash; becomes yours.</p>
+
+        <p>The building. The body raised in glory. The city with foundations. The tears wiped away. God dwelling with you forever.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">One day closer to home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-11.html">&larr; Ch 11: No More Tears</a>
+          <a href="chapter-13.html">Ch 13: Press On &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 12;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-11.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

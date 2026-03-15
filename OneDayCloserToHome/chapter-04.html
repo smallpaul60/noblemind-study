@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: Give Me This Mountain | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html" selected>Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html">Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>Give Me This Mountain</h1>
+        <p class="subtitle">Caleb at 85 &mdash; still asking for the hard assignment.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Now then, give me this hill country about which the Lord spoke on that day, for you heard on that day that Anakim were there, with great and fortified cities; perhaps the Lord will be with me, and I will drive them out as the Lord has spoken.&rdquo;
+        </blockquote>
+        <cite>&mdash; Joshua 14:12 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>Most people, by the time they reach eighty-five, have made peace with smaller ambitions. A quiet routine. A comfortable chair. A predictable day. The mountains &mdash; literal or figurative &mdash; are behind them. If they&rsquo;re honest, they&rsquo;d admit they stopped climbing a long time ago.</p>
+
+        <p>Caleb hadn&rsquo;t gotten that memo.</p>
+
+        <p>At eighty-five years old, standing before Joshua to claim his inheritance in the Promised Land, Caleb didn&rsquo;t ask for a valley. He didn&rsquo;t ask for a quiet piece of flatland near the river where he could settle in and rest. He asked for the mountain &mdash; the one with the fortified cities on it, the one with the giants. The one nobody else wanted because it was too hard, too dangerous, too much.</p>
+
+        <p>He asked for the fight.</p>
+
+        <p>And in doing so, he left behind one of the most extraordinary examples of aging in the entire Old Testament &mdash; not because he was supernaturally preserved, but because his faith hadn&rsquo;t aged a day.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>To understand what Caleb is doing in Joshua 14, you have to go back forty-five years.</p>
+
+        <p>The story begins in Numbers 13, when the children of Israel were camped at the edge of the Promised Land. God told Moses to send men to spy out the land &mdash; one from each tribe. Moses chose twelve men, and two of them were Joshua and Caleb.</p>
+
+        <p>The twelve spies went into Canaan and spent forty days exploring it. What they found was exactly what God had promised: a land flowing with milk and honey, rich and abundant. They brought back fruit so large it took two men to carry a single cluster of grapes on a pole between them. The land was everything God said it would be.</p>
+
+        <p>But there was a problem. The land was also occupied. The cities were fortified. The people were large and strong. And ten of the twelve spies came back terrified.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;We are not able to go up against the people, for they are too strong for us&hellip; The land through which we have gone, in spying it out, is a land that devours its inhabitants; and all the people whom we saw in it are men of great size&hellip; and we became like grasshoppers in our own sight, and so we were in their sight.&rdquo;</p>
+          <cite>&mdash; Numbers 13:31&ndash;33 (NASB)</cite>
+        </blockquote>
+
+        <p>Grasshoppers. That&rsquo;s how ten of the twelve spies saw themselves &mdash; small, insignificant, about to be crushed. They looked at the giants and forgot the God who had brought them out of Egypt. They looked at the fortified walls and forgot the God who had parted the Red Sea. Fear rewrote their memory.</p>
+
+        <p>But two men saw it differently.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Then Caleb quieted the people before Moses and said, &lsquo;We should by all means go up and take possession of it, for we will surely overcome it.&rsquo;&rdquo;</p>
+          <cite>&mdash; Numbers 13:30 (NASB)</cite>
+        </blockquote>
+
+        <p>Caleb and Joshua stood against the entire congregation. The same land, the same giants, the same fortified cities &mdash; and they reached the opposite conclusion. Not because they couldn&rsquo;t see the obstacles. They could see them just fine. But they could also see God. And when you put the giants on one side of the scale and God on the other, the math isn&rsquo;t close.</p>
+
+        <p>The people didn&rsquo;t listen. They chose fear over faith, and God responded: that entire generation &mdash; everyone twenty years old and older &mdash; would wander in the wilderness for forty years and die without ever entering the Promised Land. Everyone except two men. Joshua and Caleb.</p>
+
+        <p>Why Caleb? God Himself says it:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;But My servant Caleb, because he has had a different spirit and has followed Me fully, I will bring into the land which he entered, and his descendants shall take possession of it.&rdquo;</p>
+          <cite>&mdash; Numbers 14:24 (NASB)</cite>
+        </blockquote>
+
+        <p>A different spirit. That phrase is worth sitting with. Not a different body. Not a different skill set. A different <em>spirit</em>. Something inside Caleb was oriented differently than the people around him. Where they saw obstacles, he saw opportunity. Where they saw reasons to retreat, he saw reasons to advance. And God noticed.</p>
+
+        <p>&ldquo;Has followed Me fully.&rdquo; In the Hebrew, the phrase carries the sense of filling up, completing, going all the way. Caleb didn&rsquo;t follow God halfway. He didn&rsquo;t follow God when it was convenient or when the odds looked good. He followed fully &mdash; completely, without reservation, even when he was the only one in the room willing to do it.</p>
+
+        <p>And for that, God made him a promise.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now fast-forward forty-five years.</p>
+
+        <p>The wilderness wandering is over. Joshua has led Israel into Canaan. The major campaigns are behind them, and the land is being divided among the tribes. Caleb &mdash; forty years old when he spied out the land, now eighty-five &mdash; comes to Joshua to claim what God promised him.</p>
+
+        <p>Listen to what he says:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;I was forty years old when Moses the servant of the Lord sent me from Kadesh-barnea to spy out the land, and I brought word back to him as it was in my heart. Nevertheless my brethren who went up with me made the heart of the people melt with fear; but I followed the Lord my God fully. So Moses swore on that day, saying, &lsquo;Surely the land on which your foot has trodden will be an inheritance to you and to your children forever, because you have followed the Lord my God fully.&rsquo; Now behold, the Lord has let me live, just as He spoke, these forty-five years, from the time that the Lord spoke this word to Moses, when Israel walked in the wilderness; and now behold, I am eighty-five years old today.&rdquo;</p>
+          <cite>&mdash; Joshua 14:7&ndash;10 (NASB)</cite>
+        </blockquote>
+
+        <p>Caleb is rehearsing his history &mdash; not out of nostalgia, but as evidence. He&rsquo;s building a case. God made a promise. Forty-five years have passed. God has kept him alive through all of it. And now it&rsquo;s time to collect.</p>
+
+        <p>But here&rsquo;s where it gets remarkable. Watch what he says next:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;I am still as strong today as I was in the day Moses sent me; as my strength was then, so my strength is now, for war and for going out and coming in.&rdquo;</p>
+          <cite>&mdash; Joshua 14:11 (NASB)</cite>
+        </blockquote>
+
+        <p>At eighty-five years old, Caleb claims his strength is undiminished. Now, we can ask an honest question about what this means. Is he saying his physical strength was miraculously preserved at the same level as when he was forty? That&rsquo;s possible &mdash; God had sustained Israel&rsquo;s shoes and clothing for forty years in the wilderness (Deuteronomy 29:5), so supernatural preservation wasn&rsquo;t without precedent. Or is Caleb speaking about the <em>kind</em> of strength &mdash; the resolve, the courage, the willingness to fight &mdash; rather than making a precise statement about his physical condition? The text doesn&rsquo;t tell us which. What the text <em>does</em> tell us is that Caleb, at eighty-five, assessed himself as ready. Ready for war. Ready for the hardest assignment on the map.</p>
+
+        <p>And then comes the line that gives this chapter its name:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Now then, give me this hill country about which the Lord spoke on that day, for you heard on that day that Anakim were there, with great and fortified cities; perhaps the Lord will be with me, and I will drive them out as the Lord has spoken.&rdquo;</p>
+          <cite>&mdash; Joshua 14:12 (NASB)</cite>
+        </blockquote>
+
+        <p>Give me this mountain.</p>
+
+        <p>Not &ldquo;give me a nice piece of land where I can enjoy my remaining years.&rdquo; Not &ldquo;give me something manageable for a man my age.&rdquo; Give me the hill country. The one with the Anakim &mdash; the descendants of the giants, the very people whose size had terrified the other spies forty-five years earlier. The land everyone else was afraid to touch.</p>
+
+        <p>Caleb wanted the hard one.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Why? What drives an eighty-five-year-old man to volunteer for the most difficult assignment instead of requesting the easiest one?</p>
+
+        <p>The text gives us the answer, and it&rsquo;s the same answer it gave us forty-five years earlier: a different spirit.</p>
+
+        <p>Caleb&rsquo;s faith hadn&rsquo;t retired. His confidence in God hadn&rsquo;t diminished with age. The same fire that made him stand against ten frightened spies and an entire rebellious congregation at age forty was still burning at eighty-five. He wasn&rsquo;t delusional. He knew there were giants. He knew the cities were fortified. He said so &mdash; &ldquo;you heard on that day that Anakim were there, with great and fortified cities.&rdquo; He wasn&rsquo;t ignoring the obstacles. He was measuring them against a God who had never failed him in forty-five years of keeping a promise.</p>
+
+        <p>Notice his language: &ldquo;perhaps the Lord will be with me, and I will drive them out as the Lord has spoken.&rdquo; That &ldquo;perhaps&rdquo; isn&rsquo;t doubt. In context, it&rsquo;s deference &mdash; an acknowledgment that the outcome belongs to God. But the willingness to go is entirely present. Caleb isn&rsquo;t asking <em>whether</em> he should fight. He&rsquo;s asking for the chance.</p>
+
+        <p>And Joshua&rsquo;s response confirms everything:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;So Joshua blessed him and gave Hebron to Caleb the son of Jephunneh for an inheritance&hellip; because he followed the Lord God of Israel fully.&rdquo;</p>
+          <cite>&mdash; Joshua 14:13&ndash;14 (NASB)</cite>
+        </blockquote>
+
+        <p>There it is again. <em>Fully.</em> The word that defined Caleb at forty still defined him at eighty-five. He followed God fully. Not partially. Not when it was convenient. Not until he reached a certain age and decided it was time to slow down. Fully. All the way. To the end.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now here&rsquo;s where Caleb&rsquo;s story reaches into your living room.</p>
+
+        <p>You may not be facing literal giants. But you&rsquo;re facing something. Maybe it&rsquo;s the giant of declining health &mdash; the diagnosis that changed everything, the body that won&rsquo;t do what it used to do. Maybe it&rsquo;s the giant of loneliness &mdash; the empty chair at the table, the phone that doesn&rsquo;t ring, the friends who are gone. Maybe it&rsquo;s the giant of irrelevance &mdash; the feeling that the world has moved on and you&rsquo;ve been left behind, that your best contributions are in the past.</p>
+
+        <p>And the voice you hear &mdash; from the culture, sometimes from well-meaning friends, sometimes from inside your own head &mdash; sounds a lot like those ten spies: &ldquo;You can&rsquo;t. You&rsquo;re too old. The obstacle is too big. Sit down. Be realistic. Be sensible. You&rsquo;re not forty anymore.&rdquo;</p>
+
+        <p>Caleb heard the same voice forty-five years earlier. He heard it from ten men who had seen the same land he&rsquo;d seen and come to the opposite conclusion. And he rejected it &mdash; not because he couldn&rsquo;t count, but because he could count on God.</p>
+
+        <p>At eighty-five, he was still rejecting it.</p>
+
+        <p>That&rsquo;s not recklessness. That&rsquo;s faith. Real, tested, weathered, forty-five-years-in-the-making faith. The kind of faith that has seen God keep His promises over decades and concluded, reasonably, that He&rsquo;ll keep this one too.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There&rsquo;s something else in Caleb&rsquo;s story that I don&rsquo;t want us to miss, because it connects directly to the rearview mirror from Chapter 1.</p>
+
+        <p>Caleb referenced his past &mdash; his faithfulness at Kadesh-barnea, the promise Moses made, the forty-five years God had sustained him. He wasn&rsquo;t ignoring his history. But he wasn&rsquo;t living in it, either. He brought up the past for one reason: to build the case for his future. Every detail he mentioned pointed forward. &ldquo;God promised me this land. God kept me alive to receive it. Now give it to me so I can go take it.&rdquo;</p>
+
+        <p>His past was a launching pad, not a destination.</p>
+
+        <p>That&rsquo;s the difference between nostalgia and testimony. Nostalgia looks back and sighs. Testimony looks back and then turns around and says, &ldquo;And He&rsquo;s not done yet.&rdquo; Caleb had forty-five years of evidence that God was faithful, and he used every bit of it &mdash; not to reminisce, but to fuel the next charge up the next mountain.</p>
+
+        <p>If you&rsquo;ve walked with God for decades, you have that same evidence. Every prayer He answered. Every trial He brought you through. Every promise He kept. That&rsquo;s not just a collection of nice memories. That&rsquo;s your arsenal. That&rsquo;s the evidence that the God who sustained you at forty and fifty and sixty is the same God standing with you at seventy and eighty and beyond.</p>
+
+        <p>The question is what you&rsquo;ll do with it. Will you frame it and hang it on the wall? Or will you bring it to Joshua and say, &ldquo;Give me this mountain&rdquo;?</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Caleb got Hebron. The text tells us he drove out the three sons of Anak (Joshua 15:14). The eighty-five-year-old man took the mountain with the giants on it, just as he said he would.</p>
+
+        <p>But the point of his story isn&rsquo;t the military victory. The point is the posture. At an age when everyone around him would have understood if he&rsquo;d chosen something easy, he chose something hard &mdash; because his faith hadn&rsquo;t become passive with age. It had become sharper.</p>
+
+        <p>Simeon leaned forward in anticipation. Anna served without ceasing. Caleb charged the hill.</p>
+
+        <p>Three different people. Three different expressions. One common thread: not one of them had turned around to face the past. Every one of them was still moving forward, still looking ahead, still believing that God had something in front of them that was worth everything they had left to give.</p>
+
+        <p>You&rsquo;re not eighty-five. Or maybe you are. Either way, there&rsquo;s a mountain in front of you. It might be smaller than Caleb&rsquo;s or it might be bigger. It might be a ministry you&rsquo;ve been afraid to start. A conversation you&rsquo;ve been putting off. A commitment you&rsquo;ve been hesitant to make. A service you&rsquo;ve been told you&rsquo;re too old to render.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Give me this mountain.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">Say it out loud if you have to.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">The God who kept Caleb alive for forty-five years to fulfill a promise hasn&rsquo;t lost track of you either. And He didn&rsquo;t bring you this far to let you sit in the valley.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Ch 3: Anna Never Left</a>
+          <a href="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 4;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-03.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

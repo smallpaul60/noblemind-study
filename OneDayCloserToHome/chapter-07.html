@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 7: Sown Perishable, Raised Imperishable | One Day Closer to Home</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #4DA8E8;
+      --accent-glow: rgba(77, 168, 232, 0.4);
+      --accent-soft: rgba(77, 168, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --box-principle: #4DA8E8;
+      --box-principle-bg: rgba(77, 168, 232, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(77,168,232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232,168,72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(77,168,232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232,168,72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(77,168,232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232,168,72,0.15),
+        0 0 80px rgba(77,168,232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(77,168,232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(77,168,232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(77,168,232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(77,168,232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(77,168,232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234DA8E8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(77,168,232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .epigraph {
+      margin-bottom: 28px;
+      padding: 22px;
+      background: rgba(77,168,232,0.04);
+      border-radius: 14px;
+      text-align: center;
+      border: 1px solid rgba(77,168,232,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 0;
+      border: none;
+      padding: 0;
+      background: transparent;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 8px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232,168,72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(77,168,232,0.06);
+      border: 1px solid rgba(77,168,232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(77,168,232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(77,168,232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(77,168,232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232,168,72,0.08);
+      border: 1px solid rgba(232,168,72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232,168,72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
+      .epigraph blockquote { font-size: 1.05rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          One Day Closer to Home
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Rearview Mirror</option>
+          <option value="chapter-02.html">Ch 2: Simeon&rsquo;s Eyes</option>
+          <option value="chapter-03.html">Ch 3: Anna Never Left</option>
+          <option value="chapter-04.html">Ch 4: Give Me This Mountain</option>
+          <option value="chapter-05.html">Ch 5: Outwardly Wasting, Inwardly New</option>
+          <option value="chapter-06.html">Ch 6: The Tent and the Building</option>
+          <option value="chapter-07.html" selected>Ch 7: Sown Perishable, Raised Imperishable</option>
+          <option value="chapter-08.html">Ch 8: Abraham&rsquo;s City</option>
+          <option value="chapter-09.html">Ch 9: Free from the Fear of Death</option>
+          <option value="chapter-10.html">Ch 10: A Momentary Light Affliction</option>
+          <option value="chapter-11.html">Ch 11: No More Tears</option>
+          <option value="chapter-12.html">Ch 12: Why Are You Still Waiting?</option>
+          <option value="chapter-13.html">Ch 13: Press On</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SEVEN</p>
+        <h1>Sown Perishable, Raised Imperishable</h1>
+        <p class="subtitle">The resurrection body &mdash; what we&rsquo;re actually heading toward.</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;It is sown a perishable body, it is raised an imperishable body; it is sown in dishonor, it is raised in glory; it is sown in weakness, it is raised in power.&rdquo;
+        </blockquote>
+        <cite>&mdash; 1 Corinthians 15:42&ndash;43 (NASB)</cite>
+      </div>
+
+      <div class="content">
+        <p>When someone you love dies, you stand at the edge of a hole in the ground and watch a box go down.</p>
+
+        <p>Everything about that moment says <em>ending</em>. The dirt. The weight. The finality of it. The flowers on top that will wilt by Thursday. The people around you in dark clothes, holding tissues and each other. The silence afterward, when everyone has gone home and the chair is still empty and the house is too quiet.</p>
+
+        <p>The world looks at a burial and sees a period at the end of a sentence.</p>
+
+        <p>Paul looked at a burial and saw a planting.</p>
+
+        <p>That&rsquo;s not poetry. That&rsquo;s the argument he makes in one of the most extraordinary passages in the entire New Testament &mdash; 1 Corinthians 15:35&ndash;58 &mdash; where he takes the hardest question a grieving, aging, dying person can ask and answers it with the force of a man who has seen the risen Christ with his own eyes.</p>
+
+        <p>The question is simple: What kind of body do we get?</p>
+
+        <p>The answer is anything but.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>To understand where Paul is going, you need to know where he&rsquo;s been. First Corinthians 15 is the great resurrection chapter &mdash; all fifty-eight verses of it &mdash; and Paul has been building his case from the beginning. He opened with the historical fact of Christ&rsquo;s resurrection: &ldquo;He was buried, and He was raised on the third day according to the Scriptures&rdquo; (15:4). He listed the eyewitnesses &mdash; Peter, the twelve, five hundred brothers at once, James, all the apostles, and finally Paul himself. He argued that if Christ has not been raised, then faith is worthless and believers are still in their sins. And he established that Christ&rsquo;s resurrection is not an isolated event but &ldquo;the first fruits of those who are asleep&rdquo; (15:20) &mdash; the opening act of a harvest that includes everyone who belongs to Him.</p>
+
+        <p>By the time he reaches verse 35, the fact of the resurrection has been established. Now someone raises the practical objection:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;But someone will say, &lsquo;How are the dead raised? And with what kind of body do they come?&rsquo;&rdquo;</p>
+          <cite>&mdash; 1 Corinthians 15:35 (NASB)</cite>
+        </blockquote>
+
+        <p>It&rsquo;s the question of the skeptic, but it&rsquo;s also the honest question of the believer whose body is failing. How does this work? The body that goes into the ground is broken, worn out, decayed. What comes out of it? Is it the same body, patched up? Something entirely different? Something less?</p>
+
+        <p>Paul&rsquo;s first word in response is blunt.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;You fool! That which you sow does not come to life unless it dies; and that which you sow, you do not sow the body which is to be, but a bare grain, perhaps of wheat or of something else. But God gives it a body just as He wished, and to each of the seeds a body of its own.&rdquo;</p>
+          <cite>&mdash; 1 Corinthians 15:36&ndash;38 (NASB)</cite>
+        </blockquote>
+
+        <p>A seed. That&rsquo;s his answer. You plant a bare grain of wheat &mdash; small, dry, unremarkable. It goes into the ground and, to all appearances, it&rsquo;s gone. But what comes up is not the seed. What comes up is a living plant &mdash; with roots and a stalk and leaves and grain of its own. It&rsquo;s connected to what was planted, but it&rsquo;s not the same thing. It&rsquo;s immeasurably more.</p>
+
+        <p>The word Paul uses for &ldquo;bare grain&rdquo; &mdash; <em>gymnos</em> &mdash; means naked, stripped down. The seed that goes into the soil is the thing at its most reduced. No husk, no stalk, no life visible. Just the raw kernel. And from that raw kernel, God gives it a body &ldquo;just as He wished.&rdquo;</p>
+
+        <p>That phrase matters. God gives it a body. The resurrection body is not a natural development. It&rsquo;s not something the seed produces on its own. It&rsquo;s what God gives. He is the one who determines what comes out of the ground, and what He gives is precisely what He wishes to give.</p>
+
+        <p>Every farmer knows this, even if he&rsquo;s never thought about resurrection. You put a dry, dead-looking seed in the dirt, and what comes out is alive, green, fruitful, and far more glorious than what went in. The seed had to die for the plant to live. And nobody stands over a wheat field and mourns the seeds.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Paul then broadens the argument. Not all bodies are the same, he says &mdash; and he wants you to see how wide God&rsquo;s creative range is.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;All flesh is not the same flesh, but there is one flesh of men, and another flesh of beasts, and another flesh of birds, and another of fish. There are also heavenly bodies and earthly bodies, but the glory of the heavenly is one, and the glory of the earthly is another. There is one glory of the sun, and another glory of the moon, and another glory of the stars; for star differs from star in glory.&rdquo;</p>
+          <cite>&mdash; 1 Corinthians 15:39&ndash;41 (NASB)</cite>
+        </blockquote>
+
+        <p>Look at what he&rsquo;s doing. He&rsquo;s dismantling the assumption behind the skeptic&rsquo;s question &mdash; the assumption that a body must look like what we currently know. Paul says: look around you. God has already made an astonishing variety of bodies. The flesh of a man is not the flesh of a fish. The glory of the sun is not the glory of a star. Even star differs from star. If God can do all of that with the physical creation you can see, why would you assume He&rsquo;s limited in what He can do with the resurrection?</p>
+
+        <p>The word &ldquo;glory&rdquo; &mdash; <em>doxa</em> &mdash; appears four times in these three verses. Each body God makes carries its own kind of glory, its own radiance, its own weight of splendor. And they&rsquo;re all different. The point isn&rsquo;t that one is better than another. The point is that God is not constrained. He has an infinite range. And the body He&rsquo;s preparing for you is not a lesser version of what you have now. It&rsquo;s a different order of glory entirely.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Then comes the passage that, if you&rsquo;ve spent any time at all thinking about what happens after death, you need to read slowly enough to feel every word.</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;So also is the resurrection of the dead. It is sown a perishable body, it is raised an imperishable body; it is sown in dishonor, it is raised in glory; it is sown in weakness, it is raised in power; it is sown a natural body, it is raised a spiritual body. If there is a natural body, there is also a spiritual body.&rdquo;</p>
+          <cite>&mdash; 1 Corinthians 15:42&ndash;44 (NASB)</cite>
+        </blockquote>
+
+        <p>Four contrasts. Four times Paul sets what goes into the ground against what comes out of it. And every single contrast moves in one direction: up.</p>
+
+        <p><em>Sown perishable &mdash; raised imperishable.</em> The body you&rsquo;re living in is subject to decay. It breaks down. It wears out. Cells stop replicating correctly. Systems fail. The resurrection body is <em>imperishable</em> &mdash; <em>aphthartos</em> in the Greek &mdash; incapable of decay, beyond the reach of corruption. The thing that defines your body right now &mdash; its gradual deterioration &mdash; will have no hold on the body that&rsquo;s coming.</p>
+
+        <p><em>Sown in dishonor &mdash; raised in glory.</em> The word for &ldquo;dishonor&rdquo; &mdash; <em>atimia</em> &mdash; means without value, without dignity. It&rsquo;s what happens when the body that once ran and worked and embraced the people it loved is reduced to something that needs to be carried, cleaned, managed. There is a dishonor in that &mdash; not a moral dishonor, but the indignity of a body that can no longer do what it was made to do. The resurrection body is raised in <em>glory</em> &mdash; in doxa, in radiance, in the full weight of what God intended a human body to be.</p>
+
+        <p><em>Sown in weakness &mdash; raised in power.</em> You know this one personally. The weakness that makes you sit down halfway through a task you used to finish without thinking. The weakness that makes you ask for help with things you once did alone. The weakness that shows up in bloodwork and bone scans and the grip strength test at the doctor&rsquo;s office. That weakness is real. But the resurrection body is raised in <em>power</em> &mdash; <em>dunamis</em> &mdash; the same word used for the power of God Himself. Not human power restored. Divine power given.</p>
+
+        <p><em>Sown a natural body &mdash; raised a spiritual body.</em> The word &ldquo;natural&rdquo; &mdash; <em>psychikos</em> &mdash; refers to the life-principle that animates every human being, the soul-driven body suited to this earthly existence. The word &ldquo;spiritual&rdquo; &mdash; <em>pneumatikos</em> &mdash; doesn&rsquo;t mean immaterial or ghostlike. It means animated by the Spirit, empowered by God&rsquo;s Spirit, suited to the eternal existence that&rsquo;s coming. The resurrection body is not less physical than the one you have now. It&rsquo;s more. It is a body perfectly fitted for life in the presence of God.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are reading this book in a body that is failing &mdash; if the perishable nature of your flesh is something you confront every morning &mdash; then hear what Paul is saying.</p>
+
+        <p>What you are heading toward is not less than what you had. It is not a diminished version of your best years. It is not a spiritual existence where you float around without form or substance. It is a body &mdash; a real, given-by-God, raised-in-glory body &mdash; that does everything your current body cannot.</p>
+
+        <p>It will not decay. It will not weaken. It will not dishonor you. It will not fail.</p>
+
+        <p>And it will be yours. Not borrowed, not temporary, not a tent that wears thin in the weather. Yours &mdash; given by the same God who designed the variety of flesh and the differing glories of the stars. The God who gives each seed a body just as He wishes will give you a body beyond anything you can imagine.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Paul closes this chapter with a crescendo that has echoed through every century since he wrote it:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Behold, I tell you a mystery; we will not all sleep, but we will all be changed, in a moment, in the twinkling of an eye, at the last trumpet; for the trumpet will sound, and the dead will be raised imperishable, and we will be changed. For this perishable must put on the imperishable, and this mortal must put on immortality. But when this perishable will have put on the imperishable, and this mortal will have put on immortality, then will come about the saying that is written, &lsquo;Death is swallowed up in victory. O death, where is your victory? O death, where is your sting?&rsquo;&rdquo;</p>
+          <cite>&mdash; 1 Corinthians 15:51&ndash;55 (NASB)</cite>
+        </blockquote>
+
+        <p>A mystery &mdash; something previously hidden, now revealed. Not everyone will die before Christ returns, but everyone will be changed. And the change will not be gradual. It will happen in a moment &mdash; <em>en atomo</em>, in the Greek, from which we get the word &ldquo;atom.&rdquo; An indivisible instant. The smallest possible unit of time. In the twinkling of an eye. That fast.</p>
+
+        <p>And when it happens, Paul reaches back to the prophets. &ldquo;Death is swallowed up in victory&rdquo; &mdash; drawn from Isaiah 25:8. &ldquo;O death, where is your victory? O death, where is your sting?&rdquo; &mdash; echoing Hosea 13:14. The taunting language is deliberate. Death, which has terrified humanity since Eden, is being mocked. It is being addressed directly and told: you lose. You had your moment, and it&rsquo;s over. The perishable has put on the imperishable. The mortal has put on immortality. And you, death, have nothing left.</p>
+
+        <p>That word &ldquo;swallowed up&rdquo; &mdash; <em>katapino</em> &mdash; is the same word Paul used in 2 Corinthians 5:4, the passage we just walked through in the last chapter. Mortality swallowed up by life. Death swallowed up in victory. The same consuming, overwhelming, totaling force. Death doesn&rsquo;t negotiate a truce. It gets swallowed whole.</p>
+
+        <p>And then the final line &mdash; the one Paul leaves ringing in the ears of every believer who has read this chapter with aching joints and fading strength and a body that reminds them every day that the tent is coming down:</p>
+
+        <blockquote class="scripture">
+          <p>&ldquo;Therefore, my beloved brethren, be steadfast, immovable, always abounding in the work of the Lord, knowing that your toil is not in vain in the Lord.&rdquo;</p>
+          <cite>&mdash; 1 Corinthians 15:58 (NASB)</cite>
+        </blockquote>
+
+        <p>Be steadfast. Be immovable. Keep working. Because everything you do in the Lord &mdash; every prayer, every act of service, every morning you get up and choose faith over fear &mdash; is not in vain.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">The body that aches while you do it is a seed.</p>
+
+        <p style="text-align: center; color: var(--text-primary); font-weight: 600;">And what&rsquo;s coming out of the ground is glory.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-06.html">&larr; Ch 6: The Tent and the Building</a>
+          <a href="chapter-08.html">Ch 8: Abraham&rsquo;s City &rarr;</a>
+        </div>
+        <p class="copyright">One Day Closer to Home &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    const PROGRESS_KEY = 'oneDayCloserToHome_progress';
+    const CH_NUM = 7;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-06.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>
