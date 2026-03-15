@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v83';
+const CACHE_NAME = 'noblemind-study-v84';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -86,6 +86,7 @@ const CACHE_FILES = [
   '/ANewAndLivingWay/chapter-10.html',
   '/ANewAndLivingWay/chapter-11.html',
   '/ANewAndLivingWay/chapter-12.html',
+  '/ANewAndLivingWay/A_New_and_Living_Way.pdf',
   '/StrengthAndDignity/index.html',
   '/StrengthAndDignity/introduction.html',
   '/StrengthAndDignity/chapter-01.html',
