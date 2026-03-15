@@ -93,10 +93,11 @@ def generate_cover_image():
     draw = ImageDraw.Draw(img_rgba)
     w, h = cover_w, cover_h
 
-    # Solid navy — clean and readable
+    # Deep navy with warm cream outline for readability on dark painting
     title_color = (15, 25, 52)
-    subtitle_color = (25, 35, 60)
+    subtitle_color = (30, 40, 65)
     author_color = (15, 25, 52)
+    outline_color = (240, 220, 180, 90)  # warm cream, semi-transparent
 
     # Load fonts
     try:
@@ -108,13 +109,16 @@ def generate_cover_image():
         font_subtitle = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf", 32)
         font_author = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf", 40)
 
-    # Title
+    # Title — navy with thin warm outline
     lines = ["One Day Closer", "to Home"]
     y_pos = 80
     for line in lines:
         bbox = draw.textbbox((0, 0), line, font=font_title)
         tw = bbox[2] - bbox[0]
         x = (w - tw) // 2
+        for dx in range(-3, 4):
+            for dy in range(-3, 4):
+                draw.text((x + dx, y_pos + dy), line, font=font_title, fill=outline_color)
         draw.text((x, y_pos), line, font=font_title, fill=title_color)
         y_pos += 110
 
@@ -123,6 +127,9 @@ def generate_cover_image():
     bbox = draw.textbbox((0, 0), subtitle, font=font_subtitle)
     tw = bbox[2] - bbox[0]
     x = (w - tw) // 2
+    for dx in range(-2, 3):
+        for dy in range(-2, 3):
+            draw.text((x + dx, y_pos + 30 + dy), subtitle, font=font_subtitle, fill=outline_color)
     draw.text((x, y_pos + 30), subtitle, font=font_subtitle, fill=subtitle_color)
 
     # Author at bottom
@@ -131,6 +138,9 @@ def generate_cover_image():
     tw = bbox[2] - bbox[0]
     x = (w - tw) // 2
     y = h - 130
+    for dx in range(-3, 4):
+        for dy in range(-3, 4):
+            draw.text((x + dx, y + dy), author_text, font=font_author, fill=outline_color)
     draw.text((x, y), author_text, font=font_author, fill=author_color)
 
     # Convert back to RGB for PDF
