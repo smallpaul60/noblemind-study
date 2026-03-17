@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: The Phone Call | Change the Mind, Change the Man</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #3B9AE8;
+      --accent-glow: rgba(59, 154, 232, 0.4);
+      --accent-soft: rgba(59, 154, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(59, 154, 232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(59, 154, 232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(59, 154, 232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232, 168, 72,0.15),
+        0 0 80px rgba(59, 154, 232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(59, 154, 232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(59, 154, 232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(59, 154, 232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(59, 154, 232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(59, 154, 232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(59, 154, 232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B9AE8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(59, 154, 232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(59, 154, 232,0.06);
+      border: 1px solid rgba(59, 154, 232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(59, 154, 232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(59, 154, 232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(59, 154, 232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232, 168, 72,0.08);
+      border: 1px solid rgba(232, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'freddie') {
+    sessionStorage.setItem('ctm_auth', 'granted');
+  } else {
+    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Change the Mind, Change the Man
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html" selected>Ch 1: The Phone Call</option>
+          <option value="chapter-02.html">Ch 2: The Progression</option>
+          <option value="chapter-03.html">Ch 3: Where Did We Go Wrong?</option>
+          <option value="chapter-04.html">Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</option>
+          <option value="chapter-05.html">Ch 5: Love That Says No</option>
+          <option value="chapter-06.html">Ch 6: Think</option>
+          <option value="chapter-07.html">Ch 7: Coming to Himself</option>
+          <option value="chapter-08.html">Ch 8: The Father Ran</option>
+          <option value="chapter-09.html">Ch 9: The Long Road</option>
+          <option value="chapter-10.html">Ch 10: The God Who Finds You</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ONE</p>
+        <h1>The Phone Call</h1>
+        <p class="subtitle">The moment everything splits into before and after.</p>
+      </header>
+
+      <div class="content">
+        <p>There&rsquo;s a phone call you&rsquo;re afraid of.</p>
+
+        <p>If you love someone who is caught in addiction, you know the one I mean. It doesn&rsquo;t have to ring at two in the morning, although it often does. It can come at noon on a Tuesday while you&rsquo;re at work, or at six in the evening while you&rsquo;re starting dinner, or on a Sunday morning while you&rsquo;re getting dressed for worship. The time doesn&rsquo;t matter. What matters is the half-second between seeing the number on the screen and answering it &mdash; that half-second when your chest tightens and your stomach drops and something in you whispers, <em>This is it.</em></p>
+
+        <p>Maybe it&rsquo;s the hospital. Maybe it&rsquo;s a police officer speaking in a careful, measured voice that tells you he&rsquo;s said these words before. Maybe it&rsquo;s your child, thick and slurred, saying something that makes the floor tilt under your feet. Or maybe it&rsquo;s not a phone call at all. Maybe it&rsquo;s the knock on the door. The text that says <em>call me now</em>. The moment you walk into a room and find something you can&rsquo;t unfind &mdash; the pipe, the needle, the bottle, the evidence that everything you feared was true.</p>
+
+        <p>However it comes, the result is the same.</p>
+
+        <p>The world you lived in five minutes ago &mdash; the one where you could still tell yourself it wasn&rsquo;t that bad, still hope you were wrong, still pretend the signs meant something else &mdash; that world is gone. And you are standing in a new one, and you didn&rsquo;t ask to be here, and you don&rsquo;t know the way forward.</p>
+
+        <p>That is the phone call.</p>
+
+        <p>And if you have lived it, you remember everything. Where you were standing. What time of day it was. What the light looked like. Whether it was raining. You remember the sound of your own breathing. You remember the weight of the phone in your hand, or the weight of your legs when you sat down because your body decided for you that you could not remain standing.</p>
+
+        <p>You remember because that was the moment your life divided into two parts: before, and after.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Not long ago, a mother posted something on social media while she was driving her twenty-four-year-old son to a rehabilitation center. It wasn&rsquo;t written for an audience. It was written because the words were boiling over and she had nowhere else to put them. She said:</p>
+
+        <p><em>&ldquo;Where did we go wrong?&rdquo;</em></p>
+
+        <p><em>&ldquo;We can&rsquo;t help but constantly wonder if there was ANYTHING we could have done better.&rdquo;</em></p>
+
+        <p><em>&ldquo;We never imagined drugs would touch our lives.&rdquo;</em></p>
+
+        <p><em>&ldquo;Our hearts are broken but we have hope.&rdquo;</em></p>
+
+        <p>Thousands of people responded. Not dozens. Thousands. Because every parent who has ever gotten that phone call saw their own face in hers. Every husband, every wife, every brother and sister and grandparent who has watched addiction drag someone they love into the dark &mdash; they all recognized the words, because they&rsquo;ve said the same ones. Usually in private. Usually through tears. Usually to no one, because who do you tell?</p>
+
+        <p>That mother&rsquo;s post tells you something important about the phone call. It&rsquo;s not just a moment of crisis. It&rsquo;s a moment of isolation. Because the phone call doesn&rsquo;t just tell you something terrible has happened. It tells you that you are now in a club you never wanted to join, and you don&rsquo;t know the rules, and you are terrified that if you say it out loud &mdash; if you actually tell someone what is happening in your family &mdash; the judgment will be worse than the silence.</p>
+
+        <p>So you carry it alone.</p>
+
+        <p>And carrying it alone is exactly what will break you.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now, if you&rsquo;re reading this book and you are the one caught in the addiction &mdash; not the family, but the one the phone call is about &mdash; I need you to hear something.</p>
+
+        <p>You may not remember the moment the way your family does. Addiction has a way of erasing the edges, blurring the details, rearranging the timeline until you&rsquo;re not sure what happened on which night or how bad it really was. You might remember pieces. You might not remember it at all.</p>
+
+        <p>But they remember.</p>
+
+        <p>Your mother remembers the exact pitch of the officer&rsquo;s voice on the phone. Your father remembers standing in the kitchen gripping the edge of the counter and not being able to let go. Your wife remembers the moment she stopped being surprised, and that moment broke something in her that she hasn&rsquo;t told you about. Your children &mdash; if you have children &mdash; remember the night they heard the crying through the wall, or the morning they came downstairs and you weren&rsquo;t there and nobody would explain why.</p>
+
+        <p>They carry those moments like scars. And here is something you need to understand, even though it&rsquo;s hard to hear: the phone call didn&rsquo;t happen to you. It happened to <em>them</em>. You were the reason for the call. They were the ones who had to answer it.</p>
+
+        <p>I know that, because I&rsquo;ve been on your side of it. I have been the reason for the call. More than once. And I know what it is to wake up later &mdash; sometimes much later &mdash; and begin to understand what your family went through while you were destroying yourself. That understanding doesn&rsquo;t come all at once. It comes in pieces, over years, and every piece of it hurts.</p>
+
+        <p>But it has to come. Because without it, you don&rsquo;t yet understand what you&rsquo;re recovering from. You think you&rsquo;re recovering from a substance. You&rsquo;re not. You&rsquo;re recovering from everything the substance made you do to the people who loved you the most.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is another version of the phone call, and this book cannot be honest if it doesn&rsquo;t address it from the very first chapter.</p>
+
+        <p>When the addiction leads somewhere criminal &mdash; when the person you love didn&rsquo;t just use, but stole, or hurt someone, or worse &mdash; the phone call carries a different weight. The family isn&rsquo;t just hearing that their loved one is in trouble. They&rsquo;re hearing that their loved one has <em>caused</em> trouble. Deep, irreversible trouble.</p>
+
+        <p>And the question changes.</p>
+
+        <p>&ldquo;Where did we go wrong?&rdquo; is the family looking inward, searching themselves. That&rsquo;s grief mixed with guilt, and we&rsquo;ll deal with it honestly in this book. But there is another question, and it cuts a different direction entirely: <em>&ldquo;How could you?&rdquo;</em></p>
+
+        <p>That question is the family looking directly at the addict. And there is grief in it, yes, but there is also something else. Horror. Disbelief. The realization that the child you raised, the person you taught to tie their shoes and ride a bicycle and say their prayers at night, is capable of something you cannot comprehend. It is the shattering of an image &mdash; the image you carried of who that person was &mdash; and what replaces it is something you don&rsquo;t recognize.</p>
+
+        <p>I need to tell you now, before this book goes any further, that I know this question from the inside. I was introduced to drugs at the age of fourteen. By seventeen, the progression had taken me to places I never imagined I would go. I was convicted of robbery and murder and sentenced to life in prison. I served thirty-three years before parole was granted. I am sixty-five years old as I write this.</p>
+
+        <p>I am not writing from a distance. I am not writing from theory. I am writing as the person the phone call was about, and as the person who caused the question <em>&ldquo;How could you?&rdquo;</em> to be asked by people who loved me and whom I loved &mdash; and I had no answer for them.</p>
+
+        <p>I still don&rsquo;t. Not a satisfying one. That question will follow me for the rest of my life, and we will come back to it later in this book, because it deserves more than a passing mention. It deserves the weight of Scripture brought to bear on it honestly, without flinching, and without offering cheap comfort to either side.</p>
+
+        <p>For now, I simply want you to know that the voice speaking to you in these pages is not the voice of someone who read about addiction in a textbook. It is the voice of someone who lived it &mdash; all the way to its worst consequences &mdash; and who found a way through. Not around. <em>Through.</em></p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>That word &mdash; <em>through</em> &mdash; matters more than you know right now.</p>
+
+        <p>There is a passage in the Psalms that almost every person in crisis has heard quoted at some point, whether they were ready to receive it or not. David wrote it, and whatever you have heard people do with this passage &mdash; turn it into a greeting card, embroider it on a pillow, say it at funerals until the words have lost their edges &mdash; I want you to hear it fresh:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Even though I walk through the valley of the shadow of death, I fear no evil, for You are with me; Your rod and Your staff, they comfort me.&rdquo;</p>
+
+          <cite>&mdash; Psalm 23:4 (NASB)</cite>
+
+        </blockquote>
+
+        <p>Read it again, and this time, watch one word: <em>through</em>.</p>
+
+        <p>David does not say, &ldquo;Even though I walk <em>into</em> the valley.&rdquo; He doesn&rsquo;t say, &ldquo;Even though I am <em>stuck</em> in the valley.&rdquo; He says <em>through</em>. The valley is real. The shadow is real. The death that casts the shadow is real. David is not minimizing any of it. He&rsquo;s walking in the worst of it, and he names it for what it is &mdash; a valley so dark that death itself is blocking the light.</p>
+
+        <p>But the valley has an exit.</p>
+
+        <p><em>Through</em> means there is an opening at the other end. It means you are not living in a place. You are passing through a place. The darkness is real, but it is not permanent. The shadow is heavy, but it has a border. And the Shepherd &mdash; notice that David doesn&rsquo;t say &ldquo;I hope God is somewhere nearby&rdquo; &mdash; the Shepherd is <em>with him</em>. Present tense. Right there. Walking the same path. Already in the valley, already ahead of you, already behind you, already beside you.</p>
+
+        <p>Your rod and Your staff, they comfort me.</p>
+
+        <p>The rod was for protection &mdash; the shepherd used it to fight off predators. The staff was for guidance &mdash; the crook at the top was used to pull a wandering sheep back to the path. David says both are a comfort to him. He is comforted that God fights for him. He is comforted that God corrects him. Both. In the same sentence. Because in the valley, you need both. You need God to protect you from what&rsquo;s out there, and you also need God to pull you back when you&rsquo;re wandering deeper into the dark.</p>
+
+        <p>That&rsquo;s where you are right now. If you are the family &mdash; you are in the valley, and it is dark, and the shadow is real. If you are the addict &mdash; you are in the valley too, whether you can see it clearly yet or not. And if you are someone who picked up this book because you&rsquo;re not sure which category you fall into, or because the addiction hasn&rsquo;t announced itself with a phone call yet but you know something is wrong &mdash; you are in the valley.</p>
+
+        <p>And the Shepherd is already there.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>This book is going to walk through the valley with you. All the way through. We are going to talk about how the progression happens &mdash; the slow, terrible slide from the first choice to the last one. We are going to talk about guilt, and who actually bears it. We are going to talk about the prisons people build for themselves &mdash; and the prisons that shame builds around the people who love them. We are going to talk about the hardest thing a family ever does, which is to love someone enough to stop rescuing them.</p>
+
+        <p>We are going to talk about the mind &mdash; because that is where the real battle is fought and where the real change happens, and the apostle Paul knew it, and a preacher named Freddie Anderson spent his life teaching it, and I know it because I lived it.</p>
+
+        <p>We are going to talk about repentance &mdash; the real thing, not the performance. We are going to talk about what happens when the addict comes home, and why forgiveness and trust are not the same thing, and why both are necessary. We are going to talk about the long road after the turning &mdash; the daily, unglamorous, one-foot-in-front-of-the-other work of living differently.</p>
+
+        <p>And at the end, we are going to talk about the God who meets you in the valley. Not sentimentally. Not with clichés. With Scripture, examined carefully and honestly, because that is the only foundation that holds when everything else has fallen apart.</p>
+
+        <p>But all of that starts here. With the phone call. With the before and the after. With the realization that the life you are living now is not the life you planned, and the road ahead is dark, and you don&rsquo;t know the way.</p>
+
+        <p>You don&rsquo;t have to know the way.</p>
+
+        <p>The Shepherd does.</p>
+
+        <p>And the valley has a <em>through</em>.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="index.html">&larr; Table of Contents</a>
+          <a href="chapter-02.html">Ch 2: The Progression &rarr;</a>
+        </div>
+        <p class="copyright">Change the Mind, Change the Man &copy; 2026 Paul Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'changeTheMindChangeTheMan_progress';
+    var CH_NUM = 1;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'index.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

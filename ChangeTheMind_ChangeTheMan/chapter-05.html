@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 5: Love That Says No | Change the Mind, Change the Man</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #3B9AE8;
+      --accent-glow: rgba(59, 154, 232, 0.4);
+      --accent-soft: rgba(59, 154, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(59, 154, 232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(59, 154, 232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(59, 154, 232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232, 168, 72,0.15),
+        0 0 80px rgba(59, 154, 232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(59, 154, 232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(59, 154, 232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(59, 154, 232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(59, 154, 232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(59, 154, 232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(59, 154, 232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B9AE8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(59, 154, 232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(59, 154, 232,0.06);
+      border: 1px solid rgba(59, 154, 232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(59, 154, 232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(59, 154, 232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(59, 154, 232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232, 168, 72,0.08);
+      border: 1px solid rgba(232, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'freddie') {
+    sessionStorage.setItem('ctm_auth', 'granted');
+  } else {
+    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Change the Mind, Change the Man
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Phone Call</option>
+          <option value="chapter-02.html">Ch 2: The Progression</option>
+          <option value="chapter-03.html">Ch 3: Where Did We Go Wrong?</option>
+          <option value="chapter-04.html">Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</option>
+          <option value="chapter-05.html" selected>Ch 5: Love That Says No</option>
+          <option value="chapter-06.html">Ch 6: Think</option>
+          <option value="chapter-07.html">Ch 7: Coming to Himself</option>
+          <option value="chapter-08.html">Ch 8: The Father Ran</option>
+          <option value="chapter-09.html">Ch 9: The Long Road</option>
+          <option value="chapter-10.html">Ch 10: The God Who Finds You</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FIVE</p>
+        <h1>Love That Says No</h1>
+      </header>
+
+      <div class="content">
+        <p>There is a moment every family dreads.</p>
+
+        <p>It does not come suddenly. It builds. It builds through the broken promises and the stolen money and the nights you lay awake listening for the door. It builds through the second chance and the third and the fifth and the tenth, through the phone calls from jail and the drives to rehab and the loans that were never loans and the lies you stopped believing months ago but kept pretending to believe because the alternative was unbearable.</p>
+
+        <p>And then one day, you are standing in the doorway of your own home, looking at someone you love &mdash; someone you carried, someone you raised, someone whose face you still see at five years old when you look at them now &mdash; and you say the word you have been terrified to say.</p>
+
+        <p><em>No.</em></p>
+
+        <p>No, you cannot come back in. No, I will not bail you out. No, I will not hand you money I know will end up in someone else&rsquo;s hands within the hour. No. Not this time.</p>
+
+        <p>And it feels like the cruelest thing you have ever done. It feels like abandonment. It feels like you are failing the one person you swore you would never fail. Every instinct in you screams that this is wrong &mdash; that love opens the door, love gives another chance, love never turns away.</p>
+
+        <p>But you have opened the door before. Every time, you opened it. And every time, they walked back out to the same places, the same people, the same destruction. Your love did not stop the progression. Your money did not stop it. Your tears did not stop it. And somewhere in the wreckage of the latest crisis, a thought began to form that you could barely stand to think:</p>
+
+        <p><em>What if helping is the very thing that is hurting them?</em></p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>The instinct to rescue is not weakness. It is the natural response of someone who loves. Parents protect their children. That is what parents do. And when the child is in danger, the impulse to intervene &mdash; to shield, to fix, to absorb the blow &mdash; is as powerful as any force in nature.</p>
+
+        <p>But addiction changes the equation.</p>
+
+        <p>What looks like love may be keeping the addict comfortable in their chains. What feels like compassion may be removing the very consequences that could wake them up. Every dollar handed over, every bail posted, every excuse made on their behalf, every mess quietly cleaned up so the neighbors don&rsquo;t find out &mdash; each of these is a cushion placed between the addict and the floor. And as long as the floor never hits, there is no reason to change.</p>
+
+        <p>This is not a clinical observation. This is something I have watched happen &mdash; to others, and to myself. I have seen men go to prison, serve their time, and walk out the gate with every intention of going straight. Their families were waiting. Their families had kept the lights on, kept the door open, kept the faith. And within months &mdash; sometimes weeks &mdash; those men were right back where they started. The drugs. The streets. The choices that put them there the first time.</p>
+
+        <p>And I will tell you something harder than that, because I have seen it with my own eyes and heard it with my own ears. Some of them walked out with no intention of going straight at all. None. They could hardly wait to get back to it. They served every day of their sentence, and every day of their sentence the mind was right where it was when they walked in. The family was praying. The family was waiting. And the man they were waiting for had never left the life &mdash; not in his mind. Not for one day.</p>
+
+        <p>Why?</p>
+
+        <p>Because nothing on the inside had changed. The circumstances changed. The address changed. The clothes were new. But the mind was the same mind that walked in. And a changed situation without a changed mind is a temporary arrangement.</p>
+
+        <p>I have also watched families reach the point where they could not do it anymore. Where the mother who had answered every call finally let it ring. Where the father who had posted bail five times said, &ldquo;Not this time.&rdquo; Those were not cold people. They were exhausted people. Broken people. People who had loved as hard as they knew how to love, and who had finally come to the agonizing realization that their help was not helping.</p>
+
+        <p>And here is what I want you to hear, because this is where Scripture speaks directly to the situation &mdash; and says something most people do not expect.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There was a congregation in the city of Corinth that had a serious problem. One of their own &mdash; a member of the body &mdash; was involved in sexual immorality of a kind that even the surrounding pagan culture found shocking. He had his father&rsquo;s wife. And the church&rsquo;s response was not grief. It was not alarm. It was pride.</p>
+
+        <p>Paul the apostle&rsquo;s letter does not mince words:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;You have become arrogant and have not mourned instead, so that the one who had done this deed would be removed from your midst.&rdquo;</p>
+
+          <cite>&mdash; 1 Corinthians 5:2</cite>
+
+        </blockquote>
+
+        <p>Two words in that sentence deserve your full attention.</p>
+
+        <p>The first is <em>mourned</em>. The Greek is <em>pentheō</em> &mdash; and it is the word used for mourning the dead. Not disappointment. Not concern. Not a quiet conversation about &ldquo;how we can support him through this.&rdquo; <em>Mourning</em>. Paul expected grief from the congregation &mdash; the kind of grief a family feels at a funeral. Because what was happening in Corinth was a death of sorts. A man was destroying himself, and the body that was supposed to love him was watching it happen and calling it tolerance.</p>
+
+        <p>The second word is <em>arrogant</em>. The Greek is <em>physioō</em>, and the image behind it is vivid &mdash; it means to inflate, to puff up, like a bellows filling something with air. They were inflated. Full of air. Full of nothing. They had convinced themselves that their acceptance of this man&rsquo;s sin was a sign of maturity, perhaps even of love. Paul saw it differently. He saw a congregation that had confused permissiveness with compassion.</p>
+
+        <p>Families do this too. Not always because they are proud, but because they are afraid. Afraid that drawing a line means giving up. Afraid that saying no means they don&rsquo;t love anymore. And so they keep the door open, and the money flowing, and the excuses coming &mdash; and they call it love. But Paul calls it something else entirely. He calls it a failure to mourn.</p>
+
+        <p>Because when you love someone who is destroying themselves, the appropriate response is grief &mdash; followed by action.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And the action Paul commanded was the hardest one imaginable.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;I have decided to deliver such a one to Satan for the destruction of his flesh, so that his spirit may be saved in the day of the Lord Jesus.&rdquo;</p>
+
+          <cite>&mdash; 1 Corinthians 5:5</cite>
+
+        </blockquote>
+
+        <p>Read that again slowly.</p>
+
+        <p><em>Deliver such a one to Satan.</em> The Greek word is <em>paradidōmi</em> &mdash; to hand over, to deliver up. It is the same word the gospel writers use of Judas handing Jesus over in the garden. Strong language. Devastating language. And if you stopped reading at &ldquo;deliver such a one to Satan,&rdquo; you would be horrified. You would think Paul was calling for cruelty, for abandonment, for writing the man off entirely.</p>
+
+        <p>But you cannot stop there. The sentence does not stop there.</p>
+
+        <p><em>For the destruction of his flesh</em> &mdash; not the destruction of him, but of his <em>flesh</em>. The Greek is <em>olethros tēs sarkos</em>. <em>Olethros</em> means ruin, destruction. <em>Sarx</em> &mdash; flesh &mdash; is the word Paul uses throughout his letters for the sinful nature, the appetites and patterns that war against the spirit. The target is not the man. The target is what is killing him.</p>
+
+        <p><em>So that his spirit may be saved.</em> There it is. The purpose clause. <em>Hina to pneuma sōthē</em> &mdash; &ldquo;in order that the spirit may be saved.&rdquo; Everything in this passage &mdash; the removal, the delivery, the destruction of the flesh &mdash; all of it points toward one end: <em>salvation</em>. Not punishment. Not rejection. Not &ldquo;he made his bed, let him lie in it.&rdquo; The goal is rescue.</p>
+
+        <p>This was surgery, not execution. Paul was telling the congregation: remove him from the comfort and safety of this fellowship &mdash; not because you have given up on him, but because as long as he is comfortable, he will not change. Let him feel the full weight of where his choices have taken him. Let the flesh meet its consequences. Because only when the cushion is removed does the man have a chance to wake up.</p>
+
+        <p>Sound familiar?</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If the story ended there, it would be hard enough. But it does not end there.</p>
+
+        <p>Paul wrote a second letter to Corinth. And in that letter, the situation had changed. The man &mdash; most likely the same man &mdash; had repented. The discipline had worked. The removal had accomplished exactly what Paul said it would accomplish. The man&rsquo;s spirit was saved.</p>
+
+        <p>But now Paul saw a new danger:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Sufficient for such a one is this punishment which was inflicted by the majority, so that on the contrary you should rather forgive and comfort him, otherwise such a one might be overwhelmed by excessive sorrow.&rdquo;</p>
+
+          <cite>&mdash; 2 Corinthians 2:6&ndash;7</cite>
+
+        </blockquote>
+
+        <p>The Greek word for &ldquo;overwhelmed&rdquo; is <em>katapothē</em> &mdash; from <em>katapinō</em>, meaning to swallow down, to devour, to gulp whole. Paul&rsquo;s warning is urgent: if you do not forgive him now &mdash; if you do not open the door once the turning has happened &mdash; the grief will swallow him alive.</p>
+
+        <p>This matters enormously. Because it means the discipline has an endpoint. It is not permanent exile. It is not &ldquo;once you&rsquo;ve crossed that line, you can never come back.&rdquo; The removal was temporary. The purpose was awakening. And once the awakening has happened &mdash; once the mind has genuinely changed &mdash; the response must be restoration.</p>
+
+        <p>Paul continued:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Wherefore I urge you to reaffirm your love for him.&rdquo;</p>
+
+          <cite>&mdash; 2 Corinthians 2:8</cite>
+
+        </blockquote>
+
+        <p>Reaffirm. Not &ldquo;start over with conditions.&rdquo; Not &ldquo;we&rsquo;ll see if he really means it this time.&rdquo; <em>Reaffirm.</em> The love was always there. It never stopped. The man needed to know that it was still there.</p>
+
+        <p>This is the full picture. The removal and the restoration are not contradictions. They are two movements of the same love. The parent who closes the door and the parent who opens it again when the turning is real &mdash; they are the same parent, and they are acting from the same love both times.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And if you need a higher model than Corinth, look to God Himself.</p>
+
+        <p>The writer of Hebrews quotes from Proverbs and then extends the principle into a sustained argument about God&rsquo;s discipline:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;My son, do not regard lightly the discipline of the Lord, nor faint when you are reproved by Him; for those whom the Lord loves He disciplines, and He scourges every son whom He receives.&rdquo;</p>
+
+          <cite>&mdash; Hebrews 12:5&ndash;6</cite>
+
+        </blockquote>
+
+        <p>The word for <em>discipline</em> here is <em>paideia</em> &mdash; and it comes from the Greek word <em>pais</em>, meaning child. This is not the language of punishment. It is the language of parenting. <em>Paideia</em> is the training of a child by a father who intends for that child to grow. It includes correction. It includes consequences. It may even include pain &mdash; the text says He <em>scourges</em> every son He receives, and <em>mastigoō</em> is not a gentle word. But the purpose is never destruction. The purpose is formation.</p>
+
+        <p>And notice the logic of the passage: it is those whom the Lord <em>loves</em> that He disciplines, and every son whom He <em>receives</em> that He scourges. The discipline is not evidence that God has rejected the son. It is evidence that the son belongs to Him. If there is no correction, Hebrews goes on to say, then you are not a son at all (12:8). The discipline <em>proves</em> the relationship &mdash; it does not sever it.</p>
+
+        <p>And look at how Hebrews frames the result:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;All discipline for the moment seems not to be joyful, but sorrowful; yet to those who have been trained by it, afterwards it yields the peaceful fruit of righteousness.&rdquo;</p>
+
+          <cite>&mdash; Hebrews 12:11</cite>
+
+        </blockquote>
+
+        <p><em>Trained</em> &mdash; the Greek is <em>gegymnasmenos</em>, from <em>gymnazō</em>, the word we get &ldquo;gymnasium&rdquo; from. It means to train, to exercise, to condition &mdash; like an athlete preparing for competition. Discipline is training. It is not pleasant while it is happening &mdash; the text says so plainly, and you do not need the text to tell you what you have already felt. But <em>afterwards</em>. Afterwards, to those who submit to the training, it yields the <em>peaceful fruit of righteousness</em>. Not bitterness. Not brokenness. Peace.</p>
+
+        <p>If God Himself loves through discipline &mdash; if the Father of spirits corrects those He receives precisely <em>because</em> He loves them &mdash; then a family that sets a boundary, a parent who says no, a congregation that removes a member for the purpose of restoring him &mdash; they are not being cruel. They are following the highest model of love that exists.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the one struggling with addiction, hear this.</p>
+
+        <p>The people who say no to you are not your enemies. The family member who refuses to post bail, the parent who will not let you back in the house, the friend who finally stopped lending you money &mdash; they have not abandoned you. They have reached the end of what enabling can do, and they are terrified, and they are grieving, and they are still awake at three in the morning wondering if they made the right decision.</p>
+
+        <p>They are not punishing you. They are refusing to help you destroy yourself. There is a difference. And somewhere, if you are honest with yourself, you know there is a difference.</p>
+
+        <p>The question is not whether they love you. The question is whether you will let their &ldquo;no&rdquo; do what it is designed to do &mdash; wake you up. Make you feel the weight. Force you to see what you have been refusing to see.</p>
+
+        <p>Because as long as someone is always there to catch you, you have no reason to stop falling.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the family, hear this.</p>
+
+        <p>I am not going to give you a formula. I am not going to tell you that if you follow three steps, your loved one will recover. That would be dishonest, and this book promised you honesty from the beginning.</p>
+
+        <p>Every situation is different. The boundary that saves one person&rsquo;s life might not be right for another. Some doors need to close; some bridges need to stay open. The line between discipline and abandonment is not always clear, and I will not pretend that it is. This is where wisdom is required &mdash; the kind of wisdom James says God gives generously to those who ask in faith (James 1:5).</p>
+
+        <p>But I will tell you this: you are not a failure for saying no. You are not unloving. You are not giving up. You may be doing the hardest, most loving thing you have ever done in your life. And it may not feel like love. It may feel like your heart is being torn out of your chest.</p>
+
+        <p>That is what mourning feels like. And Paul said that was the right response all along.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is one more thing, and it is perhaps the hardest truth in this chapter.</p>
+
+        <p>You cannot change their mind for them.</p>
+
+        <p>You can create the conditions. You can remove the cushions. You can pray &mdash; and you should pray, and you should never stop praying. You can set the boundary that forces them to feel the full weight of their choices. But the turning of the mind is a decision only they can make. Paul told the Corinthians to remove the man. He did not tell them they could repent for him. The congregation did its part. The man had to do his.</p>
+
+        <p>And sometimes they don&rsquo;t. Sometimes the door closes, and the person on the other side of it does not come back. Sometimes the consequences come, and instead of waking up, the addict sinks deeper. This book will not pretend otherwise. Some stories do not end the way the family prayed they would. And that is not the family&rsquo;s fault. Ezekiel 18 settled that in Chapter 3 &mdash; each soul bears the responsibility for its own choices.</p>
+
+        <p>But sometimes they do come back. Sometimes the removal does exactly what Paul said it would do. Sometimes the floor that you were afraid to let them hit is the very thing that finally brings them to their senses. And when that happens &mdash; when the turning is real, when the mind has genuinely changed &mdash; do not let the grief swallow them alive. Reaffirm your love. Open the door.</p>
+
+        <p>The Corinthian man came back.</p>
+
+        <p>The discipline was not the end. It was the beginning of the return.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-04.html">&larr; Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</a>
+          <a href="chapter-06.html">Ch 6: Think &rarr;</a>
+        </div>
+        <p class="copyright">Change the Mind, Change the Man &copy; 2026 Paul Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'changeTheMindChangeTheMan_progress';
+    var CH_NUM = 5;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-04.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

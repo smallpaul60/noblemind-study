@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: All of the Imprisoned Aren&rsquo;t in Prison | Change the Mind, Change the Man</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #3B9AE8;
+      --accent-glow: rgba(59, 154, 232, 0.4);
+      --accent-soft: rgba(59, 154, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(59, 154, 232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(59, 154, 232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(59, 154, 232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232, 168, 72,0.15),
+        0 0 80px rgba(59, 154, 232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(59, 154, 232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(59, 154, 232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(59, 154, 232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(59, 154, 232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(59, 154, 232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(59, 154, 232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B9AE8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(59, 154, 232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(59, 154, 232,0.06);
+      border: 1px solid rgba(59, 154, 232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(59, 154, 232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(59, 154, 232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(59, 154, 232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232, 168, 72,0.08);
+      border: 1px solid rgba(232, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'freddie') {
+    sessionStorage.setItem('ctm_auth', 'granted');
+  } else {
+    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Change the Mind, Change the Man
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Phone Call</option>
+          <option value="chapter-02.html">Ch 2: The Progression</option>
+          <option value="chapter-03.html">Ch 3: Where Did We Go Wrong?</option>
+          <option value="chapter-04.html" selected>Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</option>
+          <option value="chapter-05.html">Ch 5: Love That Says No</option>
+          <option value="chapter-06.html">Ch 6: Think</option>
+          <option value="chapter-07.html">Ch 7: Coming to Himself</option>
+          <option value="chapter-08.html">Ch 8: The Father Ran</option>
+          <option value="chapter-09.html">Ch 9: The Long Road</option>
+          <option value="chapter-10.html">Ch 10: The God Who Finds You</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>All of the Imprisoned Aren&rsquo;t in Prison</h1>
+        <p class="subtitle">The walls that shame builds are thicker than concrete.</p>
+      </header>
+
+      <div class="content">
+        <p>A preacher named Freddie Anderson &mdash; the man who taught me how to read the Bible and let it speak for itself &mdash; once made a statement that stopped me in my tracks. It was not from a sermon text. It was not an exegetical point. It was an observation about life, delivered the way Freddie delivered most things &mdash; plainly, without decoration, and with the kind of precision that doesn&rsquo;t let you look away.</p>
+
+        <p>He said: <em>&ldquo;All of the imprisoned aren&rsquo;t in prison.&rdquo;</em></p>
+
+        <p>That sentence changed the way I understood addiction, and it is the reason this chapter exists.</p>
+
+        <p>I spent thirty-three years behind literal walls. Concrete, steel, razor wire, count times, lockdowns &mdash; I know what a prison looks like from the inside. I know what it sounds like when the door closes and you hear the lock engage and you understand, in a way that no free person can fully grasp, that you are not leaving when you want to leave. You are leaving when someone else decides you can. That is imprisonment. It is physical, it is real, and it is devastating.</p>
+
+        <p>But Freddie was right. Not all prisons have walls you can see.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is a man sitting in a nice house in a decent neighborhood with a steady job and a family who thinks he&rsquo;s fine. He is an alcoholic. He has never been arrested. He has never missed a day of work. He has never caused a scene at a family gathering. He comes home, he closes the door, and he drinks until the thing inside him stops screaming for a little while. His wife knows. She has known for years. She says nothing, because the last time she said something, it became an argument that ended with a silence worse than the drinking. So she carries it. And he carries it. And the house is a prison with central air and a two-car garage, and neither of them can find the door.</p>
+
+        <p>There is a woman in the pew on Sunday morning &mdash; well-dressed, composed, Bible in her lap &mdash; whose son has not come home in four days. She doesn&rsquo;t know where he is. She doesn&rsquo;t know if he&rsquo;s alive. She drove past the places she used to find him and he wasn&rsquo;t there, and now she&rsquo;s sitting in worship trying to sing a hymn while her phone is on silent in her purse and every muscle in her body is straining to check it. Nobody in that room knows. She has told no one. Because she is terrified that if she says it out loud &mdash; if she tells these people, these brothers and sisters in Christ, what is happening in her family &mdash; they will look at her differently. And she cannot bear that on top of everything else.</p>
+
+        <p>There is a teenager in his bedroom at eleven o&rsquo;clock at night, deep into something on a screen that he knows is destroying him. He didn&rsquo;t go looking for it the first time. It found him. But he went looking for it every time after that, and now it is the first thing he thinks about when he wakes up and the last thing he sees before he sleeps, and the guilt is so thick he can barely breathe under it. He has never touched a drug. He has never held a bottle. But he is as enslaved as anyone who has, because the thing that has mastered him doesn&rsquo;t care what form it takes. It only cares that it owns him.</p>
+
+        <p>There is a father who lost his wife to cancer two years ago and discovered that the only way to get through the evening hours &mdash; those hours between dinner and sleep when the house is so quiet he can hear her absence &mdash; is to gamble online until he&rsquo;s too exhausted to feel anything. He tells himself it&rsquo;s harmless. He tells himself he can stop. He told himself that last month when he couldn&rsquo;t make the mortgage payment, and he told himself that again last week when he took a cash advance on a credit card his children don&rsquo;t know about.</p>
+
+        <p>All of the imprisoned aren&rsquo;t in prison.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Jesus said something in the Gospel of John that reaches past every one of these situations and names what is happening inside them:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Truly, truly, I say to you, everyone who commits sin is the slave of sin.&rdquo;</p>
+
+          <cite>&mdash; John 8:34 (NASB)</cite>
+
+        </blockquote>
+
+        <p><em>Everyone.</em> Not everyone who commits a particular sin. Not everyone who commits sin past a certain threshold. Everyone. And the word &ldquo;slave&rdquo; is <em>doulos</em> again &mdash; the same word Paul used in Romans 6 that we unpacked in Chapter 2. Property. Owned. Under the authority of a master who does not negotiate.</p>
+
+        <p>And Peter, writing to Christians who were already in the faith, sharpened the point further:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;For by what a man is overcome, by this he is enslaved.&rdquo;</p>
+
+          <cite>&mdash; 2 Peter 2:19 (NASB)</cite>
+
+        </blockquote>
+
+        <p>The word for &ldquo;overcome&rdquo; is <em>hēttētai</em> &mdash; to be defeated, to be conquered, to be made inferior to something. And the word for &ldquo;enslaved&rdquo; is <em>dedoulōtai</em> &mdash; from <em>douloō</em>, to make a slave of, to bring into bondage. Peter&rsquo;s principle is devastatingly simple: whatever defeats you, owns you. Whatever you cannot say no to has become your master. It doesn&rsquo;t matter if it&rsquo;s legal. It doesn&rsquo;t matter if it&rsquo;s socially acceptable. It doesn&rsquo;t matter if no one can see it. If it has overcome you &mdash; if you have lost the ability to walk away from it &mdash; you are a slave. You are imprisoned. And the fact that your prison doesn&rsquo;t have bars doesn&rsquo;t make it any less real.</p>
+
+        <p>This is why Freddie&rsquo;s observation matters so much. When people hear the word &ldquo;addiction,&rdquo; they picture a certain kind of person &mdash; someone on the street, someone in a courtroom, someone whose life has visibly fallen apart. And those people are real, and their suffering is real. I was one of them. But addiction is not limited to the people whose imprisonment is visible. The man in the nice house, the woman in the pew, the teenager in the bedroom, the grieving father at his computer &mdash; they are all enslaved. They are all behind walls. The only difference is that nobody else can see theirs.</p>
+
+        <p>And that invisibility is not a comfort. It is the very thing that makes their prisons so effective.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Because here is what the silence does. It tells you that you are alone in this. It tells you that nobody else has ever faced what you are facing, that your situation is unique in its shame, that the people around you &mdash; especially the people in the church &mdash; would not understand. The silence tells the family: keep smiling. Keep performing. Don&rsquo;t let anyone see the cracks. If they knew what was happening in your home, they would whisper about you in the parking lot, and you cannot survive that on top of everything else.</p>
+
+        <p>And the silence tells the addict: keep hiding. Keep the secret. Build the wall higher. Because the moment someone finds out, you lose the only control you think you still have &mdash; the control over who knows.</p>
+
+        <p>The silence is a lie. And it is a lie designed to do one thing: isolate you. Because as long as you are isolated, you cannot be helped. As long as the shame keeps you hiding, no hand can reach you. The prison of secrecy is the most effective prison ever built, because the inmate builds it himself, brick by brick, lie by lie, and at a certain point he has been behind his own walls for so long that he mistakes the prison for home.</p>
+
+        <p>I know this because I lived inside it. Long before I went to an actual prison, I was in one. The lying was a wall. The hiding was a wall. The performing &mdash; pretending everything was fine when everything was falling apart &mdash; that was the thickest wall of all. And the terrible irony is that the walls I built to keep people out were the same walls that kept me trapped inside.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>James, the Lord&rsquo;s brother, wrote a sentence that strikes at the foundation of every prison that shame has ever built:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Therefore, confess your sins to one another, and pray for one another so that you may be healed. The effective prayer of a righteous man can accomplish much.&rdquo;</p>
+
+          <cite>&mdash; James 5:16 (NASB)</cite>
+
+        </blockquote>
+
+        <p>Three things are connected in this verse, and they are connected in a specific order: confession, prayer, and healing. Not confession and healing. Not prayer and healing. All three, linked, in sequence.</p>
+
+        <p>The word for &ldquo;confess&rdquo; is <em>exomologeisthe</em> &mdash; and the prefix <em>exo</em> matters. It means out. Out in the open. Not concealed, not whispered, not hinted at. The sins are brought out &mdash; out of the dark, out of the silence, out of the prison of secrecy &mdash; and placed before another human being. Not before God only, although that comes first and always. But before <em>one another.</em> The confession James calls for is horizontal, not just vertical. It is spoken to a person, face to face, out loud.</p>
+
+        <p>And the purpose is healing. The Greek word is <em>iathēte</em> &mdash; from <em>iaomai</em>, which means to cure, to restore to health. James ties the healing directly to the confession. Not to the prayer alone &mdash; although the prayer matters, and James says so. But the healing is connected to the confession itself. To the breaking of the silence. To the moment when the person trapped behind the wall finally opens their mouth and says the thing they have been terrified to say.</p>
+
+        <p>Why? Because the confession does something the silence never can: it breaks the power of the secret. The shame told you that if anyone found out, you would be destroyed. The confession proves the shame wrong. You say it out loud, and you are still standing. You name the sin, and the world does not end. The wall you built to protect yourself &mdash; the silence, the hiding, the performance &mdash; turns out to have been the very thing holding you captive. And when you break it open, air rushes in, and light rushes in, and for the first time in as long as you can remember, you can breathe.</p>
+
+        <p>This applies to the addict. You already know that. The hiding is the disease progressing. Every secret you keep is another brick in the wall of a cell you cannot escape until you open your mouth.</p>
+
+        <p>But it applies to the family too. James does not say confess your sins to one another only if the sin is yours. The family isn&rsquo;t sinning by having an addict in their home. But the shame they carry &mdash; the hiding, the performing, the silence &mdash; that shame has become their prison. And the way out is the same: say it out loud. To someone. To a brother or sister in Christ who can be trusted with the weight of it. Break the silence, because the silence is killing you as surely as the substance is killing the person you love.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>But here is where this chapter must say something directly to the church, because the family&rsquo;s willingness to speak depends entirely on what they believe will happen when they do.</p>
+
+        <p>If the church is a place where a family can stand up and say, &ldquo;We are struggling. Our child is an addict. We need help. We need prayer. We are barely holding on&rdquo; &mdash; and the response is compassion, and prayer, and arms around them, and meals brought to the house, and someone sitting with them in the waiting room at the hospital, and the kind of love that doesn&rsquo;t ask questions it doesn&rsquo;t need answers to &mdash; then the family will speak. They will break the silence. They will come out from behind the wall, because the body of Christ has given them a safe place to land.</p>
+
+        <p>But if the church is a place where that same confession is met with whispers in the hallway, with sidelong glances on Sunday morning, with children being steered away from their children, with a slow and deliberate distancing that everyone can feel but nobody will name &mdash; then the family will not speak. They will stay in their prison. They will keep smiling and performing and dying silently in the pew, because the cost of honesty is higher than the cost of silence.</p>
+
+        <p>And the church will have failed them. Not the addict. The church will have failed the <em>family</em> &mdash; the people who did exactly what James 5:16 told them to do and were punished for it.</p>
+
+        <p>Paul the apostle wrote to the churches in Galatia:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Bear one another&rsquo;s burdens, and thereby fulfill the law of Christ.&rdquo;</p>
+
+          <cite>&mdash; Galatians 6:2 (NASB)</cite>
+
+        </blockquote>
+
+        <p>The word for &ldquo;burdens&rdquo; is <em>barē</em> &mdash; heavy loads, weights too great for one person to carry alone. And the command is not a suggestion. <em>Bear them.</em> Pick them up. Get underneath the weight with the person who is collapsing under it. This is not optional kindness. Paul calls it the fulfillment of the law of Christ. If you want to know what it looks like to live under the authority of Jesus, this is what it looks like: you carry what your brother cannot carry alone.</p>
+
+        <p>A family in the grip of addiction is carrying a burden that is too heavy for them. They need the church to be what the church is supposed to be &mdash; not a place of judgment but a place of healing. Not a courtroom but a hospital. Not a gallery of spectators watching someone bleed but a body of believers that says, &ldquo;We are here. We are not leaving. And you are not alone in this.&rdquo;</p>
+
+        <p>That is what James meant. That is what Paul meant. And if the church cannot do it &mdash; if the body of Christ cannot be trusted with the broken, the ashamed, and the desperate &mdash; then the church has ceased to function as the church, no matter how well it sings or how full the pews are on Sunday.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is a psalm that belongs here. David wrote it, and the simplicity of it is what makes it powerful:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;The LORD is near to the brokenhearted and saves those who are crushed in spirit.&rdquo;</p>
+
+          <cite>&mdash; Psalm 34:18 (NASB)</cite>
+
+        </blockquote>
+
+        <p>Near. Not distant. Not watching from a safe remove. <em>Near.</em> The Hebrew word is <em>qarov</em> &mdash; close, at hand, present. And the people He is near to are not the ones who have it together. They are the brokenhearted &mdash; <em>nishberey-lev</em>, those whose hearts are shattered, broken into pieces. And the crushed in spirit &mdash; <em>dakke-ruach</em>, those whose spirits have been ground down, compressed, beaten flat.</p>
+
+        <p>That is the family hiding in the pew. That is the addict hiding in the dark. That is the husband with the bottle and the wife with the secret and the teenager with the screen and the father with the credit card. Brokenhearted. Crushed in spirit. And God is near to every one of them.</p>
+
+        <p>Not near because they earned it. Not near because they cleaned up first. Not near because they got their lives together and presented themselves in acceptable condition. Near because they are broken. Near because they are crushed. That is where God draws close &mdash; not to the self-sufficient, not to the performing, not to the ones who have convinced everyone else they&rsquo;re fine. To the shattered ones. The ones who have run out of pretending.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are reading this chapter from inside a prison no one can see &mdash; whether you are the addict or the family &mdash; I need you to hear what Freddie said one more time.</p>
+
+        <p><em>All of the imprisoned aren&rsquo;t in prison.</em></p>
+
+        <p>You may not be behind literal bars. But if shame has silenced you, if secrecy has isolated you, if the performance of normalcy has become so exhausting that you don&rsquo;t know how much longer you can keep it up &mdash; you are imprisoned. And the walls of your prison are made of the one material that cannot withstand the truth: silence.</p>
+
+        <p>James said confess. Not because the confession is punishment. Because the confession is the door. It is the first crack in the wall. It is the thing that lets light into a place that has been dark for so long you forgot what light looks like.</p>
+
+        <p>And God is near. Not later. Not when you deserve it. Now. He is near to the brokenhearted. He saves the crushed in spirit. And He is already closer than you think &mdash; waiting on the other side of the silence you are afraid to break.</p>
+
+        <p>Break it.</p>
+
+        <p>The prison only holds you as long as you agree to stay quiet.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Ch 3: Where Did We Go Wrong?</a>
+          <a href="chapter-05.html">Ch 5: Love That Says No &rarr;</a>
+        </div>
+        <p class="copyright">Change the Mind, Change the Man &copy; 2026 Paul Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'changeTheMindChangeTheMan_progress';
+    var CH_NUM = 4;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-03.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

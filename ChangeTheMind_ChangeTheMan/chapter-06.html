@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: Think | Change the Mind, Change the Man</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #3B9AE8;
+      --accent-glow: rgba(59, 154, 232, 0.4);
+      --accent-soft: rgba(59, 154, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(59, 154, 232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(59, 154, 232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(59, 154, 232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232, 168, 72,0.15),
+        0 0 80px rgba(59, 154, 232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(59, 154, 232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(59, 154, 232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(59, 154, 232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(59, 154, 232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(59, 154, 232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(59, 154, 232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B9AE8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(59, 154, 232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(59, 154, 232,0.06);
+      border: 1px solid rgba(59, 154, 232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(59, 154, 232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(59, 154, 232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(59, 154, 232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232, 168, 72,0.08);
+      border: 1px solid rgba(232, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'freddie') {
+    sessionStorage.setItem('ctm_auth', 'granted');
+  } else {
+    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Change the Mind, Change the Man
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Phone Call</option>
+          <option value="chapter-02.html">Ch 2: The Progression</option>
+          <option value="chapter-03.html">Ch 3: Where Did We Go Wrong?</option>
+          <option value="chapter-04.html">Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</option>
+          <option value="chapter-05.html">Ch 5: Love That Says No</option>
+          <option value="chapter-06.html" selected>Ch 6: Think</option>
+          <option value="chapter-07.html">Ch 7: Coming to Himself</option>
+          <option value="chapter-08.html">Ch 8: The Father Ran</option>
+          <option value="chapter-09.html">Ch 9: The Long Road</option>
+          <option value="chapter-10.html">Ch 10: The God Who Finds You</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SIX</p>
+        <h1>Think</h1>
+      </header>
+
+      <div class="content">
+        <p>Of all the men I have known in my life, no one changed the way I read the Bible more than Freddie Anderson.</p>
+
+        <p>Freddie was a preacher. Not the kind who performed. Not the kind who impressed you with how much he knew, although he knew a great deal (who am I kidding &mdash; Freddie could quote entire chapters, not just verses). Freddie was the kind of preacher who, when you asked him a question &mdash; any question &mdash; would pause, and then say the same thing every single time:</p>
+
+        <p>&ldquo;That&rsquo;s a good question. Let&rsquo;s see what the Bible says.&rdquo;</p>
+
+        <p>Every time. Not what he thought. Not what some scholar said. Not what a commentary had decided. Never, &ldquo;Well, the traditional view is...&rdquo; or &ldquo;Most people believe...&rdquo; Always, without fail: &ldquo;Let&rsquo;s see what the Bible says.&rdquo; And then he would open the Book, and he would show you. And when the Book had spoken, the conversation was over &mdash; not because Freddie ended it, but because there was nothing left to argue with. You were not arguing with Freddie. You were looking at the text.</p>
+
+        <p>That method did something to me that I did not fully understand until years later. It did not just teach me content &mdash; although it did. It did not just fill my head with Scripture &mdash; although it did that too. What Freddie&rsquo;s method taught me was how to <em>think</em>. How to let Scripture interpret Scripture. How to ask, &ldquo;What does the text actually say?&rdquo; before asking, &ldquo;What does it mean?&rdquo; How to recognize error when I heard it &mdash; not because I had memorized every false teaching, but because I knew the original well enough that the counterfeit could not pass.</p>
+
+        <p>And Freddie taught me one more thing. He taught me the single most important truth in this book, the truth that everything else rests on, the truth that became the subtitle on the cover:</p>
+
+        <p>If you change a person&rsquo;s mind, you change everything about them. And if you don&rsquo;t change their mind, you don&rsquo;t change anything.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Freddie once delivered a lesson in a summer series. The subject assigned to him was Philippians 4:8 &mdash; &ldquo;Think on These Things.&rdquo; Most preachers, given that assignment, would have opened to Philippians 4:8, read the verse, and then worked through its terms one at a time: whatever is true, whatever is honorable, whatever is right, whatever is pure, whatever is lovely, whatever is of good repute. A fine sermon. A safe sermon. An expected sermon.</p>
+
+        <p>Freddie did not do that.</p>
+
+        <p>He made an observation that I have never forgotten. He said that the apostle Paul does something the other New Testament writers do not do. In all of his letters &mdash; to Rome, to Galatia, to Corinth, to Philippi, to Colossae, to Thessalonica, and to the individuals Philemon, Timothy, and Titus &mdash; Paul emphasizes the <em>mind</em> more than Peter, James, John, Jude, or even the writer of Hebrews. And Freddie attributed this in part to Paul&rsquo;s dual education &mdash; trained in the Jewish tradition under the most prominent rabbi of his generation, but also educated in the Hellenistic world, knowing Greek law, customs, and language. God took everything Paul had experienced and, along with the guidance of the Spirit, wove it into his writings.</p>
+
+        <p>And the one reoccurring theme &mdash; from Romans chapter 1 all the way through to Philemon &mdash; is the mind. <em>Think.</em></p>
+
+        <p>Freddie insisted that limiting &ldquo;think on these things&rdquo; to the single verse of Philippians 4:8 would do the reader a disservice. That verse, he said, is Paul&rsquo;s doxology &mdash; his &ldquo;finally, brethren&rdquo; &mdash; the culmination of a theme the apostle had been building across every letter he wrote. To drop anchor in that one verse and speak eloquently about its virtues while ignoring the broader framework would be to miss the point entirely.</p>
+
+        <p>So Freddie did what Freddie always did. He opened the Book and showed us.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>He started in Romans.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;And do not be conformed to this world, but be transformed by the renewing of your mind, so that you may prove what the will of God is, that which is good and acceptable and perfect.&rdquo;</p>
+
+          <cite>&mdash; Romans 12:2</cite>
+
+        </blockquote>
+
+        <p>There are two words in that verse that stand in direct contrast to each other, and the contrast is the whole point.</p>
+
+        <p>The first is <em>conformed</em> &mdash; in the Greek, <em>syschēmatizesthe</em>. It comes from <em>schēma</em>, which means outward form, outward fashion, outward appearance. The world presses you into its mold. It shapes you from the outside in &mdash; the way you dress, the way you talk, the way you spend your time, the people you associate with. It rearranges the surface. And a person who has been schēma-changed looks different on the outside, but nothing fundamental has shifted underneath.</p>
+
+        <p>The second word is <em>transformed</em> &mdash; <em>metamorphousthe</em>. You hear the English word &ldquo;metamorphosis&rdquo; in it, and that is exactly the idea. But this word does not come from <em>schēma</em>. It comes from <em>morphē</em> &mdash; and <em>morphē</em> is the essential nature, the inner form, the fundamental substance of a thing. When a caterpillar becomes a butterfly, that is <em>morphē</em>. It is not a caterpillar wearing wings. It is a different creature. The change is total, from the inside out.</p>
+
+        <p>Paul the apostle is not telling the Romans to rearrange the outside. He is telling them to be fundamentally changed on the inside. And the mechanism of that change &mdash; the instrument by which <em>morphē</em> happens &mdash; is the <em>renewing of the mind</em>. The Greek is <em>anakainōsei tou noos</em>. <em>Anakainōsis</em> &mdash; renewal, from <em>ana</em> (again) and <em>kainos</em> (new &mdash; and not <em>neos</em>, which means new in time, but <em>kainos</em>, new in kind, new in quality). And <em>nous</em> &mdash; the mind as the faculty of moral reasoning, understanding, and judgment.</p>
+
+        <p>The mind is renewed. And the renewal is not a surface adjustment. It is a qualitative transformation of the very organ by which you understand, reason, and choose.</p>
+
+        <p>This matters more for our subject than you might realize at first glance. Because what is rehab? What is a new address, a new set of friends, a new routine, a geographic change? What is walking out of prison in new clothes with a new plan?</p>
+
+        <p>It is <em>schēma</em>. Outward rearrangement. Surface change.</p>
+
+        <p>And what does the apostle Paul say the need actually is?</p>
+
+        <p><em>Morphē</em>. A transformation of the mind itself. Not the circumstances around the mind &mdash; the mind.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>From Romans, Freddie moved to Philippians. And the word shifted.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Have this attitude in yourselves which was also in Christ Jesus, who, although He existed in the form of God, did not regard equality with God a thing to be grasped, but emptied Himself, taking the form of a bond-servant, and being made in the likeness of men. Being found in appearance as a man, He humbled Himself by becoming obedient to the point of death, even death on a cross.&rdquo;</p>
+
+          <cite>&mdash; Philippians 2:5&ndash;8</cite>
+
+        </blockquote>
+
+        <p>The word translated <em>attitude</em> in verse 5 is <em>phroneite</em> &mdash; from <em>phroneō</em>. And <em>phroneō</em> is a different word than <em>nous</em>. Where <em>nous</em> is the faculty of the mind &mdash; the organ itself &mdash; <em>phroneō</em> is the direction of the mind. It is where the mind is aimed. It includes disposition, inclination, attitude &mdash; not just what you know, but what you are inclined toward. What you care about. Where your attention is fixed.</p>
+
+        <p>And Paul the apostle says: let this <em>phroneō</em> &mdash; this direction, this inclination, this mindset &mdash; be in you, the same one that was in Christ Jesus. The mind of Christ was a mind aimed at obedience, at humility, at others rather than self. Even when the cost was a cross.</p>
+
+        <p>Freddie&rsquo;s point was direct: <em>think</em> includes attitude. It is not merely an intellectual exercise. It is the orientation of the entire inner life &mdash; what you value, what you pursue, what you are willing to sacrifice for. When the apostle says &ldquo;have this mind,&rdquo; he is not saying &ldquo;understand these facts.&rdquo; He is saying &ldquo;aim where Christ aimed.&rdquo;</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>The same word appears again in Colossians, and here it connects directly to the thesis of this book.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Therefore if you have been raised up with Christ, keep seeking the things above, where Christ is, seated at the right hand of God. Set your mind on the things above, not on the things that are on earth.&rdquo;</p>
+
+          <cite>&mdash; Colossians 3:1&ndash;2</cite>
+
+        </blockquote>
+
+        <p><em>Set your mind</em> &mdash; <em>phroneite</em>. The same word. The direction of the gaze.</p>
+
+        <p>This is the language of aim. Of orientation. Of where the eyes are fixed. And the command is not complicated: <em>ta anō phroneite</em> &mdash; set your mind on the things above. <em>Mē ta epi tēs gēs</em> &mdash; not on the things on the earth.</p>
+
+        <p>I said at the beginning of this book that the descent into addiction is the story of a mind turning away from God, and the restoration is the story of a mind turning back. That the substance was never the real problem &mdash; the gaze was. Colossians 3:2 is the apostle Paul saying the same thing, in different words, to a different audience, about the Christian life in general: where you aim your mind determines everything. If it is aimed at the things above &mdash; at Christ, at the hope of heaven, at the will of God &mdash; then the things of the earth lose their grip. Not because they stop existing, but because something greater now holds the gaze.</p>
+
+        <p>The man sitting in a cell with a needle in his arm had his <em>phroneō</em> fixed on the earth. On the flesh. On the next high, the next score, the next temporary escape from a pain that never actually went away. The gaze was not just wrong &mdash; it was aimed at something that could never satisfy. And every fix only confirmed that the emptiness was still there when it wore off.</p>
+
+        <p>The answer is not merely to remove the substance. The answer is to redirect the gaze.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And now &mdash; only now &mdash; are we ready for Philippians 4:8. Because this is where Freddie was headed all along.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Finally, brethren, whatever is true, whatever is honorable, whatever is right, whatever is pure, whatever is lovely, whatever is of good repute, if there is any excellence and if anything worthy of praise, dwell on these things.&rdquo;</p>
+
+          <cite>&mdash; Philippians 4:8</cite>
+
+        </blockquote>
+
+        <p>The word translated <em>dwell on</em> &mdash; or in some translations, <em>think on</em> &mdash; is <em>logizesthe</em>, from <em>logizomai</em>. And this is yet another word, different from both <em>nous</em> and <em>phroneō</em>. <em>Logizomai</em> is a commercial term &mdash; an accounting word. It means to reckon, to calculate, to settle accounts, to weigh carefully on a balance. It is the word a merchant uses when he sits down with his ledger and examines every entry. It is deliberate. It is focused. It is not daydreaming about lovely things. It is sitting down and <em>reasoning</em>.</p>
+
+        <p>Three words. Three facets of the mind. <em>Nous</em> &mdash; the faculty, the organ of understanding. <em>Phroneō</em> &mdash; the direction, the aim, the disposition. <em>Logizomai</em> &mdash; the act, the deliberate choice to sit down and reason. And the apostle Paul uses all three, across letter after letter, to make the same argument from every angle: the mind is where everything begins, and the mind is where everything changes.</p>
+
+        <p>Freddie said it this way: if a person were to genuinely reason &mdash; to sit down and honestly think &mdash; they could not help but come to the conclusions the Bible leads to. The problem is that people simply do not think.</p>
+
+        <p>And what does the apostle tell them to reason about? Look at the list. Whatever is <em>true</em> &mdash; not what feels true, not what you wish were true, not what you have told yourself is true. Whatever is <em>honorable</em> &mdash; worthy of reverence, worthy of respect. Whatever is <em>right</em> &mdash; just, aligned with God&rsquo;s standard. Whatever is <em>pure</em> &mdash; clean, uncontaminated. Whatever is <em>lovely</em> &mdash; pleasing, attractive in the deepest sense. Whatever is of <em>good repute</em> &mdash; well-spoken-of, commendable.</p>
+
+        <p>Think about those things. Reckon them. Sit down with them the way a man sits down with a ledger and does not leave the table until the accounts are settled. That is what <em>logizomai</em> means. And when a man does that &mdash; when he genuinely reasons about what is true and right and pure &mdash; his mind begins to change. Not because someone forced it. Because truth, honestly examined, does its own work.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now listen to Freddie, because this is where the teacher&rsquo;s voice and the student&rsquo;s voice say the same thing.</p>
+
+        <p>Freddie said: &ldquo;You can take a convict out of prison and put him in some brand new clothes and everything else and put him in the best, most perfect situation &mdash; and he&rsquo;ll go right back. But when you change his mind, it doesn&rsquo;t matter what degree of poverty he is in, he is not going to go back to the way that he was, or she was &mdash; because the mind is changed.&rdquo;</p>
+
+        <p>I heard that, and I knew he was talking to me. Not literally &mdash; Freddie was speaking to a room full of people. But I knew. Because I had lived both sides of it.</p>
+
+        <p>I lived the side where the circumstances changed and the mind did not. I walked out of situations that should have been enough to shake anyone awake &mdash; and I went right back. Not because I lacked information. Not because no one had warned me. Not because I didn&rsquo;t know better. I knew better. I had been raised better. But my mind had not changed. My outlook had not changed. My gaze was fixed on the same things it had always been fixed on, and all the new clothes in the world could not redirect it.</p>
+
+        <p>And I lived the other side too. The side where the mind finally changed &mdash; and once it changed, nothing else mattered. Not the circumstances. Not the poverty. Not the difficulty. Because the man who thought differently was a different man. Not a rearrangement. A transformation. <em>Morphē</em>, not <em>schēma</em>.</p>
+
+        <p>Your circumstances have changed, but not your outlook. Not your thinking, and not your heart. That is the sentence that defined the first half of my life. And when Freddie said what he said, I heard the second half being written: When the mind changes, the man changes. Everything else follows.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Freddie used to say that the one without-fail technique for reaching someone was to get them to think. Not to argue with them. Not to rush in flipping through Scripture at a pace no one can follow. Just to ask them to sit down and think.</p>
+
+        <p>He told a story about a mother who called him to come talk to her son &mdash; a young man named Gus who had not obeyed the gospel. Freddie came, sat down, and asked Gus three questions.</p>
+
+        <p>&ldquo;Does Jesus want you to be saved?&rdquo;</p>
+
+        <p>Yes.</p>
+
+        <p>&ldquo;Gus, do you want to do what Jesus wants you to do?&rdquo;</p>
+
+        <p>Yes.</p>
+
+        <p>&ldquo;When do you think Jesus wants you to do it?&rdquo;</p>
+
+        <p>Now.</p>
+
+        <p>Within minutes, Gus was being escorted to the building to be baptized. Freddie did not argue him into it. He did not wear him down. He asked him to think. And when Gus thought &mdash; genuinely thought about what he already knew to be true &mdash; the conclusion was unavoidable. The truth did its own work.</p>
+
+        <p>That is the power of the mind honestly engaged. And that is why the apostle Paul beat this drum in every letter he wrote, from Romans to Philemon. Because he knew &mdash; and Freddie knew &mdash; that if you can get a person to think, you can change everything about them. And if you cannot get them to think, you cannot change anything.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the one struggling with addiction, I need you to hear something that no program and no treatment facility can tell you, because it is not in their vocabulary. It is in the Bible&rsquo;s vocabulary.</p>
+
+        <p>No program will hold if your mind does not change. No rehab stay, no intervention, no geographic cure, no change of friends, no new job, no fresh start will last if the inside is still the same. I have watched it happen more times than I can count &mdash; in prison, in life, in my own story. People go to rehab because their family begs them to. They go because the court orders them to. They go because the alternative is worse. But they do not go because they have a sincere desire to put the addiction behind them. And as a result, they return to it. Over and over and over again. Even when it lands them in prison. Even when they lose everything. Because the mind never changed. The gaze never shifted.</p>
+
+        <p><em>Schēma</em>. New clothes on the same man.</p>
+
+        <p>You are not going to change until you make up your mind to change. And I do not mean the kind of &ldquo;making up your mind&rdquo; that happens in a moment of crisis &mdash; the tearful promise at three in the morning, the vow in the back of a police car, the commitment signed on a clipboard at intake. I mean the kind of change the apostle Paul is describing in Romans 12:2. <em>Metamorphousthe.</em> A transformation of the essential nature. The renewal of the mind itself. The gaze redirected &mdash; not to a program, not to a method, not to willpower &mdash; but to God.</p>
+
+        <p>Until your focus is redirected to God, and you are convinced it should <em>remain</em> on God, the pattern will not break. The substance was never the real problem. The gaze was.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the family, this chapter contains perhaps the hardest truth you will find in this book.</p>
+
+        <p>You cannot change their mind for them.</p>
+
+        <p>Chapter 5 told you that sometimes the most loving thing you can do is say no &mdash; that removing the cushion may be the act of love that finally forces them to feel the weight. That is true. But even that does not guarantee the turning. You can create the conditions. You can remove the obstacles. You can pray &mdash; and you should pray, fervently and without ceasing. But the turning of the mind is a choice that only they can make. No one can think for another person. No one can redirect another person&rsquo;s gaze by force.</p>
+
+        <p>Paul the apostle told the Corinthians to remove the sinning man. He did not tell them they could repent for him. The congregation did its part. The man had to do his. And by the grace of God, he did &mdash; but it was his mind that changed, not theirs.</p>
+
+        <p>Freddie was right. If you change the mind, you change everything. And if you don&rsquo;t, you change nothing.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Freddie ended that lesson the way he began it &mdash; with Philippians 4:8. But by then, the verse carried the weight of everything he had shown us. It was no longer a single verse with a list of pleasant qualities. It was the culmination of a theme that ran through every letter the apostle Paul ever wrote. It was the answer to the question of how a person changes, how a congregation stays unified, how a life is transformed from the inside out.</p>
+
+        <p>Think on these things. What things? Think about the love of God. The sacrifice of Jesus. Think about heaven&rsquo;s hope. Think about the things that are true, and honorable, and right, and pure. Reckon them. Sit down with them. Do not leave the table until the accounts are settled.</p>
+
+        <p>I guarantee you &mdash; Freddie&rsquo;s word, and I will borrow it &mdash; that when you think on those things, it will stabilize your heart. It will stabilize your faith. It will give you the energy you need to finish the race.</p>
+
+        <p>The mind is where the descent began. The mind is where the return begins.</p>
+
+        <p>Think.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-05.html">&larr; Ch 5: Love That Says No</a>
+          <a href="chapter-07.html">Ch 7: Coming to Himself &rarr;</a>
+        </div>
+        <p class="copyright">Change the Mind, Change the Man &copy; 2026 Paul Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'changeTheMindChangeTheMan_progress';
+    var CH_NUM = 6;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-05.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

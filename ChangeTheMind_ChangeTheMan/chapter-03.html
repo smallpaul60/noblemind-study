@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3: Where Did We Go Wrong? | Change the Mind, Change the Man</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #3B9AE8;
+      --accent-glow: rgba(59, 154, 232, 0.4);
+      --accent-soft: rgba(59, 154, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(59, 154, 232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(59, 154, 232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(59, 154, 232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232, 168, 72,0.15),
+        0 0 80px rgba(59, 154, 232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(59, 154, 232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(59, 154, 232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(59, 154, 232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(59, 154, 232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(59, 154, 232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(59, 154, 232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B9AE8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(59, 154, 232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(59, 154, 232,0.06);
+      border: 1px solid rgba(59, 154, 232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(59, 154, 232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(59, 154, 232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(59, 154, 232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232, 168, 72,0.08);
+      border: 1px solid rgba(232, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'freddie') {
+    sessionStorage.setItem('ctm_auth', 'granted');
+  } else {
+    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Change the Mind, Change the Man
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Phone Call</option>
+          <option value="chapter-02.html">Ch 2: The Progression</option>
+          <option value="chapter-03.html" selected>Ch 3: Where Did We Go Wrong?</option>
+          <option value="chapter-04.html">Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</option>
+          <option value="chapter-05.html">Ch 5: Love That Says No</option>
+          <option value="chapter-06.html">Ch 6: Think</option>
+          <option value="chapter-07.html">Ch 7: Coming to Himself</option>
+          <option value="chapter-08.html">Ch 8: The Father Ran</option>
+          <option value="chapter-09.html">Ch 9: The Long Road</option>
+          <option value="chapter-10.html">Ch 10: The God Who Finds You</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>Where Did We Go Wrong?</h1>
+        <p class="subtitle">The question that keeps the family awake &mdash; and the answer no one wants to hear.</p>
+      </header>
+
+      <div class="content">
+        <p>You&rsquo;ve already asked it. Probably a hundred times.</p>
+
+        <p>You asked it in the car on the way home from the hospital, or the courthouse, or the rehab center. You asked it lying awake at three in the morning while the house was quiet and the guilt was loud. You asked it over coffee with the one friend you trusted enough to tell, and you watched her face for the answer she was too kind to say out loud. You asked it standing in the bedroom of your grown child, looking at the things left behind &mdash; the trophies, the school pictures, the Bible you gave them at graduation &mdash; and you asked it with tears running down your face and no one there to hear you.</p>
+
+        <p><em>Where did we go wrong?</em></p>
+
+        <p>It is the most natural question in the world. You raised this child. You fed them, clothed them, loved them, prayed over them, brought them to worship, taught them right from wrong, did everything you knew how to do &mdash; and it wasn&rsquo;t enough. Or so it seems. Because here you are. And the child you raised is destroying themselves, and you cannot stop it, and the only explanation your broken heart can find is that somehow, somewhere, you must have failed.</p>
+
+        <p>If you are living in that question right now, I need to tell you two things. The first will surprise you. The second may be the most important paragraph you read in this entire book.</p>
+
+        <p>But before I can say either one, we need to deal with the passage that someone &mdash; probably someone who meant well &mdash; has already quoted at you.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is a verse in Proverbs that has caused more guilt in the hearts of good parents than almost any other sentence in the Bible. It is one of the most frequently quoted verses in Scripture, and it is one of the most frequently misunderstood:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Train up a child in the way he should go, even when he is old he will not depart from it.&rdquo;</p>
+
+          <cite>&mdash; Proverbs 22:6 (NASB)</cite>
+
+        </blockquote>
+
+        <p>If you are the parent of an addict, someone has said this verse to you. Maybe not out loud. Maybe just in the way they looked at you when they found out. But the implication was there, and it landed like a stone in your chest: <em>If you had trained them right, this wouldn&rsquo;t have happened. The fact that they departed proves you didn&rsquo;t do your job.</em></p>
+
+        <p>That is not what this verse means. And before we go any further, you need to understand why.</p>
+
+        <p>The first thing to recognize is what kind of literature you are reading. Proverbs is wisdom literature. That is not a lesser category of Scripture &mdash; it is inspired, it is profitable, it is God-breathed. But it is a specific kind of writing, and it operates by specific rules. A proverb states a general principle about how life works under God&rsquo;s moral order. It is not a contract. It is not a guarantee with terms and conditions. It is not a promise that if you perform step A, God is obligated to deliver result B.</p>
+
+        <p>The Hebrew word behind &ldquo;train up&rdquo; is <em>chanakh</em> &mdash; and it means more than instruction. It means to dedicate, to inaugurate, to set something apart for its intended purpose. It is the same word used for the dedication of the temple. When Solomon dedicated the temple, he set it apart, consecrated it, gave it to God for the purpose God intended. <em>Chanakh</em> carries that same weight when applied to a child &mdash; dedicate this child, set them on the right path, consecrate the early years to the purpose God designed.</p>
+
+        <p>And the word behind &ldquo;way&rdquo; is <em>derek</em> &mdash; a road, a path, a manner of life. Train up a child according to the path that is right for them. Set their feet on the road. Dedicate the early years to walking it with them.</p>
+
+        <p>The proverb says that when you do this, the general principle is that the training holds. <em>Even when he is old he will not depart from it.</em> The foundation laid in childhood has a staying power that outlasts the years of wandering. It tends to bring them back. It tends to hold.</p>
+
+        <p>But <em>tends to</em> and <em>always will</em> are not the same thing. And the same book that gives you Proverbs 22:6 gives you this:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;A foolish son is a grief to his father and bitterness to her who bore him.&rdquo;</p>
+
+          <cite>&mdash; Proverbs 17:25 (NASB)</cite>
+
+        </blockquote>
+
+        <p>The same book. The same inspired wisdom literature. Solomon, under the guidance of the Holy Spirit, writes a proverb that acknowledges the grief of a faithful parent over a foolish child. If Proverbs 22:6 were an unconditional guarantee &mdash; if faithful training always produced faithful children without exception &mdash; then Proverbs 17:25 could not exist. There would be no faithful parent grieving a foolish child, because faithful training would have prevented it. The existence of 17:25 in the same collection tells you that 22:6 is a principle, not a promise. It tells you that Solomon knew &mdash; God knew &mdash; that some children raised well will still choose poorly.</p>
+
+        <p>And there is something else the Hebrew reveals that most people miss entirely. The phrase &ldquo;even when he is old he will not depart from it&rdquo; can also carry a less comforting shade of meaning. Some Hebrew scholars have noted that the phrase &ldquo;in the way he should go&rdquo; &mdash; <em>al-pi darko</em> &mdash; can be read as &ldquo;according to his own way.&rdquo; According to his own inclination. His own bent. If you read the proverb with that shade, it becomes not a promise but a warning: if you train a child according to his own natural inclination &mdash; if you let him follow his own way rather than God&rsquo;s way &mdash; then even when he is old, he won&rsquo;t depart from that path either. The training sticks, for good or for ill.</p>
+
+        <p>I raise this not to be academic, but because you deserve to know that the verse someone used to add to your guilt is far more complex than the way it was handed to you. You were given a slogan. The text is richer, harder, and more honest than a slogan.</p>
+
+        <p>Here is what Proverbs 22:6 actually tells you: the training matters. Deeply. The foundation you laid is not wasted. The prayers you prayed are not forgotten. The mornings you drove your child to worship, the nights you sat with them and read the Bible, the years of consistency and faithfulness &mdash; none of that disappears because of the choices your child made later. The training is still in there, underneath everything, and the proverb says it has staying power. It can outlast the wandering. It can be the very thing that calls them back when they finally come to themselves.</p>
+
+        <p>But it does not &mdash; it <em>cannot</em> &mdash; override the free will of a human being made in the image of God. Your child is not a product you manufactured. Your child is a person with agency, made by God with the capacity to choose, and they chose. That is not your failure. That is their humanity.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now we can go where this chapter has been heading from the beginning. Because long before Solomon wrote Proverbs, and long before any well-meaning friend tried to lay your child&rsquo;s choices at your feet, God Himself addressed this question. And His answer is not ambiguous.</p>
+
+        <p>The prophet Ezekiel was speaking to a generation of Israelites who had a saying &mdash; a proverb of their own, actually &mdash; that they used to explain their suffering:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;The fathers eat the sour grapes, but the children&rsquo;s teeth are set on edge.&rdquo;</p>
+
+          <cite>&mdash; Ezekiel 18:2 (NASB)</cite>
+
+        </blockquote>
+
+        <p>The image is physical, and it was familiar to every Israelite who heard it. Bite into an unripe grape &mdash; sour, acidic, not ready &mdash; and your teeth react. That sharp, grating sensation that sets your jaw on edge. You feel it in the roots of your teeth. That&rsquo;s the image. The fathers ate the sour grapes &mdash; they made the bad choices, they did the sinning &mdash; but it&rsquo;s the children whose teeth are set on edge. The children are the ones feeling the pain. The children are the ones suffering the consequences of something they didn&rsquo;t do.</p>
+
+        <p>It was a blame-shifting proverb. We are suffering because of what our fathers did. Our situation is their fault. We are paying the price for sins we didn&rsquo;t commit.</p>
+
+        <p>God&rsquo;s response was direct and absolute:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;As I live,&rdquo; declares the Lord GOD, &ldquo;you are surely not going to use this proverb in Israel anymore.&rdquo;</p>
+
+          <cite>&mdash; Ezekiel 18:3 (NASB)</cite>
+
+        </blockquote>
+
+        <p>Stop it. That is the force of what God says here. Stop using this excuse. Stop passing blame between generations. And then God explains why, in a verse that speaks to every parent who has ever lain awake asking <em>where did we go wrong</em>:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;The person who sins will die. The son will not bear the punishment for the father&rsquo;s iniquity, nor will the father bear the punishment for the son&rsquo;s iniquity; the righteousness of the righteous will be upon himself, and the wickedness of the wicked will be upon himself.&rdquo;</p>
+
+          <cite>&mdash; Ezekiel 18:20 (NASB)</cite>
+
+        </blockquote>
+
+        <p>Read it again. Slowly. Let every clause land.</p>
+
+        <p><em>The son will not bear the punishment for the father&rsquo;s iniquity.</em> If you, as a parent, have sins in your past &mdash; and you do, because we all do &mdash; your child is not being punished for them. Your child&rsquo;s addiction is not God&rsquo;s judgment on your failures. That theology is false, and God says so explicitly, right here.</p>
+
+        <p><em>Nor will the father bear the punishment for the son&rsquo;s iniquity.</em> And here it is &mdash; the sentence you need to hear. You are not guilty for what your child chose to do. The guilt of their sin belongs to them. Not because you don&rsquo;t love them. Not because you don&rsquo;t grieve for them. Not because their pain doesn&rsquo;t keep you awake at night. But because God has established a principle that runs from one end of Scripture to the other: each soul stands before Him on its own.</p>
+
+        <p><em>The righteousness of the righteous will be upon himself, and the wickedness of the wicked will be upon himself.</em></p>
+
+        <p>This is not cold. This is not indifferent. This is the foundation of justice itself. Without individual responsibility, there is no real guilt and no real forgiveness. If the addict&rsquo;s choices are really the parents&rsquo; fault, then the addict has nothing to repent of &mdash; and that robs them of the very thing that can save them. If the parents bear the guilt for the child&rsquo;s sin, then repentance is meaningless, because the wrong person is carrying the weight.</p>
+
+        <p>Ezekiel 18 protects both sides. It frees the parents from a guilt that was never theirs to carry. And it places the responsibility squarely on the shoulders of the one who made the choices &mdash; which is not cruel, because responsibility is the doorway to repentance, and repentance is the doorway to freedom.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>I can say this with the weight of my own life behind it: my parents did not fail me.</p>
+
+        <p>I went to a private church school for nine years. I was raised in a home where God was honored, where the Bible was present, where my parents took me to worship and taught me the difference between right and wrong. They laid the foundation. They did the work. They gave me every advantage a child could have in knowing God and knowing His word.</p>
+
+        <p>And I still said yes at fourteen.</p>
+
+        <p>That was not their failure. That was my choice. A foolish, reckless, devastating choice made by a boy who had been given every reason to choose differently and chose anyway. My parents did not put the drugs in my hand. My parents did not choose my companions. My parents did not make the decisions that followed &mdash; the lying, the stealing, the escalation, the things that put me in prison. I did those things. Every one of them. And the guilt for every one of them is mine.</p>
+
+        <p>If you are a parent reading this, and your story is like my parents&rsquo; story &mdash; if you laid the foundation, if you did the work, if you raised that child in the nurture and admonition of the Lord and they still walked away &mdash; then hear me: you did not fail. Your child is not an addict because of something you did or didn&rsquo;t do. Your child is an addict because at some point, in some moment, they made a choice. And then they made another. And another. And the progression carried them where the progression always carries people, because that is how sin works &mdash; James told us that in the last chapter.</p>
+
+        <p>The training you gave them is not lost. It is still there. And if God is merciful &mdash; and He is &mdash; it may be the very thing that whispers to them from underneath all the rubble when they finally sit still long enough to hear it.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>But I said I owed you two things at the beginning of this chapter, and I have only given you the first. The first was Ezekiel 18 &mdash; you are not guilty for your child&rsquo;s choices. That is what Scripture says, and it is true, and you need to believe it.</p>
+
+        <p>The second is harder. And it requires the same honesty this book has promised from the beginning.</p>
+
+        <p>Not every family that asks &ldquo;Where did we go wrong?&rdquo; is asking from a place of innocence.</p>
+
+        <p>Some families did fail. Not all. But some. Some children were raised in homes where the Bible was on the shelf but never opened. Some were brought to worship on Sunday by parents who lived as if God did not exist the other six days of the week. Some were raised by parents who were absent &mdash; physically, emotionally, or both. Some were raised in homes where there was abuse, or neglect, or addiction already present in the generation before.</p>
+
+        <p>If that is your story &mdash; if you are reading this chapter and you know, honestly, that the foundation was not laid, or that it was cracked before your child ever had a chance to stand on it &mdash; then Ezekiel 18 still applies to you, but differently. You are not guilty for your child&rsquo;s choices. Those choices are still theirs. But you may need to reckon with the fact that you share some of the responsibility for the conditions in which those choices were made. And that reckoning is between you and God, and it requires the same repentance you are hoping your child will find.</p>
+
+        <p>This is the honest handling this subject demands. Because if I tell the faithful parents &ldquo;it wasn&rsquo;t your fault&rdquo; and stop there, I am being incomplete. And if I tell the negligent parents &ldquo;it wasn&rsquo;t your fault&rdquo; without qualification, I am being dishonest. Circumstances explain how a person arrived at a crossroads. They do not justify which direction the person chose to walk. But the person who helped create the circumstances is not free from examination either.</p>
+
+        <p>Here is the good news in that hard truth: if you failed your child, the same God who calls the addict to repentance calls you to it too. The same gospel that offers your child a new beginning offers you one. The same mercy that meets the prodigal on the road home meets the parent who fell short. Ezekiel 18 does not only say that the wicked bear their own guilt. It also says this:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;But if the wicked man turns from all his sins which he has committed and observes all My statutes and practices justice and righteousness, he shall surely live; he shall not die. All his transgressions which he has committed will not be remembered against him; because of his righteousness which he has practiced, he will live.&rdquo;</p>
+
+          <cite>&mdash; Ezekiel 18:21&ndash;22 (NASB)</cite>
+
+        </blockquote>
+
+        <p>That is for you too.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>And if you are the addict &mdash; if you have been reading this chapter watching me speak to the parents, waiting for your turn &mdash; here it is.</p>
+
+        <p>Nobody made you do this.</p>
+
+        <p>Not your parents. Not your circumstances. Not the friend who offered it to you the first time. Not the neighborhood you grew up in, not the school you attended or didn&rsquo;t attend, not the things that happened to you that you didn&rsquo;t deserve. All of those things are real. Some of them may have been terrible. And none of them forced your hand.</p>
+
+        <p>You chose this.</p>
+
+        <p>I know how that sounds. I know it sounds harsh. But stay with me, because what I am about to say next is the most hopeful thing in this chapter.</p>
+
+        <p>If you are only a victim of your circumstances &mdash; if the addiction is entirely the product of what was done to you, your environment, your upbringing, your brain chemistry, forces beyond your control &mdash; then you are powerless. Truly powerless. Because you cannot change your past, you cannot undo your childhood, you cannot rewire the circumstances that supposedly created this. If the addiction is not your fault, it is also not within your power to reverse. You are stuck.</p>
+
+        <p>But if you chose this &mdash; if somewhere underneath all the pain and the dependency and the slavery we talked about in the last chapter, there was a human being with agency who said yes when he could have said no &mdash; then something extraordinary is true about you.</p>
+
+        <p>You can choose to stop.</p>
+
+        <p>Not easily. Not painlessly. Not without help, and not without God. The slavery is real &mdash; Romans 6 made that clear. But the slavery began with a choice, and the freedom begins with one too. Ezekiel 18 says the wicked man can turn. James 1 traced the progression from desire to death, but the progression is not a closed loop. There is an exit. The mind can turn back. The gaze can shift.</p>
+
+        <p>Personal responsibility is not a punishment. It is the prerequisite for change. It is the thing that makes repentance possible instead of meaningless. And if this book is going to walk you through the valley to the other side, it has to start by telling you the truth: you are here because of choices you made. And you don&rsquo;t have to stay here, because you are still capable of making different ones.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>There is a weight to guilt that only the people carrying it understand. The family&rsquo;s guilt whispers <em>you should have done more.</em> The addict&rsquo;s guilt whispers <em>you can never be forgiven for this.</em> Both whispers are lies, and both will be answered before this book is done &mdash; the first by Ezekiel 18, which we have already heard, and the second by a father who saw his son coming from a long way off and ran.</p>
+
+        <p>But that chapter comes later. Right now, what matters is this:</p>
+
+        <p>The family needs to set down the guilt that doesn&rsquo;t belong to them, so they can see clearly enough to do what actually helps. And the addict needs to pick up the responsibility that does belong to him, so he can do something with it besides drown in it.</p>
+
+        <p>Both of those are acts of courage. Both require honesty. And both are made possible by a God who does not traffic in collective guilt or inherited blame, but who looks at each soul and says what He said through Ezekiel: <em>The righteousness of the righteous will be upon himself. The wickedness of the wicked will be upon himself.</em> And then, in the very next breath: <em>Turn. And live.</em></p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Ch 2: The Progression</a>
+          <a href="chapter-04.html">Ch 4: All of the Imprisoned Aren&rsquo;t in Prison &rarr;</a>
+        </div>
+        <p class="copyright">Change the Mind, Change the Man &copy; 2026 Paul Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'changeTheMindChangeTheMan_progress';
+    var CH_NUM = 3;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-02.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

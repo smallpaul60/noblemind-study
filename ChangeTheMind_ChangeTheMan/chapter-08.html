@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8: The Father Ran | Change the Mind, Change the Man</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b0c0d0;
+      --text-muted: #708898;
+      --accent: #3B9AE8;
+      --accent-glow: rgba(59, 154, 232, 0.4);
+      --accent-soft: rgba(59, 154, 232, 0.12);
+      --accent-secondary: #E8A848;
+      --accent-secondary-glow: rgba(232, 168, 72, 0.3);
+      --scripture-border: #E8A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(59, 154, 232,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(232, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(59, 154, 232,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(232, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(59, 154, 232,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(232, 168, 72,0.15),
+        0 0 80px rgba(59, 154, 232,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(59, 154, 232,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(59, 154, 232,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(59, 154, 232,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(59, 154, 232,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(59, 154, 232,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(59, 154, 232,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233B9AE8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(59, 154, 232,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(232, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(59, 154, 232,0.06);
+      border: 1px solid rgba(59, 154, 232,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(59, 154, 232,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(59, 154, 232,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(59, 154, 232,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(232, 168, 72,0.08);
+      border: 1px solid rgba(232, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(232, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #2874A6; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'freddie') {
+    sessionStorage.setItem('ctm_auth', 'granted');
+  } else {
+    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Change the Mind, Change the Man
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Phone Call</option>
+          <option value="chapter-02.html">Ch 2: The Progression</option>
+          <option value="chapter-03.html">Ch 3: Where Did We Go Wrong?</option>
+          <option value="chapter-04.html">Ch 4: All of the Imprisoned Aren&rsquo;t in Prison</option>
+          <option value="chapter-05.html">Ch 5: Love That Says No</option>
+          <option value="chapter-06.html">Ch 6: Think</option>
+          <option value="chapter-07.html">Ch 7: Coming to Himself</option>
+          <option value="chapter-08.html" selected>Ch 8: The Father Ran</option>
+          <option value="chapter-09.html">Ch 9: The Long Road</option>
+          <option value="chapter-10.html">Ch 10: The God Who Finds You</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER EIGHT</p>
+        <h1>The Father Ran</h1>
+      </header>
+
+      <div class="content">
+        <p>The last chapter ended with a young man getting up out of a pig field and turning toward home. He had rehearsed a speech. He had the words ready &mdash; &ldquo;Father, I have sinned against heaven and in your sight; I am no longer worthy to be called your son; make me as one of your hired men.&rdquo; Every word measured. Every phrase calculated to say enough without saying too much. The kind of speech a person practices on the road because they are terrified of the moment they will have to deliver it.</p>
+
+        <p>But something happened that the son did not expect.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;But while he was still a long way off, his father saw him and felt compassion for him, and ran and embraced him and kissed him.&rdquo;</p>
+
+          <cite>&mdash; Luke 15:20</cite>
+
+        </blockquote>
+
+        <p>The father ran.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Notice what the text says and what it does not say.</p>
+
+        <p>It says the father saw him <em>while he was still a long way off</em>. That detail is not incidental. It means the father was watching. It means the father had been looking down that road &mdash; maybe not every hour, but often enough that when a figure appeared in the distance, he saw it. The son had been gone long enough to squander an entire inheritance in a far country. He had been gone through the spending and the famine and the pig field. And the father was still watching the road.</p>
+
+        <p>If you are a parent who has spent months or years looking for signs of the turning &mdash; checking your phone, watching for a familiar number, scanning every face in every memory for some indication that your child is coming home &mdash; the father in this parable was doing what you have been doing. He was watching. He had not stopped.</p>
+
+        <p>And when he saw the son, the text says he <em>felt compassion</em> &mdash; the Greek is <em>esplagchnisthē</em>, from <em>splagchnizomai</em>. This is the strongest word for compassion in the New Testament. It comes from <em>splagchna</em> &mdash; the bowels, the inward parts, the gut. This is not a polite feeling of sympathy. This is the kind of compassion that seizes you physically, that hits you in the stomach, that doubles you over. It is the same word used of Jesus when He saw the crowds and had compassion on them (Matthew 9:36), the same word used of the Good Samaritan when he saw the beaten man on the road (Luke 10:33). It is visceral. It is overwhelming. And it moved the father to do something that no dignified man in that culture would have done.</p>
+
+        <p>He ran.</p>
+
+        <p>In first-century Jewish culture, a patriarch did not run. Running required a man to hitch up his robes and expose his legs &mdash; an act considered undignified, even shameful. The expected protocol would have been to wait. To let the son approach. To let the son make his case. To stand at the door of the house and receive the apology with whatever degree of warmth or severity the situation called for. The father had every right to do that. The son had demanded his inheritance early &mdash; in that culture, essentially saying, &ldquo;I wish you were dead.&rdquo; He had squandered everything. He had shamed the family. Protocol said: let him come to you.</p>
+
+        <p>The father did not wait for protocol. He did not wait for the speech. He did not wait for the son to clean himself up, to find better clothes, to compose himself into something presentable. He saw the direction of travel, and he ran.</p>
+
+        <p>And when he reached the son, he did not ask for an explanation. He embraced him. He kissed him. The Greek says <em>katephilēsen auton</em> &mdash; and the prefix <em>kata-</em> intensifies the verb. This was not a polite greeting. It was a father covering his son&rsquo;s face with kisses, weeping, holding him, refusing to let go.</p>
+
+        <p>The son started his speech. He got partway through it: &ldquo;Father, I have sinned against heaven and in your sight; I am no longer worthy to be called your son&rdquo; (Luke 15:21). But notice &mdash; the last line of the rehearsed speech was &ldquo;make me as one of your hired men&rdquo; (15:19). He never got to deliver it. The father cut him off. Not because the confession was unwelcome, but because the father had no interest in negotiating terms. The son was not going to be a hired servant. The son was home.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;But the father said to his slaves, &lsquo;Quickly bring out the best robe and put it on him, and put a ring on his hand and sandals on his feet; and bring the fattened calf, kill it, and let us eat and celebrate; for this son of mine was dead and has come to life again; he was lost and has been found.&rsquo;&rdquo;</p>
+
+          <cite>&mdash; Luke 15:22&ndash;24</cite>
+
+        </blockquote>
+
+        <p>The robe. The ring. The sandals. The feast. Every detail matters. The robe was the best one &mdash; the Greek is <em>tēn stolēn tēn prōtēn</em>, the first robe, the finest garment in the house. Not a servant&rsquo;s tunic. The father&rsquo;s own robe. The ring was a signet ring &mdash; a mark of authority and belonging in the household. The sandals distinguished a son from a servant; servants went barefoot. Every item the father placed on the son said the same thing: you are not a hired man. You are not on probation. You are my son. You were dead, and you are alive. You were lost, and you are found.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the one who has been in the far country, hear what this parable is telling you.</p>
+
+        <p>You do not need the perfect speech. The father was not listening to the speech. He was looking at the direction of travel. The son was still a long way off &mdash; dirty, broken, reeking of the pig field, carrying nothing but shame &mdash; and the father ran to meet him. Not after the son proved himself. Not after a waiting period. Not after the son demonstrated that this time was really different. The father saw the son coming home, and that was enough to make him run.</p>
+
+        <p>This does not mean there are no consequences. We will get to that. But it means that the door is not closed. It means that the God this parable is describing &mdash; because make no mistake, the father in this story is a picture of the heavenly Father &mdash; does not sit with His arms crossed waiting for you to earn your way back. He is watching the road. And when you turn toward home, He runs.</p>
+
+        <p>You come as you are. The pig field is still on your clothes. The shame is still on your face. The rehearsed speech falls apart halfway through because the embrace interrupts it. And the Father says: bring the robe. Bring the ring. This one was dead, and is alive.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>But the parable does not end at the feast. And this is where the text gets harder, because Jesus put the older brother in the story for a reason.</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Now his older son was in the field, and when he came and approached the house, he heard music and dancing. And he summoned one of the servants and began inquiring what these things could be. And he said to him, &lsquo;Your brother has come, and your father has killed the fattened calf because he has received him back safe and sound.&rsquo; But he became angry and was not willing to go in.&rdquo;</p>
+
+          <cite>&mdash; Luke 15:25&ndash;28</cite>
+
+        </blockquote>
+
+        <p>The older brother was angry. And from a certain angle, you can understand why. He had stayed. He had worked. He had done everything right &mdash; or at least everything expected. He had not demanded his inheritance early, had not squandered anything, had not shamed the family. He had been faithful, day after day, year after year. And now his younger brother &mdash; the one who had done all of those things &mdash; comes home, and the father throws a party?</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;But he answered and said to his father, &lsquo;Look! For so many years I have been serving you and I have never neglected a command of yours; and yet you have never given me a young goat, so that I might celebrate with my friends; but when this son of yours came, who has devoured your wealth with prostitutes, you killed the fattened calf for him.&rsquo;&rdquo;</p>
+
+          <cite>&mdash; Luke 15:29&ndash;30</cite>
+
+        </blockquote>
+
+        <p>Notice the language. He does not say &ldquo;my brother.&rdquo; He says <em>&ldquo;this son of yours.&rdquo;</em> He has disowned the relationship. And his complaint is not really about a goat. It is about fairness. It is the feeling that grace is unjust &mdash; that if the prodigal gets the robe and the ring and the feast, then the years of faithfulness meant nothing. That the father&rsquo;s love can be squandered and then reclaimed as though the squandering never happened.</p>
+
+        <p>If you are the family, you may have an older brother in the house. Not literally &mdash; but there may be someone in the family, in the congregation, in the circle of friends, who cannot celebrate the return. Who sees the embrace and feels not joy but resentment. Who has been faithful, who has carried the weight, who has done the right things &mdash; and who cannot understand why the one who threw it all away gets a party.</p>
+
+        <p>The older brother is in the parable because he is in the story. He is real. He shows up at nearly every homecoming. And Jesus did not ignore him.</p>
+
+        <p>The father&rsquo;s response is gentle but firm:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;And he said to him, &lsquo;Son, you have always been with me, and all that is mine is yours. But we had to celebrate and rejoice, for this brother of yours was dead and has come to life again, and was lost and has been found.&rsquo;&rdquo;</p>
+
+          <cite>&mdash; Luke 15:31&ndash;32</cite>
+
+        </blockquote>
+
+        <p>Two things. First: <em>&ldquo;all that is mine is yours.&rdquo;</em> The father does not diminish the older son&rsquo;s faithfulness. He does not dismiss it. He acknowledges it &mdash; everything I have is yours. The years of service were not wasted. The faithfulness was real, and it is recognized.</p>
+
+        <p>Second &mdash; and the father corrects the language &mdash; <em>&ldquo;this brother of yours.&rdquo;</em> Not &ldquo;this son of mine.&rdquo; <em>Your brother.</em> The father will not let the older son disown the relationship. The one who came home is not a stranger. He is your brother. And he was dead, and he is alive.</p>
+
+        <p>The celebration is not a reward for the prodigal&rsquo;s behavior. It is a response to a resurrection. The father is not saying the far country did not matter. He is saying that the return from the dead matters more.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Now we must talk about what the parable does not say, because this is where honesty requires us to go beyond the story and into the harder reality.</p>
+
+        <p>The parable does not mention victims.</p>
+
+        <p>But addiction creates them. Every addict leaves a trail &mdash; broken trust, stolen money, shattered relationships, damaged children, and sometimes far worse. The prodigal in Jesus&rsquo; story wasted his own inheritance. But in real life, addiction does not limit its damage to the addict. It reaches into every life it touches. The spouse who endured the lies. The children who grew up in chaos. The parents who emptied their savings trying to help. The friend who was betrayed. The stranger who was harmed by a decision the addict made under the influence or in pursuit of the next fix.</p>
+
+        <p>Forgiveness is a biblical command. The text is clear on that. But forgiveness does not erase consequences, and it does not mean that every relationship can be restored to what it was before the damage was done. Some trust, once broken, is rebuilt only in inches over years. Some relationships cannot be rebuilt at all &mdash; not because forgiveness has been withheld, but because the damage was too deep, or the other person is no longer willing or able to walk that road. The book must be honest about that.</p>
+
+        <p>David is the clearest example in all of Scripture.</p>
+
+        <p>After his sin with Bathsheba &mdash; after the adultery, after the murder of Uriah, after the cover-up &mdash; Nathan the prophet confronted him. And David confessed. We read his confession in Chapter 7 &mdash; the raw, undecorated prayer of Psalm 51, holding nothing back. And God&rsquo;s response, through Nathan, was immediate and complete:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;The LORD also has taken away your sin; you shall not die.&rdquo;</p>
+
+          <cite>&mdash; 2 Samuel 12:13</cite>
+
+        </blockquote>
+
+        <p>Taken away. Not reduced. Not partially forgiven. Not forgiven on condition of future behavior. <em>Taken away.</em> David&rsquo;s sin was forgiven, fully and completely, by the God who has the authority to forgive.</p>
+
+        <p>And the consequences did not disappear.</p>
+
+        <p>The child born of the adultery died. The sword never departed from David&rsquo;s house. His own son Absalom would rise against him. His household was torn apart by violence and betrayal for the rest of his life. David was forgiven. David lived with the consequences of what he had done until the day he died.</p>
+
+        <p>And David knew it. In the very psalm where he confessed without excuse, he wrote:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;For I know my transgressions, and my sin is ever before me.&rdquo;</p>
+
+          <cite>&mdash; Psalm 51:3</cite>
+
+        </blockquote>
+
+        <p><em>Ever before me.</em> Not occasionally. Not when something triggers the memory. <em>Ever.</em> David carried the weight of what he had done for the rest of his life &mdash; not as unforgiven guilt, but as the permanent reality of consequences that forgiveness does not reverse.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>This is where &ldquo;How could you?&rdquo; returns.</p>
+
+        <p>The family asked that question in the crisis of Chapter 1. It has not gone away. Forgiveness may have been given &mdash; freely, completely, the robe and the ring and the feast. But &ldquo;How could you?&rdquo; does not always disappear just because forgiveness has arrived. It lives in the quiet moments. It surfaces in the flash of a memory. It sits in the room during a holiday dinner when everyone is trying to act normal and no one quite can.</p>
+
+        <p>If you are the addict, you carry this question too. And here is the hardest part of carrying it: by the time you are capable of understanding why you did what you did, you are a different person than the one who did it. The mind has changed. The gaze has shifted. And that earlier version of yourself &mdash; the one who made those choices, who hurt those people, who threw everything away &mdash; is almost incomprehensible to you now. You look back and you cannot fully explain it, even to yourself. You know the progression. You know the steps. But the <em>why</em> &mdash; the deep why, the answer that would satisfy the question &mdash; you do not have it. And neither does the family.</p>
+
+        <p>&ldquo;How could you?&rdquo; is a question that may never have a sufficient answer. Not because you are hiding something, but because the person who could have answered it no longer exists. The man who stands in his place is the one asking the same question.</p>
+
+        <p>David carried it: <em>my sin is ever before me.</em> You will carry it. That is part of the cost of the choices you made. It is not punishment from God &mdash; the forgiveness is real. It is the weight of reality. And carrying it honestly &mdash; without hiding from it and without being crushed by it &mdash; is part of what the road looks like from here forward.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>Paul the apostle, writing to the Corinthians about the man who had been removed and then repented &mdash; the same situation we examined in Chapter 5 &mdash; gave a warning that applies directly here:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;Sufficient for such a one is this punishment which was inflicted by the majority, so that on the contrary you should rather forgive and comfort him, otherwise such a one might be overwhelmed by excessive sorrow.&rdquo;</p>
+
+          <cite>&mdash; 2 Corinthians 2:6&ndash;7</cite>
+
+        </blockquote>
+
+        <p>We unpacked <em>katapothē</em> in Chapter 5 &mdash; swallowed alive by grief. The warning stands: there is a real danger of making restoration so punitive that it crushes the person it is supposed to restore. Forgiveness that comes with an asterisk &mdash; forgiveness that says &ldquo;I forgive you, but I will never let you forget&rdquo; &mdash; is not the forgiveness the father in the parable modeled. The father did not hand the son the robe and then remind him every day that he had once fed pigs.</p>
+
+        <p>This is the tension the family must live in, and I will not pretend it is easy. Forgiveness is commanded. Trust must be earned. Consequences remain. &ldquo;How could you?&rdquo; may never fully resolve. And in the middle of all of that, the returning addict &mdash; if the turning is real &mdash; needs to know that the robe is real too. That the ring is real. That the welcome is not a performance any more than the repentance was.</p>
+
+        <p>James wrote:</p>
+
+        <blockquote class="scripture">
+
+          <p>&ldquo;My brethren, if any among you strays from the truth and one turns him back, let him know that he who turns a sinner from the error of his way will save his soul from death and will cover a multitude of sins.&rdquo;</p>
+
+          <cite>&mdash; James 5:19&ndash;20</cite>
+
+        </blockquote>
+
+        <p>A soul saved from death. A multitude of sins covered. That is what is at stake when the turning is real and the homecoming is genuine. The father in the parable understood the stakes. His son was dead, and was alive. Was lost, and was found. The robe and the ring were not rewards. They were a father saying: welcome home. You are still my son.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the family, I know what this chapter asks of you. It asks you to run when everything in you wants to wait. It asks you to embrace when everything in you wants an explanation first. It asks you to put the robe on someone who recently smelled like a pig field.</p>
+
+        <p>And it asks you to do all of that while carrying &ldquo;How could you?&rdquo; in your chest, while the older brother in the room wonders why there is a party, while the consequences of what happened are still unfolding in real time, and while a small voice in the back of your mind whispers that the last time you believed, it ended in ashes.</p>
+
+        <p>I cannot make that easy. No one can. But I can tell you what the text says: the father saw the son from a long way off. He had been watching. He felt it in his gut. And he ran.</p>
+
+        <p>He did not run because the son deserved it. He ran because the son was his.</p>
+
+        <div class="divider">&bull; &nbsp; &bull; &nbsp; &bull;</div>
+
+        <p>If you are the one coming home, hear this.</p>
+
+        <p>The road is long. The shame is heavy. The speech you have rehearsed will probably fall apart before you finish it. You are not clean. You are not ready. You are not the person you were before you left.</p>
+
+        <p>But you are walking in the right direction. And the Father is watching the road.</p>
+
+        <p>Come home.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-07.html">&larr; Ch 7: Coming to Himself</a>
+          <a href="chapter-09.html">Ch 9: The Long Road &rarr;</a>
+        </div>
+        <p class="copyright">Change the Mind, Change the Man &copy; 2026 Paul Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'changeTheMindChangeTheMan_progress';
+    var CH_NUM = 8;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p['ch' + CH_NUM] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
+    }
+
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-07.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>
