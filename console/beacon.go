@@ -12,6 +12,7 @@ type BeaconPayload struct {
 	Referrer string `json:"referrer"` // document.referrer
 	Screen   string `json:"screen"`   // e.g. "1920x1080"
 	Metadata string `json:"metadata"` // extra info for events (e.g. filename)
+	IsAdmin  bool   `json:"is_admin"` // true if visitor self-identified as admin via localStorage
 }
 
 // ParseBeacon parses and validates a beacon JSON payload.

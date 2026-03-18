@@ -77,6 +77,7 @@ func handleBeacon(w http.ResponseWriter, r *http.Request) {
 			browser,
 			osName,
 			beacon.Screen,
+			beacon.IsAdmin,
 		)
 	} else {
 		err = InsertEvent(beacon.Type, visitorHash, beacon.Metadata)

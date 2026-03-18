@@ -864,9 +864,11 @@
           const locParts = [v.city, v.region, v.country].filter(Boolean);
           const location = locParts.length > 0 ? locParts.join(', ') : '--';
           const device = [v.browser, v.os, v.device].filter(Boolean).join(' / ');
-          return '<tr>' +
+          const rowStyle = v.is_admin ? ' style="background:rgba(59,154,232,0.12);border-left:3px solid #3B9AE8;"' : '';
+          const ipColor = v.is_admin ? ' style="color:#3B9AE8"' : '';
+          return '<tr' + rowStyle + '>' +
             '<td class="ts">' + formatTime(v.timestamp) + '</td>' +
-            '<td class="mono">' + escapeHtml(v.ip_address || '--') + '</td>' +
+            '<td class="mono"' + ipColor + '>' + escapeHtml(v.ip_address || '--') + (v.is_admin ? ' <span style="color:#3B9AE8;font-size:0.7rem">★</span>' : '') + '</td>' +
             '<td>' + (locParts.length > 0 ? '<span class="country-badge">' + escapeHtml(location) + '</span>' : '<span style="color:#555">--</span>') + '</td>' +
             '<td><span class="info-badge">' + escapeHtml(device || '--') + '</span></td>' +
             '<td style="color:var(--text-muted);font-size:0.8rem">' + escapeHtml(v.referrer || '') + '</td>' +

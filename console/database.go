@@ -95,6 +95,7 @@ func migrateSchema() error {
 		`ALTER TABLE page_views ADD COLUMN ip_address TEXT NOT NULL DEFAULT ''`,
 		`ALTER TABLE page_views ADD COLUMN region TEXT NOT NULL DEFAULT ''`,
 		`ALTER TABLE page_views ADD COLUMN city TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE page_views ADD COLUMN is_admin INTEGER NOT NULL DEFAULT 0`,
 	}
 	for _, m := range migrations {
 		// Ignore "duplicate column" errors for idempotency
@@ -107,11 +108,15 @@ func migrateSchema() error {
 }
 
 // InsertPageView records a page view.
-func InsertPageView(path, referrer, visitorHash, ipAddress, country, region, city, device, browser, os, screen string) error {
+func InsertPageView(path, referrer, visitorHash, ipAddress, country, region, city, device, browser, os, screen string, isAdmin bool) error {
+	adminInt := 0
+	if isAdmin {
+		adminInt = 1
+	}
 	_, err := db.Exec(
-		`INSERT INTO page_views (path, referrer, visitor_hash, ip_address, country, region, city, device, browser, os, screen)
-		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-		path, referrer, visitorHash, ipAddress, country, region, city, device, browser, os, screen,
+		`INSERT INTO page_views (path, referrer, visitor_hash, ip_address, country, region, city, device, browser, os, screen, is_admin)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		path, referrer, visitorHash, ipAddress, country, region, city, device, browser, os, screen, adminInt,
 	)
 	return err
 }
@@ -335,6 +340,7 @@ type RecentVisit struct {
 	Device      string `json:"device"`
 	Referrer    string `json:"referrer"`
 	Screen      string `json:"screen"`
+	IsAdmin     bool   `json:"is_admin"`
 }
 
 // QueryRecentVisitors returns the last N page views, optionally filtered to those since a given timestamp.
@@ -347,14 +353,14 @@ func QueryRecentVisitors(limit int, since string) ([]RecentVisit, error) {
 	var err error
 	if since != "" {
 		rows, err = db.Query(`
-			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen
+			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen, is_admin
 			FROM page_views
 			WHERE timestamp >= ?
 			ORDER BY id DESC
 			LIMIT ?`, since, limit)
 	} else {
 		rows, err = db.Query(`
-			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen
+			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen, is_admin
 			FROM page_views
 			ORDER BY id DESC
 			LIMIT ?`, limit)
@@ -367,8 +373,10 @@ func QueryRecentVisitors(limit int, since string) ([]RecentVisit, error) {
 	var results []RecentVisit
 	for rows.Next() {
 		var rv RecentVisit
+		var adminInt int
 		rows.Scan(&rv.Timestamp, &rv.Path, &rv.IPAddress, &rv.VisitorHash, &rv.Country,
-			&rv.Region, &rv.City, &rv.Browser, &rv.OS, &rv.Device, &rv.Referrer, &rv.Screen)
+			&rv.Region, &rv.City, &rv.Browser, &rv.OS, &rv.Device, &rv.Referrer, &rv.Screen, &adminInt)
+		rv.IsAdmin = adminInt == 1
 		results = append(results, rv)
 	}
 	return results, nil

@@ -5,6 +5,7 @@
 
   function send(data) {
     data.screen = screen.width + 'x' + screen.height;
+    try { if (localStorage.getItem('nm_admin') === '1') data.is_admin = true; } catch(e) {}
     var body = JSON.stringify(data);
     if (navigator.sendBeacon) {
       navigator.sendBeacon(endpoint, body);
