@@ -4,7 +4,7 @@
 
 Of all the men I have known in my life, no one changed the way I read the Bible more than Freddie Anderson.
 
-Freddie was a preacher. Not the kind who performed. Not the kind who impressed you with how much he knew, although he knew a great deal (who am I kidding — Freddie could quote entire chapters, not just verses). Freddie was the kind of preacher who, when you asked him a question — any question — would pause, and then say the same thing every single time:
+Freddie was a preacher. Not the kind who performed. Not the kind who impressed you with how much he knew, although he knew a great deal. Freddie was the kind of preacher who, when you asked him a question — any Bible question — would pause, and then say the same thing every single time:
 
 "That's a good question. Let's see what the Bible says."
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Lulu-ready interior PDF for Strength and Dignity.
+"""Generate Lulu-ready interior PDF for Your Name Means Everything: A Good Name.
 
 Lulu specs for 5.5" x 8.5" Digest (no bleed, text-only):
   - Page size: 5.5in x 8.5in
@@ -12,230 +12,97 @@ Lulu specs for 5.5" x 8.5" Digest (no bleed, text-only):
   - No trim/bleed/margin lines
 """
 
-import re
 from pathlib import Path
-from docx import Document
+from bs4 import BeautifulSoup
 import weasyprint
 
 BOOK_DIR = Path(__file__).parent
-DOCX_DIR = BOOK_DIR.parent / "strength_and_dignity"
-OUTPUT = BOOK_DIR / "Strength_and_Dignity_Lulu_Interior.pdf"
+OUTPUT = BOOK_DIR / "YourNameMeansEverything_Lulu_Interior.pdf"
 
-# Map of DOCX filenames to (title, chapter_label, part_subtitle)
 CHAPTERS = [
-    ("StrengthAndDignity_Introduction.docx", "Nobody Told You This", "Introduction", None),
-    ("StrengthAndDignity_Chapter1.docx", "Your Name Is Your Most Valuable Asset", "Chapter 1", "Part One: Who You Are"),
-    ("StrengthAndDignity_Chapter2.docx", "The Woman in the Mirror Isn\u2019t the Whole Story", "Chapter 2", "Part One: Who You Are"),
-    ("StrengthAndDignity_Chapter3.docx", "When Nobody\u2019s Watching Becomes When Everybody\u2019s Watching", "Chapter 3", "Part One: Who You Are"),
-    ("StrengthAndDignity_Chapter4.docx", "You Were Made On Purpose, For a Purpose", "Chapter 4", "Part One: Who You Are"),
-    ("StrengthAndDignity_Chapter5.docx", "The Relationship You Actually Need Most", "Chapter 5", "Part Two: Who God Is"),
-    ("StrengthAndDignity_Chapter6.docx", "The Bible Isn\u2019t What You Think It Is", "Chapter 6", "Part Two: Who God Is"),
-    ("StrengthAndDignity_Chapter7.docx", "Putting Down the Phone Long Enough to Hear Something True", "Chapter 7", "Part Two: Who God Is"),
-    ("StrengthAndDignity_Chapter8.docx", "He Is Somebody\u2019s Son", "Chapter 8", "Part Three: How You Treat People"),
-    ("StrengthAndDignity_Chapter9.docx", "The Friends You Choose Will Choose Your Future", "Chapter 9", "Part Three: How You Treat People"),
-    ("StrengthAndDignity_Chapter10.docx", "Honor Your Father and Mother (Even When It\u2019s Hard)", "Chapter 10", "Part Three: How You Treat People"),
-    ("StrengthAndDignity_Chapter11.docx", "Work Like It Matters Because It Does", "Chapter 11", "Part Four: How You Build a Life"),
-    ("StrengthAndDignity_Chapter12.docx", "Money Will Test Your Character", "Chapter 12", "Part Four: How You Build a Life"),
-    ("StrengthAndDignity_Chapter13.docx", "The Church Is Not Optional", "Chapter 13", "Part Four: How You Build a Life"),
-    ("StrengthAndDignity_Conclusion.docx", "Your Move", "Conclusion", None),
+    "introduction.html",
+    "chapter-01.html",
+    "chapter-02.html",
+    "chapter-03.html",
+    "chapter-04.html",
+    "chapter-05.html",
+    "chapter-06.html",
+    "chapter-07.html",
+    "chapter-08.html",
+    "chapter-09.html",
+    "chapter-10.html",
+    "chapter-11.html",
+    "chapter-12.html",
+    "chapter-13.html",
+    "conclusion.html",
 ]
 
-
-def is_all_bold(para):
-    """Check if the entire paragraph is bold."""
-    if not para.runs:
-        return False
-    return all(run.bold for run in para.runs if run.text.strip())
-
-
-def is_all_italic(para):
-    """Check if the entire paragraph is italic."""
-    if not para.runs:
-        return False
-    return all(run.italic for run in para.runs if run.text.strip())
-
-
-def is_bold_italic(para):
-    """Check if the entire paragraph is both bold and italic."""
-    if not para.runs:
-        return False
-    return all(run.bold and run.italic for run in para.runs if run.text.strip())
+CHAPTER_TITLES = {
+    "introduction.html": ("Nobody Told You This", "Introduction", None),
+    "chapter-01.html": ("Your Name Is Your Most Valuable Asset", "Chapter 1", "Part One: Who You Are"),
+    "chapter-02.html": ("The Man in the Mirror Isn\u2019t the Whole Story", "Chapter 2", "Part One: Who You Are"),
+    "chapter-03.html": ("When Nobody\u2019s Watching Becomes When Everybody\u2019s Watching", "Chapter 3", "Part One: Who You Are"),
+    "chapter-04.html": ("You Were Made On Purpose, For a Purpose", "Chapter 4", "Part One: Who You Are"),
+    "chapter-05.html": ("The Relationship You Actually Need Most", "Chapter 5", "Part Two: Who God Is"),
+    "chapter-06.html": ("The Bible Isn\u2019t What You Think It Is", "Chapter 6", "Part Two: Who God Is"),
+    "chapter-07.html": ("Putting Down the Phone Long Enough to Hear Something True", "Chapter 7", "Part Two: Who God Is"),
+    "chapter-08.html": ("She Is Somebody\u2019s Daughter", "Chapter 8", "Part Three: How You Treat People"),
+    "chapter-09.html": ("The Friends You Choose Will Choose Your Future", "Chapter 9", "Part Three: How You Treat People"),
+    "chapter-10.html": ("Honor Your Father and Mother (Even When It\u2019s Hard)", "Chapter 10", "Part Three: How You Treat People"),
+    "chapter-11.html": ("Work Like It Matters Because It Does", "Chapter 11", "Part Four: How You Build a Life"),
+    "chapter-12.html": ("Money Will Test Your Character", "Chapter 12", "Part Four: How You Build a Life"),
+    "chapter-13.html": ("The Church Is Not Optional", "Chapter 13", "Part Four: How You Build a Life"),
+    "conclusion.html": ("Your Move", "Conclusion", None),
+}
 
 
-def format_inline(para):
-    """Convert paragraph runs to HTML with inline formatting."""
+def extract_content(filepath):
+    """Extract the body content from a chapter HTML file."""
+    soup = BeautifulSoup(filepath.read_text(encoding="utf-8"), "html.parser")
+
     parts = []
-    for run in para.runs:
-        text = run.text
-        if not text:
-            continue
-        # Escape HTML entities
-        text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-        if run.bold and run.italic:
-            parts.append(f"<strong><em>{text}</em></strong>")
-        elif run.bold:
-            parts.append(f"<strong>{text}</strong>")
-        elif run.italic:
-            parts.append(f"<em>{text}</em>")
-        else:
-            parts.append(text)
-    return "".join(parts)
+
+    # Extract epigraph (before the content div)
+    epigraph = soup.find("section", class_="epigraph")
+    if epigraph:
+        parts.append(str(epigraph))
+
+    content_div = soup.find("div", class_="content")
+    if not content_div:
+        return "\n".join(parts)
+
+    for el in content_div.children:
+        if hasattr(el, "name") and el.name:
+            # Skip nav controls, mark-complete buttons, footers, reflection sections
+            if el.get("class") and any(
+                c in el.get("class", [])
+                for c in ["nav-controls", "mark-complete", "footer-nav", "reflection-section"]
+            ):
+                continue
+
+            if el.name == "div" and "divider" in el.get("class", []):
+                parts.append('<div class="divider">*&emsp;*&emsp;*</div>')
+            elif el.name == "blockquote" and "scripture" in el.get("class", []):
+                parts.append(str(el))
+            elif el.name == "div" and "principle-box" in el.get("class", []):
+                parts.append(str(el))
+            elif el.name == "section" and "epigraph" in el.get("class", []):
+                parts.append(str(el))
+            elif el.name in ("p", "h2", "h3", "blockquote", "ul", "ol"):
+                parts.append(str(el))
+
+    return "\n".join(parts)
 
 
-def is_divider_line(text):
-    """Check if a paragraph is a horizontal rule / divider."""
-    stripped = text.strip()
-    if re.match(r'^[\u2500\u2014\u2013_\-=]{3,}$', stripped):
-        return True
-    return False
-
-
-def is_citation_line(text):
-    """Check if a paragraph is a citation line (starts with em-dash)."""
-    stripped = text.strip()
-    return stripped.startswith("\u2014") or stripped.startswith("—") or stripped.startswith("-- ")
-
-
-def is_scripture_quote(para):
-    """Check if a paragraph is a scripture blockquote (all italic, starts with quote)."""
-    text = para.text.strip()
-    if not text:
-        return False
-    if is_all_italic(para) and (text.startswith('"') or text.startswith('\u201c')):
-        return True
-    return False
-
-
-def extract_chapter_content(filepath):
-    """Extract content from a DOCX file, returning a list of HTML strings."""
-    doc = Document(str(filepath))
-    paragraphs = doc.paragraphs
-
-    # Skip the first two paragraphs (chapter label + title)
-    start_idx = 0
-    if len(paragraphs) > 0 and is_all_bold(paragraphs[0]):
-        start_idx = 1
-    if len(paragraphs) > start_idx and is_all_bold(paragraphs[start_idx]):
-        start_idx += 1
-
-    html_parts = []
-    i = start_idx
-    in_study_section = False
-    study_section_parts = []
-
-    while i < len(paragraphs):
-        para = paragraphs[i]
-        text = para.text.strip()
-
-        if not text:
-            i += 1
-            continue
-
-        # Check for divider lines
-        if is_divider_line(text):
-            if in_study_section:
-                study_section_parts.append('<div class="divider">*&emsp;*&emsp;*</div>')
-            else:
-                html_parts.append('<div class="divider">*&emsp;*&emsp;*</div>')
-            i += 1
-            continue
-
-        # Check for "For Further Study" heading
-        if text == "For Further Study" and (is_bold_italic(para) or is_all_bold(para)):
-            in_study_section = True
-            study_section_parts.append('<h2>For Further Study</h2>')
-            i += 1
-            continue
-
-        # Check for bullet points
-        if text.startswith("•") or text.startswith("\u2022"):
-            bullet_items = []
-            while i < len(paragraphs) and (paragraphs[i].text.strip().startswith("•") or paragraphs[i].text.strip().startswith("\u2022")):
-                bullet_text = paragraphs[i].text.strip()
-                bullet_text = re.sub(r'^[•\u2022]\s*', '', bullet_text)
-                bullet_text = bullet_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-                bullet_items.append(f"<li>{bullet_text}</li>")
-                i += 1
-            ul_html = "<ul>\n" + "\n".join(bullet_items) + "\n</ul>"
-            if in_study_section:
-                study_section_parts.append(ul_html)
-            else:
-                html_parts.append(ul_html)
-            continue
-
-        # Check if this is a scripture quote (all italic, starts with quote mark)
-        if is_scripture_quote(para):
-            quote_text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            cite_html = ""
-            if i + 1 < len(paragraphs) and is_citation_line(paragraphs[i + 1].text.strip()):
-                cite_text = paragraphs[i + 1].text.strip()
-                cite_text = cite_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-                cite_html = f"\n<cite>{cite_text}</cite>"
-                i += 1
-
-            remaining_non_empty = [p for p in paragraphs[i + 1:] if p.text.strip()]
-            if in_study_section and len(remaining_non_empty) == 0:
-                epigraph_html = f'<section class="epigraph">\n<blockquote><p>{quote_text}</p></blockquote>{cite_html}\n</section>'
-                study_section_parts.append(epigraph_html)
-            else:
-                blockquote_html = f'<blockquote class="scripture">\n<p>{quote_text}</p>{cite_html}\n</blockquote>'
-                if in_study_section:
-                    study_section_parts.append(blockquote_html)
-                else:
-                    html_parts.append(blockquote_html)
-            i += 1
-            continue
-
-        # Check for citation line without preceding scripture
-        if is_citation_line(text):
-            escaped = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            target = study_section_parts if in_study_section else html_parts
-            target.append(f"<p>{escaped}</p>")
-            i += 1
-            continue
-
-        # Check for bold+italic paragraph (principle box)
-        if is_bold_italic(para):
-            escaped = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            target = study_section_parts if in_study_section else html_parts
-            target.append(f'<div class="principle-box"><p><em>{escaped}</em></p></div>')
-            i += 1
-            continue
-
-        # Check for bold section heading
-        if is_all_bold(para) and not is_all_italic(para) and len(text) < 100:
-            target = study_section_parts if in_study_section else html_parts
-            escaped = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-            target.append(f"<h2>{escaped}</h2>")
-            i += 1
-            continue
-
-        # Regular paragraph
-        inline_html = format_inline(para)
-        if not inline_html.strip():
-            i += 1
-            continue
-        target = study_section_parts if in_study_section else html_parts
-        target.append(f"<p>{inline_html}</p>")
-        i += 1
-
-    # Close study section if open
-    if in_study_section and study_section_parts:
-        html_parts.append('<div class="study-section">')
-        html_parts.extend(study_section_parts)
-        html_parts.append('</div>')
-
-    return "\n".join(html_parts)
-
-
-def build_chapter_html(docx_filename, title, chapter_label, part_subtitle):
+def build_chapter_html(filename):
     """Build the HTML section for a single chapter."""
-    filepath = DOCX_DIR / docx_filename
-    content = extract_chapter_content(filepath)
+    filepath = BOOK_DIR / filename
+    title, chapter_num, part_subtitle = CHAPTER_TITLES[filename]
+    content = extract_content(filepath)
 
     header_parts = []
-    if chapter_label and chapter_label != "Introduction" and chapter_label != "Conclusion":
-        header_parts.append(f'<p class="chapter-num">{chapter_label}</p>')
+    if chapter_num:
+        header_parts.append(f'<p class="chapter-num">{chapter_num}</p>')
     header_parts.append(f"<h1>{title}</h1>")
     if part_subtitle:
         header_parts.append(f'<p class="part-subtitle"><em>{part_subtitle}</em></p>')
@@ -261,11 +128,12 @@ def build_toc():
     toc_items.append('<div class="toc-entry"><span>Introduction: Nobody Told You This</span></div>')
 
     current_part = None
-    for docx_file, title, chapter_label, part in CHAPTERS[1:-1]:  # skip intro and conclusion
+    for filename in CHAPTERS[1:-1]:  # skip introduction and conclusion
+        title, chapter_num, part = CHAPTER_TITLES[filename]
         if part != current_part:
             current_part = part
             toc_items.append(f'<div class="toc-part"><strong>{part}</strong></div>')
-        num = chapter_label.replace("Chapter ", "")
+        num = chapter_num.replace("Chapter ", "")
         toc_items.append(
             f'<div class="toc-entry toc-chapter">'
             f"<span>Chapter {num}: {title}</span>"
@@ -400,13 +268,21 @@ body {
     font-size: 26pt;
     font-weight: bold;
     line-height: 1.25;
-    margin-bottom: 0.3in;
+    margin-bottom: 0.15in;
     color: #1a1a1a;
 }
 .title-page .subtitle-line {
     font-size: 13pt;
     color: #333;
     margin-bottom: 4pt;
+}
+.title-page .tagline {
+    font-size: 11pt;
+    font-style: italic;
+    color: #555;
+    margin-top: 0.35in;
+    margin-bottom: 4pt;
+    line-height: 1.5;
 }
 .title-page .author {
     font-size: 14pt;
@@ -513,11 +389,18 @@ body {
 .chapter-body .epigraph + p,
 .chapter-body .study-section + p,
 .chapter-body ul + p,
+.chapter-body ol + p,
 .chapter-body blockquote + p {
     text-indent: 0;
 }
 
 .chapter-body > p:first-child {
+    text-indent: 0;
+}
+
+/* First element after epigraph */
+.chapter-body > .epigraph + p,
+.chapter-body > section.epigraph + p {
     text-indent: 0;
 }
 
@@ -608,16 +491,17 @@ section.epigraph cite, .epigraph cite {
     page-break-before: avoid;
 }
 
-/* === BULLET LISTS === */
-ul {
+/* === LISTS === */
+.chapter-body ul, .chapter-body ol {
     margin: 0.12in 0 0.12in 0.4in;
     padding-left: 0.2in;
     font-size: 10.5pt;
     line-height: 1.55;
 }
 
-ul li {
+.chapter-body ul li, .chapter-body ol li {
     margin-bottom: 4pt;
+    text-indent: 0;
 }
 
 /* === STUDY SECTION === */
@@ -656,19 +540,18 @@ def build_full_html(chapter_sections, toc_html):
   <!-- TITLE PAGE (page 1, recto) -->
   <div class="title-page">
     <h1>Your Name<br>Means Everything</h1>
-    <p class="subtitle-line">Strength and Dignity</p>
-    <p class="subtitle-line" style="font-size: 11pt; margin-top: 0.3in;">What the Bible Says to Young Women</p>
-    <p class="subtitle-line" style="font-size: 11pt;">About Character, Wisdom, and Faith</p>
+    <p class="subtitle-line">A Good Name</p>
+    <p class="tagline">A Straight-Talk Guide for Young Men<br>Who Want to Matter</p>
     <p class="author">Paul &amp; Pam Hainline</p>
     <p class="author" style="font-size: 10pt; margin-top: 0.4in;">NobleMind Press</p>
   </div>
 
   <!-- COPYRIGHT PAGE (page 2, verso) -->
   <div class="copyright-page">
-    <p class="book-title">Your Name Means Everything: Strength and Dignity</p>
+    <p class="book-title">Your Name Means Everything: A Good Name</p>
     <p>Copyright &copy; 2026 Paul &amp; Pam Hainline<br>All rights reserved.</p>
     <p>Published by NobleMind Press<br>noblemind.study</p>
-    <p>ISBN 979-8-9954288-2-4 (paperback)<br>ISBN 979-8-9954288-3-1 (hardcover)</p>
+    <p>ISBN 979-8-9954288-0-0 (paperback)<br>ISBN 979-8-9954288-1-7 (hardcover)</p>
     <p>Scripture quotations are from the New American Standard Bible&reg; (NASB),<br>
     Copyright &copy; 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation.<br>
     Used by permission. All rights reserved. www.lockman.org</p>
@@ -689,16 +572,14 @@ def build_full_html(chapter_sections, toc_html):
 
 
 def main():
-    print("Generating Lulu interior PDF (5.5\" x 8.5\")...")
+    print('Generating Lulu interior PDF (5.5" x 8.5")...')
     print()
 
-    print("Extracting chapter content from DOCX files...")
+    print("Extracting chapter content from HTML files...")
     chapter_sections = []
-    for docx_file, title, chapter_label, part_subtitle in CHAPTERS:
-        print(f"  {docx_file}")
-        chapter_sections.append(
-            build_chapter_html(docx_file, title, chapter_label, part_subtitle)
-        )
+    for filename in CHAPTERS:
+        print(f"  {filename}")
+        chapter_sections.append(build_chapter_html(filename))
 
     print("Building table of contents...")
     toc_html = build_toc()
@@ -718,7 +599,7 @@ def main():
     debug_html.unlink(missing_ok=True)
 
     print(f"\nPDF saved to {OUTPUT}")
-    print(f"  Page size: 5.5\" x 8.5\" (Digest)")
+    print(f'  Page size: 5.5" x 8.5" (Digest)')
     print(f"  Gutter: 0.75in inside, 0.625in outside")
     print(f"  Chapters: start on recto (right-hand) pages")
     print(f"  Fonts: EB Garamond (embedded)")
