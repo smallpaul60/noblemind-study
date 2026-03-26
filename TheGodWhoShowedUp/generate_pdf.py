@@ -151,11 +151,25 @@ def generate_cover_image():
 def extract_content(filepath):
     """Extract the body content from a chapter HTML file."""
     soup = BeautifulSoup(filepath.read_text(encoding="utf-8"), "html.parser")
-    content_div = soup.find("div", class_="content")
-    if not content_div:
-        return ""
 
     parts = []
+
+    # Extract epigraph if present (sits outside .content div)
+    epigraph = soup.find("div", class_="epigraph")
+    if epigraph:
+        bq = epigraph.find("blockquote")
+        cite = epigraph.find("cite")
+        if bq:
+            bq_text = bq.get_text().strip()
+            cite_text = cite.get_text().strip() if cite else ""
+            parts.append(f'<blockquote class="scripture"><p>{bq_text}</p>')
+            if cite_text:
+                parts.append(f'<cite>{cite_text}</cite>')
+            parts.append('</blockquote>')
+
+    content_div = soup.find("div", class_="content")
+    if not content_div:
+        return "\n".join(parts)
     for el in content_div.children:
         if hasattr(el, "name") and el.name:
             skip_classes = {"nav-controls", "mark-complete", "footer-nav"}
