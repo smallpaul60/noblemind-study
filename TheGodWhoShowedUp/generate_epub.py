@@ -184,6 +184,11 @@ def main():
     book.add_metadata("DC", "description", DESCRIPTION)
     book.add_metadata("DC", "rights", f"\u00a9 {YEAR} Paul & Pam Hainline. All Rights Reserved.")
 
+    cover_path = BOOK_DIR / "TheBurningBush.png"
+    if cover_path.exists():
+        book.set_cover("cover.png", cover_path.read_bytes())
+        print(f"  Cover: {cover_path.name}")
+
     css = epub.EpubItem(uid="style", file_name="style/book.css", media_type="text/css", content=BOOK_CSS.encode("utf-8"))
     book.add_item(css)
 

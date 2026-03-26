@@ -22,7 +22,7 @@ import weasyprint
 
 BOOK_DIR = Path(__file__).parent
 OUTPUT = BOOK_DIR / "The_God_Who_Showed_Up.pdf"
-COVER_IMAGE = Path(__file__).parent.parent / "ANewAndLivingWay" / "lord_teach_us_to_pray.png"
+COVER_IMAGE = BOOK_DIR / "TheBurningBush.png"
 FONT_DIR = Path.home() / ".local/share/fonts"
 
 CHAPTERS = [
