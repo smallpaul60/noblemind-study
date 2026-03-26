@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2: El Roi — The God Who Sees | The God Who Showed Up</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c0b8a8;
+      --text-muted: #8a8278;
+      --accent: #D4A854;
+      --accent-glow: rgba(212,168,84, 0.4);
+      --accent-soft: rgba(212,168,84, 0.12);
+      --accent-secondary: #4A8B8C;
+      --accent-secondary-glow: rgba(74,139,140, 0.3);
+      --scripture-border: #D4A854;
+      --box-principle: #4A8B8C;
+      --box-principle-bg: rgba(74,139,140, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212,168,84,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74,139,140,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212,168,84,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(74,139,140,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212,168,84,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(74,139,140,0.15),
+        0 0 80px rgba(212,168,84,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212,168,84,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212,168,84,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212,168,84,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212,168,84,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .home-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .home-link svg { width: 18px; height: 18px; fill: var(--accent); }
+    .home-link:hover { color: var(--text-primary); }
+    .home-link:hover svg { fill: var(--text-primary); }
+    #chapter-select {
+      background: rgba(0,0,0,0.3);
+      color: var(--text-primary);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      max-width: 320px;
+      cursor: pointer;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212,168,84,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .chapter-num {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+    }
+    .epigraph {
+      text-align: center;
+      margin: 0 auto 32px;
+      max-width: 600px;
+      padding: 24px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+      border: none;
+      padding: 0;
+    }
+    .epigraph cite {
+      display: block;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    .content p {
+      margin-bottom: 18px;
+    }
+    .content h2 {
+      font-size: 1.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin: 36px 0 16px;
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 28px 0 14px;
+      font-weight: 600;
+    }
+    .content blockquote {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: rgba(212,168,84,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+    .content blockquote.scripture {
+      border-left-color: var(--accent);
+    }
+    .content blockquote p {
+      margin-bottom: 8px;
+    }
+    .content blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 32px 0;
+      color: rgba(212,168,84,0.3);
+      letter-spacing: 0.3em;
+      font-size: 0.85rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,139,140,0.2);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .reflection {
+      margin-top: 36px;
+      padding: 24px;
+      background: rgba(74,139,140,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(74,139,140,0.15);
+    }
+    .reflection h3 {
+      font-size: 1.1rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .reflection-question {
+      margin-bottom: 12px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .copyright {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 0;
+      padding: 12px 24px;
+      background: rgba(212,168,84,0.06);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+    .mark-complete:hover {
+      background: rgba(212,168,84,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete.done {
+      background: rgba(212,168,84,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .mark-complete.done .check::after { content: "\2713"; }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { padding: 10px 12px; }
+      #chapter-select { max-width: 200px; font-size: 0.8rem; }
+      h1 { font-size: 1.5rem; }
+      .content blockquote { padding: 14px 16px; }
+      .footer-nav a { padding: 12px 0; min-height: 44px; display: flex; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The God Who Showed Up
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction: What’s In A Name?</option>
+            <option value="chapter-01.html">Chapter 1: Elohim</option>
+            <option value="chapter-02.html" selected>Chapter 2: El Roi</option>
+            <option value="chapter-03.html">Chapter 3: El Shaddai</option>
+            <option value="chapter-04.html">Chapter 4: Jehovah Jireh</option>
+            <option value="chapter-05.html">Chapter 5: Yahweh</option>
+            <option value="chapter-06.html">Chapter 6: Jehovah Rapha</option>
+            <option value="chapter-07.html">Chapter 7: Jehovah Nissi</option>
+            <option value="chapter-08.html">Chapter 8: Jehovah Shalom</option>
+            <option value="chapter-09.html">Chapter 9: Jehovah Rohi</option>
+            <option value="chapter-10.html">Chapter 10: Jehovah Tsidkenu</option>
+            <option value="chapter-11.html">Chapter 11: Jehovah Shammah</option>
+            <option value="chapter-12.html">Chapter 12: Immanuel</option>
+            <option value="conclusion.html">Conclusion: He Is Still Showing Up</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TWO</p>
+        <h1>El Roi — The God Who Sees</h1>
+
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Now the angel of the Lord found her by a spring of water in the wilderness, by the spring on the way to Shur. He said, "Hagar, Sarai's maid, where have you come from and where are you going?" And she said, "I am fleeing from the presence of my mistress Sarai.&rdquo;
+        </blockquote>
+        <cite>— Genesis 16:7–8</cite>
+      </div>
+      <div class="content">
+        <p>She is not part of the story. At least, not the way anyone planned it.</p>
+        <p>She is Egyptian. A slave. Property, in the eyes of the world she lives in. She belongs to Sarai, the wife of Abram — the man to whom God made promises so vast they seemed absurd. A great nation. A land. A blessing to all the earth. Enormous promises. World-shaping promises.</p>
+        <p>But the years have passed, and Sarai is still barren. The promise of a son has not come. And in the silence between promise and fulfillment — in the space where faith is supposed to live but impatience moves in instead — Sarai makes a decision. She gives her slave to her husband. "Go in to my maid," she tells Abram. "Perhaps I will obtain children through her" (Genesis 16:2).</p>
+        <p>This was not unusual in the ancient Near East. It was culturally expected. A barren wife could offer her servant as a surrogate, and the child born would legally be the wife's. Sarai is not inventing the idea. She is following the customs of her world. But she is also stepping ahead of God — trying to produce through human means what God had promised to provide by His own.</p>
+        <p>Abram listens to Sarai's voice. Hagar conceives. And the moment she does, everything changes.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Fracture</em></h3>
+        <p>Genesis 16:4 says it simply: "He went in to Hagar, and she conceived; and when she saw that she had conceived, her mistress was despised in her sight."</p>
+        <p>Hagar's pregnancy shifts the power in the household. She has done what Sarai could not. And something in that knowledge changes the way she looks at the woman who owns her. The text does not explain the inner workings — it simply says Sarai was despised in Hagar's eyes.</p>
+        <p>Sarai's response is fierce. She goes to Abram: "May the wrong done me be upon you. I gave my maid into your arms, but when she saw that she had conceived, I was despised in her sight. May the Lord judge between you and me" (Genesis 16:5).</p>
+        <p>And Abram — the man of the promise, the friend of God — steps back. "Behold, your maid is in your power; do to her what is good in your sight" (Genesis 16:6).</p>
+        <p>Notice what he does not do. He does not protect the woman carrying his child. He does not mediate. He does not pray. He hands her back to the woman she has offended and walks away.</p>
+        <p>What Sarai does next, the text describes in a single Hebrew word: <em>ta'anneha</em>. She treated her harshly. The same root — <em>'anah</em> — is used in Exodus 1:11-12 to describe Egypt's affliction of Israel. The word carries the weight of oppression, not merely a scolding. Whatever Sarai did, it was severe enough to drive a pregnant woman into the desert alone.</p>
+        <p>And Hagar runs.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Wilderness</em></h3>
+        <p>Think about where she is. She is pregnant. She is alone. She is not in the land of her birth — she is Egyptian, likely taken as a servant during Abram's time in Egypt (Genesis 12:16). She has no family here. No protector. No rights. The one man who could have protected her just handed her back to the woman hurting her.</p>
+        <p>She is heading back toward Egypt — the text says the angel finds her "on the way to Shur," which is the road toward Egypt (Genesis 16:7). She is running toward the only place she knows, even though she has nothing there either. She is not making a plan. She is fleeing.</p>
+        <p>A pregnant, foreign slave woman, alone in the wilderness, heading nowhere good. By every measure that the ancient world used — and if we are honest, by many measures the modern world still uses — she does not matter. She is nobody. She is invisible.</p>
+        <p>But she is not invisible to God.</p>
+        <div class="divider">─────────</div>
+        <h3><em>Found</em></h3>
+        <p>The first thing to notice is who moves. Hagar is not looking for God. She is not praying. She is not crying out to the God of Abram for help. She is simply running — a woman in survival mode, putting one foot in front of the other because stopping means facing what is behind her. She does not seek God.</p>
+        <p>God seeks her.</p>
+        <p>The text says the angel of the Lord <em>found</em> her. The Hebrew is <em>matsa'</em> — to find, to come upon. It is the language of pursuit, of searching and locating. Hagar did not stumble into a divine appointment. She was found. In the wilderness, by a spring, on a road going the wrong direction — she was found.</p>
+        <p>And the angel calls her by name. "Hagar." Not "woman." Not "slave." Her name. And then he identifies her position — "Sarai's maid" — not to diminish her, but to make clear that God knows exactly who she is, where she belongs, and what she is running from.</p>
+        <p>Then he asks two questions: "Where have you come from, and where are you going?"</p>
+        <p>God is not asking because He does not know. He is asking because Hagar needs to say it. She needs to hear her own answer. And her answer is honest but incomplete: "I am fleeing from the presence of my mistress Sarai." She knows what she is running from. She does not know where she is running to.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Hard Command</em></h3>
+        <p>What the angel says next is not easy:</p>
+        <blockquote class="scripture">
+          <p>Then the angel of the Lord said to her, "Return to your mistress, and submit yourself to her authority."</p>
+          <cite>— Genesis 16:9</cite>
+        </blockquote>
+        <p>Go back. Return to the woman who was hurting you. Submit.</p>
+        <p>This is a hard word, and we should sit with it rather than rush past it. God does not explain why. He does not promise that Sarai will change. He does not tell Hagar that the situation will be easy or painless. He tells her to go back.</p>
+        <p>But He does not send her back empty. What follows the hard command is a promise — and it is an extraordinary one for a slave woman with no standing to receive:</p>
+        <blockquote class="scripture">
+          <p>Moreover, the angel of the Lord said to her, "I will greatly multiply your descendants so that they will be too many to count."</p>
+          <cite>— Genesis 16:10</cite>
+        </blockquote>
+        <blockquote class="scripture">
+          <p>The angel of the Lord said to her further, "Behold, you are with child, and you will bear a son, and you shall call his name Ishmael, because the Lord has given heed to your affliction."</p>
+          <cite>— Genesis 16:11</cite>
+        </blockquote>
+        <p>Stop and weigh what is happening. God is making a promise to Hagar. Descendants too many to count. A son with a name God Himself chooses. And the name — Ishmael — means "God hears." The Lord has given heed to your affliction. The same root — <em>'anah</em> — that described what Sarai did to Hagar now appears in God's response to it. She was afflicted. God heard.</p>
+        <p>This does not erase the complexity of the situation. Ishmael is not the child of promise — that child is still coming, and God will make the distinction clear. The angel's description of Ishmael's future in verse 12 is honest about the conflict ahead: "He will be a wild donkey of a man, his hand will be against everyone, and everyone's hand will be against him; and he will live to the east of all his brothers." This is not a storybook ending. It is the truth.</p>
+        <p>But here is what matters for this chapter: God saw a woman no one else was watching. He heard an affliction no one else was addressing. And He gave her something she had no right to expect — a promise, a future, and a son whose name would be a permanent reminder that her affliction had not gone unnoticed.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Name</em></h3>
+        <p>And then Hagar does something no one in Scripture has done before.</p>
+        <blockquote class="scripture">
+          <p>Then she called the name of the Lord who spoke to her, "You are a God who sees"; for she said, "Have I even remained alive here after seeing Him?"</p>
+          <cite>— Genesis 16:13</cite>
+        </blockquote>
+        <p>She names God.</p>
+        <p>Not Abraham. Not Sarai. Not Moses, not a priest, not a prophet. A foreign slave woman, pregnant and alone in the desert, is the first person in the Bible to give God a name.</p>
+        <p>The Hebrew is <em>El Roi</em> — God who sees. <em>El</em> is the word for God. <em>Roi</em> comes from the verb <em>ra'ah</em> — to see, to perceive, to regard. But this is not the seeing of casual observation. When Scripture uses <em>ra'ah</em> of God, it carries the weight of attention, care, and knowledge. God saw the affliction of His people in Egypt (Exodus 3:7 — "I have surely seen the affliction of My people"). God sees not as man sees (1 Samuel 16:7). To be seen by God is not merely to be noticed. It is to be known.</p>
+        <p>And Hagar knew it. She had been invisible to the world. Sarai saw her as a tool. Abram saw her as a problem to hand back. The desert saw nothing at all. But God saw her — saw her circumstances, saw her affliction, saw her future, saw <em>her</em> — and Hagar recognized it. She gave Him the name that matched what she had experienced: You are the God who sees.</p>
+        <p>The second half of verse 13 is more difficult to translate. The NASB renders it: "Have I even remained alive here after seeing Him?" Other translations offer different readings — the Hebrew is genuinely uncertain in this phrase. But the core of what Hagar is expressing is wonder. She has seen God — or been addressed by God's angel — and she is alive. The encounter has left her astonished, not that she saw God, but that God saw her.</p>
+        <p>The well where this happened is also named. Verse 14: "Therefore the well was called Beer-lahai-roi" — the well of the Living One who sees me. The name endures as a landmark, a reminder that at this specific place in the wilderness, the living God saw a woman no one else was looking for.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The First to Name Him</em></h3>
+        <p>It is worth pausing to consider who God chose for this moment.</p>
+        <p>Throughout this book, names of God will be revealed to patriarchs and prophets, to leaders and kings, to men who carry authority in the covenant community. But the first person to name God — the first person in all of Scripture to articulate something true about God's character and attach it to a name — is none of these.</p>
+        <p>It is a woman. A foreigner. A slave. Someone with no standing in the covenant. Someone whose pregnancy was the result of another person's impatience with God's timing. Someone so overlooked that when the crisis came, the man who fathered her child would not even stand up for her.</p>
+        <p>And God does not merely tolerate her naming of Him. The name sticks. It enters the text. It is preserved in the canon of Scripture for every generation that follows. El Roi — the God who sees — named not by a patriarch but by a slave woman who had been seen when no one else was looking.</p>
+        <p>This tells us something about the God we are meeting in these pages. He is not only the God of the powerful, the prominent, or the positioned. He is the God who shows up at a spring in the wilderness for a woman the rest of the story has forgotten. And He lets her name Him.</p>
+        <div class="divider">─────────</div>
+        <h3><em>He Saw Her Again</em></h3>
+        <p>The story of Hagar does not end in Genesis 16. Years later, after Isaac — the child of promise — is born, the tension that began with Hagar's pregnancy erupts again. Sarah sees Ishmael mocking, and she demands that Abraham send both Hagar and her son away (Genesis 21:9-10).</p>
+        <p>This time, Abraham does not hand the decision off. This time it grieves him — the text says so (Genesis 21:11). But God tells Abraham to listen to Sarah, because the covenant promise runs through Isaac. And God adds a promise for Ishmael: "I will make a nation of him also, because he is your descendant" (Genesis 21:13).</p>
+        <p>So Abraham sends them away. Early in the morning. Bread and a skin of water. Into the wilderness of Beersheba.</p>
+        <p>The water runs out.</p>
+        <blockquote class="scripture">
+          <p>When the water in the skin was used up, she left the boy under one of the bushes. Then she went and sat down opposite him, about a bowshot away, for she said, "Do not let me see the boy die." And she sat opposite him, and lifted up her voice and wept.</p>
+          <cite>— Genesis 21:15–16</cite>
+        </blockquote>
+        <p>This is the scene you may be picturing if the two stories have blended in your memory. The boy under the bush. The mother weeping at a distance. The water gone and hope gone with it.</p>
+        <p>And God shows up. Again.</p>
+        <blockquote class="scripture">
+          <p>God heard the lad crying; and the angel of God called to Hagar from heaven and said to her, "What is the matter with you, Hagar? Do not fear, for God has heard the voice of the lad where he is."</p>
+          <cite>— Genesis 21:17</cite>
+        </blockquote>
+        <p>He opens her eyes and she sees a well (Genesis 21:19). Water. Life. Right there, where despair had blinded her to it.</p>
+        <p>The God who saw her the first time — pregnant, alone, fleeing — saw her again. Different wilderness. Different crisis. Same God. Same eyes on the same woman. El Roi does not see you once and move on. He sees you still.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Shadow</em></h3>
+        <p>The shadow framework we laid out in the Introduction asks a simple question at every stop along the journey: their crisis is our crisis. What they needed, we need. What God revealed to them, He reveals to us.</p>
+        <p>What Hagar needed was to be seen.</p>
+        <p>Not rescued immediately — God sent her back to a hard situation the first time. Not given an easy path — her life remained complicated, and Ishmael's future would be marked by conflict. What she needed, before anything else, was to know that she had not been forgotten. That someone — Someone — was watching, and knew, and cared.</p>
+        <p>This is a need that does not belong to the ancient world alone.</p>
+        <p>There are people in every congregation, every workplace, every family who are invisible. Not because they are hidden, but because no one is looking. The single mother who sits in the back row and leaves before anyone speaks to her. The man caring for a dying spouse in a house no one visits. The teenager drowning in something they cannot name, surrounded by people who see their face but not their pain. The person whose crisis is not dramatic enough to draw attention — just a slow, steady erosion of hope that nobody notices because nobody asks.</p>
+        <p>Hagar's invisibility was specific to her world — a slave, a foreigner, a woman in a culture that measured worth by status and standing. Our invisibility takes different forms. But the ache is the same: Does anyone see me? Does anyone know what I am carrying? Does anyone care?</p>
+        <p>El Roi is God's answer. Not in theory. Not as a theological proposition. As a name — spoken first by a woman who had been seen when she had every reason to believe she was alone.</p>
+        <p>You are not alone. You are not invisible. The God who found Hagar at a spring in the wilderness on a road going nowhere knows exactly where you are, what you are carrying, and what you need. He found her before she thought to look for Him. He will find you too.</p>
+        <div class="divider">─────────</div>
+        <h3><em>Praying His Name</em></h3>
+        <p>There is a kind of loneliness that crowds cannot cure. You can be surrounded by people — a full room, a busy office, a noisy family — and still carry the quiet conviction that no one really sees you. Not the face you show the world, but the real thing underneath. The fear you have not spoken. The grief you have not named. The struggle you carry so quietly that no one thinks to ask about it.</p>
+        <p>When that loneliness settles in, pray to El Roi.</p>
+        <p>You do not have to explain your situation to Him. He already sees it. You do not have to convince Him that your pain is real. He saw Hagar's affliction before she said a word about it. You do not have to earn the right to be noticed — Hagar had no standing, no claim, no covenant, and God found her anyway.</p>
+        <p>The God who sees is not watching from a distance, checking in occasionally, scanning the horizon for more important matters. He found a single pregnant slave woman at a spring in the desert. His attention is not divided. His vision is not limited. And the things that are invisible to the rest of the world are not invisible to Him.</p>
+        <p>Hagar's first response when she realized God had seen her was wonder: Have I really seen the One who sees me? There is something in that moment that prayer can recover for us — the astonishment of being known. Not known about. Known. Seen through. Understood. Regarded.</p>
+        <p>Pray to El Roi. And when you do, you are not informing God of something He has missed. You are responding to a God who was already looking at you before you opened your mouth.</p>
+        <div class="divider">─────────</div>
+        <p>For Further Study</p>
+        <p>Genesis 16:1–16 — The full account of Hagar's flight and El Roi</p>
+        <p>Genesis 21:8–21 — Hagar and Ishmael sent away; God sees them again</p>
+        <p>Exodus 3:7 — "I have surely seen the affliction of My people who are in Egypt"</p>
+        <p>Psalm 33:13–15 — "The Lord looks from heaven; He sees all the sons of men"</p>
+        <p>Psalm 139:1–6 — "O Lord, You have searched me and known me"</p>
+        <p>1 Samuel 16:7 — "God sees not as man sees, for man looks at the outward appearance, but the Lord looks at the heart"</p>
+        <p>2 Chronicles 16:9 — "For the eyes of the Lord move to and fro throughout the earth that He may strongly support those whose heart is completely His"</p>
+        <p>Matthew 6:6 — "Your Father who sees what is done in secret will reward you"</p>
+        <p>Related name:</p>
+        <p>El Olam — The Everlasting God (Genesis 21:33). After the resolution of the Hagar and Ishmael crisis, after the covenant with Abimelech at Beersheba, Abraham plants a tamarisk tree and "called on the name of the Lord, the Everlasting God." The God who sees across a single moment in the wilderness is the God whose vision spans eternity. He is not watching a snapshot. He sees the whole arc — beginning to end — and every hidden moment in between.</p>
+        <div class="divider">─────────</div>
+        <h2>One Question to Sit With</h2>
+        <p>If God saw Hagar — a foreign slave with no standing and no claim on His promises — what makes you think He has overlooked you?</p>
+        <div class="divider">─────────</div>
+        <h2>One Thing to Do</h2>
+        <p>Think of one person in your life who might feel invisible right now — someone who is easy to overlook, who does not demand attention, who might be carrying something no one has asked about. Reach out to them this week. Not with a sermon. Not with a program. Just with the words: I see you. I wanted you to know that. Be the hands and eyes of El Roi for someone who needs it.</p>
+        <div class="divider">─────────</div>
+        <blockquote class="scripture">
+          <p>Then she called the name of the Lord who spoke to her, "You are a God who sees"; for she said, "Have I even remained alive here after seeing Him?"</p>
+          <cite>— Genesis 16:13</cite>
+        </blockquote>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-01.html">&larr; Chapter 1</a>
+          <a href="chapter-03.html">Chapter 3 &rarr;</a>
+        </div>
+        <p class="copyright">The God Who Showed Up &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    var PROGRESS_KEY = 'theGodWhoShowedUp_progress';
+    var CH_NUM = 3;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (p['ch' + CH_NUM] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('span:last-child').textContent = 'Chapter Complete';
+      } else {
+        btn.classList.remove('done');
+        btn.querySelector('span:last-child').textContent = 'Mark Chapter Complete';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

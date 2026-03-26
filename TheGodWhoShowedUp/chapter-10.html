@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 10: Jehovah Tsidkenu — The Lord Our Righteousness | The God Who Showed Up</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c0b8a8;
+      --text-muted: #8a8278;
+      --accent: #D4A854;
+      --accent-glow: rgba(212,168,84, 0.4);
+      --accent-soft: rgba(212,168,84, 0.12);
+      --accent-secondary: #4A8B8C;
+      --accent-secondary-glow: rgba(74,139,140, 0.3);
+      --scripture-border: #D4A854;
+      --box-principle: #4A8B8C;
+      --box-principle-bg: rgba(74,139,140, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212,168,84,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74,139,140,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212,168,84,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(74,139,140,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212,168,84,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(74,139,140,0.15),
+        0 0 80px rgba(212,168,84,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212,168,84,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212,168,84,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212,168,84,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212,168,84,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .home-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .home-link svg { width: 18px; height: 18px; fill: var(--accent); }
+    .home-link:hover { color: var(--text-primary); }
+    .home-link:hover svg { fill: var(--text-primary); }
+    #chapter-select {
+      background: rgba(0,0,0,0.3);
+      color: var(--text-primary);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      max-width: 320px;
+      cursor: pointer;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212,168,84,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .chapter-num {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+    }
+    .epigraph {
+      text-align: center;
+      margin: 0 auto 32px;
+      max-width: 600px;
+      padding: 24px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+      border: none;
+      padding: 0;
+    }
+    .epigraph cite {
+      display: block;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    .content p {
+      margin-bottom: 18px;
+    }
+    .content h2 {
+      font-size: 1.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin: 36px 0 16px;
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 28px 0 14px;
+      font-weight: 600;
+    }
+    .content blockquote {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: rgba(212,168,84,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+    .content blockquote.scripture {
+      border-left-color: var(--accent);
+    }
+    .content blockquote p {
+      margin-bottom: 8px;
+    }
+    .content blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 32px 0;
+      color: rgba(212,168,84,0.3);
+      letter-spacing: 0.3em;
+      font-size: 0.85rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,139,140,0.2);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .reflection {
+      margin-top: 36px;
+      padding: 24px;
+      background: rgba(74,139,140,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(74,139,140,0.15);
+    }
+    .reflection h3 {
+      font-size: 1.1rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .reflection-question {
+      margin-bottom: 12px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .copyright {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 0;
+      padding: 12px 24px;
+      background: rgba(212,168,84,0.06);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+    .mark-complete:hover {
+      background: rgba(212,168,84,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete.done {
+      background: rgba(212,168,84,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .mark-complete.done .check::after { content: "\2713"; }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { padding: 10px 12px; }
+      #chapter-select { max-width: 200px; font-size: 0.8rem; }
+      h1 { font-size: 1.5rem; }
+      .content blockquote { padding: 14px 16px; }
+      .footer-nav a { padding: 12px 0; min-height: 44px; display: flex; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The God Who Showed Up
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction: What’s In A Name?</option>
+            <option value="chapter-01.html">Chapter 1: Elohim</option>
+            <option value="chapter-02.html">Chapter 2: El Roi</option>
+            <option value="chapter-03.html">Chapter 3: El Shaddai</option>
+            <option value="chapter-04.html">Chapter 4: Jehovah Jireh</option>
+            <option value="chapter-05.html">Chapter 5: Yahweh</option>
+            <option value="chapter-06.html">Chapter 6: Jehovah Rapha</option>
+            <option value="chapter-07.html">Chapter 7: Jehovah Nissi</option>
+            <option value="chapter-08.html">Chapter 8: Jehovah Shalom</option>
+            <option value="chapter-09.html">Chapter 9: Jehovah Rohi</option>
+            <option value="chapter-10.html" selected>Chapter 10: Jehovah Tsidkenu</option>
+            <option value="chapter-11.html">Chapter 11: Jehovah Shammah</option>
+            <option value="chapter-12.html">Chapter 12: Immanuel</option>
+            <option value="conclusion.html">Conclusion: He Is Still Showing Up</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TEN</p>
+        <h1>Jehovah Tsidkenu — The Lord Our Righteousness</h1>
+        <p class="subtitle">Part V: The Life of Prayer</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Both prophet and priest are polluted; even in My house I have found their wickedness," declares the Lord.&rdquo;
+        </blockquote>
+        <cite>— Jeremiah 23:11</cite>
+      </div>
+      <div class="content">
+        <p>The kingdom is falling apart.</p>
+        <p>It has been a long time coming. Since the days of Solomon, when the kingdom split in two, the story of Israel has been a story of slow decline. The northern kingdom fell to Assyria centuries before Jeremiah was born. Now the southern kingdom — Judah, the tribe that carried the line of David, the tribe through which God's promises were supposed to reach the world — is rotting from the inside.</p>
+        <p>The kings are corrupt. Not merely weak or misguided — corrupt. Jeremiah's ministry spans the reigns of Judah's final kings, and what he sees from the inside is devastating. The men sitting on David's throne are nothing like the man who wrote Psalm 23. They exploit the people, ignore the covenant, chase after other gods, and fill Jerusalem with injustice. The throne that was supposed to represent God's rule over His people has become a monument to human failure.</p>
+        <p>And the prophets are no better:</p>
+        <blockquote class="scripture">
+          <p><em>"Among the prophets of Jerusalem I have seen a horrible thing: the committing of adultery and walking in falsehood; and they strengthen the hands of evildoers, so that no one has turned back from his wickedness."</em></p>
+          <cite>— Jeremiah 23:14</cite>
+        </blockquote>
+        <p>The prophets — the men who are supposed to speak God's word to the people — are lying. They are telling the people what they want to hear. "Peace, peace," they say, when there is no peace (Jeremiah 6:14). They claim to speak for God, but God says He did not send them (Jeremiah 23:21). The very office that exists to hold the nation accountable has been corrupted.</p>
+        <p>This is the context. The kings have failed. The prophets have failed. The priesthood is polluted. The covenant has been broken — not by God, but by His people. And the consequence is coming: Babylon is rising in the east, and within Jeremiah's lifetime, Jerusalem will fall, the temple will be destroyed, and the people will be carried into exile.</p>
+        <p>Everything that defined Israel as a nation — the land, the city, the throne, the temple — is about to be stripped away. The promises God made to Abraham seem to be unraveling. The nation exists, but barely. The land is about to be lost. And the blessing to all nations? It is hard to see how a nation in exile, scattered and humiliated, is going to bless anyone.</p>
+        <p>Into this darkness, God speaks.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Righteous Branch</em></h3>
+        <blockquote class="scripture">
+          <p><em>"Behold, the days are coming," declares the Lord, "when I will raise up for David a righteous Branch; and He will reign as king and act wisely and do justice and righteousness in the land. In His days Judah will be saved, and Israel will dwell securely; and this is His name by which He will be called, 'The Lord our righteousness.'"</em></p>
+          <cite>— Jeremiah 23:5–6</cite>
+        </blockquote>
+        <p>Read this against the backdrop of what Jeremiah has been describing, and the weight of every word becomes clear.</p>
+        <p>The kings have been unrighteous. God will raise up a <em>righteous</em> Branch. The kings have acted foolishly. This King will act <em>wisely.</em> The kings have perverted justice. This King will do <em>justice and righteousness in the land.</em> The current rulers are the reason Judah is falling. Under this King, Judah will be <em>saved</em> and Israel will dwell <em>securely.</em></p>
+        <p>Everything the current leadership has failed to be, this coming King will be. He is not a reform of the existing system. He is a replacement — raised up by God Himself, not appointed by human politics or inherited by dynastic succession. God says "I will raise up." This King comes from God's hand.</p>
+        <p>And His name tells you everything you need to know about Him: "The Lord our righteousness."</p>
+        <div class="divider">─────────</div>
+        <h3><em>A Name That Cuts</em></h3>
+        <p>There is a detail in this text that the original audience would not have missed.</p>
+        <p>The king on the throne of Judah during the final years before the exile was Zedekiah. His name in Hebrew — <em>Tsidqiyyahu</em> — means "The Lord is my righteousness." It is almost identical to the name God gives the coming King: <em>Yahweh Tsidqenu</em> — "The Lord <em>our</em> righteousness."</p>
+        <p>The irony is sharp enough to draw blood. Zedekiah — the king whose name claims the Lord's righteousness — is one of the most faithless kings in Judah's history. He ignores Jeremiah's warnings. He breaks his oath to Nebuchadnezzar. He does evil in the sight of the Lord (2 Kings 24:19). His name says one thing. His life says the opposite. He carries the title "The Lord is my righteousness" while presiding over the destruction of everything God built.</p>
+        <p>And God says: a King is coming whose name will be "The Lord <em>our</em> righteousness" — and unlike Zedekiah, the name will be true. Not a title claimed and contradicted. A reality lived and given.</p>
+        <p>The shift from <em>my</em> to <em>our</em> matters. Zedekiah's name was personal — "The Lord is <em>my</em> righteousness" — a claim about himself that he could not sustain. The promised King's name is communal — "The Lord <em>our</em> righteousness" — a gift to His people. This King does not claim righteousness for Himself. He <em>becomes</em> righteousness for the people He rules. His righteousness is not kept. It is given.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Branch</em></h3>
+        <p>The word Jeremiah uses — <em>tsemach</em>, Branch — is not a random metaphor. It appears across the prophets as a specific title for the coming King.</p>
+        <p>Isaiah describes a shoot coming up from the stump of Jesse — David's father — with the Spirit of the Lord resting on Him (Isaiah 11:1–2). A stump is what remains after a tree has been cut down. The monarchy will be cut down. The line of David will appear to be finished. But from the stump, a shoot will grow. Life from what looked like death.</p>
+        <p>Zechariah uses the same title: "Behold, a man whose name is Branch, for He will branch out from where He is; and He will build the temple of the Lord" (Zechariah 6:12). The Branch builds what was destroyed.</p>
+        <p>The promise thread runs straight through this. God promised Abraham descendants, a land, and a blessing to all nations. By Jeremiah's day, the descendants are about to be exiled, the land is about to be conquered, and the blessing seems impossible. The tree has been cut down. But God says: a Branch is coming. The promises have not failed. The stump is not dead. What looks like the end is actually the setup for something that will outlast every kingdom that came before it.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Name</em></h3>
+        <p>The Hebrew is <em>Yahweh Tsidqenu</em> — the Lord our righteousness.</p>
+        <p>Every name we have studied so far has revealed something God does. He sees. He provides. He heals. He fights. He speaks peace. He shepherds. Those are actions — things God does for His people in moments of need.</p>
+        <p>Tsidkenu is different. This name does not describe an action. It describes something God <em>is</em> — and something He <em>gives.</em> Righteousness is not just what this King does. It is who He is. And His righteousness does not stay with Him. It becomes <em>ours.</em></p>
+        <p>This is the question that every other name in this book has been quietly raising. If God is holy — and every name has revealed that He is — how do we stand before Him? El Roi sees everything, including what we would rather keep hidden. Yahweh is the self-existent, perfectly holy God. El Shaddai's first command to Abraham was "walk before Me and be blameless" — and no one has. The holiness of God is not an abstraction. It is the reality that Gideon confronted at the winepress: to stand before the holy God should mean death.</p>
+        <p>Shalom answered the terror: "Peace to you. Do not fear; you shall not die." But Shalom did not explain <em>how.</em> It spoke peace without explaining the basis for it. Tsidkenu provides the basis. We can stand before the holy God — not because we have become righteous on our own, but because His righteousness has been given to us.</p>
+        <p>The kings of Judah proved that human righteousness is not enough. Zedekiah carried the right name and lived the wrong life. The best human king — David himself — committed adultery and murder. The throne that was supposed to represent God's justice became a seat of corruption. Every human attempt to produce righteousness sufficient to stand before God has ended the same way: failure.</p>
+        <p>And God's answer is not to demand more effort. His answer is to provide what we cannot produce. A King whose name is "The Lord our righteousness." Not a King who calls His people to be righteous enough. A King who <em>becomes</em> their righteousness.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Exchange</em></h3>
+        <p>Centuries after Jeremiah, Paul writes to the Christians in Corinth and describes what this looks like at the cross:</p>
+        <blockquote class="scripture">
+          <p><em>He made Him who knew no sin to be sin on our behalf, so that we might become the righteousness of God in Him.</em></p>
+          <cite>— 2 Corinthians 5:21</cite>
+        </blockquote>
+        <p>This is Tsidkenu fulfilled. The one who knew no sin — the righteous Branch, the King whose name is "The Lord our righteousness" — was made sin. And those who were not righteous became the righteousness of God in Him.</p>
+        <p>This is not commentary. This is Scripture interpreting Scripture. What Jeremiah promised, Paul explains. The coming King does not merely model righteousness for us to imitate. He does not simply teach us how to be righteous. He takes our sin and gives us His righteousness. An exchange. His for ours.</p>
+        <h2>Paul says it again to the Romans:</h2>
+        <blockquote class="scripture">
+          <p><em>But now apart from the Law the righteousness of God has been manifested, being witnessed by the Law and the Prophets, even the righteousness of God through faith in Jesus Christ for all those who believe.</em></p>
+          <cite>— Romans 3:21–22</cite>
+        </blockquote>
+        <p>The righteousness of God — witnessed by the Law and the Prophets. Jeremiah was one of those prophets. What he saw in the distance — a righteous King whose name would be "The Lord our righteousness" — Paul sees up close. The righteousness of God, given through faith in Jesus Christ, for all who believe.</p>
+        <p>This is how we stand before a holy God. Not in our own righteousness, which every king and every prophet and every priest in Israel's history proved to be insufficient. In His. Given freely. Received by faith.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Shadow</em></h3>
+        <p>Every name in this book has met a human need. Provision when the cupboard was bare. Healing when the water was bitter. A banner when the enemy attacked. Peace when the holiness of God was terrifying. A shepherd through every valley.</p>
+        <p>But underneath all of those needs is a deeper one — the one most people do not say out loud. It is the awareness, sometimes sharp and sometimes buried, that we are not good enough. Not good enough for the calling. Not good enough for the relationship. Not good enough for God.</p>
+        <p>And the awareness is accurate. That is what makes it so heavy. It is not false guilt or unnecessary shame. The kings of Judah were not good enough — and they sat on the throne of God's chosen nation. David was not good enough — and he was the man after God's own heart. If they could not sustain their own righteousness, we will not sustain ours. Every honest person knows this. The résumé has gaps. The record has stains. The heart has corners we would rather not examine.</p>
+        <p>And Tsidkenu does not argue with any of that. It does not say "you are better than you think." It does not say "your failures are not as bad as they seem." It says something far more radical: the righteousness you need is not yours. It is His. And He gives it.</p>
+        <p>This is the name for every person who has ever stood at the door of faith and wondered whether they were qualified to enter. Every person who has looked at their track record and concluded that God could not possibly want them. Every person who has tried to earn their way into right standing and found that the harder they try, the more clearly they see their own failure.</p>
+        <p>Tsidkenu says: stop. The righteousness you need is not something you produce. It is something you receive. The King whose name is "The Lord our righteousness" did not come to inspect your righteousness and see if it passed. He came to give you His.</p>
+        <p>That is why Paul can write with such confidence: "Therefore, having been justified by faith, we have peace with God through our Lord Jesus Christ" (Romans 5:1). The peace of Shalom. The righteousness of Tsidkenu. Both given, not earned. Both received through the one whose name carries every promise.</p>
+        <div class="divider">─────────</div>
+        <h3><em>Praying His Name</em></h3>
+        <p>There are moments when you come to God and you know — clearly, painfully — that you do not deserve to be there.</p>
+        <p>Not because God has told you that. But because you have looked honestly at yourself, and the gap between who you are and who you should be is wide enough to swallow you. You know what you have done. You know what you have failed to do. You know the thoughts you carry that no one else sees. And the idea of approaching a holy God with that record feels not just intimidating but absurd.</p>
+        <p>Pray to Jehovah Tsidkenu.</p>
+        <p>Not because prayer earns you standing. Not because the right words make you acceptable. But because the God you are praying to has already done the thing you cannot do. He has provided the righteousness you do not have. The Branch Jeremiah promised has come. The exchange Paul described has happened. And when you come to God in the name of Jesus Christ, you come clothed not in your own record but in His.</p>
+        <p>When you pray to Jehovah Tsidkenu, you are not pretending your failures do not exist. You are acknowledging that they do — and that they have been covered. Not overlooked. Not excused. Covered — by the righteousness of the one whose name means "The Lord our righteousness." The same holiness that should have destroyed Gideon, that kept Moses from seeing God's face, that hung a veil in the temple between God and man — that holiness has been satisfied. Not by your effort. By His.</p>
+        <p>You are qualified to pray. Not because of who you are. Because of whose righteousness you wear. And the God who gave it to you is not waiting for you to earn it. He is waiting for you to receive it — and to come.</p>
+        <div class="divider">─────────</div>
+        <p>For Further Study</p>
+        <p>Jeremiah 23:1–8 — The full context: corrupt shepherds, the righteous Branch, the promise of restoration</p>
+        <p>Jeremiah 33:14–16 — The promise repeated, with Jerusalem itself called "The Lord is our righteousness"</p>
+        <p>Isaiah 11:1–5 — The shoot from the stump of Jesse, with the Spirit of the Lord resting on Him</p>
+        <p>Isaiah 53:11 — "The Righteous One, My Servant, will justify the many"</p>
+        <p>Zechariah 3:8 — "I am going to bring in My servant the Branch"</p>
+        <p>Zechariah 6:12–13 — "A man whose name is Branch ... He will build the temple of the Lord"</p>
+        <p>Romans 3:21–26 — The righteousness of God manifested apart from the Law, through faith in Christ</p>
+        <p>Romans 5:1 — "Having been justified by faith, we have peace with God"</p>
+        <p>Romans 5:17 — "Those who receive the abundance of grace and of the gift of righteousness will reign in life through the One, Jesus Christ"</p>
+        <p>2 Corinthians 5:21 — "He made Him who knew no sin to be sin on our behalf, so that we might become the righteousness of God in Him"</p>
+        <p>Philippians 3:8–9 — Paul counts everything as loss "that I may gain Christ and may be found in Him, not having a righteousness of my own"</p>
+        <p>Related name:</p>
+        <p>Attiq Yomin — Ancient of Days (Daniel 7:9). Daniel, Jeremiah's near-contemporary, saw a vision of the throne room of God — "the Ancient of Days took His seat; His vesture was like white snow and the hair of His head like pure wool. His throne was ablaze with flames." And to the Ancient of Days comes "one like a Son of Man," who is given dominion, glory, and a kingdom that will not be destroyed (Daniel 7:13–14). Jeremiah saw the righteous Branch from the line of David. Daniel saw the Son of Man approaching the eternal throne. Both are looking at the same King — the one whose righteousness is not temporary, because the God who gives it is eternal. The Ancient of Days does not change, and the righteousness He grants does not expire.</p>
+        <div class="divider">─────────</div>
+        <h2>One Question to Sit With</h2>
+        <p>If you knew — truly believed — that your standing before God depended entirely on His righteousness and not on yours, what burden would you set down today?</p>
+        <div class="divider">─────────</div>
+        <h2>One Thing to Do</h2>
+        <p>Read 2 Corinthians 5:21 slowly, three times. Each time, pause on the word "become." You do not <em>try</em> to become the righteousness of God. You do not <em>earn</em> it. You <em>become</em> it — in Him. Let that word do its work.</p>
+        <div class="divider">─────────</div>
+        <blockquote class="scripture">
+          <p><em>"This is His name by which He will be called, 'The Lord our righteousness.'"</em></p>
+          <cite>— Jeremiah 23:6</cite>
+        </blockquote>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-09.html">&larr; Chapter 9</a>
+          <a href="chapter-11.html">Chapter 11 &rarr;</a>
+        </div>
+        <p class="copyright">The God Who Showed Up &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    var PROGRESS_KEY = 'theGodWhoShowedUp_progress';
+    var CH_NUM = 11;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (p['ch' + CH_NUM] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('span:last-child').textContent = 'Chapter Complete';
+      } else {
+        btn.classList.remove('done');
+        btn.querySelector('span:last-child').textContent = 'Mark Chapter Complete';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 7: Jehovah Nissi — The Lord Is My Banner | The God Who Showed Up</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c0b8a8;
+      --text-muted: #8a8278;
+      --accent: #D4A854;
+      --accent-glow: rgba(212,168,84, 0.4);
+      --accent-soft: rgba(212,168,84, 0.12);
+      --accent-secondary: #4A8B8C;
+      --accent-secondary-glow: rgba(74,139,140, 0.3);
+      --scripture-border: #D4A854;
+      --box-principle: #4A8B8C;
+      --box-principle-bg: rgba(74,139,140, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212,168,84,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74,139,140,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212,168,84,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(74,139,140,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212,168,84,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(74,139,140,0.15),
+        0 0 80px rgba(212,168,84,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212,168,84,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212,168,84,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212,168,84,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212,168,84,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .home-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .home-link svg { width: 18px; height: 18px; fill: var(--accent); }
+    .home-link:hover { color: var(--text-primary); }
+    .home-link:hover svg { fill: var(--text-primary); }
+    #chapter-select {
+      background: rgba(0,0,0,0.3);
+      color: var(--text-primary);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      max-width: 320px;
+      cursor: pointer;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212,168,84,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .chapter-num {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+    }
+    .epigraph {
+      text-align: center;
+      margin: 0 auto 32px;
+      max-width: 600px;
+      padding: 24px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+      border: none;
+      padding: 0;
+    }
+    .epigraph cite {
+      display: block;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    .content p {
+      margin-bottom: 18px;
+    }
+    .content h2 {
+      font-size: 1.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin: 36px 0 16px;
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 28px 0 14px;
+      font-weight: 600;
+    }
+    .content blockquote {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: rgba(212,168,84,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+    .content blockquote.scripture {
+      border-left-color: var(--accent);
+    }
+    .content blockquote p {
+      margin-bottom: 8px;
+    }
+    .content blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 32px 0;
+      color: rgba(212,168,84,0.3);
+      letter-spacing: 0.3em;
+      font-size: 0.85rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,139,140,0.2);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .reflection {
+      margin-top: 36px;
+      padding: 24px;
+      background: rgba(74,139,140,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(74,139,140,0.15);
+    }
+    .reflection h3 {
+      font-size: 1.1rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .reflection-question {
+      margin-bottom: 12px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .copyright {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 0;
+      padding: 12px 24px;
+      background: rgba(212,168,84,0.06);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+    .mark-complete:hover {
+      background: rgba(212,168,84,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete.done {
+      background: rgba(212,168,84,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .mark-complete.done .check::after { content: "\2713"; }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { padding: 10px 12px; }
+      #chapter-select { max-width: 200px; font-size: 0.8rem; }
+      h1 { font-size: 1.5rem; }
+      .content blockquote { padding: 14px 16px; }
+      .footer-nav a { padding: 12px 0; min-height: 44px; display: flex; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The God Who Showed Up
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction: What’s In A Name?</option>
+            <option value="chapter-01.html">Chapter 1: Elohim</option>
+            <option value="chapter-02.html">Chapter 2: El Roi</option>
+            <option value="chapter-03.html">Chapter 3: El Shaddai</option>
+            <option value="chapter-04.html">Chapter 4: Jehovah Jireh</option>
+            <option value="chapter-05.html">Chapter 5: Yahweh</option>
+            <option value="chapter-06.html">Chapter 6: Jehovah Rapha</option>
+            <option value="chapter-07.html" selected>Chapter 7: Jehovah Nissi</option>
+            <option value="chapter-08.html">Chapter 8: Jehovah Shalom</option>
+            <option value="chapter-09.html">Chapter 9: Jehovah Rohi</option>
+            <option value="chapter-10.html">Chapter 10: Jehovah Tsidkenu</option>
+            <option value="chapter-11.html">Chapter 11: Jehovah Shammah</option>
+            <option value="chapter-12.html">Chapter 12: Immanuel</option>
+            <option value="conclusion.html">Conclusion: He Is Still Showing Up</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SEVEN</p>
+        <h1>Jehovah Nissi — The Lord Is My Banner</h1>
+
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Then Amalek came and fought against Israel at Rephidim.&rdquo;
+        </blockquote>
+        <cite>— Exodus 17:8</cite>
+      </div>
+      <div class="content">
+        <p>The water from the rock is still fresh on their lips when the enemy arrives.</p>
+        <p>Israel has been in the wilderness only a short time. They have already grumbled about water — twice — and about food. God has already provided: bitter water made sweet at Marah, manna on the ground each morning, quail in the evening, and water from a rock at Rephidim when Moses struck it at God's command (Exodus 17:1–7). Every need has been met. Every complaint has been answered. But the wilderness is about to teach Israel something new. Not every crisis in the life of faith is a crisis of provision. Some are battles.</p>
+        <p>One sentence. No warning. No explanation of motive. No preamble. Amalek came and fought. Israel did not pick this fight. They were not raiding Amalekite territory or threatening Amalekite interests. They were passing through the wilderness, following the God who had delivered them, heading toward the land He had promised. And an enemy showed up.</p>
+        <p>This is Israel's first battle as a free nation. In Egypt, they did not fight — they endured. At the Red Sea, they did not fight — God fought for them, and Moses told them to stand still and watch (Exodus 14:13–14). But Rephidim is different. At Rephidim, God does not tell them to stand still. He tells them to fight.</p>
+        <div class="divider">─────────</div>
+        <h3><em>How Amalek Attacks</em></h3>
+        <p>The account in Exodus 17 does not describe the nature of Amalek's assault. But Moses himself provides the detail later, in Deuteronomy, when he instructs Israel to remember what happened:</p>
+        <blockquote class="scripture">
+          <p>"Remember what Amalek did to you along the way when you came out from Egypt, how he met you along the way and attacked among you all the stragglers at your rear when you were faint and weary; and he did not fear God."</p>
+          <cite>— Deuteronomy 25:17–18</cite>
+        </blockquote>
+        <p>Amalek did not charge the front of the column. He did not face Israel's strength. He went for the rear — the stragglers, the faint, the weary. The people who had fallen behind. The ones who could not keep up. The vulnerable.</p>
+        <p>This is worth noticing, because it tells us something about the nature of the enemy Israel faced — and, within the framework Scripture has given us, the nature of the enemy we face. Amalek did not announce himself and fight fair. He picked off the weak. He attacked where the defenses were thinnest, where exhaustion had created gaps, where people had drifted from the safety of the group.</p>
+        <p>Moses adds one more detail: "he did not fear God." Amalek had seen what God did to Egypt. The nations had heard about the Red Sea — Rahab will confirm this in Joshua 2:10. But Amalek was not deterred. He attacked anyway. An enemy who does not fear God is an enemy who will not stop on his own. He must be fought.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Battle</em></h3>
+        <p>Moses' response to the attack is immediate, and it involves two things happening at once:</p>
+        <blockquote class="scripture">
+          <p>So Moses said to Joshua, "Choose men for us and go out, fight against Amalek. Tomorrow I will station myself on the top of the hill with the staff of God in my hand."</p>
+          <cite>— Exodus 17:9</cite>
+        </blockquote>
+        <p>This is the first time Joshua appears in Scripture — and he appears as a warrior, chosen by Moses to lead the fight. There is a battle to be fought on the ground, with swords and men and physical courage. Moses does not minimize that. He tells Joshua to choose men and go fight.</p>
+        <p>But Moses himself goes to the top of the hill. With the staff of God in his hand — the same staff that struck the Nile, that was raised over the Red Sea, that struck the rock at Rephidim. And what happens on that hilltop is one of the most vivid pictures of spiritual reality in the entire Old Testament:</p>
+        <blockquote class="scripture">
+          <p>So Joshua did as Moses told him, and fought against Amalek; and Moses, Aaron, and Hur went up to the top of the hill. So it came about when Moses held his hand up, that Israel prevailed, and when he let his hand down, Amalek prevailed.</p>
+          <cite>— Exodus 17:10–11</cite>
+        </blockquote>
+        <p>Read that again. When Moses' hands were up, Israel won. When his hands dropped, Amalek won. The battle on the ground was real — Joshua and his men were fighting with real swords against a real enemy. But the outcome of the battle was not determined on the ground. It was determined on the hilltop. The victory depended on something above the battlefield, not on the battlefield itself.</p>
+        <p>Moses' hands were not magic. The staff was not a talisman. What was happening on that hill was intercession — a man standing between God and the battle, holding up the instrument God had given him, and the outcome turning on whether that connection held. When it held, Israel prevailed. When it faltered, the enemy advanced.</p>
+        <p>But Moses is human. And humans get tired:</p>
+        <blockquote class="scripture">
+          <p>But Moses' hands were heavy. Then they took a stone and put it under him, and he sat on it; and Aaron and Hur supported his hands, one on one side and one on the other. Thus his hands were steady until the sun set.</p>
+          <cite>— Exodus 17:12</cite>
+        </blockquote>
+        <p>Moses could not hold his hands up alone. His arms grew heavy. The battle lasted all day. And if Aaron and Hur had not been there — if no one had come alongside him, if he had been alone on that hill — his hands would have fallen, and Amalek would have prevailed.</p>
+        <p>The text does not editorialize on this. It does not draw a lesson. It simply records: Aaron on one side, Hur on the other, and Moses' hands steady until sunset.</p>
+        <blockquote class="scripture">
+          <p>So Joshua overwhelmed Amalek and his people with the edge of the sword.</p>
+          <cite>— Exodus 17:13</cite>
+        </blockquote>
+        <p>The victory came. But it came through the combination of Joshua fighting on the ground and Moses interceding on the hill, held up by two men who understood that the battle was bigger than one person could carry alone.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Name</em></h3>
+        <blockquote class="scripture">
+          <p>Moses built an altar and named it The Lord is My Banner; and he said, "The Lord has sworn; the Lord will have war against Amalek from generation to generation."</p>
+          <cite>— Exodus 17:15–16</cite>
+        </blockquote>
+        <p>The Hebrew is <em>Yahweh Nissi</em>. A <em>nes</em> in Hebrew is a banner — a standard, a flag, the rallying point that an army gathers around in battle. When an army was scattered or disoriented, the banner told them where to look. It was the visible marker that said: here is your commander. Here is your cause. Rally here.</p>
+        <p>Moses does not name the altar "The Lord Won the Battle" — though He did. He does not name it "The Lord Gave Us Victory" — though that is true. He names it "The Lord Is My Banner." The emphasis is not on what God did. It is on what God <em>is</em> — the rallying point, the standard, the one you look to when the fight is raging and you need to know where to stand.</p>
+        <p>And then Moses adds something that elevates this moment beyond a single battle: "The Lord will have war against Amalek from generation to generation." This is not a conflict that ended at Rephidim. It is ongoing. The enemy that attacked the stragglers in the wilderness will keep coming — generation after generation — and the Lord will keep fighting. The banner is not raised once and then folded. It stands as long as the war lasts.</p>
+        <div class="divider">─────────</div>
+        <h3><em>From Generation to Generation</em></h3>
+        <p>The text proves this declaration true. Amalek does not disappear after Rephidim.</p>
+        <p>In Numbers 14:45, the Amalekites defeat an Israelite force that went up to fight without God's authorization — a battle God had told them not to fight. In Judges 6:3, the Amalekites join with Midian to oppress Israel in the days before Gideon. In 1 Samuel 15, God commands Saul to destroy Amalek completely — and Saul's failure to obey becomes the turning point that costs him the kingdom. In 1 Samuel 30, David fights the Amalekites at Ziklag. And centuries later, in the book of Esther, Haman — identified as an Agagite, a descendant of the Amalekite king — attempts to destroy the entire Jewish people.</p>
+        <p>Generation after generation. The enemy keeps showing up. And the war the Lord declared at Rephidim keeps being fought.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Shadow</em></h3>
+        <p>In the Introduction, we laid out the framework that 1 Corinthians 10:1–11 establishes: Israel's journey is the Christian's journey. Their experiences happened as examples, written for our instruction. Egypt is the bondage we were delivered from. The Red Sea is the crossing point. The wilderness is the life of faith.</p>
+        <p>And in the wilderness, there is an enemy.</p>
+        <p>The text does not say "Amalek represents sin." But the pattern is unmistakable within the framework Scripture has given us. Israel was delivered from Egypt. They crossed the water. They entered the wilderness. And immediately, an enemy attacked — not from the front, not with an honest challenge, but from the rear, going after the weak, the weary, and the ones who had fallen behind.</p>
+        <p>Every Christian who has walked any distance in the life of faith recognizes this enemy. Not the dramatic crisis — the Red Sea moments, where the need is so obvious that you cry out and God answers in power. This is the other enemy. The one who waits until you are tired. The one who finds the gap where you have let your guard down. The one who does not attack your strength but your weakness — the area of your life where you are faint, where you are weary, where you have drifted to the back of the column and no one is watching.</p>
+        <p>And Deuteronomy adds the detail that makes the shadow complete: "he did not fear God." The enemy who attacks in the wilderness is not intimidated by what God has already done. He saw the Red Sea. He does not care. He is coming anyway.</p>
+        <p>This is why the name matters. Jehovah Nissi — the Lord is my banner. When the enemy attacks your weakness, when the battle comes to the place where you are most vulnerable, where you are most likely to fall — the banner tells you where to look. Not at the enemy. Not at your own strength. Not at the size of the fight. At the Lord. He is the rallying point. He is the standard. And the war He declared against this enemy is a war He intends to win.</p>
+        <p>But notice what the battle at Rephidim also teaches. The victory was real, but it was not solitary. Joshua fought on the ground. Moses interceded on the hill. Aaron and Hur held up his arms. The battle required all of them. Moses alone on the hill with tired arms would have lost. Joshua alone on the field without the intercession would have lost. Aaron and Hur were not warriors and were not intercessors — they were the ones who held up the man who could no longer hold up himself.</p>
+        <p>The Christian life is not a solo campaign. The enemy who attacks the stragglers — the ones at the rear, the ones who have fallen behind, the ones who are isolated — knows that the most vulnerable person is the one who is alone. Aaron and Hur did not fight the battle. They made it possible for Moses to keep fighting it. And that was enough.</p>
+        <div class="divider">─────────</div>
+        <h3><em>Praying His Name</em></h3>
+        <p>There are seasons in the Christian life when the fight is real, and your arms are tired, and you are not sure how much longer you can hold on.</p>
+        <p>Pray to Jehovah Nissi.</p>
+        <p>Not because prayer is a magic formula that makes the enemy disappear. Amalek did not vanish when Moses raised his hands. The battle lasted all day. Joshua still had to swing the sword. The fight was real, and it was long, and it was exhausting. But the outcome depended on Moses' hands being raised — on the connection between the battlefield and the hilltop, between the fight on the ground and the intercession above it.</p>
+        <p>When you pray to Jehovah Nissi, you are looking at the banner. You are fixing your eyes on the rallying point when everything in the battle is trying to pull your attention elsewhere — to the size of the enemy, to the length of the fight, to the exhaustion in your own arms. The banner says: the Lord is here. The Lord is fighting. The Lord has declared war on this enemy, and He will not stop until the war is won.</p>
+        <p>And if your arms are heavy — if the fight has gone on so long that you cannot hold them up on your own — look for Aaron and Hur. They are the people God has placed beside you: the friend who prays when you cannot, the brother or sister who holds you up when your strength gives out, the community that keeps the intercession going when you are too tired to continue.</p>
+        <p>Moses did not win the battle by himself. Neither will you. But the God whose banner flew over Rephidim flies His banner over you. And the war He declared from generation to generation is a war He has never lost.</p>
+        <div class="divider">─────────</div>
+        <p>For Further Study</p>
+        <p>Exodus 17:8–16 — The full account of the battle with Amalek</p>
+        <p>Deuteronomy 25:17–19 — "Remember what Amalek did to you"</p>
+        <p>1 Samuel 15:1–35 — Saul's failure to destroy Amalek — and the cost</p>
+        <p>1 Samuel 30:1–20 — David fights the Amalekites at Ziklag</p>
+        <h2>Esther 3:1 — Haman the Agagite — the enemy persists</h2>
+        <p>Numbers 21:1–3 — Israel's victory over the Canaanites after prayer</p>
+        <p>Isaiah 11:10–12 — The Root of Jesse as a banner for the peoples</p>
+        <p>Ephesians 6:10–18 — The full armor of God — the New Testament battle</p>
+        <p>2 Corinthians 10:3–5 — "The weapons of our warfare are not of the flesh"</p>
+        <p>1 Timothy 6:12 — "Fight the good fight of faith"</p>
+        <p>Related name:</p>
+        <p>El Gibbor — Mighty God (Isaiah 9:6). The banner is not carried by a weak commander. Isaiah calls the coming King "Mighty God" — the warrior who fights for His people, whose strength is the foundation of the victory. Nissi tells you where to look. Gibbor tells you the strength of the One you are looking at. The banner flies because the God behind it cannot be defeated.</p>
+        <div class="divider">─────────</div>
+        <h2>One Question to Sit With</h2>
+        <p>Where is the enemy attacking you right now — not at your place of strength, but at your place of weariness — and who has God placed beside you to hold up your arms?</p>
+        <div class="divider">─────────</div>
+        <h2>One Thing to Do</h2>
+        <p>Think of one person you know who is in a battle right now — someone whose arms are tired, who is struggling, who might be falling behind. Be Aaron or Hur for them this week. You do not need to fight their battle. You need to hold up their arms. A phone call. A prayer spoken over them. A meal. A presence. Just show up and hold on.</p>
+        <div class="divider">─────────</div>
+        <blockquote class="scripture">
+          <p>Moses built an altar and named it The Lord is My Banner; and he said, "The Lord has sworn; the Lord will have war against Amalek from generation to generation."</p>
+          <cite>— Exodus 17:15–16</cite>
+        </blockquote>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-06.html">&larr; Chapter 6</a>
+          <a href="chapter-08.html">Chapter 8 &rarr;</a>
+        </div>
+        <p class="copyright">The God Who Showed Up &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    var PROGRESS_KEY = 'theGodWhoShowedUp_progress';
+    var CH_NUM = 8;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (p['ch' + CH_NUM] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('span:last-child').textContent = 'Chapter Complete';
+      } else {
+        btn.classList.remove('done');
+        btn.querySelector('span:last-child').textContent = 'Mark Chapter Complete';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

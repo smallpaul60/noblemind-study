@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: Jehovah Jireh — The Lord Will Provide | The God Who Showed Up</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c0b8a8;
+      --text-muted: #8a8278;
+      --accent: #D4A854;
+      --accent-glow: rgba(212,168,84, 0.4);
+      --accent-soft: rgba(212,168,84, 0.12);
+      --accent-secondary: #4A8B8C;
+      --accent-secondary-glow: rgba(74,139,140, 0.3);
+      --scripture-border: #D4A854;
+      --box-principle: #4A8B8C;
+      --box-principle-bg: rgba(74,139,140, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212,168,84,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74,139,140,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212,168,84,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(74,139,140,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212,168,84,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(74,139,140,0.15),
+        0 0 80px rgba(212,168,84,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212,168,84,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212,168,84,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212,168,84,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212,168,84,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .home-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .home-link svg { width: 18px; height: 18px; fill: var(--accent); }
+    .home-link:hover { color: var(--text-primary); }
+    .home-link:hover svg { fill: var(--text-primary); }
+    #chapter-select {
+      background: rgba(0,0,0,0.3);
+      color: var(--text-primary);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      max-width: 320px;
+      cursor: pointer;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212,168,84,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .chapter-num {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+    }
+    .epigraph {
+      text-align: center;
+      margin: 0 auto 32px;
+      max-width: 600px;
+      padding: 24px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+      border: none;
+      padding: 0;
+    }
+    .epigraph cite {
+      display: block;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    .content p {
+      margin-bottom: 18px;
+    }
+    .content h2 {
+      font-size: 1.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin: 36px 0 16px;
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 28px 0 14px;
+      font-weight: 600;
+    }
+    .content blockquote {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: rgba(212,168,84,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+    .content blockquote.scripture {
+      border-left-color: var(--accent);
+    }
+    .content blockquote p {
+      margin-bottom: 8px;
+    }
+    .content blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 32px 0;
+      color: rgba(212,168,84,0.3);
+      letter-spacing: 0.3em;
+      font-size: 0.85rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,139,140,0.2);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .reflection {
+      margin-top: 36px;
+      padding: 24px;
+      background: rgba(74,139,140,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(74,139,140,0.15);
+    }
+    .reflection h3 {
+      font-size: 1.1rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .reflection-question {
+      margin-bottom: 12px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .copyright {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 0;
+      padding: 12px 24px;
+      background: rgba(212,168,84,0.06);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+    .mark-complete:hover {
+      background: rgba(212,168,84,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete.done {
+      background: rgba(212,168,84,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .mark-complete.done .check::after { content: "\2713"; }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { padding: 10px 12px; }
+      #chapter-select { max-width: 200px; font-size: 0.8rem; }
+      h1 { font-size: 1.5rem; }
+      .content blockquote { padding: 14px 16px; }
+      .footer-nav a { padding: 12px 0; min-height: 44px; display: flex; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The God Who Showed Up
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction: What’s In A Name?</option>
+            <option value="chapter-01.html">Chapter 1: Elohim</option>
+            <option value="chapter-02.html">Chapter 2: El Roi</option>
+            <option value="chapter-03.html">Chapter 3: El Shaddai</option>
+            <option value="chapter-04.html" selected>Chapter 4: Jehovah Jireh</option>
+            <option value="chapter-05.html">Chapter 5: Yahweh</option>
+            <option value="chapter-06.html">Chapter 6: Jehovah Rapha</option>
+            <option value="chapter-07.html">Chapter 7: Jehovah Nissi</option>
+            <option value="chapter-08.html">Chapter 8: Jehovah Shalom</option>
+            <option value="chapter-09.html">Chapter 9: Jehovah Rohi</option>
+            <option value="chapter-10.html">Chapter 10: Jehovah Tsidkenu</option>
+            <option value="chapter-11.html">Chapter 11: Jehovah Shammah</option>
+            <option value="chapter-12.html">Chapter 12: Immanuel</option>
+            <option value="conclusion.html">Conclusion: He Is Still Showing Up</option>
+          </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>Jehovah Jireh — The Lord Will Provide</h1>
+        <p class="subtitle">Part II: When the Veil Still Stood</p>
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;Now it came about after these things, that God tested Abraham, and said to him, "Abraham!" And he said, "Here I am.&rdquo;
+        </blockquote>
+        <cite>— Genesis 22:1</cite>
+      </div>
+      <div class="content">
+        <p>The boy is walking beside his father, carrying wood on his back.</p>
+        <p>He is old enough to notice that something is missing. They have fire. They have wood. They have a knife. But there is no animal. Every other time his father has gone to make an offering, there has been an animal. Isaac notices, and he asks the only question that matters:</p>
+        <p>"Behold, the fire and the wood, but where is the lamb for the burnt offering?" (Genesis 22:7).</p>
+        <p>Abraham's answer is one of the most remarkable statements of faith in all of Scripture. It is also the sentence that gives God a name.</p>
+        <p>"God will provide for Himself the lamb for the burnt offering, my son" (Genesis 22:8).</p>
+        <p>He did not say "God has provided." He did not say "God is providing." He said "God <em>will</em> provide" — future tense, spoken by a man walking uphill toward the worst moment of his life, with the son of promise beside him carrying the wood for his own sacrifice.</p>
+        <p>What Abraham could not have known — what no one standing on that mountain could have seen — is that the name he was about to give that place would still be answering questions thousands of years later.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Test</em></h3>
+        <p>Genesis 22 opens with a single sentence that changes everything:</p>
+        <p>The text tells the reader what Abraham does not know. This is a test. The Hebrew word is <em>nissah</em> — to test, to prove, to try. It is not the word for temptation. God does not tempt (James 1:13). He tests — and the difference matters. A temptation is designed to make you fall. A test is designed to reveal what is already there. God is not trying to destroy Abraham's faith. He is about to put it on display.</p>
+        <p>But Abraham does not have the benefit of verse 1. He does not know this is a test. He only hears what comes next:</p>
+        <blockquote class="scripture">
+          <p>He said, "Take now your son, your only son, whom you love, Isaac, and go to the land of Moriah, and offer him there as a burnt offering on one of the mountains of which I will tell you."</p>
+          <cite>— Genesis 22:2</cite>
+        </blockquote>
+        <p>Read that command slowly. Watch how God narrows the scope, layer by layer: your son. Your <em>only</em> son. The one you <em>love</em>. Isaac. There is no ambiguity. There is no possible misunderstanding. God is not speaking in metaphor. He is asking Abraham to take the child he waited twenty-five years to receive — the child through whom every promise was supposed to be fulfilled — and offer him as a burnt offering.</p>
+        <p>Think about what is at stake. This is not merely a father being asked to give up a son, though that alone would be unthinkable. This is the man to whom God said "I will make you a great nation" being told to kill the only means by which that nation could come. This is the man to whom God said "In your seed all the families of the earth will be blessed" being told to put the seed on an altar and set it on fire.</p>
+        <p>If Isaac dies, the promises die with him. Or so it would seem.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Walk</em></h3>
+        <p>What Abraham does next says more than any words could:</p>
+        <blockquote class="scripture">
+          <p>So Abraham rose early in the morning and saddled his donkey, and took two of his young men with him and Isaac his son; and he split wood for the burnt offering, and arose and went to the place of which God had told him.</p>
+          <cite>— Genesis 22:3</cite>
+        </blockquote>
+        <p>Early in the morning. Not after weeks of deliberation. Not after arguing with God. Not after proposing an alternative. He rose early, split the wood, and went.</p>
+        <p>The journey takes three days. Three days of walking with the son he has been told to sacrifice. Three days of silence — at least, the text records nothing of the conversation. Three days during which Abraham could have turned back at any moment and no one would have blamed him.</p>
+        <p>On the third day, Abraham lifts his eyes and sees the place in the distance. And then he says something to his servants that stops a careful reader in their tracks:</p>
+        <blockquote class="scripture">
+          <p>Abraham said to his young men, "Stay here with the donkey, and I and the lad will go over there; and we will worship and return to you."</p>
+          <cite>— Genesis 22:5</cite>
+        </blockquote>
+        <p><em>We</em> will worship and <em>we</em> will return. Not "I will return." We. Both of us.</p>
+        <p>Abraham is either lying to his servants, or he believes something extraordinary. The book of Hebrews tells us which:</p>
+        <blockquote class="scripture">
+          <p>By faith Abraham, when he was tested, offered up Isaac, and he who had received the promises was offering up his only begotten son; it was he to whom it was said, "In Isaac your descendants shall be called." He considered that God is able to raise people even from the dead, from which he also received him back as a type.</p>
+          <cite>— Hebrews 11:17–19</cite>
+        </blockquote>
+        <p>Abraham reasoned that if God had made promises through Isaac, and God cannot lie, and God was now telling him to sacrifice Isaac — then God must be able to raise Isaac from the dead. It was the only conclusion that let both the command and the promises be true at the same time. Abraham did not understand how. He simply believed that the God who made the promise was able to keep it, even through death.</p>
+        <p>This is not commentary. This is Scripture interpreting Scripture. Hebrews tells us what Abraham was thinking. And what he was thinking was that the promises of God are more certain than death.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Question</em></h3>
+        <p>Then comes the moment that breaks the scene wide open:</p>
+        <blockquote class="scripture">
+          <p>Isaac spoke to Abraham his father and said, "My father!" And he said, "Here I am, my son." And he said, "Behold, the fire and the wood, but where is the lamb for the burnt offering?"</p>
+          <cite>— Genesis 22:7</cite>
+        </blockquote>
+        <p>"My father." "Here I am, my son." The intimacy of the exchange makes what is happening almost unbearable to read. The boy trusts his father. He is not suspicious. He is simply observant — they have everything except the offering, and he wants to know where it is.</p>
+        <p>And Abraham answers:</p>
+        <blockquote class="scripture">
+          <p>Abraham said, "God will provide for Himself the lamb for the burnt offering, my son." So the two of them walked on together.</p>
+          <cite>— Genesis 22:8</cite>
+        </blockquote>
+        <p>There is a detail here that a careful reader should notice. The Hebrew word Isaac and Abraham both use is <em>seh</em> — a young animal from the flock. It was the standard term for a sacrifice animal, the word anyone in their world would have used. Abraham was most likely answering his son honestly in the language they both knew — God will provide the offering — while trusting that God would resolve the impossible, even if it meant raising Isaac from the dead (Hebrews 11:19).</p>
+        <p>But when God provides, the text uses a different word. The animal in the thicket is an <em>ayil</em> — a mature ram (Genesis 22:13). Abraham spoke of a <em>seh</em>. God sent an <em>ayil</em>. The text preserves both words. Whether Abraham intended anything beyond reassuring his son, we cannot say — the text does not tell us.</p>
+        <p>What we can say is that the distinction is there, and Scripture does not forget it. Centuries later, when John the Baptist sees Jesus approaching the Jordan, he says: "Behold, the Lamb of God who takes away the sin of the world" (John 1:29). Abraham spoke of a lamb. God provided a ram. And the Lamb that Abraham's words pointed toward — whether he knew it or not — did not come that day on Moriah. He came much later. The thread runs from the mountain to the Jordan. Scripture draws it. The reader can trace it.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Altar</em></h3>
+        <blockquote class="scripture">
+          <p>Then they came to the place of which God had told him; and Abraham built the altar there and arranged the wood, and bound his son Isaac and laid him on the altar, on top of the wood. Abraham stretched out his hand and took the knife to slay his son.</p>
+          <cite>— Genesis 22:9–10</cite>
+        </blockquote>
+        <p>The text does not slow down. It moves through these actions with a deliberateness that mirrors what Abraham is doing — one step at a time, one motion at a time. He builds. He arranges. He binds. He lays his son on the wood. He reaches for the knife.</p>
+        <p>Isaac does not resist. The text records no struggle, no protest, no attempt to flee. Isaac is old enough to carry the wood up the mountain. He is old enough to overpower a man who is well over a hundred years old. But he does not resist. He allows himself to be bound and placed on the altar. Whatever Abraham has said to him — whatever passed between them in those three days of walking — Isaac submits.</p>
+        <p>The knife is in Abraham's hand. His arm is raised.</p>
+        <p>And then God speaks.</p>
+        <blockquote class="scripture">
+          <p>But the angel of the Lord called to him from heaven and said, "Abraham, Abraham!" And he said, "Here I am." He said, "Do not stretch out your hand against the lad, and do nothing to him; for now I know that you fear God, since you have not withheld your son, your only son, from Me."</p>
+          <cite>— Genesis 22:11–12</cite>
+        </blockquote>
+        <p>"Now I know." Not that God learned something He did not know. The test was not for God's information — He knows the heart (1 Samuel 16:7, Jeremiah 17:10). The test was for Abraham. And through Abraham, for every generation that would read this account. Now it is revealed. Now it is demonstrated. Now it is on the record: Abraham feared God more than he loved his own son. He trusted the promises more than he clung to the means of their fulfillment.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Provision</em></h3>
+        <blockquote class="scripture">
+          <p>Then Abraham raised his eyes and looked, and behold, behind him a ram caught in the thicket by his horns; and Abraham went and took the ram and offered him as a burnt offering in the place of his son.</p>
+          <cite>— Genesis 22:13</cite>
+        </blockquote>
+        <p>The ram was already there. Caught in the thicket, waiting. God had not scrambled to find a substitute at the last moment. The provision was in place before the knife was raised. Abraham simply had not seen it yet.</p>
+        <p>This is the nature of Jireh. The provision is not late. It is not improvised. It is already there — arranged by a God who sees the end from the beginning, who was working the answer before the crisis reached its peak. Abraham's job was not to find the provision. It was to obey, to trust, and to keep walking until God revealed what He had already prepared.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Name</em></h3>
+        <blockquote class="scripture">
+          <p>Abraham called the name of that place The Lord Will Provide, as it is said to this day, "In the mount of the Lord it will be provided."</p>
+          <cite>— Genesis 22:14</cite>
+        </blockquote>
+        <p>The Hebrew is <em>Yahweh Yireh</em> — the Lord will see, the Lord will provide. The word <em>yireh</em> comes from the same root as <em>ra'ah</em> — the verb we met with El Roi, the seeing that is not casual observation but attentive knowledge. When Abraham names this place, he is saying: the Lord sees, and because He sees, He provides. Seeing and providing are not two separate actions. They are one. God sees the need before you speak it, and His provision is already in motion before you know to ask.</p>
+        <p>And notice the tense. Abraham does not name the place "The Lord Provided" — though God certainly had, and a lesser faith might have looked backward in relief and named it for the past. Abraham names it for the future: The Lord <em>will</em> provide. What happened on this mountain was not a one-time rescue. It was a revelation of who God is, permanently. He will provide. He always will. The name is not a memory. It is a promise.</p>
+        <p>The phrase that follows in verse 14 confirms this: "as it is said to this day, 'In the mount of the Lord it will be provided.'" The name outlasted Abraham. It became a saying — a proverb — passed down through the generations. When the people of God faced a need they could not meet, a crisis they could not solve, a moment when the cost of obedience seemed too high, they repeated what Abraham had named: in the mount of the Lord, it will be provided.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Mountain</em></h3>
+        <p>There is one more detail the text preserves that is easy to pass over. The place where this happened has a name: Moriah. God told Abraham to go to "the land of Moriah" and offer Isaac on one of the mountains there (Genesis 22:2).</p>
+        <p>Moriah appears only one other time in Scripture. In 2 Chronicles 3:1:</p>
+        <blockquote class="scripture">
+          <p>Then Solomon began to build the house of the Lord in Jerusalem on Mount Moriah, where the Lord had appeared to his father David.</p>
+          <cite>— 2 Chronicles 3:1</cite>
+        </blockquote>
+        <p>The temple — the place where God's presence would dwell among His people, where sacrifices would be offered for the sins of the nation, where the high priest would enter the Most Holy Place once a year with the blood of atonement — was built on the same mountain where Abraham raised the knife and God provided the ram.</p>
+        <p>The text does not elaborate on this connection. It simply records the location. But the reader who has walked with Abraham up the slopes of Moriah, who has watched the knife go up and heard the angel call out, who has seen the ram caught in the thicket — that reader will not miss the significance of learning that the temple of God was built on the same ground. The place Abraham named "The Lord Will Provide" became the place where God provided atonement for an entire nation, generation after generation.</p>
+        <p>And it was on this same mountain, centuries later, that a Lamb finally came — not caught in a thicket, but walking willingly, carrying not wood but a cross.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Promise Reaffirmed</em></h3>
+        <p>Immediately after the provision, God speaks again — and what He says makes clear that this test was not a detour from the Abrahamic promises. It was a confirmation of them:</p>
+        <blockquote class="scripture">
+          <p>"By Myself I have sworn, declares the Lord, because you have done this thing and have not withheld your son, your only son, indeed I will greatly bless you, and I will greatly multiply your seed as the stars of the heavens and as the sand which is on the seashore; and your seed shall possess the gate of their enemies. In your seed all the nations of the earth shall be blessed, because you have obeyed My voice."</p>
+          <cite>— Genesis 22:16–18</cite>
+        </blockquote>
+        <p>All three promises, restated. The nation — your seed multiplied like stars and sand. The land — your seed shall possess the gate of their enemies. The blessing to all nations — in your seed all the nations of the earth shall be blessed.</p>
+        <p>And notice how this oath is different from every previous statement of the promises. God says "By Myself I have sworn." He swears by Himself — because there is no one greater to swear by (Hebrews 6:13). The promises that began as declarations in Genesis 12 are now sealed with an oath, tied directly to Abraham's obedience on the mountain. Jireh is not just the name of the place where God provided a ram. It is the place where the promises were confirmed with a covenant oath that cannot be broken.</p>
+        <div class="divider">─────────</div>
+        <h3><em>The Shadow</em></h3>
+        <p>Every Christian will face a mountain.</p>
+        <p>Not Moriah specifically. But a moment where obedience costs something that feels like everything. A moment where what God is asking does not make sense — where the command and the promises seem to contradict each other, where following means letting go of the very thing you thought God had given you.</p>
+        <p>It may be a career you built that God is asking you to walk away from. A relationship you are clinging to that is not leading where God leads. A plan for your life that seemed so right, so blessed, so clearly from Him — and now He is asking you to lay it on the altar and let go.</p>
+        <p>The temptation in those moments is to believe that God has forgotten His promises. That if you obey, you will lose. That the cost is too high and the provision too uncertain.</p>
+        <p>Abraham walked three days with the cost in front of him. He built the altar with his own hands. He laid his son on the wood. And at the last moment — not a moment before, but not a moment too late — God provided.</p>
+        <p>Jireh does not promise that the provision will come early. It does not promise you will see the ram before you climb the mountain. It does not promise the path will make sense while you are walking it. What it promises is this: the God who sees the end from the beginning has already arranged what you need. Your job is to keep walking. His job is to provide.</p>
+        <p>And He will. He always has. That is the name Abraham gave the mountain, and it has never once been proven wrong.</p>
+        <div class="divider">─────────</div>
+        <h3><em>Praying His Name</em></h3>
+        <p>There are prayers that come easily — gratitude, praise, the comfortable conversations of a faith that is not under pressure. And then there are the prayers that come from the mountain — the ones spoken through clenched teeth, through tears, through the slow walk up a hill you did not want to climb.</p>
+        <p>When you are on the mountain, pray to Jehovah Jireh.</p>
+        <p>Not because it will make the climb easier. It may not. Abraham still had to build the altar. He still had to bind his son. He still had to pick up the knife. The provision came, but it came at the top of the mountain, not at the bottom. Jireh does not spare you the walk. It promises that the walk is not wasted.</p>
+        <p>When you pray to Jehovah Jireh, you are praying to a God who has already seen your need and has already set in motion the provision for it. You may not see it yet. Abraham did not see the ram until after the knife was in his hand. But it was there. It was already caught in the thicket, waiting for the moment when obedience and provision would meet.</p>
+        <p>The God who provided the ram on Moriah — who provided atonement on that same mountain for centuries — who provided the Lamb on that same mountain once and for all — is the God you are praying to. He does not forget His promises. He does not run short. He does not look at your need and wonder how to meet it. He has already provided. You simply have not seen it yet.</p>
+        <p>Keep walking. Keep obeying. And when you reach the place He has led you to, lift your eyes. The provision will be there.</p>
+        <div class="divider">─────────</div>
+        <p>For Further Study</p>
+        <p>Genesis 22:1–19 — The full account of Abraham and Isaac on Moriah</p>
+        <h2>Genesis 12:1–3 — The original three promises to Abraham</h2>
+        <p>Genesis 22:16–18 — The promises reaffirmed by oath after the test</p>
+        <p>2 Chronicles 3:1 — Solomon builds the temple on Mount Moriah</p>
+        <p>Hebrews 11:17–19 — Abraham's faith: he considered God able to raise the dead</p>
+        <p>Hebrews 6:13–18 — God swore by Himself because there was no one greater</p>
+        <p>John 1:29 — "Behold, the Lamb of God who takes away the sin of the world"</p>
+        <p>Romans 8:32 — "He who did not spare His own Son, but delivered Him over for us all"</p>
+        <p>Philippians 4:19 — "My God will supply all your needs according to His riches in glory in Christ Jesus"</p>
+        <p>Related name:</p>
+        <p>El Elyon — God Most High (Genesis 14:18–20). After Abraham's rescue of Lot, Melchizedek — king of Salem, priest of God Most High — blesses Abraham and says: "Blessed be Abram of God Most High, possessor of heaven and earth." The God who possesses heaven and earth is the God whose provision is limitless. Jireh is the name He earns on the mountain. El Elyon is the reason He can afford it — He owns everything.</p>
+        <div class="divider">─────────</div>
+        <h2>One Question to Sit With</h2>
+        <p>What are you holding so tightly that you have not yet placed it on the altar — and what would it look like to trust that the God who provided for Abraham will provide for you?</p>
+        <div class="divider">─────────</div>
+        <h2>One Thing to Do</h2>
+        <p>Read Genesis 22:1–14 in one sitting, slowly. When you reach verse 8 — "God will provide for Himself the lamb" — stop. Write down the thing in your life that feels most like a mountain right now. Then write the name above it: Jehovah Jireh. The Lord will provide. Set the paper where you will see it every day this week.</p>
+        <div class="divider">─────────</div>
+        <blockquote class="scripture">
+          <p>Abraham called the name of that place The Lord Will Provide, as it is said to this day, "In the mount of the Lord it will be provided."</p>
+          <cite>— Genesis 22:14</cite>
+        </blockquote>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Chapter 3</a>
+          <a href="chapter-05.html">Chapter 5 &rarr;</a>
+        </div>
+        <p class="copyright">The God Who Showed Up &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    var PROGRESS_KEY = 'theGodWhoShowedUp_progress';
+    var CH_NUM = 5;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (p['ch' + CH_NUM] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('span:last-child').textContent = 'Chapter Complete';
+      } else {
+        btn.classList.remove('done');
+        btn.querySelector('span:last-child').textContent = 'Mark Chapter Complete';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction: What’s In A Name? | The God Who Showed Up</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c0b8a8;
+      --text-muted: #8a8278;
+      --accent: #D4A854;
+      --accent-glow: rgba(212,168,84, 0.4);
+      --accent-soft: rgba(212,168,84, 0.12);
+      --accent-secondary: #4A8B8C;
+      --accent-secondary-glow: rgba(74,139,140, 0.3);
+      --scripture-border: #D4A854;
+      --box-principle: #4A8B8C;
+      --box-principle-bg: rgba(74,139,140, 0.08);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212,168,84,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74,139,140,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212,168,84,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(74,139,140,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212,168,84,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(74,139,140,0.15),
+        0 0 80px rgba(212,168,84,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212,168,84,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212,168,84,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212,168,84,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212,168,84,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .home-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .home-link svg { width: 18px; height: 18px; fill: var(--accent); }
+    .home-link:hover { color: var(--text-primary); }
+    .home-link:hover svg { fill: var(--text-primary); }
+    #chapter-select {
+      background: rgba(0,0,0,0.3);
+      color: var(--text-primary);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      max-width: 320px;
+      cursor: pointer;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212,168,84,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    .chapter-num {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.9rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--accent-secondary);
+      font-style: italic;
+    }
+    .epigraph {
+      text-align: center;
+      margin: 0 auto 32px;
+      max-width: 600px;
+      padding: 24px;
+      background: rgba(212,168,84,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .epigraph blockquote {
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      line-height: 1.8;
+      margin-bottom: 8px;
+      border: none;
+      padding: 0;
+    }
+    .epigraph cite {
+      display: block;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    .content p {
+      margin-bottom: 18px;
+    }
+    .content h2 {
+      font-size: 1.35rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin: 36px 0 16px;
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 28px 0 14px;
+      font-weight: 600;
+    }
+    .content blockquote {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: rgba(212,168,84,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+    .content blockquote.scripture {
+      border-left-color: var(--accent);
+    }
+    .content blockquote p {
+      margin-bottom: 8px;
+    }
+    .content blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 32px 0;
+      color: rgba(212,168,84,0.3);
+      letter-spacing: 0.3em;
+      font-size: 0.85rem;
+    }
+    .principle-box {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--box-principle-bg);
+      border: 1px solid rgba(74,139,140,0.2);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .reflection {
+      margin-top: 36px;
+      padding: 24px;
+      background: rgba(74,139,140,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(74,139,140,0.15);
+    }
+    .reflection h3 {
+      font-size: 1.1rem;
+      color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .reflection-question {
+      margin-bottom: 12px;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212,168,84,0.15);
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 8px 0;
+      transition: color 0.3s;
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .copyright {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 0;
+      padding: 12px 24px;
+      background: rgba(212,168,84,0.06);
+      border: 1px solid rgba(212,168,84,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+    .mark-complete:hover {
+      background: rgba(212,168,84,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete.done {
+      background: rgba(212,168,84,0.15);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 18px;
+      height: 18px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+    }
+    .mark-complete.done .check::after { content: "\2713"; }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { padding: 10px 12px; }
+      #chapter-select { max-width: 200px; font-size: 0.8rem; }
+      h1 { font-size: 1.5rem; }
+      .content blockquote { padding: 14px 16px; }
+      .footer-nav a { padding: 12px 0; min-height: 44px; display: flex; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The God Who Showed Up
+        </a>
+          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html" selected>Introduction: What’s In A Name?</option>
+            <option value="chapter-01.html">Chapter 1: Elohim</option>
+            <option value="chapter-02.html">Chapter 2: El Roi</option>
+            <option value="chapter-03.html">Chapter 3: El Shaddai</option>
+            <option value="chapter-04.html">Chapter 4: Jehovah Jireh</option>
+            <option value="chapter-05.html">Chapter 5: Yahweh</option>
+            <option value="chapter-06.html">Chapter 6: Jehovah Rapha</option>
+            <option value="chapter-07.html">Chapter 7: Jehovah Nissi</option>
+            <option value="chapter-08.html">Chapter 8: Jehovah Shalom</option>
+            <option value="chapter-09.html">Chapter 9: Jehovah Rohi</option>
+            <option value="chapter-10.html">Chapter 10: Jehovah Tsidkenu</option>
+            <option value="chapter-11.html">Chapter 11: Jehovah Shammah</option>
+            <option value="chapter-12.html">Chapter 12: Immanuel</option>
+            <option value="conclusion.html">Conclusion: He Is Still Showing Up</option>
+          </select>
+      </nav>
+
+      <header>
+
+        <h1>What’s In A Name?</h1>
+
+      </header>
+
+      <div class="epigraph">
+        <blockquote>
+          &ldquo;I will make you a great nation.&rdquo;
+        </blockquote>
+        <cite>— Genesis 12:2</cite>
+      </div>
+      <div class="content">
+        <h2>Paul &amp; Pam Hainline</h2>
+        <p><em>"Then Moses said to God, 'Behold, I am going to the sons of Israel, and I will say to them, "The God of your fathers has sent me to you." Now they may say to me, "What is His name?" What shall I say to them?' God said to Moses, 'I AM WHO I AM'; and He said, 'Thus you shall say to the sons of Israel, "I AM has sent me to you."'"</em></p>
+        <p>— Exodus 3:13–14 (NASB)</p>
+        <h2>Copyright</h2>
+        <p>The God Who Showed Up: What His Names Reveal About Who He Is</p>
+        <h2>Copyright © 2026 Paul &amp; Pam Hainline</h2>
+        <p>All rights reserved.</p>
+        <p>Scripture quotations are from the New American Standard Bible® (NASB), Copyright © 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation. Used by permission. All rights reserved. www.lockman.org</p>
+        <h2>First Edition — NobleMind Press</h2>
+        <h2>Introduction: What's In A Name?</h2>
+        <p>When someone tells you their name, they are giving you access to who they are. Not just a label — access. A name is how you call someone. How you address them. How you enter into relationship with them. Without a name, a person remains a stranger. With a name, the door opens.</p>
+        <p>When God tells you His name, He is doing something far greater than identification. He is revealing His character — and inviting you to know Him.</p>
+        <p>This is not a dictionary of divine titles. The book you are holding is a journey — the same journey Israel walked out of Egypt and into the promises of God. The same journey every Christian walks today. And along that journey, at every point of crisis, need, and covenant, God revealed something about Himself by telling His people His name.</p>
+        <p>He did not reveal all His names at once. He gave each one at a specific moment — when His people needed to know that particular truth about who He is. When they were afraid, He told them His name. When they were hungry, He told them His name. When the enemy stood in front of them and the sea stood behind them and there was no human way forward, He told them His name. Every name answered a question they were asking, whether they spoke it aloud or not.</p>
+        <p>And every name He revealed then is a name He still answers to now.</p>
+        <div class="divider">─────────</div>
+        <p>To understand why the names were revealed — and why they were revealed in the order they were — you have to understand what was driving the story. And what was driving the story were three promises God made to one man.</p>
+        <p>God called Abraham out of Ur of the Chaldeans and made him three promises that would drive the entire biblical narrative from that moment forward:</p>
+        <p>One man. One barren wife. And a promise that defied every natural possibility. God would take this childless couple and build from them a nation no one could number.</p>
+        <blockquote class="scripture">
+          <p>"To your descendants I will give this land."</p>
+          <cite>— Genesis 12:7</cite>
+        </blockquote>
+        <p>A land — specific, physical, promised. This is the promise that drove the entire journey from Egypt through the wilderness and into Canaan. Every name God revealed along the way was revealed on the road to that promise.</p>
+        <blockquote class="scripture">
+          <p>"In you all the families of the earth will be blessed."</p>
+          <cite>— Genesis 12:3</cite>
+        </blockquote>
+        <p>This is the promise that reaches across the testaments and lands on us. It is the reason this book exists. Paul, writing to the Galatians, calls it the Gospel preached in advance:</p>
+        <blockquote class="scripture">
+          <p>"The Scripture, foreseeing that God would justify the Gentiles by faith, preached the gospel beforehand to Abraham, saying, 'All the nations will be blessed in you.'"</p>
+          <cite>— Galatians 3:8</cite>
+        </blockquote>
+        <p>The promises are the reason for the journey. The names are revealed along the journey. And the fulfillment of that third promise — all nations blessed — is the reason we are reading this book today.</p>
+        <div class="divider">─────────</div>
+        <p>But here a reader might reasonably ask: why should Israel's story matter to me? These names were revealed to them — to Moses at a burning bush, to Hagar in a wilderness, to Gideon hiding in a winepress. What does their journey have to do with mine?</p>
+        <p>The answer is not something we are imposing on the text. The text establishes it.</p>
+        <p>Paul, writing to the church at Corinth, looks back at Israel's entire wilderness experience — the crossing of the Red Sea, the cloud, the manna, the water from the rock — and says this:</p>
+        <blockquote class="scripture">
+          <p>"Now these things happened to them as an example, and they were written for our instruction."</p>
+          <cite>— 1 Corinthians 10:11</cite>
+        </blockquote>
+        <p>Their story was written for us. Not merely recorded — written <em>for our instruction</em>. The things that happened to Israel in the wilderness were real historical events, but they were also examples, preserved in Scripture specifically so that we would learn from them.</p>
+        <p>And the connection goes deeper than example. Writing to the Galatians, Paul makes it explicit:</p>
+        <blockquote class="scripture">
+          <p>"And if you belong to Christ, then you are Abraham's descendants, heirs according to promise."</p>
+          <cite>— Galatians 3:29</cite>
+        </blockquote>
+        <p>If you belong to Christ, you are Abraham's descendants. The promises God made to Abraham are not ancient history for the Christian. They are our inheritance. The seed of Abraham through whom all nations would be blessed is Christ Himself — Paul is precise about this: "Now the promises were spoken to Abraham and to his seed. He does not say, 'And to seeds,' as referring to many, but rather to one, 'And to your seed,' that is, Christ" (Galatians 3:16). And if we are in Christ, we are in the promise.</p>
+        <p>Paul presses this further in Romans. He redefines who the true children of Abraham are — not by ethnicity but by faith:</p>
+        <blockquote class="scripture">
+          <p>"For he is not a Jew who is one outwardly, nor is circumcision that which is outward in the flesh. But he is a Jew who is one inwardly; and circumcision is that which is of the heart, by the Spirit, not by the letter."</p>
+          <cite>— Romans 2:28–29</cite>
+        </blockquote>
+        <p>And again:</p>
+        <blockquote class="scripture">
+          <p>"For they are not all Israel who are descended from Israel; nor are they all children because they are Abraham's descendants, but: 'through Isaac your descendants will be named.' That is, it is not the children of the flesh who are children of God, but the children of the promise are regarded as descendants."</p>
+          <cite>— Romans 9:6–8</cite>
+        </blockquote>
+        <p>The children of the promise are the true descendants. Not the children of the flesh — the children of the promise. This is Paul's consistent teaching: belonging to Christ is what makes a person an heir of Abraham's promises.</p>
+        <p>In his closing words to the Galatians, Paul writes: "And those who will walk by this rule, peace and mercy be upon them, and upon the Israel of God" (Galatians 6:16). We believe Paul is here identifying Christians — those who walk by the rule of new creation — as the Israel of God. In a letter that has spent six chapters demolishing the wall between Jew and Gentile in Christ, a letter whose entire argument is that faith in Christ — not ethnicity or law-keeping — defines God's people, this closing benediction applies the title "Israel of God" to the new creation people of God.</p>
+        <p>We should be honest: not every faithful student of Scripture reads this verse the same way. Some understand the Greek word <em>kai</em> — "and" — as connecting two distinct groups: Christians generally, and believing Jews specifically. That reading takes <em>kai</em> in its most common sense, and the phrase "Israel of God" appears nowhere else in Paul's writings for direct comparison. The alternative view deserves to be stated fairly, and we have stated it.</p>
+        <p>But the weight of the letter leans strongly in one direction. Paul has just written, in the verse immediately before, that "neither circumcision nor uncircumcision means anything, but a new creation" (Galatians 6:15). He has erased the ethnic distinction. To re-establish it in the very next verse would undermine the argument he has spent six chapters building. We believe the context of the letter, the immediate context of verse 15, and the supporting evidence from Romans settle the matter — but we present it honestly and trust the reader to weigh the evidence.</p>
+        <p>And here is the essential point: even if you read Galatians 6:16 differently than we do, the framework of this book does not depend on that single verse. It stands firmly on 1 Corinthians 10:11 — their story was written for our instruction. On Galatians 3:8 — the promise to Abraham was the Gospel announced in advance. On Galatians 3:29 — if you belong to Christ, you are Abraham's descendants. On Romans 2:28–29 and Romans 9:6–8 — the children of promise are the true descendants. None of these texts are disputed in the way Galatians 6:16 is. The case does not rest on a single verse. It rests on the consistent testimony of the apostle Paul across multiple letters.</p>
+        <div class="divider">─────────</div>
+        <p>What all of this means is that Israel's journey is not just ancient history. It is the Christian's journey.</p>
+        <p>Their Egypt is our Egypt — the world, the bondage of sin that held us before God delivered us. Their Pharaoh is our Pharaoh — the power that enslaves, whatever form it takes. Their Red Sea is our Red Sea — the moment of deliverance, when God brought us through and the waters closed behind us. Paul himself draws this parallel explicitly: "For I do not want you to be unaware, brethren, that our fathers were all under the cloud and all passed through the sea; and all were baptized into Moses in the cloud and in the sea" (1 Corinthians 10:1–2). Their wilderness is our wilderness — the life of faith, where the promises have been given but the fulfillment is still ahead, and where God reveals Himself through what He provides along the way. And their Promised Land is our Promised Land — the life God calls us into, the inheritance He has prepared for those who are His.</p>
+        <p>Every name in this book was revealed somewhere along that journey. And as we walk with Israel through the story, we discover God's character the same way they did: one crisis at a time, one provision at a time, one name at a time.</p>
+        <div class="divider">─────────</div>
+        <p>A word about how this book is built.</p>
+        <p>The names of God are not arranged here alphabetically, thematically, or by theological category. They are arranged in the order God revealed them. This is a deliberate choice, because God's self-revelation is progressive — He did not hand His people a complete theological profile and send them on their way. He walked with them. And as they walked, He showed them who He is, one name at a time, each one answering the need of the moment.</p>
+        <p>The result is not a reference guide. It is a story — with a beginning, a middle, and an end. It begins with Elohim, the God who was already there before anything existed. It ends with Immanuel, the God who closed every remaining distance and moved in permanently. And between those two names, every crisis Israel faced — and every crisis we face — is met by a God who shows up and tells you His name.</p>
+        <p>Each chapter will walk through the passage where the name was revealed, examine the Hebrew behind it, trace it through the rest of Scripture, and then ask the question that matters most: what does this name mean for the Christian today? Each chapter closes with a section called "Praying His Name" — because knowing who God is should change the way we talk to Him. Not with a scripted prayer, but with a connection. You now know who He revealed Himself to be. Talk to Him like it.</p>
+        <div class="divider">─────────</div>
+        <p>We are about to walk a road that begins before creation and ends in a manger in Bethlehem — though it does not stop there. Along the way, we will meet a God who sees the invisible, provides the impossible, heals the bitter, fights the battle, speaks peace into fear, shepherds the lost, clothes the unrighteous in His own righteousness, and promises His presence to people who have every reason to believe He has left.</p>
+        <p>He has not left. He never has.</p>
+        <p>He keeps showing up. And He keeps telling His people His name.</p>
+        <blockquote class="scripture">
+          <p>"Call upon Me in the day of trouble; I shall rescue you, and you will honor Me."</p>
+          <cite>— Psalm 50:15</cite>
+        </blockquote>
+        <p>Come. Let's walk the road together. And let's meet the God who showed up.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="index.html">&larr; Table of Contents</a>
+          <a href="chapter-01.html">Chapter 1 &rarr;</a>
+        </div>
+        <p class="copyright">The God Who Showed Up &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(val) {
+      if (val) window.location.href = val;
+    }
+
+    var PROGRESS_KEY = 'theGodWhoShowedUp_progress';
+    var CH_NUM = 0;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var key = 'ch' + CH_NUM;
+      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      if (CH_NUM === 0) return;
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (p['ch' + CH_NUM] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('span:last-child').textContent = 'Chapter Complete';
+      } else {
+        btn.classList.remove('done');
+        btn.querySelector('span:last-child').textContent = 'Mark Chapter Complete';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        var prev = document.querySelector('.footer-nav a:first-child');
+        if (prev) prev.click();
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next) next.click();
+      }
+    });
+  </script>
+  <script src="/nm-beacon.js" defer></script>
+</body>
+</html>
