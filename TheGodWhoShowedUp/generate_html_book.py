@@ -32,7 +32,7 @@ CHAPTERS = [
         "title": "What\u2019s In A Name?",
         "part": None,
         "skip_header_lines": 7,  # Skip title/author/copyright block
-        "start_after": "## Introduction: What\u2019s In A Name?",
+        "start_after": "## Introduction: What's In A Name?",
     },
     {
         "md": "TheGodWhoShowedUp_Chapter1.md",
