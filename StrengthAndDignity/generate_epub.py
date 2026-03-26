@@ -410,7 +410,7 @@ def main():
     book.add_item(copyright_page)
 
     # Build chapters
-    spine = ["nav", title_page, copyright_page]
+    spine = [title_page, copyright_page, "nav"]
     toc = []
     chapter_items = []
 

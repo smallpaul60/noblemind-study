@@ -218,7 +218,7 @@ def main():
     copyright_page.add_item(css)
     book.add_item(copyright_page)
 
-    spine = ["nav", title_page, copyright_page]
+    spine = [title_page, copyright_page, "nav"]
     toc = []
     chapter_items = []
     current_part_num = 0
