@@ -24,6 +24,31 @@ You have to get up and go. Because the road of recovery is not walked by standin
 
 •  •  •
 
+Scripture gave this principle a face long before Freddie did.
+
+In Genesis 39, Joseph — a young man in a foreign land, a slave in Potiphar's household, with every reason to feel abandoned by God — faced a daily assault on his resolve. Potiphar's wife looked at him with desire and said, "Lie with me." Day after day she pressed him. Day after day he refused. But the day came when she did not merely ask — she grabbed his garment and demanded.
+
+Joseph did not negotiate. He did not explain himself. He did not test his resolve by lingering in the conversation. Genesis 39:12 says he "left his garment in her hand and fled, and went outside." He left his coat behind. He did not stop to collect his things. He ran.
+
+That is "get up and go" — in Scripture, two thousand years before Freddie said it.
+
+But notice something the text does not say. It does not say Joseph decided in that moment to flee. The decision had already been made. Verse 9 tells you when it was made — before the moment of crisis, when Joseph said: "How then could I do this great evil and sin against God?" Joseph had already established in his mind what he would do if the pressure became physical. When the moment came, there was no deliberation. There was only the door.
+
+That is what the long road requires. The decision to flee must be made *before* the corner is turned, *before* the phone rings, *before* the old companion appears. If you wait until the moment to decide, the moment will decide for you.
+
+The apostle Paul put it as a command: "Now flee from youthful lusts and pursue righteousness, faith, love and peace, with those who call on the Lord from a pure heart" (2 Timothy 2:22). The word is *pheugo* — flee, run, escape. Not *resist*. Not *endure*. Not *manage*. Flee. And notice what Paul places immediately after the fleeing: *pursue*. You run *from* something and *to* something. And you do it *with those who call on the Lord*. The fleeing is not into isolation. It is into the company of people who are running in the same direction.
+
+Daniel's three friends understood this same principle — from the other side. When King Nebuchadnezzar commanded all the people of Babylon to fall down and worship the golden image he had built, Shadrach, Meshach, and Abed-nego did not bow. The king was furious. He offered them a second chance. And their answer should stop every person on the long road in their tracks:
+
+*"O Nebuchadnezzar, we do not need to give you an answer concerning this matter. If it be so, our God whom we serve is able to deliver us from the furnace of blazing fire; and He will deliver us out of your hand, O king. But even if He does not, let it be known to you, O king, that we are not going to serve your gods or worship the golden image that you have set up."*
+— Daniel 3:16-18
+
+"We do not need to give you an answer concerning this matter." They did not need time to think. They did not need to weigh the options. The king of the most powerful empire on earth was standing in front of them offering one more chance — and they said, in effect, *this was decided before we walked into this room.*
+
+Joseph shows you what it looks like to flee. The three Hebrew men show you what it looks like to stand. Both had the same thing in common: the decision was made before the moment arrived. And that is the difference between the person who survives the long road and the person who does not. It is not willpower in the moment. It is the mind already changed, the gaze already fixed, the answer already settled — so that when the fire is heated seven times hotter, you already know what you are going to do.
+
+•  •  •
+
 But Freddie's wisdom — as practical and necessary as it is — addresses only half of the problem. Leaving the old environment is necessary. It is not sufficient.
 
 Jesus told a parable that every person in recovery needs to hear. In Matthew 12, He described an unclean spirit that goes out of a man, wanders through waterless places seeking rest, and does not find it. So it says, "I will return to my house from which I came." And when it arrives:

@@ -46,44 +46,44 @@ CHAPTERS = [
     },
     {
         "num": 4,
-        "title": "All of the Imprisoned Aren&rsquo;t in Prison",
-        "subtitle": "The walls that shame builds are thicker than concrete.",
+        "title": "All of the Imprisoned Are Not in Prison",
+        "subtitle": "Not every prison has walls you can see.",
         "file": "chapter04_imprisoned.md",
     },
     {
         "num": 5,
         "title": "Love That Says No",
-        "subtitle": None,
+        "subtitle": "What if helping is the very thing that is hurting them?",
         "file": "chapter05_love_that_says_no.md",
     },
     {
         "num": 6,
-        "title": "Think",
-        "subtitle": None,
+        "title": "THINK!",
+        "subtitle": "Think. Think. Think.",
         "file": "chapter06_think.md",
     },
     {
         "num": 7,
         "title": "Coming to Himself",
-        "subtitle": None,
+        "subtitle": "True repentance has feet.",
         "file": "chapter07_coming_to_himself.md",
     },
     {
         "num": 8,
         "title": "The Father Ran",
-        "subtitle": None,
+        "subtitle": "He did not wait for the speech.",
         "file": "chapter08_the_father_ran.md",
     },
     {
         "num": 9,
         "title": "The Long Road",
-        "subtitle": None,
+        "subtitle": "Recovery is not a moment. It is a road made of mornings.",
         "file": "chapter09_the_long_road.md",
     },
     {
         "num": 10,
         "title": "The God Who Finds You",
-        "subtitle": None,
+        "subtitle": "Come to Me, all who are weary and heavy-laden.",
         "file": "chapter10_the_god_who_finds_you.md",
     },
 ]
@@ -1046,6 +1046,69 @@ def generate_index_html():
       border-radius: 4px;
       transition: width 0.5s ease;
     }}
+    .front-matter {{
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }}
+    .front-matter .section-header h2 {{
+      font-size: 1.3rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-bottom: 14px;
+    }}
+    .fm-card {{
+      display: block;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid rgba({ACCENT_SECONDARY_RGB}, 0.15);
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all 0.3s;
+      cursor: pointer;
+    }}
+    .fm-card:hover {{
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 15px var(--accent-secondary-glow);
+      transform: translateY(-2px);
+    }}
+    .fm-card-title {{
+      color: var(--accent-secondary);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }}
+    .fm-card-preview {{
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-style: italic;
+      margin-top: 4px;
+    }}
+    .fm-content {{
+      display: none;
+      padding: 18px 20px;
+      margin-top: -1px;
+      margin-bottom: 10px;
+      background: rgba(0,0,0,0.15);
+      border: 1px solid rgba({ACCENT_SECONDARY_RGB}, 0.1);
+      border-radius: 0 0 10px 10px;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }}
+    .fm-content.open {{ display: block; }}
+    .fm-card.open {{
+      border-radius: 10px 10px 0 0;
+      border-bottom-color: transparent;
+    }}
+    .fm-content p {{ margin-bottom: 10px; }}
+    .fm-content h3 {{
+      color: var(--text-primary);
+      font-size: 1rem;
+      margin: 14px 0 6px;
+    }}
+    .fm-content h3:first-child {{ margin-top: 0; }}
     .chapter-section {{
       margin-bottom: 32px;
       position: relative;
@@ -1149,7 +1212,8 @@ def generate_index_html():
 
       <header>
         <h1>{BOOK_TITLE}</h1>
-        <p class="subtitle">If you change a person&rsquo;s mind, you change everything about them.</p>
+        <p class="subtitle">&ldquo;If you change a person&rsquo;s mind, you change everything about them.&rdquo;</p>
+        <p class="author" style="font-size: 0.85rem; margin-bottom: 8px;">&mdash; Freddie Anderson</p>
         <p class="author">{AUTHOR}</p>
         <p class="stats">
           <span>{TOTAL_CHAPTERS}</span> Chapters
@@ -1167,6 +1231,51 @@ def generate_index_html():
           <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
         </div>
       </div>
+
+      <section class="front-matter">
+        <div class="section-header">
+          <h2>Front Matter</h2>
+        </div>
+
+        <div class="fm-card" onclick="toggleFM('dedication')">
+          <span class="fm-card-title">Dedication</span>
+          <div class="fm-card-preview">To Freddie Anderson &mdash; the preacher who never answered a question without opening the Bible first.</div>
+        </div>
+        <div class="fm-content" id="dedication">
+          <p><em>To Freddie Anderson &mdash; the preacher who never answered a question without opening the Bible first.</em></p>
+          <p>When I had spent years trying to fill the emptiness with everything but God &mdash; self-help books, the wisdom of man, my own reasoning &mdash; it was Freddie who showed me something I had never seen before. Not a system. Not a tradition. A method: <em>&ldquo;That&rsquo;s a good question &mdash; let&rsquo;s see what the Bible says about it.&rdquo;</em></p>
+          <p>And then he would actually let the Bible answer.</p>
+          <p>He taught me how to think. How to read a passage and let it speak for itself. How to recognize error &mdash; not by memorizing someone else&rsquo;s arguments, but by knowing the text well enough to see where the teaching departed from it. He taught me that if you change a person&rsquo;s mind, you change everything about them &mdash; and if you don&rsquo;t change their mind, you change nothing about them.</p>
+          <p>That principle &mdash; <em>change the mind, change the man</em> &mdash; is not just the title of this book. It is the story of my life.</p>
+          <p>This book exists because God put Freddie Anderson in my path. And while God could have used anyone, He used him. And I am grateful.</p>
+        </div>
+
+        <div class="fm-card" onclick="toggleFM('authors-disclaimer')">
+          <span class="fm-card-title">Author&rsquo;s Disclaimer</span>
+          <div class="fm-card-preview">What this book is &mdash; and what it is not.</div>
+        </div>
+        <div class="fm-content" id="authors-disclaimer">
+          <h3>What This Book Is Not</h3>
+          <p>The author holds no degree in clinical psychology, no formal psychological training, and makes no claims of such. This is not a book of psychological principles. Neither is it a book of platitudes or clich&eacute;s. We don&rsquo;t flinch when it comes to the hard questions, and we don&rsquo;t offer easy answers where honest ones are needed.</p>
+          <h3>What This Book Is</h3>
+          <p>This is a straightforward examination of what God&rsquo;s Word has to say about faith, hope, and love &mdash; and about overcoming the trials and temptations that come in many forms &mdash; applied directly to the reality of addiction and its aftermath.</p>
+          <p>It is also, where it serves as necessary background, about my own personal journey through addiction and the devastating consequences it brings &mdash; not only to the addict&rsquo;s family, but to every life it touches.</p>
+          <p>It is about traveling <em>through the valley</em> &mdash; for everyone involved &mdash; and the realization that the Shepherd is already there, walking with you. And that <em>&ldquo;through&rdquo;</em> does not mean <em>&ldquo;stuck.&rdquo;</em> There is an opening at the other end.</p>
+          <p>So whether you are the one struggling with addiction, a family member, a friend, or perhaps even a victim of another person&rsquo;s choices &mdash; it is my hope and prayer that this journey through Scripture will give you real answers. And that maybe, just maybe, there will come understanding, forgiveness, and restoration.</p>
+        </div>
+
+        <div class="fm-card" onclick="toggleFM('legal-disclaimer')">
+          <span class="fm-card-title">Legal Disclaimer</span>
+          <div class="fm-card-preview">Important information about the nature of this book&rsquo;s content.</div>
+        </div>
+        <div class="fm-content" id="legal-disclaimer">
+          <p>The information contained in this book is provided for spiritual encouragement and biblical study purposes only. It is not intended as a substitute for professional medical advice, clinical diagnosis, psychological counseling, or any form of licensed treatment for substance abuse, addiction, or mental health conditions.</p>
+          <p>The author is not a licensed physician, psychologist, psychiatrist, counselor, therapist, or clinical treatment provider. Nothing in this book should be construed as medical advice, psychological advice, or a recommendation to delay, discontinue, or forgo professional treatment of any kind.</p>
+          <p>If you or someone you know is struggling with addiction, substance abuse, or a mental health crisis, please seek the help of a qualified medical or mental health professional immediately. In the event of a medical emergency, contact your local emergency services or call 911.</p>
+          <p>The personal experiences shared in this book reflect one individual&rsquo;s journey and are not presented as representative of all experiences with addiction or recovery. Individual results and circumstances vary, and no specific outcome is promised or guaranteed.</p>
+          <p>Scripture quotations are taken from the New American Standard Bible&reg; (NASB), Copyright &copy; 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation. Used by permission. All rights reserved. (www.lockman.org)</p>
+        </div>
+      </section>
 
       <section class="chapter-section">
         <div class="section-header">
@@ -1209,6 +1318,20 @@ def generate_index_html():
       }}
       document.getElementById('progress-text').textContent = complete + ' / ' + TOTAL_CHAPTERS + ' chapters';
       document.getElementById('progress-fill').style.width = (complete / TOTAL_CHAPTERS * 100) + '%';
+    }}
+
+    function toggleFM(id) {{
+      var content = document.getElementById(id);
+      var card = content.previousElementSibling;
+      var isOpen = content.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.fm-content').forEach(function(el) {{ el.classList.remove('open'); }});
+      document.querySelectorAll('.fm-card').forEach(function(el) {{ el.classList.remove('open'); }});
+      // Open this one if it was closed
+      if (!isOpen) {{
+        content.classList.add('open');
+        card.classList.add('open');
+      }}
     }}
 
     document.addEventListener('DOMContentLoaded', function() {{

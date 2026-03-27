@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NobleMind Press — Book Configuration Generator</title>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --bg-card: rgba(10, 17, 40, 0.96);
+      --text: #f0ece4;
+      --text-muted: #708898;
+      --accent: #06FFA5;
+      --accent-glow: rgba(6, 255, 165, 0.3);
+      --border: #2a2a2a;
+      --input-bg: rgba(0,0,0,0.3);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 30px 20px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 2.5rem;
+      border: 1px solid var(--border);
+    }
+    h1 {
+      color: var(--accent);
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+    h2 {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin: 2rem 0 1rem;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(6,255,165,0.2);
+    }
+    .field {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      color: var(--text);
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .row-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1rem;
+    }
+    .optional-section {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(0,0,0,0.15);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .optional-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+    }
+    .optional-header input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .optional-header label {
+      margin: 0;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .optional-content {
+      display: none;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .optional-content.show { display: block; }
+    .hint {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+    /* Chapters */
+    #chapters-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .chapter-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 1fr 1fr 30px;
+      gap: 8px;
+      align-items: center;
+    }
+    .chapter-row .ch-num {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    .chapter-row input {
+      padding: 8px 10px;
+      font-size: 0.85rem;
+    }
+    .remove-ch {
+      background: none;
+      border: none;
+      color: #ff6b6b;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .remove-ch:hover { color: #ff4444; }
+    .add-chapter-btn, .generate-btn, .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .add-chapter-btn {
+      background: rgba(6,255,165,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(6,255,165,0.3);
+      margin-top: 8px;
+    }
+    .add-chapter-btn:hover {
+      background: rgba(6,255,165,0.2);
+    }
+    .generate-btn {
+      background: linear-gradient(135deg, var(--accent), #22c55e);
+      color: #020617;
+      margin-top: 2rem;
+      padding: 14px 30px;
+      font-size: 1.05rem;
+    }
+    .generate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+    .copy-btn {
+      background: rgba(94,229,255,0.1);
+      color: #5ee5ff;
+      border: 1px solid rgba(94,229,255,0.3);
+      margin-top: 8px;
+    }
+    .copy-btn:hover {
+      background: rgba(94,229,255,0.2);
+    }
+    .output-section {
+      display: none;
+      margin-top: 2rem;
+    }
+    .output-section.show { display: block; }
+    .output-section h2 { color: #5ee5ff; }
+    #output-preview {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      color: var(--text);
+      max-height: 500px;
+      overflow-y: auto;
+      line-height: 1.5;
+    }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 600px) {
+      body { padding: 10px 8px; }
+      .container { padding: 1.5rem 1rem; }
+      .row, .row-3 { grid-template-columns: 1fr; }
+      .chapter-row { grid-template-columns: 30px 1fr 30px; }
+      .chapter-row input:nth-child(3),
+      .chapter-row input:nth-child(4) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Book Configuration Generator</h1>
+    <p class="subtitle">NobleMind Press — Fill out the form and generate a config file</p>
+
+    <!-- METADATA -->
+    <h2>Book Metadata</h2>
+    <div class="row">
+      <div class="field">
+        <label>Title *</label>
+        <input type="text" id="title" placeholder="Your Name Means Everything">
+      </div>
+      <div class="field">
+        <label>Subtitle</label>
+        <input type="text" id="subtitle" placeholder="A Good Name">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Author *</label>
+        <input type="text" id="author" placeholder="Paul Hainline">
+      </div>
+      <div class="field">
+        <label>Copyright Year *</label>
+        <input type="text" id="copyright-year" placeholder="2026">
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>ISBN Paperback</label>
+        <input type="text" id="isbn-pb" placeholder="979-8-9954288-0-0">
+      </div>
+      <div class="field">
+        <label>ISBN Hardcover</label>
+        <input type="text" id="isbn-hc" placeholder="979-8-9954288-1-7">
+      </div>
+    </div>
+    <div class="field">
+      <label>Book Directory Name *</label>
+      <input type="text" id="book-dir" placeholder="YourNameMeansEverything">
+      <p class="hint">The folder name under noblemind-study/ where the source files live</p>
+    </div>
+
+    <!-- FORMAT -->
+    <h2>Format</h2>
+    <div class="row-3">
+      <div class="field">
+        <label>Trim Size</label>
+        <select id="trim-size">
+          <option value="5.5x8.5" selected>5.5" x 8.5" (Digest)</option>
+          <option value="6x9">6" x 9"</option>
+          <option value="5x8">5" x 8"</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Paper</label>
+        <select id="paper">
+          <option value="cream" selected>Cream</option>
+          <option value="white">White</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Bible Translation</label>
+        <select id="translation">
+          <option value="NASB" selected>NASB</option>
+          <option value="KJV">KJV</option>
+          <option value="ESV">ESV</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- COVER DESIGN -->
+    <h2>Cover Design</h2>
+    <div class="row-3">
+      <div class="field">
+        <label>Background Color</label>
+        <input type="text" id="cover-bg" placeholder="#182030">
+      </div>
+      <div class="field">
+        <label>Text Color</label>
+        <input type="text" id="cover-text" placeholder="#C4A960">
+      </div>
+      <div class="field">
+        <label>Accent Color</label>
+        <input type="text" id="cover-accent" placeholder="#C4A960">
+      </div>
+    </div>
+    <div class="field">
+      <label>Front Cover Scripture Quote</label>
+      <input type="text" id="cover-front-quote" placeholder="The fear of the Lord is the beginning of wisdom...">
+    </div>
+    <div class="field">
+      <label>Front Cover Scripture Reference</label>
+      <input type="text" id="cover-front-ref" placeholder="Proverbs 9:10">
+    </div>
+    <div class="field">
+      <label>Back Cover Blurb</label>
+      <textarea id="cover-back-blurb" placeholder="The book description for the back cover..."></textarea>
+    </div>
+    <div class="field">
+      <label>Back Cover Scripture Quote</label>
+      <input type="text" id="cover-back-quote" placeholder="Choose for yourselves today whom you will serve...">
+    </div>
+    <div class="field">
+      <label>Back Cover Scripture Reference</label>
+      <input type="text" id="cover-back-ref" placeholder="Joshua 24:15">
+    </div>
+
+    <!-- FRONT MATTER -->
+    <h2>Front Matter</h2>
+    <p class="hint" style="margin-bottom: 1rem;">Check each section this book includes. Title Page, Copyright Page, and Table of Contents are always included.</p>
+
+    <div class="optional-section">
+      <div class="optional-header">
+        <input type="checkbox" id="has-dedication" onchange="toggleSection('dedication')">
+        <label for="has-dedication">Dedication</label>
+      </div>
+      <div class="optional-content" id="dedication-content">
+        <div class="field">
+          <label>Source File</label>
+          <input type="text" id="dedication-file" placeholder="dedication.md">
+        </div>
+        <div class="field">
+          <label>Dedication Text (or leave blank to read from file)</label>
+          <textarea id="dedication-text" placeholder="To Freddie Anderson..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="optional-section">
+      <div class="optional-header">
+        <input type="checkbox" id="has-authors-note" onchange="toggleSection('authors-note')">
+        <label for="has-authors-note">Author's Note / Disclaimer</label>
+      </div>
+      <div class="optional-content" id="authors-note-content">
+        <div class="field">
+          <label>Source File</label>
+          <input type="text" id="authors-note-file" placeholder="AUTHORS_DISCLAIMER.md">
+        </div>
+      </div>
+    </div>
+
+    <div class="optional-section">
+      <div class="optional-header">
+        <input type="checkbox" id="has-legal" onchange="toggleSection('legal')">
+        <label for="has-legal">Legal Disclaimer</label>
+      </div>
+      <div class="optional-content" id="legal-content">
+        <div class="field">
+          <label>Source File</label>
+          <input type="text" id="legal-file" placeholder="LEGAL_DISCLAIMER.md">
+        </div>
+      </div>
+    </div>
+
+    <div class="optional-section">
+      <div class="optional-header">
+        <input type="checkbox" id="has-introduction" onchange="toggleSection('introduction')">
+        <label for="has-introduction">Introduction</label>
+      </div>
+      <div class="optional-content" id="introduction-content">
+        <div class="field">
+          <label>Source File</label>
+          <input type="text" id="introduction-file" placeholder="introduction.html">
+        </div>
+        <div class="field">
+          <label>Introduction Title</label>
+          <input type="text" id="introduction-title" placeholder="Introduction">
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAPTERS -->
+    <h2>Chapters</h2>
+    <div id="chapters-list">
+      <div class="chapter-row">
+        <span class="ch-num">1</span>
+        <input type="text" placeholder="Source file (chapter01.md)" class="ch-file">
+        <input type="text" placeholder="Chapter title" class="ch-title">
+        <input type="text" placeholder="Subtitle (optional)" class="ch-subtitle">
+        <button class="remove-ch" onclick="removeChapter(this)" title="Remove">&times;</button>
+      </div>
+    </div>
+    <button class="add-chapter-btn" onclick="addChapter()">+ Add Chapter</button>
+
+    <!-- BACK MATTER -->
+    <h2>Back Matter</h2>
+
+    <div class="optional-section">
+      <div class="optional-header">
+        <input type="checkbox" id="has-conclusion" onchange="toggleSection('conclusion')">
+        <label for="has-conclusion">Conclusion</label>
+      </div>
+      <div class="optional-content" id="conclusion-content">
+        <div class="field">
+          <label>Source File</label>
+          <input type="text" id="conclusion-file" placeholder="conclusion.html">
+        </div>
+        <div class="field">
+          <label>Conclusion Title</label>
+          <input type="text" id="conclusion-title" placeholder="Conclusion">
+        </div>
+      </div>
+    </div>
+
+    <div class="optional-section">
+      <div class="optional-header">
+        <input type="checkbox" id="has-scripture-index" checked onchange="toggleSection('scripture-index')">
+        <label for="has-scripture-index">Scripture Index</label>
+      </div>
+      <div class="optional-content show" id="scripture-index-content">
+        <div class="field">
+          <label>Generation</label>
+          <select id="scripture-index-type">
+            <option value="auto" selected>Auto-generate from chapter content</option>
+            <option value="file">Use existing file</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- GENERATE -->
+    <div style="text-align: center;">
+      <button class="generate-btn" onclick="generateConfig()">Generate Configuration File</button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-section" id="output-section">
+      <h2>Generated Configuration</h2>
+      <pre id="output-preview"></pre>
+      <div class="btn-row">
+        <button class="copy-btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+        <button class="copy-btn" onclick="downloadFile()">Download as .md</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      var checkbox = document.getElementById('has-' + id);
+      var content = document.getElementById(id + '-content');
+      if (checkbox.checked) {
+        content.classList.add('show');
+      } else {
+        content.classList.remove('show');
+      }
+    }
+
+    function addChapter() {
+      var list = document.getElementById('chapters-list');
+      var rows = list.querySelectorAll('.chapter-row');
+      var num = rows.length + 1;
+      var row = document.createElement('div');
+      row.className = 'chapter-row';
+      row.innerHTML =
+        '<span class="ch-num">' + num + '</span>' +
+        '<input type="text" placeholder="Source file" class="ch-file">' +
+        '<input type="text" placeholder="Chapter title" class="ch-title">' +
+        '<input type="text" placeholder="Subtitle (optional)" class="ch-subtitle">' +
+        '<button class="remove-ch" onclick="removeChapter(this)" title="Remove">&times;</button>';
+      list.appendChild(row);
+    }
+
+    function removeChapter(btn) {
+      var list = document.getElementById('chapters-list');
+      if (list.querySelectorAll('.chapter-row').length > 1) {
+        btn.parentElement.remove();
+        renumberChapters();
+      }
+    }
+
+    function renumberChapters() {
+      var rows = document.querySelectorAll('#chapters-list .chapter-row');
+      rows.forEach(function(row, i) {
+        row.querySelector('.ch-num').textContent = i + 1;
+      });
+    }
+
+    function val(id) { return document.getElementById(id).value.trim(); }
+    function checked(id) { return document.getElementById(id).checked; }
+
+    function generateConfig() {
+      var lines = [];
+      lines.push('# Book Configuration — NobleMind Press');
+      lines.push('# Generated: ' + new Date().toISOString().split('T')[0]);
+      lines.push('');
+
+      // Metadata
+      lines.push('## Metadata');
+      lines.push('- Title: ' + val('title'));
+      if (val('subtitle')) lines.push('- Subtitle: ' + val('subtitle'));
+      lines.push('- Author: ' + val('author'));
+      lines.push('- Publisher: NobleMind Press');
+      lines.push('- Copyright Year: ' + val('copyright-year'));
+      if (val('isbn-pb')) lines.push('- ISBN Paperback: ' + val('isbn-pb'));
+      if (val('isbn-hc')) lines.push('- ISBN Hardcover: ' + val('isbn-hc'));
+      lines.push('- Book Directory: ' + val('book-dir'));
+      lines.push('');
+
+      // Format
+      lines.push('## Format');
+      lines.push('- Trim Size: ' + val('trim-size'));
+      lines.push('- Paper: ' + val('paper'));
+      lines.push('- Translation: ' + val('translation'));
+      lines.push('- Font: EB Garamond');
+      lines.push('- Gutter Margin: 0.75in');
+      lines.push('- Outside Margin: 0.625in');
+      lines.push('- Top/Bottom Margin: 0.75in');
+      lines.push('');
+
+      // Cover
+      lines.push('## Cover Design');
+      if (val('cover-bg')) lines.push('- Background Color: ' + val('cover-bg'));
+      if (val('cover-text')) lines.push('- Text Color: ' + val('cover-text'));
+      if (val('cover-accent')) lines.push('- Accent Color: ' + val('cover-accent'));
+      if (val('cover-front-quote')) {
+        lines.push('- Front Scripture: "' + val('cover-front-quote') + '"');
+        lines.push('- Front Scripture Ref: ' + val('cover-front-ref'));
+      }
+      if (val('cover-back-blurb')) {
+        lines.push('- Back Blurb: |');
+        val('cover-back-blurb').split('\n').forEach(function(l) {
+          lines.push('    ' + l);
+        });
+      }
+      if (val('cover-back-quote')) {
+        lines.push('- Back Scripture: "' + val('cover-back-quote') + '"');
+        lines.push('- Back Scripture Ref: ' + val('cover-back-ref'));
+      }
+      lines.push('');
+
+      // Front Matter
+      lines.push('## Front Matter');
+      lines.push('1. Title Page (auto)');
+      lines.push('2. Copyright Page (auto)');
+      var fmNum = 3;
+      if (checked('has-dedication')) {
+        lines.push(fmNum + '. Dedication: ' + (val('dedication-file') || 'inline'));
+        if (val('dedication-text')) {
+          lines.push('   Text: |');
+          val('dedication-text').split('\n').forEach(function(l) {
+            lines.push('     ' + l);
+          });
+        }
+        fmNum++;
+      }
+      if (checked('has-authors-note')) {
+        lines.push(fmNum + '. Author\'s Note: ' + val('authors-note-file'));
+        fmNum++;
+      }
+      if (checked('has-legal')) {
+        lines.push(fmNum + '. Legal Disclaimer: ' + val('legal-file'));
+        fmNum++;
+      }
+      if (checked('has-introduction')) {
+        lines.push(fmNum + '. Introduction: ' + val('introduction-file') +
+          (val('introduction-title') ? ' | "' + val('introduction-title') + '"' : ''));
+        fmNum++;
+      }
+      lines.push(fmNum + '. Table of Contents (auto)');
+      lines.push('');
+
+      // Chapters
+      lines.push('## Chapters');
+      var rows = document.querySelectorAll('#chapters-list .chapter-row');
+      rows.forEach(function(row, i) {
+        var file = row.querySelector('.ch-file').value.trim();
+        var title = row.querySelector('.ch-title').value.trim();
+        var sub = row.querySelector('.ch-subtitle').value.trim();
+        var line = (i + 1) + '. ' + (file || 'chapter' + String(i+1).padStart(2,'0') + '.md');
+        if (title) line += ' | "' + title + '"';
+        if (sub) line += ' | "' + sub + '"';
+        lines.push(line);
+      });
+      lines.push('');
+
+      // Back Matter
+      lines.push('## Back Matter');
+      if (checked('has-conclusion')) {
+        lines.push('- Conclusion: ' + val('conclusion-file') +
+          (val('conclusion-title') ? ' | "' + val('conclusion-title') + '"' : ''));
+      }
+      if (checked('has-scripture-index')) {
+        lines.push('- Scripture Index: ' + val('scripture-index-type'));
+      }
+      lines.push('');
+
+      // Notes
+      lines.push('## Notes');
+      lines.push('- All chapters start on recto (right-hand, odd) pages');
+      lines.push('- Page numbers: alternating left/right, starting after front matter');
+      lines.push('- NASB permission from The Lockman Foundation required');
+
+      var output = lines.join('\n');
+      document.getElementById('output-preview').textContent = output;
+      document.getElementById('output-section').classList.add('show');
+      document.getElementById('output-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyToClipboard() {
+      var text = document.getElementById('output-preview').textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = document.querySelector('.copy-btn');
+        var orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    function downloadFile() {
+      var text = document.getElementById('output-preview').textContent;
+      var dir = val('book-dir') || 'book';
+      var blob = new Blob([text], { type: 'text/markdown' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = dir + '_config.md';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+  </script>
+</body>
+</html>

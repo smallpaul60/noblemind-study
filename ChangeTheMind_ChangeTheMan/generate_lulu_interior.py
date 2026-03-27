@@ -26,14 +26,18 @@ CHAPTERS = [
      "How the mind turns \u2014 one step at a time."),
     ("chapter03_where_did_we_go_wrong.md", "Chapter 3", "Where Did We Go Wrong?",
      "The question that keeps the family awake \u2014 and the answer no one wants to hear."),
-    ("chapter04_imprisoned.md", "Chapter 4", "All of the Imprisoned Aren\u2019t in Prison",
-     "The walls that shame builds are thicker than concrete."),
-    ("chapter05_love_that_says_no.md", "Chapter 5", "Love That Says No", None),
-    ("chapter06_think.md", "Chapter 6", "Think", None),
-    ("chapter07_coming_to_himself.md", "Chapter 7", "Coming to Himself", None),
-    ("chapter08_the_father_ran.md", "Chapter 8", "The Father Ran", None),
-    ("chapter09_the_long_road.md", "Chapter 9", "The Long Road", None),
-    ("chapter10_the_god_who_finds_you.md", "Chapter 10", "The God Who Finds You", None),
+    ("chapter04_imprisoned.md", "Chapter 4", "All of the Imprisoned Are Not in Prison",
+     "Not every prison has walls you can see."),
+    ("chapter05_love_that_says_no.md", "Chapter 5", "Love That Says No",
+     "What if helping is the very thing that is hurting them?"),
+    ("chapter06_think.md", "Chapter 6", "THINK!", "Think. Think. Think."),
+    ("chapter07_coming_to_himself.md", "Chapter 7", "Coming to Himself", "True repentance has feet."),
+    ("chapter08_the_father_ran.md", "Chapter 8", "The Father Ran",
+     "He did not wait for the speech."),
+    ("chapter09_the_long_road.md", "Chapter 9", "The Long Road",
+     "Recovery is not a moment. It is a road made of mornings."),
+    ("chapter10_the_god_who_finds_you.md", "Chapter 10", "The God Who Finds You",
+     "Come to Me, all who are weary and heavy-laden."),
 ]
 
 
@@ -853,6 +857,8 @@ def build_full_html(chapter_sections, toc_html, scripture_index_html, dedication
   <!-- TITLE PAGE (page 1, recto) -->
   <div class="title-page">
     <h1>Change the Mind,<br>Change the Man</h1>
+    <p class="inspired-by" style="margin-top: 0.3in; font-style: italic;">\u201cIf you change a person\u2019s mind, you change everything about them.\u201d</p>
+    <p class="inspired-by">\u2014 Freddie Anderson</p>
     <p class="author">Paul Hainline</p>
     <p class="inspired-by">Inspired by the teaching of Freddie Anderson</p>
   </div>
