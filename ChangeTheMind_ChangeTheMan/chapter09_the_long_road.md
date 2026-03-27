@@ -49,7 +49,7 @@ Joseph shows you what it looks like to flee. The three Hebrew men show you what 
 
 •  •  •
 
-But Freddie's wisdom — as practical and necessary as it is — addresses only half of the problem. Leaving the old environment is necessary. It is not sufficient.
+But Freddie also knew that "get up and go" was only half of the solution. He also taught the second half: you cannot leave a house empty. You have to fill it.
 
 Jesus told a parable that every person in recovery needs to hear. In Matthew 12, He described an unclean spirit that goes out of a man, wanders through waterless places seeking rest, and does not find it. So it says, "I will return to my house from which I came." And when it arrives:
 
