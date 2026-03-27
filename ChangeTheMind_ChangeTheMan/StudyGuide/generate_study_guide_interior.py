@@ -729,7 +729,7 @@ def build_full_html(toc_html, how_to_use_html, body_sections_html):
   <!-- TITLE PAGE (page 1, recto) -->
   <div class="title-page">
     <h1>Change the Mind,<br>Change the Man</h1>
-    <p class="subtitle">A Ten-Week Scripture Study Guide</p>
+    <p class="subtitle">A Scriptural Study Guide</p>
     <p class="audience">For Use with Prison Ministries, Reentry Programs,<br>
     Congregational Studies, and Families</p>
     <p class="author">Paul Hainline</p>
@@ -737,7 +737,7 @@ def build_full_html(toc_html, how_to_use_html, body_sections_html):
 
   <!-- COPYRIGHT PAGE (page 2, verso) -->
   <div class="copyright-page">
-    <p><em>Change the Mind, Change the Man: A Ten-Week Scripture Study Guide</em></p>
+    <p><em>Change the Mind, Change the Man: A Scriptural Study Guide</em></p>
     <p>Copyright \u00a9 2026 Paul Hainline</p>
     <p>All rights reserved.</p>
     <p style="margin-top: 0.15in;">Scripture quotations taken from the (NASB\u00ae)<br>

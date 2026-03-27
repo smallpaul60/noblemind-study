@@ -120,7 +120,7 @@ def draw_front_cover(c):
     # Subtitle — italic, cream
     c.setFillColor(CREAM)
     c.setFont("EBGaramond-Italic", 16)
-    c.drawCentredString(cx, TRIM_TOP - 4.35 * inch, "A Ten-Week Scripture Study Guide")
+    c.drawCentredString(cx, TRIM_TOP - 4.35 * inch, "A Scriptural Study Guide")
 
     # Audience line — smaller, cream
     c.setFont("EBGaramond-Italic", 10.5)
