@@ -740,6 +740,7 @@ def build_full_html(toc_html, how_to_use_html, body_sections_html):
     <p><em>Change the Mind, Change the Man: A Scriptural Study Guide</em></p>
     <p>Copyright \u00a9 2026 Paul Hainline</p>
     <p>All rights reserved.</p>
+    <p style="margin-top: 0.15in;">ISBN 979-8-9954288-6-2</p>
     <p style="margin-top: 0.15in;">Scripture quotations taken from the (NASB\u00ae)<br>
     New American Standard Bible\u00ae,<br>
     Copyright \u00a9 1960, 1971, 1977, 1995, 2020<br>
