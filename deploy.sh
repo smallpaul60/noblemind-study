@@ -22,6 +22,7 @@ rsync -avz --delete --chmod=D755,F644 \
   --exclude='*.py' \
   --exclude='PRINCIPLES.md' \
   --exclude='console/' \
+  --exclude='ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""
