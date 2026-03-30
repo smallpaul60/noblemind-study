@@ -129,7 +129,7 @@ And the action matters. Paul the apostle explained exactly what baptism is:
 *"Or do you not know that all of us who have been baptized into Christ Jesus have been baptized into His death? Therefore we have been buried with Him through baptism into death, so that as Christ was raised from the dead through the glory of the Father, so we too might walk in newness of life."*
 — Romans 6:3-4
 
-Buried with Him. Raised with Him. Baptism is a death, burial, and resurrection — the old man goes under the water, and the new man comes up. The old life is buried. The new life begins. This is not symbolism disconnected from reality. This is the moment of transfer — the moment a person moves from outside of Christ to inside of Christ, from death to life, from the domain of sin to the domain of grace.
+Buried with Him. Raised with Him. Baptism is a death, burial, and resurrection — the old man goes under the water, and the new man comes up. The old life is buried. The new life begins. This is not symbolism disconnected from reality. This is the moment of transfer — the moment a person moves from outside of Christ to inside of Christ, from death to life, from what Paul called "the domain of darkness" into "the kingdom of His beloved Son" (Colossians 1:13).
 
 And Ananias, when he came to Saul of Tarsus — the very man who would become the apostle Paul, the man who would write Romans and Galatians and Ephesians and Philippians and Colossians and every letter we have traced through this entire book — Ananias said to him:
 
