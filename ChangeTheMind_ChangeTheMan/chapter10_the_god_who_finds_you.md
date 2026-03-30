@@ -180,7 +180,7 @@ Do not let that be your story.
 
 I know what I am asking. I know it because I have lived it.
 
-I was introduced to drugs at fourteen years old. I was arrested for robbery and murder at seventeen. I served thirty-three years in prison. I tried self-help books. I tried the wisdom of man. I tried to convince myself that God was not real, and I nearly succeeded — until the still, small voice in the back of my mind would not stop asking: "Are you sure about that?"
+I was introduced to drugs at thirteen years old. I was arrested for robbery and murder at seventeen. I served thirty-three years in prison. I tried self-help books. I tried the wisdom of man. I tried to convince myself that God was not real, and I nearly succeeded — until the still, small voice in the back of my mind would not stop asking: "Are you sure about that?"
 
 I was not sure. I had never been sure. And when I finally stopped running from what I had always known — when I came to myself, like the prodigal in the pig field — I realized that the foundation my parents had laid, the truth I had been taught as a child, the gospel I had heard and known and turned away from — it was still there. Waiting. The God I had ignored had not moved. He was exactly where He had always been.
 

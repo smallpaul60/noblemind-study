@@ -14,7 +14,7 @@
 
 *Change the Mind, Change the Man* is a 10-chapter book about addiction, recovery, and the power of Scripture to do what no program, no willpower, and no change of circumstance can do on its own: change the mind.
 
-The book is written by a man who was introduced to drugs at fourteen, arrested for robbery and murder at seventeen, and sentenced to life in prison — who served thirty-three years and found his way through the valley, not around it, by the grace of God and the honest study of His Word.
+The book is written by a man who was introduced to drugs at thirteen, arrested for robbery and murder at seventeen, and sentenced to life in prison — who served thirty-three years and found his way through the valley, not around it, by the grace of God and the honest study of His Word.
 
 It is written *for* the addict. It is written *for* the family — the mother who asks "Where did we go wrong?", the father who cannot sleep, the spouse who smiles on Sunday and falls apart on Monday, the child who heard the crying through the wall. It is written for the friend, the preacher, the counselor, the person who picked up this book because someone they love is in trouble and they don't know what to do.
 
@@ -59,7 +59,7 @@ The book's central thesis — *change the mind, change the man* — comes from t
 ### Chapter 1: The Phone Call
 *The moment everything splits into before and after.*
 
-Opens with the universal experience of the family's dreaded phone call — the hospital, the police officer, the text that says "call me now." Establishes that the book speaks to both the addict and the family, and introduces the author's own story (drugs at 14, arrested at 17, 33 years served). Grounds the entire book in Psalm 23:4 and the word *through* — the valley is real, the shadow is real, but the valley has an exit, and the Shepherd is already there.
+Opens with the universal experience of the family's dreaded phone call — the hospital, the police officer, the text that says "call me now." Establishes that the book speaks to both the addict and the family, and introduces the author's own story (drugs at 13, arrested at 17, 33 years served). Grounds the entire book in Psalm 23:4 and the word *through* — the valley is real, the shadow is real, but the valley has an exit, and the Shepherd is already there.
 
 ### Chapter 2: The Progression
 *How the mind turns — one step at a time.*

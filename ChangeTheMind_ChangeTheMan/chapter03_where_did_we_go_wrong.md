@@ -96,7 +96,7 @@ I can say this with the weight of my own life behind it: my parents did not fail
 
 I went to a private church school for nine years. I was raised in a home where God was honored, where the Bible was present, where my parents took me to worship and taught me the difference between right and wrong. They laid the foundation. They did the work. They gave me every advantage a child could have in knowing God and knowing His word.
 
-And I still said yes at fourteen.
+And I still said yes at thirteen.
 
 That was not their failure. That was my choice. A foolish, reckless, devastating choice made by a boy who had been given every reason to choose differently and chose anyway. My parents did not put the drugs in my hand. My parents did not choose my companions. My parents did not make the decisions that followed — the lying, the stealing, the escalation, the things that put me in prison. I did those things. Every one of them. And the guilt for every one of them is mine.
 

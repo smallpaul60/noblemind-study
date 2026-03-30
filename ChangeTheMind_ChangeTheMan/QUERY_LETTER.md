@@ -8,7 +8,7 @@ Dear [Agent Name],
 
 I am seeking representation for *Change the Mind, Change the Man*, a 45,000-word Christian nonfiction book about addiction, recovery, and the turning of the mind — written for the one who is struggling and the family that carries the weight.
 
-I was introduced to drugs at fourteen years old. By seventeen, the progression had taken me to places I never imagined I would go — I was convicted of robbery and murder and sentenced to life in prison. I served thirty-three years before parole was granted. I am sixty-five years old as I write this.
+I was introduced to drugs at thirteen years old. By seventeen, the progression had taken me to places I never imagined I would go — I was arrested for robbery and murder and sentenced to life in prison. I served thirty-three years before parole was granted. I am sixty-five years old as I write this.
 
 This book is not a clinical guide. It is a careful, honest walk through Scripture by a man who has lived every chapter of it. Beginning with "The Phone Call" — the moment a family's world splits into before and after — the book traces the anatomy of addiction through James 1:14-15, walks the family through the guilt of "Where did we go wrong?", examines the prisons that shame builds around everyone involved, confronts the hardest thing a family ever does (loving someone enough to stop rescuing them), and arrives at the central thesis that changed my life: if you change a person's mind, you change everything about them — and if you don't, you change nothing. That principle, taught to me by a preacher named Freddie Anderson, is the engine of this entire book. The Greek word for repentance — *metanoia* — is itself a word about the mind. God chose it for a reason.
 

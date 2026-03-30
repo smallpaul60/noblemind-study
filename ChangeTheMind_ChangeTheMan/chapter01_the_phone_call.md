@@ -68,7 +68,7 @@ And the question changes.
 
 That question is the family looking directly at the addict. And there is grief in it, yes, but there is also something else. Horror. Disbelief. The realization that the child you raised, the person you taught to tie their shoes and ride a bicycle and say their prayers at night, is capable of something you cannot comprehend. It is the shattering of an image — the image you carried of who that person was — and what replaces it is something you don't recognize.
 
-I need to tell you now, before this book goes any further, that I know this question from the inside. I was introduced to drugs at the age of fourteen. By seventeen, the progression had taken me to places I never imagined I would go. I was arrested for robbery and murder and sentenced to life in prison. I served thirty-three years before parole was granted. I am sixty-five years old as I write this.
+I need to tell you now, before this book goes any further, that I know this question from the inside. I was introduced to drugs at the age of thirteen. By seventeen, the progression had taken me to places I never imagined I would go. I was arrested for robbery and murder and sentenced to life in prison. I served thirty-three years before parole was granted. I am sixty-five years old as I write this.
 
 I am not writing from a distance. I am not writing from theory. I am writing as the person the phone call was about, and as the person who caused the question *"How could you?"* to be asked by people who loved me and whom I loved — and I had no answer for them.
 

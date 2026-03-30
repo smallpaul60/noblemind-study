@@ -10,9 +10,9 @@ That's the thing the family can't understand, and it's the thing the addict can'
 
 I know, because that's exactly how it happened to me.
 
-I was fourteen years old the first time someone offered me drugs. A friend. Not a stranger in an alley, not a dealer on a corner — a friend. Somebody I trusted, somebody I spent time with, somebody who made it seem like nothing. And I said yes.
+I was thirteen years old the first time someone offered me drugs. A friend. Not a stranger in an alley, not a dealer on a corner — a friend. Somebody I trusted, somebody I spent time with, somebody who made it seem like nothing. And I said yes.
 
-I've been asked why. I've asked myself why. And the honest answer is that I don't fully know. Maybe something was missing that I couldn't name at fourteen. Maybe the moral foundation my parents had laid wasn't deep enough yet to hold against the weight of wanting to belong. Maybe it was curiosity, or boredom, or the simple, stupid confidence of a teenager who believes consequences happen to other people. Probably a combination of all of it. I don't have a neat answer, and I've learned to distrust neat answers when it comes to this subject. If someone tells you they know exactly why they started, ask them again in ten years. The honest ones will tell you it's more complicated than they first thought.
+I've been asked why. I've asked myself why. And the honest answer is that I don't fully know. Maybe something was missing that I couldn't name at thirteen. Maybe the moral foundation my parents had laid wasn't deep enough yet to hold against the weight of wanting to belong. Maybe it was curiosity, or boredom, or the simple, stupid confidence of a teenager who believes consequences happen to other people. Probably a combination of all of it. I don't have a neat answer, and I've learned to distrust neat answers when it comes to this subject. If someone tells you they know exactly why they started, ask them again in ten years. The honest ones will tell you it's more complicated than they first thought.
 
 What I do know is what happened next. Because what happened next follows a pattern — and it is a pattern so predictable, so consistent, that the Bible described it thousands of years before anyone coined the term "addiction."
 
@@ -34,7 +34,7 @@ And the word behind "enticed" — *deleazomenos* — is a fishing term. It means
 
 James puts these two images side by side deliberately. Hunting and fishing. Drawn out and baited. The person in the grip of temptation is both the animal lured from safety and the fish closing its mouth on something that conceals a hook.
 
-That was me at fourteen. I was drawn out — out of the safety of the home my parents had built, out of the boundaries I'd been raised with — by something that looked like friendship, like excitement, like a door opening into a world I hadn't seen yet. And inside the bait was a hook I couldn't see. Nobody sees the hook. That's the entire point.
+That was me at thirteen. I was drawn out — out of the safety of the home my parents had built, out of the boundaries I'd been raised with — by something that looked like friendship, like excitement, like a door opening into a world I hadn't seen yet. And inside the bait was a hook I couldn't see. Nobody sees the hook. That's the entire point.
 
 But James doesn't stop there. Watch the next step:
 
@@ -52,7 +52,7 @@ I liked the effects. That's the plain truth. The first time was a choice; the se
 
 Conception. Birth. Maturity. Death. James described the entire arc of addiction in two verses. The first hit is the conception. The habit is the birth. The full-blown addiction — the one that has consumed your relationships, your honesty, your health, your freedom — that is sin accomplished, fully grown. And what it brings forth is death. Sometimes physical death. Always spiritual death. Always the death of *something* — trust, innocence, a family's peace, a future that will never exist now.
 
-I said yes at fourteen. By seventeen, sin was accomplished.
+I said yes at thirteen. By seventeen, sin was accomplished.
 
 •  •  •
 

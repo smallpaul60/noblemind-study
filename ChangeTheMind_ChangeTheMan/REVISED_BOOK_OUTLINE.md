@@ -51,7 +51,7 @@ Same core principles as *One Day Closer to Home*:
 
 ### Author's Position
 
-Paul speaks to the addict from lived experience: introduced to drugs at age 14, arrested for robbery and murder at 17, served 33 years in prison, now 65. He has walked the full progression — the first choice, the changed associations, the escalation, the consequences, the false starts at repentance, and the genuine turning that changed everything. He writes not from theory, not from a safe distance, but from the road itself.
+Paul speaks to the addict from lived experience: introduced to drugs at age 13, arrested for robbery and murder at 17, served 33 years in prison, now 65. He has walked the full progression — the first choice, the changed associations, the escalation, the consequences, the false starts at repentance, and the genuine turning that changed everything. He writes not from theory, not from a safe distance, but from the road itself.
 
 ---
 
