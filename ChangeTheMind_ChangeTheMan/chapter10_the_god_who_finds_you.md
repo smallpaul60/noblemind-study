@@ -155,7 +155,7 @@ The thief on the cross died while Jesus was still alive. And that matters — mo
 
 A will — a testament — does not go into effect while the person who made it is still living. You do not inherit under a will while the testator is alive. The New Testament — the new covenant, the new will — was not in force while Jesus lived. It went into effect at His death. The thief on the cross lived and died under the old covenant. Jesus, while He walked the earth, had authority to forgive sins directly (Matthew 9:6) — and He exercised that authority with the thief.
 
-But you and I do not live under the old covenant. We live under the new one. And the terms of the new covenant — belief, repentance, confession, baptism — are the terms Jesus Himself established, commanded, and sent His apostles into the world to preach. The thief is not your template. The thief lived in a different dispensation. Your template is Acts 2. Your template is Acts 22:16. Your template is Romans 6. Your question is the same question Ananias asked: Why do you delay?
+But you and I do not live under the old covenant. We live under the new one. And the terms of the new covenant — belief, repentance, confession, baptism — are the terms Jesus Himself established, commanded, and sent His apostles into the world to preach. The thief is not your template. The thief lived under a different covenant. Your template is Acts 2. Your template is Acts 22:16. Your template is Romans 6. Your question is the same question Ananias asked: Why do you delay?
 
 •  •  •
 
@@ -180,7 +180,7 @@ Do not let that be your story.
 
 I know what I am asking. I know it because I have lived it.
 
-I was introduced to drugs at fourteen years old. I was convicted of robbery and murder at seventeen. I served thirty-three years in prison. I tried self-help books. I tried the wisdom of man. I tried to convince myself that God was not real, and I nearly succeeded — until the still, small voice in the back of my mind would not stop asking: "Are you sure about that?"
+I was introduced to drugs at fourteen years old. I was arrested for robbery and murder at seventeen. I served thirty-three years in prison. I tried self-help books. I tried the wisdom of man. I tried to convince myself that God was not real, and I nearly succeeded — until the still, small voice in the back of my mind would not stop asking: "Are you sure about that?"
 
 I was not sure. I had never been sure. And when I finally stopped running from what I had always known — when I came to myself, like the prodigal in the pig field — I realized that the foundation my parents had laid, the truth I had been taught as a child, the gospel I had heard and known and turned away from — it was still there. Waiting. The God I had ignored had not moved. He was exactly where He had always been.
 

@@ -224,7 +224,7 @@ def draw_back_cover(c):
         (None, 0, ""),  # spacer
         ("EBGaramond", 10, "You have tried everything \u2014 the conversations, the ultimatums, the promises, the programs. You have lain awake at night asking questions that have no answers and praying prayers that feel like they hit the ceiling. You have watched addiction take a person you knew and replace him with someone you don\u2019t recognize. And you have wondered, more times than you can count, whether there is a way through this \u2014 or whether \u201cthrough\u201d is just a word people say when they don\u2019t know what else to offer."),
         (None, 0, ""),  # spacer
-        ("EBGaramond", 10, "This book was not written by a counselor, a clinician, or a theologian. It was written by a man who was introduced to drugs at fourteen, sentenced to life in prison at seventeen, and who spent the next three decades watching addiction destroy everything it touched \u2014 including himself."),
+        ("EBGaramond", 10, "This book was not written by a counselor, a clinician, or a theologian. It was written by a man who was introduced to drugs at fourteen, arrested at seventeen and sentenced to life in prison, and who spent the next three decades watching addiction destroy everything it touched \u2014 including himself."),
         (None, 0, ""),  # spacer
         ("EBGaramond", 10, "It is a straightforward examination of what God\u2019s Word says about how the mind turns away from God, how it turns back, and why the substance was never the real problem. The gaze was."),
         (None, 0, ""),  # spacer
@@ -295,7 +295,7 @@ def draw_back_flap(c):
     y -= 16
 
     paragraphs = [
-        "Paul was introduced to drugs at the age of fourteen. At seventeen, he was convicted of robbery and murder and sentenced to life in prison. He served thirty-three years before parole was granted.",
+        "Paul was introduced to drugs at the age of fourteen. At seventeen, he was arrested for robbery and murder and sentenced to life in prison. He served thirty-three years before parole was granted.",
         "",
         "During those years, he witnessed the full cycle of addiction \u2014 men who walked out of prison determined to go straight and fell within weeks, and men who walked out with no intention of changing at all. He tried self-help books, the wisdom of man, and spent years trying to convince himself that God was not real. None of it filled the void.",
         "",

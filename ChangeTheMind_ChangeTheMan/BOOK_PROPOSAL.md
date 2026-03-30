@@ -14,7 +14,7 @@
 
 *Change the Mind, Change the Man* is a 10-chapter book about addiction, recovery, and the power of Scripture to do what no program, no willpower, and no change of circumstance can do on its own: change the mind.
 
-The book is written by a man who was introduced to drugs at fourteen, convicted of robbery and murder at seventeen, and sentenced to life in prison — who served thirty-three years and found his way through the valley, not around it, by the grace of God and the honest study of His Word.
+The book is written by a man who was introduced to drugs at fourteen, arrested for robbery and murder at seventeen, and sentenced to life in prison — who served thirty-three years and found his way through the valley, not around it, by the grace of God and the honest study of His Word.
 
 It is written *for* the addict. It is written *for* the family — the mother who asks "Where did we go wrong?", the father who cannot sleep, the spouse who smiles on Sunday and falls apart on Monday, the child who heard the crying through the wall. It is written for the friend, the preacher, the counselor, the person who picked up this book because someone they love is in trouble and they don't know what to do.
 
@@ -59,7 +59,7 @@ The book's central thesis — *change the mind, change the man* — comes from t
 ### Chapter 1: The Phone Call
 *The moment everything splits into before and after.*
 
-Opens with the universal experience of the family's dreaded phone call — the hospital, the police officer, the text that says "call me now." Establishes that the book speaks to both the addict and the family, and introduces the author's own story (drugs at 14, life sentence at 17, 33 years served). Grounds the entire book in Psalm 23:4 and the word *through* — the valley is real, the shadow is real, but the valley has an exit, and the Shepherd is already there.
+Opens with the universal experience of the family's dreaded phone call — the hospital, the police officer, the text that says "call me now." Establishes that the book speaks to both the addict and the family, and introduces the author's own story (drugs at 14, arrested at 17, 33 years served). Grounds the entire book in Psalm 23:4 and the word *through* — the valley is real, the shadow is real, but the valley has an exit, and the Shepherd is already there.
 
 ### Chapter 2: The Progression
 *How the mind turns — one step at a time.*
@@ -71,8 +71,8 @@ Traces the anatomy of temptation through James 1:14-15 with detailed Greek word 
 
 Addresses the family's guilt directly. Opens with a mother's viral social media post written while driving her son to rehab. Examines the limits of parental responsibility through Ezekiel 18:20 ("The soul who sins will die. The son will not bear the punishment for the father's iniquity") and Deuteronomy 6:6-7. Confronts the hard truth: good parents can do everything right and still watch a child choose destruction — because every human being has free will, and free will is the most dangerous and most sacred thing God ever gave us.
 
-### Chapter 4: All of the Imprisoned Aren't in Prison
-*The walls that shame builds are thicker than concrete.*
+### Chapter 4: All of the Imprisoned Are Not in Prison
+*Not every prison has walls you can see.*
 
 Examines the prisons shame builds around the family — the silence, the isolation, the fear of judgment from the church and the community. Draws on the author's experience of literal imprisonment to illuminate the metaphorical imprisonment of the family. Grounds the discussion in Psalm 142 (David's cry from the cave), 2 Corinthians 1:3-4 (the God of all comfort), and the reality that shame thrives in silence and dies in the light.
 
