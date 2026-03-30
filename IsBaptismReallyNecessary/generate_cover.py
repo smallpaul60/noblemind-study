@@ -33,19 +33,14 @@ img = img.resize((TARGET_W, TARGET_H), Image.LANCZOS)
 
 draw = ImageDraw.Draw(img)
 
-# --- Dark gradient overlay at top for title ---
-for y in range(0, 700):
-    alpha = int(180 * (1 - y / 700) ** 1.5)
-    draw.line([(0, y), (TARGET_W, y)], fill=(10, 10, 15, alpha))
-
 # Need RGBA for proper overlay
 img = img.convert('RGBA')
 overlay = Image.new('RGBA', (TARGET_W, TARGET_H), (0, 0, 0, 0))
 overlay_draw = ImageDraw.Draw(overlay)
 
-# Top gradient for title
-for y in range(0, 750):
-    alpha = int(190 * (1 - y / 750) ** 1.8)
+# Top gradient for title — lighter so onlookers' heads stay visible
+for y in range(0, 600):
+    alpha = int(140 * (1 - y / 600) ** 2.0)
     overlay_draw.line([(0, y), (TARGET_W, y)], fill=(5, 5, 10, alpha))
 
 # Bottom gradient for author
