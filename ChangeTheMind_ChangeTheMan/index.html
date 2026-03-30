@@ -342,11 +342,18 @@
   <script>
 (function() {
   if (sessionStorage.getItem('ctm_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('ctm_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
   var p = prompt('This book is currently in review.\nPlease enter the access code:');
   if (p && p.toLowerCase().trim() === 'freddie') {
     sessionStorage.setItem('ctm_auth', 'granted');
+    sessionStorage.removeItem('ctm_attempts');
   } else {
-    document.body.innerHTML = '<div style="text-align:center;padding:100px 20px;color:#708898;font-family:Georgia,serif;"><h2 style="color:#3B9AE8;">Access Restricted</h2><p>This book is currently under review.<br>Please contact the author for access.</p></div>';
+    sessionStorage.setItem('ctm_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
   }
 })();
 </script>
