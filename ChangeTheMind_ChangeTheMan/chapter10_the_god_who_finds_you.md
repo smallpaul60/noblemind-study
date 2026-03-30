@@ -148,7 +148,7 @@ Why do you delay?
 
 I know what some are thinking, because I have heard it more times than I can count. "What about the thief on the cross? He was saved without baptism."
 
-The thief on the cross died while Jesus was still alive. And that matters — more than most people realize. The writer of Hebrews explains:
+The thief on the cross received his promise from Jesus while Jesus was still alive. And that matters — more than most people realize. The writer of Hebrews explains:
 
 *"For where a covenant is, there must of necessity be the death of the one who made it. For a covenant is valid only when men are dead, for it is never in force while the one who made it lives."*
 — Hebrews 9:16-17
