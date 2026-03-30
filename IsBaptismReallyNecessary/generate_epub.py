@@ -22,6 +22,11 @@ book.add_metadata('DC', 'description',
     'church did in every conversion, and honest answers to every '
     'common objection.')
 
+# Cover image
+with open('Is_Baptism_Really_Necessary_Cover.png', 'rb') as f:
+    cover_data = f.read()
+book.set_cover('cover.png', cover_data)
+
 # Stylesheet
 style = '''
 body {
