@@ -6,6 +6,10 @@ There is a question that has been asked in churches, Bible studies, and living r
 
 The answer is not complicated. But it does require honesty — the willingness to set aside what we have been taught by men and look at what the Scriptures actually say. Not what we want them to say. Not what we have always assumed they say. What they *actually* say.
 
+I know what I am asking. For many of you, your faith was inherited. It was handed down by parents and grandparents and generations before them — people you love, people you trust, people who are no longer here to ask. And the thought of questioning what they believed feels like a betrayal of the people who gave it to you.
+
+But ask yourself this: if they were wrong — if they believed something that was not what the Scriptures teach — what would they want for you? Would they want you to continue in their error out of loyalty? Or would they want you to know the truth? Every loving parent and grandparent who has ever lived would give the same answer. They would want more truth for you, not less. Honor them by being honest with the text. That is not betrayal. That is the deepest kind of faithfulness.
+
 Let us look together.
 
 ---
