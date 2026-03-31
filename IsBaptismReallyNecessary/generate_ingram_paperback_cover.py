@@ -115,15 +115,20 @@ def draw_front_cover_image(c):
     target_h = DOC_H
     target_aspect = target_w / target_h
 
+    # Center image on TRIM area (not full panel) so content appears visually centered.
+    # The panel includes bleed on the right side only, which shifts the panel center
+    # right of the visual trim center by BLEED/2. Correct for this.
+    trim_center_x = FRONT_TRIM_LEFT + (TRIM_W * inch) / 2
+
     if img_aspect > target_aspect:
         draw_h = target_h
         draw_w = target_h * img_aspect
-        draw_x = target_x + (target_w - draw_w) / 2
+        draw_x = trim_center_x - draw_w / 2
         draw_y = 0
     else:
         draw_w = target_w
         draw_h = target_w / img_aspect
-        draw_x = target_x
+        draw_x = trim_center_x - draw_w / 2
         draw_y = (target_h - draw_h) / 2
 
     c.saveState()

@@ -120,21 +120,19 @@ def draw_front_cover_image(c):
     target_x = FRONT_COVER_LEFT
     target_w = FRONT_COVER_RIGHT - FRONT_COVER_LEFT
     target_h = DOC_H
-    target_aspect = target_w / target_h
 
-    # Scale to cover the target area completely (may crop edges)
-    if img_aspect > target_aspect:
-        # Image is wider — fit height, center horizontally
-        draw_h = target_h + AUTHOR_LIFT  # Slightly taller to fill gap at bottom
-        draw_w = draw_h * img_aspect
-        draw_x = target_x + (target_w - draw_w) / 2
-        draw_y = AUTHOR_LIFT  # Shift up — crops bottom of image, moves text up
-    else:
-        # Image is taller — fit width, center vertically
-        draw_w = target_w
-        draw_h = target_w / img_aspect
-        draw_x = target_x
-        draw_y = (target_h - draw_h) / 2 + AUTHOR_LIFT
+    # Center image on TRIM area (not full panel) so text appears visually centered.
+    # The panel includes bleed on the right side only, which shifts the panel center
+    # right of the visual trim center by BLEED/2. Correct for this.
+    trim_center_x = FRONT_TRIM_LEFT + (TRIM_W * inch) / 2
+
+    # Scale to cover the full panel (including bleed on all edges)
+    draw_h = target_h + AUTHOR_LIFT
+    draw_w = draw_h * img_aspect
+
+    # Center image on the trim center, not the panel center
+    draw_x = trim_center_x - draw_w / 2
+    draw_y = AUTHOR_LIFT  # Shift up to move author name into safety zone
 
     # Clip to front cover area (full bleed extent) and draw
     c.saveState()
