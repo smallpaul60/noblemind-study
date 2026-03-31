@@ -250,7 +250,7 @@ Jesus did not exclude baptism from the requirement. He simply identified unbelie
 
 Another common objection comes from Paul's first letter to the Corinthians:
 
-> *"For Christ did not send me to baptize, but to preach the gospel."*
+> *"For **Christ did not send me to baptize, but to preach the gospel**, not in cleverness of speech, so that the cross of Christ would not be made void."*
 > — 1 Corinthians 1:17
 
 On the surface, this appears to be Paul himself saying that baptism is not part of the gospel — or at least that it is secondary to it. But the context tells a very different story.
