@@ -216,6 +216,38 @@ The question every honest person must ask is this: *When the apostles — the me
 
 ---
 
+## "What Must I Do?"
+
+There are only two places in the book of Acts where someone asks the apostles, in plain language, what they must do to be saved. And the answers they received — given by two different apostles, in two different cities, to two completely different audiences — are remarkably consistent. More than that, they are a precise application of what Jesus Himself had already commanded.
+
+At Pentecost, the crowd — devout Jews who had just realized they had crucified the Messiah — were pierced to the heart and cried out, *"Brethren, what shall we do?"* (Acts 2:37). These were people who already believed in God. They had just come to believe in Jesus. Faith was already present. So Peter told them the next step: *"Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins"* (Acts 2:38).
+
+In Philippi, the jailer — a pagan who knew nothing of Jesus — cried out, *"What must I do to be saved?"* (Acts 16:30). He was starting from nothing. So Paul and Silas began at the beginning: *"Believe in the Lord Jesus"* (Acts 16:31). But they did not stop there. The text says they *"spoke the word of the Lord to him,"* and that very hour of the night, he was baptized — he and his entire household (Acts 16:32–33).
+
+Now compare both answers to what Jesus said before He ascended:
+
+> *"He who has believed and has been baptized shall be saved."*
+> — Mark 16:16
+
+> *"Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit, teaching them to observe all that I commanded you."*
+> — Matthew 28:19–20
+
+Jesus gave the formula: belief and baptism — salvation. And He told His apostles to teach people to observe *all* that He had commanded. Not some. Not the parts that feel comfortable. *All.*
+
+And that is exactly what they did. Peter applied it to people who already believed: repent and be baptized — forgiveness. Paul spoke the word of the Lord to the jailer — *all* of it — and the jailer was baptized that very hour. Philip preached Jesus to the Ethiopian eunuch — and because he taught him to observe *all* that Jesus commanded, the eunuch's immediate response was to look for water (Acts 8:35–36). Peter preached to Cornelius, and when the Spirit confirmed that Gentiles were welcome, Peter *ordered* them to be baptized (Acts 10:48). In every case, the apostles were doing what Jesus told them to do: teaching people to observe all that He had commanded — and what He had commanded included baptism.
+
+These are not three different plans of salvation. They are three expressions of the same one. Jesus stated the requirement. The apostles carried it out. And every time someone asked, *"What must I do?"* — the answer always included baptism. Always.
+
+### A Common Objection — and a Simple Answer
+
+Some will point to the second half of Mark 16:16 — *"but he who has disbelieved shall be condemned"* — and note that Jesus did not mention baptism in the condemnation. From this, they conclude that baptism must not be necessary.
+
+But consider the logic of the statement. A doctor might say to his patient, "Take your medicine and eat well, and you will recover. But if you refuse the medicine, you will die." The doctor did not mention food in the second half — but no one would conclude that eating well is therefore unnecessary for recovery. The failure to take the medicine is the *first* and most fundamental failure. A person who refuses to believe has already rejected the foundation — there is no reason to address baptism, because they never got that far.
+
+Jesus did not exclude baptism from the requirement. He simply identified unbelief as the root of condemnation. And the first half of His statement stands exactly as He said it: *"He who has believed and has been baptized shall be saved."*
+
+---
+
 ## Not an Outward Expression of an Inward Grace
 
 One of the most common things said about baptism in churches today is that it is "an outward expression of an inward grace" — a public declaration of a salvation that has already occurred.
