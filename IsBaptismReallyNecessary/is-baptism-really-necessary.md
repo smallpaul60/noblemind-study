@@ -246,6 +246,21 @@ But consider the logic of the statement. A doctor might say to his patient, "Tak
 
 Jesus did not exclude baptism from the requirement. He simply identified unbelief as the root of condemnation. And the first half of His statement stands exactly as He said it: *"He who has believed and has been baptized shall be saved."*
 
+### "But Paul Said He Was Not Sent to Baptize"
+
+Another common objection comes from Paul's first letter to the Corinthians:
+
+> *"For Christ did not send me to baptize, but to preach the gospel."*
+> — 1 Corinthians 1:17
+
+On the surface, this appears to be Paul himself saying that baptism is not part of the gospel — or at least that it is secondary to it. But the context tells a very different story.
+
+The Corinthian church was divided. Members were aligning themselves with the men who had baptized them — *"I am of Paul," "I am of Apollos," "I am of Cephas"* (1 Corinthians 1:12). Paul was horrified. He asked, *"Was Paul crucified for you? Or were you baptized in the name of Paul?"* (1 Corinthians 1:13). His point was not that baptism is unimportant. His point was that *who performs the baptism* is irrelevant — and that he was glad he had personally baptized only a few of them, so no one could claim to belong to Paul's camp.
+
+And notice: Paul still baptized some of them. He names them — Crispus, Gaius, and the household of Stephanas (1 Corinthians 1:14–16). Why would Paul baptize anyone at all if baptism were unnecessary? And Acts 18:8 tells us what happened when the gospel was first preached in Corinth: *"Many of the Corinthians when they heard were believing and being baptized."* Every one of them was baptized. Paul was simply not the one holding them under the water — and he was grateful for that, given how they had turned baptism into a source of division.
+
+Paul was not diminishing baptism. He was diminishing *himself as the baptizer*. There is a world of difference between saying "I was not sent to be the one baptizing" and "baptism does not matter." Paul made the first statement. He never made the second. In fact, this is the same Paul who wrote that we are *"baptized into Christ"* (Romans 6:3), *"clothed with Christ"* through baptism (Galatians 3:27), and *"buried with Him in baptism"* (Colossians 2:12). To claim that Paul did not believe baptism was essential is to ignore everything else he ever wrote about it.
+
 ---
 
 ## Not an Outward Expression of an Inward Grace
