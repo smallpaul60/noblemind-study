@@ -194,7 +194,7 @@ Nine conversions. Nine baptisms. No exceptions. Every single one of them was bap
 
 ## Where Is the Sinner's Prayer?
 
-In many churches today, a person who wants to be saved is told to bow their head, close their eyes, and repeat a prayer — the so-called "sinner's prayer." The preacher says, "Just say these words with me," and when the prayer is over, the person is told they are saved.
+In many denominations today, a person who wants to be saved is told to bow their head, close their eyes, and repeat a prayer — the so-called "sinner's prayer." The preacher says, "Just say these words with me," and when the prayer is over, the person is told they are saved.
 
 But where is this prayer in the Bible?
 
@@ -250,7 +250,7 @@ Jesus did not exclude baptism from the requirement. He simply identified unbelie
 
 ## Not an Outward Expression of an Inward Grace
 
-One of the most common things said about baptism in churches today is that it is "an outward expression of an inward grace" — a public declaration of a salvation that has already occurred.
+One of the most common things said about baptism in denominations today is that it is "an outward expression of an inward grace" — a public declaration of a salvation that has already occurred.
 
 But this phrase appears nowhere in Scripture. Not once. It is a human invention, and the conversions in the book of Acts contradict it directly.
 
