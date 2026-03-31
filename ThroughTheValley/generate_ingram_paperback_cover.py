@@ -107,8 +107,11 @@ def draw_front_cover_image(c):
     """Place the cover image on the front cover area, filling it completely.
 
     The image already contains title, subtitle, and author name, so no text
-    is drawn on top.
+    is drawn on top. Image is shifted up by AUTHOR_LIFT to ensure the author
+    name clears IngramSpark's 0.5" type safety zone from the trim edge.
     """
+    AUTHOR_LIFT = 0.25 * inch  # Shift image up to move author name into safety
+
     img = ImageReader(str(IMAGE_FILE))
     img_w, img_h = img.getSize()
     img_aspect = img_w / img_h
@@ -122,18 +125,18 @@ def draw_front_cover_image(c):
     # Scale to cover the target area completely (may crop edges)
     if img_aspect > target_aspect:
         # Image is wider — fit height, center horizontally
-        draw_h = target_h
-        draw_w = target_h * img_aspect
+        draw_h = target_h + AUTHOR_LIFT  # Slightly taller to fill gap at bottom
+        draw_w = draw_h * img_aspect
         draw_x = target_x + (target_w - draw_w) / 2
-        draw_y = 0
+        draw_y = AUTHOR_LIFT  # Shift up — crops bottom of image, moves text up
     else:
         # Image is taller — fit width, center vertically
         draw_w = target_w
         draw_h = target_w / img_aspect
         draw_x = target_x
-        draw_y = (target_h - draw_h) / 2
+        draw_y = (target_h - draw_h) / 2 + AUTHOR_LIFT
 
-    # Clip to front cover area and draw
+    # Clip to front cover area (full bleed extent) and draw
     c.saveState()
     path = c.beginPath()
     path.rect(target_x, 0, target_w, DOC_H)
