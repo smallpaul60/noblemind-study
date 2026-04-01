@@ -96,6 +96,14 @@ func migrateSchema() error {
 		`ALTER TABLE page_views ADD COLUMN region TEXT NOT NULL DEFAULT ''`,
 		`ALTER TABLE page_views ADD COLUMN city TEXT NOT NULL DEFAULT ''`,
 		`ALTER TABLE page_views ADD COLUMN is_admin INTEGER NOT NULL DEFAULT 0`,
+		`ALTER TABLE events ADD COLUMN ip_address TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN country TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN region TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN city TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN browser TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN os TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN device TEXT NOT NULL DEFAULT ''`,
+		`ALTER TABLE events ADD COLUMN path TEXT NOT NULL DEFAULT ''`,
 	}
 	for _, m := range migrations {
 		// Ignore "duplicate column" errors for idempotency
@@ -122,32 +130,47 @@ func InsertPageView(path, referrer, visitorHash, ipAddress, country, region, cit
 }
 
 // InsertEvent records a discrete event.
-func InsertEvent(eventType, visitorHash, metadata string) error {
+func InsertEvent(eventType, visitorHash, metadata, path, ipAddress, country, region, city, browser, os, device string) error {
 	_, err := db.Exec(
-		`INSERT INTO events (event_type, visitor_hash, metadata) VALUES (?, ?, ?)`,
-		eventType, visitorHash, metadata,
+		`INSERT INTO events (event_type, visitor_hash, metadata, path, ip_address, country, region, city, browser, os, device)
+		 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+		eventType, visitorHash, metadata, path, ipAddress, country, region, city, browser, os, device,
 	)
 	return err
 }
 
 // StatsResult holds dashboard data.
 type StatsResult struct {
-	TotalViews     int              `json:"total_views"`
-	UniqueVisitors int              `json:"unique_visitors"`
-	ActiveNow      int              `json:"active_now"`
-	TimeSeries     []TimePoint      `json:"time_series"`
-	TopPages       []PathCount      `json:"top_pages"`
-	TopReferrers   []PathCount      `json:"top_referrers"`
-	Browsers       []PathCount      `json:"browsers"`
-	Devices        []PathCount      `json:"devices"`
-	OSStats        []PathCount      `json:"os_stats"`
-	Countries      []PathCount      `json:"countries"`
-	Events         []EventSummary   `json:"events"`
-	EventDetails   []EventDetail    `json:"event_details"`
-	AvgTimeOnPage  float64          `json:"avg_time_on_page"`
-	Screens        []PathCount      `json:"screens"`
-	Downloads      []PathCount      `json:"downloads"`
-	TotalDownloads int              `json:"total_downloads"`
+	TotalViews      int              `json:"total_views"`
+	UniqueVisitors  int              `json:"unique_visitors"`
+	ActiveNow       int              `json:"active_now"`
+	TimeSeries      []TimePoint      `json:"time_series"`
+	TopPages        []PathCount      `json:"top_pages"`
+	TopReferrers    []PathCount      `json:"top_referrers"`
+	Browsers        []PathCount      `json:"browsers"`
+	Devices         []PathCount      `json:"devices"`
+	OSStats         []PathCount      `json:"os_stats"`
+	Countries       []PathCount      `json:"countries"`
+	Events          []EventSummary   `json:"events"`
+	EventDetails    []EventDetail    `json:"event_details"`
+	AvgTimeOnPage   float64          `json:"avg_time_on_page"`
+	Screens         []PathCount      `json:"screens"`
+	Downloads       []PathCount      `json:"downloads"`
+	TotalDownloads  int              `json:"total_downloads"`
+	DownloadDetails []DownloadDetail `json:"download_details"`
+}
+
+// DownloadDetail holds info about a specific file download.
+type DownloadDetail struct {
+	Timestamp string `json:"timestamp"`
+	File      string `json:"file"`
+	IPAddress string `json:"ip_address"`
+	Country   string `json:"country"`
+	Region    string `json:"region"`
+	City      string `json:"city"`
+	Browser   string `json:"browser"`
+	OS        string `json:"os"`
+	Device    string `json:"device"`
 }
 
 type TimePoint struct {
@@ -287,6 +310,21 @@ func QueryStats(since string, fallbackDays int) (*StatsResult, error) {
 	row = db.QueryRow(`SELECT COUNT(*) FROM events WHERE event_type = 'file_download' AND timestamp >= ?`, since)
 	row.Scan(&result.TotalDownloads)
 
+	// Download details with visitor info
+	dlRows, err := db.Query(`
+		SELECT timestamp, metadata, ip_address, country, region, city, browser, os, device
+		FROM events
+		WHERE event_type = 'file_download' AND timestamp >= ? AND metadata != ''
+		ORDER BY id DESC LIMIT 100`, since)
+	if err == nil {
+		defer dlRows.Close()
+		for dlRows.Next() {
+			var dd DownloadDetail
+			dlRows.Scan(&dd.Timestamp, &dd.File, &dd.IPAddress, &dd.Country, &dd.Region, &dd.City, &dd.Browser, &dd.OS, &dd.Device)
+			result.DownloadDetails = append(result.DownloadDetails, dd)
+		}
+	}
+
 	return result, nil
 }
 
@@ -341,6 +379,7 @@ type RecentVisit struct {
 	Referrer    string `json:"referrer"`
 	Screen      string `json:"screen"`
 	IsAdmin     bool   `json:"is_admin"`
+	Duration    *int   `json:"duration"`
 }
 
 // QueryRecentVisitors returns the last N page views, optionally filtered to those since a given timestamp.
@@ -349,20 +388,28 @@ func QueryRecentVisitors(limit int, since string) ([]RecentVisit, error) {
 		limit = 50
 	}
 
+	query := `
+		SELECT pv.timestamp, pv.path, pv.ip_address, pv.visitor_hash, pv.country, pv.region, pv.city,
+			pv.browser, pv.os, pv.device, pv.referrer, pv.screen, pv.is_admin,
+			(SELECT CAST(e.metadata AS INTEGER) FROM events e
+			 WHERE e.event_type = 'page_exit'
+			   AND e.visitor_hash = pv.visitor_hash
+			   AND e.path = pv.path
+			   AND e.timestamp > pv.timestamp
+			   AND e.timestamp <= datetime(pv.timestamp, '+2 hours')
+			 ORDER BY e.timestamp ASC LIMIT 1) as duration
+		FROM page_views pv`
+
 	var rows *sql.Rows
 	var err error
 	if since != "" {
-		rows, err = db.Query(`
-			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen, is_admin
-			FROM page_views
-			WHERE timestamp >= ?
-			ORDER BY id DESC
+		rows, err = db.Query(query+`
+			WHERE pv.timestamp >= ?
+			ORDER BY pv.id DESC
 			LIMIT ?`, since, limit)
 	} else {
-		rows, err = db.Query(`
-			SELECT timestamp, path, ip_address, visitor_hash, country, region, city, browser, os, device, referrer, screen, is_admin
-			FROM page_views
-			ORDER BY id DESC
+		rows, err = db.Query(query+`
+			ORDER BY pv.id DESC
 			LIMIT ?`, limit)
 	}
 	if err != nil {
@@ -374,9 +421,14 @@ func QueryRecentVisitors(limit int, since string) ([]RecentVisit, error) {
 	for rows.Next() {
 		var rv RecentVisit
 		var adminInt int
+		var dur sql.NullInt64
 		rows.Scan(&rv.Timestamp, &rv.Path, &rv.IPAddress, &rv.VisitorHash, &rv.Country,
-			&rv.Region, &rv.City, &rv.Browser, &rv.OS, &rv.Device, &rv.Referrer, &rv.Screen, &adminInt)
+			&rv.Region, &rv.City, &rv.Browser, &rv.OS, &rv.Device, &rv.Referrer, &rv.Screen, &adminInt, &dur)
 		rv.IsAdmin = adminInt == 1
+		if dur.Valid && dur.Int64 > 0 && dur.Int64 < 3600 {
+			d := int(dur.Int64)
+			rv.Duration = &d
+		}
 		results = append(results, rv)
 	}
 	return results, nil

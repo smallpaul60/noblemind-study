@@ -675,6 +675,12 @@
       </div>
     </div>
 
+    <!-- Download Log -->
+    <div class="card" style="margin-top:20px">
+      <h3 style="color:var(--accent)">DOWNLOAD LOG</h3>
+      <div id="downloadLog"></div>
+    </div>
+
     <footer>
       <p>NobleMind Console &mdash; Privacy-first analytics. No cookies. No tracking across days.</p>
       <p style="margin-top:8px">&copy; 2026 Paul Hainline. All rights reserved.</p>
@@ -856,21 +862,32 @@
         '</table>';
     }
 
+    function formatDuration(seconds) {
+      if (seconds == null) return '--';
+      if (seconds < 60) return seconds + 's';
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return m + 'm ' + s + 's';
+    }
+
     function buildRecentTable(visits) {
       if (!visits || visits.length === 0) return '<div class="empty-state">No visits recorded yet</div>';
       return '<table>' +
-        '<tr><th>Time</th><th>IP</th><th>Location</th><th>Device</th><th>Referrer</th><th>Path</th></tr>' +
+        '<tr><th>Time</th><th>IP</th><th>Location</th><th>Device</th><th>Duration</th><th>Referrer</th><th>Path</th></tr>' +
         visits.map(v => {
           const locParts = [v.city, v.region, v.country].filter(Boolean);
           const location = locParts.length > 0 ? locParts.join(', ') : '--';
           const device = [v.browser, v.os, v.device].filter(Boolean).join(' / ');
           const rowStyle = v.is_admin ? ' style="background:rgba(59,154,232,0.12);border-left:3px solid #3B9AE8;"' : '';
           const ipColor = v.is_admin ? ' style="color:#3B9AE8"' : '';
+          const dur = formatDuration(v.duration);
+          const durColor = v.duration != null && v.duration >= 60 ? 'color:var(--accent)' : 'color:var(--text-muted)';
           return '<tr' + rowStyle + '>' +
             '<td class="ts">' + formatTime(v.timestamp) + '</td>' +
             '<td class="mono"' + ipColor + '>' + escapeHtml(v.ip_address || '--') + (v.is_admin ? ' <span style="color:#3B9AE8;font-size:0.7rem">★</span>' : '') + '</td>' +
             '<td>' + (locParts.length > 0 ? '<span class="country-badge">' + escapeHtml(location) + '</span>' : '<span style="color:#555">--</span>') + '</td>' +
             '<td><span class="info-badge">' + escapeHtml(device || '--') + '</span></td>' +
+            '<td style="' + durColor + ';font-weight:600">' + dur + '</td>' +
             '<td style="color:var(--text-muted);font-size:0.8rem">' + escapeHtml(v.referrer || '') + '</td>' +
             '<td class="mono">' + escapeHtml(v.path) + '</td>' +
           '</tr>';
@@ -1067,6 +1084,30 @@
             '</table>';
         } else {
           document.getElementById('downloadsTable').innerHTML = '<div class="empty-state">No downloads yet</div>';
+        }
+
+        // Download log with visitor details
+        const dlDetails = stats.download_details || [];
+        if (dlDetails.length > 0) {
+          document.getElementById('downloadLog').innerHTML = '<table>' +
+            '<tr><th>Time</th><th>File</th><th>IP</th><th>Location</th><th>Device</th></tr>' +
+            dlDetails.map(d => {
+              const locParts = [d.city, d.region, d.country].filter(Boolean);
+              const loc = locParts.length > 0 ? locParts.join(', ') : '--';
+              const dev = [d.browser, d.os, d.device].filter(Boolean).join(' / ');
+              // Extract just the filename from the path
+              const file = d.file ? d.file.split('/').pop() : '--';
+              return '<tr>' +
+                '<td class="ts">' + formatTime(d.timestamp) + '</td>' +
+                '<td><span class="event-badge file_download">' + escapeHtml(file) + '</span></td>' +
+                '<td class="mono">' + escapeHtml(d.ip_address || '--') + '</td>' +
+                '<td>' + (locParts.length > 0 ? '<span class="country-badge">' + escapeHtml(loc) + '</span>' : '--') + '</td>' +
+                '<td><span class="info-badge">' + escapeHtml(dev || '--') + '</span></td>' +
+              '</tr>';
+            }).join('') +
+            '</table>';
+        } else {
+          document.getElementById('downloadLog').innerHTML = '<div class="empty-state">No download details recorded yet</div>';
         }
 
         // Events — summary counts + detail log

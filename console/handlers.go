@@ -80,7 +80,7 @@ func handleBeacon(w http.ResponseWriter, r *http.Request) {
 			beacon.IsAdmin,
 		)
 	} else {
-		err = InsertEvent(beacon.Type, visitorHash, beacon.Metadata)
+		err = InsertEvent(beacon.Type, visitorHash, beacon.Metadata, beacon.Path, rawIP, loc.Country, loc.Region, loc.City, browser, osName, device)
 	}
 
 	if err != nil {
