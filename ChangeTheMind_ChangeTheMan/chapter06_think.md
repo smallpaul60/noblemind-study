@@ -1,6 +1,6 @@
 # Chapter 6
 
-## Think
+## THINK!
 
 Of all the men I have known in my life, no one changed the way I read the Bible more than Freddie Anderson.
 

@@ -8,7 +8,7 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - **`index.html`** — Landing page with links and PWA install prompt.
 - **`user-guide.html`** — Comprehensive user guide (opens in new tab from study tool).
 - **`sw.js`** — Service worker (cache-first strategy, version `v52`). Bump the version when updating cached assets.
-- **`nm-beacon.js`** — Client-side analytics beacon (~40 lines). POSTs to `/api/analytics/event`. No cookies, no fingerprinting.
+- **`nm-core.js`** — Client-side analytics (~40 lines). POSTs to `/api/nm/p`. No cookies, no fingerprinting.
 - **`manifest.json`** — PWA manifest (standalone, dark theme `#0d0d0d`).
 
 ### Data Files
@@ -36,7 +36,7 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - **VPS directory:** `/home/paul/noblemind-console/` (separate from static site).
 - **Database:** SQLite at `/home/paul/noblemind-console/analytics.db`. Raw data purged after 90 days.
 - **Auth:** Token-based via `?token=` query param or `Authorization: Bearer` header. Token stored in `/home/paul/noblemind-console/.env`.
-- **Nginx:** Proxies `/api/analytics/*` and `/console` to `:3001`. Static files served directly.
+- **Nginx:** Proxies `/api/nm/*` and `/console` to `:3001`. Static files served directly.
 
 ### Utility Scripts (not deployed)
 - `convert_strongs.py` — Converts Strong's XHTML to JSON.

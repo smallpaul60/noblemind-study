@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """Generate IngramSpark paperback cover PDF for Through the Valley.
 
+Uses the Strength and Dignity approach: background image on front cover,
+all text drawn directly in ReportLab for pixel-perfect centering.
+
 IngramSpark specs (5.5x8.5 perfect bound paperback, B&W white paper, 120 pages):
   Trim size: 5.5" x 8.5"
-  Spine width: 120 x 0.002252 = 0.27024" ≈ 0.27"
+  Spine width: 120 x 0.002252 = 0.27024" ~ 0.27"
   Bleed: 0.125" on all outside edges (not on spine edges)
   Total document width: 0.125 + 5.5 + 0.27 + 5.5 + 0.125 = 11.52"
   Total document height: 0.125 + 8.5 + 0.125 = 8.75"
@@ -12,7 +15,7 @@ IngramSpark specs (5.5x8.5 perfect bound paperback, B&W white paper, 120 pages):
 
 from pathlib import Path
 from reportlab.lib.pagesizes import inch
-from reportlab.lib.colors import Color
+from reportlab.lib.colors import Color, white
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -20,58 +23,56 @@ from reportlab.lib.utils import ImageReader
 
 BOOK_DIR = Path(__file__).parent
 OUTPUT = BOOK_DIR / "Through_the_Valley_IngramSpark_Paperback_Cover.pdf"
-IMAGE_FILE = BOOK_DIR / "cover_image_extracted.jpg"
+BG_IMAGE = BOOK_DIR / "cover_image_original_hires.jpg"
 
-# Register EB Garamond fonts
+# Register fonts
 FONT_DIR = Path.home() / ".local/share/fonts"
 pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
+pdfmetrics.registerFont(TTFont("GreatVibes", str(FONT_DIR / "GreatVibes-Regular.ttf")))
 
 # --- Spine calculation ---
 PAGE_COUNT = 120
-SPINE_W = 0.27  # 120 x 0.002252 = 0.27024" ≈ 0.27"
+SPINE_W = 0.27  # 120 x 0.002252 = 0.27024" ~ 0.27"
 
 # --- Document dimensions ---
 BLEED = 0.125   # inches
 TRIM_W = 5.5    # inches
 TRIM_H = 8.5    # inches
 
-DOC_W = (BLEED + TRIM_W + SPINE_W + TRIM_W + BLEED) * inch  # 11.52"
-DOC_H = (BLEED + TRIM_H + BLEED) * inch                      # 8.75"
+DOC_W = (BLEED + TRIM_W + SPINE_W + TRIM_W + BLEED) * inch
+DOC_H = (BLEED + TRIM_H + BLEED) * inch
 
 # --- Colors ---
 DEEP_GREEN = Color(0.110, 0.180, 0.110)   # #1C2E1C deep forest green
 CREAM = Color(0.961, 0.941, 0.910)        # #F5F0E8 warm cream
 SAGE_LIGHT = Color(0.659, 0.722, 0.620)   # #A8B89E light sage
 SAGE_MUTED = Color(0.482, 0.553, 0.435)   # #7B8D6F muted sage
+DARK_TEXT = Color(0.15, 0.12, 0.08)        # Dark brown for text on light image
 
 # --- Layout positions (from left edge of document) ---
-# Layout: bleed(0.125) + back_cover(5.5) + spine(0.27) + front_cover(5.5) + bleed(0.125) = 11.52"
-HALF_W = (DOC_W - SPINE_W * inch) / 2  # back cover + bleed on left side
-
 BACK_COVER_LEFT = 0
-BACK_COVER_RIGHT = HALF_W
+BACK_COVER_RIGHT = (BLEED + TRIM_W) * inch
 
-SPINE_LEFT = HALF_W
-SPINE_RIGHT = HALF_W + SPINE_W * inch
+SPINE_LEFT = BACK_COVER_RIGHT
+SPINE_RIGHT = SPINE_LEFT + SPINE_W * inch
 SPINE_CENTER_X = (SPINE_LEFT + SPINE_RIGHT) / 2
 
 FRONT_COVER_LEFT = SPINE_RIGHT
 FRONT_COVER_RIGHT = DOC_W
 
-# Trim edges (0.125" inside bleed on outer edges)
+# Trim edges (what the reader sees after cutting)
 BACK_TRIM_LEFT = BLEED * inch
-BACK_TRIM_RIGHT = HALF_W  # spine edge — no bleed here
+BACK_TRIM_RIGHT = BACK_COVER_RIGHT
 BACK_CENTER_X = (BACK_TRIM_LEFT + BACK_TRIM_RIGHT) / 2
 
-FRONT_TRIM_LEFT = SPINE_RIGHT  # spine edge — no bleed here
+FRONT_TRIM_LEFT = FRONT_COVER_LEFT
 FRONT_TRIM_RIGHT = DOC_W - BLEED * inch
 FRONT_CENTER_X = (FRONT_TRIM_LEFT + FRONT_TRIM_RIGHT) / 2
 
 # Vertical
-V_BLEED = BLEED * inch  # 0.125"
-TRIM_TOP = DOC_H - V_BLEED
-TRIM_BOTTOM = V_BLEED
+TRIM_TOP = DOC_H - BLEED * inch
+TRIM_BOTTOM = BLEED * inch
 COVER_CENTER_Y = DOC_H / 2
 
 # Safety margin: 0.5" inside trim for text
@@ -103,38 +104,38 @@ def draw_background(c):
     c.rect(0, 0, DOC_W, DOC_H, fill=1, stroke=0)
 
 
-def draw_front_cover_image(c):
-    """Place the cover image on the front cover area, filling it completely.
+def draw_front_cover(c):
+    """Draw front cover: background image + all text drawn directly."""
+    cx = FRONT_CENTER_X  # Exact center of trim area
 
-    The image already contains title, subtitle, and author name, so no text
-    is drawn on top. Image is shifted up by AUTHOR_LIFT to ensure the author
-    name clears IngramSpark's 0.5" type safety zone from the trim edge.
-    """
-    AUTHOR_LIFT = 0.25 * inch  # Shift image up to move author name into safety
-
-    img = ImageReader(str(IMAGE_FILE))
+    # --- Place background image ---
+    # The original image is landscape (1536x1024). We need to fill the
+    # front cover panel (portrait). Scale and position to cover the area,
+    # cropping the sides of the landscape image.
+    img = ImageReader(str(BG_IMAGE))
     img_w, img_h = img.getSize()
     img_aspect = img_w / img_h
 
-    # Target area: entire front cover panel including bleed
     target_x = FRONT_COVER_LEFT
     target_w = FRONT_COVER_RIGHT - FRONT_COVER_LEFT
     target_h = DOC_H
+    target_aspect = target_w / target_h
 
-    # Center image on TRIM area (not full panel) so text appears visually centered.
-    # The panel includes bleed on the right side only, which shifts the panel center
-    # right of the visual trim center by BLEED/2. Correct for this.
-    trim_center_x = FRONT_TRIM_LEFT + (TRIM_W * inch) / 2
+    # Image is landscape (1.5), target is portrait (0.65)
+    # Fit to width, image will be much shorter than target
+    # Instead, fit to height and crop sides
+    if img_aspect > target_aspect:
+        draw_h = target_h
+        draw_w = target_h * img_aspect
+        # Center on trim center, not panel center
+        draw_x = cx - draw_w / 2
+        draw_y = 0
+    else:
+        draw_w = target_w
+        draw_h = target_w / img_aspect
+        draw_x = target_x
+        draw_y = (target_h - draw_h) / 2
 
-    # Scale to cover the full panel (including bleed on all edges)
-    draw_h = target_h + AUTHOR_LIFT
-    draw_w = draw_h * img_aspect
-
-    # Center image on the trim center, not the panel center
-    draw_x = trim_center_x - draw_w / 2
-    draw_y = AUTHOR_LIFT  # Shift up to move author name into safety zone
-
-    # Clip to front cover area (full bleed extent) and draw
     c.saveState()
     path = c.beginPath()
     path.rect(target_x, 0, target_w, DOC_H)
@@ -143,12 +144,65 @@ def draw_front_cover_image(c):
     c.drawImage(img, draw_x, draw_y, width=draw_w, height=draw_h)
     c.restoreState()
 
+    # --- Semi-transparent overlay for text readability at top ---
+    # Gradient from dark at top to transparent
+    c.saveState()
+    path = c.beginPath()
+    path.rect(FRONT_COVER_LEFT, 0, target_w, DOC_H)
+    path.close()
+    c.clipPath(path, stroke=0)
+
+    steps = 40
+    top_y = DOC_H
+    grad_height = 3.5 * inch
+    for i in range(steps):
+        alpha = 0.45 * (1 - i / steps) ** 1.5
+        c.setFillColor(Color(0.95, 0.90, 0.80, alpha))
+        y = top_y - (i * grad_height / steps)
+        h = grad_height / steps + 1
+        c.rect(FRONT_COVER_LEFT, y - h, target_w, h, fill=1, stroke=0)
+
+    c.restoreState()
+
+    # --- Title: "Through the" ---
+    c.setFillColor(DARK_TEXT)
+    c.setFont("GreatVibes", 52)
+    c.drawCentredString(cx, DOC_H - 1.6 * inch, "Through the")
+
+    # --- Title: "Valley" ---
+    c.setFont("GreatVibes", 68)
+    c.drawCentredString(cx, DOC_H - 2.4 * inch, "Valley")
+
+    # --- Subtitle ---
+    c.setFont("EBGaramond-Italic", 14)
+    c.drawCentredString(cx, DOC_H - 3.2 * inch, "What God Says When the Shadow Is Real")
+
+    # --- Semi-transparent overlay for author at bottom ---
+    c.saveState()
+    path = c.beginPath()
+    path.rect(FRONT_COVER_LEFT, 0, target_w, DOC_H)
+    path.close()
+    c.clipPath(path, stroke=0)
+
+    bottom_grad_height = 2.0 * inch
+    for i in range(steps):
+        alpha = 0.4 * (i / steps) ** 1.5
+        c.setFillColor(Color(0.08, 0.10, 0.06, alpha))
+        y = bottom_grad_height * (1 - i / steps)
+        h = bottom_grad_height / steps + 1
+        c.rect(FRONT_COVER_LEFT, y - h, target_w, h, fill=1, stroke=0)
+
+    c.restoreState()
+
+    # --- Author name (well within safety zone) ---
+    c.setFillColor(CREAM)
+    c.setFont("EBGaramond", 18)
+    author_y = TRIM_BOTTOM + SAFETY + 0.3 * inch  # Safely above bottom trim + safety
+    c.drawCentredString(cx, author_y, "P A U L   H A I N L I N E")
+
 
 def draw_spine(c):
-    """Draw spine text on deep green background.
-
-    At 0.27" the spine is very narrow. Text reads top-to-bottom (rotated 270).
-    """
+    """Draw spine text on deep green background."""
     c.saveState()
     c.translate(SPINE_CENTER_X, COVER_CENTER_Y)
     c.rotate(270)
@@ -167,7 +221,7 @@ def draw_back_cover(c):
     safe_left = BACK_TRIM_LEFT + SAFETY
     safe_right = BACK_TRIM_RIGHT - SAFETY
     text_width = safe_right - safe_left
-    cx = (safe_left + safe_right) / 2
+    cx = BACK_CENTER_X
 
     # --- Hook line (italic, light sage) ---
     y = TRIM_TOP - 1.0 * inch
@@ -204,17 +258,13 @@ def draw_back_cover(c):
         for line in lines:
             c.drawCentredString(cx, y, line)
             y -= line_height
-        y -= line_height * 0.4  # paragraph spacing
+        y -= line_height * 0.4
 
     # --- Attribution (small, muted sage) ---
     y -= line_height * 0.3
     c.setFillColor(SAGE_MUTED)
     c.setFont("EBGaramond-Italic", 8)
     c.drawCentredString(cx, y, "Scripture quotations from the New American Standard Bible\u00ae (NASB).")
-
-    # --- Barcode area placeholder (bottom-right of back cover) ---
-    # IngramSpark places barcode here; leave empty space
-    # Approximate barcode area: 2" x 1.2" at bottom-right of back cover
 
 
 def main():
@@ -231,7 +281,7 @@ def main():
     c.setTitle("Through the Valley - IngramSpark Paperback Cover")
 
     draw_background(c)
-    draw_front_cover_image(c)
+    draw_front_cover(c)
     draw_spine(c)
     draw_back_cover(c)
 

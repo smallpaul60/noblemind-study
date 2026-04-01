@@ -1549,7 +1549,7 @@ def generate_chapter_html(ch_meta, content):
 
   <script>{get_chapter_js(ch_num)}
   </script>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>'''
 
@@ -2214,7 +2214,7 @@ def generate_index_html():
       updateProgressUI();
     }});
   </script>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>'''
 
@@ -2323,7 +2323,7 @@ def generate_appendix_html(letter, title, subtitle, elements):
     </div>
     <div class="glass-tab"></div>
   </div>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>'''
 

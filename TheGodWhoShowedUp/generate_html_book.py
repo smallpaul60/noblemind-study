@@ -936,7 +936,7 @@ HTML_TEMPLATE = """\
       }}
     }});
   </script>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>"""
 
@@ -1328,7 +1328,7 @@ INDEX_TEMPLATE = """\
       updateProgressUI();
     }});
   </script>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>"""
 

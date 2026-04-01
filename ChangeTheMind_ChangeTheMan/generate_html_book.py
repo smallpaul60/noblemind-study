@@ -850,7 +850,7 @@ def generate_chapter_html(chapter_info, content_html):
       updateCompleteBtn();
     }});
   </script>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>"""
 
@@ -1345,7 +1345,7 @@ def generate_index_html():
       updateProgressUI();
     }});
   </script>
-  <script src="/nm-beacon.js" defer></script>
+  <script src="/nm-core.js" defer></script>
 </body>
 </html>"""
 

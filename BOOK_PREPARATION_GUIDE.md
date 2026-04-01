@@ -166,7 +166,7 @@ Each book has an `index.html` with the NobleMind glassmorphism design:
 - **Download links:** PDF/EPUB buttons with file sizes
 - **Footer:** Copyright, link back to noblemind.study
 - **Color palette:** Varies by book (see theme variables in each book's CSS)
-- **Analytics:** `<script src="/nm-beacon.js" defer></script>` in all pages
+- **Analytics:** `<script src="/nm-core.js" defer></script>` in all pages
 
 ---
 

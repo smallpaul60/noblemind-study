@@ -1,12 +1,12 @@
 # **Chapter 4**
 
-# **All of the Imprisoned Aren't in Prison**
+# **All of the Imprisoned Are Not in Prison**
 
-## *The walls that shame builds are thicker than concrete.*
+## *Not every prison has walls you can see.*
 
 A preacher named Freddie Anderson — the man who taught me how to read the Bible and let it speak for itself — once made a statement that stopped me in my tracks. It was not from a sermon text. It was not an exegetical point. It was an observation about life, delivered the way Freddie delivered most things — plainly, without decoration, and with the kind of precision that doesn't let you look away.
 
-He said: *"All of the imprisoned aren't in prison."*
+He said: *"All of the imprisoned are not in prison."*
 
 That sentence changed the way I understood addiction, and it is the reason this chapter exists.
 
@@ -24,7 +24,7 @@ There is a teenager in his bedroom at eleven o'clock at night, deep into somethi
 
 There is a father who lost his wife to cancer two years ago and discovered that the only way to get through the evening hours — those hours between dinner and sleep when the house is so quiet he can hear her absence — is to gamble online until he's too exhausted to feel anything. He tells himself it's harmless. He tells himself he can stop. He told himself that last month when he couldn't make the mortgage payment, and he told himself that again last week when he took a cash advance on a credit card his children don't know about.
 
-All of the imprisoned aren't in prison.
+All of the imprisoned are not in prison.
 
 •  •  •
 
@@ -118,7 +118,7 @@ Not near because they earned it. Not near because they cleaned up first. Not nea
 
 If you are reading this chapter from inside a prison no one can see — whether you are the addict or the family — I need you to hear what Freddie said one more time.
 
-*All of the imprisoned aren't in prison.*
+*All of the imprisoned are not in prison.*
 
 You may not be behind literal bars. But if shame has silenced you, if secrecy has isolated you, if the performance of normalcy has become so exhausting that you don't know how much longer you can keep it up — you are imprisoned. And the walls of your prison are made of the one material that cannot withstand the truth: silence.
 

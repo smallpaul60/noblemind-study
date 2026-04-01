@@ -18,12 +18,12 @@ var authToken string
 
 // SetupRoutes configures all HTTP routes.
 func SetupRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("POST /api/analytics/event", handleBeacon)
-	mux.HandleFunc("/api/analytics/event", handleBeaconCORS) // OPTIONS preflight
-	mux.HandleFunc("GET /api/analytics/stats", requireAuth(handleStats))
-	mux.HandleFunc("GET /api/analytics/realtime", requireAuth(handleRealtime))
-	mux.HandleFunc("GET /api/analytics/recent", requireAuth(handleRecent))
-	mux.HandleFunc("GET /api/analytics/verify", handleVerify)
+	mux.HandleFunc("POST /api/nm/p", handleBeacon)
+	mux.HandleFunc("/api/nm/p", handleBeaconCORS) // OPTIONS preflight
+	mux.HandleFunc("GET /api/nm/s", requireAuth(handleStats))
+	mux.HandleFunc("GET /api/nm/rt", requireAuth(handleRealtime))
+	mux.HandleFunc("GET /api/nm/r", requireAuth(handleRecent))
+	mux.HandleFunc("GET /api/nm/v", handleVerify)
 	mux.HandleFunc("GET /console", handleDashboard)  // Dashboard serves login UI itself
 	mux.HandleFunc("GET /console/", handleDashboard)
 }

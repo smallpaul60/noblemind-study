@@ -731,7 +731,7 @@
       error.style.display = 'none';
 
       try {
-        const res = await fetch(baseURL + '/api/analytics/verify', {
+        const res = await fetch(baseURL + '/api/nm/v', {
           headers: { 'Authorization': 'Bearer ' + input }
         });
         if (res.ok) {
@@ -764,7 +764,7 @@
 
       if (token) {
         // Verify stored token is still valid
-        fetch(baseURL + '/api/analytics/verify', {
+        fetch(baseURL + '/api/nm/v', {
           headers: { 'Authorization': 'Bearer ' + token }
         }).then(res => {
           if (res.ok) { showDashboard(); }
@@ -923,9 +923,9 @@
 
       try {
         const [stats, realtime, recent] = await Promise.all([
-          fetchJSON(baseURL + '/api/analytics/stats?period=' + period + 'd' + sinceParam),
-          fetchJSON(baseURL + '/api/analytics/realtime'),
-          fetchJSON(baseURL + '/api/analytics/recent?limit=100' + sinceParam)
+          fetchJSON(baseURL + '/api/nm/s?period=' + period + 'd' + sinceParam),
+          fetchJSON(baseURL + '/api/nm/rt'),
+          fetchJSON(baseURL + '/api/nm/r?limit=100' + sinceParam)
         ]);
 
         // Summary cards
@@ -1125,8 +1125,8 @@
         const sp = '&since=' + encodeURIComponent(s.toISOString());
 
         const [rt, recent] = await Promise.all([
-          fetchJSON(baseURL + '/api/analytics/realtime'),
-          fetchJSON(baseURL + '/api/analytics/recent?limit=100' + sp)
+          fetchJSON(baseURL + '/api/nm/rt'),
+          fetchJSON(baseURL + '/api/nm/r?limit=100' + sp)
         ]);
         document.getElementById('activeNow').textContent = String(rt.active_visitors || 0);
         document.getElementById('recentVisitors').innerHTML = buildRecentTable(recent);
