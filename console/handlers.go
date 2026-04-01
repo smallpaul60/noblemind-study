@@ -153,7 +153,7 @@ func handleRealtime(w http.ResponseWriter, r *http.Request) {
 func handleRecent(w http.ResponseWriter, r *http.Request) {
 	limitStr := r.URL.Query().Get("limit")
 	limit := 50
-	if n, err := strconv.Atoi(limitStr); err == nil && n > 0 && n <= 200 {
+	if n, err := strconv.Atoi(limitStr); err == nil && n > 0 && n <= 1000 {
 		limit = n
 	}
 	since := r.URL.Query().Get("since")

@@ -345,7 +345,7 @@ type RecentVisit struct {
 
 // QueryRecentVisitors returns the last N page views, optionally filtered to those since a given timestamp.
 func QueryRecentVisitors(limit int, since string) ([]RecentVisit, error) {
-	if limit <= 0 || limit > 200 {
+	if limit <= 0 || limit > 1000 {
 		limit = 50
 	}
 

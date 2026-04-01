@@ -925,7 +925,7 @@
         const [stats, realtime, recent] = await Promise.all([
           fetchJSON(baseURL + '/api/nm/s?period=' + period + 'd' + sinceParam),
           fetchJSON(baseURL + '/api/nm/rt'),
-          fetchJSON(baseURL + '/api/nm/r?limit=100' + sinceParam)
+          fetchJSON(baseURL + '/api/nm/r?limit=' + Math.min(days * 15, 1000) + sinceParam)
         ]);
 
         // Summary cards
@@ -1126,7 +1126,7 @@
 
         const [rt, recent] = await Promise.all([
           fetchJSON(baseURL + '/api/nm/rt'),
-          fetchJSON(baseURL + '/api/nm/r?limit=100' + sp)
+          fetchJSON(baseURL + '/api/nm/r?limit=' + Math.min(p * 15, 1000) + sp)
         ]);
         document.getElementById('activeNow').textContent = String(rt.active_visitors || 0);
         document.getElementById('recentVisitors').innerHTML = buildRecentTable(recent);
