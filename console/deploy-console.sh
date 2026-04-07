@@ -21,6 +21,7 @@
 set -e
 
 VPS_HOST="paul@198.23.134.103"
+VPS_SSH_KEY="$HOME/.ssh/storylock_vps"
 VPS_DIR="~/noblemind-console"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -44,24 +45,24 @@ echo ""
 
 # Step 2: Upload binary
 echo "[2/4] Uploading to VPS..."
-ssh "$VPS_HOST" "mkdir -p $VPS_DIR"
-scp noblemind-console "$VPS_HOST:$VPS_DIR/noblemind-console.new"
-ssh "$VPS_HOST" "mv $VPS_DIR/noblemind-console.new $VPS_DIR/noblemind-console && chmod +x $VPS_DIR/noblemind-console"
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "mkdir -p $VPS_DIR"
+SSH_AUTH_SOCK= scp -i "$VPS_SSH_KEY" noblemind-console "$VPS_HOST:$VPS_DIR/noblemind-console.new"
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "mv $VPS_DIR/noblemind-console.new $VPS_DIR/noblemind-console && chmod +x $VPS_DIR/noblemind-console"
 echo "Uploaded."
 echo ""
 
 # Step 3: Upload service file
 echo "[3/4] Updating systemd service..."
-scp noblemind-console.service "$VPS_HOST:/tmp/noblemind-console.service"
-ssh "$VPS_HOST" "sudo mv /tmp/noblemind-console.service /etc/systemd/system/noblemind-console.service && sudo systemctl daemon-reload"
+SSH_AUTH_SOCK= scp -i "$VPS_SSH_KEY" noblemind-console.service "$VPS_HOST:/tmp/noblemind-console.service"
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "sudo mv /tmp/noblemind-console.service /etc/systemd/system/noblemind-console.service && sudo systemctl daemon-reload"
 echo "Service updated."
 echo ""
 
 # Step 4: Restart service
 echo "[4/4] Restarting service..."
-ssh "$VPS_HOST" "sudo systemctl restart noblemind-console"
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "sudo systemctl restart noblemind-console"
 sleep 2
-ssh "$VPS_HOST" "sudo systemctl status noblemind-console --no-pager -l" || true
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "sudo systemctl status noblemind-console --no-pager -l" || true
 echo ""
 
 # Clean up local binary

@@ -5,6 +5,7 @@
 set -e
 
 VPS_HOST="paul@198.23.134.103"
+VPS_SSH_KEY="$HOME/.ssh/storylock_vps"
 VPS_DIR="~/noblemind-study"
 IPNS_KEY="noblemind"
 IPNS_ADDR="k51qzi5uqu5dg9bleldhzzzxmydvtmntfl2lajle3jfi8wv58xdc5jw0i6tunj"
@@ -17,7 +18,8 @@ echo ""
 
 # Step 1: Sync files to VPS
 echo "[1/3] Syncing files to VPS..."
-rsync -avz --delete --chmod=D755,F644 \
+SSH_AUTH_SOCK= rsync -avz --delete --chmod=D755,F644 \
+  -e "ssh -i $VPS_SSH_KEY" \
   --exclude='.git' \
   --exclude='*.py' \
   --exclude='PRINCIPLES.md' \
@@ -29,13 +31,13 @@ echo ""
 
 # Step 2: Add to IPFS on remote Kubo node
 echo "[2/3] Adding to IPFS on VPS..."
-CID=$(ssh "$VPS_HOST" "cd $VPS_DIR && ipfs add -r -Q --pin=true .")
+CID=$(SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "cd $VPS_DIR && ipfs add -r -Q --pin=true .")
 echo "CID: $CID"
 echo ""
 
 # Step 3: Publish to IPNS
 echo "[3/3] Publishing to IPNS..."
-ssh "$VPS_HOST" "ipfs name publish --key=$IPNS_KEY /ipfs/$CID"
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "ipfs name publish --key=$IPNS_KEY /ipfs/$CID"
 echo ""
 
 echo "=========================================="
