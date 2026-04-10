@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Ten: Three Days and Three Nights | The Last Week of the Lamb</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #D4A848;
+      --accent-glow: rgba(212, 168, 72, 0.4);
+      --accent-soft: rgba(212, 168, 72, 0.12);
+      --accent-secondary: #C87941;
+      --accent-secondary-glow: rgba(200, 121, 65, 0.3);
+      --scripture-border: #C87941;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212, 168, 72,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(200, 121, 65,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212, 168, 72,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(200, 121, 65,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(200, 121, 65,0.15),
+        0 0 80px rgba(212, 168, 72,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 72,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212, 168, 72,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212, 168, 72,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212, 168, 72,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 168, 72,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(200, 121, 65,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(212, 168, 72,0.06);
+      border: 1px solid rgba(212, 168, 72,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 72,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(212, 168, 72,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 168, 72,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(200, 121, 65,0.08);
+      border: 1px solid rgba(200, 121, 65,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(200, 121, 65,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('lwol_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('lwol_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'lamb') {
+    sessionStorage.setItem('lwol_auth', 'granted');
+    sessionStorage.removeItem('lwol_attempts');
+  } else {
+    sessionStorage.setItem('lwol_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Last Week of the Lamb
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option value="prologue.html">Prologue: The Promise and the Thread</option>
+          <option disabled>&mdash; Part One: The Pattern &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Lamb in Egypt</option>
+          <option value="chapter-02.html">Ch 2: The Lamb in Prophecy</option>
+          <option value="interlude.html">Interlude: Understanding the Hebrew Calendar</option>
+          <option disabled>&mdash; Part Two: The Week &mdash;</option>
+          <option value="chapter-03.html">Ch 3: The Arrival and the Selection</option>
+          <option value="chapter-04.html">Ch 4: Leaves Without Fruit</option>
+          <option value="chapter-05.html">Ch 5: The Lamb Is Examined</option>
+          <option value="chapter-06.html">Ch 6: The Anointing and the Betrayal</option>
+          <option value="chapter-07.html">Ch 7: The Passover</option>
+          <option value="chapter-08.html">Ch 8: The Cup and the Trials</option>
+          <option value="chapter-09.html">Ch 9: The Lamb Is Killed</option>
+          <option disabled>&mdash; Part Three: The Silence &mdash;</option>
+          <option value="chapter-10.html" selected>Ch 10: Three Days and Three Nights</option>
+          <option disabled>&mdash; Part Four: The Open Door &mdash;</option>
+          <option value="chapter-11.html">Ch 11: The Stone Moves</option>
+          <option value="chapter-12.html">Ch 12: When Did the Lamb Die?</option>
+          <option value="epilogue.html">Epilogue: The Thread Completed</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TEN</p>
+        <h1>Three Days and Three Nights</h1>
+        <p class="subtitle">The sign of Jonah, counted honestly.</p>
+      </header>
+
+      <div class="content">
+<p>In the Prologue of this book, we said that there is a problem with the traditional timeline of the crucifixion and resurrection — a problem of simple math and specific words. We said we would address it fully when the time came.</p>
+<p>The time has come.</p>
+<p>We have now walked through every day of the final week — from Jesus&rsquo; arrival in Bethany through the sealed tomb. We have followed the time markers that Mark and John left us and traced each event to its day. And the day we arrived at for the crucifixion was Wednesday, Nisan 14.</p>
+<p>That is not the traditional answer. The tradition says Friday. It has said Friday for most of church history, and it is so deeply embedded in our calendar that the day even has a name — &ldquo;Good Friday.&rdquo;</p>
+<p>But &ldquo;Good Friday&rdquo; is not in the Bible. Neither is &ldquo;Palm Sunday&rdquo; or &ldquo;Easter.&rdquo; These are names given by tradition. They may be right. They may be wrong. The only way to know is to test them against the text.</p>
+<p>That is what this chapter does.</p>
+<hr />
+<h2>What Jesus Said</h2>
+<p>Let&rsquo;s begin with the one statement Jesus made that was specific enough to be measured — the one prediction He tied to a verifiable Old Testament parallel.</p>
+<blockquote class="scripture"><p><em>&ldquo;For just as Jonah was three days and three nights in the belly of the sea monster, so will the Son of Man be three days and three nights in the heart of the earth.&rdquo;</em></p><cite>&mdash; Matthew 12:40</cite></blockquote>
+<p>Read that sentence carefully, because everything in this chapter depends on taking it seriously.</p>
+<p>Jesus said &ldquo;three days and three nights.&rdquo; He specified both — days and nights. He gave a number for each — three. And He anchored the prediction to a specific Old Testament event: Jonah&rsquo;s time in the belly of the great fish. This was not a vague metaphor. Jonah 1:17 says Jonah was in the fish &ldquo;three days and three nights.&rdquo; Jesus said His time in the tomb would match that pattern exactly.</p>
+<p>This was not a one-time statement. Jesus predicted His death and resurrection repeatedly throughout His ministry, using several different phrasings:</p>
+<p><strong>&ldquo;On the third day&rdquo;</strong> — Matthew 16:21; 17:23; 20:19; Luke 9:22; 18:33; 24:7; 24:46.</p>
+<p><strong>&ldquo;After three days&rdquo;</strong> — Mark 8:31; 9:31; 10:34.</p>
+<p><strong>&ldquo;In three days&rdquo;</strong> — John 2:19.</p>
+<p>These phrases are all consistent with one another when understood within Jewish inclusive counting, where the day something begins is counted as the first day. &ldquo;On the third day&rdquo; and &ldquo;after three days&rdquo; refer to the same time frame — just as we might say &ldquo;I&rsquo;ll see you in three days&rdquo; and &ldquo;I&rsquo;ll see you on the third day&rdquo; to mean the same thing (compare 2 Chronicles 10:5 and 10:12, where both phrases describe the same event).</p>
+<p>But Matthew 12:40 is the most specific of all, because it does not just say &ldquo;three days.&rdquo; It says &ldquo;three days <em>and three nights</em>.&rdquo; Both halves matter. Any proposed timeline must account for both.</p>
+<h3>His Enemies Took It Literally</h3>
+<p>One more detail before we test the timeline. After the crucifixion, the chief priests and Pharisees went to Pilate:</p>
+<blockquote class="scripture"><p><em>&ldquo;Sir, we remember that when He was still alive that deceiver said, 'After three days I am to rise again.' Therefore, give orders for the grave to be made secure until the third day, otherwise His disciples may come and steal Him away and say to the people, 'He has risen from the dead,' and the last deception will be worse than the first.&rdquo;</em></p><cite>&mdash; Matthew 27:63–64</cite></blockquote>
+<p>Even His enemies understood &ldquo;after three days&rdquo; as a literal time period — literal enough that they wanted the tomb guarded for the full duration. They did not treat it as a figure of speech. They treated it as a claim that could be verified or disproven.</p>
+<p>If His enemies took it literally, so should we.</p>
+<hr />
+<h2>The Friday Problem</h2>
+<p>The traditional timeline places the crucifixion on Friday afternoon and the resurrection on Sunday morning. Let&rsquo;s count what that gives us.</p>
+<p>Friday afternoon — Jesus is buried before sundown.</p>
+<p>Friday night — night one.</p>
+<p>Saturday (daytime) — day one.</p>
+<p>Saturday night — night two.</p>
+<p>Sunday morning — the tomb is found empty at dawn.</p>
+<p>That is two nights and one full day. Even if we count the remaining daylight hours of Friday as a partial day and the predawn hours of Sunday as a partial day, we have at most two nights and parts of three days.</p>
+<p>The problem is not with the days. The partial-day argument — the idea that any part of a day counts as a full day in Jewish reckoning — can stretch Friday afternoon and Sunday morning into something that might satisfy &ldquo;three days&rdquo; under inclusive counting.</p>
+<p>The problem is with the nights. Jesus did not say &ldquo;three days.&rdquo; He said &ldquo;three days <em>and</em> three nights.&rdquo; Friday night and Saturday night are two nights. There is no third night in the Friday-to-Sunday model. No amount of inclusive counting or partial-day reckoning can produce a third night between Friday afternoon and Sunday dawn. It simply is not there.</p>
+<p>Some have suggested that Jesus was speaking idiomatically — that &ldquo;three days and three nights&rdquo; was a Jewish expression that did not require literal fulfillment. But Jesus did not use a general idiom. He pointed to a specific Old Testament event. He said His time would be &ldquo;just as&rdquo; Jonah&rsquo;s time. Jonah 1:17 says Jonah was in the fish &ldquo;three days and three nights.&rdquo; If those words meant three actual days and three actual nights for Jonah — and no one has ever suggested they didn&rsquo;t — then Jesus was saying His time in the tomb would match.</p>
+<p>The phrase is either literal for both, or figurative for both. If it is figurative for Jesus, it must also be figurative for Jonah, and we have no reason to think Jonah&rsquo;s time in the fish was anything other than what the text says — three days and three nights.</p>
+<p>The Friday model gives us two nights. Jesus said three. That is the problem.</p>
+<hr />
+<h2>What John Told Us</h2>
+<p>If Friday does not work, what does? To find out, we need to look at a detail John recorded about the day of the crucifixion — a detail that unlocks the entire timeline.</p>
+<blockquote class="scripture"><p><em>&ldquo;Then the Jews, because it was the day of preparation, so that the bodies would not remain on the cross on the Sabbath (for that Sabbath was a high day), asked Pilate that their legs might be broken, and that they might be taken away.&rdquo;</em></p><cite>&mdash; John 19:31</cite></blockquote>
+<p>The traditional reading assumes that &ldquo;the day of preparation&rdquo; means Friday — the day before the weekly Sabbath (Saturday). And if the Sabbath in question is the regular weekly Sabbath, then Friday is the only option.</p>
+<p>But John does not leave it at that. He adds a parenthetical note — a clarification he wanted his readers not to miss: &ldquo;for that Sabbath was a high day.&rdquo;</p>
+<p>John is telling us that the Sabbath following the crucifixion was not an ordinary weekly Sabbath. It was something different — a &ldquo;high day.&rdquo;</p>
+<p>What is a high day? As we discussed in the calendar section of this book, the Law of Moses established special Sabbath rest days tied to specific feast dates. These were days when no work was to be done, regardless of what day of the week they fell on. The first day of the Feast of Unleavened Bread — Nisan 15 — was one of these:</p>
+<blockquote class="scripture"><p><em>&ldquo;Then on the fifteenth day of the same month there is the Feast of Unleavened Bread to the LORD; for seven days you shall eat unleavened bread. On the first day you shall have a holy convocation; you shall not do any laborious work.&rdquo;</em></p><cite>&mdash; Leviticus 23:6–7</cite></blockquote>
+<p>Nisan 15 was a commanded Sabbath — a rest day by decree, not by the weekly cycle. If it fell on a Thursday, Thursday was a Sabbath that week. If it fell on a Tuesday, Tuesday was a Sabbath. The day of the week did not matter. What mattered was the date.</p>
+<p>John is telling us that the Sabbath approaching on the evening of the crucifixion was this feast-day Sabbath — not the regular Saturday Sabbath. The crucifixion occurred on Nisan 14 (the day of Passover preparation), and the Sabbath that was approaching was Nisan 15 (the first day of Unleavened Bread).</p>
+<p>This means &ldquo;the day of preparation&rdquo; does not have to mean Friday. It means the day before a Sabbath — and if the Sabbath in question is Nisan 15 rather than Saturday, then the crucifixion day could have been any day of the week. The day is determined by the calendar date, not by the weekly cycle.</p>
+<p>John went out of his way to flag this. He interrupted his narrative to add a parenthetical note. He wanted his readers to know which Sabbath was coming. And the reason matters enormously — because if there were two Sabbaths that week rather than one, the entire timeline changes.</p>
+<hr />
+<h2>The Spice Paradox</h2>
+<p>Here is where two passages — one from Luke and one from Mark — create a problem that the traditional timeline cannot solve but the Wednesday timeline solves immediately.</p>
+<blockquote class="scripture"><p><em>&ldquo;Now the women who had come with Him out of Galilee followed, and saw the tomb and how His body was laid. Then they returned and prepared spices and perfumes. And on the Sabbath they rested according to the commandment.&rdquo;</em></p><cite>&mdash; Luke 23:55–56</cite></blockquote>
+<blockquote class="scripture"><p><em>&ldquo;When the Sabbath was over, Mary Magdalene, and Mary the mother of James, and Salome, bought spices, so that they might come and anoint Him.&rdquo;</em></p><cite>&mdash; Mark 16:1</cite></blockquote>
+<p>Read those two passages side by side.</p>
+<p>Luke says the women prepared spices and perfumes. Then they rested on the Sabbath.</p>
+<p>Mark says the women bought spices after the Sabbath was over.</p>
+<p>The sequence in Luke is: prepare spices, then rest.</p>
+<p>The sequence in Mark is: Sabbath ends, then buy spices.</p>
+<p>You cannot prepare what you have not yet purchased.</p>
+<p>If there is only one Sabbath — Saturday — then these two accounts contradict each other. Luke says they prepared the spices before the Sabbath. Mark says they bought the spices after the Sabbath. Under a single-Sabbath model, &ldquo;before the Sabbath&rdquo; and &ldquo;after the Sabbath&rdquo; are on opposite sides of the same day. The women would have had to prepare spices they had not yet bought. That is not possible.</p>
+<p>But if there were two Sabbaths that week — with an ordinary working day between them — the contradiction vanishes.</p>
+<p>Here is how it works:</p>
+<p><strong>Thursday (Nisan 15)</strong> — the high-day Sabbath, the first day of Unleavened Bread. The women rest. This is the &ldquo;high day&rdquo; John flagged in 19:31.</p>
+<p><strong>Friday (Nisan 16)</strong> — an ordinary working day. The high-day Sabbath is over. The women buy their spices (Mark 16:1 — &ldquo;when the Sabbath was over&rdquo;). They then prepare the spices and perfumes (Luke 23:56a).</p>
+<p><strong>Saturday (Nisan 17)</strong> — the regular weekly Sabbath. The women rest &ldquo;according to the commandment&rdquo; (Luke 23:56b).</p>
+<p>Now both passages work. Mark&rsquo;s &ldquo;bought spices after the Sabbath was over&rdquo; refers to after the high-day Sabbath (Thursday). Luke&rsquo;s &ldquo;prepared spices, then rested on the Sabbath&rdquo; refers to preparing them on Friday and resting on the weekly Sabbath (Saturday). The two Sabbaths are different Sabbaths, and the working day between them is when the buying and preparing happened.</p>
+<p>This is the spice paradox. And it has only one resolution: two Sabbaths with a working day in between.</p>
+<hr />
+<h2>The Count</h2>
+<p>If the crucifixion was on Wednesday — Nisan 14 — and burial was completed before sundown, here is the count.</p>
+<h3>Wednesday Sundown to Thursday Sundown — Night 1, Day 1</h3>
+<p>The high-day Sabbath. The first day of the Feast of Unleavened Bread. A commanded rest (Leviticus 23:6–7). This was the Sabbath John flagged as &ldquo;a high day&rdquo; (John 19:31).</p>
+<p>The city was observing the feast. The Passover lambs slaughtered the previous afternoon had been eaten. The week of unleavened bread had begun. And inside a sealed tomb on the outskirts of Jerusalem, the body of Jesus lay wrapped in linen and spices.</p>
+<p>The disciples were scattered. Peter had denied Him three times and wept (Matthew 26:75). The rest had fled when He was arrested (Matthew 26:56). The text does not tell us where they were on this day or what they were doing. It tells us nothing about Thursday at all except one thing.</p>
+<p>The enemies acted.</p>
+<blockquote class="scripture"><p><em>&ldquo;Now on the next day, the day after the preparation, the chief priests and the Pharisees gathered together with Pilate, and said, 'Sir, we remember that when He was still alive that deceiver said, "After three days I am to rise again." Therefore, give orders for the grave to be made secure until the third day, otherwise His disciples may come and steal Him away and say to the people, "He has risen from the dead," and the last deception will be worse than the first.'&rdquo;</em></p><cite>&mdash; Matthew 27:62–64</cite></blockquote>
+<blockquote class="scripture"><p><em>&ldquo;Pilate said to them, 'You have a guard; go, make it as secure as you know how.' And they went and made the grave secure, and along with the guard they set a seal on the stone.&rdquo;</em></p><cite>&mdash; Matthew 27:65–66</cite></blockquote>
+<p>&ldquo;The next day, the day after the preparation.&rdquo; The preparation day was Nisan 14 — the day of the crucifixion. The next day was Nisan 15 — the high-day Sabbath. The chief priests considered the threat serious enough to approach Pilate on a feast day. They remembered what He had said. They took His words literally. They wanted the tomb secured for the full duration.</p>
+<p>A Roman guard was posted. A seal was placed on the stone. The tomb was as secure as Rome could make it.</p>
+<p>Night one. Day one.</p>
+<h3>Thursday Sundown to Friday Sundown — Night 2, Day 2</h3>
+<p>The high-day Sabbath was over. The weekly Sabbath had not yet begun. Friday was an ordinary working day — the day the traditional timeline does not have room for.</p>
+<p>The shops were open. The markets were operating. And the women went to buy spices.</p>
+<blockquote class="scripture"><p><em>&ldquo;When the Sabbath was over, Mary Magdalene, and Mary the mother of James, and Salome, bought spices, so that they might come and anoint Him.&rdquo;</em></p><cite>&mdash; Mark 16:1</cite></blockquote>
+<p>Mark says they bought the spices after the Sabbath was over. This was the high-day Sabbath — Thursday. It was now Friday. They went to the spice merchants and purchased what they needed.</p>
+<p>Then Luke tells us what they did with them:</p>
+<blockquote class="scripture"><p><em>&ldquo;Then they returned and prepared spices and perfumes.&rdquo;</em></p><cite>&mdash; Luke 23:56a</cite></blockquote>
+<p>They bought the spices and prepared them. On the same day. A working day. The day between the two Sabbaths.</p>
+<p>Think about what these women were doing. They had watched Him die. They had seen where He was buried. And now, on the first day they were permitted to act, they went to the market, bought burial spices, came home, and prepared them — all so they could go to the tomb and anoint His body properly.</p>
+<p>They were not preparing for a resurrection. They were preparing for a final goodbye. The text does not describe their grief. It does not need to. The spices say enough.</p>
+<p>Night two. Day two.</p>
+<h3>Friday Sundown to Saturday Sundown — Night 3, Day 3</h3>
+<p>The weekly Sabbath. The seventh day. The day the commandment said to rest.</p>
+<blockquote class="scripture"><p><em>&ldquo;And on the Sabbath they rested according to the commandment.&rdquo;</em></p><cite>&mdash; Luke 23:56b</cite></blockquote>
+<p>The spices were bought. The spices were prepared. Everything was ready. But it was the Sabbath, and they rested — because the Law required it, and these women honored the Law even in their grief.</p>
+<p>The soldiers stood guard. The seal held. The stone did not move. The text gives us nothing else about this day.</p>
+<p>And at sundown, the third day would be complete. Three nights since the burial. Three days. The time Jesus had specified — &ldquo;three days and three nights&rdquo; — reaching its end. In Hebrew reckoning, sundown Saturday was already the beginning of the first day of the week.</p>
+<p>Night three. Day three.</p>
+<h3>Sunday at Dawn</h3>
+<blockquote class="scripture"><p><em>&ldquo;Now on the first day of the week Mary Magdalene came early to the tomb, while it was still dark, and saw the stone already taken away from the tomb.&rdquo;</em></p><cite>&mdash; John 20:1</cite></blockquote>
+<p>The women came to the tomb. The stone was already rolled away. The tomb was already empty. He was risen.</p>
+<p>Three nights. Three days. Exactly as Jesus said. Exactly as Jonah was three days and three nights in the belly of the fish.</p>
+<p>&ldquo;On the third day&rdquo; — the third day from Wednesday is Saturday, counting inclusively (Thursday = day one, Friday = day two, Saturday = day three). Risen on the third day. It fits.</p>
+<p>&ldquo;After three days&rdquo; — after three full days from Wednesday afternoon. Three full day-night cycles bring us to Saturday at sundown. Risen after three days. It fits.</p>
+<p>No partial-day arguments are needed. No redefinition of &ldquo;night.&rdquo; No stretching of language. The text says what it means, and the Wednesday timeline lets it mean what it says.</p>
+<hr />
+<h2>What About Thursday?</h2>
+<p>Some have proposed a Thursday crucifixion as a compromise — closer to three days than Friday, while avoiding the unfamiliarity of Wednesday. It deserves a brief examination.</p>
+<p>If the crucifixion was on Thursday (Nisan 14), then Nisan 15 — the high-day Sabbath — falls on Friday. The weekly Sabbath follows immediately on Saturday. That gives us two consecutive Sabbaths: Friday and Saturday, back to back.</p>
+<p>The problem is the spices. If the high-day Sabbath is Friday and the weekly Sabbath is Saturday, there is no working day between them. The women cannot buy or prepare spices on either Sabbath. They would have to wait until Sunday — but Mark says they bought spices &ldquo;when the Sabbath was over&rdquo; and then came to the tomb on Sunday morning, implying they had already bought and prepared them before arriving.</p>
+<p>More importantly, Luke says they prepared spices <em>before</em> resting on the Sabbath. If both Sabbaths are consecutive (Friday and Saturday), there is no day between them on which to prepare. Luke&rsquo;s sequence — prepare, then rest — requires a working day before the Sabbath on which they rested. Thursday does not provide one.</p>
+<p>The Thursday model also yields only two nights (Thursday night and Friday night) before a Sunday dawn discovery, producing the same shortage as the Friday model.</p>
+<p>Thursday does not satisfy the textual requirements. Wednesday is the only day that does.</p>
+<hr />
+<h2>The Emmaus Road Objection</h2>
+<p>There is one passage that is sometimes raised as a challenge to the Wednesday crucifixion, and it deserves honest treatment.</p>
+<p>On the Sunday after the crucifixion, two disciples were walking to the village of Emmaus. The risen Jesus joined them on the road, but they did not recognize Him. They told Him about the crucifixion, and then one of them said:</p>
+<blockquote class="scripture"><p><em>&ldquo;But we were hoping that it was He who was going to redeem Israel. Indeed, besides all this, it is the third day since these things happened.&rdquo;</em></p><cite>&mdash; Luke 24:21</cite></blockquote>
+<p>If this conversation is happening on Sunday, and it is &ldquo;the third day since these things happened,&rdquo; the objection runs like this: counting backward from Sunday, the third day would be Friday. Day three = Sunday, day two = Saturday, day one = Friday. Therefore the crucifixion was on Friday.</p>
+<p>But the phrase requires more careful attention than that. The key words are &ldquo;these things&rdquo; — <em>tauta panta</em> in the Greek. What things?</p>
+<p>Look at what the disciples have just described. In the preceding verses (Luke 24:19–20), they speak of Jesus as &ldquo;a prophet mighty in deed and word,&rdquo; and they say &ldquo;the chief priests and our rulers delivered Him to the sentence of death, and crucified Him.&rdquo; But &ldquo;these things&rdquo; is broader than the crucifixion alone. The disciples are describing the entire sequence of events — the condemnation, the crucifixion, the burial, and everything that followed.</p>
+<p>And something did follow. Matthew tells us:</p>
+<blockquote class="scripture"><p><em>&ldquo;Now on the next day, the day after the preparation, the chief priests and the Pharisees gathered together with Pilate, and said, 'Sir, we remember that when He was still alive that deceiver said, "After three days I am to rise again." Therefore, give orders for the grave to be made secure until the third day...'&rdquo;</em></p><cite>&mdash; Matthew 27:62–64</cite></blockquote>
+<blockquote class="scripture"><p><em>&ldquo;Pilate said to them, 'You have a guard; go, make it as secure as you know how.' And they went and made the grave secure, and along with the guard they set a seal on the stone.&rdquo;</em></p><cite>&mdash; Matthew 27:65–66</cite></blockquote>
+<p>The guard was posted on &ldquo;the next day, the day after the preparation.&rdquo; In the Wednesday timeline, the preparation day is Wednesday (Nisan 14), and the next day is Thursday (Nisan 15, the high-day Sabbath). The last official action taken against Jesus — the securing of the tomb with a Roman guard and a seal — happened on Thursday.</p>
+<p>If &ldquo;these things&rdquo; includes this final act — the sealing and guarding of the tomb — then counting from Thursday: day one = Friday, day two = Saturday, day three = Sunday.</p>
+<p>Sunday is the third day since Thursday. The Wednesday timeline fits.</p>
+<p>The Emmaus disciples were not doing precise calendar arithmetic. They were saying, in the way people naturally speak, that it had been about three days since the whole ordeal — the arrest, the trials, the crucifixion, the burial, the sealing of the tomb. The last of &ldquo;these things&rdquo; was the posting of the guard on Thursday. And Sunday is the third day from Thursday.</p>
+<hr />
+<h2>The Discovery, Not the Moment</h2>
+<p>One more distinction needs to be stated clearly, because it matters for how we understand the resurrection.</p>
+<p>All four Gospels agree that the women came to the tomb early on the first day of the week — Sunday — and found it already empty.</p>
+<blockquote class="scripture"><p><em>&ldquo;Now on the first day of the week Mary Magdalene came early to the tomb, while it was still dark, and saw the stone already taken away from the tomb.&rdquo;</em></p><cite>&mdash; John 20:1</cite></blockquote>
+<p>Already taken away. Already empty. Not one Gospel describes the moment of resurrection. They describe the discovery.</p>
+<p>In the Wednesday timeline, three full days and three full nights from burial before sundown Wednesday would be completed at sundown Saturday. In Hebrew reckoning, sundown Saturday is already the beginning of the first day of the week. The resurrection could have occurred at that boundary — at the completion of the third day — fitting both &ldquo;on the third day&rdquo; and &ldquo;the first day of the week&rdquo; simultaneously.</p>
+<p>When the women arrived at dawn on Sunday, they did not witness the resurrection. They found the evidence of it. The tomb was already open. The body was already gone. The angel told them what had happened:</p>
+<blockquote class="scripture"><p><em>&ldquo;He is not here, for He has risen, just as He said.&rdquo;</em></p><cite>&mdash; Matthew 28:6</cite></blockquote>
+<p>&ldquo;Just as He said.&rdquo; Three days and three nights, just as Jonah. On the third day, just as He told His disciples. After three days, just as even His enemies remembered.</p>
+<h3>A Note on Mark 16:9</h3>
+<p>Mark 16:9 is sometimes cited as evidence that Jesus rose on Sunday morning:</p>
+<blockquote class="scripture"><p><em>&ldquo;Now after He had risen early on the first day of the week, He first appeared to Mary Magdalene...&rdquo;</em></p><cite>&mdash; Mark 16:9</cite></blockquote>
+<p>The question here is one of punctuation, not vocabulary. In the original Greek, there were no commas. The phrase &ldquo;early on the first day of the week&rdquo; could modify &ldquo;risen&rdquo; (meaning He rose early on Sunday) or it could modify &ldquo;appeared&rdquo; (meaning He appeared to Mary early on Sunday). The Greek allows either reading.</p>
+<p>If it modifies &ldquo;appeared,&rdquo; the verse is saying: after He had risen, He appeared to Mary early on the first day of the week. The timing of the appearance is Sunday morning. The timing of the resurrection is not specified.</p>
+<p>There is also a well-known textual question about Mark 16:9–20. Many early manuscripts do not include these verses, and the NASB marks them with a note indicating this. They may be original to Mark or they may be a later addition. Either way, the punctuation question means this verse does not settle the timing of the resurrection.</p>
+<p>What the text gives us is a latest possible time — before Sunday dawn — and a discovery, not the moment itself. The Wednesday timeline provides three complete nights and three complete days, ending at sundown Saturday. The tomb was found empty Sunday morning. Both are consistent.</p>
+<hr />
+<h2>What We Have Seen</h2>
+<p>Let&rsquo;s lay out what we have, piece by piece.</p>
+<p><strong>Jesus said</strong> He would be three days and three nights in the heart of the earth, tied directly to Jonah&rsquo;s three literal days and three literal nights (Matthew 12:40).</p>
+<p><strong>His enemies</strong> took it literally — literally enough to ask for a guard through the third day (Matthew 27:63–64).</p>
+<p><strong>John told us</strong> the Sabbath after the crucifixion was not the regular weekly Sabbath — it was &ldquo;a high day,&rdquo; the feast-day Sabbath of Nisan 15 (John 19:31; Leviticus 23:6–7).</p>
+<p><strong>Luke told us</strong> the women prepared spices and then rested on the Sabbath (Luke 23:56).</p>
+<p><strong>Mark told us</strong> the women bought spices after the Sabbath was over (Mark 16:1).</p>
+<p><strong>The spice paradox</strong> — you cannot prepare what you have not purchased — requires two Sabbaths with a working day between them.</p>
+<p><strong>The count</strong> from a Wednesday crucifixion gives three nights and three days exactly, with the tomb found empty Sunday morning.</p>
+<p><strong>The Friday model</strong> gives two nights, not three. It cannot account for the third night without redefining what &ldquo;night&rdquo; means.</p>
+<p><strong>The Thursday model</strong> puts two Sabbaths back to back with no working day for the spices.</p>
+<p><strong>Wednesday is the only day that satisfies all of the textual constraints simultaneously.</strong></p>
+<p>This is not a minor point of Bible trivia. This is about whether we take the words of Jesus at face value. He said three days and three nights. He specified both. He tied the prediction to a measurable Old Testament event. And His enemies took it literally enough to post a guard.</p>
+<p>If we believe what He said, the timeline must accommodate it. The Wednesday crucifixion does. The Friday crucifixion does not.</p>
+<hr />
+<h2>A Word About Tradition</h2>
+<p>We want to be clear about what we are not saying.</p>
+<p>We are not saying that the question of which day Jesus was crucified affects anyone&rsquo;s relationship with God. The cross is no less powerful if the crucifixion was on Wednesday rather than Friday. And the resurrection — on the first day of the week — is not in question at all. Every timeline, traditional or otherwise, agrees that the tomb was found empty on Sunday. That day matters. It is the day God raised His Son from the dead. It is the day the Holy Spirit came and the Lord first added to His church — Pentecost, fifty days later, also fell on the first day of the week (Acts 2:1, 41, 47). It is the day the early church assembled to worship (Acts 20:7; 1 Corinthians 16:2). It is the Lord&rsquo;s Day (Revelation 1:10). Nothing in this study changes that. What we are examining is which day the crucifixion occurred — and whether the tradition of Friday can bear the weight of the textual evidence.</p>
+<p>We are also not saying that the tradition was invented in bad faith. The association of the crucifixion with Friday is very old — centuries old — and it arose from a natural reading of the phrase &ldquo;the day of preparation.&rdquo; If you assume the Sabbath in that phrase is the weekly Sabbath, Friday is the obvious conclusion. The problem is not dishonesty. The problem is that John told us it was not the weekly Sabbath, and that detail has been overlooked.</p>
+<p>It is worth noting that the terms &ldquo;Palm Sunday,&rdquo; &ldquo;Ash Wednesday,&rdquo; &ldquo;Good Friday,&rdquo; and &ldquo;Easter&rdquo; do not appear anywhere in the Bible. They were devised by men, centuries after the events they name. What Jesus Himself gave us to remember His sacrifice by was not a calendar label. It was a meal — the bread and the cup, the emblems of the new covenant, to be observed &ldquo;in remembrance of Me&rdquo; (Luke 22:19; 1 Corinthians 11:24–25). That is what He left us. The rest was added later.</p>
+<p>What we are saying is this: when the text and the tradition disagree, the text has the authority. The tradition is old. But the text is older. And the text says three days and three nights. The text says the Sabbath was a high day. The text says the women bought spices after one Sabbath and rested on another. When all of these details are taken together, they point to Wednesday — not as a theory, but as the only day that lets every passage stand as written.</p>
+<p>We ask nothing of the reader except the willingness to follow the text — even if it leads somewhere unfamiliar.</p>
+<hr />
+<p>The case is laid out. The evidence is in the text. Every passage cited is verifiable. Every step of logic can be checked.</p>
+<p>We believe the evidence points strongly in one direction: Jesus was buried before sundown on Wednesday, Nisan 14. He was in the tomb for three nights and three days — through the high-day Sabbath on Thursday, through the working day on Friday, and through the weekly Sabbath on Saturday. At sundown Saturday, the third day was complete. And when the women came to the tomb at dawn on Sunday, the stone was already rolled away, and the tomb was already empty.</p>
+<p>Three days. Three nights. Just as Jonah. Just as He said.</p>
+<hr />
+<p>For the people who lived through those three days, none of this was visible. The disciples did not know that Sunday was coming. Peter did not know he would see Jesus again. Mary Magdalene did not know that the spices she had carefully prepared would never be used for their intended purpose. The soldiers at the tomb did not know that the man they were guarding was not going to stay dead.</p>
+<p>They did not have the next chapter. They had only the silence. And in that silence, every promise God had ever made appeared to be broken.</p>
+<p>But God had said three days and three nights. Not two. Not four. Three. And God keeps His word — not approximately, not loosely, but precisely. The same precision that marked the Passover in Egypt — the lamb on the right day, the blood at the right time, the death passing over at the appointed hour — marked the tomb in Jerusalem.</p>
+<p>The silence was not empty. It was measured. And when the measure was full, the silence ended.</p>
+<p>The Sabbath drew to a close. The sun was setting. Saturday was ending, and the first day of the week was about to begin.</p>
+<p>The women had their spices ready. They would go to the tomb at first light.</p>
+<p>They did not know what they would find.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-09.html">&larr; Chapter Nine: The Lamb Is Killed</a>
+          <a href="chapter-11.html">Chapter Eleven: The Stone Moves &rarr;</a>
+        </div>
+        <p class="copyright">The Last Week of the Lamb &copy; 2026 Paul &amp; Pam Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'theLastWeekOfTheLamb_progress';
+    var SECTION_SLUG = 'chapter-10';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-09.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

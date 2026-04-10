@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interlude: Understanding the Hebrew Calendar | The Last Week of the Lamb</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #D4A848;
+      --accent-glow: rgba(212, 168, 72, 0.4);
+      --accent-soft: rgba(212, 168, 72, 0.12);
+      --accent-secondary: #C87941;
+      --accent-secondary-glow: rgba(200, 121, 65, 0.3);
+      --scripture-border: #C87941;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212, 168, 72,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(200, 121, 65,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212, 168, 72,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(200, 121, 65,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(200, 121, 65,0.15),
+        0 0 80px rgba(212, 168, 72,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 72,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212, 168, 72,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212, 168, 72,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212, 168, 72,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 168, 72,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(200, 121, 65,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(212, 168, 72,0.06);
+      border: 1px solid rgba(212, 168, 72,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 72,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(212, 168, 72,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 168, 72,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(200, 121, 65,0.08);
+      border: 1px solid rgba(200, 121, 65,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(200, 121, 65,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('lwol_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('lwol_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'lamb') {
+    sessionStorage.setItem('lwol_auth', 'granted');
+    sessionStorage.removeItem('lwol_attempts');
+  } else {
+    sessionStorage.setItem('lwol_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Last Week of the Lamb
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option value="prologue.html">Prologue: The Promise and the Thread</option>
+          <option disabled>&mdash; Part One: The Pattern &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Lamb in Egypt</option>
+          <option value="chapter-02.html">Ch 2: The Lamb in Prophecy</option>
+          <option value="interlude.html" selected>Interlude: Understanding the Hebrew Calendar</option>
+          <option disabled>&mdash; Part Two: The Week &mdash;</option>
+          <option value="chapter-03.html">Ch 3: The Arrival and the Selection</option>
+          <option value="chapter-04.html">Ch 4: Leaves Without Fruit</option>
+          <option value="chapter-05.html">Ch 5: The Lamb Is Examined</option>
+          <option value="chapter-06.html">Ch 6: The Anointing and the Betrayal</option>
+          <option value="chapter-07.html">Ch 7: The Passover</option>
+          <option value="chapter-08.html">Ch 8: The Cup and the Trials</option>
+          <option value="chapter-09.html">Ch 9: The Lamb Is Killed</option>
+          <option disabled>&mdash; Part Three: The Silence &mdash;</option>
+          <option value="chapter-10.html">Ch 10: Three Days and Three Nights</option>
+          <option disabled>&mdash; Part Four: The Open Door &mdash;</option>
+          <option value="chapter-11.html">Ch 11: The Stone Moves</option>
+          <option value="chapter-12.html">Ch 12: When Did the Lamb Die?</option>
+          <option value="epilogue.html">Epilogue: The Thread Completed</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">INTERLUDE</p>
+        <h1>Understanding the Hebrew Calendar</h1>
+        <p class="subtitle">A brief guide before we enter the week.</p>
+      </header>
+
+      <div class="content">
+<p>Before we step into the final week of Jesus&rsquo; life, there is something we need to talk about — something that most modern readers have never been taught, but that the Gospel writers assumed their readers already knew.</p>
+<p>The events we are about to trace — the entry into Jerusalem, the Last Supper, the crucifixion, the burial, the empty tomb — are all tied to specific dates on the Hebrew calendar. If you do not understand how that calendar works, the timeline will not make sense. Details that seem contradictory will turn out to be perfectly consistent — but only if you know the rules the Gospel writers were working with.</p>
+<p>There are two differences between the Hebrew calendar and our modern Western calendar that matter most. Miss either one, and the week will be confusing. Understand both, and everything falls into place.</p>
+<hr />
+<h2>The Day Begins at Sundown</h2>
+<p>In our culture, a new day begins at midnight. Tuesday ends at 11:59 PM, and Wednesday begins at 12:00 AM. The transition happens in the middle of the night while most of us are asleep, so we naturally think of a &ldquo;day&rdquo; as starting when we wake up in the morning.</p>
+<p>In the Hebrew calendar, a new day begins at sundown — roughly six in the evening. This is not an arbitrary tradition. It comes directly from the creation account:</p>
+<blockquote class="scripture"><p><em>&ldquo;And there was evening and there was morning, one day.&rdquo;</em></p><cite>&mdash; Genesis 1:5</cite></blockquote>
+<p>Evening comes first. Then morning. Every day of creation follows this same pattern. The Hebrew day was always evening first, then daylight — night, then day.</p>
+<p>This means that what we would call &ldquo;Tuesday evening&rdquo; was actually the beginning of Wednesday in Jewish reckoning. When the Gospel accounts describe Jesus eating the Passover meal &ldquo;on the first day of Unleavened Bread&rdquo; (Matthew 26:17), that meal took place in the evening — what we would think of as the night before, but which was actually the beginning of the new day.</p>
+<p>A simple comparison helps:</p>
+<p>In our Western reckoning, Tuesday runs from midnight to midnight, and Wednesday runs from midnight to midnight. In Hebrew reckoning, Tuesday runs from sundown Monday evening to sundown Tuesday evening, and Wednesday runs from sundown Tuesday evening to sundown Wednesday evening.</p>
+<p>So when this book says Jesus ate the Passover meal on the evening that began Nisan 14, it means He ate it at what we would call Tuesday evening — but in Jewish reckoning, sundown Tuesday was already the beginning of the next day. This is not a contradiction. It is simply a different starting point for the day — and it is the starting point that Scripture itself establishes in Genesis 1.</p>
+<p>This will matter more than you expect. Hold onto it.</p>
+<hr />
+<h2>The Months Are Lunar</h2>
+<p>The modern Western calendar uses twelve months of fixed length — January through December — based on a solar year of approximately 365 days. The dates are the same every year. January 1 is always January 1.</p>
+<p>The Hebrew calendar is based on lunar cycles. Each month begins with the new moon, so months are approximately 29 or 30 days long. Because a lunar year is about eleven days shorter than a solar year, the Hebrew calendar periodically adds a thirteenth month to stay aligned with the seasons.</p>
+<p>The practical result is that Hebrew dates do not fall on the same Western dates each year. Nisan 14 — the Passover — might fall in late March one year and mid-April the next.</p>
+<p>For our purposes, only one month matters: <strong>Nisan</strong>, the first month of the Hebrew religious calendar. God established it at the time of the Exodus:</p>
+<blockquote class="scripture"><p><em>&ldquo;This month shall be the beginning of months for you; it is to be the first month of the year to you.&rdquo;</em></p><cite>&mdash; Exodus 12:2</cite></blockquote>
+<p>Every event from Jesus&rsquo; arrival in Bethany through the discovery of the empty tomb takes place within Nisan. The key dates are the ones we already encountered in Exodus 12:</p>
+<p><strong>Nisan 10</strong> — The Passover lamb is selected and set apart (Exodus 12:3).</p>
+<p><strong>Nisan 14</strong> — The Passover lamb is killed &ldquo;at twilight&rdquo; — the afternoon hours (Exodus 12:6). The blood is applied to the doorposts. The lamb is eaten that evening as the day transitions into Nisan 15.</p>
+<p><strong>Nisan 15</strong> — The first day of the Feast of Unleavened Bread. This is a &ldquo;holy convocation&rdquo; — a commanded Sabbath rest, regardless of what day of the week it falls on (Leviticus 23:6–7).</p>
+<p><strong>Nisan 15–21</strong> — The seven days of the Feast of Unleavened Bread (Leviticus 23:6).</p>
+<p>These dates form the skeleton of the week we are about to examine. They are fixed on the Hebrew calendar — Nisan 14 is always Nisan 14 — but they can fall on any day of our week, just as our own holidays sometimes fall on a Tuesday, sometimes on a Thursday. Which day of the week these dates landed on in the year of the crucifixion is one of the most important questions in this book, and we will address it carefully when we get there.</p>
+<hr />
+<h2>Two Kinds of Sabbath</h2>
+<p>This is perhaps the single most important detail for understanding what happened between the crucifixion and the resurrection. If you take nothing else from this section, take this.</p>
+<p>Most people know only one Sabbath — the weekly Sabbath, the seventh day of the week, Saturday. It was established at creation and commanded in the Ten Commandments:</p>
+<blockquote class="scripture"><p><em>&ldquo;Remember the sabbath day, to keep it holy.&rdquo;</em></p><cite>&mdash; Exodus 20:8</cite></blockquote>
+<p>This Sabbath occurs every week without exception. It is part of the rhythm of creation itself.</p>
+<p>But the Law of Moses also established additional Sabbath rest days tied to specific feast days — days that functioned as Sabbaths regardless of what day of the week they fell on. These are sometimes called &ldquo;high days&rdquo; or &ldquo;annual Sabbaths.&rdquo;</p>
+<blockquote class="scripture"><p><em>&ldquo;Then on the fifteenth day of the same month there is the Feast of Unleavened Bread to the LORD; for seven days you shall eat unleavened bread. On the first day you shall have a holy convocation; you shall not do any laborious work.&rdquo;</em></p><cite>&mdash; Leviticus 23:6–7</cite></blockquote>
+<p>The first day of Unleavened Bread — Nisan 15 — was a commanded rest day, a Sabbath, no matter what day of the week it fell on. If it fell on a Thursday, Thursday was a Sabbath that week. If it fell on a Tuesday, Tuesday was a Sabbath. The day of the week did not matter. The date on the Hebrew calendar did.</p>
+<p>This means that in any given week during the Passover season, it was entirely possible to have <em>two</em> Sabbaths — the feast-day Sabbath tied to the calendar date and the regular weekly Sabbath on Saturday. They could fall on the same day, or they could fall on different days with ordinary working days in between.</p>
+<p>Why does this matter? Because when you read the word &ldquo;Sabbath&rdquo; in the Gospel accounts, you cannot automatically assume it means Saturday. It might mean Saturday. Or it might mean a feast-day Sabbath that fell on a completely different day of the week.</p>
+<p>John makes this distinction explicit. When he describes the Sabbath that followed the crucifixion, he goes out of his way to add a qualifier:</p>
+<blockquote class="scripture"><p><em>&ldquo;Then the Jews, because it was the day of preparation, so that the bodies would not remain on the cross on the Sabbath (for that Sabbath was a high day)...&rdquo;</em></p><cite>&mdash; John 19:31</cite></blockquote>
+<p>John did not have to add those words. He could have simply written &ldquo;the Sabbath.&rdquo; But he flagged it — <em>that</em> Sabbath was a high day. Not the regular weekly Sabbath. A feast-day Sabbath. He wanted his readers to know the difference, because the difference matters.</p>
+<p>We will come back to this passage and unpack what it means for the timeline. For now, just hold onto the distinction: there were two kinds of Sabbath, and the week of the crucifixion could have contained both.</p>
+<hr />
+<h2>Three Things to Remember</h2>
+<p>As you read the chapters ahead, keep three things in mind:</p>
+<p><strong>First</strong>, the day begins at sundown. An evening meal belongs to the next day, not the day that is ending. When we say something happened &ldquo;on the evening that began Nisan 14,&rdquo; we mean what you would think of as the previous evening — but which, in Hebrew reckoning, was already the start of the new day.</p>
+<p><strong>Second</strong>, Nisan is the first month of the Hebrew religious calendar, falling roughly in our late March through mid-April. Every event in the final week takes place within Nisan — specifically between Nisan 9 and Nisan 17.</p>
+<p><strong>Third</strong>, there were two kinds of Sabbath — the weekly Sabbath (Saturday) and feast-day Sabbaths tied to God&rsquo;s appointed times. When the Gospel accounts mention &ldquo;the Sabbath,&rdquo; you will need to ask which kind is being described. The answer changes everything.</p>
+<p>With those three things in mind, the Gospel accounts fit together with remarkable clarity. The timeline makes sense. The apparent contradictions disappear. And the precision of what God did in that week becomes unmistakable.</p>
+<p>Let&rsquo;s step into the week.</p>
+<hr />
+<p><em>All Scripture quotations are from the New American Standard Bible (NASB).</em></p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Chapter Two: The Lamb in Prophecy</a>
+          <a href="chapter-03.html">Chapter Three: The Arrival and the Selection &rarr;</a>
+        </div>
+        <p class="copyright">The Last Week of the Lamb &copy; 2026 Paul &amp; Pam Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'theLastWeekOfTheLamb_progress';
+    var SECTION_SLUG = 'interlude';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-02.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

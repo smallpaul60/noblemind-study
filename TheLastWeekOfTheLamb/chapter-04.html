@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Four: Leaves Without Fruit | The Last Week of the Lamb</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #D4A848;
+      --accent-glow: rgba(212, 168, 72, 0.4);
+      --accent-soft: rgba(212, 168, 72, 0.12);
+      --accent-secondary: #C87941;
+      --accent-secondary-glow: rgba(200, 121, 65, 0.3);
+      --scripture-border: #C87941;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212, 168, 72,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(200, 121, 65,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212, 168, 72,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(200, 121, 65,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(200, 121, 65,0.15),
+        0 0 80px rgba(212, 168, 72,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 72,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212, 168, 72,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212, 168, 72,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212, 168, 72,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 168, 72,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(200, 121, 65,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(212, 168, 72,0.06);
+      border: 1px solid rgba(212, 168, 72,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 72,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(212, 168, 72,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 168, 72,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(200, 121, 65,0.08);
+      border: 1px solid rgba(200, 121, 65,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(200, 121, 65,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('lwol_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('lwol_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'lamb') {
+    sessionStorage.setItem('lwol_auth', 'granted');
+    sessionStorage.removeItem('lwol_attempts');
+  } else {
+    sessionStorage.setItem('lwol_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Last Week of the Lamb
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option value="prologue.html">Prologue: The Promise and the Thread</option>
+          <option disabled>&mdash; Part One: The Pattern &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Lamb in Egypt</option>
+          <option value="chapter-02.html">Ch 2: The Lamb in Prophecy</option>
+          <option value="interlude.html">Interlude: Understanding the Hebrew Calendar</option>
+          <option disabled>&mdash; Part Two: The Week &mdash;</option>
+          <option value="chapter-03.html">Ch 3: The Arrival and the Selection</option>
+          <option value="chapter-04.html" selected>Ch 4: Leaves Without Fruit</option>
+          <option value="chapter-05.html">Ch 5: The Lamb Is Examined</option>
+          <option value="chapter-06.html">Ch 6: The Anointing and the Betrayal</option>
+          <option value="chapter-07.html">Ch 7: The Passover</option>
+          <option value="chapter-08.html">Ch 8: The Cup and the Trials</option>
+          <option value="chapter-09.html">Ch 9: The Lamb Is Killed</option>
+          <option disabled>&mdash; Part Three: The Silence &mdash;</option>
+          <option value="chapter-10.html">Ch 10: Three Days and Three Nights</option>
+          <option disabled>&mdash; Part Four: The Open Door &mdash;</option>
+          <option value="chapter-11.html">Ch 11: The Stone Moves</option>
+          <option value="chapter-12.html">Ch 12: When Did the Lamb Die?</option>
+          <option value="epilogue.html">Epilogue: The Thread Completed</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>Leaves Without Fruit</h1>
+        <p class="subtitle">The fig tree and the cleansing of the temple.</p>
+      </header>
+
+      <div class="content">
+<p>The Sabbath was over. The Lamb had been selected. And now the working days began.</p>
+<blockquote class="scripture"><p><em>&ldquo;On the next day, when they had left Bethany, He was hungry.&rdquo;</em></p><cite>&mdash; Mark 11:12</cite></blockquote>
+<p>Mark&rsquo;s time marker is simple and specific: &ldquo;on the next day.&rdquo; The next day after the entry into Jerusalem. The next day after the Sabbath. Sunday — Nisan 11.</p>
+<p>Jesus and the twelve are walking from Bethany toward Jerusalem. It is morning, and He is hungry. What happens next unfolds in two scenes — one on the road and one in the temple — and together they form one of the most striking days in the Gospel accounts.</p>
+<hr />
+<h2>The Fig Tree</h2>
+<blockquote class="scripture"><p><em>&ldquo;Seeing at a distance a fig tree in leaf, He went to see if perhaps He would find anything on it; and when He came to it, He found nothing but leaves, for it was not the season for figs.&rdquo;</em></p><cite>&mdash; Mark 11:13</cite></blockquote>
+<p>Mark tells us plainly: it was not the season for figs. The fruit was not expected yet. But the tree was in leaf — and that detail matters. In the climate of Judea, fig trees produce small early fruit (called <em>taqsh</em> or breba figs) that appear before or alongside the leaves. A fig tree in full leaf was advertising that it had something to offer. The leaves were the promise. But when Jesus reached the tree, there was nothing behind the promise. Leaves and no fruit. Appearance without substance.</p>
+<blockquote class="scripture"><p><em>&ldquo;He said to it, 'May no one ever eat fruit from you again!' And His disciples were listening.&rdquo;</em></p><cite>&mdash; Mark 11:14</cite></blockquote>
+<p>Jesus cursed the tree. The disciples heard Him say it. And then the group continued toward Jerusalem.</p>
+<p>Mark does not tell us why Jesus cursed the tree. He does not explain it as a parable or draw a moral from it. He simply records what happened — and then immediately takes us into the temple. The placement is Mark&rsquo;s. What the reader does with it is the reader&rsquo;s own.</p>
+<p>But the placement is hard to ignore. A tree covered in leaves, presenting every sign of life and fruitfulness, yet producing nothing — standing just minutes before Jesus walks into a temple that was supposed to be the house of God and finds it full of commerce instead of prayer. The parallel is there for anyone willing to see it, even though Mark never states it in so many words.</p>
+<p>We will not overstate what the text does not say. Mark does not call the fig tree a symbol. He does not say &ldquo;this tree represents Israel.&rdquo; He tells us what happened, and he tells us what happened next. We are free to notice the connection. We are not free to claim the text makes it explicit.</p>
+<hr />
+<h2>The Temple</h2>
+<blockquote class="scripture"><p><em>&ldquo;Then they came to Jerusalem. And He entered the temple and began to drive out those who were buying and selling in the temple, and overturned the tables of the money changers and the seats of those who were selling doves; and He would not permit anyone to carry merchandise through the temple.&rdquo;</em></p><cite>&mdash; Mark 11:15–16</cite></blockquote>
+<p>This was not a quiet visit. This was not the restrained observation of the day before. Yesterday — the Sabbath — Jesus had entered the temple, looked around at everything, and left (Mark 11:11). Today He acts.</p>
+<p>The difference matters. On the Sabbath, the commercial operation would not have been running. The money changers and dove sellers worked on the days leading up to the feast, when pilgrims were arriving from across the empire and needed to exchange foreign currency for temple-approved coins, and when families needed to purchase animals for sacrifice. The Sabbath was a rest day — the tables would have been empty, the merchants absent.</p>
+<p>But Sunday was a working day. The merchants were back. The tables were set up. The commerce was in full swing. And Jesus walked in and shut it down.</p>
+<p>He overturned the tables. He overturned the seats. He physically stopped people from carrying goods through the temple courts. And then He told them why:</p>
+<blockquote class="scripture"><p><em>&ldquo;And He began to teach and say to them, 'Is it not written, "My house shall be called a house of prayer for all the nations"? But you have made it a robbers' den.'&rdquo;</em></p><cite>&mdash; Mark 11:17</cite></blockquote>
+<p>Two Old Testament passages, spoken together. The first is from Isaiah:</p>
+<blockquote class="scripture"><p><em>&ldquo;For My house will be called a house of prayer for all the peoples.&rdquo;</em></p><cite>&mdash; Isaiah 56:7</cite></blockquote>
+<p>The second is from Jeremiah, spoken to the people of Judah centuries earlier when they treated the temple as a safe house while living in disobedience:</p>
+<blockquote class="scripture"><p><em>&ldquo;Has this house, which is called by My name, become a den of robbers in your sight?&rdquo;</em></p><cite>&mdash; Jeremiah 7:11</cite></blockquote>
+<p>Jesus did not invent a new accusation. He quoted God&rsquo;s own words — words the religious leaders would have known by heart — and applied them directly to what was happening in front of Him. The temple was supposed to be a house of prayer for all nations. They had turned it into a marketplace. And not just any marketplace — a <em>den of robbers</em>, the phrase Jeremiah used when God was warning that judgment was coming if the people did not change.</p>
+<hr />
+<h2>The Response</h2>
+<blockquote class="scripture"><p><em>&ldquo;The chief priests and the scribes heard this, and began seeking how to destroy Him; for they were afraid of Him, for the whole crowd was astonished at His teaching.&rdquo;</em></p><cite>&mdash; Mark 11:18</cite></blockquote>
+<p>The reaction was not repentance. It was not even debate. It was fear — and a decision to destroy Him. The chief priests and the scribes heard what Jesus said, saw how the crowd responded, and concluded that He had to be eliminated.</p>
+<p>Mark does not record a formal charge at this point. No one stands up and says &ldquo;You have violated such-and-such law.&rdquo; The leaders do not challenge His reading of Isaiah or Jeremiah. They do not argue that the temple commerce was legitimate. They simply begin looking for a way to kill Him.</p>
+<p>What the chief priests and scribes did not realize was that in seeking to destroy Him, they were about to subject Him to the most thorough examination any man had ever faced — and that every attempt to find fault would fail.</p>
+<blockquote class="scripture"><p><em>&ldquo;When evening came, they would go out of the city.&rdquo;</em></p><cite>&mdash; Mark 11:19</cite></blockquote>
+<p>The day ended. Jesus and the twelve left Jerusalem again, returning to Bethany or the surrounding area as they had the evening before. The pattern was consistent throughout this week: days in the city, evenings outside it.</p>
+<hr />
+<h2>A Note on Matthew and Luke</h2>
+<p>Matthew and Luke both record the temple cleansing, but neither one places it on a specific day separate from the entry. Matthew moves directly from the entry narrative to the cleansing without a time break (Matthew 21:1–13). Luke does the same (Luke 19:28–46). If you read Matthew or Luke alone, you might conclude that the entry and the cleansing happened on the same day.</p>
+<p>Mark tells us otherwise. Mark places the entry on one day (11:1–11), records that Jesus looked around and left, and then says the fig tree and cleansing occurred &ldquo;on the next day&rdquo; (11:12). Mark provides the chronological sequence. Matthew and Luke provide the same events but compress them narratively — moving from entry to cleansing without specifying that a night passed between them.</p>
+<p>This is a difference in literary arrangement, not a contradiction. Matthew is widely recognized as organizing his material topically rather than in strict chronological order. Luke, while generally sequential, does not provide a time marker between the entry and the cleansing. Neither of them says &ldquo;on the same day.&rdquo; They simply move from one event to the next without a time gap — which is different from saying no time gap existed.</p>
+<p>Mark, who gives us the most detailed chronological backbone of any Gospel writer for this week, is the one who separates the events with an explicit &ldquo;on the next day.&rdquo; We follow his sequence — not because Mark is more authoritative than Matthew or Luke, but because Mark is the one who provides the time markers. Where one account gives a sequence and another gives no sequence, we follow the account that gives the sequence.</p>
+<hr />
+<h2>The Fig Tree in Matthew</h2>
+<p>Matthew&rsquo;s account of the fig tree also compresses the timeline. In Mark, the fig tree is cursed on one day (11:14) and found withered the next morning (11:20). In Matthew, the cursing and the withering appear in the same scene:</p>
+<blockquote class="scripture"><p><em>&ldquo;And at once the fig tree withered.&rdquo;</em></p><cite>&mdash; Matthew 21:19</cite></blockquote>
+<blockquote class="scripture"><p><em>&ldquo;Seeing this, the disciples were amazed and asked, 'How did the fig tree wither all at once?'&rdquo;</em></p><cite>&mdash; Matthew 21:20</cite></blockquote>
+<p>Mark tells us the disciples noticed it withered the following morning (Mark 11:20). Matthew presents the cursing and the reaction together as one unit. This is the same kind of narrative compression we see with the temple cleansing — Matthew groups related events together; Mark separates them by day.</p>
+<p>Neither approach is wrong. They are simply different ways of telling the same story. A biographer who writes &ldquo;He quit his job and moved to another city&rdquo; has not claimed both happened on the same afternoon. He has grouped two related events into one sentence. Matthew does the same thing with the fig tree.</p>
+<p>The important point is that no detail in Matthew contradicts Mark&rsquo;s sequence. Matthew&rsquo;s &ldquo;in the morning, when He was returning to the city&rdquo; (21:18) is consistent with a new day — the same &ldquo;next day&rdquo; that Mark specifies.</p>
+<hr />
+<h2>What This Day Tells Us</h2>
+<p>Sunday, Nisan 11, was the first working day after the Lamb entered Jerusalem. And on this day, two things happened that frame everything that follows.</p>
+<p>First, Jesus encountered a tree that had every outward appearance of fruitfulness — leaves in full display — but nothing behind the appearance. He cursed it. Mark will tell us in the next chapter that by the following morning, it was dead to the roots (Mark 11:20).</p>
+<p>Second, Jesus entered the temple — the place where God&rsquo;s presence was supposed to dwell, the place that was supposed to be a house of prayer for all nations — and found it overtaken by commerce. He drove out the merchants and quoted God&rsquo;s own prophets to explain why.</p>
+<p>Both scenes are about the same thing: the difference between appearance and reality. Between looking alive and bearing fruit. Between being called by God&rsquo;s name and actually serving God&rsquo;s purpose.</p>
+<p>The chief priests and scribes saw it. They heard the crowd&rsquo;s response. And they began planning how to destroy Him.</p>
+<p>The Lamb had been in the household for one day. Exodus 12 does not tell us why God required the lamb to be kept for four days — only that He required it. But what the Gospels tell us is that during the days between the entry and the crucifixion, every authority group in Israel would confront Jesus, question Him, and search for something to hold against Him. Whether God designed the four-day keeping period for this purpose, we cannot say — the text does not tell us. But the correspondence between the days the lamb was kept and the days the Lamb was tested is striking, and it unfolds across the chapters ahead.</p>
+<hr />
+<p>Tomorrow, every authority group in Israel would take its turn. Pharisees. Sadducees. Scribes. Herodians. Each one with a question designed to trap Him.</p>
+<p>None of them would succeed.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Chapter Three: The Arrival and the Selection</a>
+          <a href="chapter-05.html">Chapter Five: The Lamb Is Examined &rarr;</a>
+        </div>
+        <p class="copyright">The Last Week of the Lamb &copy; 2026 Paul &amp; Pam Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'theLastWeekOfTheLamb_progress';
+    var SECTION_SLUG = 'chapter-04';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-03.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

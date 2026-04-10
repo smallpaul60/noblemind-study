@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Twelve: When Did the Lamb Die? | The Last Week of the Lamb</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #D4A848;
+      --accent-glow: rgba(212, 168, 72, 0.4);
+      --accent-soft: rgba(212, 168, 72, 0.12);
+      --accent-secondary: #C87941;
+      --accent-secondary-glow: rgba(200, 121, 65, 0.3);
+      --scripture-border: #C87941;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212, 168, 72,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(200, 121, 65,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212, 168, 72,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(200, 121, 65,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(200, 121, 65,0.15),
+        0 0 80px rgba(212, 168, 72,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 72,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212, 168, 72,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212, 168, 72,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212, 168, 72,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 168, 72,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(200, 121, 65,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(212, 168, 72,0.06);
+      border: 1px solid rgba(212, 168, 72,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 72,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(212, 168, 72,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 168, 72,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(200, 121, 65,0.08);
+      border: 1px solid rgba(200, 121, 65,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(200, 121, 65,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('lwol_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('lwol_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'lamb') {
+    sessionStorage.setItem('lwol_auth', 'granted');
+    sessionStorage.removeItem('lwol_attempts');
+  } else {
+    sessionStorage.setItem('lwol_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Last Week of the Lamb
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option value="prologue.html">Prologue: The Promise and the Thread</option>
+          <option disabled>&mdash; Part One: The Pattern &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Lamb in Egypt</option>
+          <option value="chapter-02.html">Ch 2: The Lamb in Prophecy</option>
+          <option value="interlude.html">Interlude: Understanding the Hebrew Calendar</option>
+          <option disabled>&mdash; Part Two: The Week &mdash;</option>
+          <option value="chapter-03.html">Ch 3: The Arrival and the Selection</option>
+          <option value="chapter-04.html">Ch 4: Leaves Without Fruit</option>
+          <option value="chapter-05.html">Ch 5: The Lamb Is Examined</option>
+          <option value="chapter-06.html">Ch 6: The Anointing and the Betrayal</option>
+          <option value="chapter-07.html">Ch 7: The Passover</option>
+          <option value="chapter-08.html">Ch 8: The Cup and the Trials</option>
+          <option value="chapter-09.html">Ch 9: The Lamb Is Killed</option>
+          <option disabled>&mdash; Part Three: The Silence &mdash;</option>
+          <option value="chapter-10.html">Ch 10: Three Days and Three Nights</option>
+          <option disabled>&mdash; Part Four: The Open Door &mdash;</option>
+          <option value="chapter-11.html">Ch 11: The Stone Moves</option>
+          <option value="chapter-12.html" selected>Ch 12: When Did the Lamb Die?</option>
+          <option value="epilogue.html">Epilogue: The Thread Completed</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TWELVE</p>
+        <h1>When Did the Lamb Die?</h1>
+        <p class="subtitle">The astronomy and the text converge on AD 31.</p>
+      </header>
+
+      <div class="content">
+<p>We have walked through the week. We have seen the Lamb selected on Nisan 10, examined for four days, killed on the afternoon of Nisan 14, and buried before sundown. We have counted three nights and three days in the tomb. We have stood with the women at the empty tomb on the first day of the week.</p>
+<p>The text told us the sequence. It told us the days. It told us the day of the week.</p>
+<p>But it raises a question we have not yet asked: can we determine the <em>year</em>?</p>
+<hr />
+<p>The Hebrew calendar is lunar. Each month begins with the sighting of the new crescent moon. Nisan 14 — the day the Passover lamb is killed — is always fourteen days after the start of Nisan. If we can determine when the new moon of Nisan occurred in the years surrounding the crucifixion, we can calculate what day of the week Nisan 14 fell on in each year. And if only one year in the plausible range produces a Wednesday, we may have our answer.</p>
+<p>This chapter uses astronomical data — not tradition, not commentary. The astronomy is verifiable. The text is verifiable. What follows is an honest examination of what they tell us when brought together.</p>
+<hr />
+<h2>What the Text Requires</h2>
+<p>Before we look at the astronomical data, we need to identify the boundaries that the text gives us. Any proposed year must satisfy all of these constraints at the same time.</p>
+<h3>Pilate Must Be in Office</h3>
+<p>All four Gospels identify Pontius Pilate as the Roman governor who sentenced Jesus to death. The Roman historian Tacitus confirms this (Annals, XV.44). Pilate governed Judaea from AD 26 to AD 36. The crucifixion must fall within this window.</p>
+<h3>The Fifteenth Year of Tiberius</h3>
+<blockquote class="scripture"><p><em>&ldquo;Now in the fifteenth year of the reign of Tiberius Caesar, when Pontius Pilate was governor of Judea… the word of God came to John, the son of Zacharias, in the wilderness.&rdquo;</em></p><cite>&mdash; Luke 3:1–3</cite></blockquote>
+<p>Luke anchors the beginning of John the Baptist&rsquo;s ministry to a specific year. Tiberius&rsquo;s sole reign began in August AD 14. By standard Roman reckoning, his fifteenth year runs from approximately January AD 29 to January AD 30. Some have proposed an earlier co-regency reckoning that could push this back to AD 26–27, but the straightforward reading of Luke places John&rsquo;s ministry beginning around AD 28–29.</p>
+<p>Jesus was baptized by John after John began preaching. His public ministry followed. This gives us our earliest possible starting point.</p>
+<h3>Three Passovers in John&rsquo;s Gospel</h3>
+<p>John records at least three distinct Passovers during Jesus&rsquo; public ministry: the first near the beginning of His ministry (John 2:13), a second during His Galilean ministry (John 6:4), and the final Passover at which He was crucified (John 11:55). This means His ministry spanned at least two full years — and likely closer to three.</p>
+<p>If the ministry began around AD 29 and lasted through three Passovers, the crucifixion Passover falls around AD 31.</p>
+<h3>Nisan 14 Must Fall on a Wednesday</h3>
+<p>As we established in Chapter 10, the text requires a Wednesday crucifixion. Any proposed year must have Nisan 14 falling on a Wednesday.</p>
+<h3>Paul&rsquo;s Conversion</h3>
+<p>The apostle Paul&rsquo;s conversion is generally dated to approximately AD 33–34, based on working backward from his appearance before the proconsul Gallio in Corinth (Acts 18:12–17), which is well-dated to AD 51–52, and tracing his travels and timeline references in Galatians and Acts. The crucifixion must precede Paul&rsquo;s conversion.</p>
+<h3>The Window</h3>
+<p>Put all five constraints together and the practical window narrows to approximately AD 29 to AD 34. The crucifixion must fall within a year where Pilate is in office, John the Baptist has already begun preaching, at least three Passovers have occurred during Jesus&rsquo; ministry, Nisan 14 falls on a Wednesday, and the date is early enough to precede Paul&rsquo;s conversion.</p>
+<hr />
+<h2>The Stars Have Kept Time</h2>
+<p>Astronomers can calculate the precise times of new moon conjunctions thousands of years into the past. The math is well-established and has been verified against ancient Babylonian and Chinese eclipse records with probable errors of only a few minutes, even for dates two thousand years ago.</p>
+<p>But here is where it gets complicated.</p>
+<p>The first-century Jewish calendar was not based on the calculated astronomical new moon — the conjunction, which is invisible. It was based on the <em>observed</em> first visible crescent of the new moon — the thin sliver of light that appears after sunset, typically one to two days after the conjunction. Each month began on the evening when this crescent was first spotted by observers in Jerusalem.</p>
+<p>We can calculate when the astronomical new moon occurred with extraordinary precision. But we cannot know with certainty when human eyes in Jerusalem first saw the crescent. Cloud cover, atmospheric haze, dust storms, or simple variation in observer skill could delay the sighting by a day. A one-day delay shifts the start of the month by one day — and therefore shifts Nisan 14 by one day.</p>
+<p>The most rigorous modern work on this problem was done by Colin Humphreys and W. Graeme Waddington of Oxford University, who published their calculations in <em>Nature</em> (1983) and the <em>Journal of the American Scientific Affiliation</em> (1985). They computed the visibility of the lunar crescent for each relevant month, taking into account the moon&rsquo;s position, sky brightness, and visual contrast threshold for observers at Jerusalem&rsquo;s latitude. Their work has been widely cited and substantially confirmed by subsequent researchers.</p>
+<p>Additional calculations come from Sir Isaac Newton (published posthumously in 1733) and Jack Finegan&rsquo;s <em>Handbook of Biblical Chronology</em>. While these sources use slightly different assumptions about crescent visibility and about the insertion of leap months, they converge on a consistent picture.</p>
+<p>Here is what they found. The day of the week is the critical column.</p>
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Nisan 14 (Julian Date)</th>
+<th>Day of Week</th>
+<th>Wednesday?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AD 27</td>
+<td>Mar 28 or Apr 11</td>
+<td>Friday</td>
+<td>No</td>
+</tr>
+<tr>
+<td>AD 28</td>
+<td>Apr 14 or Apr 28</td>
+<td>Wednesday</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>AD 29</td>
+<td>Apr 4–5 or Apr 18</td>
+<td>Monday</td>
+<td>No</td>
+</tr>
+<tr>
+<td>AD 30</td>
+<td>Apr 7</td>
+<td>Friday</td>
+<td>No</td>
+</tr>
+<tr>
+<td>AD 31</td>
+<td>Mar 27–28 or Apr 11–25</td>
+<td>Tues/Wed</td>
+<td>Probable</td>
+</tr>
+<tr>
+<td>AD 32</td>
+<td>Apr 14</td>
+<td>Monday</td>
+<td>No</td>
+</tr>
+<tr>
+<td>AD 33</td>
+<td>Apr 3</td>
+<td>Friday</td>
+<td>No</td>
+</tr>
+<tr>
+<td>AD 34</td>
+<td>Mar 24 or Apr 22–23</td>
+<td>Wed/Fri</td>
+<td>Possible</td>
+</tr>
+</tbody>
+</table>
+<p>Three years produce a Wednesday for Nisan 14: AD 28, AD 31, and possibly AD 34.</p>
+<p>Now let&rsquo;s apply the constraints.</p>
+<hr />
+<h2>Testing the Candidates</h2>
+<h3>AD 28 — Too Early</h3>
+<p>If John the Baptist began preaching in the fifteenth year of Tiberius (AD 28–29), an AD 28 crucifixion leaves virtually no time for John&rsquo;s ministry, Jesus&rsquo; baptism, or a public ministry spanning three Passovers. John&rsquo;s Gospel alone records events across at least two and a half years. AD 28 does not provide enough time.</p>
+<h3>AD 34 — Too Late</h3>
+<p>AD 34 conflicts with the probable date of Paul&rsquo;s conversion (approximately AD 33–34). It also requires assuming that an additional leap month was inserted — a possibility, but one with no supporting historical evidence for that specific year. Furthermore, AD 34 is only a Wednesday under certain calculation methods; others place it on a Friday. The evidence is thin.</p>
+<h3>AD 31 — The One That Fits</h3>
+<p>AD 31 is the only year in the AD 29–33 window where Nisan 14 plausibly falls on a Wednesday. Multiple independent calculations point to this year. Newton, applying the standard crescent visibility rule and the Jewish postponement practice, calculated Nisan 14 in AD 31 as Wednesday, March 28. Modern researchers using different methods have placed it on various dates in late March or April, with the day of the week falling on either Tuesday or Wednesday depending on the assumptions used. The Tuesday-versus-Wednesday variation reflects the observational uncertainty — a one-day difference in crescent sighting shifts the entire month by one day. Multiple calculations cluster around Wednesday. None of the major sources place it on a day that rules out Wednesday entirely.</p>
+<p>Now check it against every constraint:</p>
+<p><strong>Pilate in office?</strong> Yes — AD 31 falls within his governorship (AD 26–36).</p>
+<p><strong>John the Baptist preaching?</strong> Yes — if John began in AD 28–29, he has been preaching for one to two years.</p>
+<p><strong>Three Passovers?</strong> Yes — if Jesus&rsquo; ministry began around AD 29, the three Passovers recorded in John would fall in AD 29, AD 30, and AD 31. The crucifixion occurs at the third. This gives a ministry of approximately two and a half years, consistent with the minimum required by John&rsquo;s Gospel.</p>
+<p><strong>Early enough for Paul&rsquo;s conversion?</strong> Yes — a crucifixion in AD 31 allows two to three years before Paul&rsquo;s probable conversion in AD 33–34, during which the early church in Jerusalem would grow and the persecution that triggered Paul&rsquo;s involvement would develop.</p>
+<p>Every constraint is satisfied. No other year in the range does this while also producing a Wednesday.</p>
+<hr />
+<h2>What We Do Not Know</h2>
+<p>Before we draw any conclusion, honesty requires us to say plainly what we do not and cannot know.</p>
+<h3>The Observational Calendar</h3>
+<p>The first-century calendar was determined by direct observation, not by mathematical calculation. We can calculate when the astronomical new moon occurred with extraordinary precision. We cannot know exactly when human eyes saw the crescent. Cloud cover, atmospheric transparency, dust from a khamsin wind, or even a one-day dispute among the observers could shift the start of the month — and therefore Nisan 14 — by one day.</p>
+<p>This introduces an irreducible uncertainty of plus or minus one day. We can say that Nisan 14 in AD 31 very probably fell on a Wednesday. We cannot say it with absolute certainty.</p>
+<h3>Leap Months</h3>
+<p>The Hebrew calendar periodically inserted a thirteenth month — a leap month before Nisan — to keep the lunar calendar aligned with the agricultural seasons. In the first century, this decision was made annually by the Sanhedrin based on whether the barley crop would be ripe enough by the time of the Feast of Firstfruits and whether Passover would fall after the vernal equinox.</p>
+<p>We have no historical records of when leap months were actually proclaimed in the AD 26–36 period. If a leap month was inserted in a year when modern calculations do not assume one — or the reverse — the date of Nisan 14 could shift by approximately thirty days, potentially changing both the Julian date and the day of the week.</p>
+<p>For AD 31, the astronomical data does not suggest an obvious need for a leap month under normal conditions. But &ldquo;normal conditions&rdquo; is an assumption. Unusually late barley growth or heavy rains could have triggered an insertion that we cannot detect from this distance.</p>
+<h3>Postponement Rules</h3>
+<p>The modern Jewish calendar, formalized by Hillel II around AD 359, includes specific rules for postponing the start of certain months. Whether these rules were in use in the first century is debated. Newton applied one such rule and arrived at his Wednesday, March 28 date. Without that rule, his calculation gives Tuesday, March 27. The difference is one day — which falls within the observational uncertainty already noted.</p>
+<h3>What This Means</h3>
+<p>None of these limitations invalidate the investigation. They define its boundaries. The astronomical data is precise. The text is clear. But the bridge between them — the actual observational practices of first-century Jerusalem — carries a degree of uncertainty that cannot be eliminated with the information available to us.</p>
+<p>We state these limitations not as fine print but as part of the investigation itself. If we are going to show our work when the evidence is strong, we should show it when the evidence has limits, too.</p>
+<hr />
+<h2>A Word About the Inherited Assumption</h2>
+<p>Nearly all of the astronomical work done on dating the crucifixion — from Newton in 1733 to Humphreys and Waddington in 1983 to researchers publishing today — has been conducted under a single assumption: that the crucifixion occurred on a Friday. This assumption comes from the tradition we addressed in Chapter 10 — the reading of &ldquo;the day of preparation&rdquo; as meaning Friday, the day before the weekly Sabbath.</p>
+<p>As we saw in Chapter 10, John 19:31 identifies the Sabbath following the crucifixion as &ldquo;a high day&rdquo; — not the weekly Sabbath but the feast-day Sabbath of Nisan 15. The spice sequence requires two Sabbaths with a working day between them. And three literal days and three literal nights cannot fit between Friday afternoon and Sunday dawn.</p>
+<p>The consequence for the astronomical investigation is significant. When Humphreys and Waddington identified AD 30 and AD 33 as the only two years where Nisan 14 fell on a Friday, they were solving for the correct day of the month — Nisan 14 — but the wrong day of the week. Their astronomical calculations are sound. Their Nisan 14 identification is consistent with the text. Their Friday requirement is not.</p>
+<p>When the same astronomical data is examined for years where Nisan 14 falls on a Wednesday instead of a Friday, the field changes entirely. AD 30 and AD 33 drop out. AD 31 emerges.</p>
+<p>This is not a criticism of these researchers&rsquo; methods, which are excellent. It is a correction of the inherited assumption they were working from.</p>
+<hr />
+<h2>What We Believe the Evidence Shows</h2>
+<p>We believe the evidence points strongly in one direction.</p>
+<p>The textual evidence establishes that Jesus was crucified on Nisan 14, a Wednesday, with burial completed before sundown. The astronomical data shows that within the plausible window of AD 29 to AD 34, only one year produces a Wednesday for Nisan 14 while satisfying every other textual constraint: AD 31.</p>
+<p>We believe AD 31 is the strongest candidate for the year of the crucifixion. We hold that conclusion honestly, with the limitations stated above, and we invite you to examine both the text and the data for yourself.</p>
+<h3>What This Does Not Change</h3>
+<p>Nothing about our faith, our worship, or our understanding of what God accomplished through the death, burial, and resurrection of Jesus Christ depends on identifying the exact year. The cross is not more powerful if we know the calendar date. The tomb is not more empty. The text tells us what happened, and the text is what we build on.</p>
+<h3>What It Adds</h3>
+<p>But for those who want to see how precisely God orchestrated the fulfillment of His own pattern — the Passover lamb selected on Nisan 10, examined for four days, killed on Nisan 14 at the appointed hour, with three days and three nights in the heart of the earth — the convergence of the textual evidence and the astronomical data in a single year is remarkable.</p>
+<p>The text tells us the sequence. The astronomy narrows the &ldquo;when&rdquo; to one highly probable year. Together, they point to a Wednesday in the spring of AD 31 as the day the Lamb of God was killed — at the exact hour, on the exact day, in the exact pattern that God established in Exodus 12 fifteen centuries earlier.</p>
+<p>The tradition is old. But the text is older. And the stars have kept God&rsquo;s time from the beginning.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-11.html">&larr; Chapter Eleven: The Stone Moves</a>
+          <a href="epilogue.html">Epilogue: The Thread Completed &rarr;</a>
+        </div>
+        <p class="copyright">The Last Week of the Lamb &copy; 2026 Paul &amp; Pam Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'theLastWeekOfTheLamb_progress';
+    var SECTION_SLUG = 'chapter-12';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-11.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

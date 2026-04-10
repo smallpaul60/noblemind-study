@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Eleven: The Stone Moves | The Last Week of the Lamb</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #D4A848;
+      --accent-glow: rgba(212, 168, 72, 0.4);
+      --accent-soft: rgba(212, 168, 72, 0.12);
+      --accent-secondary: #C87941;
+      --accent-secondary-glow: rgba(200, 121, 65, 0.3);
+      --scripture-border: #C87941;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212, 168, 72,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(200, 121, 65,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212, 168, 72,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(200, 121, 65,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(200, 121, 65,0.15),
+        0 0 80px rgba(212, 168, 72,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 72,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212, 168, 72,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212, 168, 72,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212, 168, 72,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 168, 72,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(200, 121, 65,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(212, 168, 72,0.06);
+      border: 1px solid rgba(212, 168, 72,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 72,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(212, 168, 72,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 168, 72,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(200, 121, 65,0.08);
+      border: 1px solid rgba(200, 121, 65,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(200, 121, 65,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('lwol_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('lwol_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'lamb') {
+    sessionStorage.setItem('lwol_auth', 'granted');
+    sessionStorage.removeItem('lwol_attempts');
+  } else {
+    sessionStorage.setItem('lwol_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Last Week of the Lamb
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option value="prologue.html">Prologue: The Promise and the Thread</option>
+          <option disabled>&mdash; Part One: The Pattern &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Lamb in Egypt</option>
+          <option value="chapter-02.html">Ch 2: The Lamb in Prophecy</option>
+          <option value="interlude.html">Interlude: Understanding the Hebrew Calendar</option>
+          <option disabled>&mdash; Part Two: The Week &mdash;</option>
+          <option value="chapter-03.html">Ch 3: The Arrival and the Selection</option>
+          <option value="chapter-04.html">Ch 4: Leaves Without Fruit</option>
+          <option value="chapter-05.html">Ch 5: The Lamb Is Examined</option>
+          <option value="chapter-06.html">Ch 6: The Anointing and the Betrayal</option>
+          <option value="chapter-07.html">Ch 7: The Passover</option>
+          <option value="chapter-08.html">Ch 8: The Cup and the Trials</option>
+          <option value="chapter-09.html">Ch 9: The Lamb Is Killed</option>
+          <option disabled>&mdash; Part Three: The Silence &mdash;</option>
+          <option value="chapter-10.html">Ch 10: Three Days and Three Nights</option>
+          <option disabled>&mdash; Part Four: The Open Door &mdash;</option>
+          <option value="chapter-11.html" selected>Ch 11: The Stone Moves</option>
+          <option value="chapter-12.html">Ch 12: When Did the Lamb Die?</option>
+          <option value="epilogue.html">Epilogue: The Thread Completed</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ELEVEN</p>
+        <h1>The Stone Moves</h1>
+        <p class="subtitle">The first day of the week &mdash; the tomb is empty.</p>
+      </header>
+
+      <div class="content">
+<blockquote class="scripture"><p><em>&ldquo;Now on the first day of the week Mary Magdalene came early to the tomb, while it was still dark, and saw the stone already taken away from the tomb.&rdquo;</em></p><cite>&mdash; John 20:1</cite></blockquote>
+<p>Already taken away.</p>
+<p>She came expecting to find a sealed tomb. She came with spices. She came to care for a dead body. And before she even reached the entrance, the stone was gone.</p>
+<hr />
+<h2>The Morning</h2>
+<p>All four Gospels record this morning, each from a slightly different angle.</p>
+<p>Matthew tells us there was a severe earthquake, and that an angel descended and rolled away the stone and sat on it. His appearance was like lightning, and the guards shook and became like dead men (Matthew 28:2–4).</p>
+<p>Mark says the women — Mary Magdalene, Mary the mother of James, and Salome — arrived very early, when the sun had risen. They had been asking each other, &ldquo;Who will roll away the stone for us from the entrance of the tomb?&rdquo; And when they looked up, they saw that the stone had already been rolled away (Mark 16:2–4).</p>
+<p>Luke says they came at early dawn and found the stone rolled away. They entered the tomb and did not find the body of the Lord Jesus. Two men in dazzling clothing stood beside them (Luke 24:1–4).</p>
+<p>John focuses on Mary Magdalene. She came while it was still dark. She saw the stone removed. And she ran (John 20:1–2).</p>
+<p>The details differ because the perspectives differ. Matthew focuses on the angel and the guards. Mark focuses on the women&rsquo;s concern about the stone. Luke gives us two angelic figures. John follows Mary Magdalene&rsquo;s experience closely. These are not contradictions. They are the natural result of multiple witnesses describing the same event — each one reporting what struck them most, what they saw from where they were standing.</p>
+<p>But on one point, all four accounts agree: the tomb was empty. The body was gone. The stone had been moved.</p>
+<hr />
+<h2>The Angel&rsquo;s Words</h2>
+<blockquote class="scripture"><p><em>&ldquo;The angel said to the women, 'Do not be afraid; for I know that you are looking for Jesus who has been crucified. He is not here, for He has risen, just as He said. Come, see the place where He was lying.'&rdquo;</em></p><cite>&mdash; Matthew 28:5–6</cite></blockquote>
+<p>Six words in the middle of that sentence carry the weight of the entire book: <em>&ldquo;just as He said.&rdquo;</em></p>
+<p>He said three days and three nights. Three days and three nights passed. He said He would rise. He rose.</p>
+<p>The angel did not explain the resurrection. He did not describe how it happened. He announced the fact and pointed to the evidence — the empty place where the body had been — and he connected it to what Jesus had already told them.</p>
+<p><em>Just as He said.</em> The blueprint held. The promise was kept. The words meant what they said.</p>
+<p>Mark records the angel&rsquo;s words slightly differently:</p>
+<blockquote class="scripture"><p><em>&ldquo;Do not be amazed; you are looking for Jesus the Nazarene, who has been crucified. He has risen; He is not here; behold, here is the place where they laid Him.&rdquo;</em></p><cite>&mdash; Mark 16:6</cite></blockquote>
+<p>Luke records the two men asking a question that cuts to the heart of the moment:</p>
+<blockquote class="scripture"><p><em>&ldquo;Why do you seek the living One among the dead? He is not here, but He has risen.&rdquo;</em></p><cite>&mdash; Luke 24:5–6</cite></blockquote>
+<p>Why are you looking for a living man in a graveyard? The question was not a rebuke. It was a redirection. Everything they thought they knew about how this story ended was wrong.</p>
+<hr />
+<h2>The Stone</h2>
+<p>One detail deserves a moment of attention. The stone had been rolled away before the women arrived. The tomb was already open. The body was already gone.</p>
+<p>Why was the stone moved?</p>
+<p>Later that same day, Jesus walked with two disciples on the road to Emmaus. When they sat down to eat together, &ldquo;He took the bread and blessed it, and breaking it, He began giving it to them. Then their eyes were opened and they recognized Him; and He vanished from their sight&rdquo; (Luke 24:30–31). He was there — and then He was not. Later, He appeared to the disciples in a locked room — &ldquo;the doors were shut where the disciples were, for fear of the Jews&rdquo; — and &ldquo;Jesus came and stood in their midst&rdquo; (John 20:19). He did it again eight days later, with the doors shut again (John 20:26). His resurrection body was not subject to the same physical limitations as before.</p>
+<p>If He could pass through locked doors, He did not need the stone rolled away to get out of the tomb. The stone was not moved for Him. It was moved for the witnesses — so they could see that the tomb was empty, so they could enter and find the linen wrappings lying there, so they could know.</p>
+<p>The text does not state this explicitly. But John&rsquo;s account of the locked doors — recorded in the same chapter — provides the evidence. We note the observation and leave the reader to weigh it.</p>
+<hr />
+<h2>Peter and John</h2>
+<p>Mary Magdalene ran from the tomb and found Peter and John:</p>
+<blockquote class="scripture"><p><em>&ldquo;So she ran and came to Simon Peter and to the other disciple whom Jesus loved, and said to them, 'They have taken away the Lord out of the tomb, and we do not know where they have laid Him.'&rdquo;</em></p><cite>&mdash; John 20:2</cite></blockquote>
+<p>She did not yet understand what had happened. Her first assumption was not resurrection — it was that someone had moved the body.</p>
+<blockquote class="scripture"><p><em>&ldquo;So Peter and the other disciple went forth, and they were going to the tomb. The two were running together; and the other disciple ran ahead faster than Peter and came to the tomb first; and stooping and looking in, he saw the linen wrappings lying there; but he did not go in. And so Simon Peter also came, following him, and entered the tomb; and he saw the linen wrappings lying there, and the face-cloth which had been on His head, not lying with the linen wrappings, but rolled up in a place by itself.&rdquo;</em></p><cite>&mdash; John 20:3–7</cite></blockquote>
+<p>The linen wrappings were still there. The face-cloth was folded separately. This was not a robbery. No one who came to steal a body would unwrap it first and leave the burial cloths neatly behind.</p>
+<blockquote class="scripture"><p><em>&ldquo;So the other disciple who had first come to the tomb then also entered, and he saw and believed.&rdquo;</em></p><cite>&mdash; John 20:8</cite></blockquote>
+<p>John saw the evidence and believed. The wrappings told the story. Whatever had happened in that tomb, it was not theft.</p>
+<hr />
+<h2>Mary</h2>
+<p>The others left. Mary stayed.</p>
+<blockquote class="scripture"><p><em>&ldquo;But Mary was standing outside the tomb weeping; and so, as she wept, she stooped and looked into the tomb; and she saw two angels in white sitting, one at the head and one at the feet, where the body of Jesus had been lying. And they said to her, 'Woman, why are you weeping?' She said to them, 'Because they have taken away my Lord, and I do not know where they have laid Him.'&rdquo;</em></p><cite>&mdash; John 20:11–13</cite></blockquote>
+<p>She was still weeping. She was still looking for a body.</p>
+<blockquote class="scripture"><p><em>&ldquo;When she had said this, she turned around and saw Jesus standing there, and did not know that it was Jesus. Jesus said to her, 'Woman, why are you weeping? Whom are you seeking?' Supposing Him to be the gardener, she said to Him, 'Sir, if you have carried Him away, tell me where you have laid Him, and I will take Him away.'&rdquo;</em></p><cite>&mdash; John 20:14–15</cite></blockquote>
+<p>She was standing in front of the risen Son of God, and she thought He was the gardener. She was so consumed by grief that she did not recognize Him.</p>
+<p>And then He said one word.</p>
+<blockquote class="scripture"><p><em>&ldquo;Jesus said to her, 'Mary!'&rdquo;</em></p><cite>&mdash; John 20:16a</cite></blockquote>
+<p>He said her name. That was all it took.</p>
+<blockquote class="scripture"><p><em>&ldquo;She turned and said to Him in Hebrew, 'Rabboni!' (which means, Teacher).&rdquo;</em></p><cite>&mdash; John 20:16b</cite></blockquote>
+<hr />
+<h2>The Witnesses</h2>
+<p>The resurrection was not a private event experienced by one or two people in a moment of heightened emotion. It was witnessed by many people, over many days, in many settings.</p>
+<p>The apostle Paul — writing to the church in Corinth approximately twenty-five years after the resurrection — listed the witnesses:</p>
+<blockquote class="scripture"><p><em>&ldquo;For I delivered to you as of first importance what I also received, that Christ died for our sins according to the Scriptures, and that He was buried, and that He was raised on the third day according to the Scriptures, and that He appeared to Cephas, then to the twelve. After that He appeared to more than five hundred brethren at one time, most of whom remain until now, but some have fallen asleep; then He appeared to James, then to all the apostles; and last of all, as to one untimely born, He appeared to me also.&rdquo;</em></p><cite>&mdash; 1 Corinthians 15:3–8</cite></blockquote>
+<p>Cephas — Peter. The twelve. More than five hundred people at once — and Paul notes that most of them were still alive when he wrote, available to be asked. James. All the apostles. And Paul himself.</p>
+<p>This was not a rumor that grew over time. It was a claim made by specific, named individuals who said they saw Him alive, and it was made while hundreds of other witnesses were still living and could confirm or deny it.</p>
+<h3>Thomas</h3>
+<p>One of the twelve was not present when Jesus first appeared to the group. Thomas said:</p>
+<blockquote class="scripture"><p><em>&ldquo;Unless I see in His hands the imprint of the nails, and put my finger into the place of the nails, and put my hand into His side, I will not believe.&rdquo;</em></p><cite>&mdash; John 20:25</cite></blockquote>
+<p>Eight days later, Jesus appeared again — through locked doors — and went directly to Thomas:</p>
+<blockquote class="scripture"><p><em>&ldquo;Then He said to Thomas, 'Reach here with your finger, and see My hands; and reach here your hand and put it into My side; and do not be unbelieving, but believing.' Thomas answered and said to Him, 'My Lord and my God!'&rdquo;</em></p><cite>&mdash; John 20:27–28</cite></blockquote>
+<p>Thomas did not say &ldquo;my teacher&rdquo; or &ldquo;my rabbi.&rdquo; He said &ldquo;my Lord and my God.&rdquo; And Jesus did not correct him. He accepted the declaration.</p>
+<hr />
+<h2>What Changed</h2>
+<p>The transformation of the disciples is itself a piece of evidence that deserves attention.</p>
+<p>Before the resurrection, Peter denied Jesus three times — to a servant girl, in a courtyard, while Jesus was on trial for His life (Matthew 26:69–75). The rest of the disciples fled when He was arrested (Matthew 26:56). After the crucifixion, they hid behind locked doors &ldquo;for fear of the Jews&rdquo; (John 20:19).</p>
+<p>These were not bold men. They were terrified.</p>
+<p>Fifty days later, on the day of Pentecost, Peter stood up in Jerusalem — the same city where Jesus had been crucified — and declared to the crowd:</p>
+<blockquote class="scripture"><p><em>&ldquo;This Jesus God raised up again, to which we are all witnesses.&rdquo;</em></p><cite>&mdash; Acts 2:32</cite></blockquote>
+<p>The same Peter who had denied knowing Jesus was now publicly proclaiming His resurrection in the city where the tomb could be checked. Three thousand people believed and were baptized that day (Acts 2:41).</p>
+<p>What changed? They saw Him. They saw Him alive. They ate with Him (Luke 24:42–43; John 21:12–13). They touched Him (John 20:27; Matthew 28:9). They spoke with Him over a period of forty days (Acts 1:3). And what they saw changed them from men hiding behind locked doors into men who would spend the rest of their lives proclaiming what they had witnessed — most of them dying for it.</p>
+<p>People do not die for what they know to be a lie. They die for what they believe to be true. And these men did not merely believe it. They said they saw it.</p>
+<hr />
+<h2>What the Resurrection Means</h2>
+<p>The empty tomb is not the end of the story. It is the beginning of everything that follows.</p>
+<p>If Jesus rose from the dead, then He was who He said He was. Paul wrote to the Romans:</p>
+<blockquote class="scripture"><p><em>&ldquo;...who was declared the Son of God with power by the resurrection from the dead, according to the Spirit of holiness, Jesus Christ our Lord.&rdquo;</em></p><cite>&mdash; Romans 1:4</cite></blockquote>
+<p>The resurrection is the declaration. It is God&rsquo;s verdict on every claim Jesus made. If He rose, His words are true — all of them.</p>
+<p>If Jesus rose from the dead, then the sacrifice was accepted. Paul wrote:</p>
+<blockquote class="scripture"><p><em>&ldquo;He who was delivered over because of our transgressions, and was raised because of our justification.&rdquo;</em></p><cite>&mdash; Romans 4:25</cite></blockquote>
+<p>He was delivered to death for our sins. He was raised because the payment was sufficient. The resurrection is the receipt.</p>
+<p>If Jesus rose from the dead, then death has been conquered. Peter proclaimed on Pentecost:</p>
+<blockquote class="scripture"><p><em>&ldquo;God raised Him up again, putting an end to the agony of death, since it was impossible for Him to be held in its power.&rdquo;</em></p><cite>&mdash; Acts 2:24</cite></blockquote>
+<p>And Paul wrote to the Corinthians:</p>
+<blockquote class="scripture"><p><em>&ldquo;But now Christ has been raised from the dead, the first fruits of those who are asleep. For since by a man came death, by a man also came the resurrection of the dead. For as in Adam all die, so also in Christ all will be made alive.&rdquo;</em></p><cite>&mdash; 1 Corinthians 15:20–22</cite></blockquote>
+<p>The blueprint was real. The Lamb was real. The blood was real. And the resurrection proves it — because the God who designed the Passover in Egypt, who wrote the pattern into the Law, who sent prophets to describe the suffering servant, who brought His Son into the world at the appointed time, who orchestrated every day of the final week down to the hour — that God did not leave His Son in the grave.</p>
+<p>He said three days and three nights. He meant it. And on the other side of those three days, the stone moved.</p>
+<hr />
+<p>The tomb is empty. The Lamb is alive. And the veil — the barrier between God and man that had stood for fifteen centuries — has been torn from top to bottom.</p>
+<p>What that means for every person who has ever lived is where we turn next.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-10.html">&larr; Chapter Ten: Three Days and Three Nights</a>
+          <a href="chapter-12.html">Chapter Twelve: When Did the Lamb Die? &rarr;</a>
+        </div>
+        <p class="copyright">The Last Week of the Lamb &copy; 2026 Paul &amp; Pam Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'theLastWeekOfTheLamb_progress';
+    var SECTION_SLUG = 'chapter-11';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-10.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

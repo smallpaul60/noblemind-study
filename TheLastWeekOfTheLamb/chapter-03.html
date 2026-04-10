@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Three: The Arrival and the Selection | The Last Week of the Lamb</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #D4A848;
+      --accent-glow: rgba(212, 168, 72, 0.4);
+      --accent-soft: rgba(212, 168, 72, 0.12);
+      --accent-secondary: #C87941;
+      --accent-secondary-glow: rgba(200, 121, 65, 0.3);
+      --scripture-border: #C87941;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(212, 168, 72,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(200, 121, 65,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(212, 168, 72,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(200, 121, 65,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(200, 121, 65,0.15),
+        0 0 80px rgba(212, 168, 72,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(212, 168, 72,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(212, 168, 72,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(212, 168, 72,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(212, 168, 72,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(212, 168, 72,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(212, 168, 72,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(200, 121, 65,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(212, 168, 72,0.06);
+      border: 1px solid rgba(212, 168, 72,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(212, 168, 72,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(212, 168, 72,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(212, 168, 72,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(200, 121, 65,0.08);
+      border: 1px solid rgba(200, 121, 65,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(200, 121, 65,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+(function() {
+  if (sessionStorage.getItem('lwol_auth') === 'granted') return;
+  var attempts = parseInt(sessionStorage.getItem('lwol_attempts') || '0');
+  if (attempts >= 3) {
+    window.location.href = '/index.html';
+    return;
+  }
+  var p = prompt('This book is currently in review.\nPlease enter the access code:');
+  if (p && p.toLowerCase().trim() === 'lamb') {
+    sessionStorage.setItem('lwol_auth', 'granted');
+    sessionStorage.removeItem('lwol_attempts');
+  } else {
+    sessionStorage.setItem('lwol_attempts', String(attempts + 1));
+    window.location.href = '/index.html';
+  }
+})();
+</script>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          The Last Week of the Lamb
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option value="prologue.html">Prologue: The Promise and the Thread</option>
+          <option disabled>&mdash; Part One: The Pattern &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Lamb in Egypt</option>
+          <option value="chapter-02.html">Ch 2: The Lamb in Prophecy</option>
+          <option value="interlude.html">Interlude: Understanding the Hebrew Calendar</option>
+          <option disabled>&mdash; Part Two: The Week &mdash;</option>
+          <option value="chapter-03.html" selected>Ch 3: The Arrival and the Selection</option>
+          <option value="chapter-04.html">Ch 4: Leaves Without Fruit</option>
+          <option value="chapter-05.html">Ch 5: The Lamb Is Examined</option>
+          <option value="chapter-06.html">Ch 6: The Anointing and the Betrayal</option>
+          <option value="chapter-07.html">Ch 7: The Passover</option>
+          <option value="chapter-08.html">Ch 8: The Cup and the Trials</option>
+          <option value="chapter-09.html">Ch 9: The Lamb Is Killed</option>
+          <option disabled>&mdash; Part Three: The Silence &mdash;</option>
+          <option value="chapter-10.html">Ch 10: Three Days and Three Nights</option>
+          <option disabled>&mdash; Part Four: The Open Door &mdash;</option>
+          <option value="chapter-11.html">Ch 11: The Stone Moves</option>
+          <option value="chapter-12.html">Ch 12: When Did the Lamb Die?</option>
+          <option value="epilogue.html">Epilogue: The Thread Completed</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>The Arrival and the Selection</h1>
+        <p class="subtitle">Nisan 9&ndash;10 &mdash; the Lamb enters the city.</p>
+      </header>
+
+      <div class="content">
+<p>We are about to step into the most important week in human history. But before we can walk through it day by day, we need to establish where the week begins — and to do that, we need to follow the time markers that the Gospel writers left us.</p>
+<p>Two of the four Gospel writers give us specific markers that allow us to anchor the events of this week to particular days. Mark gives us a chain of &ldquo;next day&rdquo; references that link one event to the next. John gives us a numerical count — &ldquo;six days before the Passover&rdquo; — that places Jesus at a specific location on a specific day. When we follow both paths independently, something remarkable happens.</p>
+<p>They land on the same day.</p>
+<p>Let&rsquo;s trace them one at a time.</p>
+<hr />
+<h2>John&rsquo;s Count — &ldquo;Six Days Before the Passover&rdquo;</h2>
+<blockquote class="scripture"><p><em>&ldquo;Jesus, therefore, six days before the Passover, came to Bethany where Lazarus was, whom Jesus had raised from the dead.&rdquo;</em></p><cite>&mdash; John 12:1</cite></blockquote>
+<blockquote class="scripture"><p><em>&ldquo;So they made Him a supper there, and Martha was serving; but Lazarus was one of those reclining at the table with Him.&rdquo;</em></p><cite>&mdash; John 12:2</cite></blockquote>
+<p>Jesus arrives in Bethany — the village just outside Jerusalem where Lazarus, Mary, and Martha lived. A supper is held. Mary anoints Jesus&rsquo; feet with costly perfume (John 12:3). This is a specific event at a specific location, and John anchors it to a specific time: six days before the Passover.</p>
+<p>To determine what day this is, we need to answer two questions. First, what does John mean by &ldquo;the Passover&rdquo;? And second, how do we count &ldquo;six days before&rdquo;?</p>
+<h3>What Is the Reference Point?</h3>
+<p>Throughout his passion narrative, John uses &ldquo;the Passover&rdquo; to refer to Nisan 14 — the day the Passover lamb is killed. This is consistent with how Exodus 12 defines it and with how John uses the term elsewhere in his Gospel (John 2:13; 6:4; 11:55; 18:28; 19:14). We will take Nisan 14 as the reference point.</p>
+<h3>How Do We Count?</h3>
+<p>Jewish reckoning typically used inclusive counting — the starting day is counted as day one. This pattern appears throughout the Old Testament. When someone said &ldquo;on the third day,&rdquo; the day they were currently on was day one. Compare 2 Chronicles 10:5 and 10:12, where &ldquo;after three days&rdquo; and &ldquo;on the third day&rdquo; are used to describe the same event. The starting day is part of the count.</p>
+<p>Counting backward from Nisan 14 inclusively:</p>
+<table>
+<thead>
+<tr>
+<th>Count</th>
+<th>Nisan Date</th>
+<th>Weekday</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Day 1</td>
+<td>Nisan 14</td>
+<td>Wednesday (the Passover — our reference point)</td>
+</tr>
+<tr>
+<td>Day 2</td>
+<td>Nisan 13</td>
+<td>Tuesday</td>
+</tr>
+<tr>
+<td>Day 3</td>
+<td>Nisan 12</td>
+<td>Monday</td>
+</tr>
+<tr>
+<td>Day 4</td>
+<td>Nisan 11</td>
+<td>Sunday</td>
+</tr>
+<tr>
+<td>Day 5</td>
+<td>Nisan 10</td>
+<td>Saturday</td>
+</tr>
+<tr>
+<td>Day 6</td>
+<td>Nisan 9</td>
+<td>Friday</td>
+</tr>
+</tbody>
+</table>
+<p>The inclusive count places Jesus&rsquo; arrival in Bethany on Friday, Nisan 9.</p>
+<p>The supper takes place that evening. And here is where the calendar we just discussed becomes important. In Hebrew reckoning, Friday evening after sundown is no longer Friday — it is the beginning of Nisan 10, the Sabbath. The supper at Lazarus&rsquo;s house is a Sabbath meal. Martha serving at a Sabbath meal was not unusual — it was customary. Sabbath meals were prepared in advance, and serving them involved no prohibited labor.</p>
+<h3>The Next Day</h3>
+<blockquote class="scripture"><p><em>&ldquo;On the next day the large crowd who had come to the feast, when they heard that Jesus was coming to Jerusalem, took the branches of the palm trees and went out to meet Him...&rdquo;</em></p><cite>&mdash; John 12:12</cite></blockquote>
+<p>&ldquo;On the next day&rdquo; after the Friday arrival and the evening supper. The next day is Saturday — Nisan 10. And this is the day the crowd goes out to meet Jesus as He enters Jerusalem.</p>
+<p>John&rsquo;s count gives us a clear result: Jesus arrives in Bethany on Friday (Nisan 9), shares a Sabbath meal that evening, and enters Jerusalem the next day — Saturday, Nisan 10.</p>
+<hr />
+<h2>Mark&rsquo;s Sequence — Working Backward</h2>
+<p>Mark&rsquo;s Gospel provides the other path to the same day. Mark does not give us a numerical count from the Passover. Instead, he gives us something equally valuable: a chain of relative time markers — &ldquo;the next day,&rdquo; &ldquo;in the morning,&rdquo; &ldquo;two days before&rdquo; — that link one event to the next like links in a chain.</p>
+<p>To use Mark&rsquo;s chain, we need a fixed point to start from. As we will demonstrate in detail in Chapter 10, the text requires that the crucifixion occurred on a Wednesday — Nisan 14. The full evidence for that conclusion — including the three-days-and-three-nights requirement and the two-Sabbath spice sequence — is laid out there. For now, we will use it as our anchor and trace Mark&rsquo;s chain backward.</p>
+<h3>&ldquo;Two Days Before&rdquo; — Mark 14:1</h3>
+<blockquote class="scripture"><p><em>&ldquo;Now the Passover and Unleavened Bread were two days away; and the chief priests and the scribes were seeking how to seize Him by stealth and kill Him.&rdquo;</em></p><cite>&mdash; Mark 14:1</cite></blockquote>
+<p>If the Passover (Nisan 14) is Wednesday, &ldquo;two days away&rdquo; places this statement on Monday — Nisan 12. This falls at the end of a block of teaching and confrontation in the temple.</p>
+<h3>&ldquo;In the Morning&rdquo; — Mark 11:20</h3>
+<blockquote class="scripture"><p><em>&ldquo;As they were passing by in the morning, they saw the fig tree withered from the roots up.&rdquo;</em></p><cite>&mdash; Mark 11:20</cite></blockquote>
+<p>This is the morning after Jesus cursed the fig tree. The disciples see it withered, and the day continues with teaching in the temple. If this is Monday morning (Nisan 12), then the fig tree was cursed the previous day — Sunday, Nisan 11.</p>
+<h3>&ldquo;On the Next Day&rdquo; — Mark 11:12</h3>
+<blockquote class="scripture"><p><em>&ldquo;On the next day, when they had left Bethany, He was hungry.&rdquo;</em></p><cite>&mdash; Mark 11:12</cite></blockquote>
+<p>This is the day Jesus cursed the fig tree and cleansed the temple (Mark 11:15–17). Mark calls it &ldquo;the next day&rdquo; — the next day after what? After the entry into Jerusalem described in Mark 11:1–11.</p>
+<p>If this day — the fig tree and the temple cleansing — is Sunday (Nisan 11), then the entry into Jerusalem was the day before: Saturday, Nisan 10.</p>
+<h3>Mark&rsquo;s Result</h3>
+<p>Working backward through the chain: Wednesday (Passover) → Monday (&ldquo;two days before&rdquo;) → Sunday (fig tree cursed, temple cleansed) → Saturday (the entry into Jerusalem).</p>
+<p>Mark&rsquo;s sequence places the entry on Saturday, Nisan 10.</p>
+<hr />
+<h2>Two Paths, One Day</h2>
+<p>John counts forward from a specific event — Jesus&rsquo; arrival in Bethany — and places the entry into Jerusalem on the next day, which his &ldquo;six days before the Passover&rdquo; count identifies as Saturday, Nisan 10.</p>
+<p>Mark traces backward from the Passover through a chain of &ldquo;next day&rdquo; markers and lands on the same day — Saturday, Nisan 10.</p>
+<p>These two Gospel writers, working from different starting points with different methods, arrive at the same conclusion independently. Neither one is borrowing from the other. Neither one is adjusting to fit the other. They simply converge.</p>
+<p>When two independent witnesses point to the same day through completely different paths, the convergence is significant. It does not guarantee the conclusion — we are still working with inferences built on time markers. But two independent paths arriving at the same destination is considerably stronger than one path alone.</p>
+<hr />
+<h2>What Happened That Day</h2>
+<p>Now that we know the day, let&rsquo;s look at what the text says Jesus actually did when He entered Jerusalem.</p>
+<p>The entry itself is recorded in all four Gospels (Matthew 21:1–11; Mark 11:1–11; Luke 19:28–44; John 12:12–19). Jesus rides into Jerusalem on a donkey. The crowds spread garments on the road and wave palm branches. They shout:</p>
+<blockquote class="scripture"><p><em>&ldquo;Hosanna to the Son of David; blessed is He who comes in the name of the Lord; Hosanna in the highest!&rdquo;</em></p><cite>&mdash; Matthew 21:9</cite></blockquote>
+<p>The scene is exuberant. The crowd is responding to Jesus as the Messiah. The Pharisees are alarmed:</p>
+<blockquote class="scripture"><p><em>&ldquo;Teacher, rebuke Your disciples.&rdquo;</em></p><cite>&mdash; Luke 19:39</cite></blockquote>
+<p>But then Mark adds a detail that is easy to overlook — and it matters enormously:</p>
+<blockquote class="scripture"><p><em>&ldquo;Jesus entered Jerusalem and came into the temple; and after looking around at everything, He left for Bethany with the twelve, since it was already late.&rdquo;</em></p><cite>&mdash; Mark 11:11</cite></blockquote>
+<p>He entered. He looked around. He left. That is the full extent of His activity in the temple that day.</p>
+<p>No teaching. No confrontation. No driving out merchants. No overturning tables. He came, He observed, and He withdrew to Bethany because it was late.</p>
+<p>Why? If the money changers were set up right in front of Him — the same money changers He would drive out the very next day — why would He simply look around and leave?</p>
+<p>The most natural explanation is that it was the Sabbath. The commercial activity was not happening. The merchants were not operating. There was nothing to confront. He entered, He saw the temple as it was on the rest day, and He returned to Bethany. The action begins &ldquo;the next day&rdquo; (Mark 11:12) — when the Sabbath is over and the merchants are back at their tables.</p>
+<hr />
+<h2>The Sabbath Entry — Addressed Honestly</h2>
+<p>If the entry into Jerusalem was on the Sabbath, does that create a problem? Did Jesus or the crowd violate the Sabbath?</p>
+<p>This is a fair question, and it deserves an honest answer.</p>
+<p>Consider what Jesus Himself actually did. He rode a donkey from Bethany to Jerusalem. Bethany was less than two miles from Jerusalem — within what Acts 1:12 calls &ldquo;a Sabbath day&rsquo;s journey.&rdquo; Riding a donkey was not considered labor under the Law. He entered the temple, looked around, and returned to Bethany. No work. No commerce. No confrontation.</p>
+<p>Now consider the crowd. They laid garments on the road — which is no more labor than removing a cloak from your back. John 12:13 says they &ldquo;took the branches of the palm trees.&rdquo; The Greek word (<em>elabon</em>) means &ldquo;took&rdquo; — not necessarily &ldquo;cut.&rdquo; They may have taken branches that were already available. Mark 11:8 does describe some cutting leafy branches from the fields, but these are the crowd&rsquo;s actions, not His. And even so, the Pharisees — who watched Jesus like hawks for any Sabbath violation — raised no Sabbath objection.</p>
+<p>That silence is significant. The Pharisees had previously challenged Jesus for healing on the Sabbath (Mark 3:1–6; Luke 13:10–17; 14:1–6; John 5:1–18; 9:1–16). They were looking for violations. They wanted ammunition. If the entry had constituted a Sabbath violation, they would have seized on it immediately.</p>
+<p>What did they actually say?</p>
+<blockquote class="scripture"><p><em>&ldquo;Teacher, rebuke Your disciples.&rdquo;</em></p><cite>&mdash; Luke 19:39</cite></blockquote>
+<p>They objected to the messianic claims — the shouts, the &ldquo;Hosanna,&rdquo; the implication that Jesus was the King. They did not object to any Sabbath-breaking activity. From the very people who scrutinized His every move on the rest day, there is not one word about a Sabbath violation.</p>
+<hr />
+<h2>Testing the Alternative</h2>
+<p>For thoroughness, we should test the alternative counting method. If we use exclusive counting — where the Passover itself is day zero rather than day one — then &ldquo;six days before&rdquo; Nisan 14 would be Nisan 8, a Thursday. Jesus arrives in Bethany on Thursday. &ldquo;On the next day&rdquo; (John 12:12) would be Friday. The entry into Jerusalem would be on Friday.</p>
+<p>This creates a practical problem. In Mark&rsquo;s sequence, &ldquo;the next day&rdquo; after the entry is when Jesus cursed the fig tree and cleansed the temple (Mark 11:12–17). If the entry is Friday, then the temple cleansing falls on Saturday — the weekly Sabbath.</p>
+<p>The temple cleansing involved overturning tables, driving out merchants, and stopping people from carrying goods through the temple courts (Mark 11:15–16). On the weekly Sabbath, the commercial activity that Jesus confronted would not have been operating. The money changers and dove sellers worked on working days, especially in the days leading up to the feast when demand was highest. A Sabbath temple cleansing does not work practically — there would have been no merchants to drive out.</p>
+<p>The inclusive count avoids this problem entirely. If the entry is Saturday and &ldquo;the next day&rdquo; is Sunday, the temple cleansing falls on an ordinary working day when the merchants would have been in full operation.</p>
+<p>This practical test favors the inclusive count. And the inclusive count is consistent with standard Jewish reckoning as seen elsewhere in Scripture.</p>
+<hr />
+<h2>The Day the Lamb Was Selected</h2>
+<p>There is one more detail about this day that we need to notice — not because the Gospel writers state it, but because Exodus 12 does.</p>
+<blockquote class="scripture"><p><em>&ldquo;Speak to all the congregation of Israel, saying, 'On the tenth of this month they are each one to take a lamb for themselves, according to their fathers' households, a lamb for each household.'&rdquo;</em></p><cite>&mdash; Exodus 12:3</cite></blockquote>
+<p>Nisan 10 was the day the Passover lamb was selected. Every household in Israel went to the flock, chose a lamb, and set it apart. From that day forward, the lamb belonged to the household. It had been chosen for a purpose.</p>
+<p>And on this day — Nisan 10 — Jesus of Nazareth rides into Jerusalem. The crowds receive Him. They spread garments and branches before Him. They shout the messianic greeting. He enters the temple. He is presented to the nation.</p>
+<p>On the exact day that God commanded the lamb to be selected, the Lamb of God enters the city where He will be killed.</p>
+<p>I want to be honest about what this is. No Gospel writer says &ldquo;Jesus entered Jerusalem on Nisan 10.&rdquo; We arrive at that date by counting backward through the time markers — through John&rsquo;s numerical count and Mark&rsquo;s &ldquo;next day&rdquo; chain. The connection to Exodus 12:3 is a typological inference. The Gospel writers do not draw the parallel explicitly.</p>
+<p>But when two independent counts — from two different Gospel writers using two different methods — both land on Nisan 10, and Nisan 10 happens to be the exact day that God commanded the Passover lamb to be selected fifteen centuries earlier, the convergence is worth pausing over.</p>
+<p>We noted at the end of the last chapter that John the Baptist called Jesus &ldquo;the Lamb of God&rdquo; (John 1:29). Isaiah described Him as &ldquo;a lamb that is led to slaughter&rdquo; (Isaiah 53:7). The blueprint in Exodus 12 began with selection on the tenth day of the month.</p>
+<p>And here He is. Riding into Jerusalem. Received by the people. Presented at the temple. On the tenth day of the month.</p>
+<p>The blueprint said the lamb would be selected on this day. The Lamb was.</p>
+<hr />
+<h2>The Evening</h2>
+<p>After entering the temple and looking around at everything, Jesus returned to Bethany with the twelve (Mark 11:11). The day was ending. The Sabbath was drawing to a close.</p>
+<p>But the week was just beginning.</p>
+<p>The next morning, when the Sabbath was over and the working days resumed, the Lamb who had been selected would begin to be examined. And every authority in Israel — religious and civil — would get the chance to search for a blemish.</p>
+<p>They would not find one.</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="interlude.html">&larr; Interlude: Understanding the Hebrew Calendar</a>
+          <a href="chapter-04.html">Chapter Four: Leaves Without Fruit &rarr;</a>
+        </div>
+        <p class="copyright">The Last Week of the Lamb &copy; 2026 Paul &amp; Pam Hainline. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'theLastWeekOfTheLamb_progress';
+    var SECTION_SLUG = 'chapter-03';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'interlude.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>
