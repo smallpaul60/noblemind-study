@@ -19,6 +19,7 @@ import re
 from pathlib import Path
 
 import markdown as md
+from docx import Document
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = SCRIPT_DIR
@@ -195,6 +196,25 @@ SECTIONS = [
         "file": "Epilogue_The_Thread_Completed.md",
         "part": None,
     },
+    # -- Appendix (reference charts) --
+    {
+        "slug": "timeline-chart",
+        "kind": "appendix",
+        "label": "Timeline Chart",
+        "title": "From Bethany to the Empty Tomb",
+        "subtitle": "The week at a glance &mdash; Nisan 9 through the first day.",
+        "file": "From_Bethany_to_the_Empty_Tomb_Timeline_Chart.md",
+        "part": None,
+    },
+    {
+        "slug": "gospel-parallel",
+        "kind": "appendix",
+        "label": "Reference Chart",
+        "title": "Gospel Parallel Reference",
+        "subtitle": "Every event in the last week, across all four Gospels.",
+        "file": "Gospel_Parallel_Reference_Chart.docx",
+        "part": None,
+    },
 ]
 
 TOTAL_SECTIONS = len(SECTIONS)
@@ -277,8 +297,100 @@ def process_markdown(md_text):
     md_text = re.sub(r'^##\s+.+\n', '', md_text, count=1)
 
     md_text = convert_scripture_quotes(md_text)
-    html = md.markdown(md_text, extensions=["extra", "smarty"])
+    html = md.markdown(md_text, extensions=["extra", "smarty", "tables"])
     return html
+
+
+# --------------------------------------------------------------------------
+# Appendix chart builders
+# --------------------------------------------------------------------------
+
+def build_timeline_chart_html():
+    """Render the Bethany-to-empty-tomb timeline chart markdown.
+
+    Unlike the prose chapters we keep the intro lines (the revision date
+    and the italic reminder about Hebrew days) so the chart reads cleanly
+    as a standalone reference.
+    """
+    md_path = SCRIPT_DIR / "From_Bethany_to_the_Empty_Tomb_Timeline_Chart.md"
+    md_text = md_path.read_text(encoding="utf-8")
+
+    # Strip the first `#` (book title) and the first `##` (chart subtitle)
+    # — both are surfaced in the page header, so we don't want duplicates.
+    md_text = TITLE_LINE_RE.sub("", md_text, count=1).lstrip("\n")
+    md_text = re.sub(r'^##\s+.+\n', '', md_text, count=1)
+
+    html = md.markdown(md_text, extensions=["extra", "smarty", "tables"])
+    # Wrap the table(s) in a scroll container so the 5-column layout can
+    # survive narrow viewports.
+    return f'<div class="chart-content timeline-chart">{html}</div>'
+
+
+def build_gospel_parallel_html():
+    """Parse Gospel_Parallel_Reference_Chart.docx into an HTML table.
+
+    Ported from generate_lulu_interior.py — same row typing (header,
+    Nisan-day banner, sub-section banner, event row) and zebra striping.
+    We drop WeasyPrint's page-break machinery since it's meaningless on
+    the web, and emit a single <tbody>.
+    """
+    doc = Document(str(SCRIPT_DIR / "Gospel_Parallel_Reference_Chart.docx"))
+    table = doc.tables[0]
+
+    header_html = ""
+    body_rows = []
+    event_counter = 0
+
+    for ri, row in enumerate(table.rows):
+        cells = [c.text.strip().replace("\n", " ") for c in row.cells]
+
+        if ri == 0:
+            header_html = (
+                '<tr class="gp-header">'
+                + "".join(f"<th>{c}</th>" for c in cells)
+                + "</tr>"
+            )
+            continue
+
+        is_banner = all(c == cells[0] for c in cells) and bool(cells[0])
+        if is_banner:
+            text = cells[0]
+            is_primary = text.startswith("Nisan") or text.startswith("First Day")
+            row_class = "gp-day" if is_primary else "gp-subsection"
+            body_rows.append(
+                f'<tr class="{row_class}"><td colspan="5">{text}</td></tr>'
+            )
+            continue
+
+        event_cell, *refs = cells
+        ref_html = "".join(f'<td class="gp-ref">{r}</td>' for r in refs)
+        zebra = " gp-event-alt" if event_counter % 2 == 1 else ""
+        event_counter += 1
+        body_rows.append(
+            f'<tr class="gp-event{zebra}">'
+            f'<td class="gp-event-name">{event_cell}</td>'
+            f'{ref_html}'
+            f'</tr>'
+        )
+
+    table_html = (
+        '<table class="gospel-parallel">'
+        '<colgroup>'
+        '<col class="gp-col-event">'
+        '<col class="gp-col-ref">'
+        '<col class="gp-col-ref">'
+        '<col class="gp-col-ref">'
+        '<col class="gp-col-ref">'
+        '</colgroup>'
+        f'<thead>{header_html}</thead>'
+        f'<tbody>{"".join(body_rows)}</tbody>'
+        '</table>'
+    )
+    intro = (
+        '<p class="chart-intro">Where each event in the last week is recorded '
+        'across the four Gospels. All references NASB.</p>'
+    )
+    return f'<div class="chart-content gospel-parallel-wrap">{intro}{table_html}</div>'
 
 
 # --------------------------------------------------------------------------
@@ -506,6 +618,98 @@ def get_chapter_css():
       content: "\\2022  \\2022  \\2022";
       letter-spacing: 0.6em;
     }}
+    /* === Chart / appendix tables === */
+    .chart-content {{
+      margin: 10px 0 30px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }}
+    .chart-intro {{
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 14px;
+    }}
+    .chart-content table {{
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }}
+    .chart-content th,
+    .chart-content td {{
+      padding: 8px 10px;
+      vertical-align: top;
+      border: 1px solid rgba(148,163,184,0.15);
+      text-align: left;
+    }}
+    .chart-content thead th {{
+      background: rgba({ACCENT_RGB},0.18);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba({ACCENT_RGB},0.45);
+    }}
+    .chart-content tbody tr:nth-child(even) td {{
+      background: rgba(255,255,255,0.02);
+    }}
+    .chart-content strong {{ color: var(--text-primary); }}
+    .chart-content em {{ color: var(--text-secondary); }}
+    .chart-content p {{
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }}
+    /* Timeline chart leading text (revision date, italic reminder) */
+    .timeline-chart > p:first-of-type {{
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }}
+    /* === Gospel Parallel Reference Chart === */
+    table.gospel-parallel {{
+      min-width: 820px;
+      table-layout: fixed;
+      font-size: 0.8rem;
+    }}
+    table.gospel-parallel .gp-col-event {{ width: 38%; }}
+    table.gospel-parallel .gp-col-ref   {{ width: 15.5%; }}
+    table.gospel-parallel tr.gp-header th {{
+      background: rgba({ACCENT_RGB},0.22);
+      color: var(--accent);
+      font-weight: 600;
+      text-align: left;
+    }}
+    table.gospel-parallel tr.gp-day td {{
+      background: rgba({ACCENT_SECONDARY_RGB},0.32);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+    }}
+    table.gospel-parallel tr.gp-subsection td {{
+      background: rgba({ACCENT_SECONDARY_RGB},0.14);
+      color: var(--accent-secondary);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.82rem;
+    }}
+    table.gospel-parallel tr.gp-event td {{
+      background: transparent;
+    }}
+    table.gospel-parallel tr.gp-event.gp-event-alt td {{
+      background: rgba(255,255,255,0.025);
+    }}
+    table.gospel-parallel td.gp-event-name {{
+      color: var(--text-primary);
+      font-weight: 600;
+    }}
+    table.gospel-parallel td.gp-ref {{
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }}
     .mark-complete {{
       display: flex;
       align-items: center;
@@ -639,7 +843,7 @@ def get_chapter_css():
 
 def build_section_select(current_slug):
     options = ['          <option value="">Jump to&hellip;</option>']
-    current_part_key = None
+    appendix_banner_shown = False
     for s in SECTIONS:
         # Insert a disabled label option for part breaks
         if s.get("part"):
@@ -647,6 +851,10 @@ def build_section_select(current_slug):
             options.append(
                 f'          <option disabled>&mdash; {part_name}: {part_subtitle} &mdash;</option>'
             )
+        # Insert a disabled label option before the first appendix
+        if s["kind"] == "appendix" and not appendix_banner_shown:
+            options.append('          <option disabled>&mdash; Appendix &mdash;</option>')
+            appendix_banner_shown = True
         selected = ' selected' if s["slug"] == current_slug else ''
         # Compose dropdown label
         if s["kind"] == "chapter":
@@ -831,6 +1039,14 @@ def build_toc_cards():
             flush()
             # Each of these stands alone in its own group
             groups.append((s["label"], [s]))
+            continue
+
+        if s["kind"] == "appendix":
+            # Gather all appendices under a shared "Appendix" heading
+            if current_heading != "Appendix":
+                flush()
+                current_heading = "Appendix"
+            current_list.append(s)
             continue
 
         if s.get("part"):
@@ -1239,6 +1455,8 @@ def generate_index_html():
           <span>Interlude</span>
           &nbsp;&middot;&nbsp;
           <span>Epilogue</span>
+          &nbsp;&middot;&nbsp;
+          <span>Appendix</span>
         </p>
         <a href="../books.html" class="return-link">&larr; Return to Books</a>
         <span class="download-btn">PDF download coming soon</span>
@@ -1369,15 +1587,20 @@ def main():
 
     # Section pages
     for i, section in enumerate(SECTIONS):
-        md_path = SCRIPT_DIR / section["file"]
-        if not md_path.exists():
+        src_path = SCRIPT_DIR / section["file"]
+        if not src_path.exists():
             print(f"  WARNING: {section['file']} not found, skipping {section['slug']}")
             continue
 
-        md_text = md_path.read_text(encoding='utf-8')
-        content_html = process_markdown(md_text)
-        page_html = generate_section_html(section, content_html, i)
+        if section["slug"] == "timeline-chart":
+            content_html = build_timeline_chart_html()
+        elif section["slug"] == "gospel-parallel":
+            content_html = build_gospel_parallel_html()
+        else:
+            md_text = src_path.read_text(encoding='utf-8')
+            content_html = process_markdown(md_text)
 
+        page_html = generate_section_html(section, content_html, i)
         out_path = OUTPUT_DIR / f"{section['slug']}.html"
         out_path.write_text(page_html, encoding='utf-8')
         print(f"  Generated: {section['slug']}.html")
