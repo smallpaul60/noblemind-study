@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 5: The Man Who Changed Everything | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html" selected>Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FIVE</p>
+        <h1>The Man Who Changed Everything</h1>
+      </header>
+
+      <div class="content">
+        <p>Four hundred years of silence. No prophet. No new word from heaven. Generation after generation reading the old promises, holding on, wondering when — or if — God was going to act.</p>
+<p>And then, in a town so small it barely made the maps, to a young woman who had never been with a man, a child was born. He was laid in a feeding trough because there was no room anywhere else. No palace. No announcement to the powerful. Just a baby, born in Bethlehem, exactly where the prophet said He would be (Micah 5:2).</p>
+<p>His name was Jesus.</p>
+<p>And with His arrival, every promise God had ever made began to come true.</p>
+<h2>The Word Made Flesh</h2>
+<p>To understand who Jesus is, we need to go back — not just to the prophets, but to the very beginning. The Gospel of John opens with words that should sound familiar:</p>
+<blockquote class="scripture"><p>&ldquo;In the beginning was the Word, and the Word was with God, and the Word was God. He was in the beginning with God. All things came into being through Him, and apart from Him nothing came into being that has come into being.&rdquo;</p><cite>&mdash; John 1:1–3</cite></blockquote>
+<p>&ldquo;In the beginning.&rdquo; That&rsquo;s the same phrase that opens the entire Bible — &ldquo;In the beginning God created the heavens and the earth&rdquo; (Genesis 1:1). John is deliberately echoing that opening. And what he&rsquo;s saying is staggering: the Word was there at the beginning. The Word was with God. The Word <em>was</em> God. And everything that exists was made through Him.</p>
+<p>This is not a metaphor. This is not poetry for poetry&rsquo;s sake. John is making a claim about the nature of reality — that the One he&rsquo;s about to introduce was not a created being. He was the Creator.</p>
+<p>And then John says this:</p>
+<blockquote class="scripture"><p>&ldquo;And the Word became flesh, and dwelt among us, and we saw His glory, glory as of the only begotten from the Father, full of grace and truth.&rdquo;</p><cite>&mdash; John 1:14</cite></blockquote>
+<p>The Word became flesh. God — the same God who spoke the universe into existence, the same God who is spirit (John 4:24), the same God who is invisible (1 Timothy 1:17) — took on a human body and walked among the people He had made.</p>
+<p>That is who Jesus claimed to be. Not a good teacher. Not a moral philosopher. Not a prophet pointing to someone greater. He claimed to be God in the flesh.</p>
+<p>And He said so plainly.</p>
+<h2>What He Said About Himself</h2>
+<p>There are people who will tell you that Jesus never claimed to be God — that His followers made that up later. But the Gospel accounts don&rsquo;t support that. Jesus made claims about Himself that leave no room for that interpretation.</p>
+<p>One day, in a confrontation with the religious leaders, Jesus said something that nearly got Him killed on the spot:</p>
+<blockquote class="scripture"><p>&ldquo;Jesus said to them, &lsquo;Truly, truly, I say to you, before Abraham was born, I am.&rdquo;</p><cite>&mdash; John 8:58</cite></blockquote>
+<p>The reaction tells you everything you need to know about what they understood Him to be saying:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore they picked up stones to throw at Him.&rdquo;</p><cite>&mdash; John 8:59</cite></blockquote>
+<p>Why stones? Because under the Law of Moses, the penalty for blasphemy was death by stoning. And what had Jesus said? &ldquo;I am.&rdquo; Not &ldquo;I was.&rdquo; Not &ldquo;I existed before Abraham.&rdquo; <em>I am</em> — present tense, eternal existence. And everyone in that room knew exactly what He was claiming. &ldquo;I AM&rdquo; is the name God gave Himself when Moses asked who was sending him to Egypt:</p>
+<blockquote class="scripture"><p>&ldquo;God said to Moses, &lsquo;I AM WHO I AM&rsquo;; and He said, &lsquo;Thus you shall say to the sons of Israel, &ldquo;I AM has sent me to you.&rdquo;</p><cite>&mdash; Exodus 3:14</cite></blockquote>
+<p>Jesus was claiming the name of God as His own. The people standing there understood it perfectly. That&rsquo;s why they picked up stones.</p>
+<p>On another occasion, He said it even more directly:</p>
+<blockquote class="scripture"><p>&ldquo;I and the Father are one.&rdquo;</p><cite>&mdash; John 10:30</cite></blockquote>
+<p>Again, the response was immediate:</p>
+<blockquote class="scripture"><p>&ldquo;The Jews picked up stones again to stone Him.&rdquo;</p><cite>&mdash; John 10:31</cite></blockquote>
+<p>And when Jesus asked them which of His good works they were stoning Him for, they answered:</p>
+<blockquote class="scripture"><p>&ldquo;For a good work we do not stone You, but for blasphemy; and because You, being a man, make Yourself out to be God.&rdquo;</p><cite>&mdash; John 10:33</cite></blockquote>
+<p>They heard Him clearly. He was making Himself out to be God. And He never corrected them. He never said, &ldquo;No, you misunderstood Me.&rdquo; He never backed away from the claim. He stood on it.</p>
+<p>When one of His own disciples, Philip, asked Him to show them the Father, Jesus answered:</p>
+<blockquote class="scripture"><p>&ldquo;Have I been so long with you, and yet you have not come to know Me, Philip? He who has seen Me has seen the Father; how can you say, &lsquo;Show us the Father&rsquo;?&rdquo;</p><cite>&mdash; John 14:9</cite></blockquote>
+<p>He who has seen Me has seen the Father. There is no way to soften that. Jesus was telling Philip — and everyone who would ever read these words — that to look at Him was to look at God.</p>
+<p>And when the disciple Thomas, after the resurrection, finally saw the risen Jesus and fell to his knees, he said:</p>
+<blockquote class="scripture"><p>&ldquo;My Lord and my God!&rdquo;</p><cite>&mdash; John 20:28</cite></blockquote>
+<p>Jesus didn&rsquo;t rebuke him. He didn&rsquo;t correct him. He accepted the title. Because it was true.</p>
+<h2>His Authority Over Everything</h2>
+<p>But claims are just words unless there&rsquo;s something to back them up. Anyone can say anything. What made Jesus different was that He demonstrated authority over every part of the created order — as if He were the One who made it. Which, if John 1 is true, He was.</p>
+<h3>Authority Over Nature</h3>
+<p>One evening, Jesus and His disciples were in a boat on the Sea of Galilee when a violent storm hit — the kind that terrified experienced fishermen. The waves were breaking over the boat, filling it with water. And Jesus was asleep.</p>
+<p>His disciples woke Him in a panic. And this is what happened:</p>
+<blockquote class="scripture"><p>&ldquo;And He got up and rebuked the wind and said to the sea, &lsquo;Hush, be still.&rsquo; And the wind died down and it became perfectly calm.&rdquo;</p><cite>&mdash; Mark 4:39</cite></blockquote>
+<p>He spoke to the storm, and the storm obeyed. Just like that. And the disciples — men who had been following Him, listening to Him teach, watching Him work — said to each other:</p>
+<blockquote class="scripture"><p>&ldquo;Who then is this, that even the wind and the sea obey Him?&rdquo;</p><cite>&mdash; Mark 4:41</cite></blockquote>
+<p>That is exactly the right question. Who has authority over the wind and the sea? The One who made them.</p>
+<h3>Authority Over Disease</h3>
+<p>Everywhere Jesus went, the sick came to Him — and He healed them. Not through medicine. Not through gradual recovery. Instantly, completely, and publicly.</p>
+<p>A man born blind from birth — never seen a single day of his life — was given sight (John 9:1–7). A woman who had been bleeding for twelve years, who had spent everything she had on doctors and only gotten worse, was healed the moment she touched the edge of His garment (Mark 5:25–34). Lepers were cleansed. The paralyzed walked. The deaf heard.</p>
+<p>And these were not done in secret. They were done in front of crowds, in front of critics, in front of people who were actively looking for a reason to discredit Him. No one denied that the miracles happened — not even His enemies. The religious leaders who wanted Him dead never once said, &ldquo;He didn&rsquo;t really do it.&rdquo; They said He did it by the wrong power (Matthew 12:24). Even in their accusation, they confirmed the miracles were real.</p>
+<h3>Authority Over Death</h3>
+<p>Three times in the Gospel accounts, Jesus raised someone from the dead.</p>
+<p>The most dramatic was a man named Lazarus. Lazarus had been dead for four days. His body was already in the tomb. His sister Martha warned Jesus that there would be a stench — decomposition had already begun (John 11:39). And Jesus stood outside that tomb and said:</p>
+<blockquote class="scripture"><p>&ldquo;Lazarus, come forth.&rdquo;</p><cite>&mdash; John 11:43</cite></blockquote>
+<p>And Lazarus walked out.</p>
+<p>Someone once noted that it&rsquo;s a good thing Jesus called Lazarus by name — because if He had simply said &ldquo;Come forth&rdquo; without specifying, every grave in the cemetery might have emptied.</p>
+<p>That may be said with a smile, but it carries a truth. Jesus had authority over death itself. He spoke, and the dead obeyed. That is not something a good teacher can do. That is not something a prophet can do. That is something only the Author of life can do.</p>
+<h3>Authority Over Sin</h3>
+<p>This may be the most important one. Early in His ministry, four men brought their paralyzed friend to Jesus by lowering him through a hole they had cut in the roof of a house. And when Jesus saw him, He said something no one expected:</p>
+<blockquote class="scripture"><p>&ldquo;Son, your sins are forgiven.&rdquo;</p><cite>&mdash; Mark 2:5</cite></blockquote>
+<p>The religious leaders sitting in the room were immediately outraged — and their reasoning was exactly right:</p>
+<blockquote class="scripture"><p>&ldquo;Why does this man speak that way? He is blaspheming; who can forgive sins but God alone?&rdquo;</p><cite>&mdash; Mark 2:7</cite></blockquote>
+<p>They were correct. Only God can forgive sins. A man can forgive someone who has wronged <em>him</em> — but sins against God? Only God has the authority to forgive those. And Jesus was claiming that authority.</p>
+<p>But Jesus didn&rsquo;t just claim it. He proved it:</p>
+<blockquote class="scripture"><p>&ldquo;But so that you may know that the Son of Man has authority on earth to forgive sins&rsquo; — He said to the paralytic, &lsquo;I say to you, get up, pick up your pallet and go home.&rdquo;</p><cite>&mdash; Mark 2:10–11</cite></blockquote>
+<p>And the man got up and walked out. The healing was the proof. Jesus was saying, in effect, &ldquo;You can&rsquo;t see whether I have the authority to forgive sins — that&rsquo;s invisible. But you <em>can</em> see whether I have the authority to heal a paralyzed man. So I&rsquo;ll do the one you can see to prove I have the power to do the one you can&rsquo;t.&rdquo;</p>
+<p>The visible miracle validated the invisible authority. And the invisible authority — the power to forgive sins — is the one that matters most, because that is the authority that bridges the gap between sinful man and a holy God.</p>
+<h2>A Life Without Sin</h2>
+<p>The claims alone would be remarkable enough. But what makes them impossible to dismiss is the life that accompanied them. Jesus didn&rsquo;t just claim to be God — He lived a life that was perfectly consistent with that claim.</p>
+<p>The writer of Hebrews described Him this way:</p>
+<blockquote class="scripture"><p>&ldquo;For we do not have a high priest who cannot sympathize with our weaknesses, but One who has been tempted in all things as we are, yet without sin.&rdquo;</p><cite>&mdash; Hebrews 4:15</cite></blockquote>
+<p>Tempted in all things as we are — yet without sin. He faced every kind of temptation that any human being faces, and He never gave in. Not once. Not in a single thought, word, or action.</p>
+<p>Peter, who walked with Jesus for three years — who saw Him tired, hungry, angry, grieving, pressed by crowds, betrayed by friends — wrote:</p>
+<blockquote class="scripture"><p>&ldquo;He committed no sin, nor was any deceit found in His mouth.&rdquo;</p><cite>&mdash; 1 Peter 2:22</cite></blockquote>
+<p>No sin. No deceit. And this wasn&rsquo;t Peter writing from a distance — this was a man who had been there, who had seen Jesus under every kind of pressure. Isaiah had prophesied this very thing centuries earlier — &ldquo;He had done no violence, nor was there any deceit in His mouth&rdquo; (Isaiah 53:9). Peter was confirming what he had witnessed with his own eyes.</p>
+<p>And Paul wrote:</p>
+<blockquote class="scripture"><p>&ldquo;He made Him who knew no sin to be sin on our behalf, so that we might become the righteousness of God in Him.&rdquo;</p><cite>&mdash; 2 Corinthians 5:21</cite></blockquote>
+<p>He <em>knew</em> no sin. He didn&rsquo;t just avoid sin — He had no acquaintance with it. His life was completely, entirely, perfectly clean. And that matters more than you might realize right now. It matters because a sacrifice has to be without blemish. A substitute who carries your debt has to be free of His own. The spotless life of Jesus was not an accident — it was a requirement. And He met it fully.</p>
+<h2>The Question</h2>
+<p>In the middle of His ministry, Jesus turned to His disciples and asked them a question that every person who has ever heard His name must eventually answer:</p>
+<blockquote class="scripture"><p>&ldquo;He said to them, &lsquo;But who do you say that I am?&rsquo; Simon Peter answered, &lsquo;You are the Christ, the Son of the living God.&rdquo;</p><cite>&mdash; Matthew 16:15–16</cite></blockquote>
+<p><em>Who do you say that I am?</em></p>
+<p>That question is not just for Peter. It&rsquo;s for you. And the answer you give determines everything that follows.</p>
+<p>Here is what the evidence demands you consider: Jesus claimed to be God. He claimed the divine name. He accepted worship. He said that to see Him was to see the Father. And He backed up those claims with authority over nature, disease, death, and sin — authority that belongs only to the Creator. He lived a life that even His enemies could not find fault in. He fulfilled prophecies written centuries before His birth — prophecies about His birthplace, His lineage, His nature, and His mission — prophecies that no human being could have engineered.</p>
+<p>There are only a few possibilities. Either He was who He said He was, or He was a liar who deceived millions, or He was a madman who sincerely believed something that wasn&rsquo;t true.</p>
+<p>But liars don&rsquo;t teach the most profound moral instruction the world has ever heard. And madmen don&rsquo;t live lives of perfect consistency, calm authority, and selfless sacrifice. The life doesn&rsquo;t fit the alternatives. It only fits one conclusion.</p>
+<p>He was who He said He was.</p>
+<p>He was the seed of the woman, promised in the garden. The blessing to all nations, promised to Abraham. The lion of the tribe of Judah. The heir to David&rsquo;s throne. The Wonderful Counselor, Mighty God, Eternal Father, Prince of Peace. Immanuel — God with us.</p>
+<h2>But He Didn&rsquo;t Come to Stay</h2>
+<p>And here is the part that makes the story unlike anything you&rsquo;ve ever heard. He didn&rsquo;t come to establish an earthly kingdom. He didn&rsquo;t come to overthrow Rome. He didn&rsquo;t come to rule from a golden throne in Jerusalem. The prophets had made that clear, even though most people missed it.</p>
+<p>He came to die.</p>
+<p>Isaiah had said it — &ldquo;He was pierced through for our transgressions&rdquo; (Isaiah 53:5). &ldquo;He was cut off out of the land of the living&rdquo; (Isaiah 53:8). &ldquo;He would render Himself as a guilt offering&rdquo; (Isaiah 53:10). The suffering servant. The lamb led to slaughter. The One on whom the Lord would cause the iniquity of us all to fall.</p>
+<p>Jesus Himself said it plainly:</p>
+<blockquote class="scripture"><p>&ldquo;For even the Son of Man did not come to be served, but to serve, and to give His life a ransom for many.&rdquo;</p><cite>&mdash; Mark 10:45</cite></blockquote>
+<p>A ransom. A price paid to set someone free. That is why He came. Not to teach — though He taught like no one before or since. Not to heal — though He healed everyone who came to Him. He came to give His life. To pay a debt that the entire human race owed and could never pay on its own.</p>
+<p>The gap that Chapter Three described — the separation between sinful man and a holy God — was about to be bridged. Not by human effort. Not by religious performance. By the blood of the only One who had never sinned, offered willingly for those who had.</p>
+<p>That&rsquo;s what happened next. And it changed everything.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-04.html">&larr; Previous Chapter</a>
+          <a href="chapter-06.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 5;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-04.html';
+      if (e.key === 'ArrowRight' && 5 < 10) window.location.href = 'chapter-06.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

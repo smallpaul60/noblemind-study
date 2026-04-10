@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To the Seeker | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .signature {
+      text-align: right;
+      margin-top: 24px;
+      color: var(--accent-secondary);
+      font-style: italic;
+      font-size: 1.05rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html" selected>To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <h1>To the Seeker</h1>
+      </header>
+
+      <div class="content">
+        <p>Two thousand years ago, a Roman governor stood face to face with Jesus of Nazareth and asked a question that people are still asking today:</p>
+<p><em>&ldquo;What is truth?&rdquo;</em> — <strong>John 18:38</strong></p>
+<p>He never waited for the answer. He turned and walked away — without realizing that the Truth was standing right in front of him.</p>
+<p>We live in a world that has largely done the same thing. Everyone is talking about truth, but few agree on what it means. Some will tell you, &ldquo;This is my truth.&rdquo; Others will say, &ldquo;That is your truth.&rdquo; As if truth were something each person gets to define for themselves — as if it bends to fit whatever we want it to be.</p>
+<p>But truth is not subjective. It doesn&rsquo;t change based on who is speaking. It doesn&rsquo;t shift with the culture or the century. And it is not ours to invent.</p>
+<p>Jesus settled this. He said:</p>
+<p><em>&ldquo;I am the way, and the truth, and the life; no one comes to the Father but through Me.&rdquo;</em> — <strong>John 14:6</strong></p>
+<p>Truth is not an idea. Truth is a Person. And everything that Person said and did is recorded in a single book — the Bible.</p>
+<p>That book is unlike anything else ever written. It was composed over a period of roughly fifteen hundred years, by more than forty different people — kings and shepherds, fishermen and physicians, prophets and prisoners — writing across centuries, across continents, in three different languages. And yet from the first page to the last, they tell one story. One beautiful, intertwined, unbroken story — of a God who created you, who loves you, and who is actively seeking you because He wants a relationship with you.</p>
+<p>That is what you were made for. And if you&rsquo;ve been looking for it — even if you didn&rsquo;t know that&rsquo;s what you were looking for — then this book is for you.</p>
+<p>Not because of anything we&rsquo;ve written. But because of the Book we&rsquo;ll point you to.</p>
+<p>It has the answers. It has always had the answers.</p>
+<p>Let&rsquo;s open it together.</p>
+<p>— <em>Paul &amp; Pam</em></p>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="index.html">&larr; Table of Contents</a>
+          <a href="chapter-01.html">Chapter One &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    function goToChapter(url) { if (url) window.location.href = url; }
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

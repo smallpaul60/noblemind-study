@@ -10,7 +10,8 @@ IngramSpark specs (5.5x8.5 perfect bound paperback, B&W white paper, 120 pages):
   Bleed: 0.125" on all outside edges (not on spine edges)
   Total document width: 0.125 + 5.5 + 0.27 + 5.5 + 0.125 = 11.52"
   Total document height: 0.125 + 8.5 + 0.125 = 8.75"
-  Safety margin: 0.5" inside trim edges for text
+  Safety margin: 0.25" inside trim edges for front cover text (IngramSpark recommended)
+  Safety margin: 0.5" inside trim edges for back cover text
 """
 
 from pathlib import Path
@@ -24,6 +25,7 @@ from reportlab.lib.utils import ImageReader
 BOOK_DIR = Path(__file__).parent
 OUTPUT = BOOK_DIR / "Through_the_Valley_IngramSpark_Paperback_Cover.pdf"
 BG_IMAGE = BOOK_DIR / "cover_image_original_hires.jpg"
+BARCODE_IMAGE = BOOK_DIR / "barcode_978-8-9954288-7-9.png"
 
 # Register fonts
 FONT_DIR = Path.home() / ".local/share/fonts"
@@ -75,8 +77,35 @@ TRIM_TOP = DOC_H - BLEED * inch
 TRIM_BOTTOM = BLEED * inch
 COVER_CENTER_Y = DOC_H / 2
 
-# Safety margin: 0.5" inside trim for text
-SAFETY = 0.5 * inch
+# Safety margins (distance from trim edge to text)
+# IngramSpark requires min 0.125" (3mm), recommends 0.25" (6mm) for covers.
+# Script fonts (GreatVibes) have flourishes that extend beyond metric widths,
+# so we use generous margins to avoid "elements outside safety area" rejections.
+SAFETY = 0.5 * inch          # Back cover text margin (conservative)
+FRONT_SAFETY = 0.25 * inch   # Front cover type safety (IngramSpark recommended)
+
+# Front cover safe text area (text must stay within these bounds)
+FRONT_SAFE_LEFT = FRONT_TRIM_LEFT + FRONT_SAFETY
+FRONT_SAFE_RIGHT = FRONT_TRIM_RIGHT - FRONT_SAFETY
+FRONT_SAFE_WIDTH = FRONT_SAFE_RIGHT - FRONT_SAFE_LEFT
+
+
+def check_front_safety(c, text, font_name, font_size, cx):
+    """Check if centered text fits within front cover safety zone. Prints diagnostic."""
+    w = c.stringWidth(text, font_name, font_size)
+    half_w = w / 2
+    left_edge = cx - half_w
+    right_edge = cx + half_w
+    left_margin = (left_edge - FRONT_TRIM_LEFT) / inch
+    right_margin = (FRONT_TRIM_RIGHT - right_edge) / inch
+    min_margin = min(left_margin, right_margin)
+    # Script fonts visually extend ~8% beyond metrics due to flourishes
+    visual_margin = min_margin - (0.08 * w / inch / 2) if "Vibes" in font_name else min_margin
+    status = "OK" if visual_margin >= 0.125 else "WARN"
+    print(f'  [{status}] "{text}" ({font_name} {font_size}pt): '
+          f'metric width={w/inch:.2f}", margins: L={left_margin:.3f}" R={right_margin:.3f}" '
+          f'(est. visual margin: {visual_margin:.3f}")')
+    return visual_margin >= 0.125
 
 
 def wrap_text(c, text, font_name, font_size, max_width):
@@ -165,17 +194,22 @@ def draw_front_cover(c):
     c.restoreState()
 
     # --- Title: "Through the" ---
+    # Sizes reduced from 52/68/14 to ensure text stays within 0.25" safety zone.
+    # GreatVibes flourishes extend beyond metric widths, so extra margin is critical.
     c.setFillColor(DARK_TEXT)
-    c.setFont("GreatVibes", 52)
+    c.setFont("GreatVibes", 44)
     c.drawCentredString(cx, DOC_H - 1.6 * inch, "Through the")
+    check_front_safety(c, "Through the", "GreatVibes", 44, cx)
 
     # --- Title: "Valley" ---
-    c.setFont("GreatVibes", 68)
-    c.drawCentredString(cx, DOC_H - 2.4 * inch, "Valley")
+    c.setFont("GreatVibes", 58)
+    c.drawCentredString(cx, DOC_H - 2.35 * inch, "Valley")
+    check_front_safety(c, "Valley", "GreatVibes", 58, cx)
 
     # --- Subtitle ---
-    c.setFont("EBGaramond-Italic", 14)
-    c.drawCentredString(cx, DOC_H - 3.2 * inch, "What God Says When the Shadow Is Real")
+    c.setFont("EBGaramond-Italic", 13)
+    c.drawCentredString(cx, DOC_H - 3.1 * inch, "What God Says When the Shadow Is Real")
+    check_front_safety(c, "What God Says When the Shadow Is Real", "EBGaramond-Italic", 13, cx)
 
     # --- Semi-transparent overlay for author at bottom ---
     c.saveState()
@@ -202,18 +236,8 @@ def draw_front_cover(c):
 
 
 def draw_spine(c):
-    """Draw spine text on deep green background."""
-    c.saveState()
-    c.translate(SPINE_CENTER_X, COVER_CENTER_Y)
-    c.rotate(270)
-
-    c.setFillColor(CREAM)
-    c.setFont("EBGaramond", 6.5)
-    c.drawCentredString(0, 2, "Through the Valley")
-    c.setFont("EBGaramond", 5.5)
-    c.drawCentredString(0, -5, "Paul Hainline")
-
-    c.restoreState()
+    """Spine is only 0.27" — too narrow for text. Leave as solid background color."""
+    pass
 
 
 def draw_back_cover(c):
@@ -266,6 +290,20 @@ def draw_back_cover(c):
     c.setFont("EBGaramond-Italic", 8)
     c.drawCentredString(cx, y, "Scripture quotations from the New American Standard Bible\u00ae (NASB).")
 
+    # --- Barcode (mandatory per IngramSpark, lower-right of back cover) ---
+    # 100% black on white background, within safe area
+    barcode_img = ImageReader(str(BARCODE_IMAGE))
+    bc_w = 1.75 * inch
+    bc_h = bc_w * 280 / 523  # Maintain original aspect ratio
+    pad = 0.08 * inch
+    box_w = bc_w + 2 * pad
+    box_h = bc_h + 2 * pad
+    box_x = safe_right - box_w          # Right-aligned in safe area
+    box_y = TRIM_BOTTOM + SAFETY        # Bottom of safe area
+    c.setFillColor(white)
+    c.rect(box_x, box_y, box_w, box_h, fill=1, stroke=0)
+    c.drawImage(barcode_img, box_x + pad, box_y + pad, width=bc_w, height=bc_h)
+
 
 def main():
     doc_w_in = DOC_W / inch
@@ -276,6 +314,9 @@ def main():
     print(f'  Spine width: {SPINE_W}" ({PAGE_COUNT} pages, B&W white paper)')
     print(f'  Bleed: {BLEED}"')
     print(f'  Total document size: {doc_w_in:.3f}" x {doc_h_in:.3f}"')
+    print(f'  Front cover type safety: {FRONT_SAFETY/inch}" from trim edges')
+    print(f'  Front cover safe text width: {FRONT_SAFE_WIDTH/inch:.2f}"')
+    print(f'\nFront cover text safety checks:')
 
     c = canvas.Canvas(str(OUTPUT), pagesize=(DOC_W, DOC_H))
     c.setTitle("Through the Valley - IngramSpark Paperback Cover")

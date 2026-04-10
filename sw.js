@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v121';
+const CACHE_NAME = 'noblemind-study-v124';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -167,6 +167,12 @@ self.addEventListener('fetch', (event) => {
 
   // Skip cross-origin requests (like API calls to bolls.life)
   if (!event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
+
+  // Never cache API calls or the analytics console
+  const url = new URL(event.request.url);
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/console')) {
     return;
   }
 

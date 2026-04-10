@@ -24,6 +24,7 @@ import urllib.request
 import urllib.error
 
 SCRIPT_DIR = Path(__file__).parent
+PROJECT_DIR = SCRIPT_DIR.parent
 
 # Bolls.Life API
 API_BASE = "https://bolls.life/get-text/NASB"
@@ -102,6 +103,7 @@ BIBLE_BOOKS = {
 BOOK_DIRS = [
     "ANewAndLivingWay",
     "BridgeMoments",
+    "FromTheBeginning",
     "ChangeTheMind_ChangeTheMan",
     "OneDayCloserToHome",
     "StrengthAndDignity",
@@ -125,6 +127,8 @@ def strip_html(text):
 def normalize_text(text):
     """Normalize text for comparison: strip quotes, punctuation variance, whitespace."""
     text = strip_html(text)
+    # Strip markdown bold/italic markers
+    text = re.sub(r'\*{1,3}', '', text)
     # Decode common HTML entities
     text = text.replace('\u201c', '"').replace('\u201d', '"')
     text = text.replace('\u2018', "'").replace('\u2019', "'")
@@ -153,7 +157,7 @@ def parse_reference(ref_text):
     # Remove leading dash/mdash and translation markers
     ref_text = ref_text.lstrip('—–- ')
     ref_text = re.sub(r'\s*\((?:NASB|KJV|ESV|NIV|NLT|NKJV|LSB)\)\s*$', '', ref_text)
-    ref_text = re.sub(r'\s*(?:NASB|KJV|ESV|NIV|NLT|NKJV|LSB)\s*$', '', ref_text)
+    ref_text = re.sub(r',?\s*(?:NASB|KJV|ESV|NIV|NLT|NKJV|LSB)\s*$', '', ref_text)
     ref_text = ref_text.strip()
 
     # Match patterns like "Romans 12:1-2", "1 John 3:16", "Psalm 23:4"
@@ -288,12 +292,27 @@ def extract_scripture_quotes_md(content, filepath):
             # Separate quote text from citation
             quote_parts = []
             ref_text = None
+
+            # First, check if any line contains both quote and citation on the same line
+            # e.g.: *"quoted text"* — **Genesis 1:1, NASB**
+            expanded_lines = []
             for bl in bq_lines:
+                # Split on em-dash that separates quote from citation
+                split_match = re.split(r'\s*[—–]\s*(?=\*{0,2}\d?\s*[A-Za-z])', bl, maxsplit=1)
+                if len(split_match) == 2 and split_match[0].strip():
+                    expanded_lines.append(split_match[0].strip())
+                    expanded_lines.append('— ' + split_match[1].strip())
+                else:
+                    expanded_lines.append(bl)
+
+            for bl in expanded_lines:
+                # Strip markdown bold/italic markers for detection
+                bl_stripped = re.sub(r'\*{1,2}', '', bl).strip()
                 # Citation line starts with — or - followed by a book name
-                if re.match(r'^[—–\-]\s*\d?\s*[A-Za-z]', bl):
-                    ref_text = bl
-                elif bl.startswith('— ') or bl.startswith('– '):
-                    ref_text = bl
+                if re.match(r'^[—–\-]\s*\d?\s*[A-Za-z]', bl_stripped):
+                    ref_text = bl_stripped
+                elif bl_stripped.startswith('— ') or bl_stripped.startswith('– '):
+                    ref_text = bl_stripped
                 else:
                     quote_parts.append(bl)
 
@@ -340,7 +359,7 @@ def compare_texts(quoted, actual):
 
 def scan_book(book_dir, chapter_filter=None):
     """Scan all chapter files in a book directory and verify scripture quotes."""
-    book_path = SCRIPT_DIR / book_dir
+    book_path = PROJECT_DIR / book_dir
     if not book_path.exists():
         print(f"  Directory not found: {book_dir}")
         return 0, 0, 0
@@ -350,8 +369,12 @@ def scan_book(book_dir, chapter_filter=None):
     if not chapter_files:
         chapter_files = sorted(book_path.glob("chapter*.html"))
     if not chapter_files:
-        # Try markdown files (e.g., TheGodWhoShowedUp)
+        # Try markdown files with various naming patterns
         chapter_files = sorted(book_path.glob("*Chapter*.md"))
+        if not chapter_files:
+            chapter_files = sorted(book_path.glob("*_Ch[0-9]*.md"))
+        if not chapter_files:
+            chapter_files = sorted(book_path.glob("*_Ch*.md"))
         # Also include Introduction.md
         for extra_md in sorted(book_path.glob("*Introduction.md")):
             if extra_md not in chapter_files:
@@ -366,7 +389,9 @@ def scan_book(book_dir, chapter_filter=None):
     if chapter_filter is not None:
         chapter_files = [f for f in chapter_files
                          if f"chapter-{chapter_filter:02d}" in f.name.lower()
-                         or f"chapter{chapter_filter}" in f.name.lower()]
+                         or f"chapter{chapter_filter}" in f.name.lower()
+                         or f"_ch{chapter_filter}." in f.name.lower()
+                         or f"_ch{chapter_filter:02d}." in f.name.lower()]
 
     total = 0
     matched = 0

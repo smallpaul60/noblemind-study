@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: Not an Accident | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html" selected>Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ONE</p>
+        <h1>Not an Accident</h1>
+      </header>
+
+      <div class="content">
+        <p>Let&rsquo;s start at the very beginning. Not with religion. Not with church. Not with rules or rituals or anything anyone has ever told you about God. Let&rsquo;s start with a single question:</p>
+<p><em>Why is there something instead of nothing?</em></p>
+<p>Look around you. The world exists. You exist. The air you&rsquo;re breathing, the ground beneath your feet, the stars you see at night — none of this had to be here. But it is. And that fact alone demands an explanation.</p>
+<p>The very first words of the Bible don&rsquo;t argue for God&rsquo;s existence. They don&rsquo;t try to prove it or defend it. They simply state it as fact:</p>
+<blockquote class="scripture"><p>&ldquo;In the beginning God created the heavens and the earth.&rdquo;</p><cite>&mdash; Genesis 1:1</cite></blockquote>
+<p>That&rsquo;s it. No disclaimer. No debate. The Bible opens with a declaration: God is real, and everything that exists came from Him. If you&rsquo;re reading this and you&rsquo;re not sure about that yet, that&rsquo;s okay. Stay with me. Let the evidence build.</p>
+<h2>The Fingerprints of Design</h2>
+<p>Here&rsquo;s something worth thinking about. When you look at a building, you don&rsquo;t wonder whether it designed itself. When you pick up a phone, you don&rsquo;t assume it assembled by accident. Design implies a designer. Order implies intelligence. Purpose implies intention.</p>
+<p>The world around you is staggeringly complex. The human eye processes light in ways no camera has ever matched. Your DNA contains a biological instruction manual so detailed that if you printed it out, it would fill enough books to stack from the floor to the ceiling — and every cell in your body carries a copy. The Earth sits at precisely the right distance from the sun to sustain life. A fraction closer, and we burn. A fraction farther, and we freeze.</p>
+<p>Accident? Or design?</p>
+<p>Scripture speaks directly to this:</p>
+<blockquote class="scripture"><p>&ldquo;For since the creation of the world His invisible attributes, His eternal power and divine nature, have been clearly seen, being understood through what has been made, so that they are without excuse.&rdquo;</p><cite>&mdash; Romans 1:20</cite></blockquote>
+<p>Paul wrote those words nearly two thousand years ago, and the argument hasn&rsquo;t changed. Creation itself testifies. The evidence isn&rsquo;t hidden — it&rsquo;s everywhere. The heavens declare it:</p>
+<blockquote class="scripture"><p>&ldquo;The heavens are telling of the glory of God; and their expanse is declaring the work of His hands. Day to day pours forth speech, and night to night reveals knowledge.&rdquo;</p><cite>&mdash; Psalm 19:1–2</cite></blockquote>
+<p>Every sunrise. Every star. Every perfectly calibrated law of physics. They&rsquo;re not silent — they&rsquo;re speaking. The question isn&rsquo;t whether the evidence is there. The question is whether we&rsquo;re willing to hear what it&rsquo;s saying.</p>
+<h2>Not Random — Intentional</h2>
+<p>But here&rsquo;s where it gets personal. God didn&rsquo;t just create the universe and walk away. He didn&rsquo;t wind the clock and leave it running. Creation wasn&rsquo;t a science experiment. It was intentional, and it was personal.</p>
+<p>Genesis tells us that God created with specificity and care. Light. Sky. Land. Seas. Plants. Animals. Each one deliberately made, each one declared &ldquo;good.&rdquo; But when He came to the final act of creation, something changed. He didn&rsquo;t just speak it into existence. He did something different:</p>
+<blockquote class="scripture"><p>&ldquo;Then God said, &lsquo;Let Us make man in Our image, according to Our likeness.&rdquo;</p><cite>&mdash; Genesis 1:26</cite></blockquote>
+<p>Everything else was spoken into being. But when it came to you — to humanity — God said, &ldquo;Let <em>Us</em> make.&rdquo; This wasn&rsquo;t an assembly line. This was craftsmanship. You were not mass-produced. You were <em>made</em>.</p>
+<blockquote class="scripture"><p>&ldquo;God created man in His own image, in the image of God He created him; male and female He created them.&rdquo;</p><cite>&mdash; Genesis 1:27</cite></blockquote>
+<p>Stop and let that sink in. Of everything God made — the galaxies, the oceans, the mountains, the animals — only one part of creation was made in His image. You. That isn&rsquo;t a small thing. That is the most important thing you will ever learn about yourself.</p>
+<p>But before we go further with what that means, we need to understand something about the God whose image you bear. Because if you picture God as a physical being — a man in the sky, a body on a throne — you will misunderstand everything that follows.</p>
+<p>God is not physical. He is not made of flesh and bone. Jesus said it plainly:</p>
+<blockquote class="scripture"><p>&ldquo;God is spirit, and those who worship Him must worship in spirit and truth.&rdquo;</p><cite>&mdash; John 4:24</cite></blockquote>
+<p>God is spirit. That is His nature. Not a spirit among many — <em>spirit</em> by His very essence. He is not limited to a location. He is not confined to a form. He is not visible the way you and I are visible. Paul described Him this way:</p>
+<blockquote class="scripture"><p>&ldquo;Now to the King eternal, immortal, invisible, the only God, be honor and glory forever and ever.&rdquo;</p><cite>&mdash; 1 Timothy 1:17</cite></blockquote>
+<p>Eternal. Immortal. Invisible. Not because He is hiding — because that is what He <em>is</em>.</p>
+<p>So when Scripture says you were made in His image, it is not talking about your face, your hands, or your height. The image of God is not physical — because God is not physical. Whatever it means to bear His image, it has to be something deeper than a body. And it is. That&rsquo;s what the next chapter is all about.</p>
+<h2>You Were Known Before You Were Born</h2>
+<p>It goes even further than that. God didn&rsquo;t just create humanity in general and hope for the best. He knows you. Personally. Individually. And He knew you before you ever took your first breath.</p>
+<p>When God called the prophet Jeremiah, He said something that tells us everything we need to know about how personally invested God is in each human life:</p>
+<blockquote class="scripture"><p>&ldquo;Before I formed you in the womb I knew you, and before you were born I consecrated you.&rdquo;</p><cite>&mdash; Jeremiah 1:5</cite></blockquote>
+<p>God didn&rsquo;t discover Jeremiah after he was born. He knew him beforehand. He had a purpose for him before he even existed. And while Jeremiah was a prophet with a specific calling, the principle behind this is staggering: God is not distant. He is not detached. He is intimately aware of every life He creates.</p>
+<p>David understood this deeply. In one of the most personal passages in all of Scripture, he wrote:</p>
+<blockquote class="scripture"><p>&ldquo;For You formed my inward parts; You wove me in my mother&rsquo;s womb. I will give thanks to You, for I am fearfully and wonderfully made; wonderful are Your works, and my soul knows it very well. My frame was not hidden from You, when I was made in secret, and skillfully wrought in the depths of the earth; Your eyes have seen my unformed substance; and in Your book were all written the days that were ordained for me, when as yet there was not one of them.&rdquo;</p><cite>&mdash; Psalm 139:13–16</cite></blockquote>
+<p>Read that again slowly. <em>You were woven.</em> <em>You were skillfully wrought.</em> Your days were written in God&rsquo;s book before a single one of them happened. This is not the language of accident. This is the language of a Creator who is deeply, personally invested in what He has made.</p>
+<p><em>Fearfully and wonderfully made.</em> That phrase is worth sitting with. The Hebrew word translated &ldquo;fearfully&rdquo; carries the idea of awe and reverence. The word &ldquo;wonderfully&rdquo; means to be distinct, set apart. You are not a copy. You are not a mistake. You are not an accident of biology. You are a deliberate, one-of-a-kind creation made by a God who doesn&rsquo;t do anything carelessly.</p>
+<h2>A Plan, Not a Reaction</h2>
+<p>And here&rsquo;s something that might surprise you: God didn&rsquo;t just know you before you were born — He had a plan for what He was going to do for you before the world even existed.</p>
+<blockquote class="scripture"><p>&ldquo;&hellip;who has saved us and called us with a holy calling, not according to our works, but according to His own purpose and grace which was granted us in Christ Jesus from all eternity.&rdquo;</p><cite>&mdash; 2 Timothy 1:9</cite></blockquote>
+<p>Before the foundation of the world, God had already determined how He would save the human race. Not <em>who</em> specifically would be saved — that depends on each person&rsquo;s response to Him, as we&rsquo;ll see later. But the <em>method</em>, the <em>plan</em>, the <em>means</em> of salvation was settled before the first star was lit. God wasn&rsquo;t caught off guard by anything that happened. He wasn&rsquo;t reacting. He was executing a plan that was in place from the very beginning.</p>
+<p>Paul echoed this same truth when he wrote:</p>
+<blockquote class="scripture"><p>&ldquo;Just as He chose us in Him before the foundation of the world, that we would be holy and blameless before Him.&rdquo;</p><cite>&mdash; Ephesians 1:4</cite></blockquote>
+<p>He chose <em>us in Him</em> — meaning, He chose that those who are <em>in Christ</em> would be holy and blameless. The plan was established before creation. The invitation is open to everyone. How you get &ldquo;in Christ&rdquo; is something we&rsquo;ll walk through together in the chapters ahead. For now, what matters is this: God&rsquo;s plan to rescue you was not an afterthought. It was the thought <em>before</em> the thought.</p>
+<h2>So What Does This Mean for You?</h2>
+<p>If you&rsquo;ve grown up without anyone telling you these things — or if you were told but never really understood what they meant — here is the foundation everything else in this book is built on:</p>
+<p><strong>You are not an accident.</strong> The universe is not random. You are not the product of blind chance and meaningless processes. You were designed, formed, and known by a Creator who existed before anything else did.</p>
+<p><strong>You have inherent worth.</strong> Not because of your job, your education, your social status, or your bank account. Not because culture says so. You have worth because the God of the universe made you in His image and said you were worth making.</p>
+<p><strong>Your life has purpose.</strong> You are not drifting through a meaningless existence. God knew you before you were born, wrote your days in His book, and had a plan in place for your rescue before the world began.</p>
+<p>That&rsquo;s the starting point. That&rsquo;s the foundation.</p>
+<p>But if all of this is true — if God is real, if He made you with purpose, if He had a plan from the very beginning — then the obvious next question is: <em>What does it mean to be made in His image?</em> What exactly did He give you that makes you different from everything else He created?</p>
+<p>That&rsquo;s where we&rsquo;re going next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="dedication.html">&larr; To the Seeker</a>
+          <a href="chapter-02.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 1;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'index.html';
+      if (e.key === 'ArrowRight' && 1 < 10) window.location.href = 'chapter-02.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

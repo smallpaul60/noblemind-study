@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Generate IngramSpark hardcover (casebound with dust jacket) cover PDF for Through the Valley.
 
-IngramSpark specs (5.5x8.5 casebound with dust jacket, 120 pages):
+IngramSpark specs (5.5x8.5 casebound with dust jacket, 122 pages creme paper):
   Trim size: 5.5" x 8.5"
   Board size: 5.625" x 8.625" (trim + 0.125" on each dimension)
-  Spine width: 120 x 0.002252 + 0.08 = 0.35" (includes board thickness)
+  Spine width: 0.438" (IngramSpark-specified for 122 pages creme paper)
   Flap width: 3.25" (standard dust jacket flap)
-  Bleed: 0.125" on top and bottom
+  Bleed: 0.125" on all four sides
   Turn-in: 0.625" on each flap edge
-  Total width: 0.625 + 3.25 + 5.625 + 0.35 + 5.625 + 3.25 + 0.625 = 19.35"
+  Total width: 0.125 + 0.625 + 3.25 + 5.625 + 0.438 + 5.625 + 3.25 + 0.625 + 0.125 = 19.688"
   Total height: 0.125 + 8.625 + 0.125 = 8.875"
 """
 
@@ -30,15 +30,15 @@ pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
 # --- Dimensions ---
-PAGE_COUNT = 120
-SPINE_W = 0.35          # inches (120 x 0.002252 + 0.08 for board thickness)
+PAGE_COUNT = 122
+SPINE_W = 0.438         # inches (IngramSpark-specified for 122 pages creme paper)
 BOARD_W = 5.625         # inches (trim 5.5 + 0.125)
 BOARD_H = 8.625         # inches (trim 8.5 + 0.125)
 FLAP_W = 3.25           # inches (standard dust jacket flap)
 TURN_IN = 0.625         # inches (turn-in at each flap edge)
 BLEED = 0.125           # inches (top and bottom)
 
-DOC_W = (TURN_IN + FLAP_W + BOARD_W + SPINE_W + BOARD_W + FLAP_W + TURN_IN) * inch  # 19.35"
+DOC_W = (BLEED + TURN_IN + FLAP_W + BOARD_W + SPINE_W + BOARD_W + FLAP_W + TURN_IN + BLEED) * inch
 DOC_H = (BLEED + BOARD_H + BLEED) * inch  # 8.875"
 
 # --- Colors ---
@@ -51,7 +51,7 @@ SAGE_MUTED = Color(0.482, 0.553, 0.435)   # #7B8D6F muted sage
 # Layout: turn_in(0.625) + back_flap(3.25) + back_board(5.625)
 #         + spine(0.35) + front_board(5.625) + front_flap(3.25) + turn_in(0.625) = 19.35"
 
-BACK_FLAP_LEFT = TURN_IN * inch
+BACK_FLAP_LEFT = (BLEED + TURN_IN) * inch
 BACK_FLAP_RIGHT = BACK_FLAP_LEFT + FLAP_W * inch
 
 BACK_COVER_LEFT = BACK_FLAP_RIGHT
@@ -80,14 +80,16 @@ FRONT_CENTER_X = (FRONT_COVER_LEFT + FRONT_COVER_RIGHT) / 2
 # Safety margins for text
 SAFETY = 0.5 * inch
 
-# Flap text safe areas (generous margins from fold and edges)
-FRONT_FLAP_SAFE_LEFT = FRONT_FLAP_LEFT + 0.5 * inch
-FRONT_FLAP_SAFE_RIGHT = FRONT_FLAP_RIGHT - 0.5 * inch
-FRONT_FLAP_TEXT_W = FRONT_FLAP_SAFE_RIGHT - FRONT_FLAP_SAFE_LEFT  # ~2.25"
+# Flap text safe areas (asymmetric: 0.25" from fold, 0.75" from turn-in)
+# Front flap: left=fold, right=turn-in
+FRONT_FLAP_SAFE_LEFT = FRONT_FLAP_LEFT + 0.25 * inch
+FRONT_FLAP_SAFE_RIGHT = FRONT_FLAP_RIGHT - 0.75 * inch
+FRONT_FLAP_TEXT_W = FRONT_FLAP_SAFE_RIGHT - FRONT_FLAP_SAFE_LEFT  # 2.25"
 
-BACK_FLAP_SAFE_LEFT = BACK_FLAP_LEFT + 0.5 * inch
-BACK_FLAP_SAFE_RIGHT = BACK_FLAP_RIGHT - 0.5 * inch
-BACK_FLAP_TEXT_W = BACK_FLAP_SAFE_RIGHT - BACK_FLAP_SAFE_LEFT  # ~2.25"
+# Back flap: left=turn-in, right=fold
+BACK_FLAP_SAFE_LEFT = BACK_FLAP_LEFT + 0.75 * inch
+BACK_FLAP_SAFE_RIGHT = BACK_FLAP_RIGHT - 0.25 * inch
+BACK_FLAP_TEXT_W = BACK_FLAP_SAFE_RIGHT - BACK_FLAP_SAFE_LEFT  # 2.25"
 
 
 def wrap_text(c, text, font_name, font_size, max_width):

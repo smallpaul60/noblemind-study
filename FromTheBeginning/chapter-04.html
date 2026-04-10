@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: The Long Promise | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html" selected>Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>The Long Promise</h1>
+      </header>
+
+      <div class="content">
+        <p>Go back to the end of Chapter Three for a moment. The garden is closed. The flaming sword is turning. The man and the woman are standing on the outside of everything they were made for, and there is no way back in.</p>
+<p>If this were just a story about human failure, it would end there. The experiment failed. The creatures broke the one rule. God walks away, starts over, or simply lets the whole thing unravel.</p>
+<p>But that&rsquo;s not what happened.</p>
+<p>God didn&rsquo;t walk away. He never has. And buried inside the very chapter where everything fell apart — hidden within a curse spoken to a serpent — God planted the first hint of what He was going to do about it.</p>
+<h2>A Promise Hidden in a Curse</h2>
+<p>After the man and the woman chose to disobey, God addressed each of the parties involved — the serpent, the woman, the man. And when He turned to the serpent, He said something that would echo through the rest of human history:</p>
+<blockquote class="scripture"><p>&ldquo;And I will put enmity between you and the woman, and between your seed and her seed; He shall bruise you on the head, and you shall bruise him on the heel.&rdquo;</p><cite>&mdash; Genesis 3:15</cite></blockquote>
+<p>On the surface, this sounds like God is simply cursing a snake. But look closer. God says the woman will have a <em>seed</em> — a descendant — and that this descendant will crush the serpent&rsquo;s head. The serpent will wound Him, but the wound will be to the heel. The serpent&rsquo;s wound will be to the head — and a wound to the head is fatal.</p>
+<p>This is the first promise of rescue in the entire Bible. Theologians have called it the <em>protoevangelium</em> — the &ldquo;first gospel.&rdquo; And it tells us something remarkable: before God even finished pronouncing the consequences of sin, He was already announcing the solution.</p>
+<p>Remember what we established in Chapter One — that God had a plan in place before the foundation of the world (2 Timothy 1:9, Ephesians 1:4). This is that plan beginning to surface. Not fully visible yet. Not named. Not detailed. Just a seed — the promise that Someone was coming who would crush the enemy that had just deceived the human race.</p>
+<p>And that promise was only the beginning.</p>
+<h2>A Blessing for All Nations</h2>
+<p>Generations passed. The story of Genesis moves from the garden to a world that grows increasingly violent and broken — exactly what you&rsquo;d expect in a world where sin has taken root. But God had not abandoned His plan. He was narrowing the line.</p>
+<p>In Genesis 12, God chose a man named Abram — later renamed Abraham — and made him a promise that would shape the rest of Scripture:</p>
+<blockquote class="scripture"><p>&ldquo;And I will make you a great nation, and I will bless you, and make your name great; and so you shall be a blessing; and I will bless those who bless you, and the one who curses you I will curse. And in you all the families of the earth will be blessed.&rdquo;</p><cite>&mdash; Genesis 12:2–3</cite></blockquote>
+<p><em>All the families of the earth.</em> Not just Abraham&rsquo;s family. Not just one nation. All families. All peoples. God was telling Abraham that through his descendants — through his <em>seed</em> — something would come that would bless the entire human race.</p>
+<p>That word <em>seed</em> should sound familiar. It&rsquo;s the same word God used in Genesis 3:15. The seed of the woman. Now, the seed of Abraham. The thread is being pulled.</p>
+<p>But God wasn&rsquo;t finished with Abraham. Years later, He put Abraham&rsquo;s faith to its most severe test. God told Abraham to take his son Isaac — the son he had waited decades for, the son through whom the promise was supposed to be fulfilled — and offer him as a sacrifice on a mountain in the land of Moriah (Genesis 22:1–2).</p>
+<p>Think about what that must have felt like. This was the son of promise. The one through whom all the nations were supposed to be blessed. And God said, &ldquo;Offer him up.&rdquo;</p>
+<p>Abraham obeyed. He took Isaac. He built the altar. He bound his son. He raised the knife. And at the last moment, God stopped him — and provided a ram caught in a thicket as a substitute (Genesis 22:10–13).</p>
+<p>A father willing to offer his only son. A substitute provided at the last moment. On a mountain. If that picture doesn&rsquo;t stir something in you by the end of this book, read this chapter again.</p>
+<p>And after Abraham&rsquo;s obedience, God repeated and expanded the promise:</p>
+<blockquote class="scripture"><p>&ldquo;&hellip;indeed I will greatly bless you, and I will greatly multiply your seed as the stars of the heavens and as the sand which is on the seashore; and your seed shall possess the gate of their enemies. In your seed all the nations of the earth shall be blessed, because you have obeyed My voice.&rdquo;</p><cite>&mdash; Genesis 22:17–18</cite></blockquote>
+<p><em>In your seed all the nations of the earth shall be blessed.</em> The promise made in the garden was now tied to a specific family. The seed would come through Abraham.</p>
+<p>But Abraham had many descendants. Which line?</p>
+<h2>The Line Narrows</h2>
+<p>Abraham&rsquo;s son Isaac had two sons — Esau and Jacob. The promise passed through Jacob (Genesis 28:13–14). Jacob had twelve sons, and from those twelve sons came the twelve tribes of Israel.</p>
+<p>And then, near the end of Jacob&rsquo;s life, he gathered his sons and spoke over each of them. When he came to his son Judah, he said something extraordinary:</p>
+<blockquote class="scripture"><p>&ldquo;The scepter shall not depart from Judah, nor the ruler&rsquo;s staff from between his feet, until Shiloh comes, and to him shall be the obedience of the peoples.&rdquo;</p><cite>&mdash; Genesis 49:10</cite></blockquote>
+<p>A scepter is the staff of a king. Jacob was saying that the royal line — the line of the coming ruler — would come through Judah. And this ruler wouldn&rsquo;t just govern one nation. To Him would belong <em>the obedience of the peoples.</em> All peoples.</p>
+<p>The thread tightens. The seed of the woman. The seed of Abraham. Now, the line of Judah. With every generation, God was narrowing the focus, pulling the thread tighter, making the identity of the Coming One more and more specific.</p>
+<h2>A Throne That Stands Forever</h2>
+<p>Centuries later, a man from the tribe of Judah rose to become the greatest king Israel ever had. His name was David — a shepherd boy who killed a giant, a warrior who united a nation, and a man the Bible calls &ldquo;a man after God&rsquo;s own heart&rdquo; (1 Samuel 13:14, Acts 13:22).</p>
+<p>And to David, God made a promise that took the thread and stretched it into eternity:</p>
+<blockquote class="scripture"><p>&ldquo;When your days are complete and you lie down with your fathers, I will raise up your descendant after you, who will come forth from you, and I will establish his kingdom. He shall build a house for My name, and I will establish the throne of his kingdom forever.&rdquo;</p><cite>&mdash; 2 Samuel 7:12–13</cite></blockquote>
+<p>A kingdom that lasts forever. A throne that never ends. No earthly king has ever held a throne forever — because every earthly king dies. So whatever God was promising David, it pointed beyond anything David&rsquo;s immediate son could fulfill. This was a promise about someone else. Someone whose kingdom would have no end.</p>
+<p>God continued:</p>
+<blockquote class="scripture"><p>&ldquo;I will be a father to him and he will be a son to Me&hellip; Your house and your kingdom shall endure before Me forever; your throne shall be established forever.&rdquo;</p><cite>&mdash; 2 Samuel 7:14, 16</cite></blockquote>
+<p><em>I will be a father to him and he will be a son to Me.</em> This Coming One would not just sit on David&rsquo;s throne — He would be called the Son of God.</p>
+<p>Now the picture is sharpening. The seed of the woman. The seed of Abraham. From the tribe of Judah. From the house of David. A king whose throne lasts forever. The Son of God.</p>
+<p>And then the prophets began to speak.</p>
+<h2>The Prophets Paint the Picture</h2>
+<p>For hundreds of years after David, God sent prophets to Israel — men who spoke God&rsquo;s words to the people. And woven throughout their messages was a growing, increasingly detailed portrait of the One who was coming.</p>
+<h3>Where He Would Be Born</h3>
+<p>The prophet Micah, writing roughly seven hundred years before the event, named the exact town:</p>
+<blockquote class="scripture"><p>&ldquo;But as for you, Bethlehem Ephrathah, too little to be among the clans of Judah, from you One will go forth for Me to be ruler in Israel. His goings forth are from long ago, from the days of eternity.&rdquo;</p><cite>&mdash; Micah 5:2</cite></blockquote>
+<p>Bethlehem — a tiny, insignificant village. Not Jerusalem, the capital. Not any of the great cities. Bethlehem. And this ruler&rsquo;s origins were &ldquo;from the days of eternity.&rdquo; He was not just a man who would be born — He was Someone who had existed long before His birth.</p>
+<h3>How He Would Come</h3>
+<p>The prophet Isaiah, also writing centuries before it happened, described something no one could have predicted:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore the Lord Himself will give you a sign: Behold, a virgin will be with child and bear a son, and she will call His name Immanuel.&rdquo;</p><cite>&mdash; Isaiah 7:14</cite></blockquote>
+<p>A virgin will bear a son. That is not a normal birth. That is a sign — something that could only happen by the direct intervention of God. And His name would be <em>Immanuel</em>, which means &ldquo;God with us.&rdquo;</p>
+<p>Isaiah said more:</p>
+<blockquote class="scripture"><p>&ldquo;For a child will be born to us, a son will be given to us; and the government will rest on His shoulders; and His name will be called Wonderful Counselor, Mighty God, Eternal Father, Prince of Peace. There will be no end to the increase of His government or of peace, on the throne of David and over his kingdom, to establish it and to uphold it with justice and righteousness from then on and forevermore.&rdquo;</p><cite>&mdash; Isaiah 9:6–7</cite></blockquote>
+<p>Read those titles. <em>Wonderful Counselor. Mighty God. Eternal Father. Prince of Peace.</em> This child would not be an ordinary king. He would be called Mighty God. He would reign on the throne of David — the same throne God promised would last forever. And His kingdom would have no end.</p>
+<p>The picture is getting very specific now. Born in Bethlehem. Born of a virgin. Called Immanuel — God with us. Called Mighty God. Sitting on David&rsquo;s throne forever.</p>
+<p>But there was still one part of the picture that no one expected.</p>
+<h2>The One Nobody Expected</h2>
+<p>Everything we&rsquo;ve seen so far describes a king. A ruler. A conqueror. Someone who would crush the serpent&rsquo;s head and reign on a throne forever. If you were a Jew reading these prophecies, you would be looking for a military hero — someone who would overthrow the enemies of Israel and establish a visible, powerful kingdom.</p>
+<p>But Isaiah saw something else. In one of the most remarkable passages in all of Scripture — written more than seven hundred years before it happened — the prophet described the Coming One in terms that shocked everyone who read them:</p>
+<blockquote class="scripture"><p>&ldquo;He was despised and forsaken of men, a man of sorrows and acquainted with grief; and like one from whom men hide their face He was despised, and we did not esteem Him.&rdquo;</p><cite>&mdash; Isaiah 53:3</cite></blockquote>
+<p>Despised? Forsaken? A man of <em>sorrows</em>? This was not the conquering king they were expecting.</p>
+<p>It got worse:</p>
+<blockquote class="scripture"><p>&ldquo;Surely our griefs He Himself bore, and our sorrows He carried; yet we ourselves esteemed Him stricken, smitten of God, and afflicted. But He was pierced through for our transgressions, He was crushed for our iniquities; the chastening for our well-being fell upon Him, and by His scourging we are healed.&rdquo;</p><cite>&mdash; Isaiah 53:4–5</cite></blockquote>
+<p><em>Pierced through for our transgressions. Crushed for our iniquities.</em> This was not someone suffering for His own sins. This was someone suffering for <em>ours</em>. The punishment that should have fallen on us fell on Him instead. And by His wounds — His scourging — <em>we</em> are healed.</p>
+<p>Isaiah continued with a verse that captures the entire problem and the entire solution in a single breath:</p>
+<blockquote class="scripture"><p>&ldquo;All of us like sheep have gone astray, each of us has turned to his own way; but the Lord has caused the iniquity of us all to fall on Him.&rdquo;</p><cite>&mdash; Isaiah 53:6</cite></blockquote>
+<p>There it is. <em>All of us</em> have gone astray — that&rsquo;s what Chapter Three was about. <em>Each of us has turned to his own way</em> — every person choosing sin, just as Adam and Eve did. But the Lord caused the iniquity — the guilt, the weight, the debt — of <em>all of us</em> to fall on <em>Him.</em></p>
+<p>The gap that no human effort could bridge? God was going to bridge it Himself — through this One who would carry the sins of the world on His own body.</p>
+<p>And Isaiah described what would happen to Him:</p>
+<blockquote class="scripture"><p>&ldquo;He was oppressed and He was afflicted, yet He did not open His mouth; like a lamb that is led to slaughter, and like a sheep that is silent before its shearers, so He did not open His mouth.&rdquo;</p><cite>&mdash; Isaiah 53:7</cite></blockquote>
+<p>Like a lamb led to slaughter. Silent. Willing. Not fighting back, not defending Himself, not calling down judgment on those who condemned Him. He went willingly.</p>
+<blockquote class="scripture"><p>&ldquo;By oppression and judgment He was taken away&hellip; He was cut off out of the land of the living for the transgression of my people, to whom the stroke was due.&rdquo;</p><cite>&mdash; Isaiah 53:8</cite></blockquote>
+<p><em>Cut off out of the land of the living.</em> He would die. The Coming One — the seed of the woman, the seed of Abraham, the lion of Judah, the son of David, the Mighty God, the Prince of Peace — would die. Not for His own sins. For <em>ours.</em></p>
+<blockquote class="scripture"><p>&ldquo;His grave was assigned with wicked men, yet He was with a rich man in His death, because He had done no violence, nor was there any deceit in His mouth.&rdquo;</p><cite>&mdash; Isaiah 53:9</cite></blockquote>
+<p>Buried with the wicked, yet with a rich man in His death. No violence. No deceit. A perfect life, ending in a criminal&rsquo;s execution. And then, the most astonishing part:</p>
+<blockquote class="scripture"><p>&ldquo;But the Lord was pleased to crush Him, putting Him to grief; if He would render Himself as a guilt offering&hellip;&rdquo;</p><cite>&mdash; Isaiah 53:10</cite></blockquote>
+<p>The Lord was <em>pleased</em> to crush Him. Not because God enjoys suffering — but because this was the plan. This was what was determined before the foundation of the world. This was the rescue mission. The Coming One would offer Himself as a guilt offering — the sacrifice that pays for the sins of others.</p>
+<p>And what would happen after that?</p>
+<blockquote class="scripture"><p>&ldquo;&hellip;He will see His offspring, He will prolong His days, and the good pleasure of the Lord will prosper in His hand.&rdquo;</p><cite>&mdash; Isaiah 53:10</cite></blockquote>
+<p>After being cut off from the land of the living — after dying — He would <em>prolong His days.</em> He would see what came from His sacrifice. He would live again.</p>
+<blockquote class="scripture"><p>&ldquo;As a result of the anguish of His soul, He will see it and be satisfied; by His knowledge the Righteous One, My Servant, will justify the many, as He will bear their iniquities.&rdquo;</p><cite>&mdash; Isaiah 53:11</cite></blockquote>
+<p><em>He will justify the many.</em> He will bear their iniquities. The Righteous One suffering for the unrighteous. The sinless One carrying the sins of those who could never pay the debt themselves.</p>
+<p>This is what the prophets saw. Seven hundred years before it happened, Isaiah described a suffering servant who would be pierced, crushed, led to slaughter, killed, and buried — and then live again. A man who had done nothing wrong, dying for people who had done everything wrong. Carrying their sins so they wouldn&rsquo;t have to carry them forever.</p>
+<h2>The Thread</h2>
+<p>Step back and look at what God did over the course of more than a thousand years of recorded Scripture.</p>
+<p>In the garden, He promised a seed who would crush the serpent. To Abraham, He promised a blessing for all nations through his descendant. Through Jacob, He narrowed the line to the tribe of Judah. To David, He promised a throne that would last forever and a descendant who would be called the Son of God. Through the prophets, He specified the birthplace, the manner of birth, the nature of His reign, and the shocking truth that this King would first come as a sacrifice — bearing the sins of the world on Himself before rising again.</p>
+<p>Each prophecy added detail. Each generation pulled the thread tighter. What began as a whisper in a garden grew into a roar through the prophets — a portrait so specific, so detailed, so impossible to manufacture, that when the time finally came, there would be no mistaking who He was.</p>
+<p>And then the prophets went silent.</p>
+<h2>The Silence</h2>
+<p>After the last of the Old Testament prophets spoke, roughly four hundred years passed with no new word from God. Four centuries. Generation after generation born, lived, and died without a prophet, without a new promise, without a fresh voice from heaven.</p>
+<p>But the promises were still there. Written down. Preserved. Read in synagogues across the known world. The people remembered. They waited. Some gave up waiting. Some twisted the promises into something they were never meant to be — expecting a political liberator, a military conqueror, a king who would crush Rome the way David had crushed the Philistines.</p>
+<p>But the prophets had been clear. The Coming One would not arrive the way anyone expected. He would come as a baby in Bethlehem. He would come through a virgin. He would come to suffer, to bleed, to die, to bear the sins of the world. And then He would rise.</p>
+<p>Four hundred years of silence. And then —</p>
+<p>A child was born.</p>
+<p>That&rsquo;s where we&rsquo;re going next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Previous Chapter</a>
+          <a href="chapter-05.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 4;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-03.html';
+      if (e.key === 'ArrowRight' && 4 < 10) window.location.href = 'chapter-05.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

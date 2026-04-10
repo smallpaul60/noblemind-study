@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2: Made in His Image | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html" selected>Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TWO</p>
+        <h1>Made in His Image</h1>
+      </header>
+
+      <div class="content">
+        <p>In the last chapter, we laid the foundation: God is real, He created with purpose, and you are not an accident. You were designed, known before you were born, and part of a plan that was in place before the world began.</p>
+<p>But we ended with a question: <em>What does it mean to be made in His image?</em></p>
+<p>That phrase — &ldquo;the image of God&rdquo; — gets used a lot, but most people have never stopped to really think about what it means. It&rsquo;s not a throwaway line. It&rsquo;s not a poetic flourish. It is the single most defining truth about what it means to be human, and everything else in this book depends on understanding it.</p>
+<p>So let&rsquo;s open it up.</p>
+<h2>More Than Dust</h2>
+<p>Go back to the creation account. In Genesis 1, God spoke things into existence. &ldquo;Let there be light&rdquo; — and there was light. &ldquo;Let the earth bring forth&rdquo; — and it did. Word after word, command after command, the universe took shape.</p>
+<p>But when God made man, the process changed. Genesis gives us a second, closer look at what happened:</p>
+<blockquote class="scripture"><p>&ldquo;Then the Lord God formed man of dust from the ground, and breathed into his nostrils the breath of life; and man became a living being.&rdquo;</p><cite>&mdash; Genesis 2:7</cite></blockquote>
+<p>God <em>formed</em> him. The Hebrew word carries the image of a potter shaping clay — hands on, deliberate, careful. This was not a command spoken from a distance. This was intimate. Personal. God took dust from the ground and shaped it into something. And then He did something He is never described as doing for anything else in all of creation: He leaned in and breathed His own breath into that form.</p>
+<p>And man came alive.</p>
+<p>But what exactly did God breathe into him? Just air? Just biological life? The animals were alive too — they breathed, they moved, they ate. Whatever God gave man in that moment, it was something the animals never received. And the rest of Scripture tells us exactly what it was.</p>
+<h2>The Spirit That Makes You <em>You</em></h2>
+<p>When God breathed into man, He gave him something no animal possesses — a spirit. A soul. The part of you that is not dust. The part that doesn&rsquo;t return to the ground when your body stops breathing.</p>
+<p>Solomon, writing near the end of his life after observing everything under the sun, put it as plainly as anyone ever has:</p>
+<blockquote class="scripture"><p>&ldquo;Then the dust will return to the earth as it was, and the spirit will return to God who gave it.&rdquo;</p><cite>&mdash; Ecclesiastes 12:7</cite></blockquote>
+<p>Read that carefully. When you die, two things happen. The dust — your body — goes back to the ground. But the spirit returns to God <em>who gave it</em>. It came from Him. It goes back to Him. Your body is temporary. Your spirit is not.</p>
+<p>That is what God breathed into man in Genesis 2:7. Not just the air in your lungs. He breathed a spirit into you — the eternal, immaterial part of you that makes you <em>you</em>. Your body is the house. Your spirit is the one living in it.</p>
+<p>The prophet Zechariah confirms this, and the way he says it is striking:</p>
+<blockquote class="scripture"><p>&ldquo;Thus declares the Lord who stretches out the heavens, lays the foundation of the earth, and forms the spirit of man within him.&rdquo;</p><cite>&mdash; Zechariah 12:1</cite></blockquote>
+<p>Look at what God takes credit for in that verse: stretching out the heavens, laying the foundation of the earth, and forming the spirit of man. Three acts. Three works of creation. God puts the forming of your spirit on the same level as creating the heavens and the earth. That is how significant your spirit is to Him. It is not an afterthought tacked on to a body. It is a deliberate, divine creation — formed by the same God who hung the stars.</p>
+<p>And Jesus Himself drew the distinction between body and soul in the clearest possible terms:</p>
+<blockquote class="scripture"><p>&ldquo;Do not fear those who kill the body but are unable to kill the soul; but rather fear Him who is able to destroy both soul and body in hell.&rdquo;</p><cite>&mdash; Matthew 10:28</cite></blockquote>
+<p>Men can kill your body. They cannot touch your soul. The soul survives what the body cannot. You are more than flesh and bone — and Jesus says so directly.</p>
+<p>James understood this too. In making a point about faith, he stated something that reveals the very nature of human life:</p>
+<blockquote class="scripture"><p>&ldquo;For just as the body without the spirit is dead, so also faith without works is dead.&rdquo;</p><cite>&mdash; James 2:26</cite></blockquote>
+<p>The body without the spirit is dead. The spirit is what gives the body life. When the spirit departs, the body is just dust again — exactly what Solomon said. The spirit is the life of a person. It is what animates the dust. It is what God breathed in, and it is what returns to Him.</p>
+<p>And Paul, writing to the Thessalonians, acknowledged the full composition of a human being:</p>
+<blockquote class="scripture"><p>&ldquo;Now may the God of peace Himself sanctify you entirely; and may your spirit and soul and body be preserved complete, without blame at the coming of our Lord Jesus Christ.&rdquo;</p><cite>&mdash; 1 Thessalonians 5:23</cite></blockquote>
+<p>Spirit. Soul. Body. You are not just a body. You are not just a mind running on biology. You are a spiritual being housed in a physical body — and the spiritual part of you is the part that is eternal.</p>
+<p><em>This</em> is what sets you apart from every other living thing God made. The animals breathe. The animals move and eat and reproduce and die. But God never breathed His spirit into them. He never formed an eternal soul within them. Only you. Only humanity. When God said, &ldquo;Let Us make man in Our image,&rdquo; <em>this</em> is what He was talking about. The image of God is not your physical appearance. God is spirit (John 4:24). The image you bear is a spiritual one — an eternal soul placed inside a temporary body by a God who wanted you to be more than dust.</p>
+<h2>A Mind That Reflects His</h2>
+<p>And because you carry that spirit, everything else about you is different from the rest of creation.</p>
+<p>One of the first things God did after creating man was give him a job that no other creature could do:</p>
+<blockquote class="scripture"><p>&ldquo;Out of the ground the Lord God formed every beast of the field and every bird of the sky, and brought them to the man to see what he would call them; and whatever the man called a living creature, that was its name. The man gave names to all the cattle, and to the birds of the sky, and to every beast of the field.&rdquo;</p><cite>&mdash; Genesis 2:19–20</cite></blockquote>
+<p>This may seem simple on the surface, but think about what it required. Naming isn&rsquo;t just labeling. It&rsquo;s observation. It&rsquo;s categorization. It&rsquo;s language — the ability to attach meaning to sound, to communicate something that exists in the mind. No animal does this. No animal has ever done this. Animals communicate — they signal danger, they call to mates, they mark territory. But they do not <em>name</em> things. They do not step outside themselves and observe the world and describe what they see.</p>
+<p>You do. You reason. You analyze. You question. You&rsquo;re doing it right now, reading these words and weighing whether they&rsquo;re true. That ability — to think abstractly, to evaluate evidence, to follow an argument and either accept or reject it — is something no other creature on earth possesses.</p>
+<p>And it doesn&rsquo;t stop at logic. Human beings write poetry. They compose music. They paint. They build. They calculate the distance to stars they will never touch and split atoms they cannot see. They tell stories about the past and imagine futures that haven&rsquo;t happened yet.</p>
+<p>Where did that come from? If you are made in the image of a Creator, then your creativity is not an accident. Your ability to think, to reason, to imagine, to build — that is a reflection of the One who made you. You bear the image of a God who creates, and so you create. You bear the image of a God who thinks and plans, and so you think and plan. The mind you carry is not a random product of biology. It is the spirit of God at work within you — the fingerprint of the divine on a soul that was made to reflect Him.</p>
+<h2>A Conscience That Speaks</h2>
+<p>Being made in God&rsquo;s image reaches into something even more personal — something you&rsquo;ve felt your entire life, whether anyone ever explained it to you or not.</p>
+<p>You know the difference between right and wrong.</p>
+<p>Not because someone handed you a rulebook. Not because society voted on it. There is something <em>inside</em> you — a voice, a pull, an awareness — that tells you when something is wrong, even when no one is watching. You feel it when you see injustice. You feel it when you lie and the weight of it sits in your chest. You feel it when someone is wronged and something in you says, <em>That isn&rsquo;t right.</em></p>
+<p>Paul addressed this directly:</p>
+<blockquote class="scripture"><p>&ldquo;For when Gentiles who do not have the Law do instinctively the things of the Law, these, not having the Law, are a law to themselves, in that they show the work of the Law written in their hearts, their conscience bearing witness and their thoughts alternately accusing or else defending them.&rdquo;</p><cite>&mdash; Romans 2:14–15</cite></blockquote>
+<p>People who have never read a single page of the Bible still have a moral compass. Not a perfect one — it can be dulled, distorted, even ignored — but it&rsquo;s there. Paul says the work of the Law is <em>written in their hearts</em>. Their conscience bears witness.</p>
+<p>Every civilization in the history of the world — no matter how isolated, no matter how different the culture — has had a sense of right and wrong. They haven&rsquo;t always agreed on every detail, but the categories exist everywhere. Justice. Fairness. Loyalty. The wrongness of cruelty. The value of truthfulness. These aren&rsquo;t social inventions. They are hardwired — written into the spirit that God placed within you. Your conscience is not a product of evolution. It is a reflection of His character stamped into the soul He gave you.</p>
+<h2>The Freedom to Choose</h2>
+<p>And here is where it gets weighty.</p>
+<p>God did not make robots. He did not create beings that were programmed to obey and incapable of doing otherwise. He gave humanity something extraordinary and dangerous: the freedom to choose.</p>
+<p>Look at what God did in the garden:</p>
+<blockquote class="scripture"><p>&ldquo;The Lord God commanded the man, saying, &lsquo;From any tree of the garden you may eat freely; but from the tree of the knowledge of good and evil you shall not eat, for in the day that you eat from it you will surely die.&rdquo;</p><cite>&mdash; Genesis 2:16–17</cite></blockquote>
+<p>A command only means something if it can be disobeyed. A rule only matters if there&rsquo;s a real choice involved. God didn&rsquo;t put that tree in the garden as a trap. He put it there because love that is forced isn&rsquo;t love. Obedience that has no alternative isn&rsquo;t obedience. For the relationship between God and man to be <em>real</em>, it had to be <em>voluntary</em>.</p>
+<p>That is the weight of being human. You are not a puppet. You are not a machine running a program. You have been given the ability to choose — to choose God or to turn away, to follow or to rebel, to trust or to doubt. That capacity is part of what makes you an image-bearer. God Himself is a choosing, willing, purposeful being — and He made you to be the same.</p>
+<p>This freedom is a gift. But gifts can be misused. And as we&rsquo;ll see in the next chapter, that is exactly what happened.</p>
+<h2>Made for Relationship</h2>
+<p>There is one more thing God said during creation that deserves careful attention. After making man, after placing him in the garden, after giving him work to do and a command to follow, God looked at the man and said something He had never said about anything else He made:</p>
+<blockquote class="scripture"><p>&ldquo;Then the Lord God said, &lsquo;It is not good for the man to be alone; I will make him a helper suitable for him.&rdquo;</p><cite>&mdash; Genesis 2:18</cite></blockquote>
+<p>Up to this point, everything had been &ldquo;good.&rdquo; The light was good. The land was good. The animals were good. But a man alone? <em>Not good.</em></p>
+<p>God made Eve — not as an afterthought, but as the completion of something that was intentionally unfinished. Man was not designed to exist in isolation. He was made for relationship — for companionship, for partnership, for connection.</p>
+<p>And this isn&rsquo;t just about marriage, as important as that is. The principle runs deeper. Human beings are relational by design. You need people. You need to be known, to belong, to love and be loved. That need isn&rsquo;t weakness — it&rsquo;s design. God built it into you because He Himself is relational, and you bear His image.</p>
+<p>But the most important relationship you were made for isn&rsquo;t with another person. It&rsquo;s with God Himself. Later in Genesis, almost in passing, the text gives us a detail that reveals something staggering about what life was like before everything went wrong:</p>
+<blockquote class="scripture"><p>&ldquo;They heard the sound of the Lord God walking in the garden in the cool of the day.&rdquo;</p><cite>&mdash; Genesis 3:8</cite></blockquote>
+<p>Walking in the garden. In the cool of the day. The way the text describes it, this was not unusual. There is no surprise in the statement — no indication that God&rsquo;s presence in the garden was a first-time event. This was normal. God walked with them. They knew His voice. They lived in direct, personal, unbroken relationship with their Creator.</p>
+<p>That is what you were made for. Not religion at a distance. Not rules handed down from the sky. A relationship — real, personal, face to face — with the God who made you. And if you&rsquo;ve ever felt a longing you couldn&rsquo;t quite name, a restlessness that nothing in this world seems to satisfy, there&rsquo;s a reason for that.</p>
+<h2>Eternity in Your Heart</h2>
+<p>Solomon, the wisest man who ever lived, wrote something that captures this restlessness perfectly:</p>
+<blockquote class="scripture"><p>&ldquo;He has made everything appropriate in its time. He has also set eternity in their heart, yet so that man will not find out the work which God has done from the beginning even to the end.&rdquo;</p><cite>&mdash; Ecclesiastes 3:11</cite></blockquote>
+<p><em>He has set eternity in their heart.</em> Sit with that for a moment.</p>
+<p>There is something in you that knows this life isn&rsquo;t all there is. You feel it at funerals, when the finality of death feels <em>wrong</em> — like it wasn&rsquo;t supposed to be this way. You feel it in moments of beauty so overwhelming that they ache — a sunset, a piece of music, the face of someone you love — and for a split second, you sense that there&rsquo;s something bigger behind it all. You feel it in the quiet hours when the noise stops and something in you whispers, <em>There has to be more than this.</em></p>
+<p>Every civilization in history has looked up and asked the big questions. <em>Where did we come from? Why are we here? What happens when we die? Is anyone out there?</em> No animal asks these questions. No animal gazes at the stars and wonders about meaning. But you do. Every human being does.</p>
+<p>That isn&rsquo;t a glitch. It&rsquo;s not a quirk of an overactive brain. God <em>set</em> eternity in your heart. He put it there — in the spirit He breathed into you. You were designed to be aware of something beyond the physical, beyond the temporary, beyond what you can see and touch. You carry an awareness of the infinite because an infinite God placed an eternal spirit inside of you, and that spirit knows — even when your mind hasn&rsquo;t caught up yet — that it was made for something that doesn&rsquo;t end.</p>
+<h2>What Is Man?</h2>
+<p>David wrestled with all of this. One night, standing under the open sky, looking up at what God had made, he was overwhelmed:</p>
+<blockquote class="scripture"><p>&ldquo;When I consider Your heavens, the work of Your fingers, the moon and the stars, which You have ordained; what is man that You take thought of him, and the son of man that You care for him? Yet You have made him a little lower than God, and You crown him with glory and majesty! You make him to rule over the works of Your hands; You have put all things under his feet.&rdquo;</p><cite>&mdash; Psalm 8:3–6</cite></blockquote>
+<p>David looked up at the vastness of the universe and asked the question every honest person eventually asks: <em>Why would God care about me?</em> The heavens are immense. The stars are beyond counting. And yet God takes thought of man. He <em>cares</em> for him. He crowned him with glory and majesty and gave him dominion over the works of His hands.</p>
+<p>That word — <em>crowned</em> — is worth pausing on. It&rsquo;s the language of royalty. Of honor. Of deliberate elevation. God didn&rsquo;t just make you and leave you at the bottom of the pile. He set you above the rest of creation. He gave you responsibility. He gave you authority. He gave you dignity — not because you earned it, but because that&rsquo;s what it means to bear His image.</p>
+<p>James understood this so well that he used it to make a point about something as practical as the way we speak to each other:</p>
+<blockquote class="scripture"><p>&ldquo;With it we bless our Lord and Father, and with it we curse men, who have been made in the likeness of God.&rdquo;</p><cite>&mdash; James 3:9</cite></blockquote>
+<p>You cannot curse someone who bears the image of God without dishonoring the God whose image they bear. Every person you have ever met — every person you have ever dismissed, resented, looked down on, or written off — carries the likeness of God. That is the weight of what it means to be human.</p>
+<h2>This Is Who You Are</h2>
+<p>So what does it mean to be made in God&rsquo;s image? It means you are not what the world says you are.</p>
+<p>The world will tell you that your worth comes from what you produce, what you earn, how you look, who follows you, or what group accepts you. It will measure you by numbers — your salary, your grades, your likes, your age, your status. And when those numbers aren&rsquo;t high enough, it will tell you — directly or indirectly — that you don&rsquo;t matter.</p>
+<p>That is a lie.</p>
+<p>You are more than a body. When God formed you from the dust, He breathed an eternal spirit into you — a soul that will outlast your bones, your skin, and every material thing you have ever touched. Your body will return to the ground. But the spirit God gave you will return to Him. You are an eternal being living in a temporary world, and nothing — no circumstance, no failure, no opinion of man — can change what God made you to be.</p>
+<p>You have a mind that reflects His intelligence. You have a conscience that reflects His character. You have the freedom to choose because He is a God of freedom. You were made for relationship because He is a God of relationship. And He set eternity in your heart because He placed an eternal spirit inside of you — a spirit that knows, even when nothing else makes sense, that there is more to this life than what you can see.</p>
+<p>That is who you are. Not because culture says so. Not because you&rsquo;ve achieved enough to qualify. Because the God of the universe made you in His image, breathed His spirit into you, and crowned you with glory and majesty.</p>
+<p>And He said it was <em>very</em> good:</p>
+<blockquote class="scripture"><p>&ldquo;God saw all that He had made, and behold, it was very good.&rdquo;</p><cite>&mdash; Genesis 1:31</cite></blockquote>
+<p>Not just good. <em>Very</em> good. When God finished creating — when humanity was in place, when the image-bearers stood in the garden in unbroken relationship with their Creator, carrying within them the very spirit of the living God — He looked at everything and declared it very good.</p>
+<p>That was the world as it was meant to be. That was humanity as we were meant to be.</p>
+<p>But that&rsquo;s not the world we live in now, is it? Something clearly went wrong. The relationship that was supposed to be face to face was broken. The choice that was supposed to be a gift was misused. The world that was declared &ldquo;very good&rdquo; is now filled with pain, death, and separation.</p>
+<p>What happened?</p>
+<p>That&rsquo;s where we&rsquo;re going next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-01.html">&larr; Previous Chapter</a>
+          <a href="chapter-03.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 2;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-01.html';
+      if (e.key === 'ArrowRight' && 2 < 10) window.location.href = 'chapter-03.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

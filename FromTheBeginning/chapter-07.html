@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 7: The Empty Tomb | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html" selected>Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SEVEN</p>
+        <h1>The Empty Tomb</h1>
+      </header>
+
+      <div class="content">
+        <p>It was over.</p>
+<p>That&rsquo;s what they believed. Every one of them. The men who had left everything to follow Him — their boats, their businesses, their families — had watched Him die on a Roman cross. They had seen the nails. They had heard Him cry out. They had watched His body go limp, watched a soldier thrust a spear into His side to make certain, watched the blood and water pour out (John 19:34).</p>
+<p>A wealthy man named Joseph of Arimathea had asked Pilate for the body. He and another man, Nicodemus — the same Nicodemus who had come to Jesus by night (John 3) — wrapped the body in linen cloths with burial spices, laid it in a new tomb cut out of rock, and rolled a large stone across the entrance (John 19:38–42).</p>
+<p>The religious leaders, who had engineered the whole thing, went to Pilate and asked for a guard to be posted at the tomb. Their reason? Jesus had said He would rise after three days, and they didn&rsquo;t want the disciples stealing the body and claiming it happened (Matthew 27:62–66). So the tomb was sealed. Roman soldiers — trained, armed, on duty under penalty of death — stood watch.</p>
+<p>And the disciples? They were hiding. John tells us they had locked themselves behind closed doors &ldquo;for fear of the Jews&rdquo; (John 20:19). These were not men preparing for a resurrection. These were men in shock. Men in grief. Men who had believed they were following the Messiah — and had just watched Him die like a criminal.</p>
+<p>The hours passed. The silence was deafening. It was the longest wait in the history of the world.</p>
+<p>And then came the first day of the week.</p>
+<h2>The Dawn</h2>
+<blockquote class="scripture"><p>&ldquo;Now after the Sabbath, as it began to dawn toward the first day of the week, Mary Magdalene and the other Mary came to look at the grave.&rdquo;</p><cite>&mdash; Matthew 28:1</cite></blockquote>
+<p>They came to grieve. They came with burial spices to finish preparing the body — because the Sabbath had forced them to leave the work incomplete. They came expecting a sealed tomb, a heavy stone, and the cold reality of death. They came expecting nothing.</p>
+<p>They did not find what they expected.</p>
+<blockquote class="scripture"><p>&ldquo;And behold, a severe earthquake had occurred, for an angel of the Lord descended from heaven and came and rolled away the stone and sat upon it. And his appearance was like lightning, and his clothing as white as snow. The guards shook for fear of him and became like dead men.&rdquo;</p><cite>&mdash; Matthew 28:2–4</cite></blockquote>
+<p>Look at the contrast. Roman soldiers — the most disciplined military force the ancient world had ever seen — shook and fell like dead men at the sight of a single angel. These were not men who frightened easily. These were men trained to stand their ground against charging armies. And they collapsed. They could not even stand in the presence of what came down from heaven that morning.</p>
+<p>And the angel — having just rendered an entire guard unit powerless — sat down on the stone and spoke to the women. Not with a shout. Not with a command. With reassurance:</p>
+<blockquote class="scripture"><p>&ldquo;The angel said to the women, &lsquo;Do not be afraid; for I know that you are looking for Jesus who has been crucified. He is not here, for He has risen, just as He said. Come, see the place where He was lying.&rdquo;</p><cite>&mdash; Matthew 28:5–6</cite></blockquote>
+<p><em>He is not here, for He has risen, just as He said.</em></p>
+<p>Ten words that changed the world. The tomb was open — not to let Jesus out, but to let the witnesses in. The stone wasn&rsquo;t rolled away because Jesus needed someone to open the door. The One who had walked on water, calmed storms with a word, and called Lazarus out of a grave after four days of decomposition did not need help getting out of a tomb. The stone was moved so that everyone could see with their own eyes: the body was gone. He was not there.</p>
+<p><em>Just as He said.</em> He had told them this would happen. More than once. He had told them in plain language — &ldquo;on the third day He will be raised up&rdquo; (Matthew 20:19). They hadn&rsquo;t understood it then. They understood it now.</p>
+<h2>Mary</h2>
+<p>The Gospel of John gives us something that Matthew&rsquo;s account does not — a scene so intimate, so human, that it has stayed with readers for two thousand years.</p>
+<p>Mary Magdalene had come to the tomb early, while it was still dark (John 20:1). When she saw the stone removed, she ran to tell Peter and John. They came, saw the empty tomb, saw the linen wrappings lying there — and went home (John 20:10).</p>
+<p>But Mary stayed.</p>
+<blockquote class="scripture"><p>&ldquo;But Mary was standing outside the tomb weeping; and so, as she wept, she stooped and looked into the tomb; and she saw two angels in white sitting, one at the head and one at the feet, where the body of Jesus had been lying. And they said to her, &lsquo;Woman, why are you weeping?&rsquo; She said to them, &lsquo;Because they have taken away my Lord, and I do not know where they have laid Him.&rdquo;</p><cite>&mdash; John 20:11–13</cite></blockquote>
+<p>She thought someone had taken the body. That was the only explanation her grief-stricken mind could reach for. Not a resurrection. Not a miracle. Just the final indignity — they had taken Him, and she didn&rsquo;t even know where.</p>
+<p>And then she turned around.</p>
+<blockquote class="scripture"><p>&ldquo;When she had said this, she turned around and saw Jesus standing there, and did not know that it was Jesus. Jesus said to her, &lsquo;Woman, why are you weeping? Whom are you seeking?&rsquo; Supposing Him to be the gardener, she said to Him, &lsquo;Sir, if you have carried Him away, tell me where you have laid Him, and I will take Him away.&rdquo;</p><cite>&mdash; John 20:14–15</cite></blockquote>
+<p>She was looking straight at Him and didn&rsquo;t recognize Him. Her eyes were blurred with tears. Her mind was locked on death. She was so consumed by her grief that even when the answer to her grief was standing right in front of her, she couldn&rsquo;t see it.</p>
+<p>And then He spoke her name.</p>
+<blockquote class="scripture"><p>&ldquo;Jesus said to her, &lsquo;Mary!&rsquo; She turned and said to Him in Hebrew, &lsquo;Rabboni!&rsquo; (which means, Teacher).&rdquo;</p><cite>&mdash; John 20:16</cite></blockquote>
+<p>One word. Her name. And she knew.</p>
+<p>There is something in the way a person says your name that cannot be replicated. Mary had heard Jesus say her name before — many times. And when He said it again, standing alive in front of her in that garden on that morning, everything she had believed was lost came rushing back in a single syllable.</p>
+<p><em>Rabboni.</em> Teacher. My teacher. You&rsquo;re here. You&rsquo;re alive.</p>
+<p>This is not the language of legend. This is not how you write a myth. A myth would have Jesus appear in glory before His enemies, descending from the clouds to vindicate Himself in front of the people who had killed Him. Instead, the risen Lord&rsquo;s first appearance was to a weeping woman in a garden — a woman who thought He was the gardener. That is not the scene a human author would invent. That is the scene that actually happened.</p>
+<h2>The Witnesses</h2>
+<p>If the resurrection were a lie, it would be the most extraordinary lie ever told — because everything about the way it was reported works against the people who reported it.</p>
+<p>Start with the women. In the first-century world, a woman&rsquo;s testimony was not considered legally valid. If you were inventing a story and wanted people to believe it, you would never choose women as your first witnesses. No one trying to fabricate a credible story in that culture would have done it that way. But the Gospel writers didn&rsquo;t invent the witnesses — they recorded them. The women were first because the women were actually first. The accounts report what happened, not what would have been convenient.</p>
+<p>Then there were the disciples themselves. On the evening of that first day, Jesus appeared to them while they were hiding behind locked doors:</p>
+<blockquote class="scripture"><p>&ldquo;So when it was evening on that day, the first day of the week, and when the doors were shut where the disciples were, for fear of the Jews, Jesus came and stood in their midst and said to them, &lsquo;Peace be with you.&rdquo;</p><cite>&mdash; John 20:19</cite></blockquote>
+<p>He showed them His hands and His side — the marks of the nails and the spear. This was not a ghost. This was not a vision. This was a body — the same body that had been crucified — now alive, now standing in front of them, now bearing the proof of what had been done to Him.</p>
+<p>But one of the twelve wasn&rsquo;t there that night. Thomas. And when the others told him what they had seen, Thomas said what any honest skeptic would say:</p>
+<blockquote class="scripture"><p>&ldquo;Unless I see in His hands the imprint of the nails, and put my finger into the place of the nails, and put my hand into His side, I will not believe.&rdquo;</p><cite>&mdash; John 20:25</cite></blockquote>
+<p>Eight days later, Jesus appeared again. And this time Thomas was there:</p>
+<blockquote class="scripture"><p>&ldquo;Then He said to Thomas, &lsquo;Reach here with your finger, and see My hands; and reach here your hand and put it into My side; and do not be unbelieving, but believing.&rsquo; Thomas answered and said to Him, &lsquo;My Lord and my God!&rdquo;</p><cite>&mdash; John 20:27–28</cite></blockquote>
+<p>We saw those words in Chapter Five — Thomas&rsquo;s confession: &ldquo;My Lord and my God.&rdquo; Now you know the moment when he said them. He said them while looking at the nail marks. He said them while standing in front of a man he had watched die. He said them because the evidence left him no other option.</p>
+<p>And Thomas was only one of many.</p>
+<p>Paul, writing to the Corinthians roughly twenty-five years after the resurrection, gave what may be the most important summary of eyewitness testimony in all of Scripture:</p>
+<blockquote class="scripture"><p>&ldquo;For I delivered to you as of first importance what I also received, that Christ died for our sins according to the Scriptures, and that He was buried, and that He was raised on the third day according to the Scriptures, and that He appeared to Cephas, then to the twelve. After that He appeared to more than five hundred brethren at one time, most of whom remain until now, but some have fallen asleep; then He appeared to James, then to all the apostles; and last of all, as to one untimely born, He appeared to me also.&rdquo;</p><cite>&mdash; 1 Corinthians 15:3–8</cite></blockquote>
+<p>Read that list carefully. He appeared to Peter. To the twelve. To more than five hundred people at a single time — and Paul adds that most of them were still alive when he wrote this. That detail matters enormously. Paul was not recording ancient history. He was pointing to living witnesses. He was saying, in effect, &ldquo;If you don&rsquo;t believe me, go ask them. They&rsquo;re still here. They saw Him.&rdquo;</p>
+<p>Then James — the brother of Jesus, who had not believed during Jesus&rsquo; earthly ministry (John 7:5). What would it take to convince you that your own brother was God? James saw the risen Christ and became a leader in the early church. Then all the apostles. And finally Paul himself — a man who had been actively persecuting Christians before the risen Jesus confronted him on the road to Damascus.</p>
+<p>These were not people who wanted to believe. Peter had denied Jesus three times. Thomas refused to believe without physical proof. James hadn&rsquo;t believed at all. Paul had been trying to destroy the church. Every one of them was changed — not by an idea, not by a philosophy, not by wishful thinking — but by an encounter with a person they had seen dead and now saw alive.</p>
+<h2>The Transformation</h2>
+<p>And here is the detail that skeptics have never been able to explain.</p>
+<p>Within weeks of the resurrection, the disciples — the same men who had been hiding behind locked doors — were standing in the streets of Jerusalem, publicly declaring that Jesus had risen from the dead. Not in some distant city where no one could check. In Jerusalem. The city where He had been crucified. The city where the tomb was. The city where anyone who wanted to disprove the claim could have simply produced the body.</p>
+<p>No one produced the body. No one ever has.</p>
+<p>Peter — the man who had denied Jesus three times to a servant girl by a fire — stood before the very rulers who had engineered the crucifixion and said:</p>
+<blockquote class="scripture"><p>&ldquo;This Jesus God raised up again, to which we are all witnesses.&rdquo;</p><cite>&mdash; Acts 2:32</cite></blockquote>
+<p><em>We are all witnesses.</em> Not &ldquo;we believe this happened.&rdquo; Not &ldquo;we have faith that it&rsquo;s true.&rdquo; <em>We saw Him.</em> This was not theology. This was testimony.</p>
+<p>And they did not stop. Not when they were threatened. Not when they were arrested. Not when they were beaten. Not when they were killed. One by one, the apostles gave their lives for this claim. People will die for something they believe to be true — that happens all the time. But people do not die for something they know to be a lie. If the resurrection was a fabrication, the disciples knew it. And yet every one of them went to his death rather than deny what he had seen.</p>
+<p>That is not the behavior of liars. That is the behavior of men who had seen something so real, so undeniable, so world-shaking that no threat could make them unsay it.</p>
+<h2>What the Resurrection Proves</h2>
+<p>The empty tomb is not just a remarkable event. It is the event that validates everything else.</p>
+<h3>It Proves He Was Who He Said He Was</h3>
+<p>In Chapter Five, we walked through the claims Jesus made about Himself — that He was God in the flesh, that He and the Father were one, that to see Him was to see the Father. Those are extraordinary claims. And the resurrection is the extraordinary proof.</p>
+<p>Paul wrote:</p>
+<blockquote class="scripture"><p>&ldquo;&hellip;who was declared the Son of God with power by the resurrection from the dead, according to the Spirit of holiness, Jesus Christ our Lord.&rdquo;</p><cite>&mdash; Romans 1:4</cite></blockquote>
+<p><em>Declared the Son of God with power by the resurrection.</em> The resurrection is God&rsquo;s stamp of approval on every word Jesus ever spoke. Every claim. Every promise. Every teaching. If God raised Him from the dead, then God was saying, &ldquo;This is My Son. Everything He told you is true.&rdquo;</p>
+<h3>It Proves the Payment Was Accepted</h3>
+<p>In Chapter Six, we saw what happened on the cross — the certificate of debt nailed there, the price paid in full, <em>tetelestai</em>. But how do you know the payment was accepted? How do you know the sacrifice was sufficient?</p>
+<p>The resurrection is the receipt.</p>
+<blockquote class="scripture"><p>&ldquo;He who was delivered over because of our transgressions, and was raised because of our justification.&rdquo;</p><cite>&mdash; Romans 4:25</cite></blockquote>
+<p>He was delivered to the cross because of our sins. He was raised because our justification — our being declared righteous — was accomplished. The resurrection is God&rsquo;s declaration that the debt has been fully satisfied. If Jesus had stayed in the tomb, it would have meant the sacrifice was not enough. But He didn&rsquo;t stay in the tomb. He walked out of it. And that means the payment was accepted, the penalty was satisfied, and the way is open.</p>
+<h3>It Proves Death Has Been Conquered</h3>
+<p>Remember what we said in Chapter Three — that the wages of sin is death, and that death entered the world through sin (Romans 5:12). Remember what we said in Chapter Two — that death is the separation of the spirit from the body. Death has held the human race in its grip since the garden of Eden. Every person born has lived under its shadow.</p>
+<p>And on that Sunday morning, Jesus broke its grip.</p>
+<blockquote class="scripture"><p>&ldquo;But God raised Him up again, putting an end to the agony of death, since it was impossible for Him to be held in its power.&rdquo;</p><cite>&mdash; Acts 2:24</cite></blockquote>
+<p><em>Impossible.</em> Death could not hold Him. The grave could not keep Him. The One who had authority over death when He stood outside Lazarus&rsquo;s tomb — the One who said &ldquo;Lazarus, come forth&rdquo; and the dead man walked out — now exercised that same authority over His own death. The spirit that had departed His body on the cross was reunited with it. The separation was reversed. Death itself was defeated by the Author of life.</p>
+<p>And here is what that means for you: because He conquered death, death no longer has the final word. Paul would later write:</p>
+<blockquote class="scripture"><p>&ldquo;But now Christ has been raised from the dead, the first fruits of those who are asleep. For since by a man came death, by a man also came the resurrection of the dead. For as in Adam all die, so also in Christ all will be made alive.&rdquo;</p><cite>&mdash; 1 Corinthians 15:20–22</cite></blockquote>
+<p><em>The first fruits.</em> In the ancient world, the first fruits were the first portion of the harvest — and they were the guarantee that the rest of the harvest was coming. Jesus is the first fruits of the resurrection. He is the proof that death is not the end. And those who are <em>in Christ</em> — we will come back to what that means — will share in what He has won.</p>
+<h3>It Proves the Prophets Were Right</h3>
+<p>In Chapter Four, we traced the thread of promise from Genesis to Isaiah — the long line of prophecies that pointed to the coming Messiah. And one of them was buried in a passage so full of suffering that it&rsquo;s easy to miss:</p>
+<blockquote class="scripture"><p>&ldquo;But the Lord was pleased to crush Him, putting Him to grief; if He would render Himself as a guilt offering, He will see His offspring, He will prolong His days, and the good pleasure of the Lord will prosper in His hand.&rdquo;</p><cite>&mdash; Isaiah 53:10</cite></blockquote>
+<p>Read that again. Isaiah said the suffering servant would render Himself as a guilt offering — and then <em>He will prolong His days.</em> He would die as an offering, and then He would live again. Seven hundred years before it happened, the prophet said that the Messiah would die and continue living. The resurrection is the fulfillment of that promise.</p>
+<p>And when Paul stood in Athens — speaking to an audience that knew nothing about the God of Israel, nothing about the prophets, nothing about the promises — he brought his entire argument to a single point:</p>
+<blockquote class="scripture"><p>&ldquo;&hellip;because He has fixed a day in which He will judge the world in righteousness through a Man whom He has appointed, having furnished proof to all men by raising Him from the dead.&rdquo;</p><cite>&mdash; Acts 17:31</cite></blockquote>
+<p><em>Having furnished proof to all men by raising Him from the dead.</em> The resurrection is not a matter of religious preference. It is not a comforting story for people who need hope. It is God&rsquo;s proof — furnished to everyone, available to anyone willing to examine it — that Jesus is exactly who He claimed to be, that the cross accomplished exactly what God intended, and that every human being will one day stand before Him.</p>
+<h2>The Fact That Demands a Response</h2>
+<p>Let&rsquo;s put it all together.</p>
+<p>If Jesus did not rise from the dead, then the cross was just another execution. The claims He made about Himself were false. The promises He made about eternal life were empty. The prophets were wrong. And the apostles — every last one of them — were either liars or fools. Paul himself said exactly this:</p>
+<blockquote class="scripture"><p>&ldquo;And if Christ has not been raised, your faith is worthless; you are still in your sins.&rdquo;</p><cite>&mdash; 1 Corinthians 15:17</cite></blockquote>
+<p>If He&rsquo;s still in the grave, you&rsquo;re still in your sins. The debt is unpaid. The gap from Chapter Three is still open. The certificate of debt from Chapter Six is still hanging over your head. And there is no hope — for anyone, anywhere, ever.</p>
+<p>But if He did rise — and the evidence says He did — then everything changes.</p>
+<p>It means God is real, and He has acted in history. It means the cross was not a tragedy but a transaction — the payment of a debt you could never pay yourself. It means death is not the end. It means the separation between you and God that we described in Chapter Three has been bridged — by the body and blood of the only One who could bridge it. It means the promise that was whispered in Genesis 3:15, the thread that was traced through Abraham and David and Isaiah, the plan that was set in place before the foundation of the world — all of it was real. All of it was true. And all of it was for you.</p>
+<p>The tomb is empty. Jesus is alive. And that fact — that single, stubborn, world-altering fact — demands something from you.</p>
+<p>Not just that you believe it. Even the demons believe, and they shudder (James 2:19). Not just that you admire it. Not just that you feel moved by it. The resurrection demands a response.</p>
+<p>The crowd at Pentecost heard this very message — that the Jesus they had crucified was both Lord and Christ, that God had raised Him from the dead — and when the weight of it hit them, they asked the most important question any human being can ask:</p>
+<p><em>&ldquo;What shall we do?&rdquo;</em></p>
+<p>That question — and its answer — is where we&rsquo;re going next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-06.html">&larr; Previous Chapter</a>
+          <a href="chapter-08.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 7;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-06.html';
+      if (e.key === 'ArrowRight' && 7 < 10) window.location.href = 'chapter-08.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 10: The Life That Follows | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html" selected>Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TEN</p>
+        <h1>The Life That Follows</h1>
+      </header>
+
+      <div class="content">
+        <p>So here you are.</p>
+<p>You&rsquo;ve heard the story from the very beginning — from a God who created you on purpose, who made you in His image, who knew you before you were born. You&rsquo;ve seen what went wrong — how sin entered the world and separated humanity from the God who made them. You&rsquo;ve traced the long thread of promise that God wove through centuries of history, pointing to Someone who was coming to fix what was broken. You&rsquo;ve met that Someone — Jesus, the Word made flesh, who claimed to be God, lived a sinless life, and backed up every claim with authority over nature, disease, death, and sin. You&rsquo;ve stood at the cross and watched Him pay a debt you could never pay. You&rsquo;ve seen the empty tomb and understood what it proves. You&rsquo;ve heard the question — &ldquo;What shall we do?&rdquo; — and you&rsquo;ve responded. You&rsquo;ve been added to the church, the body of Christ, the family of God.</p>
+<p>Now comes the rest of your life.</p>
+<p>And if you&rsquo;re being honest, that might be the part that scares you the most. Because you know yourself. You know your weaknesses. You know the habits that are hard to break and the thoughts that are hard to control and the past that is hard to leave behind. And somewhere in the back of your mind, there&rsquo;s a voice asking: <em>What if I can&rsquo;t do this? What if I fail?</em></p>
+<p>Let me tell you something important right now, before we go any further: you will fail. Not because you&rsquo;re worse than anyone else. Because you&rsquo;re human. Every person who has ever followed Christ has stumbled along the way. The question is not whether you will fall. The question is what happens when you do.</p>
+<h2>When You Stumble</h2>
+<p>The apostle John — the one who leaned against Jesus at the last supper, the one who stood at the foot of the cross, the one who outlived all the other apostles — wrote these words to Christians. Not to people who were thinking about becoming Christians. To people who already were:</p>
+<blockquote class="scripture"><p>&ldquo;If we say that we have no sin, we are deceiving ourselves and the truth is not in us.&rdquo;</p><cite>&mdash; 1 John 1:8</cite></blockquote>
+<p>If you think you&rsquo;re going to live the rest of your life without sinning, you&rsquo;re deceiving yourself. John said so. He included himself in it — <em>we.</em> This is not a license to sin. It is an honest acknowledgment that you are still human, still imperfect, still capable of falling short. And if the apostle John needed to say that, then you and I certainly need to hear it.</p>
+<p>But he didn&rsquo;t stop there. The very next verse is one of the most important promises in all of Scripture for a Christian who has stumbled:</p>
+<blockquote class="scripture"><p>&ldquo;If we confess our sins, He is faithful and righteous to forgive us our sins and to cleanse us from all unrighteousness.&rdquo;</p><cite>&mdash; 1 John 1:9</cite></blockquote>
+<p><em>If we confess our sins.</em> Not if we earn forgiveness. Not if we perform enough good deeds to outweigh the bad. If we confess. If we bring it to God honestly — no excuses, no hiding, no pretending — He is faithful. He is righteous. And He will forgive.</p>
+<p>That word <em>faithful</em> matters. It means God doesn&rsquo;t change His mind about this. His willingness to forgive a confessing Christian is not based on His mood or on how badly you failed. It&rsquo;s based on His character. He is faithful. He promised to forgive, and He keeps His promises.</p>
+<p>And notice the scope: <em>cleanse us from all unrighteousness.</em> Not some. Not the small sins. Not the ones that are easy to forgive. All. There is no sin you can commit as a Christian that is beyond the reach of God&rsquo;s forgiveness — if you are willing to confess it and turn from it.</p>
+<p>This is grace. Not the kind of grace that says sin doesn&rsquo;t matter. The kind of grace that says sin matters enormously — but God&rsquo;s love is bigger than your worst failure.</p>
+<h2>Getting Back Up</h2>
+<p>The Christian life is sometimes described in Scripture as a walk. Paul told the Ephesians to &ldquo;walk in a manner worthy of the calling with which you have been called&rdquo; (Ephesians 4:1). He told the Colossians to &ldquo;walk in a manner worthy of the Lord&rdquo; (Colossians 1:10). A walk is steady. A walk is directional. A walk implies progress — not perfection.</p>
+<p>When a child is learning to walk, they fall. Constantly. And every parent in the world knows what to do when that happens: you don&rsquo;t disown the child. You don&rsquo;t walk away. You reach down, help them up, and encourage them to try again. That is what your Father does for you.</p>
+<p>The writer of Proverbs captured this beautifully:</p>
+<blockquote class="scripture"><p>&ldquo;For a righteous man falls seven times, and rises again, but the wicked stumble in time of calamity.&rdquo;</p><cite>&mdash; Proverbs 24:16</cite></blockquote>
+<p>The difference between the righteous and the wicked is not that the righteous never fall. It&rsquo;s that they get back up. Seven times — which in Hebrew expression means completely, fully, over and over — the righteous fall. And every time, they rise. That is the life that follows. Not a life of never stumbling. A life of always getting back up.</p>
+<p>And you don&rsquo;t get back up alone. That&rsquo;s why Chapter Nine mattered. That&rsquo;s why God placed you in a body of believers who pray for you, encourage you, and walk beside you. James wrote:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore, confess your sins to one another, and pray for one another so that you may be healed. The effective prayer of a righteous man can accomplish much.&rdquo;</p><cite>&mdash; James 5:16</cite></blockquote>
+<p>You were not designed to carry your failures in silence. You were designed to bring them into the light — before God and before your brothers and sisters in Christ — and to find healing in the honesty.</p>
+<h2>The Tools He Gave You</h2>
+<p>God did not save you and then leave you to figure out the rest on your own. He gave you everything you need to grow, to endure, and to become more like His Son. Peter wrote:</p>
+<blockquote class="scripture"><p>&ldquo;His divine power has granted to us everything pertaining to life and godliness, through the true knowledge of Him who called us by His own glory and excellence.&rdquo;</p><cite>&mdash; 2 Peter 1:3</cite></blockquote>
+<p><em>Everything pertaining to life and godliness.</em> Not almost everything. Not most of what you need. Everything. And it comes through the knowledge of Him — through knowing God, understanding His word, and growing in your relationship with Him.</p>
+<p>So how do you grow? The same way you started — by hearing and doing.</p>
+<h3>Scripture</h3>
+<p>The Bible is no longer a book you&rsquo;ve never opened. It&rsquo;s the book that told you who God is, what He did, and how to respond. And now it becomes the daily companion of your new life.</p>
+<p>Paul told Timothy:</p>
+<blockquote class="scripture"><p>&ldquo;All Scripture is inspired by God and profitable for teaching, for reproof, for correction, for training in righteousness; so that the man of God may be adequate, equipped for every good work.&rdquo;</p><cite>&mdash; 2 Timothy 3:16–17</cite></blockquote>
+<p>Teaching — it shows you what is true. Reproof — it shows you where you&rsquo;ve gone wrong. Correction — it shows you how to get back on track. Training in righteousness — it shapes you into the person God is calling you to be. The Bible does all four. But it can only do them if you open it.</p>
+<p>The psalmist understood this:</p>
+<blockquote class="scripture"><p>&ldquo;Your word is a lamp to my feet and a light to my path.&rdquo;</p><cite>&mdash; Psalm 119:105</cite></blockquote>
+<p>A lamp to your feet. Not a spotlight that illuminates the entire road ahead — a lamp that shows you the next step. That is how Scripture works in your life. You don&rsquo;t need to understand everything at once. You need to open it, read it, and let it guide you one step at a time.</p>
+<h3>Prayer</h3>
+<p>You&rsquo;ve already seen the church praying together. But prayer is also the private conversation between you and the God who saved you. And He wants to hear from you.</p>
+<p>Paul wrote:</p>
+<blockquote class="scripture"><p>&ldquo;Be anxious for nothing, but in everything by prayer and supplication with thanksgiving let your requests be made known to God. And the peace of God, which surpasses all comprehension, will guard your hearts and your minds in Christ Jesus.&rdquo;</p><cite>&mdash; Philippians 4:6–7</cite></blockquote>
+<p>In everything. Not just the big things. Not just the crises. Everything. When you are anxious — and you will be — bring it to God. When you are grateful — and you should be — bring it to God. When you don&rsquo;t know what to do, when you&rsquo;re hurting, when you&rsquo;re celebrating, when you&rsquo;re lost — bring it to God. He is not too busy. He is not too distant. He is your Father, and He is listening.</p>
+<p>And notice what Paul says happens when you pray: the peace of God guards your heart and mind. You may not always get the answer you want. But you will be held by the One who loves you — and that is enough.</p>
+<h3>Fellowship</h3>
+<p>We talked about the church in Chapter Nine. But fellowship is not just something that happens in a church building on the first day of the week. Fellowship is the daily reality of walking alongside other believers — encouraging each other, correcting each other, bearing each other&rsquo;s burdens.</p>
+<p>Paul wrote:</p>
+<blockquote class="scripture"><p>&ldquo;Bear one another&rsquo;s burdens, and thereby fulfill the law of Christ.&rdquo;</p><cite>&mdash; Galatians 6:2</cite></blockquote>
+<p>You were not meant to carry your burdens alone. And someone near you is carrying a burden right now that you are uniquely positioned to help with. That is fellowship — not a handshake at the door, but a life shared with people who are walking the same road.</p>
+<p>The writer of Ecclesiastes said it simply:</p>
+<blockquote class="scripture"><p>&ldquo;Two are better than one because they have a good return for their labor. For if either of them falls, the one will lift up his companion. But woe to the one who falls when there is not another to lift him up.&rdquo;</p><cite>&mdash; Ecclesiastes 4:9–10</cite></blockquote>
+<p>You need people. They need you. That is by design.</p>
+<h2>The Race</h2>
+<p>There is another image Scripture uses for the Christian life — not just a walk, but a race. And a race requires endurance.</p>
+<p>Paul, near the end of his life, wrote to Timothy:</p>
+<blockquote class="scripture"><p>&ldquo;I have fought the good fight, I have finished the course, I have kept the faith; in the future there is laid up for me the crown of righteousness, which the Lord, the righteous judge, will award to me on that day; and not only to me, but also to all who have loved His appearing.&rdquo;</p><cite>&mdash; 2 Timothy 4:7–8</cite></blockquote>
+<p><em>I have finished the course.</em> Not &ldquo;I started the course.&rdquo; Not &ldquo;I ran really well for the first few years.&rdquo; He finished. He kept the faith — all the way to the end. And because he did, a crown was waiting for him.</p>
+<p>The writer of Hebrews used the same image:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore, since we have so great a cloud of witnesses surrounding us, let us also lay aside every encumbrance and the sin which so easily entangles us, and let us run with endurance the race that is set before us, fixing our eyes on Jesus, the author and perfecter of faith.&rdquo;</p><cite>&mdash; Hebrews 12:1–2</cite></blockquote>
+<p>A cloud of witnesses. Every person of faith who came before you — Abraham, Moses, David, the prophets, the apostles, the millions of faithful Christians across two thousand years of history — they are the witnesses. They ran their race. They kept their faith. And now it is your turn.</p>
+<p>And the instruction is clear: fix your eyes on Jesus. Not on the difficulties. Not on the doubts. Not on the people who will disappoint you. On Jesus — the author and perfecter of your faith. He started it. He will complete it. Your job is to keep running toward Him.</p>
+<p>Jesus Himself told the church at Smyrna — a church that was suffering, that was being persecuted, that had every reason to give up:</p>
+<blockquote class="scripture"><p>&ldquo;Be faithful until death, and I will give you the crown of life.&rdquo;</p><cite>&mdash; Revelation 2:10</cite></blockquote>
+<p>Faithful until death. That is the calling. Not perfect until death — faithful. There is a difference. Perfection means never failing. Faithfulness means never quitting. And the promise for those who don&rsquo;t quit is not a pat on the back. It&rsquo;s a crown of life.</p>
+<h2>The Hope</h2>
+<p>And here is where the story reaches its final destination — not the end, but the beginning of something that never ends.</p>
+<p>One of the most common fears in the human heart is the fear of death. It&rsquo;s the question behind every question. It&rsquo;s the shadow that falls across every joy. And for those who have lost someone they love, it is the ache that never fully goes away.</p>
+<p>Paul addressed this directly — and what he wrote was not a vague wish or a sentimental hope. It was a declaration rooted in everything we&rsquo;ve been building in this book:</p>
+<blockquote class="scripture"><p>&ldquo;But we do not want you to be uninformed, brethren, about those who are asleep, so that you will not grieve as do the rest who have no hope. For if we believe that Jesus died and rose again, even so God will bring with Him those who have fallen asleep in Jesus.&rdquo;</p><cite>&mdash; 1 Thessalonians 4:13–14</cite></blockquote>
+<p><em>So that you will not grieve as do the rest who have no hope.</em> Christians grieve. When you lose someone you love, it hurts. Paul did not say, &ldquo;Don&rsquo;t grieve.&rdquo; He said, &ldquo;Don&rsquo;t grieve like people who have no hope.&rdquo; Because you have hope. And your hope is not a wish. Your hope is the resurrection of Jesus Christ — the same resurrection we examined in Chapter Seven, the same resurrection that proved He was who He said He was, the same resurrection that demonstrated His victory over death.</p>
+<p>If Jesus died and rose again — and He did — then those who have fallen asleep in Him will also rise. That is the promise. Not &ldquo;maybe.&rdquo; Not &ldquo;we hope so.&rdquo; <em>Even so God will bring with Him those who have fallen asleep in Jesus.</em></p>
+<p>Paul continued:</p>
+<blockquote class="scripture"><p>&ldquo;For the Lord Himself will descend from heaven with a shout, with the voice of the archangel and with the trumpet of God, and the dead in Christ will rise first. Then we who are alive and remain will be caught up together with them in the clouds to meet the Lord in the air, and so we shall always be with the Lord. Therefore comfort one another with these words.&rdquo;</p><cite>&mdash; 1 Thessalonians 4:16–18</cite></blockquote>
+<p><em>And so we shall always be with the Lord.</em> That is the end of the story. Or rather, it is the beginning of the real story — the one that never ends. Always with the Lord. No more separation. No more sin. No more death. No more gap to cross. Always with Him.</p>
+<p>And Paul&rsquo;s instruction? <em>Comfort one another with these words.</em> This is not abstract theology. This is the comfort you offer at the graveside. This is the hope you carry into the hospital room. This is the anchor that holds you when everything else is falling apart. Jesus rose. And because He rose, you will rise too.</p>
+<h2>The Life That Starts Now</h2>
+<p>Let me bring this all the way back to where we started.</p>
+<p>In Chapter One, we said that you are not an accident. That God made you on purpose, in His image, with a plan for your rescue that was in place before the foundation of the world. Every chapter since then has been the unfolding of that plan — the problem of sin, the long promise of rescue, the arrival of Jesus, the cross that paid the debt, the empty tomb that proved it all, the response that brings you into Christ, and the church that walks with you from here.</p>
+<p>This is the life that follows. It is a life built on the foundation of everything you&rsquo;ve read in this book — not a set of rules to keep, but a relationship to live. A relationship with the God who made you, the Savior who died for you, and the family He placed you in.</p>
+<p>It will not always be easy. There will be days when you doubt, days when you stumble, days when the world presses in so hard you wonder if any of this is real. And on those days, you open the Book. You get on your knees. You lean on the people God put beside you. And you remember: the tomb is still empty. The promise still stands. And the God who started this work in you is faithful to complete it.</p>
+<p>Paul wrote to the Philippians:</p>
+<blockquote class="scripture"><p>&ldquo;For I am confident of this very thing, that He who began a good work in you will perfect it until the day of Christ Jesus.&rdquo;</p><cite>&mdash; Philippians 1:6</cite></blockquote>
+<p>He began the work. He will finish it. Your part is to keep walking — one step at a time, one day at a time, with your eyes fixed on Jesus.</p>
+<p>This is not the end of your story. It is the beginning of the one that matters most.</p>
+<p>And it starts now.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-09.html">&larr; Previous Chapter</a>
+          <a class="disabled">Last Chapter</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 10;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-09.html';
+      if (e.key === 'ArrowRight' && 10 < 10) window.location.href = 'chapter-11.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

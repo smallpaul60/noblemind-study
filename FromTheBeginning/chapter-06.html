@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: The Death That Paid the Debt | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html" selected>Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html">Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SIX</p>
+        <h1>The Death That Paid the Debt</h1>
+      </header>
+
+      <div class="content">
+        <p>He knew it was coming.</p>
+<p>That&rsquo;s the part that will stay with you once you understand it. Jesus didn&rsquo;t stumble into the cross. He wasn&rsquo;t trapped by circumstances. He wasn&rsquo;t outmaneuvered by His enemies. He walked toward it — deliberately, knowingly, with full understanding of what it would cost Him.</p>
+<p>He had told His disciples repeatedly what was going to happen:</p>
+<blockquote class="scripture"><p>&ldquo;Behold, we are going up to Jerusalem; and the Son of Man will be delivered to the chief priests and scribes, and they will condemn Him to death, and will hand Him over to the Gentiles to mock and scourge and crucify Him, and on the third day He will be raised up.&rdquo;</p><cite>&mdash; Matthew 20:18–19</cite></blockquote>
+<p>No ambiguity. No vague prediction. He named the city. He named the method. He named the timeline. And He went anyway.</p>
+<h2>The Night Everything Changed</h2>
+<p>On the night before He died, Jesus shared a final meal with His disciples. And during that meal, He did something they wouldn&rsquo;t fully understand until later:</p>
+<blockquote class="scripture"><p>&ldquo;And when He had taken a cup and given thanks, He gave it to them, saying, &lsquo;Drink from it, all of you; for this is My blood of the covenant, which is poured out for many for forgiveness of sins.&rdquo;</p><cite>&mdash; Matthew 26:27–28</cite></blockquote>
+<p><em>My blood of the covenant.</em> <em>Poured out for many for forgiveness of sins.</em> He was telling them, in plain language, that His death was not a tragedy. It was a transaction. His blood would be poured out — and it would purchase forgiveness.</p>
+<p>After the meal, Jesus went to a garden called Gethsemane to pray. And here is where we see something that reveals just how real this cost was — even for the Son of God:</p>
+<blockquote class="scripture"><p>&ldquo;And He went a little beyond them, and fell on His face and prayed, saying, &lsquo;My Father, if it is possible, let this cup pass from Me; yet not as I will, but as You will.&rdquo;</p><cite>&mdash; Matthew 26:39</cite></blockquote>
+<p><em>Let this cup pass from Me.</em> Jesus was not eager for what was coming. The weight of it drove Him to His face on the ground. Luke&rsquo;s account tells us that His sweat became like drops of blood falling to the ground (Luke 22:44). He felt the full weight of what was about to happen — and He chose to go through with it anyway.</p>
+<p><em>Not as I will, but as You will.</em> That is the prayer of someone who has the power to walk away and doesn&rsquo;t. Jesus had told Peter that He could call on twelve legions of angels to rescue Him if He wanted (Matthew 26:53). He had the power to stop everything. He chose not to use it — because this was the plan. This was the purpose. This was why He had come.</p>
+<p>That same night, He was betrayed by one of His own disciples, arrested by an armed mob, dragged before the religious authorities, and subjected to a trial that violated nearly every principle of justice their own law demanded. By morning, He had been beaten, mocked, blindfolded, spat on, and handed over to the Roman governor with a demand for execution.</p>
+<p>Pilate — the Roman governor who held the authority of life and death — examined Jesus and found no guilt in Him. He said so explicitly: &ldquo;I find no guilt in this man&rdquo; (Luke 23:4). He tried to release Him. But the crowd, stirred up by the religious leaders, demanded crucifixion. And Pilate, a politician more concerned with keeping the peace than doing what was right, handed Jesus over to be killed.</p>
+<p>An innocent man, condemned by guilty men. A sinless life, sentenced to a sinner&rsquo;s death. And every bit of it was part of the plan God had set in place before the world began.</p>
+<h2>The Cross</h2>
+<p>Crucifixion was not simply an execution. It was the most brutal form of death the Roman Empire had devised — designed to maximize pain, humiliation, and the amount of time it took to die. Victims were nailed through the wrists and feet to a wooden cross, then lifted up and left to hang until their bodies could no longer sustain the effort of breathing. Death came slowly, usually by suffocation, as the muscles gave out and the lungs could no longer expand.</p>
+<p>This is what they did to Jesus.</p>
+<p>They nailed Him to a cross between two criminals. They divided His clothing among themselves. They hung a sign above His head — &ldquo;Jesus the Nazarene, the King of the Jews&rdquo; (John 19:19) — intended as mockery. And while He hung there, bleeding, suffocating, dying, people stood at the foot of the cross and taunted Him.</p>
+<p>And then something happened that no one expected.</p>
+<blockquote class="scripture"><p>&ldquo;Now from the sixth hour darkness fell upon all the land until the ninth hour.&rdquo;</p><cite>&mdash; Matthew 27:45</cite></blockquote>
+<p>From noon until three in the afternoon — the brightest hours of the day — darkness covered the land. This was not an eclipse. This was not weather. This was creation itself responding to what was happening on that cross.</p>
+<p>And in the middle of that darkness, Jesus cried out with words that have haunted readers for two thousand years:</p>
+<blockquote class="scripture"><p>&ldquo;About the ninth hour Jesus cried out with a loud voice, saying, &lsquo;Eli, Eli, lama sabachthani?&rsquo; that is, &lsquo;My God, My God, why have You forsaken Me?&rdquo;</p><cite>&mdash; Matthew 27:46</cite></blockquote>
+<p><em>Why have You forsaken Me?</em></p>
+<p>In that moment, something was happening that goes beyond physical suffering. The Son — who had been with the Father from eternity, who had never been separated from Him for a single instant — was experiencing separation from God. The very thing we described in Chapter Three — the spiritual death that sin produces, the severing of relationship between man and God — was falling on Jesus. Not because of His sin. He had none. But because of ours.</p>
+<p>Isaiah had told us this would happen: &ldquo;The Lord has caused the iniquity of us all to fall on Him&rdquo; (Isaiah 53:6). Paul would later write that God &ldquo;made Him who knew no sin to be sin on our behalf&rdquo; (2 Corinthians 5:21). At that moment on the cross, the weight of every sin ever committed by every person who would ever live was placed on the shoulders of the only One who had never sinned.</p>
+<p>And the Father turned away.</p>
+<p>That is the cost. That is what it took. The eternal fellowship between Father and Son — unbroken from before time began — was ruptured so that the broken fellowship between God and humanity could be restored. He endured the separation so that you would not have to endure it forever.</p>
+<h2>Why Blood?</h2>
+<p>This may be the question you&rsquo;re asking right now. Why did it have to be this way? Why couldn&rsquo;t God simply announce that everyone was forgiven? Why a death? Why blood?</p>
+<p>Scripture answers that question directly:</p>
+<blockquote class="scripture"><p>&ldquo;And according to the Law, one may almost say, all things are cleansed with blood, and without shedding of blood there is no forgiveness.&rdquo;</p><cite>&mdash; Hebrews 9:22</cite></blockquote>
+<p>Without shedding of blood there is no forgiveness. This is not arbitrary. This goes back to what we established in Chapter Three — the wages of sin is death (Romans 6:23). Sin carries a death penalty. Not because God is cruel, but because sin is that serious. It is a violation of the holiness of the God who made you. And holiness and sin cannot coexist any more than light and darkness can occupy the same space.</p>
+<p>Someone has to die. Either the sinner pays his own debt — and that means eternal separation from God — or someone else pays it for him. But that someone else would have to be without sin of his own, because a guilty substitute cannot pay another person&rsquo;s debt. He&rsquo;d have his own to deal with.</p>
+<p>Do you see now why Chapter Five spent so much time on the sinless life of Jesus? Why it mattered that He was &ldquo;tempted in all things as we are, yet without sin&rdquo; (Hebrews 4:15)? Why Peter emphasized that &ldquo;He committed no sin, nor was any deceit found in His mouth&rdquo; (1 Peter 2:22)?</p>
+<p>Because a sacrifice has to be without blemish. And Jesus was the only sacrifice that qualified.</p>
+<p>This is also why the picture of Abraham and Isaac from Chapter Four matters so much. A father willing to offer his only son. A substitute provided at the last moment. On a mountain. Abraham&rsquo;s story was a preview — a shadow of what God Himself would do when the time came. Except when God offered <em>His</em> Son, there was no ram in the thicket. There was no last-minute substitute. Jesus <em>was</em> the substitute. And He went willingly to the altar.</p>
+<h2>What Happened on That Cross</h2>
+<p>The physical suffering was real and it was terrible. But what happened spiritually on that cross is what saves you.</p>
+<p>Peter, who had watched it all happen, later wrote:</p>
+<blockquote class="scripture"><p>&ldquo;He Himself bore our sins in His body on the cross, so that we might die to sin and live to righteousness; for by His wounds you were healed.&rdquo;</p><cite>&mdash; 1 Peter 2:24</cite></blockquote>
+<p><em>He Himself bore our sins.</em> Not symbolically. Not figuratively. He carried them. The guilt, the weight, the penalty — all of it was transferred to Him. And the purpose was clear: so that we might die to sin and live to righteousness. His death makes our new life possible.</p>
+<p>Paul described the same event in terms that would have meant everything to a world drowning in debt:</p>
+<blockquote class="scripture"><p>&ldquo;When you were dead in your transgressions and the uncircumcision of your flesh, He made you alive together with Him, having forgiven us all our transgressions, having canceled out the certificate of debt consisting of decrees against us, which was hostile to us; and He has taken it out of the way, having nailed it to the cross.&rdquo;</p><cite>&mdash; Colossians 2:13–14</cite></blockquote>
+<p>A certificate of debt. In the ancient world, when someone owed a debt, a written record was kept — a document that listed everything owed. It hung over your head until the debt was paid. And when it was paid, the certificate was canceled — literally crossed out, struck through, rendered void.</p>
+<p>Paul says that&rsquo;s what Jesus did on the cross. Every sin you have ever committed — every lie, every selfish act, every moment of rebellion against the God who made you — was written on a certificate of debt. And Jesus took that certificate, nailed it to the cross, and paid it in full with His own blood.</p>
+<p><em>Having canceled out the certificate of debt.</em> It&rsquo;s not hanging over your head anymore. It&rsquo;s not waiting to be settled later. It was settled on that cross.</p>
+<h2>The Veil</h2>
+<p>And then, at the moment Jesus died, something happened in the temple that proved it:</p>
+<blockquote class="scripture"><p>&ldquo;And Jesus cried out again with a loud voice, and yielded up His spirit. And behold, the veil of the temple was torn in two from top to bottom; and the earth shook and the rocks were split.&rdquo;</p><cite>&mdash; Matthew 27:50–51</cite></blockquote>
+<p>The veil. To understand what this means, you need to know what the veil was.</p>
+<p>In the Jewish temple, there was an innermost room called the Most Holy Place — the place where the presence of God dwelt. No one could enter it except the high priest, and he could only enter once a year, on the Day of Atonement, carrying the blood of a sacrifice. Separating that room from the rest of the temple was a massive curtain — the veil. It was the physical barrier between God and man. It said, in effect, &ldquo;You cannot come in here. The way is not open.&rdquo;</p>
+<p>And at the moment Jesus died, that veil was torn in two. Not from the bottom up — as if human hands had ripped it. <em>From top to bottom.</em> God tore it. From His side down. The barrier was removed. The way was opened.</p>
+<p>The writer of Hebrews explained what this meant:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore, brethren, since we have confidence to enter the holy place by the blood of Jesus, by a new and living way which He inaugurated for us through the veil, that is, His flesh&hellip;&rdquo;</p><cite>&mdash; Hebrews 10:19–20</cite></blockquote>
+<p>A new and living way. Through the veil — through His flesh. The body that was broken on the cross became the door. The blood that was shed became the key. The barrier between sinful man and a holy God — the barrier that had stood since Genesis 3 — was torn open by the death of Jesus Christ.</p>
+<p>The gap from Chapter Three? It was bridged. Not by human effort. Not by religious achievement. By the body and blood of the only One who could pay the price.</p>
+<h2>&ldquo;It Is Finished&rdquo;</h2>
+<p>Just before He died, Jesus spoke three words that carry more weight than almost anything else ever said:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore when Jesus had received the sour wine, He said, &lsquo;It is finished!&rsquo; And He bowed His head and gave up His spirit.&rdquo;</p><cite>&mdash; John 19:30</cite></blockquote>
+<p><em>It is finished.</em> In Greek, this is a single word — <em>tetelestai</em>. And it was a word that would have been immediately recognizable in the ancient world. It was the word stamped on a bill of sale when the full price had been paid. It was the word written across a criminal&rsquo;s certificate of debt when the sentence had been served.</p>
+<p>Paid in full.</p>
+<p>Jesus was not saying, &ldquo;I&rsquo;m done&rdquo; — as if He had simply reached the end of His endurance. He was declaring that the work was complete. The debt was paid. The sacrifice was offered. The plan that God had put in place before the foundation of the world — the plan we traced in Chapter One, the promise we followed in Chapter Four — was finished. Every prophecy fulfilled. Every requirement met. Every sin accounted for.</p>
+<p><em>Tetelestai.</em> Paid in full.</p>
+<h2>The Father&rsquo;s Love</h2>
+<p>In all of this, do not miss what it reveals about God.</p>
+<p>The story we&rsquo;ve been telling from the very beginning of this book is a story about a God who doesn&rsquo;t walk away. He didn&rsquo;t walk away when Adam and Eve sinned. He didn&rsquo;t walk away during the long centuries of human rebellion. And He didn&rsquo;t walk away when the cost of rescue turned out to be His own Son.</p>
+<p>Paul wrote what may be the clearest summary of God&rsquo;s love in all of Scripture:</p>
+<blockquote class="scripture"><p>&ldquo;But God demonstrates His own love toward us, in that while we were yet sinners, Christ died for us.&rdquo;</p><cite>&mdash; Romans 5:8</cite></blockquote>
+<p><em>While we were yet sinners.</em> Not after we cleaned ourselves up. Not after we earned it. Not after we proved we deserved it. While we were still in our sin — still guilty, still separated, still on the wrong side of the gap — God sent His Son to die for us.</p>
+<p>That is not the act of a distant, impersonal force. That is the act of a Father who loves the people He made and will stop at nothing to bring them home.</p>
+<p>And Paul drove the point deeper:</p>
+<blockquote class="scripture"><p>&ldquo;For while we were still helpless, at the right time Christ died for the ungodly. For one will hardly die for a righteous man; though perhaps for the good man someone would dare even to die. But God demonstrates His own love toward us, in that while we were yet sinners, Christ died for us.&rdquo;</p><cite>&mdash; Romans 5:6–8</cite></blockquote>
+<p><em>While we were still helpless.</em> You couldn&rsquo;t save yourself. That was the whole point of Chapter Three — the gap you cannot cross. And at the right time — God&rsquo;s time, the time He had planned from before the foundation of the world — Christ died for the ungodly. Not for the worthy. For the ungodly.</p>
+<p>Remember what we said about Abraham on Mount Moriah? A father willing to offer his only son? Abraham&rsquo;s hand was stopped. God&rsquo;s was not. God actually went through with it. He gave His only Son — not because we deserved it, but because He loved us. And that love is not something you earn. It is something you receive.</p>
+<h2>The Gift</h2>
+<p>In Chapter Three, we looked at the first half of one of the most important verses in all of Scripture: &ldquo;For the wages of sin is death&rdquo; (Romans 6:23). The wages — what sin earns, what it pays, what it produces — is death. Separation from God. That is the problem.</p>
+<p>But that verse doesn&rsquo;t end there. It continues with six words that change everything:</p>
+<blockquote class="scripture"><p>&ldquo;For the wages of sin is death, but the free gift of God is eternal life in Christ Jesus our Lord.&rdquo;</p><cite>&mdash; Romans 6:23</cite></blockquote>
+<p>The wages of sin is death. But the <em>gift</em> of God is eternal life.</p>
+<p>A wage is something you earn. A gift is something you receive. You earned death — every person has, because every person has sinned (Romans 3:23). But God is offering you something you did not earn and could never deserve: eternal life. And that gift is found in one place — <em>in Christ Jesus our Lord.</em></p>
+<p>The cross is where that gift was purchased. The blood of Jesus is the price that was paid. And the offer is extended to you — not because you&rsquo;re good enough, but because He is.</p>
+<h2>So What Now?</h2>
+<p>Jesus is dead. His body is taken down from the cross and placed in a tomb. A stone is rolled over the entrance. Roman guards are posted. The disciples scatter, terrified, confused, grief-stricken. Everything they had believed about Him — everything He had claimed, everything He had demonstrated — seems to be over.</p>
+<p>The most important man who ever lived is lying in a borrowed grave.</p>
+<p>And if that&rsquo;s where the story ends, then none of this matters. Paul himself said so: &ldquo;If Christ has not been raised, then our preaching is vain, your faith also is vain&rdquo; (1 Corinthians 15:14). If Jesus stayed dead, He was just another man who made extraordinary claims and died without delivering on them.</p>
+<p>But the story doesn&rsquo;t end there.</p>
+<p>Three days later, the tomb was empty.</p>
+<p>That&rsquo;s where we&rsquo;re going next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-05.html">&larr; Previous Chapter</a>
+          <a href="chapter-07.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 6;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-05.html';
+      if (e.key === 'ArrowRight' && 6 < 10) window.location.href = 'chapter-07.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

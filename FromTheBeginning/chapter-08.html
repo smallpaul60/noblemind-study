@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8: So What Do I Do Now? | From the Beginning</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #4A7EC2;
+      --accent-glow: rgba(74, 126, 194, 0.4);
+      --accent-soft: rgba(74, 126, 194, 0.12);
+      --accent-secondary: #D4A848;
+      --accent-secondary-glow: rgba(212, 168, 72, 0.3);
+      --scripture-border: #D4A848;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(74, 126, 194,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(212, 168, 72,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(74, 126, 194,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(212, 168, 72,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(74, 126, 194,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(212, 168, 72,0.15),
+        0 0 80px rgba(74, 126, 194,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(74, 126, 194,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(74, 126, 194,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(74, 126, 194,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(74, 126, 194,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(74, 126, 194,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(74, 126, 194,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%234A7EC2' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(74, 126, 194,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(212, 168, 72,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(74, 126, 194,0.06);
+      border: 1px solid rgba(74, 126, 194,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(74, 126, 194,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(74, 126, 194,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(74, 126, 194,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(212, 168, 72,0.08);
+      border: 1px solid rgba(212, 168, 72,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(212, 168, 72,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #1B3A6B; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #D4A848; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          From the Beginning
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="dedication.html">To the Seeker</option>
+          <option value="chapter-01.html">Ch 1: Not an Accident</option>
+          <option value="chapter-02.html">Ch 2: Made in His Image</option>
+          <option value="chapter-03.html">Ch 3: What Went Wrong</option>
+          <option value="chapter-04.html">Ch 4: The Long Promise</option>
+          <option value="chapter-05.html">Ch 5: The Man Who Changed Everything</option>
+          <option value="chapter-06.html">Ch 6: The Death That Paid the Debt</option>
+          <option value="chapter-07.html">Ch 7: The Empty Tomb</option>
+          <option value="chapter-08.html" selected>Ch 8: So What Do I Do Now?</option>
+          <option value="chapter-09.html">Ch 9: What Happens Next?</option>
+          <option value="chapter-10.html">Ch 10: The Life That Follows</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER EIGHT</p>
+        <h1>So What Do I Do Now?</h1>
+      </header>
+
+      <div class="content">
+        <p>We ended the last chapter with a question — the same question that was asked two thousand years ago, on the very day the church began.</p>
+<p>It was the day of Pentecost. Fifty days after the resurrection. The apostles were in Jerusalem, and the Holy Spirit had come upon them just as Jesus had promised. Peter stood up in front of a massive crowd of devout Jews who had gathered from all over the known world, and he preached. He told them about Jesus — who He was, what He had done, and what God had accomplished through His death and resurrection. He told them that the same Jesus they had handed over to be crucified had been raised from the dead, and that God had made Him both Lord and Christ.</p>
+<p>And when the crowd heard it — when the weight of it landed — Luke tells us what happened:</p>
+<blockquote class="scripture"><p>&ldquo;Now when they heard this, they were pierced to the heart, and said to Peter and the rest of the apostles, &lsquo;Brethren, what shall we do?&rdquo;</p><cite>&mdash; Acts 2:37</cite></blockquote>
+<p><em>Pierced to the heart.</em> They understood. They saw the story — creation, promise, fulfillment, sacrifice, resurrection — and they realized it was true. And the only response that made sense was the one they gave: <em>What shall we do?</em></p>
+<p>If you&rsquo;ve been reading this book from the beginning — if you&rsquo;ve walked through the evidence, the promises, the cross, and the empty tomb — that may be exactly where you are right now. You&rsquo;ve heard the story. You believe it&rsquo;s true. And now you want to know: what does God ask me to do about it?</p>
+<p>The answer is not complicated. It is not hidden. It is not something you need a theologian to decode. Jesus told His apostles what to teach, and they taught it. Every conversion recorded in the New Testament follows the same pattern. And that pattern is what we&rsquo;re going to walk through now.</p>
+<h2>Hear the Word</h2>
+<p>Before anything else can happen, a person has to hear the message. That may seem obvious, but Scripture makes the point explicitly:</p>
+<blockquote class="scripture"><p>&ldquo;So faith comes from hearing, and hearing by the word of Christ.&rdquo;</p><cite>&mdash; Romans 10:17</cite></blockquote>
+<p>Faith doesn&rsquo;t appear out of nowhere. It doesn&rsquo;t come from a feeling, a family tradition, or a vague sense that there must be something out there. Faith comes from hearing the word of Christ — the gospel message, the story of what God has done.</p>
+<p>That is what this book has been. From the very first page, we have been telling you the story — not our opinions, not our traditions, but the story that Scripture tells. And that story is what faith is built on.</p>
+<p>Every conversion in the book of Acts begins with someone hearing the gospel preached. The crowd at Pentecost heard Peter. The Ethiopian eunuch heard Philip. Cornelius heard Peter. Lydia heard Paul. The Philippian jailer heard Paul and Silas. No one responded to a message they hadn&rsquo;t heard. The word came first — always.</p>
+<h2>Believe</h2>
+<p>Once a person has heard the message, the next step is to believe it. Not just to acknowledge it. Not just to agree that it&rsquo;s probably true. To believe it — to trust it with your life.</p>
+<p>Jesus Himself made this the starting point of the response:</p>
+<blockquote class="scripture"><p>&ldquo;He who has believed and has been baptized shall be saved; but he who has disbelieved shall be condemned.&rdquo;</p><cite>&mdash; Mark 16:16</cite></blockquote>
+<p>Belief is the foundation. Without it, nothing else matters. The writer of Hebrews put it this way:</p>
+<blockquote class="scripture"><p>&ldquo;And without faith it is impossible to please Him, for he who comes to God must believe that He is and that He is a rewarder of those who seek Him.&rdquo;</p><cite>&mdash; Hebrews 11:6</cite></blockquote>
+<p>You must believe that God exists. You must believe that He rewards those who seek Him. And you must believe that Jesus is who He claimed to be — because He said so Himself:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore I said to you that you will die in your sins; for unless you believe that I am He, you will die in your sins.&rdquo;</p><cite>&mdash; John 8:24</cite></blockquote>
+<p>But belief, as essential as it is, is not the end of the response. It is the beginning. At the end of Chapter Seven, we noted that even the demons believe and shudder (James 2:19). They know exactly who God is. They know Jesus is the Son of God. And their belief saves them nothing — because it produces no obedience.</p>
+<p>The kind of belief that saves is the kind that acts. It hears what God says, trusts that He means it, and responds accordingly. That is the faith the rest of this chapter is built on.</p>
+<h2>Repent</h2>
+<p>After the crowd at Pentecost asked &ldquo;What shall we do?&rdquo; — after belief was already present, because they had just been pierced to the heart by the message — Peter gave them the next step:</p>
+<blockquote class="scripture"><p>&ldquo;Peter said to them, &lsquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit.&rdquo;</p><cite>&mdash; Acts 2:38</cite></blockquote>
+<p><em>Repent.</em> The word means to change your mind in a way that changes your direction. It is not simply feeling sorry for what you&rsquo;ve done — though genuine sorrow is often part of it. Paul explained the difference to the Corinthians:</p>
+<blockquote class="scripture"><p>&ldquo;For the sorrow that is according to the will of God produces a repentance without regret, leading to salvation, but the sorrow of the world produces death.&rdquo;</p><cite>&mdash; 2 Corinthians 7:10</cite></blockquote>
+<p>Worldly sorrow is regret. You feel bad about what happened — maybe because of the consequences, maybe because you got caught, maybe because you hurt someone you care about. But godly sorrow goes deeper. It produces repentance — a genuine turning. A decision to stop walking away from God and start walking toward Him.</p>
+<p>This is not optional. God doesn&rsquo;t treat it as a suggestion. When Paul stood in Athens and told a pagan audience about the God who made the world, he closed his message with these words:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore having overlooked the times of ignorance, God is now declaring to men that all people everywhere should repent.&rdquo;</p><cite>&mdash; Acts 17:30</cite></blockquote>
+<p><em>All people everywhere.</em> Not some people. Not the especially sinful. Everyone. Because everyone has sinned (Romans 3:23), and everyone needs to turn.</p>
+<p>Repentance is the moment you stop making excuses and start being honest — with God and with yourself. It is the decision to leave the old life behind and move toward the One who made you, the One who died for you, and the One who rose for you.</p>
+<h2>Confess</h2>
+<p>There is something that belief and repentance lead to naturally — and that is a willingness to say out loud what you believe. Scripture calls this confession.</p>
+<p>Paul wrote:</p>
+<blockquote class="scripture"><p>&ldquo;&hellip;that if you confess with your mouth Jesus as Lord, and believe in your heart that God raised Him from the dead, you will be saved; for with the heart a person believes, resulting in righteousness, and with the mouth he confesses, resulting in salvation.&rdquo;</p><cite>&mdash; Romans 10:9–10</cite></blockquote>
+<p>Confess with your mouth. Believe in your heart. These are not two separate paths to salvation — they are two parts of one response. What you believe on the inside, you declare on the outside. You say it. You own it. You stand behind it.</p>
+<p>And Jesus made clear that this matters:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore everyone who confesses Me before men, I will also confess him before My Father who is in heaven. But whoever denies Me before men, I will also deny him before My Father who is in heaven.&rdquo;</p><cite>&mdash; Matthew 10:32–33</cite></blockquote>
+<p>If you confess Him before men, He will confess you before the Father. If you deny Him, He will deny you. Confession is not a ritual. It is the public declaration that you believe Jesus is the Christ, the Son of the living God — the same confession Peter made (Matthew 16:16) — and that you are placing your life in His hands.</p>
+<h2>Be Baptized</h2>
+<p>And now we come to the part of the response that Scripture gives the most attention — and the part that ties together a thread we have been following since the very first chapter of this book.</p>
+<h3>What Jesus Commanded</h3>
+<p>Before He ascended to the Father, Jesus gave His apostles their final instructions:</p>
+<blockquote class="scripture"><p>&ldquo;Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit, teaching them to observe all that I commanded you; and lo, I am with you always, even to the end of the age.&rdquo;</p><cite>&mdash; Matthew 28:19–20</cite></blockquote>
+<p>Make disciples. Baptize them. Teach them to observe everything I commanded. That is what Jesus told His apostles to do. And that is exactly what they did.</p>
+<p>In Mark&rsquo;s account of the same commission, Jesus put it even more directly:</p>
+<blockquote class="scripture"><p>&ldquo;He who has believed and has been baptized shall be saved; but he who has disbelieved shall be condemned.&rdquo;</p><cite>&mdash; Mark 16:16</cite></blockquote>
+<p>Believed and been baptized — saved. Jesus joined these two things together. He did not say &ldquo;he who has believed shall be saved and may also consider being baptized at some point.&rdquo; He placed belief and baptism together, and on the other side of both, He placed salvation.</p>
+<h3>What Baptism Is</h3>
+<p>The English word &ldquo;baptism&rdquo; is not actually a translation. It is a transliteration — the Greek word <em>baptizo</em> was carried over into English with its spelling changed but its meaning left behind. The Greek word means to immerse, to submerge, to plunge beneath. Not to sprinkle. Not to pour. To put completely under.</p>
+<p>And the way Scripture describes baptism confirms this. Paul wrote:</p>
+<blockquote class="scripture"><p>&ldquo;Therefore we have been buried with Him through baptism into death, so that as Christ was raised from the dead through the glory of the Father, so we too might walk in newness of life.&rdquo;</p><cite>&mdash; Romans 6:4</cite></blockquote>
+<p><em>Buried.</em> You do not bury someone by scattering a handful of dirt on their head. You bury someone by putting them completely under. Baptism is a burial in water and a resurrection out of it — the old life goes down, the new life comes up. That picture only works as full immersion.</p>
+<p>When Philip baptized the Ethiopian eunuch, the text says &ldquo;they both went down into the water&rdquo; and &ldquo;came up out of the water&rdquo; (Acts 8:38–39). When Jesus Himself was baptized by John, He &ldquo;came up immediately from the water&rdquo; (Matthew 3:16). He was in the water. He came up out of it.</p>
+<h3>What Baptism Does</h3>
+<p>Here is where the thread comes together — the thread we have been following since Chapter One.</p>
+<p>In Chapter One, we saw that God chose us &ldquo;in Him&rdquo; before the foundation of the world (Ephesians 1:4). In Chapter Six, we saw that the free gift of God is eternal life &ldquo;in Christ Jesus our Lord&rdquo; (Romans 6:23). Throughout this book, we have seen that every blessing, every promise, every hope is found <em>in Christ.</em></p>
+<p>But we have not yet answered the question: How does a person get <em>into</em> Christ?</p>
+<p>Scripture answers that question — and it answers it clearly:</p>
+<blockquote class="scripture"><p>&ldquo;Or do you not know that all of us who have been baptized into Christ Jesus have been baptized into His death?&rdquo;</p><cite>&mdash; Romans 6:3</cite></blockquote>
+<p><em>Baptized into Christ Jesus.</em> That is how you get into Christ. Not by a feeling. Not by a prayer. Not by simply deciding it in your heart. You are baptized into Him.</p>
+<p>Paul said the same thing to the Galatians:</p>
+<blockquote class="scripture"><p>&ldquo;For all of you who were baptized into Christ have clothed yourselves with Christ.&rdquo;</p><cite>&mdash; Galatians 3:27</cite></blockquote>
+<p>Baptized into Christ. Clothed with Christ. And this matters more than most people realize, because of what Paul wrote to the Ephesians:</p>
+<blockquote class="scripture"><p>&ldquo;Blessed be the God and Father of our Lord Jesus Christ, who has blessed us with every spiritual blessing in the heavenly places in Christ.&rdquo;</p><cite>&mdash; Ephesians 1:3</cite></blockquote>
+<p>Every spiritual blessing is <em>in Christ.</em> Every one. Forgiveness — in Christ. Redemption — in Christ. Eternal life — in Christ. And the only two passages in all of Scripture that tell you how to get <em>into</em> Christ — Romans 6:3 and Galatians 3:27 — both say the same thing: you are baptized into Him.</p>
+<p>This is what Peter told the crowd at Pentecost:</p>
+<blockquote class="scripture"><p>&ldquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit.&rdquo;</p><cite>&mdash; Acts 2:38</cite></blockquote>
+<p><em>For the forgiveness of your sins.</em> Not as a symbol of forgiveness already received. For the forgiveness of sins. That is what the text says.</p>
+<p>This is what Ananias told Saul of Tarsus — the man who would become the apostle Paul — after Saul had already seen the risen Lord, already believed, and already spent three days fasting and praying:</p>
+<blockquote class="scripture"><p>&ldquo;Now why do you delay? Get up and be baptized, and wash away your sins, calling on His name.&rdquo;</p><cite>&mdash; Acts 22:16</cite></blockquote>
+<p><em>Wash away your sins.</em> After believing. After fasting. After praying. Saul&rsquo;s sins were still there — and they remained until he was baptized. If belief alone were enough, Saul would have been saved on the road to Damascus. If prayer alone were enough, Saul would have been saved during those three days. But he was not. He was told to be baptized and wash away his sins.</p>
+<p>And Peter, writing decades after Pentecost, said it as plainly as it can be said:</p>
+<blockquote class="scripture"><p>&ldquo;Corresponding to that, baptism now saves you — not the removal of dirt from the flesh, but an appeal to God for a good conscience — through the resurrection of Jesus Christ.&rdquo;</p><cite>&mdash; 1 Peter 3:21</cite></blockquote>
+<p><em>Baptism now saves you.</em> Peter even anticipated the objection — he clarified that he was not talking about the physical act of washing dirt from your body. He was talking about the appeal to God, the act of obedient faith, that takes place in baptism. And he said it saves you.</p>
+<h3>What the Early Church Did</h3>
+<p>If the teaching leaves any question, the practice answers it. The book of Acts records conversion after conversion. And in every single one, baptism is present. There are no exceptions.</p>
+<p>At Pentecost, three thousand believed and were baptized that same day (Acts 2:41). The Samaritans believed and were baptized (Acts 8:12). The Ethiopian eunuch — who had just heard Philip preach Jesus — saw water on the side of the road and immediately asked, &ldquo;What prevents me from being baptized?&rdquo; (Acts 8:36). Think about that: Philip preached Jesus, and the eunuch&rsquo;s response was to look for water. Preaching Jesus includes preaching baptism.</p>
+<p>Cornelius and his household were baptized (Acts 10:48). Lydia and her household were baptized (Acts 16:15). The Philippian jailer asked &ldquo;What must I do to be saved?&rdquo; — and after hearing the word of the Lord, he and his household were baptized <em>that very hour of the night</em> (Acts 16:33). Not the next morning. Not the following week. That hour. In the middle of the night.</p>
+<p>Why the urgency? Because baptism is not a ceremony to be scheduled at your convenience. It is the moment sins are washed away. And that cannot wait.</p>
+<p>The Corinthians were believing and being baptized (Acts 18:8). The disciples at Ephesus were baptized (Acts 19:5). Every conversion. Every time. No exceptions.</p>
+<h3>Not a Work That Earns — A Faith That Obeys</h3>
+<p>You may be wondering: doesn&rsquo;t this make baptism a &ldquo;work&rdquo;? And doesn&rsquo;t Scripture say we are saved by grace, not by works?</p>
+<p>Scripture absolutely says that:</p>
+<blockquote class="scripture"><p>&ldquo;For by grace you have been saved through faith; and that not of yourselves, it is the gift of God; not as a result of works, so that no one may boast.&rdquo;</p><cite>&mdash; Ephesians 2:8–9</cite></blockquote>
+<p>And this is completely true. You cannot earn your salvation. No amount of good deeds, no record of religious performance, no stack of human achievement can pay the debt that Chapter Six described. The gift of God is eternal life — and a gift, by definition, is not earned.</p>
+<p>But obedience has never been the same thing as earning. Consider Noah. God told him to build an ark. Noah built it. Was that a &ldquo;work&rdquo;? Did building the ark earn Noah&rsquo;s salvation? Or did God save him when he obeyed? The writer of Hebrews says, &ldquo;By faith Noah, being warned by God about things not yet seen, in reverence prepared an ark for the salvation of his household&rdquo; (Hebrews 11:7). Noah&rsquo;s obedience was an act of faith — and God acted at the point of that obedience.</p>
+<p>Consider the walls of Jericho. &ldquo;By faith the walls of Jericho fell down after they had been encircled for seven days&rdquo; (Hebrews 11:30). Israel marched. They shouted. And the walls fell. Did marching knock the walls down? Did shouting collapse stone? No. God did it — but He did it at the point of their obedience.</p>
+<p>Baptism works the same way. The water does not save you. Your obedience does not earn anything. But God has chosen to act at the point of baptism — to wash away sins, to transfer a person from darkness to light, to place a person <em>into Christ</em> — just as He saved Noah at the point of entering the ark, and brought down the walls at the point of the shout.</p>
+<p>Obedience has never negated grace. It is the <em>response</em> to grace.</p>
+<h2>A Life, Not a Moment</h2>
+<p>There is one more thing that needs to be said — and it is important enough that the next two chapters are devoted to it.</p>
+<p>The response to the gospel is not a one-time event and then you&rsquo;re done. Belief, repentance, confession, and baptism are the beginning — not the end. They are the door you walk through, but there is an entire life on the other side of that door.</p>
+<p>Jesus did not simply say &ldquo;be baptized.&rdquo; He said &ldquo;teaching them to observe all that I commanded you&rdquo; (Matthew 28:20). There is a life to be lived. There is growth to pursue. There is a community to belong to. There is faithfulness to maintain.</p>
+<p>The apostle Paul, near the end of his life, wrote:</p>
+<blockquote class="scripture"><p>&ldquo;I have fought the good fight, I have finished the course, I have kept the faith.&rdquo;</p><cite>&mdash; 2 Timothy 4:7</cite></blockquote>
+<p>He didn&rsquo;t just start well. He finished. He kept the faith — all the way to the end.</p>
+<p>And Jesus Himself said:</p>
+<blockquote class="scripture"><p>&ldquo;Be faithful until death, and I will give you the crown of life.&rdquo;</p><cite>&mdash; Revelation 2:10</cite></blockquote>
+<p><em>Until death.</em> This is a call to a lifetime, not a moment. The response you make to the gospel today is the beginning of a relationship that is meant to last — and meant to grow — for the rest of your life.</p>
+<p>What that life looks like — where you go from here, what it means to be part of the body of Christ, and how you live out the faith you&rsquo;ve confessed — that&rsquo;s where we&rsquo;re going next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-07.html">&larr; Previous Chapter</a>
+          <a href="chapter-09.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">From the Beginning &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'fromTheBeginning_progress';
+    var CH = 8;
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      if (p[key] === 'complete') {
+        p[key] = 'visited';
+      } else {
+        p[key] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p['ch' + CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p['ch' + CH]) {
+        p['ch' + CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-07.html';
+      if (e.key === 'ArrowRight' && 8 < 10) window.location.href = 'chapter-09.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>
