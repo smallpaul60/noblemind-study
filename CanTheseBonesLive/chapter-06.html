@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: Prophesy to These Bones | Can These Bones Live?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #9B9486;
+      --accent-secondary-glow: rgba(155, 148, 134, 0.3);
+      --scripture-border: #9B9486;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(155, 148, 134,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(155, 148, 134,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(155, 148, 134,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155, 148, 134,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(155, 148, 134,0.08);
+      border: 1px solid rgba(155, 148, 134,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(155, 148, 134,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #9B9486; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Can These Bones Live?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Valley</option>
+          <option value="chapter-02.html">Ch 2: Dust and Breath</option>
+          <option value="chapter-03.html">Ch 3: When the Word Goes Silent</option>
+          <option value="chapter-04.html">Ch 4: Destroyed for Lack of Knowledge</option>
+          <option value="chapter-05.html">Ch 5: The Book Lost in the Temple</option>
+          <option value="chapter-06.html" selected>Ch 6: Prophesy to These Bones</option>
+          <option value="chapter-07.html">Ch 7: Breathe on These Slain</option>
+          <option value="chapter-08.html">Ch 8: A Rushing Mighty Wind</option>
+          <option value="chapter-09.html">Ch 9: The Israel of God</option>
+          <option value="chapter-10.html">Ch 10: Letters to the Dead</option>
+          <option value="chapter-11.html">Ch 11: Can These Bones Live?</option>
+          <option value="" disabled>─ Appendices ─</option>
+          <option value="appendix-A.html">Appendix A: A Note from the Author</option>
+          <option value="appendix-B.html">Appendix B: The Pattern at a Glance</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SIX</p>
+        <h1>Prophesy to These Bones</h1>
+      </header>
+
+      <div class="content">
+        <p>For three chapters, this book has been standing over the dead.</p>
+<p>Chapter 3 traced the silence — the word of God growing rare, then scarce, then absent altogether. Chapter 4 named the guilty — the priests who stopped teaching, the prophets who spoke falsely, the people who preferred it that way. Chapter 5 showed the evidence — the book of the law sitting inside the temple while no one read it, and a boy king who tore his clothes when he finally heard the words.</p>
+<p>The cause of the death has been established. The word went silent. The breath departed. And what remained was a valley full of bones — very many, very dry.</p>
+<p>But God did not bring Ezekiel to the valley to give him a diagnosis. He brought him there to show him a remedy. And the remedy begins exactly where every act of creation and restoration in Scripture has always begun.</p>
+<p>With a voice.</p>
+<hr />
+<h3>The Command</h3>
+<blockquote class="scripture"><p>&ldquo;Again He said to me, &lsquo;Prophesy over these bones and say to them, &ldquo;O dry bones, hear the word of the Lord&rdquo;</p><cite>&mdash; Ezekiel 37:4</cite></blockquote>
+<p>God did not begin with the Spirit. He did not send the breath first. He sent the word. And He did not speak the word Himself — He commanded Ezekiel to speak it. Prophesy over these bones. Say to them. The prophet was to be the instrument through which God&rsquo;s word reached the dead.</p>
+<p>This matters for a reason the text does not pause to explain but the pattern demands. Before Sinai, God spoke directly to individuals — to Adam in the garden, to Noah before the flood, to Abraham and Isaac and Jacob by name. But from Sinai forward, when God established a nation and gave it a covenant, He entrusted His word to human agents for delivery. God spoke to Moses, and Moses spoke to the people. God gave the law to the priests, and the priests taught the people. God spoke through the prophets, and the prophets declared the message to the nation. The system was built on transmission — God&rsquo;s word given to a man, and that man commanded to speak it faithfully to others.</p>
+<p>Ezekiel was standing in a valley of bones that existed precisely because the human instruments had failed. The priests had stopped teaching. The prophets had spoken falsely. The kings had not read the book. The entire system of transmission had broken down, and the death that surrounded Ezekiel was the result.</p>
+<p>And God&rsquo;s remedy for the failure of human instruments was not to abandon the system. It was to call another instrument and say: Prophesy. Speak My word. Say it to the dead.</p>
+<p>The command itself reveals something about the nature of God&rsquo;s word that runs deeper than this single passage. God told Ezekiel to speak to bones. Dry bones. Not to people who were struggling. Not to a remnant that still had some life in them. To bones — objects that had no capacity to hear, no ears to receive, no minds to process, no will to respond. The word was to be spoken to things that could not, by any natural measure, do anything with it.</p>
+<p>This is not how human communication works. A man does not speak to something that cannot hear and expect results. But God&rsquo;s word is not human communication. Isaiah said it plainly:</p>
+<blockquote class="scripture"><p>&ldquo;For as the rain and the snow come down from heaven, and do not return there without watering the earth and making it bear and sprout, and furnishing seed to the sower and bread to the eater; so will My word be which goes forth from My mouth; it will not return to Me empty, without accomplishing what I desire, and without succeeding in the matter for which I sent it&rdquo;</p><cite>&mdash; Isaiah 55:10-11</cite></blockquote>
+<p>God&rsquo;s word accomplishes what He sends it to do. It does not depend on the receptivity of the audience. It does not require pre-existing conditions of life or awareness in the hearer. It goes out, and it does what it was sent to do. When God told Ezekiel to speak to dry bones, He was not asking Ezekiel to attempt something hopeful. He was deploying the same power that called light out of darkness and formed the world out of nothing.</p>
+<p>The word is not an invitation to the dead. It is a command over death.</p>
+<hr />
+<h3>The Promise</h3>
+<p>The word God told Ezekiel to speak was not vague. It was specific, and it described exactly what would happen — in sequence.</p>
+<blockquote class="scripture"><p>&ldquo;Thus says the Lord God to these bones, &lsquo;Behold, I will cause breath to enter you that you may come to life. I will put sinews on you, make flesh grow back on you, cover you with skin and put breath in you that you may come alive; and you will know that I am the Lord&rdquo;</p><cite>&mdash; Ezekiel 37:5-6</cite></blockquote>
+<p>Read the sequence carefully. God describes two things: structure and breath. And He describes them in order.</p>
+<p>First the sinews. Then the flesh. Then the skin. Then the breath. First the body is rebuilt. Then the life is given. The same order as Genesis 2:7 — forming first, breathing second. God is telling Ezekiel in advance that the restoration will follow the same pattern as the creation.</p>
+<p>And the purpose is stated at the end: &ldquo;you will know that I am the Lord.&rdquo; The restoration is not merely physical. It is revelatory. The people who were dead will be brought to life so that they will <em>know</em> — not hope, not guess, not wonder — that the one who did this is the Lord. The act of restoration is itself an act of revelation. God proves who He is by doing what only He can do.</p>
+<p>This is the same principle that operated in creation. When God formed man from dust and breathed life into him, the man did not wake up confused about who made him. He woke up in the presence of his Creator. The life itself was the introduction. And in the valley, when the bones come to life, the life itself will be the proof that God is God.</p>
+<hr />
+<h3>The Response</h3>
+<blockquote class="scripture"><p>&ldquo;So I prophesied as I was commanded; and as I prophesied, there was a noise, and behold, a rattling; and the bones came together, bone to its bone&rdquo;</p><cite>&mdash; Ezekiel 37:7</cite></blockquote>
+<p>Ezekiel did not hesitate. He did not question the logic of speaking to bones. He did not modify the message or add his own commentary. He prophesied as he was commanded. The Hebrew is direct — he did what he was told, in the way he was told to do it.</p>
+<p>And the bones responded.</p>
+<p>There was a noise. A rattling. The Hebrew word <em>raash</em> suggests a shaking, a trembling, a commotion. The silence of the valley — the silence that had defined it, the silence of death so old it had become the landscape — was broken by the sound of bones moving. The word went out, and the first thing it produced was sound where there had been none.</p>
+<p>Then structure. Bone came together, bone to its bone. Not randomly. Not in disordered heaps. Each bone found its partner — the femur to the hip, the rib to the spine, the skull to the vertebrae. The word of God did not just move things. It organized them. It assembled them in the right order, each piece in its proper place, because the word carries within it the design of the Creator who spoke it.</p>
+<p>&ldquo;And I looked, and behold, sinews were on them, and flesh grew and skin covered them&rdquo; (Ezekiel 37:8a).</p>
+<p>Sinews — the connective tissue that binds bone to bone and bone to muscle. Then flesh — the muscle itself, the substance that gives the body its strength and shape. Then skin — the covering, the boundary, the completion of the external form. Layer by layer, in the exact sequence God had promised in verse 6, the bodies were rebuilt.</p>
+<p>And at this point, anyone watching would have seen something that looked like victory. The valley that had been covered with scattered, dry, disconnected bones was now filled with bodies. Complete bodies. Reassembled. Covered in skin. They looked like an army. They looked like the restoration God had promised.</p>
+<hr />
+<h3>The Silence</h3>
+<p>&ldquo;But there was no breath in them&rdquo; (Ezekiel 37:8b).</p>
+<p>Seven words. And they carry more weight than the entire restoration that preceded them.</p>
+<p>The bodies were complete. Every structure was in place. The sinews connected the bones. The flesh covered the sinews. The skin wrapped the flesh. Anatomically, there was nothing missing. If you could have examined one of those bodies, you would have found everything a human body is supposed to have — every organ, every system, every component in its proper location.</p>
+<p>And they were dead.</p>
+<p>The text goes out of its way to make this point. It does not say &ldquo;and they were almost alive&rdquo; or &ldquo;and they began to stir.&rdquo; It says there was no breath in them. None. The word had done everything the word was designed to do. It had assembled. It had organized. It had restored the structure from scattered bones to complete bodies. And the result of the word alone — without the Spirit — was a valley full of corpses.</p>
+<p>This is the hinge of the entire book.</p>
+<p>The word is necessary. Without it, the bones stay scattered. Without it, there is no structure, no order, no form. The word is the indispensable first step. Nothing happens without the word.</p>
+<p>But the word was never meant to work alone. God did not design one act. He designed two. The word does exactly what God sends it to do — it assembles, it organizes, it builds the structure that life requires. And then the breath comes. Not because the word failed, but because God has always brought life through two means, and neither one replaces the other.</p>
+<p>Structure is not life. Order is not breath. A body that has every component in the right place but no breath in its lungs is not a living person — it is a corpse in good condition. And a people who have the word of God accurately assembled — the right doctrine, the right structure, the right order — but no Spirit animating it are not a living body. They are Ezekiel 37:8. Complete. Covered. Correct.</p>
+<p>And dead.</p>
+<p>This is what God wanted Ezekiel to see. Not just the power of the word — that was demonstrated in the rattling, the assembling, the sinews and flesh and skin. God wanted Ezekiel to see the <em>limit</em> of the word without the Spirit. He wanted the prophet to stand in a valley full of perfectly assembled bodies and understand that the job was not finished. The word had done its work. But the breath had not yet come.</p>
+<hr />
+<h3>The Pause</h3>
+<p>There is a pause between verse 8 and verse 9 that the text does not measure but the reader must feel. Ezekiel has prophesied. The bones have assembled. The bodies are complete. And now he is standing in a valley full of the dead — not scattered dead, not ancient dead, but newly assembled dead. Whole. Intact. Lifeless.</p>
+<p>The silence in the valley is different now than it was at the beginning. When Ezekiel first arrived, the silence was the silence of a place that had been dead a long time — bones bleached by the sun, scattered by the wind, undisturbed. That was the silence of abandonment.</p>
+<p>This silence is worse. This is the silence of a body that looks like it should be breathing and is not. This is the silence of a form that has everything it needs except the one thing that would make it alive. The first silence was the silence of death. This silence is the silence of death that has been given a shape.</p>
+<p>And it is in this silence — not in the rattling, not in the assembling — that the deepest lesson of the valley sits.</p>
+<p>Because this silence is not unique to Ezekiel&rsquo;s vision. It is the silence of every place where the word of God has been accurately assembled but the Spirit has not been given or received. It is the silence of correct doctrine without living faith. It is the silence of proper order without the breath of God. It is the silence of a body that looks alive and is not.</p>
+<p>Jesus would later give this condition a name when He wrote to the church at Sardis: &ldquo;You have a name that you are alive, but you are dead&rdquo; (Revelation 3:1).</p>
+<p>That is Ezekiel 37:8 in a single sentence.</p>
+<p>The word had done its work. The structure was in place. But the breath had not come.</p>
+<p>And until the breath comes, the dead do not stand.</p>
+<p>That is where we turn next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-05.html">&larr; Previous Chapter</a>
+          <a href="chapter-07.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">Can These Bones Live? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'canTheseBonesLive_progress';
+    var CH = 'ch6';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      if (p[CH] === 'complete') {
+        p[CH] = 'visited';
+      } else {
+        p[CH] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) {
+        p[CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-05.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-07.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

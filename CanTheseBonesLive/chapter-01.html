@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 1: The Valley | Can These Bones Live?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #9B9486;
+      --accent-secondary-glow: rgba(155, 148, 134, 0.3);
+      --scripture-border: #9B9486;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(155, 148, 134,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(155, 148, 134,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(155, 148, 134,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155, 148, 134,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(155, 148, 134,0.08);
+      border: 1px solid rgba(155, 148, 134,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(155, 148, 134,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #9B9486; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Can These Bones Live?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html" selected>Ch 1: The Valley</option>
+          <option value="chapter-02.html">Ch 2: Dust and Breath</option>
+          <option value="chapter-03.html">Ch 3: When the Word Goes Silent</option>
+          <option value="chapter-04.html">Ch 4: Destroyed for Lack of Knowledge</option>
+          <option value="chapter-05.html">Ch 5: The Book Lost in the Temple</option>
+          <option value="chapter-06.html">Ch 6: Prophesy to These Bones</option>
+          <option value="chapter-07.html">Ch 7: Breathe on These Slain</option>
+          <option value="chapter-08.html">Ch 8: A Rushing Mighty Wind</option>
+          <option value="chapter-09.html">Ch 9: The Israel of God</option>
+          <option value="chapter-10.html">Ch 10: Letters to the Dead</option>
+          <option value="chapter-11.html">Ch 11: Can These Bones Live?</option>
+          <option value="" disabled>─ Appendices ─</option>
+          <option value="appendix-A.html">Appendix A: A Note from the Author</option>
+          <option value="appendix-B.html">Appendix B: The Pattern at a Glance</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ONE</p>
+        <h1>The Valley</h1>
+      </header>
+
+      <div class="content">
+        <p>The valley is silent.</p>
+<p>There is no wind. No sound of water. No birds. Nothing living moves anywhere in sight. The ground is covered — not with sand or stone, but with bones. Human bones. Scattered across the valley floor in every direction, as far as a man can see. Skulls and ribs and long bones bleached white and gray under an open sky. There are very many of them, and they are very dry.</p>
+<p>These are not the remains of a single battle or a single generation. The dryness tells you that. Bones dry slowly. Flesh has to go first, then sinew, then the moisture inside the bone itself. By the time a bone is very dry, whatever life it carried has been gone a long time. No one is coming to bury these dead. No one has come for a long time. Whatever happened here — whatever killed these people — happened so long ago that the death has become the landscape. This is not a battlefield. It is a graveyard that no one tends, and the bones have been lying in the open so long that they have become part of the scenery.</p>
+<p>This is where God brought His prophet.</p>
+<p>His name was Ezekiel, the son of Buzi. He was a priest — trained for the temple, set apart for the service of God in the most sacred place on earth. That was supposed to be his life. The priesthood was not a career a man chose; it was a calling he was born into. Ezekiel would have grown up learning the rituals, the sacrifices, the laws of purity, the rhythms of worship that had governed Israel&rsquo;s relationship with God since Sinai. His entire life was oriented toward the temple in Jerusalem, toward the presence of God that dwelt between the cherubim above the mercy seat.</p>
+<p>He never served there.</p>
+<p>In 597 BC, Nebuchadnezzar, king of Babylon, besieged Jerusalem for the second time. He carried off King Jehoiachin, the king&rsquo;s household, his officials, the mighty men of valor — ten thousand captives in all — along with the craftsmen and the smiths. &ldquo;None remained except the poorest people of the land&rdquo; (2 Kings 24:14). Among those ten thousand was Ezekiel. A priest, ripped from the city where God dwelt, marched hundreds of miles east into a foreign empire, and settled with the other exiles in a place called Tel-abib, along the river Chebar.</p>
+<p>He was roughly twenty-five years old. The temple he had been trained to serve in was still standing — but he was not in it. He was in Babylon. The priesthood began at thirty (Numbers 4:3), and Ezekiel would turn thirty in a land where there was no altar, no sacrifice, and no mercy seat. A priest with no temple. A servant of God with no place to serve.</p>
+<p>Five years into exile, God spoke to him.</p>
+<blockquote class="scripture"><p>&ldquo;The word of the Lord came expressly to Ezekiel the priest, son of Buzi, in the land of the Chaldeans by the river Chebar; and the hand of the Lord came upon him there&rdquo;</p><cite>&mdash; Ezekiel 1:3</cite></blockquote>
+<p>Not in the temple. Not in Jerusalem. In Babylon. By a river in a foreign land, among the displaced and the defeated, God opened His mouth and spoke to a priest who had lost everything except the voice of the One who called him.</p>
+<p>What God showed him over the next twenty-two years would fill forty-eight chapters of Scripture — visions of divine glory, prophecies of judgment against Israel and the surrounding nations, warnings, lamentations, and promises so vivid they still stop readers in their tracks three thousand years later.</p>
+<p>But the vision we are concerned with did not come early. It came late — after Jerusalem had fallen, after the temple had been destroyed, after the last ember of hope had gone cold.</p>
+<p>Because the temple did fall.</p>
+<p>In 586 BC, eleven years after Ezekiel was carried into exile, Nebuchadnezzar returned to Jerusalem a final time. He breached the walls. He burned the house of the Lord. He burned the king&rsquo;s house. He burned every great house in the city. The army of the Chaldeans broke down the walls of Jerusalem on every side. The bronze pillars of the temple, the bronze sea, the stands — they broke them in pieces and carried the bronze to Babylon. The pots, the shovels, the snuffers, the dishes, the firepans — everything made of gold and everything made of silver — the captain of the guard took away (2 Kings 25:8-15).</p>
+<p>Everything. Stripped. Burned. Carried off. The place where God&rsquo;s presence had dwelt among His people — the building Solomon had built, that had taken seven years to construct (1 Kings 6:38), that had been the center of Israel&rsquo;s worship for nearly four hundred years — was reduced to ashes and rubble.</p>
+<p>Ezekiel was sitting in Babylon when the news arrived.</p>
+<p>He already knew it was coming. God had told him. He had acted it out in front of the exiles — lying on his side for 390 days (Ezekiel 4:4-5), building a model of Jerusalem under siege (Ezekiel 4:1-3), shaving his head and dividing the hair into thirds to symbolize the death that was coming (Ezekiel 5:1-4). He had been God&rsquo;s visual aid, performing the destruction in miniature before it happened in full. And when the refugees finally arrived with the report that the city had been struck, it was not news to him. It was confirmation of what God had already said (Ezekiel 33:21).</p>
+<p>But knowing it was coming did not make it lighter. The temple was gone. The city was gone. The monarchy was gone. The land was gone. Everything that had defined Israel as a people — the covenant markers, the physical evidence of God&rsquo;s promises — was destroyed or in enemy hands.</p>
+<p>And the people broke.</p>
+<p>The Scripture preserves their words. Not a paraphrase. Not a summary. Their actual words, recorded so that we could hear exactly what despair sounds like when it comes from the mouth of God&rsquo;s people:</p>
+<blockquote class="scripture"><p>&ldquo;Our bones are dried up and our hope has perished. We are completely cut off&rdquo;</p><cite>&mdash; Ezekiel 37:11</cite></blockquote>
+<p>Our bones are dried up. It was their own metaphor. They felt dead. They felt like there was nothing left — no marrow, no moisture, no life. They described themselves the way you would describe a skeleton that had been lying in the desert sun for years. Dry. Finished. Beyond recovery.</p>
+<p>And God heard them say it.</p>
+<blockquote class="scripture"><p>&ldquo;The hand of the Lord was upon me, and He brought me out by the Spirit of the Lord and set me down in the middle of the valley; and it was full of bones&rdquo;</p><cite>&mdash; Ezekiel 37:1</cite></blockquote>
+<p>God took Ezekiel&rsquo;s metaphor — the people&rsquo;s own language of despair — and made it visible. You say your bones are dried up? Let me show you what that looks like.</p>
+<p>He set him down in the middle of it. Not at the edge where he could observe from a safe distance. In the middle. Surrounded. Bones in every direction.</p>
+<blockquote class="scripture"><p>&ldquo;He caused me to pass among them round about, and behold, there were very many on the surface of the valley; and lo, they were very dry&rdquo;</p><cite>&mdash; Ezekiel 37:2</cite></blockquote>
+<p>God walked him through. He made Ezekiel look. Not a glance, not an overview — a tour. Round about. See them. See how many there are. See how dry they are. Understand the scope of what has died here. This is not a handful of casualties. This is a nation. This is what it looks like when an entire people loses the life that held them together.</p>
+<p>And then, standing in the middle of that silence, surrounded by the evidence of total death, God asked Ezekiel a question.</p>
+<blockquote class="scripture"><p>&ldquo;Son of man, can these bones live?&rdquo;</p><cite>&mdash; Ezekiel 37:3</cite></blockquote>
+<p>It is one of the most remarkable questions in all of Scripture — not because God didn&rsquo;t know the answer, but because He wanted Ezekiel to face it honestly before He revealed it. Can these bones live? Look at them. Look at how many there are. Look at how dry they are. Look at how long they have been dead. Now tell me — is there life in this valley?</p>
+<p>Ezekiel&rsquo;s answer deserves to be read slowly.</p>
+<p>&ldquo;O Lord God, You know.&rdquo;</p>
+<p>He did not say yes. A man standing in a valley of dry bones, looking at the evidence with his own eyes, could not honestly say yes. Nothing in front of him suggested that life was possible. The bones were not mostly dead. They were completely dead. Very dry. Long past any natural hope of recovery.</p>
+<p>But he did not say no. That is the other half of his answer, and it matters just as much. Ezekiel had walked with God long enough to know that the evidence in front of his eyes was not the final word. He had seen the glory of God above the river Chebar. He had eaten a scroll and found it sweet. He had watched God&rsquo;s presence depart from the temple in a vision and understood that the departure was not permanent — that God does not abandon what He has made. He had been given promises of restoration that he could not yet see fulfilled.</p>
+<p>So he gave the only honest answer available to a man who trusts God more than he trusts what he can see.</p>
+<p>You know.</p>
+<p>I don&rsquo;t. But You do.</p>
+<p>That question — and that answer — is where this book begins. Because the valley of dry bones is not just a story about ancient Israel. It is a picture of what happens when the life of God departs from a people. And the question God asked Ezekiel is a question that hangs over every generation that has ever watched the bones dry out and wondered whether anything could bring them back.</p>
+<p>Can these bones live?</p>
+<p>The rest of this book is an attempt to answer that question the way Scripture answers it — by tracing the thread from the first breath God ever breathed into lifeless dust to the last letter Christ ever dictated to a dying church. The answer is not simple. But it is consistent. And it begins not in the valley, but much further back — in a garden, before anything had ever died at all.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="index.html">&larr; Contents</a>
+          <a href="chapter-02.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">Can These Bones Live? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'canTheseBonesLive_progress';
+    var CH = 'ch1';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      if (p[CH] === 'complete') {
+        p[CH] = 'visited';
+      } else {
+        p[CH] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) {
+        p[CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'index.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-02.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

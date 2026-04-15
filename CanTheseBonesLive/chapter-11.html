@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 11: Can These Bones Live? | Can These Bones Live?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #9B9486;
+      --accent-secondary-glow: rgba(155, 148, 134, 0.3);
+      --scripture-border: #9B9486;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(155, 148, 134,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(155, 148, 134,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(155, 148, 134,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155, 148, 134,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(155, 148, 134,0.08);
+      border: 1px solid rgba(155, 148, 134,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(155, 148, 134,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #9B9486; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Can These Bones Live?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Valley</option>
+          <option value="chapter-02.html">Ch 2: Dust and Breath</option>
+          <option value="chapter-03.html">Ch 3: When the Word Goes Silent</option>
+          <option value="chapter-04.html">Ch 4: Destroyed for Lack of Knowledge</option>
+          <option value="chapter-05.html">Ch 5: The Book Lost in the Temple</option>
+          <option value="chapter-06.html">Ch 6: Prophesy to These Bones</option>
+          <option value="chapter-07.html">Ch 7: Breathe on These Slain</option>
+          <option value="chapter-08.html">Ch 8: A Rushing Mighty Wind</option>
+          <option value="chapter-09.html">Ch 9: The Israel of God</option>
+          <option value="chapter-10.html">Ch 10: Letters to the Dead</option>
+          <option value="chapter-11.html" selected>Ch 11: Can These Bones Live?</option>
+          <option value="" disabled>─ Appendices ─</option>
+          <option value="appendix-A.html">Appendix A: A Note from the Author</option>
+          <option value="appendix-B.html">Appendix B: The Pattern at a Glance</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER ELEVEN</p>
+        <h1>Can These Bones Live?</h1>
+      </header>
+
+      <div class="content">
+        <p>We are back in the valley.</p>
+<p>We have been here before. Chapter 1 set us down in the middle of it — the bones in every direction, very many, very dry. God walked Ezekiel through them and asked the question that has hung over every chapter since: &ldquo;Son of man, can these bones live?&rdquo; (Ezekiel 37:3).</p>
+<p>Ezekiel answered: &ldquo;O Lord God, You know.&rdquo;</p>
+<p>Ten chapters later, the question is still the question. But the reader who has walked the full road — from the garden to the valley to the upper room to Pentecost to the seven churches — now has something Ezekiel did not have when he gave that answer. Ezekiel had the question but not yet the demonstration. He could not say yes because he had not yet seen it happen. He could only trust that the God who asked the question knew the answer.</p>
+<p>We have seen it happen. We have traced the answer from the first breath God ever breathed into lifeless dust to the last letters Christ dictated to His churches in Scripture. And what we have found is not complicated. It is not hidden. It is not a secret buried in the original languages or locked behind technical scholarship. It is a pattern so consistent that once you see it, you cannot stop seeing it.</p>
+<p>God brings dead things to life by two means — His word and His Spirit. And He has never used any other.</p>
+<hr />
+<h3>The Pattern</h3>
+<p>The book has walked through this at every stage, but it is worth stepping back now and seeing the full picture in one place — because the picture is larger than any single chapter could show.</p>
+<p>In the beginning, before anything existed, the Spirit of God was moving over the surface of the waters (Genesis 1:2). Then God spoke — &ldquo;Let there be light&rdquo; (Genesis 1:3) — and what did not exist came into being. The psalmist saw both forces at work in that moment: &ldquo;By the word of the Lord the heavens were made, and by the breath of His mouth all their host&rdquo; (Psalm 33:6). Word and breath. Command and Spirit. Both present from the first act of creation.</p>
+<p>Then God formed man from dust — structure, lifeless material shaped by divine hands — and breathed into his nostrils the breath of life, and man became a living being (Genesis 2:7). Two acts. Form and breath. The body was complete before the breath came. And the breath made the difference between dust and a man.</p>
+<p>When a nation&rsquo;s bones dried out — when Israel lost the word and the Spirit departed and nothing remained but death in every direction — God sent the word first. &ldquo;Prophesy over these bones and say to them, &lsquo;O dry bones, hear the word of the Lord&rsquo;&rdquo; (Ezekiel 37:4). The word went out. The bones assembled. The sinews and flesh and skin appeared. The structure was restored. But there was no breath in them (Ezekiel 37:8). Then God sent the breath — &ldquo;Come from the four winds, O breath, and breathe on these slain, that they come to life&rdquo; (Ezekiel 37:9). The breath entered. They stood. An exceedingly great army (Ezekiel 37:10).</p>
+<p>When the risen Christ stood before His disciples in the upper room, He breathed on them — using the verb (<em>emphysaō</em>) that the Greek Old Testament had used for God breathing life into Adam and for the breath entering the slain in the valley — and said, &ldquo;Receive the Holy Spirit&rdquo; (John 20:22). Garden. Valley. Upper room. The same act.</p>
+<p>When the church was born at Pentecost, the word was preached first — Peter&rsquo;s sermon, Scripture from beginning to end — and then the hearers responded, and they received the gift of the Holy Spirit. &ldquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit&rdquo; (Acts 2:38). Three thousand came to life in a single day. Word and Spirit. Structure and breath.</p>
+<p>The pattern has operated at every scale — cosmic, national, individual. And it has always required both: the word and the Spirit, the structure and the breath, working together. Never one without the other. Never by any other means.</p>
+<hr />
+<h3>The Personal Scale</h3>
+<p>But this pattern does not stop at nations and churches. It reaches into the life of every individual who has ever stood before God and needed to be made alive.</p>
+<p>Jesus told Nicodemus — a Pharisee, a ruler of the Jews, a man who knew the Scriptures — &ldquo;Unless one is born of water and the Spirit, he cannot enter into the kingdom of God&rdquo; (John 3:5). Water and Spirit. Two components of one birth.</p>
+<p>Jesus expected Nicodemus to understand this. He rebuked him for not understanding: &ldquo;Are you the teacher of Israel and do not understand these things?&rdquo; (John 3:10). Whatever Jesus meant by &ldquo;water and the Spirit,&rdquo; it was something a man who knew the Old Testament should have been able to grasp. And water in Scripture is water. It is not a symbol for something else. When the text means Spirit, it says Spirit. When it means the word, it says the word. When it says water, it means water. When Scripture does use water figuratively, it always signals it — either with a qualifier like &ldquo;living water&rdquo; (John 4:10; 7:38) or with an explicit explanation like &ldquo;this He spoke of the Spirit&rdquo; (John 7:39). Jesus does neither in John 3:5.</p>
+<p>Faithful students of Scripture have read &ldquo;water&rdquo; here in other ways — as a figure for physical birth, or as a symbol for the word. The reading offered here takes water as water, because that is what the Ezekiel 36 background and the apostolic practice both point to. The disagreement is real, and worth naming; the reading stands on the texts.</p>
+<p>What the apostles practiced confirms what Jesus said. When Peter stood before the crowd at Pentecost and told them what to do, his answer included both elements: &ldquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit&rdquo; (Acts 2:38). Baptism — water — and the gift of the Holy Spirit. The same two components Jesus named to Nicodemus, now given as the normative call to everyone who heard the word and asked what to do. Not two separate events, but two aspects of the same act — the obedient response to God&rsquo;s word and the life-giving breath of God&rsquo;s Spirit. Both required. The promise, Peter said, extended to &ldquo;you and your children and for all who are far off, as many as the Lord our God will call to Himself&rdquo; (Acts 2:39).</p>
+<p>The accounts that follow show the pattern at work. In several, every element is explicitly recorded: the Pentecost converts heard the word, repented, were baptized, and received the gift of the Holy Spirit (Acts 2:38-41). The Samaritans believed Philip&rsquo;s preaching and were baptized; then the apostles came and they received the Holy Spirit (Acts 8:12-17). Saul of Tarsus received the word from Ananias, was filled with the Holy Spirit, and was baptized (Acts 9:17-18; 22:16). Cornelius and his household heard the word from Peter&rsquo;s mouth, the Spirit fell, and they were baptized (Acts 10:44-48). The Ephesian disciples heard the full truth, were baptized, and the Holy Spirit came upon them (Acts 19:1-6).</p>
+<p>In other accounts, the text records the word preached and the hearers responding but does not mention every element. The Ethiopian heard Philip preach Jesus from the Scriptures and was baptized (Acts 8:35-38). Lydia heard Paul&rsquo;s message and was baptized (Acts 16:14-15). The Philippian jailer heard the word of the Lord and was baptized (Acts 16:30-33). After Peter healed the lame man at the temple, he preached Jesus and gave a call that parallels Acts 2:38: &ldquo;Therefore repent and return, so that your sins may be wiped away, in order that times of refreshing may come from the presence of the Lord&rdquo; (Acts 3:19). About five thousand believed (Acts 4:4).</p>
+<p>No account contradicts the pattern. No account offers an alternative. And the promise of Acts 2:38-39 — which explicitly includes the gift of the Holy Spirit and explicitly extends to all whom God calls — gives every reason to conclude that what Peter established as the pattern on the day the church was born remained the pattern wherever the word was preached and received.</p>
+<p>And Jesus Himself defined what true worship looks like using the same two elements: &ldquo;True worshipers will worship the Father in spirit and truth; for such people the Father seeks to be His worshipers&rdquo; (John 4:23). Spirit and truth. And what is truth? Jesus answered that in His prayer to the Father: &ldquo;Sanctify them in the truth; Your word is truth&rdquo; (John 17:17). Truth is the word of God. To worship in spirit and truth is to worship by the Spirit and the word — the same breath and the same structure that have produced life since the beginning.</p>
+<p>The Father seeks people who have both.</p>
+<p>You can have truth without spirit. This book has given that condition a name from the mouth of Christ Himself: Sardis. &ldquo;You have a name that you are alive, but you are dead&rdquo; (Revelation 3:1). Correct doctrine. Proper structure. No breath. A body that looks alive and is not.</p>
+<p>You can claim spirit without truth. Jesus warned of people who would say to Him, &ldquo;Lord, Lord, did we not prophesy in Your name, and in Your name cast out demons, and in Your name perform many miracles?&rdquo; — people who claimed Spirit-empowered activity, who used His name, who pointed to results. And His answer: &ldquo;I never knew you; depart from Me, you who practice lawlessness&rdquo; (Matthew 7:22-23). They had energy. They had activity. They had what looked like the breath. But they practiced lawlessness — they had no regard for the word that should have governed them. Breath with no structure. Wind with no bones to fill. The result is not life — it is movement without direction, energy without form, enthusiasm that has nothing to sustain it because it was never built on anything solid.</p>
+<p>The Father does not seek one or the other. He seeks both. Because both have always been required, and the God who established the pattern at creation has never changed it.</p>
+<hr />
+<h3>The Warning</h3>
+<p>Paul saw what was coming.</p>
+<p>Writing to Timothy — his son in the faith, the man he had trained and sent to lead the church at Ephesus — Paul issued a charge and a warning in the same breath:</p>
+<blockquote class="scripture"><p>&ldquo;I solemnly charge you in the presence of God and of Christ Jesus, who is to judge the living and the dead, and by His appearing and His kingdom: preach the word; be ready in season and out of season; reprove, rebuke, exhort, with great patience and instruction&rdquo;</p><cite>&mdash; 2 Timothy 4:1-2</cite></blockquote>
+<p>Preach the word. That is the charge. In season and out of season — when it is welcome and when it is not, when the audience is receptive and when it is resistant. Reprove. Rebuke. Exhort. The word spoken faithfully, regardless of the response. That is the job. That is what Malachi described as the priest&rsquo;s function (Malachi 2:7). That is what the royal priesthood of the new covenant inherited (1 Peter 2:9). Preach the word.</p>
+<p>Then the warning:</p>
+<blockquote class="scripture"><p>&ldquo;For the time will come when they will not endure sound doctrine; but wanting to have their ears tickled, they will accumulate for themselves teachers in accordance to their own desires, and will turn away their ears from the truth and will turn aside to myths&rdquo;</p><cite>&mdash; 2 Timothy 4:3-4</cite></blockquote>
+<p>Read that slowly. Every phrase is a stage of the death this book has been tracing.</p>
+<p>They will not endure sound doctrine. The word becomes unwelcome. Not because it has changed, but because the hearers have changed. Sound doctrine — <em>hygiainō</em>, healthy doctrine, doctrine that is whole and uncorrupted — is no longer tolerable. The medicine is rejected because the patient prefers the disease.</p>
+<p>Wanting to have their ears tickled. The preference shifts. The people do not want to hear what God has said. They want to hear what makes them comfortable. The word of God is replaced by the word of man — not by force, not by persecution from the outside, but by consumer demand from the inside. This is Jeremiah 5:31 repeated in the new covenant: &ldquo;My people love it so.&rdquo;</p>
+<p>They will accumulate for themselves teachers. Not teachers God sends. Teachers they choose — selected to match the desires they already have, curated to confirm what they already believe, hired to say what they already want to hear. The system of transmission that God established — His word given to faithful men who deliver it unchanged — is replaced by a system the audience designs for itself.</p>
+<p>And will turn away their ears from the truth and will turn aside to myths. The final stage. The truth is abandoned. Not because it was unavailable — it was right there, the same way the book of the law was inside the temple in Josiah&rsquo;s day. But the ears have turned away. The people have chosen myths — stories that satisfy without requiring change, teaching that entertains without convicting, words that feel like the word of God but carry none of its weight.</p>
+<p>Paul was not describing something that might happen. He was describing something that <em>will</em> happen — with the certainty of a man who knew the pattern and knew human nature and knew that the same forces that dried out Israel&rsquo;s bones would come for the church.</p>
+<p>The question is not whether the time Paul warned about has arrived. The question is whether anyone recognizes it.</p>
+<hr />
+<h3>The Book in the Temple</h3>
+<p>Every generation has to answer the same question Josiah&rsquo;s generation answered — not once, but continually.</p>
+<p>Is the book being read?</p>
+<p>Not whether it exists. The word of God exists. Not whether people own copies. More copies of the Bible have been printed, distributed, translated, and made available than any document in the history of the human race. It is on shelves and nightstands and phones and tablets. It is closer to more people than it has ever been in any generation that has ever lived.</p>
+<p>The question is whether it is being opened.</p>
+<p>Whether it is being read — not browsed, not mined for comfort, not searched for verses that confirm what the reader already believes — but read. Whether the people who gather in buildings that bear God&rsquo;s name are hearing the word of God proclaimed faithfully, in its fullness, without the editing that Malachi condemned (Malachi 2:9) and the selectivity that Jeremiah described (Jeremiah 5:31).</p>
+<p>Paul told Timothy what the word is and what it does: &ldquo;All Scripture is inspired by God and profitable for teaching, for reproof, for correction, for training in righteousness; so that the man of God may be adequate, equipped for every good work&rdquo; (2 Timothy 3:16-17).</p>
+<p>Four things Scripture is profitable for. Teaching — the positive instruction, the structure of truth. Reproof — the identification of error, the exposure of what is wrong. Correction — the restoration to the right path, the realignment with what God has said. Training in righteousness — the ongoing discipline that shapes a person into what God intended.</p>
+<p>Teaching and reproof. Correction and training. The word builds and the word confronts. It constructs and it convicts. It gives the structure and it removes what does not belong in the structure. A church that only teaches but never reproves has half a word. A church that only affirms but never corrects has edited the message the same way the priests of Hosea&rsquo;s day edited theirs. The word of God is not a buffet where the hearer selects what appeals and leaves the rest. It is the full counsel of God, and it is profitable for all four functions — not just the two that the audience finds pleasant.</p>
+<p>The Bereans understood this. When Paul preached to them in the synagogue, Luke recorded their response: &ldquo;Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so&rdquo; (Acts 17:11).</p>
+<p>Two things. They received the word with great eagerness — they were not hostile to the teaching. They wanted to hear it. And they examined the Scriptures daily to see whether what they were told was true — they did not take the teacher&rsquo;s word for it. They checked. They opened the book. They compared what was being preached to what God had already said. And they did it daily. Not once a week. Not when a question arose. Every day.</p>
+<p>That is the antidote to the valley. Not a new program. Not a cultural strategy. Not a method for church growth or a formula for relevance. The word of God, read and heard and examined and obeyed. That is how the book stays off the shelf. That is how the temple keeps the law in use. That is how the bones stay covered with flesh and filled with breath.</p>
+<hr />
+<h3>The Answer</h3>
+<p>Can these bones live?</p>
+<p>The answer has always been yes. But only by the means God has always used.</p>
+<p>His word spoken faithfully. His Spirit given to those who hear and obey — &ldquo;the Holy Spirit, whom God has given to those who obey Him&rdquo; (Acts 5:32). Structure and breath. Word and Spirit. The two-part mechanism that formed a man from dust in a garden and raised a nation from bones in a valley and brought three thousand to life in a single day in Jerusalem.</p>
+<p>The mechanism has never changed. Not because God lacks creativity, but because the mechanism reflects who He is. He is the God who speaks and what He speaks comes into being. He is the God who breathes and what He breathes upon comes to life. His word is the structure of all reality, and His Spirit is the life of all that lives. To change the mechanism would be to change Himself, and He does not change: &ldquo;For I, the Lord, do not change&rdquo; (Malachi 3:6).</p>
+<p>The bones can live. They have lived before — every time God has spoken and every time the breath has come. And they can live again, wherever the word is proclaimed in its fullness and the Spirit is received by those who hear.</p>
+<p>But we cannot make them live.</p>
+<p>That is the final truth this book has to offer, and it is the truth that keeps the reader from turning the answer into a program. We can prophesy — we can speak the word as God has commanded us to speak it, faithfully, fully, without editing and without apology. We can open the book and read it and teach it and hold it out to anyone who will hear. That is our job. That is the priesthood&rsquo;s function. That is what Ezekiel did when God told him to prophesy to the bones.</p>
+<p>But the breath is not ours to send. The Spirit comes from God — from outside us, from above us, from the four winds — and He gives it when and where and to whom He chooses. We do not control the breath. We cannot manufacture it. We cannot produce it by our own effort or summon it by our own methods. We can only speak the word and trust that the God who has always sent the breath will do what He has always done.</p>
+<p>Ezekiel prophesied as he was commanded. And the breath came. And the dead stood up alive.</p>
+<p>That is the answer.</p>
+<p>It has always been the answer. It will always be the answer. The God who asked the question in the valley already knew what He was about to do. He asked because He wanted Ezekiel to face the death honestly — to stand in the middle of it, to see how many there were and how dry they were — and then to trust that the voice asking the question was the same voice that could answer it.</p>
+<p>&ldquo;Son of man, can these bones live?&rdquo;</p>
+<p>&ldquo;O Lord God, You know.&rdquo;</p>
+<p>He does.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-10.html">&larr; Previous Chapter</a>
+          <a href="appendix-A.html">Appendix A &rarr;</a>
+        </div>
+        <p class="copyright">Can These Bones Live? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'canTheseBonesLive_progress';
+    var CH = 'ch11';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      if (p[CH] === 'complete') {
+        p[CH] = 'visited';
+      } else {
+        p[CH] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) {
+        p[CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-10.html';
+      if (e.key === 'ArrowRight') window.location.href = 'appendix-A.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

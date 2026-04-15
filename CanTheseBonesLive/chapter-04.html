@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4: Destroyed for Lack of Knowledge | Can These Bones Live?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #9B9486;
+      --accent-secondary-glow: rgba(155, 148, 134, 0.3);
+      --scripture-border: #9B9486;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(155, 148, 134,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(155, 148, 134,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(155, 148, 134,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155, 148, 134,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(155, 148, 134,0.08);
+      border: 1px solid rgba(155, 148, 134,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(155, 148, 134,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #9B9486; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Can These Bones Live?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Valley</option>
+          <option value="chapter-02.html">Ch 2: Dust and Breath</option>
+          <option value="chapter-03.html">Ch 3: When the Word Goes Silent</option>
+          <option value="chapter-04.html" selected>Ch 4: Destroyed for Lack of Knowledge</option>
+          <option value="chapter-05.html">Ch 5: The Book Lost in the Temple</option>
+          <option value="chapter-06.html">Ch 6: Prophesy to These Bones</option>
+          <option value="chapter-07.html">Ch 7: Breathe on These Slain</option>
+          <option value="chapter-08.html">Ch 8: A Rushing Mighty Wind</option>
+          <option value="chapter-09.html">Ch 9: The Israel of God</option>
+          <option value="chapter-10.html">Ch 10: Letters to the Dead</option>
+          <option value="chapter-11.html">Ch 11: Can These Bones Live?</option>
+          <option value="" disabled>─ Appendices ─</option>
+          <option value="appendix-A.html">Appendix A: A Note from the Author</option>
+          <option value="appendix-B.html">Appendix B: The Pattern at a Glance</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FOUR</p>
+        <h1>Destroyed for Lack of Knowledge</h1>
+      </header>
+
+      <div class="content">
+        <p>The previous chapter traced a progression — from scarcity to famine to silence to death. The word of God went quiet, and the bones dried out. But a question was left unanswered, and it is the question that matters most for understanding why the valley exists.</p>
+<p>Who was supposed to be speaking?</p>
+<p>The word of God did not deliver itself. It never has. From Sinai forward, God entrusted His word to specific people and gave them the responsibility of teaching it to others. The system was not complicated. God spoke. The priests taught. The people heard and obeyed. When the system worked, the nation lived. When it broke down, the nation died.</p>
+<p>And Scripture is remarkably specific about where the breakdown began.</p>
+<hr />
+<h3>The Indictment</h3>
+<p>Hosea 4 opens with a courtroom scene. God is bringing a case — not against the surrounding nations, not against Babylon or Assyria, but against His own people.</p>
+<blockquote class="scripture"><p>&ldquo;Listen to the word of the Lord, O sons of Israel, for the Lord has a case against the inhabitants of the land, because there is no faithfulness or kindness or knowledge of God in the land&rdquo;</p><cite>&mdash; Hosea 4:1</cite></blockquote>
+<p>Three things are missing. Faithfulness. Kindness. Knowledge of God. These are not three unrelated virtues that happen to appear in the same sentence. They are cause and effect. When the knowledge of God disappears, faithfulness goes with it. When faithfulness goes, kindness follows. The root is knowledge — not knowledge in the abstract, not awareness that God exists, but the deep, intimate, covenantal knowledge of who God is, what He requires, and what He has said. That knowledge was gone. And everything built on it collapsed.</p>
+<p>What replaced it was the opposite. &ldquo;There is swearing, deception, murder, stealing and adultery. They employ violence, so that bloodshed follows bloodshed&rdquo; (Hosea 4:2). The catalog is not random. These are violations of the Ten Commandments — the foundational words God spoke to Israel at Sinai. The people were not breaking obscure ceremonial regulations. They were breaking the most basic, most clearly stated commands God had ever given. And they were doing it so routinely that violence had become the norm.</p>
+<p>&ldquo;Therefore the land mourns, and everyone who lives in it languishes&rdquo; (Hosea 4:3). The land itself was affected. The death was not confined to the spiritual — it was showing up in the physical world. The creation was groaning under the weight of a people who had abandoned the knowledge of their Creator.</p>
+<p>And then God names the cause.</p>
+<blockquote class="scripture"><p>&ldquo;My people are destroyed for lack of knowledge. Because you have rejected knowledge, I also will reject you from being My priest. Since you have forgotten the law of your God, I also will forget your children&rdquo;</p><cite>&mdash; Hosea 4:6</cite></blockquote>
+<p>Every word in that verse matters, and the verse has been so often quoted in isolation that its sharpest edge has been dulled by familiarity. So look at it carefully.</p>
+<p>&ldquo;My people are destroyed for lack of knowledge.&rdquo; Not the pagans. Not the Philistines or the Moabites. <em>My people.</em> The ones who bore God&rsquo;s name. The ones who had the covenant, the law, the temple, the priesthood, the prophets. They were the most resourced people on earth when it came to the knowledge of God. They had everything they needed. And they were being destroyed — not for lack of resources, but for lack of knowledge.</p>
+<p>&ldquo;Because you have rejected knowledge.&rdquo; This is the line that changes everything. The knowledge was not unavailable. It was rejected. The Hebrew word is <em>maas</em> — to refuse, to spurn, to throw away. This is not ignorance in the sense of never having heard. This is the deliberate refusal of something that was offered. The knowledge was there. It was accessible. And it was pushed away.</p>
+<p>&ldquo;I also will reject you from being My priest.&rdquo; Now the target becomes specific. God is speaking to the priests. The &ldquo;you&rdquo; in this sentence is not the general population — it is the priesthood. The priests rejected knowledge, and God&rsquo;s response is to reject them from the very office they were supposed to fill. The punishment fits the crime with devastating precision. You would not teach? Then you will not serve. You rejected the knowledge you were supposed to deliver? Then I reject you from the position that required you to deliver it.</p>
+<p>&ldquo;Since you have forgotten the law of your God, I also will forget your children.&rdquo; Forgotten. Not lost. Not stolen. Forgotten — the way a person forgets something that used to matter to them but no longer does. The priests had the law. They knew it once. And they let it slip away, gradually, until it was no longer part of their thinking, their teaching, or their lives. And God&rsquo;s response is proportional: you forgot My law, I will forget your children. The consequences will outlast you. The death you are causing will extend beyond your generation.</p>
+<p>This is the anatomy of the valley. The bones did not dry out because God abandoned His people without warning. They dried out because the men God appointed to teach His word stopped teaching it — and then actively rejected it — and then forgot it entirely. The silence of God&rsquo;s word in the land was not a drought sent from heaven. It was a dereliction of duty by the men standing in the pulpit.</p>
+<hr />
+<h3>The Job Description</h3>
+<p>If Hosea describes the failure, Malachi describes what was supposed to happen.</p>
+<p>The book of Malachi is the last prophetic voice in the Old Testament. After Malachi, the <em>chazon</em> — the prophetic revelation — went silent for four hundred years until John the Baptist appeared in the wilderness. Malachi is God&rsquo;s final word before the long silence, and a significant portion of it is directed at the priests.</p>
+<blockquote class="scripture"><p>&ldquo;For the lips of a priest should preserve knowledge, and men should seek instruction from his mouth; for he is the messenger of the Lord of hosts&rdquo;</p><cite>&mdash; Malachi 2:7</cite></blockquote>
+<p>That is the job description. Three things.</p>
+<p>First: the lips of a priest should preserve knowledge. The word &ldquo;preserve&rdquo; in Hebrew is <em>shamar</em> — to keep, to guard, to watch over. It is the same word used in Genesis 2:15 when God placed Adam in the garden &ldquo;to cultivate it and keep it.&rdquo; The priest was a guardian of knowledge the same way Adam was a guardian of the garden. The knowledge was entrusted to him. It was not his to create, modify, or discard. It was his to protect and to pass on intact.</p>
+<p>Second: men should seek instruction from his mouth. The people were supposed to come to the priest for teaching. That was the design. The priest was not merely a ceremonial figure who performed rituals — he was a teacher. His primary function, beyond the sacrifices, was to know the word of God and to teach it to the people who came seeking it. When a question arose about the law, the priest was the one who was supposed to have the answer — not his own opinion, not the conventional wisdom, but the word of God.</p>
+<p>Third: he is the messenger of the Lord of hosts. The priest was not speaking for himself. He was a messenger — the Hebrew word is <em>malak</em>, the same word used for angels. The priest carried a message that was not his own. His authority came not from his education, his personality, or his position, but from the fact that he was delivering the words of the Lord of hosts. When he spoke faithfully, God spoke through him. When he stopped speaking faithfully, the message stopped.</p>
+<p>That is what a priest was supposed to be. A guardian of knowledge. A teacher of the word. A messenger of God.</p>
+<p>Now look at what Malachi says happened.</p>
+<blockquote class="scripture"><p>&ldquo;But as for you, you have turned aside from the way; you have caused many to stumble by the instruction; you have corrupted the covenant of Levi&rdquo;</p><cite>&mdash; Malachi 2:8</cite></blockquote>
+<p>Three failures, answering the three responsibilities.</p>
+<p>They turned aside from the way. The guardians of knowledge left the path they were supposed to guard.</p>
+<p>They caused many to stumble by the instruction. The teachers did not merely stop teaching — they taught wrongly. The instruction itself became a stumbling block. The people came seeking the word of God and received something else, and it caused them to fall.</p>
+<p>They corrupted the covenant of Levi. The messengers of God corrupted the very covenant that gave them their authority. The priesthood — the office God established to preserve and transmit His word — was hollowed out from the inside by the men who held it.</p>
+<p>The result: &ldquo;So I also have made you despised and abased before all the people, just as you are not keeping My ways but are showing partiality in the instruction&rdquo; (Malachi 2:9).</p>
+<p>Showing partiality in the instruction. They were selective. They taught what was convenient and omitted what was not. They gave the people the parts of God&rsquo;s word that were comfortable and left out the parts that would have required change. The instruction was not absent — it was edited. And edited instruction is not the word of God. It is the word of man dressed in God&rsquo;s clothing.</p>
+<hr />
+<h3>The Partnership</h3>
+<p>Hosea identifies the priests as the source of the failure. Malachi defines what they were supposed to do and how they fell short. But Jeremiah adds a detail that is perhaps the most uncomfortable of all.</p>
+<blockquote class="scripture"><p>&ldquo;An appalling and horrible thing has happened in the land: the prophets prophesy falsely, and the priests rule on their own authority; and My people love it so! But what will you do at the end of it?&rdquo;</p><cite>&mdash; Jeremiah 5:30-31</cite></blockquote>
+<p>Three parties. Three failures. And a question.</p>
+<p>The prophets prophesy falsely. The men who were supposed to speak God&rsquo;s word were speaking their own — and calling it God&rsquo;s. This is not silence. This is worse than silence. A silent prophet leaves a void. A false prophet fills the void with lies and stamps God&rsquo;s name on them. The people think they are hearing from God when they are hearing from a man, and they cannot tell the difference because the false word comes through the same office, in the same tone, with the same authority as the true word once did.</p>
+<p>The priests rule on their own authority. The Hebrew here is vivid — the priests ruled &ldquo;at their hands,&rdquo; meaning by their own power, their own direction, their own agenda. They were not serving under God&rsquo;s authority. They were exercising their own. The office that was supposed to submit to the word of God had become a platform for personal power. The priesthood was no longer about delivering God&rsquo;s message. It was about controlling the institution.</p>
+<p>And then the third line — the one that should sit heaviest.</p>
+<p>My people love it so.</p>
+<p>The people loved it. They preferred the false prophets to the true ones. They preferred priests who ruled on their own authority to priests who demanded obedience to God&rsquo;s word. The comfortable lie was more welcome than the uncomfortable truth.</p>
+<p>This is not a passage about corrupt leaders deceiving innocent victims. It is a passage about a partnership. The leaders gave the people what they wanted, and the people rewarded them for it. The prophets prophesied falsely because false prophecy was popular. The priests ruled on their own authority because the people preferred human authority to divine authority. The system worked — not for God, but for everyone who had decided that God&rsquo;s actual word was too demanding, too narrow, too inconvenient to live by.</p>
+<p>And God&rsquo;s question at the end is not rhetorical. &ldquo;But what will you do at the end of it?&rdquo; What happens when the false words run out? What happens when the authority that was not God&rsquo;s collapses? What happens when the system that everyone loved stops working and the only thing left is the truth that was rejected?</p>
+<p>The valley. That is what happens at the end of it. Dry bones.</p>
+<hr />
+<h3>The Pattern</h3>
+<p>Hosea, Malachi, and Jeremiah are three prophets writing at different times to different audiences. But they are describing the same disease, and it always progresses the same way.</p>
+<p>It begins with the leaders. The priests stop guarding the knowledge. The prophets start speaking on their own authority. The word of God is not lost in a single dramatic moment — it is gradually replaced by something that looks similar but carries no life. The instruction continues, but it is partial. The prophecy continues, but it is false. The office continues, but the messenger has changed the message.</p>
+<p>Then the people adapt. They grow accustomed to the edited word. They begin to prefer it. The full word of God requires things of them — repentance, obedience, sacrifice, change. The partial word requires nothing but attendance. Given the choice, most people will choose the version that costs them the least. Jeremiah says they loved it. Not tolerated it. Not accepted it reluctantly. Loved it.</p>
+<p>And then the silence comes. Not because God had nothing to say, but because the people who were supposed to say it had replaced His words with their own, and the people who were supposed to hear it had stopped wanting the real thing.</p>
+<p>That is the full picture of how the word goes silent. It is not a single failure by a single group. It is a system failure — leaders who will not speak, teachers who edit, prophets who fabricate, and a people who prefer the counterfeit to the genuine. When all of these converge, the word disappears from the land. And when the word disappears, the bones dry.</p>
+<p>Chapter 3 asked why the breath left. This chapter has answered the first half: the word was abandoned by the people God appointed to deliver it. But there is a scene in the Old Testament that shows this failure more vividly than any prophetic indictment — a scene so specific, so concrete, that it needs no interpretation. The book of the law was physically present in the house of God, and no one was reading it.</p>
+<p>That is where we turn next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-03.html">&larr; Previous Chapter</a>
+          <a href="chapter-05.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">Can These Bones Live? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'canTheseBonesLive_progress';
+    var CH = 'ch4';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      if (p[CH] === 'complete') {
+        p[CH] = 'visited';
+      } else {
+        p[CH] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) {
+        p[CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-03.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-05.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 5: The Book Lost in the Temple | Can These Bones Live?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #9B9486;
+      --accent-secondary-glow: rgba(155, 148, 134, 0.3);
+      --scripture-border: #9B9486;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(155, 148, 134,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(155, 148, 134,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(155, 148, 134,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155, 148, 134,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(155, 148, 134,0.08);
+      border: 1px solid rgba(155, 148, 134,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(155, 148, 134,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #9B9486; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Can These Bones Live?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Valley</option>
+          <option value="chapter-02.html">Ch 2: Dust and Breath</option>
+          <option value="chapter-03.html">Ch 3: When the Word Goes Silent</option>
+          <option value="chapter-04.html">Ch 4: Destroyed for Lack of Knowledge</option>
+          <option value="chapter-05.html" selected>Ch 5: The Book Lost in the Temple</option>
+          <option value="chapter-06.html">Ch 6: Prophesy to These Bones</option>
+          <option value="chapter-07.html">Ch 7: Breathe on These Slain</option>
+          <option value="chapter-08.html">Ch 8: A Rushing Mighty Wind</option>
+          <option value="chapter-09.html">Ch 9: The Israel of God</option>
+          <option value="chapter-10.html">Ch 10: Letters to the Dead</option>
+          <option value="chapter-11.html">Ch 11: Can These Bones Live?</option>
+          <option value="" disabled>─ Appendices ─</option>
+          <option value="appendix-A.html">Appendix A: A Note from the Author</option>
+          <option value="appendix-B.html">Appendix B: The Pattern at a Glance</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FIVE</p>
+        <h1>The Book Lost in the Temple</h1>
+      </header>
+
+      <div class="content">
+        <p>The previous two chapters have traced the cause of the silence in general terms — the principle (Proverbs 29:18), the progression (1 Samuel 3, Amos 8), the guilty parties (Hosea 4, Malachi 2, Jeremiah 5). The prophets identified the disease. They named the symptoms. They pointed at the priests and the people and said: this is why the bones are drying out.</p>
+<p>But there is a moment in the Old Testament where the failure is not described in prophetic language. It is not a metaphor. It is not a vision or an oracle. It is a scene — a specific event, recorded in plain narrative, involving real people in a real building — that makes the abstract concrete. And it may be the most devastating passage in the Old Testament for understanding how a people who possess the word of God can still die for lack of it.</p>
+<p>The book of the law was inside the temple. And no one was reading it.</p>
+<hr />
+<h3>The King Who Was Different</h3>
+<p>The story begins with a boy.</p>
+<p>&ldquo;Josiah was eight years old when he became king, and he reigned thirty-one years in Jerusalem&rdquo; (2 Kings 22:1). Eight years old. A child on the throne of David, inheriting a kingdom that had been spiritually gutted by the two kings who preceded him.</p>
+<p>His grandfather was Manasseh — the king who reigned longer than any other in Judah&rsquo;s history (fifty-five years) and who did more damage than any of them. Manasseh rebuilt the high places that his father Hezekiah had torn down. He erected altars for Baal. He made an Asherah pole and put it in the temple — in the house where God&rsquo;s name was supposed to dwell. He built altars to the host of heaven in the two courts of the house of the Lord. He practiced witchcraft and divination. He made his son pass through the fire. And the text says he &ldquo;seduced them to do evil more than the nations whom the Lord destroyed before the sons of Israel&rdquo; (2 Kings 21:9). More than the nations God had driven out of the land to make room for Israel. The king of God&rsquo;s people led them to become worse than the pagans they had replaced.</p>
+<p>His father was Amon — who reigned only two years before his own servants assassinated him. The text gives Amon&rsquo;s summary in a single sentence: &ldquo;He did evil in the sight of the Lord, as Manasseh his father had done&rdquo; (2 Kings 21:20). Two years of the same corruption, cut short by murder.</p>
+<p>That is the legacy Josiah inherited. Two generations of deliberate, systematic dismantling of everything God had established. The high places were active. The idols were in place. The temple had been converted into a house of syncretism — a building that still bore God&rsquo;s name but served other gods. And the boy who sat on the throne had no living memory of anything different.</p>
+<p>What Josiah did next has no natural explanation.</p>
+<blockquote class="scripture"><p>&ldquo;He did right in the sight of the Lord and walked in all the way of his father David, nor did he turn aside to the right or to the left&rdquo;</p><cite>&mdash; 2 Kings 22:2</cite></blockquote>
+<p>No one taught him this. His grandfather was the worst king in Judah&rsquo;s history. His father was an echo of the same evil. The priests, as Hosea and Malachi have shown, had long since stopped faithfully teaching the word. There was no national movement toward God. There was no revival sweeping the land that carried Josiah along with it. He turned to God in the middle of a culture that had turned away — and the text gives no human explanation for why.</p>
+<p>In the eighth year of his reign, when he was sixteen years old, &ldquo;he began to seek the God of his father David&rdquo; (2 Chronicles 34:3). In the twelfth year, he began to purge Judah and Jerusalem of the high places, the Asherim, the carved images, and the molten images. He tore down the altars of the Baals. He cut the incense altars that were above them. He broke the Asherim and the carved and molten images into pieces and ground them to dust and scattered it on the graves of those who had sacrificed to them. He burned the bones of the priests on their altars (2 Chronicles 34:3-5).</p>
+<p>This was not a cautious reform. This was demolition. A young king tearing down with his own hands the entire religious infrastructure his grandfather had built over five decades. The text lists the destruction in detail because the scope of it matters — this was not trimming around the edges. This was a man who had seen the rot and was pulling it out by the roots.</p>
+<p>And then, in the eighteenth year of his reign — when Josiah was twenty-six years old — he turned his attention to the temple itself.</p>
+<hr />
+<h3>The Discovery</h3>
+<p>The temple was in disrepair. That is worth pausing over. The house of God — the building Solomon had constructed with cedarwood and gold, the place where the ark of the covenant rested, the physical center of Israel&rsquo;s relationship with their Creator — needed repairs. It had been neglected. The building where God&rsquo;s presence was supposed to dwell had been left to deteriorate while the high places and the idol shrines were maintained and active.</p>
+<p>Josiah sent Shaphan the scribe to the temple with instructions to take the money that had been collected and give it to the workers to repair the house of the Lord (2 Kings 22:3-6). It was a practical matter — fund the repairs, fix the building, restore the structure. Josiah was doing what a faithful king should do. He was putting the house of God back in order.</p>
+<p>And then something happened that changed everything.</p>
+<blockquote class="scripture"><p>&ldquo;Then Hilkiah the high priest said to Shaphan the scribe, &lsquo;I have found the book of the law in the house of the Lord&rdquo;</p><cite>&mdash; 2 Kings 22:8</cite></blockquote>
+<p>He found it.</p>
+<p>The high priest of Israel found the book of the law. Inside the temple. He <em>found</em> it — the way you find something that has been misplaced, something that no one has been looking for, something that has been sitting in a place where it should have been obvious but was not being used.</p>
+<p>The book of the law. The foundational document of Israel&rsquo;s covenant with God. The words God spoke at Sinai and through Moses. The instructions for worship, for justice, for community, for priesthood, for sacrifice, for everything that defined Israel as a people set apart for God. That book. In the temple. And finding it was news worth reporting.</p>
+<p>This means no one had been reading it. Not recently. Not for a long time. The high priest did not say, &ldquo;I found the book of the law where we always keep it — here, let me pull it out for the reading.&rdquo; He announced the discovery as if it were unexpected. The book had been physically present in the building, and no one had opened it. No one had taught from it. No one had read it aloud to the people. The very document that was supposed to govern every aspect of Israel&rsquo;s life with God had been sitting in God&rsquo;s house, gathering dust, while the nation deteriorated around it.</p>
+<p>Think about what that means.</p>
+<p>Every priest who served in that temple walked past the book of the law. Every sacrifice offered on that altar was offered by men who had access to the instructions and did not consult them. Every festival, every ceremony, every act of worship that took place in that building happened within arm&rsquo;s reach of the word of God — and no one picked it up.</p>
+<p>The word was not hidden. It was not stolen. It was not destroyed by enemies. It was right there. In the building. In the place where it was most needed and most relevant and most obviously supposed to be in use. And it was ignored.</p>
+<p>This is what Hosea meant when he said the knowledge was <em>rejected</em>. This is what Malachi meant when he said the priests stopped preserving knowledge. This is what Jeremiah meant when he said the priests ruled on their own authority. The book of the law lost in the temple is the concrete, narrative evidence of every prophetic indictment in the previous chapter. It is the crime scene.</p>
+<hr />
+<h3>The Response</h3>
+<p>Shaphan took the book to the king. And he read it in the king&rsquo;s presence (2 Kings 22:10). Whatever portion he read — and many scholars believe it was the book of Deuteronomy, based on the specific responses it provoked — the effect was immediate.</p>
+<blockquote class="scripture"><p>&ldquo;When the king heard the words of the book of the law, he tore his clothes&rdquo;</p><cite>&mdash; 2 Kings 22:11</cite></blockquote>
+<p>Tearing the garments was the sign of grief, horror, and mourning in ancient Israel. It was not a casual gesture. It was what a man did when he received news of death, or when he recognized the full weight of a catastrophe. Josiah heard the words of God and understood instantly how far the nation had fallen. He did not need a commentary. He did not need a committee to study the implications. The words themselves carried the weight. He heard them, and he tore his clothes.</p>
+<p>Then he spoke, and what he said is among the most honest statements any king ever made:</p>
+<blockquote class="scripture"><p>&ldquo;Go, inquire of the Lord for me and the people and all Judah concerning the words of this book that has been found, for great is the wrath of the Lord that burns against us, because our fathers have not listened to the words of this book, to do according to all that is written concerning us&rdquo;</p><cite>&mdash; 2 Kings 22:13</cite></blockquote>
+<p>Notice what he did not say. He did not say, &ldquo;This book is outdated.&rdquo; He did not say, &ldquo;Times have changed and we need to reinterpret this for our context.&rdquo; He did not say, &ldquo;Our fathers must have had good reasons for setting it aside.&rdquo; He said: our fathers did not listen to the words of this book. They did not do what it says. And the wrath of God is burning against us because of it.</p>
+<p>Josiah did what the priests should have been doing for generations. He took the word of God at face value. He measured the nation&rsquo;s conduct against it. And when he saw the gap between what God had said and what the people were doing, he did not adjust the word to fit the behavior. He recognized the behavior as the problem.</p>
+<p>His response was immediate and comprehensive. He gathered all the people — the elders of Judah and Jerusalem, the priests, the prophets, all the inhabitants from the small to the great — and he went up to the house of the Lord. And there, in front of everyone, &ldquo;he read in their hearing all the words of the book of the covenant which was found in the house of the Lord&rdquo; (2 Kings 23:2).</p>
+<p>He read the whole thing. Out loud. To everyone.</p>
+<p>The word that had been silent was spoken again. The book that had been collecting dust in the temple was opened and read to the nation. And the king &ldquo;made a covenant before the Lord, to walk after the Lord, and to keep His commandments and His testimonies and His statutes with all his heart and all his soul, to carry out the words of this covenant that were written in this book. And all the people entered into the covenant&rdquo; (2 Kings 23:3).</p>
+<p>Word spoken. People respond. Covenant renewed. The pattern from the previous chapters — the word goes out, and the dead begin to stir.</p>
+<hr />
+<h3>The Limit</h3>
+<p>Josiah&rsquo;s reform was real. It was thorough. It was the most sweeping national repentance recorded in the books of Kings. He removed the idolatrous priests. He broke down the houses of the male cult prostitutes. He defiled the high places. He destroyed the altar at Bethel that Jeroboam had built — the altar that had divided Israel&rsquo;s worship for three centuries. He kept a Passover so comprehensive that the text says, &ldquo;Surely such a Passover had not been celebrated from the days of the judges who judged Israel, nor in all the days of the kings of Israel and of the kings of Judah&rdquo; (2 Kings 23:22).</p>
+<p>The word was spoken. The nation responded. The bones rattled.</p>
+<p>But the damage was too deep.</p>
+<blockquote class="scripture"><p>&ldquo;However, the Lord did not turn from the fierceness of His great wrath with which His anger burned against Judah, because of all the provocations with which Manasseh had provoked Him&rdquo;</p><cite>&mdash; 2 Kings 23:26</cite></blockquote>
+<p>Josiah&rsquo;s reform was genuine, but it could not undo the accumulated judgment that generations of rejection had earned. Manasseh&rsquo;s fifty-five years of systematic destruction, Amon&rsquo;s continuation of the same, the decades of priestly failure, the people who had loved the false prophets and the edited instruction — the roots went too deep. Josiah tore down the visible structures of idolatry. He could not uproot what had been planted in the hearts of a people who had lived without the word of God for so long that they no longer knew what it demanded.</p>
+<p>And when Josiah died — killed in battle at Megiddo when he was thirty-nine years old (2 Kings 23:29) — the reform died with him. His son Jehoahaz reigned three months and &ldquo;did evil in the sight of the Lord&rdquo; (2 Kings 23:32). His son Jehoiakim reigned eleven years and &ldquo;did evil in the sight of the Lord&rdquo; (2 Kings 23:37). His son Jehoiachin reigned three months and &ldquo;did evil&rdquo; (2 Kings 24:9). And then Zedekiah — the last king — reigned eleven years, did evil, and watched Nebuchadnezzar burn the temple to the ground (2 Kings 25:8-9).</p>
+<p>The temple where the book of the law had been found — and lost, and found again — was destroyed. The building was gone. The priesthood was scattered. The nation was carried into exile. And a generation later, Ezekiel stood in a valley full of dry bones.</p>
+<hr />
+<h3>The Weight</h3>
+<p>Josiah&rsquo;s story is not a story of failure. It is a story of what happens when one man takes the word of God seriously in a culture that has abandoned it. It is proof that the word still has power — that when it is read, it convicts, and when it convicts, it can move a nation to repentance. The book was in the temple the whole time. The answer was in the building. And the moment someone opened it and read it aloud, things began to change.</p>
+<p>But it is also a warning. The reform did not outlast the reformer. One generation heard the word and responded. The next generation returned to the silence. The pattern of death that had been building for decades was interrupted — but not reversed. The bones rattled, but the breath did not come. Structure stirred, but life did not take hold. Josiah spoke the word, but the Spirit that would raise the dead to permanent life was not yet given — not in the way it would be given later, when God Himself would promise to put His Spirit within His people and cause them to walk in His statutes (Ezekiel 36:27).</p>
+<p>The book lost in the temple is a picture that should follow the reader through the rest of this study. Because the question it raises is not an ancient one. It is a present one.</p>
+<p>Is the book still being read?</p>
+<p>Not whether the book exists. It exists. Not whether people own copies. They own copies — more copies than any generation in history. The question is whether it is being opened, and read, and heard, and obeyed — or whether it is sitting within arm&rsquo;s reach in a building that bears God&rsquo;s name, while the people inside go about their worship without ever consulting the words that are supposed to govern it.</p>
+<p>Josiah found the book. And when he read it, he tore his clothes.</p>
+<p>When was the last time the word of God produced that response?</p>
+<p>The cause of the death has been established. The word went silent. The priests stopped teaching. The people stopped listening. The book was in the temple and no one opened it. The bones dried out over generations, one degree at a time, until the valley was all that remained.</p>
+<p>But God did not leave Ezekiel in the valley just to show him the death. He brought him there to show him the remedy. And the remedy begins the same way it has always begun — with a voice.</p>
+<p>&ldquo;Prophesy over these bones.&rdquo;</p>
+<p>That is where we turn next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-04.html">&larr; Previous Chapter</a>
+          <a href="chapter-06.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">Can These Bones Live? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'canTheseBonesLive_progress';
+    var CH = 'ch5';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      if (p[CH] === 'complete') {
+        p[CH] = 'visited';
+      } else {
+        p[CH] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) {
+        p[CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-04.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-06.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

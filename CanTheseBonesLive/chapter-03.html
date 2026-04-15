@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3: When the Word Goes Silent | Can These Bones Live?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #9B9486;
+      --accent-secondary-glow: rgba(155, 148, 134, 0.3);
+      --scripture-border: #9B9486;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(155, 148, 134,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(155, 148, 134,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(155, 148, 134,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.08em;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(155, 148, 134,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(155, 148, 134,0.08);
+      border: 1px solid rgba(155, 148, 134,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(155, 148, 134,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #9B9486; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Can These Bones Live?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="chapter-01.html">Ch 1: The Valley</option>
+          <option value="chapter-02.html">Ch 2: Dust and Breath</option>
+          <option value="chapter-03.html" selected>Ch 3: When the Word Goes Silent</option>
+          <option value="chapter-04.html">Ch 4: Destroyed for Lack of Knowledge</option>
+          <option value="chapter-05.html">Ch 5: The Book Lost in the Temple</option>
+          <option value="chapter-06.html">Ch 6: Prophesy to These Bones</option>
+          <option value="chapter-07.html">Ch 7: Breathe on These Slain</option>
+          <option value="chapter-08.html">Ch 8: A Rushing Mighty Wind</option>
+          <option value="chapter-09.html">Ch 9: The Israel of God</option>
+          <option value="chapter-10.html">Ch 10: Letters to the Dead</option>
+          <option value="chapter-11.html">Ch 11: Can These Bones Live?</option>
+          <option value="" disabled>─ Appendices ─</option>
+          <option value="appendix-A.html">Appendix A: A Note from the Author</option>
+          <option value="appendix-B.html">Appendix B: The Pattern at a Glance</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>When the Word Goes Silent</h1>
+      </header>
+
+      <div class="content">
+        <p>The bones in Ezekiel&rsquo;s valley did not appear overnight.</p>
+<p>That is the first thing a careful reader must understand about the death that chapter describes. The dryness of those bones tells a story all by itself. Bones do not become very dry quickly. The flesh goes first — days, weeks. Then the sinew dries and pulls away. Then the moisture inside the bone itself slowly evaporates, month after month, year after year, until what remains is white and brittle and light enough for the wind to scatter. By the time a bone is very dry, the life it once carried has been gone a long time.</p>
+<p>The death of a nation works the same way.</p>
+<p>Israel did not wake up one morning in the valley. The bones dried out over generations — slowly, silently, one degree at a time. And the drying always began in the same place: the word of God went quiet. Not all at once. Not in a dramatic moment of national rebellion. It faded. The voice that had sustained them grew faint, and the people gradually stopped noticing it was gone.</p>
+<p>Scripture describes this process in precise terms, and it is worth tracing the progression from the earliest warning to the final silence.</p>
+<hr />
+<h3>The Warning</h3>
+<p>The clearest single statement of the principle is in Proverbs 29:18.</p>
+<p>&ldquo;Where there is no vision, the people are unrestrained; but happy is he who keeps the law.&rdquo;</p>
+<p>This verse has been misread so often and so thoroughly that the misreading has become more familiar than the text. In popular usage — in sermons, in leadership books, on motivational posters — &ldquo;where there is no vision&rdquo; has come to mean something like: where there is no strategic direction, no dream, no personal foresight, the people wander aimlessly. It has been turned into a proverb about planning. About goal-setting. About organizational leadership.</p>
+<p>That is not what it says.</p>
+<p>The Hebrew word translated &ldquo;vision&rdquo; is <em>chazon</em>. It does not mean personal vision, foresight, or strategic planning. <em>Chazon</em> is the technical term for prophetic revelation — the word of God disclosed to His people through His prophets. It is the same word used in 1 Samuel 3:1, Isaiah 1:1, and the opening of virtually every prophetic book. When Nahum writes, &ldquo;The oracle of Nineveh. The book of the <em>chazon</em> of Nahum&rdquo; (Nahum 1:1), he is not describing a business plan. He is describing what God showed him. <em>Chazon</em> is God&rsquo;s revealed word — His message, delivered through the men He chose to speak it.</p>
+<p>The proverb is not about leadership. It is about revelation.</p>
+<p>And the second half of the verse confirms it. Hebrew proverbs are built on parallelism — the two halves interpret each other. &ldquo;Where there is no <em>chazon</em>, the people are unrestrained; but happy is he who keeps the law.&rdquo; Vision and law. Revelation and commandment. The first half describes what happens when God&rsquo;s word is absent. The second half describes what happens when God&rsquo;s word is present and obeyed. The two halves are not talking about two different subjects. They are talking about the same subject from two angles.</p>
+<p>When the prophetic word is present and the people keep it, they are blessed. When the prophetic word is absent, they <em>para</em> — they cast off restraint. The Hebrew <em>para</em> carries the sense of loosening, unbinding, letting go. It is what happens to a people whose boundaries dissolve because the voice that established the boundaries has gone silent. They do not rebel in a single dramatic act. They come undone. They scatter. They drift into whatever feels right to each person individually, because the word that held them together is no longer holding.</p>
+<p>This is not a prediction about a distant future. It is a description of a recurring pattern. Every time God&rsquo;s word has gone silent among His people, the same thing has happened. The restraints loosen. The standards erode. The people unravel. And the drying of the bones begins.</p>
+<hr />
+<h3>The Early Silence</h3>
+<p>The book of 1 Samuel opens with a description that should read like a diagnosis.</p>
+<blockquote class="scripture"><p>&ldquo;Now the boy Samuel was ministering to the Lord before Eli. And word from the Lord was rare in those days, visions were infrequent&rdquo;</p><cite>&mdash; 1 Samuel 3:1</cite></blockquote>
+<p>Two phrases, saying the same thing. Word from the Lord — rare. Visions — infrequent. The <em>chazon</em> of Proverbs 29:18 was already scarce. Not gone entirely. Rare. Infrequent. The famine was beginning, but there was still an occasional meal.</p>
+<p>The context makes the cause painfully clear. Eli was the high priest — the man responsible for the spiritual life of the nation. His sons, Hophni and Phinehas, were priests serving in the tabernacle at Shiloh. And the text says of them: &ldquo;Now the sons of Eli were worthless men; they did not know the Lord&rdquo; (1 Samuel 2:12).</p>
+<p>Priests who did not know the Lord.</p>
+<p>These were not outsiders. They were not pagans who had wandered in from a foreign country. They were the sons of the high priest, serving in the house of God, wearing the priestly garments, handling the sacrifices — and they did not know the God they were supposed to serve. They took meat from the sacrifices by force before the fat was burned (1 Samuel 2:13-16). They slept with the women who served at the doorway of the tent of meeting (1 Samuel 2:22). They treated the offering of the Lord with contempt (1 Samuel 2:17).</p>
+<p>And Eli knew. The text says he heard about everything his sons were doing (1 Samuel 2:22). He confronted them — mildly. &ldquo;Why do you do such things?&rdquo; (1 Samuel 2:23). But he did not remove them. He did not stop them. He let them continue serving at the altar of God while living in open defiance of everything that altar represented.</p>
+<p>God&rsquo;s assessment was blunt. He sent a man of God to Eli with this message: &ldquo;Why do you kick at My sacrifice and at My offering which I have commanded in My dwelling, and honor your sons above Me?&rdquo; (1 Samuel 2:29).</p>
+<p>You honor your sons above Me.</p>
+<p>That is the diagnosis. The word of God was rare because the men who were supposed to speak it had stopped honoring the God who gave it. The silence did not fall from heaven like a judgment. It grew up from the ground like a weed, planted by the very men who should have been tending the garden.</p>
+<p>And into that silence — that nearly wordless era — God called a boy.</p>
+<blockquote class="scripture"><p>&ldquo;Then the Lord came and stood and called as at other times, &lsquo;Samuel! Samuel!&rsquo; And Samuel said, &lsquo;Speak, for Your servant is listening&rdquo;</p><cite>&mdash; 1 Samuel 3:10</cite></blockquote>
+<p>The contrast is devastating. An old priest who honored his sons above God. A boy who said, &ldquo;Speak, for Your servant is listening.&rdquo; The word was rare, but it was not extinct. God found someone willing to hear.</p>
+<p>But the larger point remains. By the time Samuel was called, the word had already become scarce. The silence was not sudden. It was the accumulated result of priests who did not know the Lord, a high priest who would not act, and a people who had grown accustomed to hearing nothing. The bones were not yet dry. But they were drying.</p>
+<hr />
+<h3>The Famine</h3>
+<p>What Proverbs describes as a principle and 1 Samuel records as a condition, Amos escalates into a prophecy. And the language he uses is among the most striking in the Old Testament.</p>
+<blockquote class="scripture"><p>&ldquo;Behold, days are coming,&rsquo; declares the Lord God, &lsquo;when I will send a famine on the land, not a famine for bread or a thirst for water, but rather for hearing the words of the Lord. People will stagger from sea to sea and from the north even to the east; they will go to and fro to seek the word of the Lord, but they will not find it&rdquo;</p><cite>&mdash; Amos 8:11-12</cite></blockquote>
+<p>A famine. Not of food — of the word of God.</p>
+<p>The image is deliberate and precise. In an ordinary famine, the land stops producing. The rain does not come, the crops fail, and the people starve. They know they are hungry. They search for food. They travel from place to place looking for something to eat. The suffering is visible — gaunt faces, empty storehouses, children crying.</p>
+<p>Amos takes that image and applies it to something worse. A famine of hearing the words of the Lord. The people will stagger — the Hebrew suggests stumbling, lurching, the unsteady movement of someone disoriented and weak. They will go from sea to sea and from north to east — everywhere, in every direction — seeking the word of the Lord. And they will not find it.</p>
+<p>This is not a famine because there is no food anywhere in the world. It is a famine because the food is gone from their land. The word of God has not ceased to exist. It has ceased to be available to them. They are hungry for it and cannot find it.</p>
+<p>The reason this prophecy is so devastating is what comes before it. Amos has spent seven chapters documenting exactly why the famine is coming. Israel is not a nation of atheists. They are a nation of worshipers — worshipers who have separated their worship from the word of God.</p>
+<blockquote class="scripture"><p>&ldquo;I hate, I reject your festivals, nor do I delight in your solemn assemblies. Even though you offer up to Me burnt offerings and your grain offerings, I will not accept them; and I will not even look at the peace offerings of your fatlings. Take away from Me the noise of your songs; I will not even listen to the sound of your harps. But let justice roll down like waters and righteousness like an ever-flowing stream&rdquo;</p><cite>&mdash; Amos 5:21-24</cite></blockquote>
+<p>The festivals were still happening. The assemblies were still solemn. The offerings were still being offered, and the songs were still being sung, and the harps were still playing. The external structure of worship was fully intact. And God said, &ldquo;I hate it.&rdquo;</p>
+<p>He hated it because the structure had become detached from the substance. They had the form. They were going through the motions. The altars were busy and the calendar was full and the music was polished. But justice and righteousness — the things the word of God actually required — were nowhere to be found. The people were oppressing the poor (Amos 2:6-7), perverting justice in the courts (Amos 5:12), and living in luxury while the nation rotted from the inside (Amos 6:4-6). The worship was elaborate and empty. The word had been functionally silenced even while the religious machinery kept running.</p>
+<p>That is the condition that produces the famine. God does not remove His word from people who are clinging to it. He removes it from people who have already replaced it — who have kept the form of worship but discarded the content. The famine of the word is not the first stage of the death. It is the consequence of a process already well underway.</p>
+<p>And by the time the famine is in full force — by the time the people are staggering from sea to sea looking for a word they can no longer find — the bones are nearly dry.</p>
+<hr />
+<h3>The Progression</h3>
+<p>Step back and look at the three texts together.</p>
+<p>Proverbs 29:18 gives the principle: when the prophetic word is absent, the people cast off restraint. This is the law of spiritual gravity. It is always true, everywhere, in every generation.</p>
+<p>First Samuel 3:1 gives the early stage: word from the Lord was rare in those days, visions were infrequent. The silence is beginning. It is not total. There is still a voice, but it is faint. The cause is visible — leaders who do not know the Lord, who honor their own interests above God&rsquo;s word, who allow corruption to stand because confronting it would cost too much. The word grows rare not because God has stopped speaking, but because the people responsible for delivering it have failed.</p>
+<p>Amos 8:11-12 gives the final stage: a famine of hearing the words of the Lord. People searching and unable to find. Staggering. Disoriented. Desperate for a word that is no longer available to them. The silence is now complete — not because there was no word, but because the word was ignored for so long that God withdrew it. The structure of worship is still standing. The buildings are open. The songs are still being sung. But the word is gone, and no one can find it, and the bones are dry.</p>
+<p>This is the progression: scarcity, then famine, then silence, then death.</p>
+<p>And the progression is not ancient history. It is a pattern, and patterns repeat. Every element Amos described — the elaborate worship disconnected from the word, the external structure without internal substance, the people who have religion but not revelation — exists somewhere today. The question is not whether the pattern can recur. The question is whether anyone will recognize it while the word is merely scarce, before the famine sets in.</p>
+<p>Because there is a detail in Amos that deserves close attention. When the famine comes, the people search. They stagger from sea to sea looking for the word of the Lord. That means they eventually realize it is gone. They eventually feel the hunger. But by then, the text says, they will not find it.</p>
+<p>The time to seek the word is not during the famine. It is before the famine. It is while the word is still available — while it is merely rare, merely infrequent, merely being neglected rather than removed. Proverbs 29:18 is not a eulogy. It is a warning. And warnings are only useful to people who hear them before the thing they warn about arrives.</p>
+<p>The word of God does not go silent without cause. In every case Scripture records, the silence was preceded by neglect. Someone stopped speaking. Someone stopped listening. Someone decided that the form was enough and the substance could be quietly set aside.</p>
+<p>That is how the breath leaves. That is how the bones begin to dry.</p>
+<p>But who was supposed to be speaking? And what happened when they stopped?</p>
+<p>That is where we turn next.</p>
+      </div>
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-02.html">&larr; Previous Chapter</a>
+          <a href="chapter-04.html">Next Chapter &rarr;</a>
+        </div>
+        <p class="copyright">Can These Bones Live? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'canTheseBonesLive_progress';
+    var CH = 'ch3';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      if (p[CH] === 'complete') {
+        p[CH] = 'visited';
+      } else {
+        p[CH] = 'complete';
+      }
+      saveProgress(p);
+      updateUI();
+    }
+
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') {
+        el.classList.add('completed');
+      } else {
+        el.classList.remove('completed');
+      }
+    }
+
+    function goToChapter(url) {
+      if (url) window.location.href = url;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) {
+        p[CH] = 'visited';
+        saveProgress(p);
+      }
+      updateUI();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-02.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-04.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>
