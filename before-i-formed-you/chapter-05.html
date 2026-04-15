@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Five: Gleaning at the Edges | Before I Formed You</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C4A060;
+      --accent-glow: rgba(196, 160, 96, 0.4);
+      --accent-soft: rgba(196, 160, 96, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(196, 160, 96,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139, 155, 122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(196, 160, 96,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139, 155, 122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196, 160, 96,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139, 155, 122,0.15),
+        0 0 80px rgba(196, 160, 96,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(196, 160, 96,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(196, 160, 96,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(196, 160, 96,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(196, 160, 96,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(196, 160, 96,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(196, 160, 96,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C4A060' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(196, 160, 96,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139, 155, 122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(196, 160, 96,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139, 155, 122,0.08);
+      border: 1px solid rgba(139, 155, 122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139, 155, 122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">&larr; Table of Contents</a>
+        <select onchange="if(this.value)location=this.value">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="chapter-01.html">Chapter One: El Roi: The God Who Sees You</option>
+          <option value="chapter-02.html">Chapter Two: Fearfully and Wonderfully Made</option>
+          <option value="chapter-03.html">Chapter Three: A Basket in the River</option>
+          <option value="chapter-04.html">Chapter Four: A Prayer Through Tears</option>
+          <option value="chapter-05.html" selected>Chapter Five: Gleaning at the Edges</option>
+          <option value="chapter-06.html">Chapter Six: The Least Likely</option>
+          <option value="chapter-07.html">Chapter Seven: Be It Done to Me</option>
+          <option value="chapter-08.html">Chapter Eight: For Such a Time as This</option>
+          <option value="closing.html">You Are Not Alone</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER FIVE</p>
+        <h1>Gleaning at the Edges</h1>
+      </header>
+
+      <div class="content">
+        <p>I want to tell you about a woman who had every reason to walk away — and didn&rsquo;t.</p>
+<p>Her name was Ruth.</p>
+<p>She was not a Hebrew. She was a Moabite — a foreigner from a nation that had no part in God&rsquo;s covenant with Israel. She married a young Hebrew man whose family had left Bethlehem during a famine and settled in Moab. For a time, she had a husband and a home.</p>
+<p>Then her husband died. So did his brother. So did his father. Three men, all gone — leaving Ruth, her sister-in-law Orpah, and her mother-in-law Naomi with nothing.</p>
+<p>Naomi decided to return to Bethlehem. She had heard that God had visited His people and given them food. She told both daughters-in-law to go home — back to their own mothers, back to Moab, back to whatever life they could rebuild among their own people.</p>
+<p>Orpah wept and went.</p>
+<p>Ruth refused.</p>
+<p>&ldquo;Do not urge me to leave you or turn back from following you; for where you go, I will go, and where you lodge, I will lodge. Your people shall be my people, and your God, my God. Where you die, I will die, and there I will be buried. Thus may the Lord do to me, and worse, if anything but death parts you and me&rdquo; (Ruth 1:16-17).</p>
+<p>She had nothing to gain by staying. Naomi was old and empty-handed. There was no inheritance waiting in Bethlehem. There was no husband lined up, no home prepared, no plan. Ruth was choosing to leave her own country, her own family, and her own gods to follow a bitter old woman back to a land where Ruth would be an outsider.</p>
+<p>She went anyway.</p>
+<p>When they arrived in Bethlehem, Naomi told the women of the town not to call her Naomi — a name that means &ldquo;pleasant&rdquo; — but to call her Mara, meaning &ldquo;bitter,&rdquo; because the Almighty had dealt very bitterly with her (Ruth 1:20).</p>
+<p>That was the situation. A bitter widow and a foreign daughter-in-law, alone, with nothing.</p>
+<p>And Ruth went to work.</p>
+<p>There was a law in Israel that God had given long before Ruth ever arrived. When His people harvested their fields, they were not to reap all the way to the edges. They were not to go back for what they dropped. The corners and the scraps were to be left for the poor, the widow, and the foreigner (Leviticus 19:9-10).</p>
+<p>Ruth was all three.</p>
+<p>&ldquo;Please let me go to the field and glean among the ears of grain after one in whose sight I may find favor,&rdquo; she said to Naomi (Ruth 2:2). She was asking permission to go pick up what other people left behind. That was her life. That was her plan. Scraps from the edges of someone else&rsquo;s field.</p>
+<p>She came to the field belonging to a man named Boaz — a relative of Naomi&rsquo;s dead husband. The text says she &ldquo;happened&rdquo; to come there (Ruth 2:3). But by now you may be starting to notice how God works.</p>
+<p>Boaz noticed her. He asked his servants who she was. And then he told her to stay in his field, to drink from his workers&rsquo; water, and not to be afraid. When Ruth fell on her face and asked why he would show kindness to a foreigner, Boaz answered:</p>
+<p>&ldquo;All that you have done for your mother-in-law after the death of your husband has been fully reported to me, and how you left your father and your mother and the land of your birth, and came to a people that you did not previously know. May the Lord reward your work, and your wages be full from the Lord, the God of Israel, under whose wings you have come to seek refuge&rdquo; (Ruth 2:11-12).</p>
+<p>Under whose wings you have come to seek refuge.</p>
+<p>Ruth hadn&rsquo;t come to Bethlehem with a plan. She had come with nothing but loyalty to Naomi and a willingness to trust a God she barely knew. And God saw her — not the circumstances, but the woman.</p>
+<p>What happened next unfolded in ways Ruth could not have predicted. Boaz was a kinsman-redeemer — a relative who had the right under Israelite law to marry a widow and carry on her dead husband&rsquo;s name. Naomi saw what God was doing before Ruth did. She sent Ruth to Boaz, and Boaz accepted the responsibility willingly.</p>
+<p>&ldquo;So Boaz took Ruth, and she became his wife&hellip; And the Lord enabled her to conceive, and she gave birth to a son&rdquo; (Ruth 4:13).</p>
+<p>And when the child was born, the women of Bethlehem gathered around Naomi — the woman who had called herself bitter, who had said that God had dealt harshly with her — and they said:</p>
+<p>&ldquo;Blessed is the Lord who has not left you without a redeemer today&hellip; May he also be to you a restorer of life and a sustainer of your old age; for your daughter-in-law, who loves you and is better to you than seven sons, has given birth to him&rdquo; (Ruth 4:14-15).</p>
+<p>Better to you than seven sons.</p>
+<p>Naomi took the child and laid him in her lap. The neighbor women named him Obed (Ruth 4:16-17).</p>
+<p>Obed became the father of Jesse. Jesse became the father of David — the greatest king Israel ever had.</p>
+<p>And a thousand years later, when Matthew sat down to record the genealogy of Jesus Christ, he wrote this:</p>
+<p>&ldquo;Boaz was the father of Obed by Ruth, and Obed the father of Jesse&rdquo; (Matthew 1:5).</p>
+<p>Ruth. A Moabite widow with no status, no security, and no claim on any of God&rsquo;s promises to Israel. A woman who spent her days picking up scraps at the edges of someone else&rsquo;s field.</p>
+<p>She is in the lineage of Jesus Christ.</p>
+<p>God did not need Ruth&rsquo;s circumstances to be right. He needed her.</p>
+<p>And He had already made provision for her before she ever set foot in Bethlehem. The law that left grain at the edges of the field was written centuries before Ruth arrived. The kinsman-redeemer who would marry her was already living in Bethlehem. The child she would carry was already written in God&rsquo;s book.</p>
+<p>What she needed was already there. She just couldn&rsquo;t see it yet.</p>
+      </div>
+
+      <div class="nav-controls" style="margin-top:28px;">
+        <a href="chapter-04.html">&larr; A Prayer Through Tears</a>
+        <a href="chapter-06.html">The Least Likely &rarr;</a>
+      </div>
+
+      <footer>
+        <p class="copyright">Before I Formed You &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    (function() {
+      var PROGRESS_KEY = 'beforeIFormedYou_progress';
+      var CH = 5;
+      try {
+        var p = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+        if (!p['ch' + CH]) {
+          p['ch' + CH] = 'visited';
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

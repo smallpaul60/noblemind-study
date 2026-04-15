@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Two: Fearfully and Wonderfully Made | Before I Formed You</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C4A060;
+      --accent-glow: rgba(196, 160, 96, 0.4);
+      --accent-soft: rgba(196, 160, 96, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(196, 160, 96,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139, 155, 122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(196, 160, 96,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139, 155, 122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196, 160, 96,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139, 155, 122,0.15),
+        0 0 80px rgba(196, 160, 96,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(196, 160, 96,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(196, 160, 96,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(196, 160, 96,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(196, 160, 96,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(196, 160, 96,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(196, 160, 96,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C4A060' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(196, 160, 96,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139, 155, 122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(196, 160, 96,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139, 155, 122,0.08);
+      border: 1px solid rgba(139, 155, 122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139, 155, 122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">&larr; Table of Contents</a>
+        <select onchange="if(this.value)location=this.value">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="chapter-01.html">Chapter One: El Roi: The God Who Sees You</option>
+          <option value="chapter-02.html" selected>Chapter Two: Fearfully and Wonderfully Made</option>
+          <option value="chapter-03.html">Chapter Three: A Basket in the River</option>
+          <option value="chapter-04.html">Chapter Four: A Prayer Through Tears</option>
+          <option value="chapter-05.html">Chapter Five: Gleaning at the Edges</option>
+          <option value="chapter-06.html">Chapter Six: The Least Likely</option>
+          <option value="chapter-07.html">Chapter Seven: Be It Done to Me</option>
+          <option value="chapter-08.html">Chapter Eight: For Such a Time as This</option>
+          <option value="closing.html">You Are Not Alone</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER TWO</p>
+        <h1>Fearfully and Wonderfully Made</h1>
+      </header>
+
+      <div class="content">
+        <p>Now I want to tell you something about yourself that you may have never heard — or maybe you&rsquo;ve heard it so many times it stopped meaning anything. I want you to hear it again, right now, as if for the first time.</p>
+<p>You were made on purpose.</p>
+<p>Not by accident. Not by chance. Not as the result of circumstances that spun out of control. You — the woman reading this — were deliberately, carefully, intentionally formed by the hands of God.</p>
+<p>David wrote these words three thousand years ago, and they are as true today as the moment he set them down:</p>
+<p>&ldquo;For You formed my inward parts; You wove me in my mother&rsquo;s womb. I will give thanks to You, for I am fearfully and wonderfully made; wonderful are Your works, and my soul knows it very well. My frame was not hidden from You, when I was made in secret, and skillfully wrought in the depths of the earth; Your eyes have seen my unformed substance; and in Your book were all written the days that were ordained for me, when as yet there was not one of them.&rdquo; (Psalm 139:13-16)</p>
+<p>Read that again slowly if you need to.</p>
+<p>He <em>formed</em> your inward parts. He <em>wove</em> you. Those aren&rsquo;t words of accident. Those are words of craft — the careful, deliberate work of Someone who knew exactly what He was making. Your days were written in His book before you lived a single one of them.</p>
+<p>Before your mother knew she was carrying you, God was already at work. Before anyone had an opinion about whether you should exist, God had already decided. Before your life became complicated, before anything happened to you that you wish hadn&rsquo;t happened, before every mistake and every wound and every moment that brought you to where you are sitting right now — God had already written your name.</p>
+<p>You were not an afterthought. You were a first thought.</p>
+<p>And here is where I need you to be very still and very honest with yourself.</p>
+<p>The same God who wove you together is weaving right now.</p>
+<p>The same hands that formed your inward parts are forming another set of inward parts at this very moment. The same eyes that saw your unformed substance see another unformed substance — right now, inside of you. And the same book that held your days before you lived them holds another set of days that have not yet been lived.</p>
+<p>God spoke through the prophet Jeremiah and said, &ldquo;Before I formed you in the womb I knew you, and before you were born I consecrated you&rdquo; (Jeremiah 1:5).</p>
+<p>Before I formed you. Not after. Not once you were viable. Not once you were wanted. Not once the circumstances were right. <em>Before.</em></p>
+<p>God&rsquo;s knowledge of this child did not begin when you found out you were pregnant. It did not begin at conception. It began before — in the mind of God, in the purposes of God, in the book where He writes the days of those He is forming.</p>
+<p>I am not telling you this to make you feel guilty. Guilt is not what you need right now, and it is not what God is offering you. I am telling you this because you deserve to know the truth about what is happening inside of you. Not what the world says is happening. Not what fear says is happening. What <em>God</em> says is happening.</p>
+<p>He is making someone. He knows her. He knew her before you did. He is weaving her together the same way He wove you together — carefully, deliberately, fearfully and wonderfully. Her days are already written. Her story has already begun.</p>
+<p>You may not have planned this. But God did.</p>
+<p>That does not make your situation easy. It does not answer every question you have. It does not solve the problems that feel so overwhelming right now that you can barely breathe.</p>
+<p>But carry this with you into the next chapter: the life inside you is not an accident any more than you are an accident. The same God who saw you — El Roi, the God who sees — sees this child too. He is not distant from what is happening. He is in the middle of it, doing what He has always done.</p>
+<p>He is making someone.</p>
+<p>And He has done this before.</p>
+      </div>
+
+      <div class="nav-controls" style="margin-top:28px;">
+        <a href="chapter-01.html">&larr; El Roi: The God Who Sees You</a>
+        <a href="chapter-03.html">A Basket in the River &rarr;</a>
+      </div>
+
+      <footer>
+        <p class="copyright">Before I Formed You &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    (function() {
+      var PROGRESS_KEY = 'beforeIFormedYou_progress';
+      var CH = 2;
+      try {
+        var p = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+        if (!p['ch' + CH]) {
+          p['ch' + CH] = 'visited';
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

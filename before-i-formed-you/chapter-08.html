@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Eight: For Such a Time as This | Before I Formed You</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C4A060;
+      --accent-glow: rgba(196, 160, 96, 0.4);
+      --accent-soft: rgba(196, 160, 96, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(196, 160, 96,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139, 155, 122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(196, 160, 96,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139, 155, 122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196, 160, 96,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139, 155, 122,0.15),
+        0 0 80px rgba(196, 160, 96,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(196, 160, 96,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(196, 160, 96,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(196, 160, 96,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(196, 160, 96,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(196, 160, 96,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(196, 160, 96,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C4A060' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(196, 160, 96,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139, 155, 122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(196, 160, 96,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139, 155, 122,0.08);
+      border: 1px solid rgba(139, 155, 122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139, 155, 122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">&larr; Table of Contents</a>
+        <select onchange="if(this.value)location=this.value">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="chapter-01.html">Chapter One: El Roi: The God Who Sees You</option>
+          <option value="chapter-02.html">Chapter Two: Fearfully and Wonderfully Made</option>
+          <option value="chapter-03.html">Chapter Three: A Basket in the River</option>
+          <option value="chapter-04.html">Chapter Four: A Prayer Through Tears</option>
+          <option value="chapter-05.html">Chapter Five: Gleaning at the Edges</option>
+          <option value="chapter-06.html">Chapter Six: The Least Likely</option>
+          <option value="chapter-07.html">Chapter Seven: Be It Done to Me</option>
+          <option value="chapter-08.html" selected>Chapter Eight: For Such a Time as This</option>
+          <option value="closing.html">You Are Not Alone</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER EIGHT</p>
+        <h1>For Such a Time as This</h1>
+      </header>
+
+      <div class="content">
+        <p>Every woman you have met in this booklet faced a moment she did not choose.</p>
+<p>Hagar did not choose to be sent into the desert. Jochebed did not choose the death sentence on her son. Hannah did not choose her barrenness. Ruth did not choose to be widowed and left with nothing. Rahab did not choose to be born inside the walls of a condemned city. Mary did not choose the timing or the circumstances of what God asked her to carry.</p>
+<p>None of them could see what was coming. All of them carried something that mattered more than they knew.</p>
+<p>I want to tell you one more story. This one is different from the others. It is not about a woman who was pregnant. It is about a woman who was born — and what she became because her mother carried her.</p>
+<p>Her name was Esther.</p>
+<p>She was a Jewish orphan, raised by her cousin Mordecai in the capital of the Persian Empire. She had no parents. She had no position. She had nothing that would have made anyone in that empire look at her twice.</p>
+<p>And then the king of Persia dismissed his queen and began searching for a replacement. Esther was taken into the palace along with many other young women. The king chose her. She became queen of Persia — though no one in the court knew she was Jewish. Mordecai had told her not to reveal it (Esther 2:10).</p>
+<p>For a time, that was the whole story. A Jewish girl in a foreign palace, keeping her identity hidden, living a life no one could have predicted for her.</p>
+<p>Then a man named Haman rose to power.</p>
+<p>Haman was second only to the king. He demanded that everyone bow to him, and everyone did — except Mordecai. Mordecai refused. And Haman&rsquo;s response was not simply to punish one man. He decided to destroy every Jew in the entire empire.</p>
+<p>He went to the king and obtained a decree — signed, sealed, and distributed to every province — that on a specific day, all Jews, young and old, women and children, were to be killed and their possessions plundered (Esther 3:13).</p>
+<p>Every single one. An entire people marked for slaughter by the law of the land.</p>
+<p>Mordecai sent word to Esther. He told her what was coming. He told her she had to go to the king and plead for her people. But there was a problem. Anyone who approached the king without being summoned could be put to death — unless the king extended his golden scepter. Esther had not been summoned in thirty days (Esther 4:11).</p>
+<p>Going to the king meant risking her life. Staying silent meant watching her people die.</p>
+<p>And Mordecai said this:</p>
+<p>&ldquo;For if you remain silent at this time, relief and deliverance will arise for the Jews from another place and you and your father&rsquo;s house will perish. And who knows whether you have not attained royalty for such a time as this?&rdquo; (Esther 4:14).</p>
+<p>For such a time as this.</p>
+<p>Not for comfort. Not for position. Not for safety. For <em>this</em> — the moment when everything depended on her being exactly where she was.</p>
+<p>Esther sent her answer back to Mordecai:</p>
+<p>&ldquo;Go, assemble all the Jews who are found in Susa, and fast for me; do not eat or drink for three days, night or day. I and my maidens also will fast in the same way. And so I will go in to the king, which is not according to the law; and if I perish, I perish&rdquo; (Esther 4:16).</p>
+<p>If I perish, I perish.</p>
+<p>She went. The king extended his scepter. And through a series of events that only God could have orchestrated — a sleepless night, a forgotten record of Mordecai&rsquo;s loyalty, a banquet that exposed Haman&rsquo;s plot — the decree was reversed. Haman was executed on the very gallows he had built for Mordecai. And the Jewish people were saved (Esther 5-9).</p>
+<p>An entire nation — preserved — because one woman was in the right place at the right time and had the courage to act.</p>
+<p>But here is what I want you to see.</p>
+<p>Esther did not place herself in the palace. She did not engineer her own rise to queen. She did not arrange the circumstances that put her in the one position where she could save her people. God did all of that. And He did it long before the crisis came — before Haman&rsquo;s hatred, before the decree, before the gallows were built.</p>
+<p>He did it when Esther was born.</p>
+<p>Every woman in this booklet carried a child whose purpose she could not see. Moses delivered a nation. Samuel anointed kings. Obed became the grandfather of David. Boaz showed mercy because his mother had been shown mercy. Jesus saved the world.</p>
+<p>Esther saved her people. And none of it happens if her mother does not carry her.</p>
+<p>You do not know who the child inside you will become. You cannot see it. No one is asking you to see it. Hagar couldn&rsquo;t. Jochebed couldn&rsquo;t. Hannah couldn&rsquo;t. Ruth couldn&rsquo;t. Rahab couldn&rsquo;t. Mary couldn&rsquo;t.</p>
+<p>But God can.</p>
+<p>And who knows whether this child has come for such a time as this.</p>
+      </div>
+
+      <div class="nav-controls" style="margin-top:28px;">
+        <a href="chapter-07.html">&larr; Be It Done to Me</a>
+        <a href="closing.html">You Are Not Alone &rarr;</a>
+      </div>
+
+      <footer>
+        <p class="copyright">Before I Formed You &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    (function() {
+      var PROGRESS_KEY = 'beforeIFormedYou_progress';
+      var CH = 8;
+      try {
+        var p = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+        if (!p['ch' + CH]) {
+          p['ch' + CH] = 'visited';
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

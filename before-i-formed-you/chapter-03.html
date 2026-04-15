@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Three: A Basket in the River | Before I Formed You</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #b8b0a2;
+      --text-muted: #8a8278;
+      --accent: #C4A060;
+      --accent-glow: rgba(196, 160, 96, 0.4);
+      --accent-soft: rgba(196, 160, 96, 0.12);
+      --accent-secondary: #8B9B7A;
+      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
+      --scripture-border: #8B9B7A;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(196, 160, 96,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(139, 155, 122,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(196, 160, 96,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(139, 155, 122,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196, 160, 96,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(139, 155, 122,0.15),
+        0 0 80px rgba(196, 160, 96,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(196, 160, 96,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(196, 160, 96,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(196, 160, 96,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(196, 160, 96,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(196, 160, 96,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(196, 160, 96,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 180px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C4A060' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option { background: var(--bg-dark); color: var(--text-primary); }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(196, 160, 96,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px;
+      margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(139, 155, 122,0.04);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .divider {
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.4;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(196, 160, 96,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(139, 155, 122,0.08);
+      border: 1px solid rgba(139, 155, 122,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(139, 155, 122,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">&larr; Table of Contents</a>
+        <select onchange="if(this.value)location=this.value">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="chapter-01.html">Chapter One: El Roi: The God Who Sees You</option>
+          <option value="chapter-02.html">Chapter Two: Fearfully and Wonderfully Made</option>
+          <option value="chapter-03.html" selected>Chapter Three: A Basket in the River</option>
+          <option value="chapter-04.html">Chapter Four: A Prayer Through Tears</option>
+          <option value="chapter-05.html">Chapter Five: Gleaning at the Edges</option>
+          <option value="chapter-06.html">Chapter Six: The Least Likely</option>
+          <option value="chapter-07.html">Chapter Seven: Be It Done to Me</option>
+          <option value="chapter-08.html">Chapter Eight: For Such a Time as This</option>
+          <option value="closing.html">You Are Not Alone</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THREE</p>
+        <h1>A Basket in the River</h1>
+      </header>
+
+      <div class="content">
+        <p>I want to tell you about a mother whose name you may have never heard.</p>
+<p>Her name was Jochebed.</p>
+<p>You probably know her son. The whole world knows her son. But almost no one talks about her — the woman who carried him, delivered him, and then did the hardest thing a mother can imagine doing.</p>
+<p>She let him go.</p>
+<p>Jochebed was a Hebrew woman living in Egypt at a time when her people were slaves. Pharaoh — the king of Egypt — had grown afraid of the Hebrews because there were so many of them. He was afraid they would rise up against him. So he gave an order that is difficult to even read:</p>
+<p>&ldquo;Every son who is born you are to cast into the Nile&rdquo; (Exodus 1:22).</p>
+<p>Every son. Not some. Not the ones who caused trouble. Every single one.</p>
+<p>Jochebed was pregnant. She was a slave. And the most powerful man in the world had just ordered that if her baby was a boy, he was to be thrown into the river to drown.</p>
+<p>There was no one to appeal to. No court. No protest. No rights. She was a slave under the absolute authority of a king who had decided her child should die.</p>
+<p>And the baby was a boy.</p>
+<p>The Scripture says, &ldquo;The woman conceived and bore a son; and when she saw that he was beautiful, she hid him for three months&rdquo; (Exodus 2:2).</p>
+<p>Three months of hiding a newborn baby — keeping him quiet, keeping him out of sight, knowing that every cry could bring soldiers to her door. Three months of nursing a child she had been told had no right to live. Three months of loving someone she might not be able to keep.</p>
+<p>And then she couldn&rsquo;t hide him any longer.</p>
+<p>&ldquo;She got him a wicker basket and covered it over with tar and pitch. Then she put the child into it and set it among the reeds by the bank of the Nile&rdquo; (Exodus 2:3).</p>
+<p>She waterproofed a basket, placed her baby inside, and set him in the river.</p>
+<p>This was not a woman who didn&rsquo;t want her child. This was a woman who wanted him so desperately that she did the only thing she could think of to save his life — even though it meant she might never see him again. She couldn&rsquo;t protect him anymore. She couldn&rsquo;t hide him anymore. So she built the only thing she could build — a tiny vessel just big enough to hold him — and she placed him in God&rsquo;s hands.</p>
+<p>She didn&rsquo;t know what would happen next. She had no guarantee anyone would find him, let alone someone who would care for him. She set her baby in the water and she let go.</p>
+<p>His sister Miriam stood at a distance to watch (Exodus 2:4). But Jochebed — the text doesn&rsquo;t say she watched. The text says she put him in the reeds and that was it. The next voice we hear is Pharaoh&rsquo;s daughter, coming down to bathe, seeing the basket, opening it, and finding a baby crying.</p>
+<p>&ldquo;She had pity on him and said, &lsquo;This is one of the Hebrews&rsquo; children&rsquo;&rdquo; (Exodus 2:6).</p>
+<p>She knew exactly who this baby was — a child her own father had condemned to death. And she had pity on him.</p>
+<p>Miriam stepped forward and asked if she should find a Hebrew woman to nurse the child. Pharaoh&rsquo;s daughter said yes. And Miriam went and brought the baby&rsquo;s own mother (Exodus 2:7-8).</p>
+<p>&ldquo;Then Pharaoh&rsquo;s daughter said to her, &lsquo;Take this child away and nurse him for me and I will give you your wages.&rsquo; So the woman took the child and nursed him&rdquo; (Exodus 2:9).</p>
+<p>Jochebed placed her son in a basket because she had no other option. She let go of the only thing she loved because she couldn&rsquo;t save him herself. And God put that baby directly into the arms of the one person in all of Egypt who had the power to protect him — and then God gave him back to his own mother to nurse, and paid her to do it.</p>
+<p>She couldn&rsquo;t see any of that when she set the basket in the water. She couldn&rsquo;t see Pharaoh&rsquo;s daughter coming to bathe. She couldn&rsquo;t see Miriam&rsquo;s quick thinking. She couldn&rsquo;t see any of the threads God was weaving together at that very moment.</p>
+<p>All she could see was a river and a basket and a baby she couldn&rsquo;t keep.</p>
+<p>The baby&rsquo;s name was Moses.</p>
+<p>He grew up in Pharaoh&rsquo;s own household. He was educated, trained, and prepared in ways that no Hebrew slave could have been. And when the time came, God sent him back to Egypt to deliver the entire nation of Israel out of slavery (Exodus 3-14). Millions of people — set free — because one mother trusted God with what she could not see.</p>
+<p>Jochebed could not have imagined any of it. Not the deliverance. Not the parting of the Red Sea. Not the Ten Commandments. Not the nation that Moses would lead to the edge of the Promised Land. She couldn&rsquo;t see forty years into the future. She could barely see past the reeds at the edge of the Nile.</p>
+<p>But God could.</p>
+<p>You cannot see what God sees. You cannot know what this child will become, who this child will touch, what purpose God is already writing into the days that have not yet been lived. You don&rsquo;t have to see it. Jochebed didn&rsquo;t see it either.</p>
+<p>She just built a basket. And she trusted the God who sees.</p>
+      </div>
+
+      <div class="nav-controls" style="margin-top:28px;">
+        <a href="chapter-02.html">&larr; Fearfully and Wonderfully Made</a>
+        <a href="chapter-04.html">A Prayer Through Tears &rarr;</a>
+      </div>
+
+      <footer>
+        <p class="copyright">Before I Formed You &copy; Paul &amp; Pam Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    (function() {
+      var PROGRESS_KEY = 'beforeIFormedYou_progress';
+      var CH = 3;
+      try {
+        var p = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {};
+        if (!p['ch' + CH]) {
+          p['ch' + CH] = 'visited';
+          localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+        }
+      } catch(e) {}
+    })();
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>
