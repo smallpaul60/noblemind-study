@@ -98,14 +98,10 @@ def build_cover(target_w, target_h):
     title_y = int(target_h * 0.05)
     center_text(title_y, "Bridge Moments", f_title, WHITE)
 
-    # Subtitle + tagline in black, lower where the sky is warm amber.
+    # Subtitle in black, just below, where the sky begins to warm.
     subtitle_y = title_y + int(title_size * 1.1)
     center_text(subtitle_y, "Making the Most of Every Opportunity",
                 f_subtitle, BLACK)
-
-    tagline_y = subtitle_y + int(subtitle_size * 1.5)
-    center_text(tagline_y, "A Bible Study on Conversational Evangelism",
-                f_tagline, BLACK)
 
     # Author + imprint at the bottom, over the darkened foreground.
     author_y  = target_h - int(target_h * 0.09)
