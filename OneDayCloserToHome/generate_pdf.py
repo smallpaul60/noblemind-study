@@ -22,7 +22,7 @@ import weasyprint
 
 BOOK_DIR = Path(__file__).parent
 OUTPUT = BOOK_DIR / "One_Day_Closer_to_Home.pdf"
-COVER_IMAGE = BOOK_DIR / "One Day Closer to Home.png"
+COVER_IMAGE = BOOK_DIR / "cover_front.jpg"
 FONT_DIR = Path.home() / ".local/share/fonts"
 
 CHAPTERS = [
@@ -60,97 +60,14 @@ SCRIPTURE_RE = re.compile(
 
 
 def generate_cover_image():
-    """Create cover image with title and author overlaid."""
-    src = Image.open(COVER_IMAGE).convert("RGB")
-    src_w, src_h = src.size
+    """Return the composed cover_front.jpg as base64 for embedding.
 
-    # Target: 5.5 x 8.5 portrait at high res
-    cover_w, cover_h = 1650, 2550
-    target_ratio = cover_w / cover_h
-    src_ratio = src_w / src_h
-
-    # Scale to fill the cover completely, then center-crop any overflow
-    if src_ratio > target_ratio:
-        # Source is wider — scale by height, crop sides
-        scale = cover_h / src_h
-        new_h = cover_h
-        new_w = int(src_w * scale)
-        img_scaled = src.resize((new_w, new_h), Image.LANCZOS)
-        left = (new_w - cover_w) // 2
-        img_scaled = img_scaled.crop((left, 0, left + cover_w, cover_h))
-    else:
-        # Source is taller or exact — scale by width, crop top/bottom
-        scale = cover_w / src_w
-        new_w = cover_w
-        new_h = int(src_h * scale)
-        img_scaled = src.resize((new_w, new_h), Image.LANCZOS)
-        top = (new_h - cover_h) // 2
-        img_scaled = img_scaled.crop((0, top, cover_w, top + cover_h))
-
-    img_rgba = img_scaled.convert("RGBA")
-
-    # No dark overlays — let the painting speak for itself
-    draw = ImageDraw.Draw(img_rgba)
-    w, h = cover_w, cover_h
-
-    # Deep navy with warm cream outline for readability on dark painting
-    title_color = (15, 25, 52)
-    subtitle_color = (30, 40, 65)
-    author_color = (15, 25, 52)
-    outline_color = (240, 220, 180, 90)  # warm cream, semi-transparent
-
-    # Load fonts
-    try:
-        font_title = ImageFont.truetype(str(FONT_DIR / "EBGaramond.ttf"), 82)
-        font_subtitle = ImageFont.truetype(str(FONT_DIR / "EBGaramond-Italic.ttf"), 34)
-        font_author = ImageFont.truetype(str(FONT_DIR / "EBGaramond.ttf"), 42)
-    except OSError:
-        font_title = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf", 74)
-        font_subtitle = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf", 32)
-        font_author = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf", 40)
-
-    # Title — navy with thin warm outline
-    lines = ["One Day Closer", "to Home"]
-    y_pos = 80
-    for line in lines:
-        bbox = draw.textbbox((0, 0), line, font=font_title)
-        tw = bbox[2] - bbox[0]
-        x = (w - tw) // 2
-        for dx in range(-3, 4):
-            for dy in range(-3, 4):
-                draw.text((x + dx, y_pos + dy), line, font=font_title, fill=outline_color)
-        draw.text((x, y_pos), line, font=font_title, fill=title_color)
-        y_pos += 110
-
-    # Subtitle
-    subtitle = "A Book of Hope for Those in the Final Chapters"
-    bbox = draw.textbbox((0, 0), subtitle, font=font_subtitle)
-    tw = bbox[2] - bbox[0]
-    x = (w - tw) // 2
-    for dx in range(-2, 3):
-        for dy in range(-2, 3):
-            draw.text((x + dx, y_pos + 30 + dy), subtitle, font=font_subtitle, fill=outline_color)
-    draw.text((x, y_pos + 30), subtitle, font=font_subtitle, fill=subtitle_color)
-
-    # Author at bottom
-    author_text = "Paul Hainline"
-    bbox = draw.textbbox((0, 0), author_text, font=font_author)
-    tw = bbox[2] - bbox[0]
-    x = (w - tw) // 2
-    y = h - 130
-    for dx in range(-3, 4):
-        for dy in range(-3, 4):
-            draw.text((x + dx, y + dy), author_text, font=font_author, fill=outline_color)
-    draw.text((x, y), author_text, font=font_author, fill=author_color)
-
-    # Convert back to RGB for PDF
-    final = Image.new("RGB", img_rgba.size, (255, 255, 255))
-    final.paste(img_rgba, mask=img_rgba.split()[3])
-
-    # Save to bytes
-    buf = BytesIO()
-    final.save(buf, format="PNG", quality=95)
-    return base64.b64encode(buf.getvalue()).decode("ascii")
+    The cover (with title + author typography baked in) is produced by
+    generate_cover.py — this function just reads it so the PDF and the
+    website card show the same image.
+    """
+    with open(COVER_IMAGE, "rb") as f:
+        return base64.b64encode(f.read()).decode("ascii")
 
 
 def extract_content(filepath):
@@ -622,7 +539,7 @@ def build_full_html(cover_b64, chapter_sections, toc_html, scripture_index_html)
 
   <!-- COVER PAGE -->
   <div class="cover-page">
-    <img src="data:image/png;base64,{cover_b64}" alt="Cover">
+    <img src="data:image/jpeg;base64,{cover_b64}" alt="Cover">
   </div>
 
   <!-- TITLE PAGE -->

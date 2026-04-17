@@ -181,9 +181,11 @@ def main():
     book.add_metadata("DC", "description", DESCRIPTION)
     book.add_metadata("DC", "rights", f"\u00a9 {YEAR} Paul Hainline. All Rights Reserved.")
 
-    cover_path = BOOK_DIR / "One Day Closer to Home.png"
+    # Use the composed cover_front.jpg so the EPUB, PDF, and website card
+    # all show the same image with matching title typography.
+    cover_path = BOOK_DIR / "cover_front.jpg"
     if cover_path.exists():
-        book.set_cover("cover.png", cover_path.read_bytes())
+        book.set_cover("cover.jpg", cover_path.read_bytes())
         print(f"  Cover: {cover_path.name}")
 
     css = epub.EpubItem(uid="style", file_name="style/book.css", media_type="text/css", content=BOOK_CSS.encode("utf-8"))
