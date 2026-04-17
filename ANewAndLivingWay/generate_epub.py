@@ -342,10 +342,11 @@ def main():
     book.add_metadata("DC", "description", DESCRIPTION)
     book.add_metadata("DC", "rights", f"\u00a9 {YEAR} Paul Hainline. All Rights Reserved.")
 
-    # Cover image
-    cover_path = BOOK_DIR / "lord_teach_us_to_pray.png"
+    # Cover image — use the composed cover_front.jpg so the EPUB, PDF,
+    # and website card all show the same image with matching typography.
+    cover_path = BOOK_DIR / "cover_front.jpg"
     if cover_path.exists():
-        book.set_cover("cover.png", cover_path.read_bytes())
+        book.set_cover("cover.jpg", cover_path.read_bytes())
         print(f"  Cover: {cover_path.name}")
 
     # Stylesheet
