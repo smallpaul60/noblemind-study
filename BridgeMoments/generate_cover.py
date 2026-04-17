@@ -25,10 +25,10 @@ OUT_THUMB    = BOOK_DIR / "cover_thumb.jpg"
 # Final canvas — 5.5 x 8.5 inch ratio (0.647) rendered at ~200dpi.
 W, H = 1100, 1700
 
-# Typography colors (pulled from the artwork's warm palette + warm cream).
-CREAM       = (247, 236, 210)
-CREAM_SOFT  = (230, 218, 190)
-DARK_SKY    = (22, 18, 26)
+# Typography colors
+CREAM       = (247, 236, 210)  # author / imprint, over the darkened foreground
+WHITE       = (255, 255, 255)  # title, sits on the dim upper sky
+BLACK       = (18, 14, 10)     # subtitle + tagline, sits on the warm amber sky
 
 # Fonts — EB Garamond family, all loaded from the local fonts dir.
 FONT_BOLD    = FONT_DIR / "EBGaramond.ttf"   # has Bold face inside
@@ -42,50 +42,23 @@ def load_font(path, size):
 def build_cover(target_w, target_h):
     """Return the composed cover as a PIL RGB image at (target_w, target_h)."""
 
-    # 1. Load the source and match its width to the canvas width, preserving aspect.
+    # 1. Load the source and scale it to COVER the canvas (may exceed in one
+    #    dimension). Then center-crop to the target size. The source is 2:3
+    #    and the book trim is 11:17, so this trims ~33 px total off the
+    #    sides at a 1100-wide canvas — the composition is centered enough
+    #    that trees on both edges survive.
     src = Image.open(SOURCE).convert("RGB")
     sw, sh = src.size
-    scaled_w = target_w
-    scaled_h = int(sh * (scaled_w / sw))
-    src = src.resize((scaled_w, scaled_h), Image.LANCZOS)
+    scale = max(target_w / sw, target_h / sh)
+    new_w = int(round(sw * scale))
+    new_h = int(round(sh * scale))
+    src = src.resize((new_w, new_h), Image.LANCZOS)
+    off_x = (new_w - target_w) // 2
+    off_y = (new_h - target_h) // 2
+    canvas = src.crop((off_x, off_y, off_x + target_w, off_y + target_h))
 
-    # 2. Create the canvas, dark navy like the top of the existing sky.
-    canvas = Image.new("RGB", (target_w, target_h), DARK_SKY)
-
-    # 3. Paste the artwork so the BOTTOM edges align (bridge + path sit where
-    #    they should). The extra space appears as a dark band above the sky.
-    paste_y = target_h - scaled_h
-    canvas.paste(src, (0, paste_y))
-
-    # 4. Blend the top of the artwork into the dark navy band so the join is
-    #    invisible. We sample the top strip of the artwork and fade from the
-    #    dark navy into the image over ~110 pixels. This keeps the existing
-    #    sky gradient continuous.
-    if paste_y > 0:
-        blend_height = 120
-        blend_start_y = paste_y - 20       # overlap 20 px into the artwork
-        if blend_start_y < 0:
-            blend_start_y = 0
-        blend_end_y = paste_y + blend_height
-
-        # Sample the mean color of a thin slice of the artwork's top edge.
-        top_slice = src.crop((0, 0, scaled_w, 1)).resize((1, 1)).getpixel((0, 0))
-        # Slightly darker than the sample for the top band:
-        top_color = tuple(int(c * 0.55) for c in top_slice)
-
-        # Draw a vertical linear gradient from DARK_SKY → top_color
-        overlay = Image.new("RGB", (target_w, blend_end_y - blend_start_y), DARK_SKY)
-        for y in range(overlay.height):
-            t = y / max(overlay.height - 1, 1)
-            r = int(DARK_SKY[0] * (1 - t) + top_color[0] * t)
-            g = int(DARK_SKY[1] * (1 - t) + top_color[1] * t)
-            b = int(DARK_SKY[2] * (1 - t) + top_color[2] * t)
-            for x in range(target_w):
-                overlay.putpixel((x, y), (r, g, b))
-        canvas.paste(overlay, (0, blend_start_y))
-
-    # 5. Slight vignette at the very bottom so the author name reads cleanly
-    #    over the path. A 25%-height gradient from transparent to 45% black.
+    # 2. Slight vignette at the very bottom so the author name reads cleanly
+    #    over the path. A 22%-height gradient from transparent to dark.
     dark_overlay = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
     ov_draw = ImageDraw.Draw(dark_overlay)
     vignette_h = int(target_h * 0.22)
@@ -98,7 +71,7 @@ def build_cover(target_w, target_h):
         )
     canvas = Image.alpha_composite(canvas.convert("RGBA"), dark_overlay).convert("RGB")
 
-    # 6. Typography
+    # 3. Typography
     draw = ImageDraw.Draw(canvas)
 
     # scale sizes to target height so the thumb looks right too
@@ -121,23 +94,24 @@ def build_cover(target_w, target_h):
         tw = bbox[2] - bbox[0]
         draw.text(((target_w - tw) // 2, y), text, font=font, fill=fill)
 
-    # Title block — near the top, inside the sky / extended navy band.
-    title_y = int(target_h * 0.07)
-    center_text(title_y, "Bridge Moments", f_title, CREAM)
+    # Title in white, near the top where the sky is dim (good contrast).
+    title_y = int(target_h * 0.05)
+    center_text(title_y, "Bridge Moments", f_title, WHITE)
 
-    subtitle_y = title_y + int(title_size * 1.15)
+    # Subtitle + tagline in black, lower where the sky is warm amber.
+    subtitle_y = title_y + int(title_size * 1.1)
     center_text(subtitle_y, "Making the Most of Every Opportunity",
-                f_subtitle, CREAM_SOFT)
+                f_subtitle, BLACK)
 
-    tagline_y = subtitle_y + int(subtitle_size * 1.6)
+    tagline_y = subtitle_y + int(subtitle_size * 1.5)
     center_text(tagline_y, "A Bible Study on Conversational Evangelism",
-                f_tagline, CREAM_SOFT)
+                f_tagline, BLACK)
 
     # Author + imprint at the bottom, over the darkened foreground.
     author_y  = target_h - int(target_h * 0.09)
     imprint_y = target_h - int(target_h * 0.045)
     center_text(author_y,  "Paul Hainline",    f_author,  CREAM)
-    center_text(imprint_y, "NOBLEMIND PRESS",  f_imprint, CREAM_SOFT)
+    center_text(imprint_y, "NOBLEMIND PRESS",  f_imprint, CREAM)
 
     return canvas
 
