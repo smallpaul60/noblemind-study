@@ -99,7 +99,9 @@ def build_cover(target_w, target_h):
     center_text(title_y, "Bridge Moments", f_title, WHITE)
 
     # Subtitle in black, just below, where the sky begins to warm.
-    subtitle_y = title_y + int(title_size * 1.1)
+    # Use 1.4x title size so the 'g' descenders in "Bridge" / "Moments"
+    # clear the subtitle baseline.
+    subtitle_y = title_y + int(title_size * 1.4)
     center_text(subtitle_y, "Making the Most of Every Opportunity",
                 f_subtitle, BLACK)
 
