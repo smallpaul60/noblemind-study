@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v148';
+const CACHE_NAME = 'noblemind-study-v149';
 
 // Files to cache for offline use
 const CACHE_FILES = [

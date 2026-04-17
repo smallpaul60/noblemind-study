@@ -22,7 +22,7 @@ import weasyprint
 
 BOOK_DIR = Path(__file__).parent
 OUTPUT = BOOK_DIR / "The_God_Who_Showed_Up.pdf"
-COVER_IMAGE = BOOK_DIR / "TheBurningBush.png"
+COVER_IMAGE = BOOK_DIR / "cover_front.jpg"
 FONT_DIR = Path.home() / ".local/share/fonts"
 
 CHAPTERS = [
@@ -60,92 +60,14 @@ SCRIPTURE_RE = re.compile(
 
 
 def generate_cover_image():
-    """Create cover image with title and author overlaid."""
-    src = Image.open(COVER_IMAGE).convert("RGB")
-    src_w, src_h = src.size
+    """Return the composed cover_front.jpg as base64 for embedding.
 
-    cover_w, cover_h = 1650, 2550
-    target_ratio = cover_w / cover_h
-    src_ratio = src_w / src_h
-
-    if src_ratio > target_ratio:
-        scale = cover_h / src_h
-        new_h = cover_h
-        new_w = int(src_w * scale)
-        img_scaled = src.resize((new_w, new_h), Image.LANCZOS)
-        left = (new_w - cover_w) // 2
-        img_scaled = img_scaled.crop((left, 0, left + cover_w, cover_h))
-    else:
-        scale = cover_w / src_w
-        new_w = cover_w
-        new_h = int(src_h * scale)
-        img_scaled = src.resize((new_w, new_h), Image.LANCZOS)
-        top = (new_h - cover_h) // 2
-        img_scaled = img_scaled.crop((0, top, cover_w, top + cover_h))
-
-    img_rgba = img_scaled.convert("RGBA")
-    draw = ImageDraw.Draw(img_rgba)
-    w, h = cover_w, cover_h
-
-    # Text colors — warm cream/gold to complement the painting
-    title_color = (245, 235, 215)
-    subtitle_color = (225, 210, 180)
-    author_color = (240, 230, 210)
-
-    # Semi-transparent overlay at top and bottom for text readability
-    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    overlay_draw = ImageDraw.Draw(overlay)
-    # Top gradient band
-    for y in range(0, 380):
-        alpha = int(160 * (1 - y / 380))
-        overlay_draw.line([(0, y), (w, y)], fill=(15, 12, 8, alpha))
-    # Bottom band
-    for y in range(h - 200, h):
-        alpha = int(140 * ((y - (h - 200)) / 200))
-        overlay_draw.line([(0, y), (w, y)], fill=(15, 12, 8, alpha))
-    img_rgba = Image.alpha_composite(img_rgba, overlay)
-    draw = ImageDraw.Draw(img_rgba)
-
-    try:
-        font_title = ImageFont.truetype(str(FONT_DIR / "EBGaramond.ttf"), 72)
-        font_subtitle = ImageFont.truetype(str(FONT_DIR / "EBGaramond-Italic.ttf"), 30)
-        font_author = ImageFont.truetype(str(FONT_DIR / "EBGaramond.ttf"), 38)
-    except OSError:
-        font_title = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf", 65)
-        font_subtitle = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Italic.ttf", 28)
-        font_author = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf", 36)
-
-    # Title at top
-    lines = ["The God Who", "Showed Up"]
-    y_pos = 65
-    for line in lines:
-        bbox = draw.textbbox((0, 0), line, font=font_title)
-        tw = bbox[2] - bbox[0]
-        x = (w - tw) // 2
-        draw.text((x, y_pos), line, font=font_title, fill=title_color)
-        y_pos += 95
-
-    # Subtitle
-    subtitle = "What His Names Reveal About Who He Is"
-    bbox = draw.textbbox((0, 0), subtitle, font=font_subtitle)
-    tw = bbox[2] - bbox[0]
-    x = (w - tw) // 2
-    draw.text((x, y_pos + 15), subtitle, font=font_subtitle, fill=subtitle_color)
-
-    # Author at bottom
-    author_text = "Paul & Pam Hainline"
-    bbox = draw.textbbox((0, 0), author_text, font=font_author)
-    tw = bbox[2] - bbox[0]
-    x = (w - tw) // 2
-    y = h - 120
-    draw.text((x, y), author_text, font=font_author, fill=author_color)
-
-    final = Image.new("RGB", img_rgba.size, (255, 255, 255))
-    final.paste(img_rgba, mask=img_rgba.split()[3])
-
-    buf = BytesIO()
-    final.save(buf, format="PNG", quality=95)
-    return base64.b64encode(buf.getvalue()).decode("ascii")
+    The cover (with title + subtitle + author typography baked in) is
+    produced by generate_cover.py — this function just reads it so the
+    PDF and the website card show the same image.
+    """
+    with open(COVER_IMAGE, "rb") as f:
+        return base64.b64encode(f.read()).decode("ascii")
 
 
 def extract_content(filepath):
@@ -471,7 +393,7 @@ def build_full_html(cover_b64, chapter_sections, toc_html, scripture_index_html)
 <body>
 
   <div class="cover-page">
-    <img src="data:image/png;base64,{cover_b64}" alt="Cover">
+    <img src="data:image/jpeg;base64,{cover_b64}" alt="Cover">
   </div>
 
   <div class="title-page">
