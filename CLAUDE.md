@@ -93,3 +93,29 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - Scripture methodology: "Scripture Interprets Scripture" (Churches of Christ tradition).
 - Offline-first: everything the user needs must work without a network connection.
 - Accessibility: Open Dyslexic font option, high contrast, semantic HTML.
+
+### Per-book generator scripts
+
+Each book directory follows the same script layout:
+
+- `generate_html_chapters.py` — online reader HTML (dark-theme glass pages).
+- `generate_pdf.py` — downloadable reader PDF. 5.5" × 8.5", EB Garamond, single-sided with centered page numbers, cover image on page 1, then title / copyright / TOC / body. Scripture blockquotes use a per-book accent-color 2pt left border with italic quote + citation. Distinct from the Lulu interior — do not conflate them. If the book is access-gated, encrypt the output with `pypdf` using the same password as the online reader gate.
+- `generate_epub.py` — downloadable EPUB. Matching structure and metadata, cover embedded, nested nav when the book has Parts or Appendices.
+- `generate_lulu_interior.py` — print interior for Lulu. 5.5" × 8.5" with 0.75" gutter, 0.625" outside, alternating facing-page margins, chapters start recto. Not the same file as the reader PDF.
+- `generate_lulu_paperback_cover.py` / `generate_ingram_paperback_cover.py` / `generate_ingram_hardcover_cover.py` — print-ready covers. IngramSpark hardcover doc size must be 24"×12.5"; see the memory note on the jacket pipeline.
+
+### `books.html` card pattern
+
+- **Action buttons**, left to right: `Read Online` (`.btn-primary`) → `PDF` (`.btn-outline`) → `EPUB` (`.btn-outline`) → `Order Paperback` (`.btn-lulu`) or `Amazon` (`.btn-amazon`).
+- **Format tags**, left to right: `Online` → `PDF` → `EPUB` → `Paperback` → `Hardcover`.
+- **Optional `.book-note`** (small italic accent-color line under the description): use `Free to download. Printed at cost.` for books priced at cost on Lulu. Do not use phrases like "Not for Profit" (implies 501(c)(3)) or "Not for Resale" (contradicts the retail listing).
+
+### Gated-access books
+
+When a book is in review (awaiting a signed release, etc.), gate it at multiple layers for consistency:
+
+- **Online reader**: JS prompt on every page checking a sessionStorage key (e.g. `ctm_auth`), 3-attempt lockout that bounces to `/index.html`.
+- **Download buttons** on `books.html`: route through the `ctmGated(url)` helper (or a book-specific analogue) that checks the same sessionStorage key. Unlocking the reader unlocks the downloads.
+- **PDF file itself**: encrypt with `pypdf` AES-256 using the same password. The PDF remains inert even if someone bypasses the JS gate or shares the URL. EPUB has no comparable encryption and is JS-gated only.
+
+Remove all three layers together when a book goes public.
