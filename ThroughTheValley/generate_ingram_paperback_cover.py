@@ -14,6 +14,9 @@ IngramSpark specs (5.5x8.5 perfect bound paperback, B&W white paper, 120 pages):
   Safety margin: 0.5" inside trim edges for back cover text
 """
 
+import io
+import shutil
+import subprocess
 from pathlib import Path
 from reportlab.lib.pagesizes import inch
 from reportlab.lib.colors import Color, white
@@ -21,8 +24,17 @@ from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.utils import ImageReader
+from PIL import Image
+import numpy as np
 
 BOOK_DIR = Path(__file__).parent
+# ReportLab emits an unused /F1 Helvetica reference in the default page state
+# (a zero-length BT/ET block), which IngramSpark's preflight flags as a
+# non-embedded font. We render to _reportlab_raw.pdf first, then post-process
+# through Ghostscript to drop the unused reference and guarantee every font in
+# the final PDF is embedded. Output PDF then contains only the three TTFs we
+# actually use (EBGaramond, EBGaramond-Italic, GreatVibes), all embedded.
+RAW_PDF = BOOK_DIR / "_reportlab_raw.pdf"
 OUTPUT = BOOK_DIR / "Through_the_Valley_IngramSpark_Paperback_Cover.pdf"
 BG_IMAGE = BOOK_DIR / "cover_image_original_hires.jpg"
 BARCODE_IMAGE = BOOK_DIR / "barcode_978-8-9954288-7-9.png"
@@ -36,6 +48,37 @@ pdfmetrics.registerFont(TTFont("GreatVibes", str(FONT_DIR / "GreatVibes-Regular.
 # --- Spine calculation ---
 PAGE_COUNT = 120
 SPINE_W = 0.27  # 120 x 0.002252 = 0.27024" ~ 0.27"
+
+# --- Front-cover composition mode ---------------------------------------
+# The landscape source (1.5 aspect) can't fit both the shepherd's staff
+# (image x ~20%) and a centered valley/sun in a single portrait crop. Two
+# strategies are supported:
+#
+#   USE_STAFF_COMPOSITE = False (simple)
+#     A single crop of the source. IMAGE_FOCUS_X picks which fraction of the
+#     image lands at the front-cover panel's horizontal center. 0.50 centers
+#     (valley/sun centered, staff cropped out); 0.40 shifts left enough for
+#     the staff to show but pushes the valley off-center.
+#
+#   USE_STAFF_COMPOSITE = True (composite)
+#     Renders the source twice into a portrait composite: once shifted so
+#     the staff lands at STAFF_TARGET_X of the composite, and once centered
+#     so valley/sun sit at composite center. The two layers are blended
+#     with a soft vertical gradient mask across a feather zone. Because
+#     both layers come from the same image, lighting matches automatically;
+#     the seam passes through sky/hills/grass which look visually similar
+#     in both crops.
+USE_STAFF_COMPOSITE = True
+
+# Used when USE_STAFF_COMPOSITE = False
+IMAGE_FOCUS_X = 0.40
+
+# Used when USE_STAFF_COMPOSITE = True — tune these if the seam is visible
+# or the staff lands in the wrong place.
+STAFF_IMAGE_X   = 0.20  # horizontal location of the staff in the source image (0–1)
+STAFF_TARGET_X  = 0.26  # where the staff should appear in the composite (0–1)
+SEAM_X          = 0.48  # center of the blend transition in the composite (0–1)
+FEATHER_WIDTH   = 0.22  # total width of the blend transition zone (0–1)
 
 # --- Document dimensions ---
 BLEED = 0.125   # inches
@@ -127,6 +170,59 @@ def wrap_text(c, text, font_name, font_size, max_width):
     return lines
 
 
+def make_staff_composite():
+    """Build a portrait background combining a 'staff-visible' crop and a
+    'valley-centered' crop of the landscape source, blended with a soft
+    vertical gradient. The output has the same aspect as the front-cover
+    panel (including bleed) so ReportLab can place it without letterboxing.
+
+    Tuning parameters live at the top of this module (STAFF_IMAGE_X,
+    STAFF_TARGET_X, SEAM_X, FEATHER_WIDTH).
+    """
+    src = Image.open(str(BG_IMAGE)).convert("RGB")
+    sw, sh = src.size
+
+    # Composite has the aspect ratio of the front-cover panel with bleed:
+    #   width  = bleed + trim    (the spine-side edge has no bleed)
+    #   height = bleed + trim + bleed
+    panel_aspect = (BLEED + TRIM_W) / (BLEED + TRIM_H + BLEED)
+
+    comp_h = sh
+    comp_w = int(round(sh * panel_aspect))
+
+    # Layer A (staff): shift source so STAFF_IMAGE_X of the source lands at
+    # STAFF_TARGET_X of the composite.
+    ox_a = int(round(STAFF_TARGET_X * comp_w - STAFF_IMAGE_X * sw))
+    layer_a = Image.new("RGB", (comp_w, comp_h), (0, 0, 0))
+    layer_a.paste(src, (ox_a, 0))
+
+    # Layer B (centered): source midpoint at composite midpoint.
+    ox_b = int(round(comp_w / 2 - sw / 2))
+    layer_b = Image.new("RGB", (comp_w, comp_h), (0, 0, 0))
+    layer_b.paste(src, (ox_b, 0))
+
+    # Horizontal alpha mask: 255 on the left (layer A fully visible) → 0 on
+    # the right (layer B fully visible), with a linear ramp across the
+    # feather zone. Smoothstep the ramp so the transition is visually soft.
+    seam_px    = SEAM_X * comp_w
+    feather_px = FEATHER_WIDTH * comp_w
+    fx0 = int(round(seam_px - feather_px / 2))
+    fx1 = int(round(seam_px + feather_px / 2))
+    fx0 = max(0, min(comp_w, fx0))
+    fx1 = max(0, min(comp_w, fx1))
+
+    row = np.empty(comp_w, dtype=np.float32)
+    row[:fx0] = 1.0
+    if fx1 > fx0:
+        t = np.linspace(0.0, 1.0, fx1 - fx0, endpoint=True, dtype=np.float32)
+        row[fx0:fx1] = 1.0 - (t * t * (3.0 - 2.0 * t))  # smoothstep
+    row[fx1:] = 0.0
+    mask_arr = np.tile((row * 255).astype(np.uint8), (comp_h, 1))
+    mask = Image.fromarray(mask_arr, mode="L")
+
+    return Image.composite(layer_a, layer_b, mask)
+
+
 def draw_background(c):
     """Fill entire document with deep forest green."""
     c.setFillColor(DEEP_GREEN)
@@ -138,32 +234,40 @@ def draw_front_cover(c):
     cx = FRONT_CENTER_X  # Exact center of trim area
 
     # --- Place background image ---
-    # The original image is landscape (1536x1024). We need to fill the
-    # front cover panel (portrait). Scale and position to cover the area,
-    # cropping the sides of the landscape image.
-    img = ImageReader(str(BG_IMAGE))
-    img_w, img_h = img.getSize()
-    img_aspect = img_w / img_h
-
     target_x = FRONT_COVER_LEFT
     target_w = FRONT_COVER_RIGHT - FRONT_COVER_LEFT
     target_h = DOC_H
     target_aspect = target_w / target_h
 
-    # Image is landscape (1.5), target is portrait (0.65)
-    # Fit to width, image will be much shorter than target
-    # Instead, fit to height and crop sides
-    if img_aspect > target_aspect:
+    if USE_STAFF_COMPOSITE:
+        # Pre-composited portrait image already matches the panel's aspect
+        # (staff on left, valley centered, feathered seam). Fit exactly —
+        # no letterboxing.
+        composite = make_staff_composite()
+        buf = io.BytesIO()
+        composite.save(buf, format="JPEG", quality=92)
+        buf.seek(0)
+        img = ImageReader(buf)
+        draw_w = target_w
         draw_h = target_h
-        draw_w = target_h * img_aspect
-        # Center on trim center, not panel center
-        draw_x = cx - draw_w / 2
+        draw_x = target_x
         draw_y = 0
     else:
-        draw_w = target_w
-        draw_h = target_w / img_aspect
-        draw_x = target_x
-        draw_y = (target_h - draw_h) / 2
+        # Single-image mode: landscape source, fit to height, crop sides.
+        # IMAGE_FOCUS_X picks which fraction of the image lands at panel center.
+        img = ImageReader(str(BG_IMAGE))
+        img_w, img_h = img.getSize()
+        img_aspect = img_w / img_h
+        if img_aspect > target_aspect:
+            draw_h = target_h
+            draw_w = target_h * img_aspect
+            draw_x = cx - IMAGE_FOCUS_X * draw_w
+            draw_y = 0
+        else:
+            draw_w = target_w
+            draw_h = target_w / img_aspect
+            draw_x = target_x
+            draw_y = (target_h - draw_h) / 2
 
     c.saveState()
     path = c.beginPath()
@@ -291,9 +395,12 @@ def draw_back_cover(c):
     c.drawCentredString(cx, y, "Scripture quotations from the New American Standard Bible\u00ae (NASB).")
 
     # --- Barcode (mandatory per IngramSpark, lower-right of back cover) ---
-    # 100% black on white background, within safe area
+    # 100% black on white background, within safe area.
+    # The source PNG is 523x280; at 1.75" wide it renders at 298.86 DPI which
+    # fails IngramSpark's 300 DPI preflight. Rendering at 1.70" yields 307.6 DPI
+    # (and stays well within IngramSpark's 1.469"–2.045" barcode size spec).
     barcode_img = ImageReader(str(BARCODE_IMAGE))
-    bc_w = 1.75 * inch
+    bc_w = 1.70 * inch
     bc_h = bc_w * 280 / 523  # Maintain original aspect ratio
     pad = 0.08 * inch
     box_w = bc_w + 2 * pad
@@ -318,7 +425,7 @@ def main():
     print(f'  Front cover safe text width: {FRONT_SAFE_WIDTH/inch:.2f}"')
     print(f'\nFront cover text safety checks:')
 
-    c = canvas.Canvas(str(OUTPUT), pagesize=(DOC_W, DOC_H))
+    c = canvas.Canvas(str(RAW_PDF), pagesize=(DOC_W, DOC_H))
     c.setTitle("Through the Valley - IngramSpark Paperback Cover")
 
     draw_background(c)
@@ -327,7 +434,30 @@ def main():
     draw_back_cover(c)
 
     c.save()
-    print(f"\nCover saved to {OUTPUT}")
+
+    # Post-process with Ghostscript to force-embed all fonts and drop the
+    # unused Helvetica reference that ReportLab leaves in page resources.
+    gs = shutil.which("gs")
+    if not gs:
+        print(f"\nWARNING: ghostscript not found in PATH — copying raw ReportLab "
+              f"PDF directly to {OUTPUT}. IngramSpark may reject due to the "
+              f"unused /Helvetica reference. Install ghostscript and re-run.")
+        shutil.copyfile(RAW_PDF, OUTPUT)
+    else:
+        result = subprocess.run(
+            [gs, "-dNOPAUSE", "-dBATCH", "-sDEVICE=pdfwrite",
+             "-dEmbedAllFonts=true", "-dSubsetFonts=true",
+             "-dCompatibilityLevel=1.4", "-dAutoRotatePages=/None",
+             "-dColorConversionStrategy=/LeaveColorUnchanged",
+             f"-sOutputFile={OUTPUT}", str(RAW_PDF)],
+            capture_output=True, text=True,
+        )
+        if result.returncode != 0:
+            raise SystemExit(f"Ghostscript failed:\n{result.stderr}")
+        RAW_PDF.unlink(missing_ok=True)
+        print(f"\nCover saved to {OUTPUT}")
+        print(f"  Post-processed with ghostscript: all fonts embedded, "
+              f"dimensions preserved.")
     print("Done.")
 
 

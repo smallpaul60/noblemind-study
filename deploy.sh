@@ -16,8 +16,13 @@ echo "Deploying noblemind.study"
 echo "=========================================="
 echo ""
 
-# Step 1: Sync files to VPS
-echo "[1/3] Syncing files to VPS..."
+# Step 1: Regenerate sitemap.xml and robots.txt so <lastmod> timestamps stay current
+echo "[1/4] Regenerating sitemap.xml and robots.txt..."
+python3 "$SITE_DIR/tools/gen_sitemap.py"
+echo ""
+
+# Step 2: Sync files to VPS
+echo "[2/4] Syncing files to VPS..."
 SSH_AUTH_SOCK= rsync -avz --delete --chmod=D755,F644 \
   -e "ssh -i $VPS_SSH_KEY" \
   --exclude='.git' \
@@ -25,18 +30,25 @@ SSH_AUTH_SOCK= rsync -avz --delete --chmod=D755,F644 \
   --exclude='PRINCIPLES.md' \
   --exclude='console/' \
   --exclude='ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub' \
+  --exclude='CLAUDE.md' \
+  --exclude='Bible_Study_Principles_Comprehensive_04-20-2026.md' \
+  --exclude='NobleMind_Build_Plan_for_Claude_Code.md' \
+  --exclude='infant_baptism_content_draft_rev2.md' \
+  --exclude='admin/' \
+  --exclude='__pycache__' \
+  --exclude='.claude/' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""
 
-# Step 2: Add to IPFS on remote Kubo node
-echo "[2/3] Adding to IPFS on VPS..."
+# Step 3: Add to IPFS on remote Kubo node
+echo "[3/4] Adding to IPFS on VPS..."
 CID=$(SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "cd $VPS_DIR && ipfs add -r -Q --pin=true .")
 echo "CID: $CID"
 echo ""
 
-# Step 3: Publish to IPNS
-echo "[3/3] Publishing to IPNS..."
+# Step 4: Publish to IPNS
+echo "[4/4] Publishing to IPNS..."
 SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "ipfs name publish --key=$IPNS_KEY /ipfs/$CID"
 echo ""
 
