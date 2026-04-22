@@ -2145,6 +2145,12 @@
     <input id="lessonSeries" type="text" placeholder="Example: Romans Study, Fall 2025" style="flex:1;max-width:300px;" />
   </div>
   <div class="smallHint noPrint">💡 Use Series to group related lessons together. The Scripture Index shows all references across your lessons.</div>
+  <div class="row noPrint" style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-color);">
+    <label>Berean Prompt:</label>
+    <button class="primary" onclick="copyPassageStudyPrompt()" title="Copy an AI prompt for studying the current passage using Noble Mind principles">📋 Copy Passage Study Prompt</button>
+    <button class="primary" onclick="openClaimAuditModal()" title="Copy an AI prompt for testing a claim against Scripture">🧪 Copy Claim Audit Prompt</button>
+  </div>
+  <div class="smallHint noPrint">Works with any AI chat. Based on user observations, Claude, Grok, and Gemini engage most consistently with these principle-loaded prompts. ChatGPT sometimes declines to quote specific passages mid-response — if that happens, try another AI.</div>
 </div>
 
 <div class="lesson-picker noPrint">
@@ -6748,6 +6754,294 @@ function closeMapModal() {
 }
 </script>
 <div class="noPrint" style="text-align:center;padding:18px 0 8px;color:#555;font-size:0.75rem;">© 2026 Paul Hainline. All rights reserved.</div>
+
+<!-- Berean Prompt: modal + toast + styles + script -->
+<style>
+  .berean-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .berean-modal-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 40px rgba(6, 255, 165, 0.3);
+  }
+  .berean-modal-card h3 {
+    margin: 0 0 12px;
+    color: var(--accent);
+  }
+  .berean-modal-hint {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .berean-modal-card textarea {
+    width: 100%;
+    min-height: 180px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+  .berean-modal-card textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(6, 255, 165, 0.25);
+  }
+  .berean-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .berean-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #020617;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    box-shadow: 0 0 30px rgba(6, 255, 165, 0.5);
+    z-index: 10001;
+    font-size: 0.95rem;
+    max-width: 90vw;
+    text-align: center;
+  }
+  .berean-toast.error {
+    background: var(--danger);
+    color: #fff;
+    box-shadow: 0 0 30px rgba(224, 85, 80, 0.5);
+  }
+</style>
+
+<div id="claimAuditModal" class="berean-modal noPrint" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="claimAuditTitle">
+  <div class="berean-modal-card">
+    <h3 id="claimAuditTitle">🧪 Claim Audit Prompt</h3>
+    <p class="berean-modal-hint">Paste a statement, teaching excerpt, or claim below. Clicking Copy Prompt will build an AI prompt that audits it against Scripture using the full Noble Mind principles.</p>
+    <textarea id="claimAuditInput" placeholder="Example: Baptism is merely a symbolic act; it has no role in forgiveness of sins."></textarea>
+    <div class="berean-modal-actions">
+      <button class="secondary" type="button" onclick="closeClaimAuditModal()">Close</button>
+      <button class="primary" type="button" onclick="copyClaimAuditPrompt()">📋 Copy Prompt</button>
+    </div>
+  </div>
+</div>
+
+<div id="bereanToast" class="berean-toast noPrint" role="status" aria-live="polite" style="display:none;"></div>
+
+<script>
+  (function () {
+    let principlesCache = null;
+    let principlesFetching = null;
+
+    async function loadPrinciples() {
+      if (principlesCache) return principlesCache;
+      if (principlesFetching) return principlesFetching;
+      principlesFetching = (async function () {
+        const res = await fetch('/data/principles_full.md', { cache: 'no-cache' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        principlesCache = await res.text();
+        return principlesCache;
+      })();
+      return principlesFetching;
+    }
+
+    const METHOD = [
+      'METHOD:',
+      '1. State what the passage actually says in plain language before interpreting.',
+      '2. Answer the Three Questions: Who is speaking? To whom? Under what circumstances?',
+      '3. Identify whether the passage is under the Old Covenant (Law of Moses) or the New Covenant (Law of Christ), and what the New Testament says on the subject.',
+      '4. Classify what is present: direct statement of fact, direct command, approved example, or necessary inference.',
+      '5. Cross-reference other Scripture on the same subject. Let clear passages illuminate difficult ones.',
+      '6. Use the NASB. Cite book, chapter, and verse for every reference.',
+      '7. Apply the phrase-testing discipline: do not use post-apostolic vocabulary (Trinity, sacrament, sinner\'s prayer, rapture, original sin, etc.). Use Scripture\'s own language.',
+      '8. Distinguish "the text explicitly states" from "the text necessarily implies."',
+      '9. Say "I don\'t know" where the text is not clear.'
+    ].join('\n');
+
+    function buildPassagePrompt(principles, passage) {
+      return [
+        'I am studying Scripture using the Noble Mind Study principles (below). Apply these principles to the following passage.',
+        '',
+        METHOD,
+        '',
+        'PRINCIPLES:',
+        principles,
+        '',
+        'PASSAGE TO EXAMINE:',
+        passage
+      ].join('\n');
+    }
+
+    function buildClaimPrompt(principles, claim) {
+      return [
+        'I am testing a claim against Scripture using the Noble Mind Study principles (below). Apply these principles to audit the claim.',
+        '',
+        METHOD,
+        '',
+        'PRINCIPLES:',
+        principles,
+        '',
+        'CLAIM TO EXAMINE AGAINST SCRIPTURE:',
+        claim,
+        '',
+        'Identify where the claim matches Scripture, where it deviates, where it imports vocabulary or assumptions not in the text, and what passages bear on it. Show your work. Cite every passage by book, chapter, and verse.'
+      ].join('\n');
+    }
+
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.top = '-1000px';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      try {
+        if (!document.execCommand('copy')) throw new Error('execCommand copy failed');
+      } finally {
+        document.body.removeChild(ta);
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg, isError) {
+      const el = document.getElementById('bereanToast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.toggle('error', !!isError);
+      el.style.display = 'block';
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { el.style.display = 'none'; }, 2800);
+    }
+
+    function getSelectedPassage() {
+      const sel = window.getSelection && window.getSelection();
+      if (sel && sel.toString().trim()) return sel.toString().trim();
+      const ref = document.getElementById('scriptureRef');
+      if (ref && ref.value.trim()) return ref.value.trim();
+      return null;
+    }
+
+    window.copyPassageStudyPrompt = async function () {
+      const passage = getSelectedPassage();
+      if (!passage) {
+        showToast('Select a passage or enter a Scripture reference first.', true);
+        return;
+      }
+      try {
+        const principles = await loadPrinciples();
+        const prompt = buildPassagePrompt(principles, passage);
+        await copyToClipboard(prompt);
+        showToast('Prompt copied — paste it into your AI.');
+      } catch (err) {
+        console.error('copyPassageStudyPrompt failed:', err);
+        showToast('Could not build prompt. Reload the page and try again.', true);
+      }
+    };
+
+    window.openClaimAuditModal = function () {
+      const modal = document.getElementById('claimAuditModal');
+      const input = document.getElementById('claimAuditInput');
+      if (!modal || !input) return;
+      modal.style.display = 'flex';
+      setTimeout(function () { input.focus(); }, 60);
+    };
+
+    window.closeClaimAuditModal = function () {
+      const modal = document.getElementById('claimAuditModal');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.copyClaimAuditPrompt = async function () {
+      const input = document.getElementById('claimAuditInput');
+      if (!input) return;
+      const claim = input.value.trim();
+      if (!claim) {
+        showToast('Paste a claim to audit first.', true);
+        input.focus();
+        return;
+      }
+      try {
+        const principles = await loadPrinciples();
+        const prompt = buildClaimPrompt(principles, claim);
+        await copyToClipboard(prompt);
+        showToast('Prompt copied — paste it into your AI.');
+      } catch (err) {
+        console.error('copyClaimAuditPrompt failed:', err);
+        showToast('Could not build prompt. Reload the page and try again.', true);
+      }
+    };
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('claimAuditModal');
+        if (modal && modal.style.display !== 'none') window.closeClaimAuditModal();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      const modal = document.getElementById('claimAuditModal');
+      if (modal && e.target === modal) window.closeClaimAuditModal();
+    });
+
+    // URL-param preload: external links (e.g. Test-This-Claim pages) can open the
+    // tool with ?passage=... or ?claim=... queued so the user just clicks Copy.
+    function applyUrlParams() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const passageFromUrl = params.get('passage');
+        const claimFromUrl = params.get('claim');
+        if (passageFromUrl) {
+          const ref = document.getElementById('scriptureRef');
+          if (ref) {
+            ref.value = passageFromUrl;
+            ref.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        }
+        if (claimFromUrl) {
+          const input = document.getElementById('claimAuditInput');
+          if (input) input.value = claimFromUrl;
+          window.openClaimAuditModal();
+        }
+      } catch (err) {
+        console.warn('Berean URL-param preload failed:', err);
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', applyUrlParams);
+    } else {
+      applyUrlParams();
+    }
+  })();
+</script>
+
 <script src="/nm-core.js" defer></script>
 
 </body>

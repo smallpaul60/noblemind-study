@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v150';
+const CACHE_NAME = 'noblemind-study-v167';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -8,6 +8,14 @@ const CACHE_FILES = [
   '/books.html',
   '/Noble_Mind_Study_Tool_v2.html',
   '/principles.html',
+  '/data/principles_public.md',
+  '/data/principles_full.md',
+  '/test-this-claim/infant-baptism-in-the-new-testament.html',
+  '/test-this-claim/baptism-sprinkling-pouring-or-immersion.html',
+  '/test-this-claim/inherited-guilt-and-original-sin.html',
+  '/test-this-claim/is-the-sinners-prayer-in-the-bible.html',
+  '/test-this-claim/what-does-saint-mean-in-the-new-testament.html',
+  '/test-this-claim/does-the-new-testament-authorize-instrumental-music.html',
   '/user-guide.html',
   '/KJV.json',
   '/BDBT.json',
@@ -15,6 +23,7 @@ const CACHE_FILES = [
   '/icon-192.png',
   '/icon-512.png',
   '/favicon.ico',
+  '/og-default.png',
   '/BridgeMoments/logo.png',
   '/BridgeMoments/favicon.ico',
   '/BridgeMoments/favicon-32.png',
