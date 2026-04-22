@@ -22,8 +22,11 @@ python3 "$SITE_DIR/tools/gen_sitemap.py"
 echo ""
 
 # Step 2: Sync files to VPS
+# --delete-excluded actively removes anything in the exclude list from the
+# VPS, so if a draft or internal doc is added to the list later it will be
+# purged on the next deploy rather than lingering from a prior sync.
 echo "[2/4] Syncing files to VPS..."
-SSH_AUTH_SOCK= rsync -avz --delete --chmod=D755,F644 \
+SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   -e "ssh -i $VPS_SSH_KEY" \
   --exclude='.git' \
   --exclude='*.py' \
@@ -37,6 +40,8 @@ SSH_AUTH_SOCK= rsync -avz --delete --chmod=D755,F644 \
   --exclude='admin/' \
   --exclude='__pycache__' \
   --exclude='.claude/' \
+  --exclude='why-the-division-among-brethren/' \
+  --exclude='TheGodWhoShowedUp/em-dash_alt-0151.odt' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""
