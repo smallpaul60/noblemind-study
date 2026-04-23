@@ -186,6 +186,88 @@
     font-size: 0.95rem;
   }
 
+  /* First-visit welcome panel — dismissible via localStorage. */
+  .welcome-panel {
+    background: rgba(6, 255, 165, 0.06);
+    border: 1px solid rgba(6, 255, 165, 0.3);
+    border-radius: 14px;
+    padding: 18px 44px 16px 24px;
+    margin: 0 0 18px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .welcome-panel h2 {
+    margin: 0 0 6px;
+    color: var(--accent);
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .welcome-panel .welcome-intro {
+    margin: 0 0 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .welcome-steps {
+    margin: 0;
+    padding-left: 22px;
+    color: var(--text-secondary);
+  }
+
+  .welcome-steps li {
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+
+  .welcome-steps li:last-child { margin-bottom: 0; }
+  .welcome-steps strong { color: var(--text-primary); }
+
+  .welcome-steps .nm-ui {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 1px 7px;
+    border-radius: 5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.88em;
+    color: var(--accent);
+  }
+
+  .welcome-steps a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+
+  .welcome-steps a:hover {
+    color: var(--accent-blue);
+    border-bottom-color: var(--accent-blue);
+  }
+
+  .welcome-dismiss {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: transparent;
+    border: 0;
+    color: var(--text-secondary);
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+
+  .welcome-dismiss:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
   .headerBox {
     background: var(--bg-secondary);
     border-radius: 12px;
@@ -2128,6 +2210,32 @@
 </div>
 <h1 id="lessonTitle">The Noble Mind Study Tool</h1>
 <div class="meta">Series folders • Search lessons • Scripture index • Resources • Bible lookup • Student/Teacher mode • OCR • Export</div>
+
+<div id="welcomePanel" class="welcome-panel noPrint">
+  <button class="welcome-dismiss" onclick="dismissWelcome()" title="Dismiss this welcome" aria-label="Dismiss welcome">&times;</button>
+  <h2>New here? Start here.</h2>
+  <p class="welcome-intro">A free workspace for examining Scripture on your own questions &mdash; on your own, or with any AI.</p>
+  <ol class="welcome-steps">
+    <li><strong>Look up a passage.</strong> Type a reference in the <span class="nm-ui">Scripture</span> box below (e.g., <span class="nm-ui">Acts 17:11</span>) and click <span class="nm-ui">📖 Bible Lookup</span>.</li>
+    <li><strong>Test a claim with any AI.</strong> Click <span class="nm-ui">🧪 Copy Claim Audit Prompt</span>, then paste into Claude, Grok, Gemini, or ChatGPT along with the claim you want examined.</li>
+    <li><strong>Want the full tour?</strong> Open the <a href="user-guide.html" target="_blank" rel="noopener">User Guide</a> to see everything this tool can do.</li>
+  </ol>
+</div>
+<script>
+  (function() {
+    try {
+      if (localStorage.getItem('nm_welcome_dismissed_v1') === '1') {
+        var p = document.getElementById('welcomePanel');
+        if (p) p.style.display = 'none';
+      }
+    } catch (e) {}
+  })();
+  function dismissWelcome() {
+    try { localStorage.setItem('nm_welcome_dismissed_v1', '1'); } catch (e) {}
+    var p = document.getElementById('welcomePanel');
+    if (p) p.style.display = 'none';
+  }
+</script>
 
 <div class="headerBox">
   <div class="row">
