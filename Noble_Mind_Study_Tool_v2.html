@@ -3946,7 +3946,10 @@ async function startPDFScan() {
       const includeHeader = b.header && b.header !== 'Lesson' && /lesson\s+\d+/i.test(b.header);
       const linesToProcess = includeHeader ? [b.header, ...b.lines] : b.lines;
       const lessonLines = normalizeLessonLines(linesToProcess);
-      const title = ''; // Empty - user will enter their own title
+      // Pre-fill title with "Lesson N" when the header carries a lesson number.
+      // User can still edit in the rendered input; uniqueLessonTitle handles collisions at import time.
+      const m = b.header && b.header.match(/lesson\s+(\d+)/i);
+      const title = m ? `Lesson ${m[1]}` : '';
       const questionCount = lessonLines.filter(ln => isAnswerableQuestion(parseQuestionPrefix(ln).cleanText)).length;
       return { title, lines: lessonLines, questionCount, totalLines: lessonLines.length };
     });
