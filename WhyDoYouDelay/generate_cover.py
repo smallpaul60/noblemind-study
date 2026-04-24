@@ -29,6 +29,10 @@ W, H = 1100, 1700
 
 # Warm cream — reads well against the green canopy and the dark water
 CREAM = (245, 232, 205)
+# Warm gold decorative rule between the subtitle and the author — same
+# #C69B56 used on the Lulu paperback cover so the print book and the
+# website thumbnail stay in sync.
+GOLD_RULE = (198, 155, 86)
 
 FONT_BOLD    = FONT_DIR / "EBGaramond.ttf"
 FONT_ITALIC  = FONT_DIR / "EBGaramond-Italic.ttf"
@@ -114,6 +118,20 @@ def build_cover(target_w, target_h):
     sub1_y = sub2_y - int(subtitle_size * 1.35)
     center_text(sub1_y, "Baptism, Salvation,",              f_subtitle, CREAM)
     center_text(sub2_y, "and What the Bible Actually Says", f_subtitle, CREAM)
+
+    # --- Gold decorative rule between subtitle and author ---
+    # Matches the gold bar on the Lulu paperback cover so print and
+    # web covers show the same finish.
+    sub2_bbox  = draw.textbbox((0, sub2_y), "Tg", font=f_subtitle)
+    rule_y     = (sub2_bbox[3] + author_y) // 2
+    rule_hw    = int(target_w * 0.10)
+    rule_thick = max(1, int(2 * s))
+    cx         = target_w // 2
+    draw.line(
+        [(cx - rule_hw, rule_y), (cx + rule_hw, rule_y)],
+        fill=GOLD_RULE,
+        width=rule_thick,
+    )
 
     # --- Author: letter-spaced caps at the very bottom ---
     center_text(author_y, "PAUL HAINLINE", f_author, CREAM,

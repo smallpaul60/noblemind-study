@@ -759,6 +759,22 @@ def build_index_html(book):
       border-color: var(--accent-secondary);
       box-shadow: 0 0 15px var(--accent-secondary-glow);
     }}
+    .hero-cover {{
+      text-align: center;
+      margin: 28px 0 8px;
+      position: relative;
+      z-index: 1;
+    }}
+    .hero-cover img {{
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.5),
+        0 0 60px var(--accent-soft);
+      border: 1px solid var(--accent-soft);
+    }}
     .intro-blurb {{
       margin: 24px 0; padding: 22px 24px;
       background: rgba({ACCENT_PRIMARY_RGB},0.04);
@@ -891,6 +907,10 @@ def build_index_html(book):
         </p>
         <a href="../books.html" class="return-link">&larr; Return to Books</a>
       </header>
+
+      <div class="hero-cover">
+        <img src="cover_front.jpg" alt="{TITLE} &mdash; book cover" loading="eager">
+      </div>
 
       <section class="intro-blurb">
 {intro_html}
