@@ -498,14 +498,21 @@ body {
 .chapter-body h2 {
     font-size: 13pt; font-weight: bold; color: #1a1a1a;
     margin-top: 0.3in; margin-bottom: 0.12in;
-    page-break-after: avoid; break-after: avoid;
+    page-break-after: avoid; break-after: avoid-page;
     orphans: 3; widows: 3; text-align: center;
 }
 .chapter-body h3 {
     font-size: 11.5pt; font-weight: bold; font-style: italic;
     color: #1a1a1a; margin-top: 0.28in; margin-bottom: 0.1in;
-    page-break-after: avoid; break-after: avoid;
+    page-break-after: avoid; break-after: avoid-page;
     orphans: 3; widows: 3; text-align: center;
+}
+/* Reinforce: never let the first paragraph after a subhead page-break
+   away from the heading. Pairs with break-after on the heading. */
+.chapter-body h2 + p,
+.chapter-body h3 + p {
+    page-break-before: avoid; break-before: avoid-page;
+    orphans: 4; widows: 4;
 }
 
 /* === SCRIPTURE BLOCKQUOTES === */

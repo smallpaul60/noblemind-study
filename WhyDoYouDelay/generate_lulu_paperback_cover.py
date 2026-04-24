@@ -33,7 +33,7 @@ pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-I
 # --- Page count & spine width ---
 # Update PAGE_COUNT after running generate_lulu_interior.py and use
 # Lulu's template tool value for SPINE_W before final upload.
-PAGE_COUNT = 84
+PAGE_COUNT = 88
 SPINE_W    = PAGE_COUNT * 0.002252   # Lulu B&W white paper formula
 
 # --- Document dimensions ---

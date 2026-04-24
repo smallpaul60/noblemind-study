@@ -109,14 +109,22 @@ def promote_scripture_paragraphs(md_text):
 
 
 def _clean_quote(quote):
-    """Strip surrounding smart/straight quotes and <em> wrappers from
-    a citation's quoted body before re-rendering with our own quote marks."""
-    # Strip leading/trailing whitespace
+    """Strip surrounding smart/straight quotes and ALL <em> tags from
+    a citation's quoted body before re-rendering.
+
+    We strip every <em> and </em> (rather than only a matched outer pair)
+    because python-markdown renders nested `*...**bold**...*` as raggedly
+    open/close/open <em> runs. A leaked un-closed <em> propagates italics
+    into the rest of the rendered document. The enclosing
+    blockquote.scripture CSS is already italic, so removing the inner
+    <em> markers loses nothing visually — and it removes the leak.
+
+    <strong> tags are preserved — bold emphasis inside a scripture quote
+    is meaningful and survives regardless of italic state.
+    """
     quote = quote.strip()
-    # Strip <em>...</em> wrapper if the entire body is wrapped in one
-    em_match = re.match(r'^<em>(.*)</em>$', quote, re.DOTALL)
-    if em_match:
-        quote = em_match.group(1).strip()
+    # Kill every <em> / </em> — see docstring for why.
+    quote = re.sub(r'</?em>', '', quote)
     # Strip common quote characters from both ends
     quote = re.sub(
         r'^(&ldquo;|&rdquo;|&lsquo;|&rsquo;|[“”"\'])+',
@@ -129,9 +137,38 @@ def _clean_quote(quote):
     return quote.strip()
 
 
+# Splits a multi-paragraph <blockquote> into one-paragraph blockquotes so
+# each scripture + citation pair can be lifted independently.  Handles
+# the case where two adjacent `> ...\n> — Ref` pairs in the source were
+# merged by python-markdown into one <blockquote> with two <p> children.
+#
+# The inner <p>...</p> uses a negative-lookahead tempered match so `.*?`
+# cannot gobble past a `</blockquote>` — without that guard the regex
+# greedily spans adjacent blockquotes plus the body paragraphs between
+# them, wrapping regular prose in a blockquote (the bug that was here
+# before).
+_MULTI_P_BQ_RE = re.compile(
+    r'<blockquote>\s*((?:<p>(?:(?!</blockquote>).)*?</p>\s*){2,})</blockquote>',
+    re.DOTALL,
+)
+_P_SPLIT_RE = re.compile(r'(<p>(?:(?!</p>).)*?</p>)', re.DOTALL)
+
+
+def _split_multi_paragraph_blockquotes(html):
+    def _sub(m):
+        inner = m.group(1)
+        paragraphs = [p for p in _P_SPLIT_RE.findall(inner) if p.strip()]
+        return "\n".join(f'<blockquote>{p}</blockquote>' for p in paragraphs)
+    return _MULTI_P_BQ_RE.sub(_sub, html)
+
+
 def lift_citation_to_cite(html):
     """Rewrite <blockquote><p>"quote" — Ref</p></blockquote> into a
     styled scripture block with the citation in a <cite>."""
+    # If markdown merged adjacent scripture quotes into a single
+    # multi-paragraph blockquote, split them so each can be lifted.
+    html = _split_multi_paragraph_blockquotes(html)
+
     def _sub(m):
         quote = _clean_quote(m.group(1))
         cite = m.group(2).strip()
