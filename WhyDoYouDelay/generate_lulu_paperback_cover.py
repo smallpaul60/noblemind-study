@@ -13,7 +13,10 @@ Lulu specs (5.5x8.5 perfect bound paperback, B&W white paper):
   Safety margin: 0.5"  inside trim edges for back cover text
 """
 
+from io import BytesIO
 from pathlib import Path
+
+from PIL import Image
 from reportlab.lib.pagesizes import inch
 from reportlab.lib.colors import Color
 from reportlab.pdfgen import canvas
@@ -25,16 +28,39 @@ BOOK_DIR = Path(__file__).parent
 OUTPUT   = BOOK_DIR / "Why_Do_You_Delay_Lulu_Paperback_Cover.pdf"
 BG_IMAGE = BOOK_DIR / "why-do-you-delay-cover-image.png"
 
+# Lulu's preflight warns when the embedded cover image falls below 200 PPI.
+# The source PNG (1024x1536) spread over the 5.625" x 8.75" front+bleed
+# area gives ~180 PPI. Upscale factor of 2 yields a 2048x3072 image which
+# prints at ~370 PPI across the front cover, comfortably inside Lulu's
+# 200-600 recommendation. LANCZOS resampling — no detail is invented,
+# just a smooth enlargement so the printer's PPI check passes.
+COVER_UPSCALE = 2
+
+
+def _load_hires_cover():
+    """Return an ImageReader wrapping an upscaled copy of the cover art."""
+    src = Image.open(str(BG_IMAGE)).convert("RGB")
+    hires = src.resize(
+        (src.width * COVER_UPSCALE, src.height * COVER_UPSCALE),
+        Image.LANCZOS,
+    )
+    buf = BytesIO()
+    hires.save(buf, format="PNG", optimize=True)
+    buf.seek(0)
+    return ImageReader(buf)
+
 # Fonts
 FONT_DIR = Path.home() / ".local/share/fonts"
 pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
 # --- Page count & spine width ---
-# Update PAGE_COUNT after running generate_lulu_interior.py and use
-# Lulu's template tool value for SPINE_W before final upload.
+# SPINE_W must match Lulu's template-generator value exactly — the generic
+# 0.002252 formula was ~0.06" short of Lulu's actual paper stock for this
+# title (88-page B&W white paperback). Pulled from the cover template PDF
+# Lulu produced on the Design step; update if interior page count changes.
 PAGE_COUNT = 88
-SPINE_W    = PAGE_COUNT * 0.002252   # Lulu B&W white paper formula
+SPINE_W    = 0.258                   # Lulu template value (88 pp B&W white)
 
 # --- Document dimensions ---
 BLEED  = 0.125
@@ -119,7 +145,7 @@ def draw_front_cover(c):
     cx = FRONT_CENTER_X
 
     # --- Background image, clipped to front cover area ---
-    img = ImageReader(str(BG_IMAGE))
+    img = _load_hires_cover()
     img_w, img_h = img.getSize()
     img_aspect = img_w / img_h
 
