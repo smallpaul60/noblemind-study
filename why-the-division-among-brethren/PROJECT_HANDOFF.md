@@ -1,130 +1,257 @@
 # Project Handoff — Why the Division Among Brethren?
 
-*For any AI assistant picking up this project in a new conversation. Read this document completely before engaging with any content.*
+*Handoff for AI assistant continuing work on Paul Hainline's booklet.*
+
+*Date of handoff: April 23, 2026.*
 
 ---
 
-## What This Project Is
+## Read This First
 
-A booklet by Paul Hainline titled:
+You are being asked to help Paul Hainline continue work on a booklet titled **Why the Division Among Brethren? — Institutional vs Non-Institutional churches of Christ** (lowercase "c" in "churches of Christ" is intentional and must be preserved throughout).
 
-> **Why the Division Among Brethren?**
-> *Institutional vs Non-Institutional churches of Christ*
+Before engaging with any Biblical content, before drafting anything, before responding to Paul on any substantive matter, **read the project files in the order specified below**. Do not skip this step. Do not skim. The discipline this project operates under is not background knowledge — it must be actively applied at drafting time, and you cannot apply what you have not read.
 
-The lowercase "c" in "churches of Christ" is intentional and must be preserved everywhere it appears. It is a traditional usage that signals the phrase is a description (a local assembly that belongs to Christ) rather than a denominational brand name.
+The files to read, and the order:
 
-The booklet is a fair, Scripture-first examination of the mid-twentieth-century institutional / non-institutional division within churches of Christ. It is addressed to a reader (audience 3) who has never had the division fairly explained — institutional, non-institutional, or simply curious — and is written so that a defensive institutional reader can read it through and recognize that his position has been represented accurately before the Scripture walks him through the argument.
+1. **Bible_Study_Principles_Updated_04-20-2026.md** — the governing document for all Biblical work. Read completely. The phrase-testing discipline is not a checklist applied at review; it must be applied as each phrase is drafted.
 
-The thesis, which holds the entire booklet to its own standard, is: ***a position must stand or fall based on what the Scriptures actually teach.*** This sentence appears in italics throughout the booklet proper. Bold-and-italic is reserved for one final appearance at the close of Chapter 10 — it has not been used yet anywhere in the drafted chapters.
+2. **Why_the_Division_Among_Brethren_Outline.md** — the full working outline for the booklet. Confirms structure, audience, voice, translation, and the internal structure for each specific-issue chapter (Chapters 6–9).
 
----
+3. **Chapter_1_Why_This_Matters.md** through **Chapter_7_The_Sponsoring_Church_Arrangement.md** — the seven chapters already drafted. Read in order. They establish the voice, tone, argumentative method, handling of difficult material, and consistency of terminology that subsequent chapters must match.
 
-## The Governing Documents (Read These First)
+4. **This handoff file** — which you have already started reading. The remainder of this file documents what has been verified, what remains pending, and what specific judgment calls have been made so you can continue without relitigating them.
 
-**Three documents govern all work on this project. They are in the project files and must be read before drafting.**
-
-1. **`Bible_Study_Principles.md`** — The hermeneutical principles, the phrase-testing discipline (applied at drafting time, not only on review), the epistemological ground (consensus ≠ truth; training-data dominance ≠ correctness), and the specific watchlist of post-apostolic vocabulary that triggers stop-and-check.
-
-2. **`Why_the_Division_Among_Brethren_Outline.md`** — The working outline: title, thesis, audience, authorship (solo — Paul Hainline), approach and voice, target length, production decisions, and the full chapter structure across four parts.
-
-3. **The drafted chapters** — See "Current State" below for the list of what is drafted.
-
-**Critical instruction on the phrase-testing discipline.** The principles are not background knowledge; they are an active standard to be applied to each phrase as it is being drafted, *before* moving to the next sentence. An AI assistant who holds them as background while drafting from training defaults will produce contaminated output — post-apostolic vocabulary ("triune," "sacrament," "original sin" as inherited guilt), assumed denominational practices (infant baptism, instrumental accompaniment), or theological systems Scripture does not teach (creedal formulations, Calvinist content imported into Biblical vocabulary).
-
-This has already happened once in this project. In the first draft of Chapter 3, the AI wrote "A child baptized ... the triune God" as a casual illustration. Both were imported defaults. Paul caught them. The draft was rewritten. Do not repeat that failure. **The phrase-testing discipline is the writer's responsibility — Paul should not have to catch contaminations the writer should have caught itself.**
+Do not read anything else in the project folder at the start of the conversation. If a specific question later arises that requires a specific source, Paul can point you to it. Loading the full project folder up front wastes context on material you may not need.
 
 ---
 
-## Current State of the Work
+## What Has Been Drafted
 
-**Drafted (all as markdown in the project folder):**
+**Completed chapters, in the project folder:**
 
-- **Preface** — disclosure of the writer's position, the restoration aim shared by both sides of the division and by many young seekers today, the Scripture premise, the thesis.
-- **Chapter 1 — Why This Matters** — the division is real and inherited rather than settled; the four specific issues (church-supported institutions, sponsoring church arrangement, treasury scope in benevolence, fellowship meals) previewed; the underlying hermeneutical question named plainly; the thesis stated in the chapter's voice.
-- **Chapter 2 — A Short History of the Division** — the earlier divisions (1849 missionary society; 1880s instrumental music) as the same fault line resurfacing; pre-war orphan homes background; 1950s flashpoints (Herald of Truth 1952; expanded orphan homes); Cogdill–Woods Debate (Birmingham 1957); the journals; Goodpasture's documented strategy of isolation; honest acknowledgment of harsh words on both sides; aftermath and current figures (~2,055 NI congregations, ~120,000 members, ~15% of congregations / ~9% of members); recent dialogue (2016 Gospel Advocate meeting, Exploring Current Issues Conferences since 2011).
-- **Chapter 3 — The Question of Authority** — *the load-bearing chapter.* Colossians 3:17 and 2 Timothy 3:16–17 as the foundation. Three ways authority is established: direct statement, approved apostolic example, necessary inference. The question of silence: Nadab and Abihu, Hebrews 7:13–14, the principle of specification (Genesis 6:14; Ephesians 5:19; Colossians 3:16). The "silence permits" argument proves too much. Old Testament examples as instructive pattern (Rom. 15:4; 1 Cor. 10:11) versus Old Testament as binding law (Col. 2:14; Heb. 8:13) — the distinction that clears ground for later use of gleaning, temple treasury, and Boaz.
-- **Chapter 4 — The Work God Gave the Church** — 1 Timothy 3:15 as the organizing text (the church as pillar and support of the truth). The four categories of authorized work: worship, edification of the saints, evangelism, benevolence to needy saints. What is NOT in the apostolic description: general humanitarianism, recreation and social life, education as an end in itself, civic/political engagement — none are wrong for individuals in their own spheres, none are the collective work of the church.
-- **Chapter 5 — The Church and the Individual as a Biblical Distinction** — 1 Timothy 5:16 as the cornerstone text (the word "burden" only makes sense if the individual and the church are distinct actors). The Old Testament pattern (tabernacle funded collectively by tithe; poor relief funded by the individual landowner through gleaning). Boaz and Ruth as the worked example. Other NT texts corroborating the distinction (Matt. 6:1–4; Eph. 4:28; Gal. 6:10 with its individual scope established by Gal. 6:1). The move that most institutional arguments depend on: collapsing the distinction.
+- Chapter 1 — Why This Matters
+- Chapter 2 — A Short History of the Division
+- Chapter 3 — The Question of Authority (load-bearing; every issue chapter refers back to it)
+- Chapter 4 — The Work God Gave the Church
+- Chapter 5 — The Church and the Individual as a Biblical Distinction
+- Chapter 6 — Church-Supported Institutions
+- Chapter 7 — The Sponsoring Church Arrangement
 
-**Not yet drafted:**
+**Pending chapters:**
 
-- **Chapter 6 — Church-Supported Institutions** — *the natural next piece.* This is where Guy N. Woods's 1946 statement ("There is no place for charitable organizations in the work of the New Testament church...") comes in as a full quote — the institutional movement's eventual leading defender making the non-institutional argument at full strength, in his own words, before he changed position. Woods's 1957 defense of orphan homes in the Cogdill–Woods Debate is stated fairly as the institutional position. The chapter walks the Scripture to determine whether the New Testament authorizes the local church, as a collective body, to fund a separate human institution. Uses the silence question from Chapter 3 directly.
-- **Chapter 7 — The Sponsoring Church Arrangement** — Herald of Truth / Highland (Abilene) 1952 onward as case study. 1 Peter 5:2 ("the flock of God among you"). Acts 14:23; 20:28 on the local, bounded jurisdiction of elders. The NT pattern of inter-congregational cooperation is relief flowing TO a church in need (Acts 11:27–30; 1 Cor. 16:1–3; 2 Cor. 8–9), not flowing through a sponsoring church.
-- **Chapter 8 — The Treasury and Benevolence — Who May the Church Help?** — *likely the longest chapter.* Walk-through of every NT collective benevolence text (Acts 2:44–45; 4:32–37; 6:1–6; 11:27–30; Rom. 15:25–26; 1 Cor. 16:1–3; 2 Cor. 8:4; 9:1; 9:12), each specifying saints. Honest handling of James 1:27 (individual language throughout chapter 1 — v.22 "yourselves," v.27 "oneself") and Galatians 6:10 (the "us" of v.10 established by the "you who are spiritual" of v.1). The "feed the belly, then feed the man" rationale examined against Jesus's method in John 6 and the apostolic pattern in Acts 3. OT gleaning parallel reaffirms the same distinction between collective worship and individual benevolence.
-- **Chapter 9 — Fellowship Halls and Social Meals** — 1 Corinthians 11:22, 34 ("Do you not have houses in which to eat and drink? ... If anyone is hungry, let him eat at home"). Acts 2:46 ("breaking bread from house to house") as the pattern of common meals as home work, not church work.
-- **Chapter 10 — What's Really at Stake** — summary: the division is not ultimately about three or four practices; it is about one hermeneutic. **This is the chapter where the trajectory observation belongs** — where institutional congregations have moved over seventy years, the Foy E. Wallace warnings of the 1930s and 1940s, the steady drift toward the mainline denominational world when the hermeneutic shifts. Paul believes these observations but wanted them made with documented evidence and restraint in this chapter, not dropped in passing earlier. Chapter 10 closes the booklet with the single bold-and-italic appearance of the thesis — its reserved final emphasis.
-- **Chapter 11 — For Further Study** — the reading list. Primary NI sources: Cogdill–Woods Debate; Roy E. Cogdill's *The New Testament Church*; James W. Adams's *Studies in Church Cooperation*. Primary institutional sources: Guy N. Woods, *Questions and Answers* (multiple volumes); Gospel Advocate editorials from the Goodpasture era. Historical: Harrell; Hughes; Tant's "The History of the Institutional Controversy" article.
+- **Chapter 8 — The Treasury and Benevolence (Who May the Church Help?)** — the next chapter to draft. Expected to be the longest of the four issue chapters. Requires a text-by-text walk through every New Testament collective benevolence passage. See detailed briefing below.
+- **Chapter 9 — Fellowship Halls and Social Meals** — the fourth and final issue chapter.
+- **Chapter 10 — What's Really at Stake** — the summation chapter. Contains the bold-italic final restatement of the thesis. Trajectory observation belongs here in fuller form.
+- **Chapter 11 — For Further Study** — the annotated reading list.
+- **Preface** — to be drafted after the full arc is complete.
 
----
+**Not yet drafted but decisions made:**
 
-## Voice and Style Discipline
-
-**First person singular is rare.** "I believe" is replaced by "Scripture teaches" or "the text says." The preface allows genuine first-person disclosure (Paul names that he holds the non-institutional position). Elsewhere the writer recedes and the text carries.
-
-**For each contested issue (Chapters 6–9), the internal structure is consistent:**
-
-1. State the question.
-2. State the institutional position as its own best advocates have stated it, with quotations where possible.
-3. State the non-institutional position the same way.
-4. Walk the Scripture.
-5. Let the text carry the conclusion.
-
-This structure is non-negotiable for those chapters. An institutional reader must recognize his position accurately in step 2 before step 4 will carry any weight with him.
-
-**NASB is the primary translation.** Every Bible quotation must be checked against the actual NASB text, not inserted from memory. Cross-translation confusion (KJV / ESV phrasings introduced when the principle calls for NASB) must not happen. "In the name of the Father and the Son and the Holy Spirit" (Matt. 28:19 NASB — no repeated "of") not "in the name of the Father and **of** the Son and **of** the Holy Spirit" (KJV / ESV).
-
-**Old Testament material is used as instructive pattern, never as binding law.** Rom. 15:4 and 1 Cor. 10:11 authorize the use. Col. 2:14 and Heb. 8:13 establish that the Mosaic law as a legal code is not binding on the Christian. This distinction has been made in Chapter 3 and does not need to be relitigated in each later chapter, but it should be maintained consistently.
-
-**Honesty over rhetoric.** Be willing to say "the text is not fully explicit here" where that is the right answer. The gleaning argument is reasoning from OT pattern to NT principle, which is legitimate but not the same kind of direct authority as 1 Tim. 5:16. A reader trusts a writer who distinguishes strong arguments from supporting arguments.
-
-**Typography of the thesis.** The thesis ("a position must stand or fall based on what the Scriptures actually teach") appears in italics every time it occurs in the booklet proper. Bold-and-italic is the reserved final treatment for one appearance only, at the close of Chapter 10. Do not upgrade earlier occurrences.
-
-**"Among Brethren" in the title is load-bearing.** It signals that the booklet is an internal family conversation, not external denominational critique. The tone of the writing must live up to that signal throughout.
+- Discussion questions go at the end of each chapter (Chapter 3's draft shows the model).
+- No ISBN at present. First publication via Lulu. When ISBN obtained later, switch to IngramSpark for wide distribution.
+- Cover: clean typographic, no imagery.
+- Final production: markdown → PDF via Pandoc + LaTeX for 6×9 book trim.
 
 ---
 
-## The Restoration Aim — A Careful Usage Note
+## Project Governance — Do Not Violate These
 
-The preface names the aim shared by both sides of the division — what the churches of Christ have always been trying to be: a local assembly that belongs to Christ and is trying to be what the New Testament shows a church to be. This aim is identified in the preface as **apostolic**, and it is described in plain language.
+**Translation.** NASB primary. Other translations noted when helpful. Every verse quotation must be verified against actual NASB text, not reconstructed from memory or another translation.
 
-**Do not use "the Restoration Movement" as a capitalized proper noun in the booklet proper.** In Chapter 2, the historical 1800s American Restoration Movement may be referred to by its historical label where the historical use is the actual point. But the *aim itself* is older than the 1800s label for it. Capitalizing it as a proper noun risks making the booklet sound as if it identifies with a historical human program rather than with the Scriptural aim that program was attempting to serve.
+**Voice.** First person singular is rare. "I believe" becomes "Scripture teaches" or "the text says." First person is earned in a few places (notably the introduction, when naming the writer's position) and avoided elsewhere.
 
----
+**Tone.** The phrase "Among Brethren" in the title signals that this is an internal family conversation, not external critique or denominational comparison. The book must represent the institutional position fairly enough that an institutional reader recognizes his own view and is left alone with the text to weigh it.
 
-## Key Trajectory Note — For Chapter 10
+**Standard.** Scripture is the standard. Every brother on every side of this division — Cogdill, Woods, Goodpasture, Adams, Tant, Wallace, Warren — is fallible. Paul Hainline is fallible. You are not. Wait, you are also fallible. The writer of these chapters is a fallible man. None of the chapters attempt to canonize any human voice. The argument stands or falls on what the Scriptures actually teach.
 
-Paul has observed to the AI in conversation that, in his honest read, the institutional churches over seventy years have moved closer to the denominational world and are often difficult to distinguish from mainline denominations of old, while the denominations themselves have moved even further from the original New Testament pattern. This observation is a genuine conviction; it is not to be dropped into any chapter before Chapter 10.
+**Phrase-testing at drafting time.** Post-apostolic vocabulary, denominational assumptions, and creedal formulations must be caught *as you draft*, not at review. The Bible Study Principles document names the failure modes and the specific watchlist. Re-read that list before drafting.
 
-**Chapter 10 is the place for it, made with evidence and restraint.** Foy E. Wallace Jr. warned of exactly this outcome in the *Bible Banner* (1939): "The church is about to become the unwitting and unwilling victim of institutionalism... Institutionalism was the taproot of digression." The documentary record of the last seventy years supports the observation. The chapter should draw on that record — changes in institutional congregational practice, changes in the stated work of institutional congregations, changes in worship style where those have occurred — rather than relying on Paul's or the writer's opinion. A claim this pointed has to be carried by evidence.
+**OT use.** The Old Testament is used as instructive pattern per Romans 15:4 and 1 Corinthians 10:11 — not as binding Mosaic law (Col. 2:14; Heb. 8:13). Chapter 3 established this framework. Chapter 5 applies it (gleaning, tabernacle treasury, Boaz). The same approach carries forward.
 
----
+**Chapter 6/7/8/9 internal structure — non-negotiable.** Each specific-issue chapter uses the same internal shape:
 
-## Production Plan
+1. State the question precisely
+2. State the institutional position at full strength
+3. State the non-institutional position at full strength
+4. Walk the relevant Scripture
+5. Let the text carry the conclusion
+6. Discussion questions (typically five)
 
-- **Drafting format:** Markdown only, one file per chapter, in the project outputs folder. This was a deliberate simplification from the earlier mixed docx/markdown workflow.
-- **Final output:** A print-ready PDF generated at the end from the markdown sources, suitable for 6x9 book trim. Pandoc with a LaTeX backend handles this cleanly.
-- **Publisher:** Lulu first (no ISBN currently). When an ISBN is obtained, switch to IngramSpark for wide distribution.
-- **Cover:** Clean typographic, no imagery.
-- **Pam Hainline's role:** Reviews drafts and provides perspective; formal authorship is solo (Paul Hainline).
-
----
-
-## Working Pattern with Paul
-
-Before drafting any chapter, propose the scope, the structure, the Scriptures that will anchor each section, and the length target. Flag any judgment calls — forward references to later chapters, how hard to push a particular argument, how to handle institutional proof texts. Give Paul the chance to redirect before prose is committed. Paul has consistently preferred this pre-drafting alignment to the alternative of drafting and then heavily revising.
-
-Paul marks up drafts carefully and his catches are substantive. Respond to them as substantive edits, not as preferences to be accommodated. When he catches something, diagnose why the error occurred (was it training-data residue? a missed Scripture check? a structural choice that needs revisiting?) and fix the class of error, not only the instance.
-
-Paul's wife Pam reviews drafts in parallel. Her perspective is different from Paul's in ways Paul values. When Paul says Pam will look at a draft, treat that as equivalent weight to a direct instruction — she may return with feedback that changes the shape of a chapter.
+Consistency across the issue chapters serves the reader. Do not vary this structure.
 
 ---
 
-## The Final Discipline
+## Verified Primary Source Material (For Your Reference)
 
-A congregation that holds itself strictly to what Scripture authorizes will not run out of work. The same is true of this booklet. Its argument is simple enough that rhetoric will not improve it and sloppiness will not survive review. Write as if every phrase will be read slowly by a careful brother on the other side of the division, who has been told for seventy years that the non-institutional position is an uncharitable caricature. Write in a way that makes that caricature unsustainable.
+Everything below has been verified and is safe to use. Do not add new material citing sources that have not been independently verified against a primary or primary-adjacent source.
 
-***A position must stand or fall based on what the Scriptures actually teach.*** That applies to every sentence in this booklet, and to every conviction the writer or the reader holds. When in doubt, return to the text. The Book is the authority. Our job is simply to read it honestly.
+### Guy N. Woods — 1939 Abilene Christian College Lectures
+
+**Verified via:** Ron Halbrook's 1983 publication in *Guardian of Truth*, May 5, 1983, pp. 268–70, 277–79. Woods himself acknowledged this speech when Halbrook republished it.
+
+**Verified quotation:** "The ship of Zion has floundered more than once on the sandbar of institutionalism. The tendency to organize is a characteristic of the age. On the theory that the end justifies the means, brethren have now scrupled to form organizations in the church to do the work the church itself was designed to do. All such organizations usurp the work of the church, and are unnecessary and sinful."
+
+### Guy N. Woods — 1946 *Teacher's Annual Lesson Commentary*
+
+**Publication:** Gospel Advocate Company, Nashville. Copyright 1945. This is the actual title; the Tennessee Bible College Restoration History Library archives it under its original series name "Elam's Notes 1946" for continuity. The series progression: *Elam's Notes* (1922–1931) → *Annual Lesson Commentary* (1932–1944) → *Teacher's Annual Lesson Commentary* (1945 onward).
+
+**Verified via:** Luther G. Roberts article, *Truth Magazine* Volume 6, October 1961 (https://www.truthmagazine.com/archives/volume6/TM006008.htm). Roberts had the physical book in hand in 1961 and quoted directly with specific page citations.
+
+**Verified quotations with page numbers:**
+
+- **Page 338:** "The church is the only organization authorized to discharge the responsibilities of the Lord's people."
+- **Page 338:** "It should be noted that there was no elaborate organization for the discharge of these charitable functions. The contributions were sent directly to the elders by the churches who raised the offering. This is the New Testament method of functioning. We should be highly suspicious of any scheme that requires the setting up of an organization independent of the church in order to accomplish its work."
+- **Page 340:** "We point out that the contribution here alluded to was raised wholly without the high pressure organization methods characteristic of today. There was no organization at all; the churches, in their own capacity, raised the funds, and they were gathered by the brethren specially appointed for the purpose."
+- **Pages 340–341** (Roberts cites "page 340f"): "There is no place for charitable organizations in the work of the New Testament church. It is the only charitable organization that the Lord authorizes or that is needed to do the work the Lord expects his people today to do."
+- **Page 341:** "Here, too, we see the simple manner in which the church in Philippi joined with Paul in the work of preaching the gospel. There was no 'missionary society' in evidence, and none was needed; the brethren simply raised the money and sent it directly to Paul. This is the way it should be done today."
+- **Page 351:** "Thus each church was directed to name its own messenger to carry the offering to the poor saints in Jerusalem."
+
+**Direct PDF access (for Paul to verify personally):** https://tbc.tn-biblecollege.edu/resthistlib/Elams_Notes_1946.pdf
+
+### Guy N. Woods — Gospel Advocate November 18, 1954, p. 911
+
+**Verified via:** Roberts 1961 article (same URL as above). Roberts documents that Woods's position shift began by this date — eight years after his 1946 book, three years before the 1957 Birmingham debate. In the 1954 Advocate article, Woods argued that the messengers who carried contributions constituted an organization — the opposite of what he had written in 1946.
+
+**Historical significance:** This dates the reversal earlier than the conventional "1957 Birmingham" framing. The Birmingham debate was the most public defense of the newer position, not its beginning.
+
+### Guy N. Woods — 1956 Porter–Woods Debate (Indianapolis)
+
+**Verified via:** John W. Hedge reporting in *Gospel Guardian* Volume 19, Number 19.
+
+**Verified quotation, p. 53:** "Now, what is the orphan home, my friends? Basically, the orphan home is that which simply results when the church restores that which (the natural home) no longer exists. God has ordained two divine institutions — the church and the home."
+
+### Guy N. Woods — 1957 Cogdill–Woods Debate (Birmingham)
+
+**Verified via:** James W. Adams contemporary reporting in *Gospel Guardian* Volume 8 Issue 30; Volume 9 Issue 41.
+
+**Verified Woods positions (in Adams's quotation marks):**
+
+- Principle: "when one method only is revealed, it is exclusive"
+- Characterization of orphan home: "a means which the church uses to do its own work"
+- Summary formulation: "The church is its own missionary society, but not its own orphan home."
+
+**Note for production pass:** Paul intends to purchase the physical 389-page debate book from Truth Publications / CEI Bookstore (https://truthbooks.com/truth-publications/cogdill-woods-debate/). When he has the book in hand, page citations for these Adams-reported quotations should be tightened to their actual pages in the published debate.
+
+**Do not use without verification:** Gemini-suggested p. 288 "The Bible does not provide an exclusive method of cooperation between the churches; therefore, any method that does not violate a principle is scriptural." This phrasing was not verified in any primary-adjacent source and differs from how Woods's argument is actually framed in Adams's contemporary reporting. Do not quote it.
+
+### Guy N. Woods — 1960 Freed-Hardeman Lectureship booklet *A Defense of Orphan Homes*
+
+**Verified via:** Truth Magazine archives, direct quotation.
+
+**Verified quotation, p. 14:** "But, when the church, in its organized capacity, does all that it is authorized to do — that is, supply the money for the needy — the work of actual care must yet be done."
 
 ---
 
-*Prepared April 2026. Revise this document as the project develops.*
+## Hallucination Warnings — Material NOT to Use
+
+Paul ran earlier AI research (Gemini, ChatGPT) before this project hardened its verification discipline. Both produced plausible but unverified "surrounds" around real Woods quotations. The two AI sources gave *different* expanded versions of the same 1946 core sentence — the signature of fabrication. Do not use:
+
+- Gemini's expanded 1946 Woods "When brethren form organizations independently of the church... engaged in that which is sinful." This wording is not attested in Roberts 1961 or any other verified primary-adjacent source.
+- Gemini's 1946 Woods "The church has no New Testament authority to contribute to any organization through which to do its work." The similar wording in Roberts 1961 is Roberts's own commentary, not a direct Woods quotation.
+- Gemini's p. 288 Cogdill–Woods debate quotation (see Woods 1957 section above).
+- Any expanded context around the verified core Woods sentences unless Paul has personally verified it against the physical source.
+
+**Rule:** Use only what is documented above. If Paul asks you to use additional Woods material, require the specific primary-adjacent source before drafting.
+
+---
+
+## Key Judgment Calls Already Made
+
+These were decided in the session that produced Chapters 6 and 7. Do not relitigate them; simply continue the pattern.
+
+1. **Orphan homes and Christian colleges are treated together** in the category of "separate human institutions." Chapter 6 establishes the category; Chapter 8 does not re-argue it.
+
+2. **Acts 6:1–6 appears in Chapter 6 as an organizational question** (the Jerusalem church organized its own benevolence without creating a separate organization). Chapter 8 handles Acts 6:1–6 as a scope question (who was helped — Christians only? the text says "disciples" and "Hellenistic widows" within the community of believers).
+
+3. **The expedient vs. separate-organization distinction** was included in Chapter 6 with specific test: would the institution survive if all churches withdrew? → separate organization. Would the building? → expedient. Do not repeat this argument verbatim in later chapters; refer back to it.
+
+4. **Named-advocate quotations on the institutional side are used when verified, not required for every issue.** Chapter 6 uses Woods extensively because his reversal is the documentable case. Chapter 7 (sponsoring church arrangement) states the institutional argument strongly without named advocates, because the verified primary-source work for that specific question would require fresh verification not yet completed. Chapter 8 should follow a similar principle: use verified primary-source quotations where available, do not manufacture them.
+
+5. **The 1954 dating of Woods's shift** is used throughout. Not "1946 vs. 1957" framing. "1946 vs. by-1954" framing, with Birmingham 1957 as the most public defense of the newer position.
+
+6. **The fallibility discipline stays in force as Paul's and the writer's working principle, but does not need to be stated explicitly in every chapter.** Chapter 6 includes an explicit fallibility paragraph in the non-institutional section as part of handling the Woods reversal. Paul noted after reviewing Chapter 6 that this was more prominent in the chapter text than he had intended and that the principle should be operative in the writer's discipline rather than restated repeatedly on the page. In Chapter 7 it is not explicitly restated, and that was the correct handling. Follow the Chapter 7 pattern for Chapters 8 and 9. The reminder belongs in the writer's working mind, not on every page.
+
+---
+
+## Chapter 8 Briefing — The Treasury and Benevolence
+
+**Expected length.** The longest of the four issue chapters. Possibly 10–12 pages in the final 6×9 format. This is the chapter most readers come to the booklet for.
+
+**The question.** May the local church's treasury extend benevolence to non-Christians, or is it limited to needy saints?
+
+**Internal structure** (same as Chapters 6 and 7):
+
+1. State the question precisely
+2. State the institutional position at full strength
+3. State the non-institutional position at full strength
+4. Walk the Scripture — this is where Chapter 8 becomes substantial
+5. Let the text carry the conclusion
+6. Discussion questions
+
+**Scripture to walk text by text:**
+
+**Collective benevolence passages (every one specifies saints):**
+
+- Acts 2:44–45 — "all those who had believed" (v. 44 defines "anyone" in v. 45)
+- Acts 4:32–37 — "the congregation of those who believed"
+- Acts 6:1–6 — the Hellenistic widows, disciples (this is the scope handling of the same text Chapter 6 treated as an organizational matter)
+- Acts 11:27–30 — "relief to the brethren"
+- Romans 15:25–26 — "the poor among the saints"
+- 1 Corinthians 16:1–3 — "the collection for the saints"
+- 2 Corinthians 8:4 — "ministry to the saints"
+- 2 Corinthians 9:1 — "this ministry to the saints"
+- 2 Corinthians 9:12 — "the needs of the saints"
+
+**Institutional proof texts — to be handled honestly, not dismissively:**
+
+- **James 1:27** — "Pure and undefiled religion in the sight of our God and Father is this: to visit orphans and widows in their distress, and to keep oneself unstained by the world."
+
+  The institutional argument is that this authorizes church benevolence to orphans and widows generally, whether saints or not. The non-institutional answer is that James 1 uses individual language throughout: v. 22 "yourselves," v. 23 "anyone," v. 24 "himself," v. 25 "one," v. 26 "anyone," v. 27 "oneself." The grammar places the passage in the individual sphere, not the collective treasury. Walk through the pronouns systematically and show the reader the pattern.
+
+- **Galatians 6:10** — "So then, while we have opportunity, let us do good to all people, and especially to those who are of the household of the faith."
+
+  The institutional argument is that "all people" authorizes church benevolence to all in need. The non-institutional answer: Galatians 6 opens (v. 1) "Brethren, even if anyone is caught in any trespass, you who are spiritual, restore such a one..." The "us" and "we" of Galatians 6 are individual Christians. The "all people" is the individual's broader sphere, paired and contrasted with "the household of the faith" as his narrower concentration. The text distinguishes precisely the two spheres Chapter 5 already established.
+
+**"Feed the belly, then feed the man" argument** — common institutional rationale. Handle against Jesus's method in John 6 (where He rebuked the multitude that sought Him for bread rather than for His teaching) and the apostolic pattern in Acts 3 (Peter and John to the lame man: "I do not possess silver and gold, but what I do have I give to you"). The apostolic churches did not operate on "feed the belly first" logic. They preached the gospel first, and cared for their own needy.
+
+**OT parallel (gleaning)** — reaffirms the same pattern, as Chapter 5 established. God could have funneled relief through the tabernacle; He did not. The individual landowner's field (Lev. 19:9–10; Deut. 24:19–21) carried the obligation. Brief reference back to Chapter 5, not a full re-argument.
+
+**Do not include in Chapter 8 (already handled elsewhere):**
+
+- Organizational question on Acts 6:1–6 (Chapter 6 handled)
+- The individual/collective distinction as foundational argument (Chapter 5 established)
+- Authority framework (Chapter 3 established)
+- The specific work of the church (Chapter 4 established)
+
+Chapter 8 should reference these foundations, not re-argue them.
+
+---
+
+## Working With Paul
+
+Paul will review each chapter carefully. He frequently reviews with his wife, Pam. He is precise, patient, and technically fluent in both Scripture and book production. He catches post-apostolic vocabulary and denominational assumptions when they slip in. Expect and welcome that correction. He is also warm and encouraging — do not confuse his precision with coldness.
+
+He prefers direct recommendations over long menus of options. When you face a judgment call, tell him which way you recommend and why, then ask whether to proceed. Do not load him with unnecessary questions when you can reasonably decide.
+
+He does not want you to use emojis, asterisked action descriptions, or excessive enthusiasm. Plain prose, professional register, warm but not effusive.
+
+**How Paul uses AI cross-checks.** Paul sometimes checks a question against another AI (Gemini, for instance) to triangulate. He does not rely on that output; he uses it to identify possible claims worth verifying. When he shares such output with you, the correct response is to verify what can be verified and identify what is unverifiable — not to take the other AI's output at face value. Chapter 6 benefited from exactly this discipline: the Gemini-suggested expanded 1946 surround was unverifiable and was correctly rejected, while Gemini's identification of the Tennessee Bible College archive and the Truth Magazine archives pointed toward real, verifiable primary-adjacent sources. The test is always: can this be verified against a specific primary or primary-adjacent source, and if so, what is that source?
+
+---
+
+## If You Run Low on Context
+
+Stop before drafting if your context window approaches fullness. Create a new handoff file documenting what has been done, what is pending, and what judgment calls have been made. Do not draft a chapter under context pressure. Chapter 8 especially deserves clean drafting conditions — it is the chapter most readers come to the booklet for, and the Scriptural walk-through must be airtight.
+
+---
+
+## Closing Note
+
+This booklet is a work of conscience. Paul is not writing to score points or to win a fight. He is writing to help serious readers — on both sides of a division that has separated families, friends, and congregations for three generations — examine the Scriptures on which that division actually rests. The goal is not persuasion by rhetoric. The goal is to read the Book, honestly and carefully, and let the text carry whatever conclusions it carries.
+
+Keep that goal in mind. Every phrase you draft either serves it or betrays it.
+
+---
+
+*End of handoff.*

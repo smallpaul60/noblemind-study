@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: Every Conversion in Acts | Why Do You Delay?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #C69B56;
+      --accent-glow: rgba(198, 155, 86, 0.4);
+      --accent-soft: rgba(198, 155, 86, 0.12);
+      --accent-secondary: #6A8899;
+      --accent-secondary-glow: rgba(106, 136, 153, 0.3);
+      --scripture-border: #6A8899;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(198, 155, 86,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(106, 136, 153,0.05), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(198, 155, 86,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(106, 136, 153,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(198, 155, 86,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(106, 136, 153,0.15),
+        0 0 80px rgba(198, 155, 86,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(198, 155, 86,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(198, 155, 86,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(198, 155, 86,0.4);
+    }
+    .nav-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px; padding: 14px 18px;
+      background: rgba(198, 155, 86,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(198, 155, 86,0.12);
+      position: relative; z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(198, 155, 86,0.25);
+      font-size: 0.85rem; transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer; min-width: 220px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C69B56' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark); color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-secondary); font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(198, 155, 86,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px; margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem; color: var(--accent);
+      margin-top: 24px; margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0; padding: 16px 20px;
+      background: rgba(106, 136, 153,0.06);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p {
+      margin-bottom: 0; color: var(--text-primary);
+    }
+    blockquote.scripture cite {
+      display: block; margin-top: 6px;
+      color: var(--accent);
+      font-style: normal; font-weight: 500; font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 30px 0 10px; padding: 12px;
+      background: rgba(198, 155, 86,0.06);
+      border: 1px solid rgba(198, 155, 86,0.2);
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(198, 155, 86,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(198, 155, 86,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: transparent; transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent); color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent); font-weight: 600; font-size: 0.9rem;
+    }
+    .part-intro-body {
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 10px auto 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .part-intro-body p {
+      margin-bottom: 14px;
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(198, 155, 86,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-nav {
+      display: flex; justify-content: space-between; margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary); text-decoration: none;
+      padding: 10px 20px; border-radius: 8px;
+      background: rgba(106, 136, 153,0.08);
+      border: 1px solid rgba(106, 136, 153,0.25);
+      transition: all 0.3s; font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(106, 136, 153,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled { opacity: 0.35; pointer-events: none; }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #C69B56; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #6A8899; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select {
+        padding: 10px 14px; font-size: 0.9rem; min-height: 44px;
+      }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a {
+        text-align: center; padding: 12px 20px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Why Do You Delay?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="part-1.html">─ Part One: What the Lord and His Apostles Taught ─</option>
+          <option value="chapter-01.html">Ch 1: The Command</option>
+          <option value="chapter-02.html">Ch 2: Born of Water and the Spirit</option>
+          <option value="chapter-03.html">Ch 3: What Baptism Is</option>
+          <option value="chapter-04.html">Ch 4: The Baptisms of Scripture, and the One That Remains</option>
+          <option value="chapter-05.html">Ch 5: What the Apostles Taught</option>
+          <option value="part-2.html">─ Part Two: What the Early Church Did ─</option>
+          <option value="chapter-06.html" selected>Ch 6: Every Conversion in Acts</option>
+          <option value="chapter-07.html">Ch 7: Where Is the Sinner's Prayer?</option>
+          <option value="chapter-08.html">Ch 8: "What Must I Do?"</option>
+          <option value="part-3.html">─ Part Three: Answering the Common Objections ─</option>
+          <option value="chapter-09.html">Ch 9: Not an Outward Expression of an Inward Grace</option>
+          <option value="chapter-10.html">Ch 10: "But We Are Saved by Grace, Not Works"</option>
+          <option value="chapter-11.html">Ch 11: Not by Faith Alone</option>
+          <option value="chapter-12.html">Ch 12: What About the Thief on the Cross?</option>
+          <option value="chapter-13.html">Ch 13: Calling on the Name of the Lord</option>
+          <option value="epilogue.html">Epilogue: Why Do You Delay?</option>
+        </select>
+      </nav>
+
+      
+      <header>
+        <p class="chapter-num">Chapter Six</p>
+        <h1>Every Conversion in Acts</h1>
+      </header>
+      <div class="content"><p>If the teaching is not convincing enough, look at what they <em>did</em>. The book of Acts records conversion after conversion. And in every single one, baptism is present — whether explicitly stated or implied by the apostolic pattern. There are no exceptions.</p>
+<p><strong>Pentecost (Acts 2:38–47)</strong> — Peter preached, three thousand souls were &ldquo;pierced to the heart,&rdquo; and Peter told them to repent and be baptized. That day, three thousand were baptized. And then the text tells us who did what next: <em>&ldquo;And the Lord was adding to their number day by day those who were being saved&rdquo;</em> (Acts 2:47). Not a committee. Not a vote. Not a preacher declaring them saved. The <em>Lord</em> added them — to <em>His</em> church, the one <em>He</em> said He would build. And He added them after they obeyed His command to be baptized.</p>
+<p><strong>The Samaritans (Acts 8:12)</strong> — When they believed Philip&rsquo;s preaching about the kingdom of God and the name of Jesus Christ, <em>&ldquo;they were being baptized, men and women alike.&rdquo;</em></p>
+<p><strong>Simon the Former Sorcerer (Acts 8:13)</strong> — Luke singles out one convert from the Samaritan response for particular mention: Simon, who had previously astonished the city with his sorcery. <em>&ldquo;Even Simon himself believed; and after being baptized, he continued on with Philip, and as he observed signs and great miracles taking place, he was constantly amazed.&rdquo;</em></p>
+<p>This case matters more than its brevity suggests. Simon&rsquo;s later actions revealed that his heart was not what it should have been — Peter soon had to rebuke him sharply, telling him his heart was <em>&ldquo;not right before God&rdquo;</em> (Acts 8:21), that he was <em>&ldquo;in the gall of bitterness and in the bondage of iniquity&rdquo;</em> (Acts 8:23), and commanding him to <em>&ldquo;repent of this wickedness of yours, and pray the Lord that, if possible, the intention of your heart may be forgiven you&rdquo;</em> (Acts 8:22).</p>
+<p>And yet — he was baptized. At the moment of his profession of faith, Philip baptized him, just as Philip baptized the other Samaritans. And Peter, confronting his later sin, did not say, &ldquo;Your baptism was invalid because your heart was never truly changed.&rdquo; Peter said: repent, confess, pray for forgiveness. The baptism stood. The lingering sin was addressed as a separate matter.</p>
+<p>Consider what this tells us. If baptism were merely an outward expression of an already-transformed inward state, Simon should never have been baptized — he lacked the inward reality. But the apostolic pattern was unmistakable: baptize at the point of professed faith, and deal with any remaining sin afterward. This is devastating to the popular teaching that baptism is &ldquo;just a symbol&rdquo; of a heart already made right. Simon&rsquo;s heart, by Peter&rsquo;s own words, was not made right. And yet baptism was administered — because baptism is not a reflection of an inward change already complete; it is the moment at which sins are washed away, even for a man whose faith was still contaminated with wrong motives.</p>
+<p><strong>The Ethiopian Eunuch (Acts 8:35–39)</strong> — Philip &ldquo;preached Jesus to him.&rdquo; That is all the text says — he preached Jesus. And as they traveled down the road, the eunuch saw water and said, <em>&ldquo;Look! Water! What prevents me from being baptized?&rdquo;</em></p>
+<p>Think about what that tells us. Philip preached Jesus, and the eunuch&rsquo;s immediate response was to look for water. Preaching Jesus <em>includes</em> preaching baptism — or the eunuch would never have known to ask. He did not ask about a prayer. He did not ask about a moment of personal acceptance. He saw water and asked to be baptized. Because that is what preaching Christ looks like. And when they came up out of the water, the text says <em>&ldquo;he went on his way rejoicing&rdquo;</em> (Acts 8:39). Not before baptism. After. The rejoicing came when his obedience was complete.</p>
+<p><strong>Saul of Tarsus (Acts 9:1–18; 22:6–16)</strong> — This conversion deserves careful attention, because it dismantles every argument that belief alone is sufficient.</p>
+<p>Saul encountered Jesus on the road to Damascus. He saw the risen Lord. He heard His voice. He asked, <em>&ldquo;Who are You, Lord?&rdquo;</em> and was told, <em>&ldquo;I am Jesus whom you are persecuting.&rdquo;</em> From that moment, Saul believed. There is no question about it — he had met the Lord face to face.</p>
+<p>And what did Saul do? He went into the city. He fasted. He prayed. For three days he neither ate nor drank. If ever a man demonstrated belief, repentance, and earnest prayer, it was Saul during those three days.</p>
+<p>But he was still in his sins.</p>
+<p>When Ananias arrived, he did not say, &ldquo;Good news — you were saved on the road.&rdquo; He did not say, &ldquo;Your faith has already taken care of it.&rdquo; He said: <em>&ldquo;Now why do you delay? Get up and be baptized, and wash away your sins, calling on His name&rdquo;</em> (Acts 22:16).</p>
+<p>Wash away your sins. <em>After</em> believing. <em>After</em> fasting. <em>After</em> praying. Saul&rsquo;s sins were still there — and they remained there until he was baptized. If belief alone were enough, Saul would have been saved on the road. If prayer alone were enough, Saul would have been saved during those three days. But he was not. He was told to be baptized and wash away his sins. And he did.</p>
+<p><strong>Cornelius and His Household (Acts 10:44–48)</strong> — Cornelius is a remarkable case, and it requires understanding what happened and why. While Peter was still speaking, the Holy Spirit fell upon Cornelius and his household. They spoke in tongues. They praised God. And the Jewish Christians who had come with Peter were amazed.</p>
+<p>Why did this happen? For the same reason the Holy Spirit fell on the apostles at Pentecost. At Pentecost, the Spirit came upon the apostles so the crowd could see that these men spoke by the power of God — they spoke in real languages that each listener understood in his own tongue (Acts 2:6–8), not unintelligible speech. It was a sign to the people that God was behind what was happening. With Cornelius, the Spirit fell for the same reason — not to save Cornelius, but to show Peter and the Jews with him that God was opening the door to the Gentiles. Peter himself explained this later: <em>&ldquo;The Holy Spirit fell upon them just as He did upon us at the beginning&rdquo;</em> (Acts 11:15). It was God&rsquo;s testimony that the gospel was for all people, not Jews alone.</p>
+<p>And Peter&rsquo;s response was not, &ldquo;Well, they clearly don&rsquo;t need baptism now.&rdquo; His response was:</p>
+<blockquote class="scripture"><p>&ldquo;Surely no one can refuse the water for these to be baptized who have received the Holy Spirit just as we did, can he?&rdquo;</p><cite>&mdash; Acts 10:47</cite></blockquote>
+<p>And he <em>ordered</em> them to be baptized. Even after receiving the Holy Spirit directly — a miraculous, unmistakable sign from God — baptism was still required. The Spirit confirmed that Gentiles were welcome. Baptism is what brought them into Christ. Who could deny them the water? And who would dare deny that it was necessary?</p>
+<p><strong>Lydia (Acts 16:14–15)</strong> — The Lord opened her heart to respond to the things spoken by Paul. And she was baptized, along with her household.</p>
+<p><strong>The Philippian Jailer (Acts 16:30–33)</strong> — The jailer cried out, <em>&ldquo;What must I do to be saved?&rdquo;</em> Paul and Silas spoke the word of the Lord to him. And he was baptized <em>&ldquo;that very hour of the night&rdquo;</em> — he and all his household.</p>
+<p>That very hour of the night. Not the next morning. Not the following Sunday. That hour. In the middle of the night. Why? Because baptism is not a ceremony to be scheduled. It is the moment sins are washed away. And that cannot wait.</p>
+<p><strong>Some Athenians — Dionysius and Damaris (Acts 17:34)</strong> — In Athens, Paul preached to the philosophers gathered at the Areopagus. Some mocked when he spoke of the resurrection. But the text tells us: <em>&ldquo;some men joined him and believed, among whom also were Dionysius the Areopagite and a woman named Damaris and others with them.&rdquo;</em></p>
+<p>Luke does not describe baptism in this particular passage. But throughout Acts, when Luke writes that people &ldquo;believed,&rdquo; he uses the word as shorthand for the full apostolic response — the same response Peter demanded at Pentecost, the same response Philip preached to the Samaritans, the same response Paul preached everywhere he went. At Corinth, just one chapter later, Luke writes that <em>&ldquo;many of the Corinthians when they heard were believing and being baptized&rdquo;</em> (Acts 18:8) — believing and being baptized are presented as a single event. In Samaria, Luke writes that <em>&ldquo;when they believed&rdquo;</em> they <em>&ldquo;were being baptized&rdquo;</em> (Acts 8:12). To &ldquo;believe&rdquo; in Acts is never bare intellectual assent; it is the comprehensive response of heart and obedience.</p>
+<p>And notice what the Athenian converts did: they <em>joined</em> Paul. They became his companions in the faith. By the pattern Luke has already established ten times over by this point in his book, &ldquo;joined&rdquo; and &ldquo;believed&rdquo; together describe the full response — which always includes baptism. Luke simply does not spell it out here because he has spelled it out everywhere else. He does not have to.</p>
+<p>This is a smaller, quieter conversion than the others — no mass response, no miraculous sign, no household baptism detailed. But it is a conversion account all the same, and it fits the apostolic pattern exactly.</p>
+<p><strong>The Corinthians (Acts 18:8)</strong> — <em>&ldquo;Crispus, the leader of the synagogue, believed in the Lord with all his household, and many of the Corinthians when they heard were believing and being baptized.&rdquo;</em> Believing <em>and</em> being baptized. Together. Inseparable. Paul later confirms he personally baptized Crispus (1 Corinthians 1:14).</p>
+<p><strong>The Disciples at Ephesus (Acts 19:1–5)</strong> — Paul found disciples who had been baptized only with John&rsquo;s baptism. They had not even heard of the Holy Spirit. And Paul had them baptized again — in the name of the Lord Jesus. If baptism were merely a symbol, why would Paul require it a second time? Because it is not a symbol. It matters <em>what</em> baptism and <em>whose</em> baptism.</p>
+<p>Eleven conversion accounts. Baptism explicitly stated in ten. The eleventh (Athens) describes the converts as &ldquo;believing&rdquo; and &ldquo;joining&rdquo; Paul — Luke&rsquo;s shorthand for the same apostolic response he has spelled out ten times already, a response that always included baptism. Zero exceptions to the pattern. Every single convert, without a single counter-example, responded to the apostolic gospel the same way — and that gospel always led to the water.</p></div>
+    
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="part-2.html">&larr; Part Two</a>
+          <a href="chapter-07.html">Chapter 7 &rarr;</a>
+        </div>
+        <p class="copyright">Why Do You Delay? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'whyDoYouDelay_progress';
+    var CH = 'ch6';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+    function toggleComplete() {
+      var p = loadProgress();
+      p[CH] = p[CH] === 'complete' ? 'visited' : 'complete';
+      saveProgress(p);
+      updateUI();
+    }
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') el.classList.add('completed');
+      else el.classList.remove('completed');
+    }
+    function goToChapter(url) { if (url) window.location.href = url; }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) { p[CH] = 'visited'; saveProgress(p); }
+      updateUI();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'part-2.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-07.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

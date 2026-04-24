@@ -21,6 +21,8 @@ EXCLUDED_DIRS = {
     'data',                               # principles source, not a page
     'test-this-claim',                    # handled separately (noindex filter)
     'tools',                              # internal admin utilities (book-config-generator)
+    'archive',                            # archived superseded books, not deployed
+    'why-the-division-among-brethren',    # in-progress draft, not deployed
 }
 
 EXCLUDED_FILES = {
