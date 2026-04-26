@@ -40,7 +40,13 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='admin/' \
   --exclude='__pycache__' \
   --exclude='.claude/' \
-  --exclude='why-the-division-among-brethren/' \
+  --exclude='WhyTheDivision/Chapter_*.md' \
+  --exclude='WhyTheDivision/Preface.md' \
+  --exclude='WhyTheDivision/PROJECT_HANDOFF.md' \
+  --exclude='WhyTheDivision/ai_guidance_note_handoff.md' \
+  --exclude='WhyTheDivision/principles_addition_emphasis_not_exhaustion.md' \
+  --exclude='WhyTheDivision/Debates_Notes/' \
+  --exclude='WhyTheDivision/Resource Appendix_*.pdf' \
   --exclude='TheGodWhoShowedUp/em-dash_alt-0151.odt' \
   --exclude='archive/' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"

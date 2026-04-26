@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 3: The Question of Authority | Why the Division Among Brethren?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #3F5F3F;
+      --accent-glow: rgba(63, 95, 63, 0.4);
+      --accent-soft: rgba(63, 95, 63, 0.12);
+      --accent-secondary: #88a888;
+      --accent-secondary-glow: rgba(136, 168, 136, 0.3);
+      --scripture-border: #88a888;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark); color: var(--text-primary);
+      font-size: 1.1rem; line-height: 1.85;
+      min-height: 100vh; padding: 30px 20px;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(63, 95, 63,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(136, 168, 136,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px); padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(63, 95, 63,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(136, 168, 136,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(63, 95, 63,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(136, 168, 136,0.15),
+        0 0 80px rgba(63, 95, 63,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(63, 95, 63,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(63, 95, 63,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(63, 95, 63,0.4);
+    }
+    .nav-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px; padding: 14px 18px;
+      background: rgba(63, 95, 63,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(63, 95, 63,0.12);
+      position: relative; z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(63, 95, 63,0.25);
+      font-size: 0.85rem; transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer; min-width: 220px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388a888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark); color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-secondary); font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(63, 95, 63,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px; margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem; color: var(--accent);
+      margin-top: 24px; margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0; padding: 16px 20px;
+      background: rgba(136, 168, 136,0.06);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p {
+      margin-bottom: 0; color: var(--text-primary);
+    }
+    blockquote.scripture cite {
+      display: block; margin-top: 6px;
+      color: var(--accent-secondary);
+      font-style: normal; font-weight: 500; font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 30px 0 10px; padding: 12px;
+      background: rgba(63, 95, 63,0.06);
+      border: 1px solid rgba(63, 95, 63,0.2);
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(63, 95, 63,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(63, 95, 63,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: transparent; transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent); color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent-secondary); font-weight: 600; font-size: 0.9rem;
+    }
+    .part-intro-body {
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 10px auto 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .part-intro-body p {
+      margin-bottom: 14px;
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(63, 95, 63,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-nav {
+      display: flex; justify-content: space-between; margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary); text-decoration: none;
+      padding: 10px 20px; border-radius: 8px;
+      background: rgba(136, 168, 136,0.08);
+      border: 1px solid rgba(136, 168, 136,0.25);
+      transition: all 0.3s; font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(136, 168, 136,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled { opacity: 0.35; pointer-events: none; }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #3F5F3F; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #88a888; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select {
+        padding: 10px 14px; font-size: 0.9rem; min-height: 44px;
+      }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a {
+        text-align: center; padding: 12px 20px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Why the Division Among Brethren?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="part-1.html">─ Part One: Background ─</option>
+          <option value="chapter-01.html">Ch 1: Why This Matters</option>
+          <option value="chapter-02.html">Ch 2: A Short History of the Division</option>
+          <option value="part-2.html">─ Part Two: The Foundation ─</option>
+          <option value="chapter-03.html" selected>Ch 3: The Question of Authority</option>
+          <option value="chapter-04.html">Ch 4: The Work God Gave the Church</option>
+          <option value="chapter-05.html">Ch 5: The Church and the Individual</option>
+          <option value="part-3.html">─ Part Three: The Four Questions ─</option>
+          <option value="chapter-06.html">Ch 6: Church-Supported Institutions</option>
+          <option value="chapter-07.html">Ch 7: The Sponsoring Church Arrangement</option>
+          <option value="chapter-08.html">Ch 8: The Treasury and Benevolence</option>
+          <option value="chapter-09.html">Ch 9: Fellowship Halls and Social Meals</option>
+          <option value="part-4.html">─ Part Four: What It Means ─</option>
+          <option value="chapter-10.html">Ch 10: What's Really at Stake</option>
+          <option value="chapter-11.html">Ch 11: For Further Study</option>
+        </select>
+      </nav>
+
+      
+      <header>
+        <p class="chapter-num">Chapter Three</p>
+        <h1>The Question of Authority</h1>
+      </header>
+      <div class="content"><p>Before any specific practice can be examined — orphan homes, sponsoring churches, the use of the treasury, fellowship meals — a more fundamental question has to be settled. How does a congregation know what it may and may not do? What makes a practice right? What makes a practice wrong? The answer given by Christ and recorded by His apostles is still the answer today: a congregation operates by the authority of Jesus Christ, and that authority is found in the inspired Scriptures. Both sides of the division we are examining would agree with that sentence as a matter of principle. The disagreement is not whether Scripture is the authority. The disagreement is over how that authority is established — and particularly over what the absence of Scripture&rsquo;s instruction means.</p>
+<h3>The Foundation</h3>
+<p>Paul writes to the Colossians: &ldquo;Whatever you do in word or deed, do all in the name of the Lord Jesus, giving thanks through Him to God the Father&rdquo; (Col. 3:17). To act &ldquo;in the name of&rdquo; someone is to act by their authority. A policeman acts in the name of the law. An ambassador speaks in the name of his government. One who is baptized &ldquo;in the name of the Father and the Son and the Holy Spirit&rdquo; (Matt. 28:19) is baptized by the authority of the Father, the Son, and the Holy Spirit. When Paul says &ldquo;whatever you do in word or deed,&rdquo; he is not leaving a category of activity outside that fence. Everything — every word, every action, every decision of the individual Christian and every decision of the collective church — is to be done by the authority of Jesus Christ.</p>
+<p>That raises the obvious next question: where is that authority found? Paul&rsquo;s second letter to Timothy answers it: &ldquo;All Scripture is inspired by God and profitable for teaching, for reproof, for correction, for training in righteousness; so that the man of God may be adequate, equipped for every good work&rdquo; (2 Tim. 3:16–17). Scripture equips <em>completely</em>. The man of God is <em>adequate</em> — the Greek word is <em>artios</em>, meaning complete, thoroughly fitted out. He is equipped for <em>every good work</em>. If Scripture equips completely for every good work, then anything Scripture does not equip for is not a good work Christ has given us. The reverse is worth stating too: if we find ourselves doing work for which Scripture has not equipped us, we are doing work God has not required — and whose work, then, is it?</p>
+<h3>How Authority Is Established</h3>
+<p>How does Scripture actually authorize a practice? There are three ordinary ways, and these are not peculiar to any tradition — they are the ordinary tools of reading any authoritative text.</p>
+<p><strong>Direct statement.</strong> The clearest form of authority is a direct command or statement. When Jesus says &ldquo;Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit&rdquo; (Matt. 28:19), no inference is required. The command is explicit. When Paul tells the Corinthians to put away the immoral brother (1 Cor. 5), the direct statement leaves no doubt. Most of our practice rests on direct statements.</p>
+<p><strong>Approved apostolic example.</strong> The second way Scripture authorizes a practice is by recording what the apostles and early churches did under apostolic oversight — examples the apostles clearly approved as the pattern to follow. On what day of the week did the disciples gather to break bread? &ldquo;On the first day of the week, when we were gathered together to break bread&rdquo; (Acts 20:7). This is not a direct command to assemble on the first day. It is an example. But it is an approved example, repeated across the New Testament churches (1 Cor. 16:2 — &ldquo;on the first day of every week&rdquo;), and there is no alternative example in Scripture. The apostles practiced and approved the first-day assembly for breaking bread, and no other pattern is offered. The example is binding because apostolic approval carries the authority of Christ who sent them (John 13:20; Matt. 18:18).</p>
+<p>Not every example in Scripture is approved. When the Corinthians abused the Lord&rsquo;s Supper (1 Cor. 11:17–34) the narrative records what they did, but Paul&rsquo;s response shows the practice was condemned. An approved example is one the apostles sanctioned, not merely one the text happens to report.</p>
+<p><strong>Necessary inference.</strong> The third way authority is established is by what the text necessarily requires us to conclude. When Philip preached Jesus to the Ethiopian eunuch (Acts 8:35) and the eunuch immediately asked, &ldquo;Look! Water! What prevents me from being baptized?&rdquo; (v. 36), we necessarily infer that Philip&rsquo;s preaching of &ldquo;Jesus&rdquo; included the requirement of baptism — because the eunuch knew to ask for it. The text does not directly say &ldquo;Philip taught him to be baptized.&rdquo; But the conclusion is forced by what the text does say. Nothing else explains the eunuch&rsquo;s question.</p>
+<p>Necessary inference is not the same as <em>speculative</em> inference. If the text permits two conclusions, we cannot bind either one. What the text <em>requires</em> — what must be true for the text to make sense — we are obligated to accept.</p>
+<h3>The Question of Silence</h3>
+<p>Here the two sides of the division we are examining part ways.</p>
+<p>When Scripture does not authorize a practice — when there is no direct statement, no approved example, and nothing necessarily inferred — what does that silence mean? Does the absence of authorization permit the practice, or does it restrict the practice?</p>
+<p>The institutional argument tends to reason this way: if Scripture does not forbid a practice, and if the practice can be defended as an expedient to an authorized work, it may be done. Buildings are not directly authorized, but they expedite assembly. Song books are not directly authorized, but they expedite the command to sing. By this reasoning, an orphan home expedites the command to care for orphans; a fellowship hall expedites the command to build up the saints; a sponsoring church arrangement expedites the command to preach the gospel. Silence permits where need invites.</p>
+<p>The non-institutional argument is different. If Scripture does not authorize a practice, the practice is unauthorized — and the burden is on the one who proposes it to show where the authority lies. Silence restricts.</p>
+<p>The question cannot be resolved by casual reasoning on either side. It must be resolved by asking how Scripture itself treats silence. And Scripture&rsquo;s own handling of the matter is consistent.</p>
+<p><strong>Nadab and Abihu</strong> (Lev. 10:1–2). &ldquo;Now Nadab and Abihu, the sons of Aaron, took their respective firepans, and after putting fire in them, placed incense on it and offered strange fire before the Lord, which He had not commanded them. And fire came out from the presence of the Lord and consumed them, and they died before the Lord.&rdquo; The sons of Aaron were not told they could not do what they did. They were simply not told they could. The text&rsquo;s indictment is precise: &ldquo;fire … which He had not commanded them.&rdquo; Silence was not permission. Silence was restriction, and violating it cost them their lives.</p>
+<p><strong>Hebrews 7:13–14.</strong> The writer of Hebrews argues that Jesus could not have been a priest under the Mosaic law because He was descended from Judah, &ldquo;a tribe with reference to which Moses spoke nothing concerning priests.&rdquo; Moses said <em>nothing</em>. Moses did not forbid Judean priests — he simply did not authorize them. And the Hebrew writer treats that silence as conclusive. If Moses said nothing about priests from Judah, then under the Mosaic law there could be no priests from Judah. This is an apostolic application of the principle that when God specifies, silence on everything else excludes.</p>
+<p><strong>The principle of specification.</strong> When God told Noah to build the ark of gopher wood (Gen. 6:14), He did not forbid oak, cedar, or pine. He simply specified gopher wood. Specification is itself a form of restrictive silence. Noah was not at liberty to choose oak because oak was not on a list of prohibited woods. The specification of gopher wood excluded every alternative not specified. This principle operates throughout Scripture. When God tells His people what to do, He is — by the same act — telling them what not to do. The command to sing (Eph. 5:19; Col. 3:16) is, by specification, a restriction against adding instrumental music — not because an instrument is forbidden by name, but because God specified the kind of music He wanted. The same principle operates wherever Scripture specifies.</p>
+<p>One more observation is worth making. The &ldquo;silence permits&rdquo; argument proves too much. If silence permits any practice that is not directly forbidden and can be defended as expedient, then virtually every practice that divided the churches of Christ from the Christian Church in the nineteenth century — the missionary society, instrumental music, and similar innovations — is defensible on the same reasoning. Each was defended in its day as an expedient to an authorized work. The hermeneutic that permits one permits all. The hermeneutic that restricts one restricts all. A consistent reading of Scripture has to come down one way or the other, and the reader will have to decide which way Scripture itself actually comes down.</p>
+<h3>The Use of Old Testament Examples</h3>
+<p>One more piece of ground needs to be cleared before we move to the specific issues, because the arguments that follow will draw on the Old Testament.</p>
+<p>We are not under the Law of Moses. Paul is explicit: &ldquo;having canceled out the certificate of debt consisting of decrees against us, which was hostile to us; and He has taken it out of the way, having nailed it to the cross&rdquo; (Col. 2:14). The Hebrew writer says the same: &ldquo;When He said, &lsquo;A new covenant,&rsquo; He has made the first obsolete&rdquo; (Heb. 8:13). The Mosaic law as a legal code — its sacrifices, its feast days, its priesthood, its dietary restrictions, its civil regulations — is not binding on the Christian.</p>
+<p>But the Old Testament is not discarded. Paul writes to the Romans: &ldquo;For whatever was written in earlier times was written for our instruction, so that through perseverance and the encouragement of the Scriptures we might have hope&rdquo; (Rom. 15:4). He writes the same to Corinth: &ldquo;Now these things happened as examples for us … these things happened to them as an example, and they were written for our instruction, upon whom the ends of the ages have come&rdquo; (1 Cor. 10:6, 11). And it is worth remembering that when Paul tells Timothy &ldquo;all Scripture is inspired by God&rdquo; (2 Tim. 3:16), the Scripture Timothy had from his mother and grandmother (2 Tim. 1:5; 3:15) was the Old Testament. The Old Testament is profitable for teaching, for reproof, for correction, and for training in righteousness.</p>
+<p>The distinction is between <em>binding law</em> and <em>instructive pattern</em>. We are not bound to keep the Sabbath, to offer sacrifices, or to leave the corners of our fields for the poor. But when we observe <em>how God ordered His people</em> — the distinction between the tabernacle and the household, between the priesthood&rsquo;s work and the individual landowner&rsquo;s responsibility, between the temple treasury and the field — we are observing the character and method of God. Those patterns reveal how God has always distinguished between what a collective body does through its appointed institution and what individuals do in their own sphere. That distinction carries into the New Testament, because God&rsquo;s character does not change (Mal. 3:6; James 1:17).</p>
+<p>This is the difference between trying to reinstate the Law of Moses and learning from the Law of Moses. The first is error (Gal. 3:23–25). The second is Paul&rsquo;s own command (Rom. 15:4).</p>
+<h3>Why This Chapter Matters</h3>
+<p>Everything that follows in this booklet depends on what has been laid down in this chapter. If Scripture is the authority; if authority is established by direct statement, approved apostolic example, and necessary inference; if silence restricts rather than permits where God has specified; if the Old Testament furnishes instructive patterns we are obligated to learn from — then the specific questions we turn to next can be examined honestly. Each question will be the same. Where does Scripture authorize this practice? What does the text actually say?</p>
+<p>If the reasoning of this chapter is wrong, the chapters that follow will be wrong with it. If it is right, the specific issues become matters of patient textual work rather than rhetorical victory. The point of this booklet is not to win an argument. The point is to read the Book.</p>
+<h3>For Reflection and Discussion</h3>
+<ol>
+<li>
+<p>Colossians 3:17 says &ldquo;whatever you do in word or deed, do all in the name of the Lord Jesus.&rdquo; Are there any activities of the church that this verse does <em>not</em> cover? Explain your answer.</p>
+</li>
+<li>
+<p>2 Timothy 3:16–17 says Scripture equips the man of God &ldquo;for every good work.&rdquo; What does that imply about practices for which no Scriptural authority can be produced?</p>
+</li>
+<li>
+<p>Read Leviticus 10:1–2 carefully. What exactly was wrong with the fire Nadab and Abihu offered? Does the text say it was forbidden, or does it say something more specific than that? Why does the distinction matter?</p>
+</li>
+<li>
+<p>Genesis 6:14 specifies gopher wood for the ark. If Noah had built with oak instead, what precisely would have been his sin? What does that tell us about the principle of specification — and about silence?</p>
+</li>
+<li>
+<p>Romans 15:4 and 1 Corinthians 10:11 tell us that things written earlier were written &ldquo;for our instruction.&rdquo; In light of Colossians 2:14 and Hebrews 8:13, how do we use the Old Testament without placing ourselves under the Mosaic law?</p>
+</li>
+</ol></div>
+    
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="part-2.html">&larr; Part Two</a>
+          <a href="chapter-04.html">Chapter 4 &rarr;</a>
+        </div>
+        <p class="copyright">Why the Division Among Brethren? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'whyTheDivision_progress';
+    var CH = 'ch3';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+    function toggleComplete() {
+      var p = loadProgress();
+      p[CH] = p[CH] === 'complete' ? 'visited' : 'complete';
+      saveProgress(p);
+      updateUI();
+    }
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') el.classList.add('completed');
+      else el.classList.remove('completed');
+    }
+    function goToChapter(url) { if (url) window.location.href = url; }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) { p[CH] = 'visited'; saveProgress(p); }
+      updateUI();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'part-2.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-04.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

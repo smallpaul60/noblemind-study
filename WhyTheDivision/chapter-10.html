@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 10: What's Really at Stake | Why the Division Among Brethren?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #3F5F3F;
+      --accent-glow: rgba(63, 95, 63, 0.4);
+      --accent-soft: rgba(63, 95, 63, 0.12);
+      --accent-secondary: #88a888;
+      --accent-secondary-glow: rgba(136, 168, 136, 0.3);
+      --scripture-border: #88a888;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark); color: var(--text-primary);
+      font-size: 1.1rem; line-height: 1.85;
+      min-height: 100vh; padding: 30px 20px;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(63, 95, 63,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(136, 168, 136,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px); padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(63, 95, 63,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(136, 168, 136,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(63, 95, 63,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(136, 168, 136,0.15),
+        0 0 80px rgba(63, 95, 63,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(63, 95, 63,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(63, 95, 63,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(63, 95, 63,0.4);
+    }
+    .nav-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px; padding: 14px 18px;
+      background: rgba(63, 95, 63,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(63, 95, 63,0.12);
+      position: relative; z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(63, 95, 63,0.25);
+      font-size: 0.85rem; transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer; min-width: 220px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388a888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark); color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-secondary); font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(63, 95, 63,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px; margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem; color: var(--accent);
+      margin-top: 24px; margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0; padding: 16px 20px;
+      background: rgba(136, 168, 136,0.06);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p {
+      margin-bottom: 0; color: var(--text-primary);
+    }
+    blockquote.scripture cite {
+      display: block; margin-top: 6px;
+      color: var(--accent-secondary);
+      font-style: normal; font-weight: 500; font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 30px 0 10px; padding: 12px;
+      background: rgba(63, 95, 63,0.06);
+      border: 1px solid rgba(63, 95, 63,0.2);
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(63, 95, 63,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(63, 95, 63,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: transparent; transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent); color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent-secondary); font-weight: 600; font-size: 0.9rem;
+    }
+    .part-intro-body {
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 10px auto 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .part-intro-body p {
+      margin-bottom: 14px;
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(63, 95, 63,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-nav {
+      display: flex; justify-content: space-between; margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary); text-decoration: none;
+      padding: 10px 20px; border-radius: 8px;
+      background: rgba(136, 168, 136,0.08);
+      border: 1px solid rgba(136, 168, 136,0.25);
+      transition: all 0.3s; font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(136, 168, 136,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled { opacity: 0.35; pointer-events: none; }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #3F5F3F; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #88a888; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select {
+        padding: 10px 14px; font-size: 0.9rem; min-height: 44px;
+      }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a {
+        text-align: center; padding: 12px 20px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Why the Division Among Brethren?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="part-1.html">─ Part One: Background ─</option>
+          <option value="chapter-01.html">Ch 1: Why This Matters</option>
+          <option value="chapter-02.html">Ch 2: A Short History of the Division</option>
+          <option value="part-2.html">─ Part Two: The Foundation ─</option>
+          <option value="chapter-03.html">Ch 3: The Question of Authority</option>
+          <option value="chapter-04.html">Ch 4: The Work God Gave the Church</option>
+          <option value="chapter-05.html">Ch 5: The Church and the Individual</option>
+          <option value="part-3.html">─ Part Three: The Four Questions ─</option>
+          <option value="chapter-06.html">Ch 6: Church-Supported Institutions</option>
+          <option value="chapter-07.html">Ch 7: The Sponsoring Church Arrangement</option>
+          <option value="chapter-08.html">Ch 8: The Treasury and Benevolence</option>
+          <option value="chapter-09.html">Ch 9: Fellowship Halls and Social Meals</option>
+          <option value="part-4.html">─ Part Four: What It Means ─</option>
+          <option value="chapter-10.html" selected>Ch 10: What's Really at Stake</option>
+          <option value="chapter-11.html">Ch 11: For Further Study</option>
+        </select>
+      </nav>
+
+      
+      <header>
+        <p class="chapter-num">Chapter Ten</p>
+        <h1>What's Really at Stake</h1>
+      </header>
+      <div class="content"><p>Ten chapters is a long road. A reader who has come this far has walked through the history, the principle, the work of the church, the individual-collective distinction, and four specific questions — the orphan home, the sponsoring church, the treasury&rsquo;s scope, and the common meal. Each of those four was asked in the same way: state the question, state both positions as their best advocates state them, walk the Scripture, and let the text carry the conclusion.</p>
+<p>The chapters have been specific on purpose. A booklet that speaks only of principle without ever coming down to actual practices can be read and agreed with without ever forcing the reader&rsquo;s hand. A booklet that comes down to the practices and never abstracts back up to principle can be read as a narrow quarrel over institutional arrangements that a reasonable man might adjudicate either way. Neither of those would serve the reader fairly. The work of the four specific chapters was to show what is actually at stake at the practical level — where congregations actually divide, with which congregations, over which arrangements, on the basis of which texts.</p>
+<p>This chapter steps back. It asks the question the four specific chapters prepared the reader to ask for himself: <em>what is really at stake?</em> The answer, stated as plainly as the booklet knows how to state it, is this. The division among brethren is not, ultimately, about three or four practices. It is about one hermeneutic.</p>
+<h3>Why the Practices Were Not the Real Issue</h3>
+<p>A reader coming fresh to the division might assume the quarrel among brethren is a quarrel about specific things — orphan homes, Herald of Truth, church benevolence, fellowship halls. It is natural to think so, because those are the visible surfaces of the division. When congregations drew apart in the 1950s, they drew apart over decisions about those specific things. And when a reader today asks a brother on either side of the division what the issue is, he is often given an answer that names one or more of those practices.</p>
+<p>But a practice is always downstream of a hermeneutic. A practice is adopted or rejected because of how Scripture is being read. Two congregations may disagree about whether to cooperate with the Herald of Truth sponsoring arrangement, but their disagreement is not, at bottom, about radio programs. Their disagreement is about whether Scripture&rsquo;s silence on a proposed practice is permissive or restrictive — whether a congregation may do what Scripture does not mention, so long as it is not expressly forbidden, or whether a congregation must find positive authority in the text for what it undertakes.</p>
+<p>Every one of the four specific issues walked in the preceding chapters turns on that single hermeneutical question. The orphan home question is not really about whether orphans should be helped (both sides agree they should) but about whether a congregation&rsquo;s treasury may pass through a separate human institution for which Scripture provides no specification. The sponsoring church question is not about whether evangelism is authorized (both sides agree it is) but about whether one congregation&rsquo;s eldership may oversee a work funded by many other congregations, when the New Testament shows no such structural arrangement. The treasury-and-benevolence question is not about whether the needy should be helped (both sides agree they should) but about whether the collective treasury&rsquo;s scope is the scope the New Testament consistently specifies or a broader scope the New Testament never authorizes. The fellowship hall question is not about whether Christians should eat together (they should) but about whether the common meal, which Paul explicitly sends to the house, belongs on the collective property of the church.</p>
+<p>In every case, the disagreement about the practice is downstream of a disagreement about how Scripture authorizes. The practice question is the visible surface. The hermeneutic is the thing beneath.</p>
+<p>This is why the division has persisted. A disagreement about a practice could be settled, in principle, by a compromise or an adjustment or a careful set of distinctions. A disagreement about the hermeneutic cannot be settled that way, because the hermeneutic governs every practice, not just the one currently in view. Two congregations that cannot agree on how Scripture establishes authority will continue to disagree on practice after practice, indefinitely, because every new practice raises the same underlying question. And two congregations that <em>do</em> agree on how Scripture establishes authority will generally reach the same conclusions on the practices, not because they have agreed to agree, but because the text will have carried them there.</p>
+<h3>The One Question</h3>
+<p>Chapter 3 named the hermeneutical question as the load-bearing question of the booklet, and every chapter since has rested on it. Stated plainly, the question is this: <em>does silence in Scripture, on a specific practice or arrangement, imply permission to adopt it, or does it imply the absence of divine authority for adopting it?</em></p>
+<p>The two sides of the division answer that question differently. The institutional answer, in its most careful forms, is that silence is permissive. If Scripture does not expressly forbid a practice, and if the practice can be defended as an expedient to the church&rsquo;s work, then the practice may be adopted. This is not the casual institutional answer but the thoughtful one, and it is the answer on which the institutional arrangements of the mid-twentieth century rest.</p>
+<p>The non-institutional answer is that silence, when paired with apostolic specification, is restrictive. Where the New Testament has specified a means — one congregation&rsquo;s eldership overseeing its own work, the treasury&rsquo;s benevolence directed to needy saints, the common meal taking place in the house — that specification governs. The absence of other means in the apostolic record is not a gap to be filled by human judgment. It is a divine reticence that the congregation is to respect. Where Scripture has specified, the congregation does not add; where Scripture is silent on a category of work altogether, that work is not authorized to the congregation at all.</p>
+<p>The reader may have noticed that the question is not new. It is the same question Chapter 3 posed at length: Leviticus 10 (Nadab and Abihu offering &ldquo;strange fire which He had not commanded them&rdquo;), Numbers 20 (Moses striking the rock after being told to speak to it), Colossians 3:17 (&ldquo;whatever you do in word or deed, do all in the name of the Lord Jesus&rdquo;), and the apostolic demand that worship be rendered by authority. Every generation of God&rsquo;s people has faced the same question, because every generation has been tempted to add. The institutional-noninstitutional division is one expression of a question that was settled in principle long before Alexander Campbell, long before the Reformation, long before the church of the first century first gathered.</p>
+<p>And the answer God has given in every generation is the same answer. What He has commanded, His people do. What He has not commanded, His people do not add — not because they are being stingy, and not because they are being legalistic, but because they are being obedient. The pattern of worship and of collective work that God has specified is the pattern He wants; anything in addition to it is, by definition, something He did not ask for.</p>
+<p>This is the pattern Colossians 3:17 captures in a single sentence. &ldquo;Whatever you do in word or deed, do all in the name of the Lord Jesus, giving thanks through Him to God the Father.&rdquo; Every word. Every deed. Done by the authority of Christ. That verse, more than any other, names the principle that governs what the local church undertakes as its collective work. A practice the Lord has authorized is a practice done in His name. A practice the Lord has not authorized is not done in His name, however sincerely it is offered. The question is not whether the congregation means well. The question is whether the Lord has authorized what the congregation is doing.</p>
+<h3>A Warning From Within</h3>
+<p>One observation from the history of the twentieth century is worth pausing on in this chapter, because it bears on the question of what is really at stake.</p>
+<p>Chapter 2 quoted Foy E. Wallace Jr., writing in 1939, warning of a drift he saw developing among the brethren of his day. &ldquo;The church,&rdquo; he wrote, &ldquo;is about to become the unwitting and unwilling victim of institutionalism.&rdquo; And again: &ldquo;Institutionalism was the taproot of digression.&rdquo; Wallace was not writing from the non-institutional side of a division that had not yet occurred. He was writing as a recognized figure on what would become the institutional side, warning that side before the division came. His warning was not heeded, and a decade and a half later the division he anticipated had occurred. The reader may judge for himself, from his own observation of twentieth-century churches of Christ, whether Wallace&rsquo;s 1939 warning has been borne out in the decades since — and whether the pattern he feared, that institutional arrangements tend to grow, to accommodate, and to reshape the congregations that adopt them, has in fact developed as he anticipated it would.</p>
+<p>This is not the place to trace the history of the subsequent decades. The two standard scholarly treatments are David Edwin Harrell Jr., <em>The Churches of Christ in the Twentieth Century: Homer Hailey&rsquo;s Personal Journey of Faith</em> (University of Alabama Press, 2000), and Richard T. Hughes, <em>Reviving the Ancient Faith: The Story of Churches of Christ in America</em> (Eerdmans Publishing, 1996; 3rd ed., 2024). A reader who wishes to examine the trajectory of twentieth-century churches of Christ in scholarly detail should consult those volumes. Both are extensive, well-documented histories written by academic historians, and both address, from their respective perspectives, the movement within institutional churches of Christ across the twentieth century. The present chapter does not rest on that historical observation. It is noted here simply because the reader may wish to weigh, alongside the Scriptural argument, the further question of how the hermeneutic once adopted has actually played out over time.</p>
+<p>What the present chapter rests on is the Scriptural point: the hermeneutic that receives silence as permission has no logical stopping point. Once the principle is accepted that a congregation may adopt what Scripture does not expressly forbid, each new generation will adopt what the previous generation did not, because the hermeneutic has given itself no boundary. The only boundary is whatever the congregation happens to feel, at a given moment, is too far. And congregational feeling, absent a textual check, tends to move with the broader culture. This is not a prediction about any particular congregation. It is an observation about how the hermeneutic, once admitted, actually behaves over time.</p>
+<h3>A Word to the Reader on Both Sides</h3>
+<p>A booklet of this kind, written with any care at all, asks different things of different readers. Here, toward the end, is what it asks of each.</p>
+<p><em>To the reader who has worshiped in an institutional congregation.</em> You have been presented in this booklet with an argument that the arrangements your congregation has adopted — the orphan home, the sponsoring arrangement, the fellowship hall, the broader scope of benevolence — are not authorized by the New Testament. That is a weighty claim. The question is whether the argument rests on the text or on something else. The invitation is to read the four specific chapters again, slowly, with your Bible open, and to ask of each Scriptural walk whether the text actually says what the chapter reports it to say. If it does not, discard the argument. The author of the booklet has no claim on your assent beyond what the Scripture itself demands. But if the text does say what the chapters report, the consequence for your practice cannot be avoided by appeals to tradition, to warm memory, or to the kind brethren among whom you have worshiped. Those brethren are not the Word of God. The Word of God is.</p>
+<p><em>To the reader who has worshiped in a non-institutional congregation.</em> You have been represented in this booklet as holding the position that the non-institutional side of the division holds. The question for you is whether you hold that position because the Scripture has settled it for you in your own reading, or whether you hold it by inheritance — because your father held it, because your home congregation has always held it, because your friends and teachers hold it. If the latter, then you hold the position in a form that will not survive an attack. The non-institutional position is worth holding only if it is held by conviction, and conviction comes from the text, not from the party. The same four chapters that challenge the institutional reader challenge you: read them again, with your Bible open, and ask whether the Scripture actually says what the chapters report. If the argument does not rest on the text, discard it. If it does, hold it because the text holds it, not because you were given it.</p>
+<p><em>To the reader, on either side, who has held his position with hostility toward brethren on the other side.</em> The division among churches of Christ is a grief. It is not a triumph. Brethren who loved the Lord and loved His word have been separated from one another for two generations over questions that the New Testament, carefully read, could have settled if both sides had been willing to be settled by it. The honest argument for one position or the other is not the same thing as contempt for brethren who hold the opposite position. Every brother named or implied in this booklet — whether on the institutional side or the non-institutional side — is a Christian for whom Christ died, as long as he is a Christian at all. The argument of this booklet is that one side has read the text correctly and the other has not, on the specific questions in view. That argument, if it is right, calls for the other side&rsquo;s correction; it does not call for the other side&rsquo;s contempt.</p>
+<h3>The Thesis</h3>
+<p>A booklet that opens with a clear statement of what it is trying to do ought to close with the same clarity. The preface named the thesis in plain words: a position must stand or fall on what the Scriptures actually teach. Every chapter since has held itself to that test. Every argument in the booklet has attempted to show, text by text, what the Scripture actually says — and to distinguish what the Scripture says from what tradition has assumed, what inheritance has presumed, and what cultural comfort has invited.</p>
+<p>The stakes are not small. A division among brethren that has persisted for two generations, and will very likely persist for more, is not the kind of thing that resolves by splitting the difference. It resolves only by one side conceding the text to the other. The concession is costly for whichever side makes it, because it means a change of practice, a revision of arrangements perhaps built at great effort, and a willingness to be thought wrong by brethren who were close. But the concession is what the Scripture asks when the Scripture says what it says.</p>
+<p>The question is therefore the same question Chapter 1 opened with, stated a final time:</p>
+<blockquote>
+<p><strong><em>A position must stand or fall based on what the Scriptures actually teach.</em></strong></p>
+</blockquote>
+<p>That is the thesis. It is the standard by which every claim in the preceding pages has been offered. And it is the standard by which the reader is now invited, with his Bible open and nothing else between him and the text, to weigh what has been said. If the Scripture does not say what these chapters have reported, discard what these chapters have reported. If it does, receive the text, and let the text carry the practice.</p>
+<p>That invitation is the end of the argument. The one remaining chapter is not another argument but a service to the reader: a list of sources, on both sides of the division, for further study.</p>
+<h3>For Reflection and Discussion</h3>
+<ol>
+<li>
+<p>The chapter claims that the division among brethren is not, ultimately, about three or four practices but about one hermeneutic. Working from the four specific chapters you have read (6, 7, 8, 9), can you identify the single underlying question of authority that each chapter turns on? Stated in your own words, what is that question?</p>
+</li>
+<li>
+<p>Colossians 3:17 commands that whatever we do in word or deed be done in the name of the Lord Jesus. What does it mean, concretely, for a congregational practice to be done &ldquo;in the name of the Lord Jesus&rdquo;? How is that different from a practice being done with good intentions, or a practice being done for a good cause?</p>
+</li>
+<li>
+<p>The chapter observes that a hermeneutic which receives silence as permission has no logical stopping point — each generation will extend what the last did not, because the principle itself supplies no boundary. Do you find this observation fair, or unfair? Can you identify a principled boundary that the &ldquo;silence is permission&rdquo; hermeneutic could maintain, against the pressure of successive generations to extend further?</p>
+</li>
+<li>
+<p>To the reader who has held a position by inheritance: can you state, in your own words and without reference to what your parents or teachers held, why you hold the position you hold? If you cannot, what does that suggest about how the position might need to be examined?</p>
+</li>
+<li>
+<p>The chapter addresses the reader on both sides of the division — institutional and non-institutional — with substantially the same invitation. Why the same invitation, and not a different one for each? What does the sameness of the invitation imply about what the division can and cannot be settled by?</p>
+</li>
+</ol></div>
+    
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="part-4.html">&larr; Part Four</a>
+          <a href="chapter-11.html">Chapter 11 &rarr;</a>
+        </div>
+        <p class="copyright">Why the Division Among Brethren? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'whyTheDivision_progress';
+    var CH = 'ch10';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+    function toggleComplete() {
+      var p = loadProgress();
+      p[CH] = p[CH] === 'complete' ? 'visited' : 'complete';
+      saveProgress(p);
+      updateUI();
+    }
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') el.classList.add('completed');
+      else el.classList.remove('completed');
+    }
+    function goToChapter(url) { if (url) window.location.href = url; }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) { p[CH] = 'visited'; saveProgress(p); }
+      updateUI();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'part-4.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-11.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

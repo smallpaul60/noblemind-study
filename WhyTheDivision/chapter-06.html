@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6: Church-Supported Institutions | Why the Division Among Brethren?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #3F5F3F;
+      --accent-glow: rgba(63, 95, 63, 0.4);
+      --accent-soft: rgba(63, 95, 63, 0.12);
+      --accent-secondary: #88a888;
+      --accent-secondary-glow: rgba(136, 168, 136, 0.3);
+      --scripture-border: #88a888;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark); color: var(--text-primary);
+      font-size: 1.1rem; line-height: 1.85;
+      min-height: 100vh; padding: 30px 20px;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(63, 95, 63,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(136, 168, 136,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px); padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(63, 95, 63,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(136, 168, 136,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(63, 95, 63,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(136, 168, 136,0.15),
+        0 0 80px rgba(63, 95, 63,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(63, 95, 63,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(63, 95, 63,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(63, 95, 63,0.4);
+    }
+    .nav-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px; padding: 14px 18px;
+      background: rgba(63, 95, 63,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(63, 95, 63,0.12);
+      position: relative; z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(63, 95, 63,0.25);
+      font-size: 0.85rem; transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer; min-width: 220px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388a888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark); color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-secondary); font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(63, 95, 63,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px; margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem; color: var(--accent);
+      margin-top: 24px; margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0; padding: 16px 20px;
+      background: rgba(136, 168, 136,0.06);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p {
+      margin-bottom: 0; color: var(--text-primary);
+    }
+    blockquote.scripture cite {
+      display: block; margin-top: 6px;
+      color: var(--accent-secondary);
+      font-style: normal; font-weight: 500; font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 30px 0 10px; padding: 12px;
+      background: rgba(63, 95, 63,0.06);
+      border: 1px solid rgba(63, 95, 63,0.2);
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(63, 95, 63,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(63, 95, 63,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: transparent; transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent); color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent-secondary); font-weight: 600; font-size: 0.9rem;
+    }
+    .part-intro-body {
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 10px auto 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .part-intro-body p {
+      margin-bottom: 14px;
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(63, 95, 63,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-nav {
+      display: flex; justify-content: space-between; margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary); text-decoration: none;
+      padding: 10px 20px; border-radius: 8px;
+      background: rgba(136, 168, 136,0.08);
+      border: 1px solid rgba(136, 168, 136,0.25);
+      transition: all 0.3s; font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(136, 168, 136,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled { opacity: 0.35; pointer-events: none; }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #3F5F3F; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #88a888; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select {
+        padding: 10px 14px; font-size: 0.9rem; min-height: 44px;
+      }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a {
+        text-align: center; padding: 12px 20px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Why the Division Among Brethren?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="part-1.html">─ Part One: Background ─</option>
+          <option value="chapter-01.html">Ch 1: Why This Matters</option>
+          <option value="chapter-02.html">Ch 2: A Short History of the Division</option>
+          <option value="part-2.html">─ Part Two: The Foundation ─</option>
+          <option value="chapter-03.html">Ch 3: The Question of Authority</option>
+          <option value="chapter-04.html">Ch 4: The Work God Gave the Church</option>
+          <option value="chapter-05.html">Ch 5: The Church and the Individual</option>
+          <option value="part-3.html">─ Part Three: The Four Questions ─</option>
+          <option value="chapter-06.html" selected>Ch 6: Church-Supported Institutions</option>
+          <option value="chapter-07.html">Ch 7: The Sponsoring Church Arrangement</option>
+          <option value="chapter-08.html">Ch 8: The Treasury and Benevolence</option>
+          <option value="chapter-09.html">Ch 9: Fellowship Halls and Social Meals</option>
+          <option value="part-4.html">─ Part Four: What It Means ─</option>
+          <option value="chapter-10.html">Ch 10: What's Really at Stake</option>
+          <option value="chapter-11.html">Ch 11: For Further Study</option>
+        </select>
+      </nav>
+
+      
+      <header>
+        <p class="chapter-num">Chapter Six</p>
+        <h1>Church-Supported Institutions</h1>
+      </header>
+      <div class="content"><p>Chapters 3, 4, and 5 have laid the foundation. The church operates by the authority of Christ, which is found in Scripture. The church has a defined charter of work that God assigned it. And the individual Christian and the local church are distinct actors with distinct — though overlapping — obligations. With that foundation in place, the specific issues that divided the churches of Christ in the mid-twentieth century can now be examined one at a time. The method will be the same for each: state the question precisely, state the institutional position as its own best advocates have stated it, state the non-institutional position the same way, walk the Scripture, and let the text carry the conclusion.</p>
+<p>The first of those questions is whether a local church may take money from its treasury and send it to a separate human organization — an orphan home, a home for the aged, a Christian college, or any similar institution — so that the institution may do a work on the church&rsquo;s behalf.</p>
+<h3>The Question, Stated Precisely</h3>
+<p>Several questions must be set aside before the real question can come into view.</p>
+<p>The question is not whether orphans should be cared for. They should. Scripture commands their care (Ex. 22:22; Deut. 14:29; James 1:27), and every Christian of good conscience honors that obligation.</p>
+<p>The question is not whether individual Christians may support benevolent institutions. They may. An individual Christian may give of his own means to any legitimate charitable work, and many institutions have been built and sustained by the voluntary support of individual Christians over many generations.</p>
+<p>The question is not whether institutions exist that do good work. Many do.</p>
+<p>The question is specifically this: <em>may the local church, as a collective body, take funds from its treasury and send them to a separate human organization — an orphan home, a home for the aged, a Christian college, or any similar institution — so that the institution may do a work on the church&rsquo;s behalf?</em></p>
+<p>The distinction between individual and collective, drawn carefully in Chapter 5, is the first test this question must pass through. The individual Christian&rsquo;s obligation to relieve the needy is broad. The local church&rsquo;s obligation is specified in Scripture and limited to what Scripture authorizes. A work an individual is commanded to do is not automatically a work the collective body may take up. That was the whole point of 1 Timothy 5:16 — Paul&rsquo;s explicit warning that the individual&rsquo;s obligation, when transferred to the church, is a <em>burden</em> on the church. If individual and collective were the same actor, the warning would be incoherent.</p>
+<p>The question is also about the <em>how</em>, not the <em>what</em>. Both sides of the division agree that orphans need help. Both sides agree that the church is commanded to care for the needy in certain Scripturally defined cases. The disagreement is whether the church&rsquo;s collective money may flow through a separate human organization — one with its own charter, its own board of trustees, its own officers distinct from the eldership of any local church — to accomplish that work. It is an organizational question, not a benevolent one. A reader who confuses those two questions will read what follows uncharitably, which is not what the writer wants and not what the text requires.</p>
+<p>Finally, the scope of the beneficiaries — whether the church&rsquo;s benevolence may extend to those outside the body of Christ — is a separate question, taken up in Chapter 8. The present chapter restricts itself to the organizational question.</p>
+<h3>The Institutional Position, Stated at Full Strength</h3>
+<p>The institutional argument, stated by its own best advocates, runs along these lines.</p>
+<p><strong>The work itself is authorized.</strong> The church is commanded to care for the needy. Care for orphans, for widows, and for the aged is unquestionably good work, and work the New Testament recognizes. No serious institutional defender argues that the church may spend its money on anything it pleases. The argument is that the work is authorized by Scripture, and the only question is the method by which the authorized work is done.</p>
+<p><strong>An institution is a method, not a separate work.</strong> Guy N. Woods stated the argument clearly in his 1956 affirmative at the Porter–Woods Debate in Indianapolis: &ldquo;Now, what is the orphan home, my friends? Basically, the orphan home is that which simply results when the church restores that which (the natural home) no longer exists. God has ordained two divine institutions — the church and the home&rdquo; (<em>Porter–Woods Debate</em>, p. 53). On this reasoning, the orphan home is not a separate organization at all, but a restoration of the home — the natural, God-ordained institution that has been disrupted by the death or absence of parents. The church, in funding it, is simply restoring what God Himself ordained and what the providence of death has taken away.</p>
+<p><strong>The church&rsquo;s organized capacity is limited to financial support; the work of care must be done by someone.</strong> Woods developed this in his 1960 Freed-Hardeman Lectureship booklet <em>A Defense of Orphan Homes</em>: &ldquo;But, when the church, in its organized capacity, does all that it is authorized to do — that is, supply the money for the needy — the work of actual care must yet be done&rdquo; (p. 14). On this reasoning, the church&rsquo;s collective work ends at supplying funds. Someone still has to receive the money and do the actual caring. That someone, Woods argued, is the institution.</p>
+<p><strong>The New Testament does not specify an exclusive method of cooperation.</strong> Woods&rsquo;s defense at Birmingham in 1957 was that when only one method is revealed in Scripture, it is exclusive; but where multiple methods are revealed, no single method is exclusive. He argued that the New Testament shows several types of cooperation between Christians and concluded that the church has liberty in the method of its authorized work so long as no revealed principle is violated.</p>
+<p><strong>Benevolent work and evangelistic work are not analogous.</strong> At Birmingham, Woods argued that an orphan home is &ldquo;a means of caring for the needy, hence a means which the church uses to do its own work,&rdquo; and distinguished this from a missionary society. His formulation — reported in quotation marks by James W. Adams in the <em>Gospel Guardian</em> — was: &ldquo;The church is its own missionary society, but not its own orphan home.&rdquo; On this reasoning, the church directly preaches the gospel (and therefore needs no missionary society), but does not directly house orphans in its building (and therefore may properly use an institution whose work is housing and caring for orphans).</p>
+<p>This is the institutional argument at its full strength, stated by its leading defender. A reader who holds this position should recognize it here. It rests on real Scriptural concern — orphans need help, the church is commanded to give, and something has to be done. It treats the institution as an extension of the home rather than a rival to the church. And it honors the fact that no ordinary local eldership is equipped to run a full-time residential facility for children.</p>
+<p>The non-institutional answer does not deny any of these concerns. It asks a different question: is the mechanism Scripturally authorized?</p>
+<h3>The Non-Institutional Position, Stated at Full Strength</h3>
+<p>The non-institutional argument begins where Chapter 4 ended. The church is God&rsquo;s own organization for the work He gave it. Paul writes that it is &ldquo;the household of God, which is the church of the living God, the pillar and support of the truth&rdquo; (1 Tim. 3:15). And he writes that the manifold wisdom of God is made known &ldquo;through the church&rdquo; (Eph. 3:10). The church is not one option among several vehicles for accomplishing God&rsquo;s work. It is the vehicle God Himself ordained. Adding another organization alongside it, to do the work God gave the church, is to add what Scripture neither commands, nor exemplifies, nor requires by necessary inference.</p>
+<p>The argument does not claim that institutions are inherently evil, that those who run them are wicked men, or that the work being done is bad work. Most of the brethren involved in building and operating church-supported institutions in the twentieth century were men of good conscience doing what they believed was good. The argument is narrower and more serious than that. It is that the local church&rsquo;s collective money is not authorized to flow to a separate human organization to do a work on the church&rsquo;s behalf.</p>
+<p>This position is sometimes described today as an invention of the 1950s — a reaction of hardliners resisting progress. The historical record says otherwise. The leading institutional defender of the 1950s himself made the non-institutional argument, in print and from the lectureship platform, for many years before he changed his mind.</p>
+<p>In 1939, speaking at the Abilene Christian College Lectures, Guy N. Woods said:</p>
+<blockquote>
+<p>The ship of Zion has floundered more than once on the sandbar of institutionalism. The tendency to organize is a characteristic of the age. On the theory that the end justifies the means, brethren have now scrupled to form organizations in the church to do the work the church itself was designed to do. All such organizations usurp the work of the church, and are unnecessary and sinful.</p>
+</blockquote>
+<p>Seven years later, in the Gospel Advocate&rsquo;s <em>Teacher&rsquo;s Annual Lesson Commentary for 1946</em>, Woods developed the argument at greater length. Commenting on the New Testament pattern of inter-congregational relief, he wrote: &ldquo;It should be noted that there was no elaborate organization for the discharge of these charitable functions. The contributions were sent directly to the elders by the churches who raised the offering. This is the New Testament method of functioning. We should be highly suspicious of any scheme that requires the setting up of an organization independent of the church in order to accomplish its work&rdquo; (p. 338). In the same volume: &ldquo;The church is the only organization authorized to discharge the responsibilities of the Lord&rsquo;s people&rdquo; (p. 338). And in what has been most often quoted from the book: &ldquo;There is no place for charitable organizations in the work of the New Testament church. It is the only charitable organization that the Lord authorizes or that is needed to do the work the Lord expects his people today to do&rdquo; (pp. 340–341).</p>
+<p>Woods&rsquo;s later position, defended publicly at Birmingham in 1957 and in numerous later writings, differed at every point from what he wrote in 1939 and 1946. He appears to have begun the shift by the Gospel Advocate of November 18, 1954, where he argued that the messengers who carried contributions from church to church constituted an organization — the opposite of what he had written in 1946. By Birmingham, he defended church-supported institutions as expedients. Eight years earlier he had denounced them as &ldquo;unnecessary and sinful.&rdquo;</p>
+<p>These observations about Woods are not offered as the argument. A man&rsquo;s earlier or later convictions are not the standard. Scripture is the standard. Woods, whether in 1939, 1946, 1954, or 1957, was a fallible man — and so was every brother he debated, every man who wrote against him, and every reader of this booklet. The writer of these pages is fallible. The argument stands or falls on what the Scriptures actually teach, not on which brother held which position in which year. A reader is not asked to take Woods-of-1946 as authoritative over Woods-of-1957, or vice versa. The reader is asked to open the text and read it.</p>
+<p>What the 1939 and 1946 Woods statements do show is historical: the non-institutional argument is not a late or reactionary development. It was the position of serious men inside the fellowship for decades before the 1950s hardening. When the institutional movement&rsquo;s own leading eventual defender once argued at full strength that the church is the only charitable organization the Lord authorizes, the burden of explaining a change in position lies with the man who changed. The Scripture did not change between 1939 and 1957. Either the earlier statements were wrong, or the later ones were. Both cannot be right. That observation applies with equal force to any reader tempted to hold one position at one season of life and a different position at another. Scripture is what settles the question.</p>
+<h3>Expedient vs. Separate Organization</h3>
+<p>The institutional argument often treats an orphan home, a home for the aged, or a Christian college as analogous to a building, a song book, or a bus used to carry members to services. The reasoning is that all of these are expedients — aids the church uses to accomplish its own authorized work — and that if the expedients of a building and a song book are permissible under the general authority to assemble and to sing, an orphan home is equally permissible under the general authority to care for the needy.</p>
+<p>The analogy fails at the crucial point. An expedient is an aid to the church&rsquo;s own work, owned and controlled by the church itself. A building is the property of the congregation. The song books in its pew racks belong to that congregation. A bus used to transport members is titled to the congregation or contracted by it. In each case, the church owns the expedient, the church controls the expedient, the church disposes of the expedient, and the expedient exists solely to serve the church&rsquo;s own direct work.</p>
+<p>A separate human institution is a different thing. It has its own charter, filed with the state as a distinct entity. It has its own board of trustees, selected by the institution itself or by its original founders, not by any local church. It has its own officers, its own employees, its own real estate, its own bank accounts, and its own existence apart from any congregation. Churches do not own it. Churches do not control it. Churches cannot dispose of it. The institution exists as its own organization, with its own life, accountable to its own board rather than to any congregation&rsquo;s eldership.</p>
+<p>The distinction can be tested simply. If every congregation currently contributing to the institution withdrew its contribution tomorrow, the institution would continue to exist as an institution — its charter intact, its board intact, its identity intact — even if it were financially diminished. If every congregation currently using a given building withdrew tomorrow, the building would remain, but the institution called &ldquo;the church meeting in this building&rdquo; would not. The building is an expedient. The separate organization is not.</p>
+<p>This distinction is not a technicality. The New Testament knows of churches, of elders in those churches, and of saints within those churches. It does not know of a third kind of organization — one that is not a church, not an individual Christian, and not an expedient serving a church — receiving church funds to do a church work. When an orphan home is treated as analogous to a building, a category that Scripture addresses (the church) is quietly replaced by a category Scripture does not address (a separate benevolent organization), and the reader may not notice the substitution.</p>
+<h3>What the Scripture Actually Shows</h3>
+<p>With the question properly framed, the Scriptural question can be asked directly. Where does the New Testament authorize the local church, as a collective body, to fund a separate human organization to do a work on the church&rsquo;s behalf?</p>
+<p><strong>The church acting as the church.</strong> In Acts 6:1–6, the Jerusalem church faced a real benevolent need: the Hellenistic widows were being overlooked in the daily serving of food. The apostles did not propose the creation of a separate benevolent organization to receive funds from the congregation and administer them to the widows. They called the congregation together, had the congregation select seven men of good reputation, and the apostles themselves appointed those men. The men served under the apostles&rsquo; oversight, within the congregation, using the congregation&rsquo;s own resources. No charter was filed. No separate board was assembled. No distinct organization was created. The church acted as the church.</p>
+<p>This is the most extended New Testament narrative of collective benevolence being organized. Every element of it cuts against the separate-institution model. The workers were selected by the congregation, not appointed by an outside board. The oversight was apostolic, not the oversight of some institution&rsquo;s trustees. The work was done within the congregation, not transferred to an outside entity. The funds never left the church&rsquo;s own control. (The separate question of who specifically was helped in Acts 6 — whether the widows were all Christians, and whether the church&rsquo;s benevolence was restricted to saints — is the scope question taken up in Chapter 8. Here the narrower point is the organizational one: the church itself did the work, through men it itself appointed, under oversight it itself recognized.)</p>
+<p><strong>The care of widows is direct work of the local church.</strong> Paul&rsquo;s instruction to Timothy in 1 Timothy 5:3–16 is detailed and specific. The church is to honor widows who are widows indeed (v. 3). A criterion list is given for who qualifies (vv. 9–10). An age is specified (v. 9). The church is instructed about younger widows and their situations (vv. 11–15). And, as Chapter 5 has shown, Paul distinguishes between what the individual believer must carry and what the church carries (v. 16). What Paul does <em>not</em> do anywhere in this passage is direct the church to send its widow-care funds to a separate widow-care institution. The oversight is the church&rsquo;s. The criteria are applied by the church. The money is the church&rsquo;s, disbursed by the church, to widows within the church&rsquo;s own sphere.</p>
+<p><strong>Support for preaching flows directly.</strong> Paul reminds the Philippians that from the first preaching of the gospel after he left Macedonia, no church shared with him in giving and receiving but Philippi alone, and that even in Thessalonica they had sent more than once for his needs (Phil. 4:15–16). He writes similarly to the Corinthians about the support he received from other churches while laboring among them (2 Cor. 11:8–9). The Philippian church sent support directly to Paul. The funds did not flow through an intermediary organization. The same direct pattern appears in inter-congregational relief, where the disciples at Antioch sent contributions for the brethren in Judea through Barnabas and Saul, directly to the elders (Acts 11:27–30). No intermediary organization sits between the contributing church and the receiving work. In the New Testament pattern, church funds flow directly: to the preacher they support, to the needy saints they relieve, to the elders of the church in need. Nowhere do they flow through a third organization that is neither church, nor individual, nor expedient.</p>
+<p><strong>The church is God&rsquo;s organization for the work.</strong> Paul&rsquo;s description of the church as the pillar and support of the truth (1 Tim. 3:15) and as the instrument through which God&rsquo;s wisdom is made known (Eph. 3:10) is central. The church is God&rsquo;s chosen means for the work God gave it. When the institutional argument places the church alongside a separate human organization and treats both as instruments of the same work, it describes an arrangement the New Testament does not describe. The church&rsquo;s sufficiency for the work God gave it is not a Scriptural weakness to be supplemented by human organizations; it is a feature of God&rsquo;s design.</p>
+<p><strong>The silence of Scripture.</strong> Chapter 3 established that where God specifies, silence excludes what God has not specified. The specification of the church as God&rsquo;s organization, and of direct church-to-preacher and church-to-church patterns, carries the same weight of silence as every other Scriptural specification. The New Testament specifies that the church does its authorized work. It does not authorize the church to transfer that work to an organization distinct from itself. Silence on a separate benevolent organization is not permission to create one. It is restriction.</p>
+<p>A reader who accepts the silence-restricts principle in Chapter 3 — the principle by which Nadab and Abihu stood condemned, and by which the Hebrew writer excluded priests from the tribe of Judah under the Mosaic law — will apply the same principle here. A reader who rejects that principle will find the inconsistency difficult to defend. The hermeneutic that permits a separate benevolent organization because the New Testament does not directly forbid it also permits, on the same reasoning, every other addition that can be defended as an expedient to an authorized work. That is the pattern of arguments that admitted the missionary society in 1849 and the instrument in the 1880s — the same hermeneutic, worked out to its conclusions. Either the principle holds at all three points or it fails at all three.</p>
+<h3>Letting the Text Carry the Conclusion</h3>
+<p>The specific question of this chapter admits a specific answer. The local church, as a collective body, has not been authorized by the New Testament to send funds from its treasury to a separate human organization to accomplish a work on the church&rsquo;s behalf. The church has been given the work, and given the means. It has its own eldership, its own members, its own resources, its own treasury. It may act as the church, through men the church appoints, under oversight the church recognizes, using resources the church controls. What it has not been authorized to do is hand its work — and the funds that accompany the work — to an organization that is not the church.</p>
+<p>This is not a restriction on good work being done for orphans, for the aged, or for anyone else. Individual Christians are free to support any institution of good conscience they choose. Men and women of means have built and sustained institutions for the care of children, the aged, and the sick for generations, often at great personal sacrifice, and their work has blessed many. The restriction in view is a narrower one: the flow of church treasury funds to organizations separate from the church. The question is not whether the work gets done. It is whether the church, as the church, does it — as Scripture has patterned — or whether the church routes its work through a separate human organization that Scripture does not pattern.</p>
+<p>A brother who reaches a different conclusion from the Scripture walked above is owed the dignity of a fair hearing and patient Scriptural conversation. The fellowship of saints is not so fragile that disagreement on a matter like this ends it in an instant. But the question must be answered from the text, not from expediency, not from consensus, not from what other brethren across the country have always done, and not from what any one defender held at any one year of his life. Where does Scripture authorize the practice? What does the text actually say?</p>
+<p>Chapter 7 takes up the next of the specific questions — the sponsoring church arrangement. The method will be the same. State the question, state both positions fairly, walk the Scripture, and let the text carry the conclusion.</p>
+<h3>For Reflection and Discussion</h3>
+<ol>
+<li>
+<p>Read 1 Timothy 3:15 slowly. Paul calls the church &ldquo;the pillar and support of the truth.&rdquo; If the church is God&rsquo;s pillar and support, what does the New Testament suggest about the creation of other organizations alongside the church to accomplish the church&rsquo;s own work? Would any such organization rival or supplement the pillar function Paul describes?</p>
+</li>
+<li>
+<p>Walk through Acts 6:1–6 and list every organizational step the Jerusalem church took to meet the need of the neglected widows. How many of those steps involved the creation of a separate organization with its own charter and board? What does the narrative&rsquo;s silence on that point suggest about the organizational pattern the apostles approved?</p>
+</li>
+<li>
+<p>Consider the distinction this chapter draws between an expedient (owned and controlled by the church) and a separate organization (with its own charter and board). Apply the distinction to one current practice familiar to you. Into which category does it fall? Does the distinction make a Scriptural difference, and if so, where?</p>
+</li>
+<li>
+<p>Philippians 4:15–16 and 2 Corinthians 11:8–9 describe the Philippian church supporting Paul&rsquo;s preaching directly. If the New Testament pattern of inter-congregational support is direct rather than channeled through an intermediary organization, what principle does that establish about the flow of church funds to separate organizations in other kinds of work?</p>
+</li>
+<li>
+<p>In 1946, Guy N. Woods wrote that the church is &ldquo;the only charitable organization that the Lord authorizes or that is needed to do the work the Lord expects his people today to do.&rdquo; By 1957 he defended church-supported institutions as expedient. The Scripture did not change between 1946 and 1957. If a brother — any brother, not only Woods — holds different positions at different times, how should a careful reader decide which of the two, if either, is right?</p>
+</li>
+</ol></div>
+    
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="part-3.html">&larr; Part Three</a>
+          <a href="chapter-07.html">Chapter 7 &rarr;</a>
+        </div>
+        <p class="copyright">Why the Division Among Brethren? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'whyTheDivision_progress';
+    var CH = 'ch6';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+    function toggleComplete() {
+      var p = loadProgress();
+      p[CH] = p[CH] === 'complete' ? 'visited' : 'complete';
+      saveProgress(p);
+      updateUI();
+    }
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') el.classList.add('completed');
+      else el.classList.remove('completed');
+    }
+    function goToChapter(url) { if (url) window.location.href = url; }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) { p[CH] = 'visited'; saveProgress(p); }
+      updateUI();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'part-3.html';
+      if (e.key === 'ArrowRight') window.location.href = 'chapter-07.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

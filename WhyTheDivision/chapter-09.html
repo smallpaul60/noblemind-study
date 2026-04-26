@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 9: Fellowship Halls and Social Meals | Why the Division Among Brethren?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #3F5F3F;
+      --accent-glow: rgba(63, 95, 63, 0.4);
+      --accent-soft: rgba(63, 95, 63, 0.12);
+      --accent-secondary: #88a888;
+      --accent-secondary-glow: rgba(136, 168, 136, 0.3);
+      --scripture-border: #88a888;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark); color: var(--text-primary);
+      font-size: 1.1rem; line-height: 1.85;
+      min-height: 100vh; padding: 30px 20px;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(63, 95, 63,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(136, 168, 136,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px); padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(63, 95, 63,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(136, 168, 136,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(63, 95, 63,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(136, 168, 136,0.15),
+        0 0 80px rgba(63, 95, 63,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(63, 95, 63,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(63, 95, 63,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(63, 95, 63,0.4);
+    }
+    .nav-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px; padding: 14px 18px;
+      background: rgba(63, 95, 63,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(63, 95, 63,0.12);
+      position: relative; z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(63, 95, 63,0.25);
+      font-size: 0.85rem; transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer; min-width: 220px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388a888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark); color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-secondary); font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(63, 95, 63,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px; margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem; color: var(--accent);
+      margin-top: 24px; margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0; padding: 16px 20px;
+      background: rgba(136, 168, 136,0.06);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p {
+      margin-bottom: 0; color: var(--text-primary);
+    }
+    blockquote.scripture cite {
+      display: block; margin-top: 6px;
+      color: var(--accent-secondary);
+      font-style: normal; font-weight: 500; font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 30px 0 10px; padding: 12px;
+      background: rgba(63, 95, 63,0.06);
+      border: 1px solid rgba(63, 95, 63,0.2);
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(63, 95, 63,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(63, 95, 63,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: transparent; transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent); color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent-secondary); font-weight: 600; font-size: 0.9rem;
+    }
+    .part-intro-body {
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 10px auto 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .part-intro-body p {
+      margin-bottom: 14px;
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(63, 95, 63,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-nav {
+      display: flex; justify-content: space-between; margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary); text-decoration: none;
+      padding: 10px 20px; border-radius: 8px;
+      background: rgba(136, 168, 136,0.08);
+      border: 1px solid rgba(136, 168, 136,0.25);
+      transition: all 0.3s; font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(136, 168, 136,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled { opacity: 0.35; pointer-events: none; }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #3F5F3F; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #88a888; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select {
+        padding: 10px 14px; font-size: 0.9rem; min-height: 44px;
+      }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a {
+        text-align: center; padding: 12px 20px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Why the Division Among Brethren?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="part-1.html">─ Part One: Background ─</option>
+          <option value="chapter-01.html">Ch 1: Why This Matters</option>
+          <option value="chapter-02.html">Ch 2: A Short History of the Division</option>
+          <option value="part-2.html">─ Part Two: The Foundation ─</option>
+          <option value="chapter-03.html">Ch 3: The Question of Authority</option>
+          <option value="chapter-04.html">Ch 4: The Work God Gave the Church</option>
+          <option value="chapter-05.html">Ch 5: The Church and the Individual</option>
+          <option value="part-3.html">─ Part Three: The Four Questions ─</option>
+          <option value="chapter-06.html">Ch 6: Church-Supported Institutions</option>
+          <option value="chapter-07.html">Ch 7: The Sponsoring Church Arrangement</option>
+          <option value="chapter-08.html">Ch 8: The Treasury and Benevolence</option>
+          <option value="chapter-09.html" selected>Ch 9: Fellowship Halls and Social Meals</option>
+          <option value="part-4.html">─ Part Four: What It Means ─</option>
+          <option value="chapter-10.html">Ch 10: What's Really at Stake</option>
+          <option value="chapter-11.html">Ch 11: For Further Study</option>
+        </select>
+      </nav>
+
+      
+      <header>
+        <p class="chapter-num">Chapter Nine</p>
+        <h1>Fellowship Halls and Social Meals</h1>
+      </header>
+      <div class="content"><p>Three of the four specific issues examined in this booklet concern money — what an institution receives it for, what a sponsoring arrangement does with it, who it may be given to. The fourth concerns something that appears, on first approach, smaller. It concerns food.</p>
+<p>It is not a surprise that this question, of the four, is the one many readers care about least at the outset and come to understand as serious only after they have worked through it. The church&rsquo;s common meal is often a warm memory: a potluck after Sunday services, a Christmas fellowship dinner in the fellowship hall, a Wednesday-night supper before midweek Bible study, a wedding or funeral reception held in the congregation&rsquo;s kitchen and dining area. These are not painful memories for anyone. They are often among the most pleasant memories a Christian has of his congregational life. To question them is to question something that feels like family.</p>
+<p>The question nonetheless belongs in this booklet for the same reason the other three do. It is a question about what the local church, as a collective body, is authorized to do. Chapter 4 established the four categories of the church&rsquo;s authorized work: worship, edification of the saints, evangelism, and benevolence to needy saints. Chapter 5 established that the individual Christian and the local church are distinct actors with overlapping but different obligations. The present question is whether the common meal, when conducted by the collective body on the collective body&rsquo;s property and from the collective body&rsquo;s treasury, falls within the church&rsquo;s authorized work — or whether it belongs to a different sphere entirely, the sphere of the home.</p>
+<h3>The Question, Stated Precisely</h3>
+<p>As in the preceding chapters, several related questions must be set aside before the real question can come into view.</p>
+<p>The question is not whether Christians may eat together. They may, and they do, and Scripture shows them doing so. The disciples of the Jerusalem church &ldquo;were taking their meals together&rdquo; as part of their common life after Pentecost (Acts 2:46), and the shared meal among brethren is a familiar and approved activity elsewhere in the apostolic record.</p>
+<p>The question is not whether hospitality is commanded. It is (Rom. 12:13; 1 Pet. 4:9; Heb. 13:2; 1 Tim. 3:2, 5:10). Every Christian, and especially an elder, is commanded to be hospitable — to open his home, his table, and his resources to other saints and to strangers.</p>
+<p>The question is not whether common meals build affection among Christians. They do. Eating together has been a human means of friendship and bonding since the beginning, and nothing in Scripture runs against that ordinary fact of human life.</p>
+<p>The question is not whether a congregation may sometimes eat together incidentally. A congregation that shares refreshments in the church building after a funeral, or at the close of a gospel meeting, has not, by that alone, transferred the work of the home onto the church. Incidental hospitality around the edges of an authorized gathering is not the same thing as the establishment of common meals and social events as a continuing part of the church&rsquo;s collective work — and the two should not be confused.</p>
+<p>The question is specifically this: <em>may the local church, as a collective body, use funds from its treasury and facilities owned by the congregation to provide common meals, recreation, and social events for its members as part of its collective work?</em></p>
+<p>The question is about the collective use of the treasury and the facilities. It is not about whether Christians may gather at a home for a meal. It is not about whether a Christian may invite his brother over to eat. It is about whether the church — the gathered body, acting as the church — has been authorized to take on the provision of meals and social occasions as part of what its treasury pays for and what its property is built for.</p>
+<h3>The Institutional Position, Stated at Full Strength</h3>
+<p>The institutional argument for common meals and social activities as part of the local church&rsquo;s collective work runs along these lines.</p>
+<p><strong>Fellowship is a New Testament value.</strong> The word <em>fellowship</em> (Greek <em>koinōnia</em>) appears repeatedly in the apostolic writings. Acts 2:42 names it as one of the four things to which the Jerusalem disciples devoted themselves: &ldquo;They were continually devoting themselves to the apostles&rsquo; teaching and to fellowship, to the breaking of bread and to prayer.&rdquo; Fellowship is authorized. A common meal is an ordinary expression of fellowship. A congregation that builds facilities to host fellowship meals is simply giving practical expression to a Scriptural value.</p>
+<p><strong>Shared meals build the unity of the body.</strong> The local church is not merely a collection of persons who worship together; it is a family, and families eat together. A congregation that never eats as a body loses a natural means of building affection, knowing one another, and caring for one another practically. To exclude the common meal from the church&rsquo;s collective life is to reduce the local congregation to something cooler and more institutional than the New Testament pattern implies.</p>
+<p><strong>Acts 2:46 shows the early disciples &ldquo;breaking bread from house to house&rdquo; as part of their common life.</strong> The disciples of the Jerusalem church took their meals together. That common life of shared meals was not extraneous to what they were doing as the church. It was part of it. A modern congregation that provides facilities for the same kind of shared meals is simply making space for what the early disciples were already doing.</p>
+<p><strong>Jude 12 refers to &ldquo;love feasts&rdquo; — <em>agapai</em> — as an established practice in the apostolic churches.</strong> The term is specific. It was not a general word for a meal; it named a particular kind of gathering in which Christians came together for a meal in love. If love feasts were practiced in the apostolic churches, then church meals have apostolic precedent, and a modern congregation that continues them walks in an established pattern.</p>
+<p><strong>The fellowship hall is an expedient, like a building or a song book.</strong> A building expedites assembly. A song book expedites the command to sing. A fellowship hall expedites the meal that builds unity. If the one category of expedient is permissible, so is the other.</p>
+<p><strong>The strict separation of church and home is artificial in the New Testament.</strong> The earliest churches <em>met</em> in homes (Rom. 16:5; 1 Cor. 16:19; Col. 4:15; Philem. 2). The boundary between home-activity and church-activity was not as sharp in the first century as a later generation&rsquo;s theology has drawn it. To insist that meals must be a home function and cannot be a church function is to impose a distinction the apostolic record itself does not impose.</p>
+<p>This is the institutional argument at its strength. A reader who has worshiped in a congregation with a fellowship hall should recognize the reasoning here. The argument rests on real Scriptural values — fellowship, unity, hospitality — and on the observation that the apostolic church did, in fact, share meals.</p>
+<p>The non-institutional answer does not deny any of those values. It asks a narrower question: does the New Testament show the local church, as a collective body, taking the meal <em>itself</em> as part of its authorized work, or does the New Testament locate the meal — along with hospitality and the social life of the saints — in a different sphere, the sphere of the home?</p>
+<h3>The Non-Institutional Position, Stated at Full Strength</h3>
+<p>The non-institutional argument begins where Chapter 4 left off. The work God gave the local church is specified in Scripture. It is worship, edification of the saints, evangelism, and benevolence to needy saints. Nothing in that specification authorizes the collective provision of meals, recreation, or social events. A congregation that takes these on as part of its collective work has added to what Scripture authorized.</p>
+<p>That is the bare structural argument. But the matter is sharper than that, because Scripture does not merely fail to mention the church-provided common meal. It actively locates the common meal elsewhere. When Paul encounters the abuse of the Lord&rsquo;s Supper at Corinth — the one passage in the New Testament that addresses common meals in the church&rsquo;s assembly directly — his correction is not that the Corinthians were eating incorrectly but that they were eating in the wrong <em>place</em>. The meal for hunger, Paul says, belongs at home. The assembly of the church is for something else.</p>
+<p><strong>1 Corinthians 11:17–34 is the key passage.</strong> Paul writes to rebuke a real abuse: when the Corinthian church came together, some were eating and drinking their own meals, some were getting drunk, and the poor among them were being shamed. Paul&rsquo;s response in verses 20–22 is direct: &ldquo;Therefore when you meet together, it is not to eat the Lord&rsquo;s Supper, for in your eating each one takes his own supper first; and one is hungry and another is drunk. What! Do you not have houses in which to eat and drink? Or do you despise the church of God and shame those who have nothing? What shall I say to you? Shall I praise you? In this I will not praise you.&rdquo;</p>
+<p>Three observations arise from the text before any outside argument is applied.</p>
+<p><em>First</em>, the correction is not that the Corinthians should eat their meal better, or more reverently, or with more consideration for the poor. The correction is that the meal for hunger does not belong in the assembly at all. &ldquo;Do you not have houses in which to eat and drink?&rdquo; is not a rhetorical politeness. It is a command in the form of a question. The common meal belongs in the house — in the home — not in the gathered assembly of the church.</p>
+<p><em>Second</em>, Paul sets &ldquo;the church of God&rdquo; in direct contrast to the house as the place for eating. The eating of the common meal in the church&rsquo;s assembly <em>despises</em> the church. That is strong language, and it is Paul&rsquo;s language, not an opponent&rsquo;s. To take the ordinary meal and locate it in the church&rsquo;s collective gathering is, Paul says, to treat the church as if it were a house. The two are different things with different functions.</p>
+<p><em>Third</em>, Paul returns to the point at the end of the passage, after laying down the Lord&rsquo;s Supper (vv. 23–32), and closes with a specific apostolic directive: &ldquo;If anyone is hungry, let him eat at home, so that you will not come together for judgment. The remaining matters I will arrange when I come&rdquo; (v. 34). The directive is unambiguous. The hungry Christian eats at home. The coming together of the church is for something else. Coming together to eat — in the common-meal sense — is specifically what Paul forbids in the church&rsquo;s assembly. The absence of such a provision is not a gap in Scripture; it is a positive exclusion.</p>
+<p>The institutional argument sometimes replies that Paul is addressing the abuse of the Lord&rsquo;s Supper specifically, not the common meal generally. The reply is not strong. Paul&rsquo;s remedy is not a better way to combine the common meal with the Lord&rsquo;s Supper. His remedy is to separate them and to send the common meal back to the house. Whatever the Corinthians had been doing, Paul&rsquo;s settled apostolic direction was that the meal for hunger and the meal of the Lord&rsquo;s Supper belong in different places — the former at home, the latter in the assembly. That directive stands as a specification. And as Chapter 3 established, where Scripture specifies, silence on the unspecified is restrictive.</p>
+<p><strong>Acts 2:46 confirms the pattern rather than overturning it.</strong> The institutional argument cites &ldquo;breaking bread from house to house&rdquo; as evidence that the early disciples ate their meals together as a congregational activity. The text says something more precise than that. &ldquo;Day by day continuing with one mind in the temple, and breaking bread from house to house, they were taking their meals together with gladness and sincerity of heart.&rdquo; Two locations are named in the verse, and they are named separately. The temple was where the disciples continued in one mind, in the work of worship and teaching. The house was where they broke bread and took their meals. Luke does not collapse the two. He distinguishes them. The collective gathering had one location and one purpose; the meal-taking had a different location and a different purpose. The disciples&rsquo; common life was <em>not</em> a single undifferentiated activity. It was two spheres operating in parallel — the same two spheres Paul later names at Corinth.</p>
+<p>The sentence &ldquo;breaking bread from house to house&rdquo; is instructive in another respect. The meals did not happen at a church-owned building. The disciples ate at one another&rsquo;s houses — at the private homes of members. The pattern of the meal is household-to-household hospitality, Christian to Christian. No common kitchen. No collectively owned dining space. No treasury funding the meal. The meal is a work of the home, carried by individual Christian households, from their own tables, at their own cost.</p>
+<p><strong>Hospitality is commanded; its location is specified.</strong> The New Testament commands Christian hospitality at several points. Paul tells the Romans to be &ldquo;contributing to the needs of the saints, practicing hospitality&rdquo; (Rom. 12:13). Peter writes: &ldquo;Be hospitable to one another without complaint&rdquo; (1 Pet. 4:9). The Hebrew writer urges, &ldquo;Do not neglect to show hospitality to strangers, for by this some have entertained angels without knowing it&rdquo; (Heb. 13:2). An elder is required to be hospitable (1 Tim. 3:2; Titus 1:8). The older widow qualified for enrollment in the local church&rsquo;s support is one who has &ldquo;shown hospitality to strangers&rdquo; (1 Tim. 5:10).</p>
+<p>In every one of these passages, the hospitality commanded is the individual Christian&rsquo;s hospitality. The Greek word is <em>philoxenia</em> — literally, love of strangers. It is a private virtue, carried on in the host&rsquo;s own home, at the host&rsquo;s own table, with the host&rsquo;s own resources. It is never described as a work of the collective body drawn from the collective treasury. A congregation that provides meals from its treasury and its collectively owned facilities is not doing what the New Testament commanded when it commanded hospitality. It is doing something different — something the New Testament does not command, and does not describe, and does not authorize. The collective meal is not merely unauthorized; it also tends to quietly transfer the individual Christian&rsquo;s duty of hospitality to the treasury, where it disappears as a personal obligation.</p>
+<p><strong>Jude 12 does not authorize what it sometimes appears to.</strong> Jude refers to certain false teachers as &ldquo;hidden reefs in your love feasts when they feast with you without fear, caring for themselves&rdquo; (Jude 12). The phrase &ldquo;love feasts&rdquo; (Greek <em>agapai</em>) does describe a kind of shared meal practiced among first-century Christians. Jude mentions them in passing without condemning the practice itself; his concern is the intruders at the meals, not the meals.</p>
+<p>But the existence of a practice mentioned in a letter of correction is not, by itself, apostolic authorization of that practice. Jude describes what the readers were doing; he does not prescribe it. The only passage in the New Testament that gives apostolic direction concerning the common meal in the gathered church is 1 Corinthians 11, and Paul&rsquo;s direction there is that the common meal belongs at home. A reader cannot set a single incidental mention (Jude 12) against a direct apostolic directive (1 Cor. 11:22, 34). The Corinthian passage governs. Whatever the &ldquo;love feasts&rdquo; were in the congregations Jude addressed — and there is real historical uncertainty on the question, since the term is nowhere explained in Scripture — they cannot be set against Paul&rsquo;s plain instruction that the eating of the ordinary meal for hunger belongs in the house, not in the assembly. (Second Peter 2:13 is sometimes cited alongside Jude 12 as a reference to love feasts, but the NASB 1995 follows the manuscript reading &ldquo;deceptions&rdquo; rather than &ldquo;love feasts&rdquo; at that verse, and the parallel is contested. The argument does not need it.)</p>
+<p><strong>The fellowship hall is not analogous to the meetinghouse.</strong> The institutional argument classifies the fellowship hall with the auditorium, the baptistery, and the song book — all as expedients to authorized works. The analogy does not survive examination. An auditorium expedites the assembly of the saints, which is a work the New Testament commands the church as a collective body to do (Heb. 10:25). A baptistery expedites the baptism of the believer, which is commanded (Matt. 28:19). A song book expedites the singing, which is commanded (Eph. 5:19; Col. 3:16). In each case, the expedient aids a work the New Testament has commanded the church to do.</p>
+<p>A fellowship hall expedites the common meal. But the common meal, as Paul&rsquo;s directive at Corinth has shown, is not a work the New Testament has commanded the church to do. It is a work of the home. An expedient to a work the church was not given is not an expedient at all. It is a facility devoted to an activity outside the church&rsquo;s charter, funded by the treasury of a body that has no authority for the activity it is facilitating.</p>
+<p>The distinction Chapter 6 drew — between an expedient (an aid to the church&rsquo;s authorized work) and an addition (a work not within the church&rsquo;s charter) — applies here. A gymnasium, a recreation center, a basketball league, a summer camp, a coffee bar, a fellowship kitchen: each of these is often defended as expedient. But an expedient is an aid to authorized work. None of these is an aid to worship, edification of the saints, evangelism, or benevolence to needy saints in any direct sense. They are aids to something else — to recreation, to socializing, to common life — which is not what the church was given to do. Naming them &ldquo;expedients&rdquo; does not alter what they actually aid.</p>
+<h3>What the Text Actually Shows — The Two Spheres, Again</h3>
+<p>The pattern this chapter traces is the same pattern Chapter 5 drew, and the same pattern Chapter 8 confirmed. God has always distinguished the collective body&rsquo;s work from the individual&rsquo;s work, and has located different activities in each sphere. The distinction is not a negative one in either direction. Both spheres are authorized. Both are commanded. Both are required.</p>
+<p>The local church has a charter of collective work: worship, edification of the saints, evangelism, benevolence to needy saints. That charter is what the treasury is for and what the assembly is for.</p>
+<p>The Christian home — the household of each member — has a charter of its own: hospitality, the raising of children in the Lord (Eph. 6:4), the nurturing of the husband-wife and parent-child relations (Eph. 5:22–6:4), the extending of the table to saints and strangers (Rom. 12:13; 1 Pet. 4:9; Heb. 13:2). The common meal, in the New Testament pattern, belongs to this sphere. It is the work of the home.</p>
+<p>When the two spheres are kept distinct, both flourish. The collective gathering of the church carries the weight of worship and the word and the mutual care of the saints in the work Christ gave it. The individual Christian carries the weight of hospitality in his own house, at his own table, with his own resources — and in doing so becomes the kind of Christian the New Testament pictures when it describes a local church.</p>
+<p>When the two spheres are collapsed — when the church&rsquo;s collective treasury and facilities take on the meal and the social occasion — two things tend to happen. First, the individual Christian&rsquo;s duty of hospitality quietly migrates to the treasury, where it dissolves. Households that no longer need to host because the fellowship hall hosts are not stronger households in the faith; they are quieter and less exercised ones. Second, the church&rsquo;s collective energy divides, sometimes substantially, between the work Christ gave it and the activities He did not. Budgets, elders&rsquo; attention, and facility commitments begin to slant toward the latter. Over decades the slant compounds. The trajectory concern Chapter 7 noted in the sponsoring arrangement — that unauthorized structures tend, over time, to grow and reshape the congregations that adopt them — applies here too. What begins as a fellowship supper once a quarter becomes, in a generation, a gymnasium, a coffee bar, a youth program built around recreation, a camp, and a church calendar in which the recreational and social elements occupy as much space on paper as the worship and the teaching.</p>
+<p>None of this, to repeat Chapter 7&rsquo;s qualification, is the Scriptural argument. The Scriptural argument is 1 Corinthians 11:22 and 34. The trajectory observation is a practical observation about what tends to happen when the two spheres are merged. A reader may weigh the trajectory as he will. The apostolic directive stands on its own.</p>
+<h3>Letting the Text Carry the Conclusion</h3>
+<p>The question of this chapter admits a specific answer. The local church, as a collective body, has not been authorized by the New Testament to provide common meals, recreation, or social events from its treasury as part of its collective work. Paul&rsquo;s plain directive to Corinth sends the meal for hunger back to the house: &ldquo;Do you not have houses in which to eat and drink?&rdquo; and &ldquo;If anyone is hungry, let him eat at home.&rdquo; The early disciples&rsquo; common meals took place &ldquo;from house to house,&rdquo; in the private homes of members. The hospitality the New Testament commands is commanded of the individual Christian, carried in his own home, at his own cost. The common meal is the work of the home, and the charter of the local church lies elsewhere.</p>
+<p>A congregation that keeps the two spheres distinct is not a cooler congregation, and not a less loving one. It is a congregation ordered as the New Testament orders the work of God&rsquo;s people — the church doing what the church was given to do, the household doing what the household was given to do, and neither collapsing into the other. The meals happen. The hospitality is commanded. The affection among Christians is real. But the meals happen in homes, the hospitality is the individual Christian&rsquo;s work, and the love feast is the Lord&rsquo;s Supper — the one meal the church has authority to spread on its table when it comes together (1 Cor. 11:20, 23–26).</p>
+<p>A brother who holds a different reading is owed charity and patient conversation. The passages may be re-read. The pattern the reader finds in them is the pattern he will have to answer for. This chapter, like the three before it, is an invitation to open the text and let it say what it says.</p>
+<p>With this chapter the four specific issues are complete. What remains is the summation — the question of what is really at stake when congregations divide, not over three practices, but over one underlying question. Chapter 10 takes that up.</p>
+<h3>For Reflection and Discussion</h3>
+<ol>
+<li>
+<p>Read 1 Corinthians 11:17–34 slowly. Paul&rsquo;s correction to the Corinthians is not merely that their meal was disorderly. What specifically does verse 22 say about <em>where</em> the ordinary meal belongs? What does verse 34 say about <em>where</em> the hungry Christian is to eat? If Paul&rsquo;s remedy for the Corinthian problem is to remove the common meal from the assembly, does the directive leave room for a later congregation to add the common meal back, provided it is done in good order?</p>
+</li>
+<li>
+<p>Acts 2:46 describes the Jerusalem disciples as &ldquo;continuing with one mind in the temple, and breaking bread from house to house.&rdquo; Two distinct locations are named in the verse. What was done in the first? What was done in the second? Does Luke collapse the two activities into one undifferentiated congregational life, or does he distinguish them? What does that distinction, if real, suggest about what the local church&rsquo;s collective work is and what it is not?</p>
+</li>
+<li>
+<p>Consider the New Testament passages that command hospitality (Rom. 12:13; 1 Pet. 4:9; Heb. 13:2; 1 Tim. 3:2; 1 Tim. 5:10). In each passage, who is commanded — the individual Christian, or the collective church? If hospitality is an individual obligation, what happens to that individual obligation in a congregation whose fellowship hall hosts the meals that would otherwise be hosted in members&rsquo; homes?</p>
+</li>
+<li>
+<p>The chapter distinguishes between an expedient (an aid to the church&rsquo;s authorized work) and an addition (a facility or activity devoted to work the church was not given). Apply the distinction to a current activity of a congregation familiar to you. Is the activity an aid to worship, edification of the saints, evangelism, or benevolence to needy saints? Or does it aid something else? If something else, where is the Scriptural authority for the church to be doing that something else?</p>
+</li>
+<li>
+<p>If the two spheres — the collective work of the church and the individual work of the Christian home — were kept carefully distinct in your own congregation, what would change? Would there be more hospitality among members, or less? Would the church&rsquo;s collective energy be more focused on its authorized work, or less? Would the Christian home be stronger, or weaker? What do the answers to those questions suggest?</p>
+</li>
+</ol></div>
+    
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-08.html">&larr; Chapter 8</a>
+          <a href="part-4.html">Part Four &rarr;</a>
+        </div>
+        <p class="copyright">Why the Division Among Brethren? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'whyTheDivision_progress';
+    var CH = 'ch9';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+    function toggleComplete() {
+      var p = loadProgress();
+      p[CH] = p[CH] === 'complete' ? 'visited' : 'complete';
+      saveProgress(p);
+      updateUI();
+    }
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') el.classList.add('completed');
+      else el.classList.remove('completed');
+    }
+    function goToChapter(url) { if (url) window.location.href = url; }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) { p[CH] = 'visited'; saveProgress(p); }
+      updateUI();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-08.html';
+      if (e.key === 'ArrowRight') window.location.href = 'part-4.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

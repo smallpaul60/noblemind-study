@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table of Contents | Why the Division Among Brethren?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #3F5F3F;
+      --accent-glow: rgba(63, 95, 63, 0.4);
+      --accent-soft: rgba(63, 95, 63, 0.12);
+      --accent-secondary: #88a888;
+      --accent-secondary-glow: rgba(136, 168, 136, 0.3);
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark); color: var(--text-primary);
+      font-size: 1.1rem; line-height: 1.85;
+      min-height: 100vh; padding: 30px 20px;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(63, 95, 63,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(136, 168, 136,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px); padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(63, 95, 63,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(136, 168, 136,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(63, 95, 63,0.2), transparent 55%);
+      box-shadow: 0 0 50px rgba(136, 168, 136,0.15), 0 0 80px rgba(63, 95, 63,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner); backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card); padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(63, 95, 63,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(63, 95, 63,0.4);
+    }
+    header {
+      text-align: center; margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(63, 95, 63,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.0rem; color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 8px; font-weight: 600;
+      padding: 0 0.5em;
+    }
+    .subtitle {
+      font-size: 1.0rem; color: var(--text-secondary);
+      font-style: italic; margin-bottom: 8px; padding: 0 1em;
+    }
+    .author { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 4px; }
+    .stats { margin-top: 12px; color: var(--text-secondary); font-size: 0.9rem; }
+    .stats span { color: var(--accent-secondary); font-weight: 600; }
+    .return-link {
+      display: inline-block; margin-top: 18px;
+      padding: 10px 20px;
+      background: rgba(136, 168, 136,0.08);
+      border: 1px solid rgba(136, 168, 136,0.25);
+      border-radius: 8px;
+      color: var(--accent-secondary); text-decoration: none;
+      font-size: 0.9rem; transition: all 0.3s ease;
+    }
+    .return-link:hover {
+      background: rgba(136, 168, 136,0.15);
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 15px var(--accent-secondary-glow);
+    }
+    .intro-blurb {
+      margin: 24px 0; padding: 22px 24px;
+      background: rgba(63, 95, 63,0.04);
+      border-radius: 14px;
+      border: 1px solid rgba(63, 95, 63,0.15);
+      position: relative; z-index: 1;
+    }
+    .intro-blurb p {
+      color: var(--text-secondary);
+      margin-bottom: 14px; text-align: justify;
+      font-size: 1rem; line-height: 1.75;
+    }
+    .intro-blurb p:first-child {
+      color: var(--accent-secondary);
+      font-style: italic;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .intro-blurb p:last-child { margin-bottom: 0; }
+    .progress-bar {
+      margin: 20px 0; padding: 14px 18px;
+      background: rgba(63, 95, 63,0.04);
+      border: 1px solid rgba(63, 95, 63,0.12);
+      border-radius: 12px;
+      position: relative; z-index: 1;
+    }
+    .progress-bar .label {
+      color: var(--text-muted); font-size: 0.85rem;
+      margin-bottom: 8px;
+      display: flex; justify-content: space-between;
+    }
+    .progress-bar .label span { color: var(--accent-secondary); font-weight: 600; }
+    .progress-track {
+      height: 8px; background: rgba(0,0,0,0.3);
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-secondary));
+      border-radius: 4px; transition: width 0.5s ease;
+    }
+    .chapter-section {
+      margin-bottom: 32px; position: relative; z-index: 1;
+    }
+    .section-header h2 {
+      font-size: 1.25rem; color: var(--accent-secondary);
+      margin-bottom: 14px;
+    }
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .lesson-card {
+      display: block; position: relative;
+      padding: 14px 18px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 10px;
+      border: 1px solid rgba(63, 95, 63,0.12);
+      text-decoration: none; transition: all 0.3s;
+    }
+    .lesson-card:hover {
+      border-color: var(--accent-secondary);
+      box-shadow: 0 0 15px var(--accent-secondary-glow);
+      transform: translateY(-2px);
+    }
+    .lesson-card-part {
+      background: rgba(136, 168, 136,0.08);
+      border-color: rgba(136, 168, 136,0.25);
+    }
+    .lesson-card-part:hover { border-color: var(--accent-secondary); }
+    .lesson-num {
+      color: var(--accent-secondary); font-weight: 700; font-size: 0.85rem;
+    }
+    .lesson-card-part .lesson-num { color: var(--accent-secondary); }
+    .lesson-title {
+      color: var(--text-primary); font-size: 0.95rem; margin: 4px 0;
+    }
+    .progress-dot {
+      position: absolute; top: 12px; right: 14px;
+      width: 10px; height: 10px; border-radius: 50%;
+      border: 2px solid rgba(136, 168, 136,0.3);
+      transition: all 0.3s;
+    }
+    .progress-dot.visited {
+      border-color: var(--accent-secondary);
+      background: rgba(136, 168, 136,0.3);
+    }
+    .progress-dot.complete {
+      border-color: var(--accent-secondary);
+      background: var(--accent-secondary);
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(63, 95, 63,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .return-link { padding: 10px 16px; min-height: 44px; display: inline-flex; align-items: center; }
+      .progress-bar { padding: 12px 14px; }
+      .intro-blurb { padding: 16px 14px; }
+      .intro-blurb p { font-size: 0.95rem; text-align: left; }
+      .section-header h2 { font-size: 1.1rem; }
+      .lesson-grid { grid-template-columns: 1fr; gap: 10px; }
+      .lesson-card { padding: 14px 16px; min-height: 44px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <header>
+        <h1>Why the Division Among Brethren?</h1>
+        <p class="subtitle">The Underlying Issue Between Institutional and Non-Institutional churches of Christ</p>
+        <p class="author">Paul Hainline</p>
+        <p class="stats">
+          <span>11</span> Chapters &bull;
+          <span>4</span> Parts
+        </p>
+        <a href="../books.html" class="return-link">&larr; Return to Books</a>
+      </header>
+
+      <section class="intro-blurb">
+        <p>A position must stand or fall on what the Scriptures actually teach.</p>
+        <p>More than seventy years ago, a division took place among the churches of Christ. Most of those who live with its consequences today have never had the division fairly explained to them. They have been given labels instead of arguments, and one side&rsquo;s case rather than both.</p>
+        <p>This booklet does what too rarely gets done. It states both positions &mdash; institutional and non-institutional &mdash; in the way their best advocates would state them, walks the relevant Scriptures text by text, and lets the text carry the conclusion. Eleven chapters across four parts, written for the reader who wants to think for himself in front of the open Bible.</p>
+        <p>The aim is not persuasion by rhetoric. The aim is to read the Book.</p>
+      </section>
+
+      <div class="progress-bar">
+        <div class="label">
+          <span>Reading Progress</span>
+          <span id="progress-text">0 / 11 chapters</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Before We Begin</h2>
+        </div>
+        <div class="lesson-grid">
+      <a href="preface.html" class="lesson-card" data-pref>
+        <span class="lesson-num">Preface</span>
+        <div class="lesson-title">Read this first</div>
+        <span class="progress-dot" id="dot-preface"></span>
+      </a>
+    
+        </div>
+      </section>
+
+      
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part One: Background</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="part-1.html" class="lesson-card lesson-card-part">
+            <span class="lesson-num">Part One intro</span>
+            <div class="lesson-title">Background</div>
+            <span class="progress-dot" id="dot-part1"></span>
+          </a>
+          <a href="chapter-01.html" class="lesson-card" data-ch="1">
+            <span class="lesson-num">Chapter 1</span>
+            <div class="lesson-title">Why This Matters</div>
+            <span class="progress-dot" id="dot-ch1"></span>
+          </a>
+          <a href="chapter-02.html" class="lesson-card" data-ch="2">
+            <span class="lesson-num">Chapter 2</span>
+            <div class="lesson-title">A Short History of the Division</div>
+            <span class="progress-dot" id="dot-ch2"></span>
+          </a>
+        </div>
+      </section>
+        
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part Two: The Foundation</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="part-2.html" class="lesson-card lesson-card-part">
+            <span class="lesson-num">Part Two intro</span>
+            <div class="lesson-title">The Foundation</div>
+            <span class="progress-dot" id="dot-part2"></span>
+          </a>
+          <a href="chapter-03.html" class="lesson-card" data-ch="3">
+            <span class="lesson-num">Chapter 3</span>
+            <div class="lesson-title">The Question of Authority</div>
+            <span class="progress-dot" id="dot-ch3"></span>
+          </a>
+          <a href="chapter-04.html" class="lesson-card" data-ch="4">
+            <span class="lesson-num">Chapter 4</span>
+            <div class="lesson-title">The Work God Gave the Church</div>
+            <span class="progress-dot" id="dot-ch4"></span>
+          </a>
+          <a href="chapter-05.html" class="lesson-card" data-ch="5">
+            <span class="lesson-num">Chapter 5</span>
+            <div class="lesson-title">The Church and the Individual</div>
+            <span class="progress-dot" id="dot-ch5"></span>
+          </a>
+        </div>
+      </section>
+        
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part Three: The Four Questions</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="part-3.html" class="lesson-card lesson-card-part">
+            <span class="lesson-num">Part Three intro</span>
+            <div class="lesson-title">The Four Questions</div>
+            <span class="progress-dot" id="dot-part3"></span>
+          </a>
+          <a href="chapter-06.html" class="lesson-card" data-ch="6">
+            <span class="lesson-num">Chapter 6</span>
+            <div class="lesson-title">Church-Supported Institutions</div>
+            <span class="progress-dot" id="dot-ch6"></span>
+          </a>
+          <a href="chapter-07.html" class="lesson-card" data-ch="7">
+            <span class="lesson-num">Chapter 7</span>
+            <div class="lesson-title">The Sponsoring Church Arrangement</div>
+            <span class="progress-dot" id="dot-ch7"></span>
+          </a>
+          <a href="chapter-08.html" class="lesson-card" data-ch="8">
+            <span class="lesson-num">Chapter 8</span>
+            <div class="lesson-title">The Treasury and Benevolence</div>
+            <span class="progress-dot" id="dot-ch8"></span>
+          </a>
+          <a href="chapter-09.html" class="lesson-card" data-ch="9">
+            <span class="lesson-num">Chapter 9</span>
+            <div class="lesson-title">Fellowship Halls and Social Meals</div>
+            <span class="progress-dot" id="dot-ch9"></span>
+          </a>
+        </div>
+      </section>
+        
+      <section class="chapter-section">
+        <div class="section-header">
+          <h2>Part Four: What It Means</h2>
+        </div>
+        <div class="lesson-grid">
+          <a href="part-4.html" class="lesson-card lesson-card-part">
+            <span class="lesson-num">Part Four intro</span>
+            <div class="lesson-title">What It Means</div>
+            <span class="progress-dot" id="dot-part4"></span>
+          </a>
+          <a href="chapter-10.html" class="lesson-card" data-ch="10">
+            <span class="lesson-num">Chapter 10</span>
+            <div class="lesson-title">What's Really at Stake</div>
+            <span class="progress-dot" id="dot-ch10"></span>
+          </a>
+          <a href="chapter-11.html" class="lesson-card" data-ch="11">
+            <span class="lesson-num">Chapter 11</span>
+            <div class="lesson-title">For Further Study</div>
+            <span class="progress-dot" id="dot-ch11"></span>
+          </a>
+        </div>
+      </section>
+        
+
+      <footer>
+        <p class="copyright">Why the Division Among Brethren? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var TOTAL_CHAPTERS = 11;
+    var CHAPTER_NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    var TOTAL_PARTS = 4;
+    var PROGRESS_KEY = 'whyTheDivision_progress';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function applyDot(id, status) {
+      var dot = document.getElementById(id);
+      if (!dot) return;
+      if (status === 'complete') dot.className = 'progress-dot complete';
+      else if (status === 'visited') dot.className = 'progress-dot visited';
+    }
+    function updateProgressUI() {
+      var p = loadProgress();
+      var complete = 0;
+      CHAPTER_NUMS.forEach(function(n) {
+        var s = p['ch' + n];
+        applyDot('dot-ch' + n, s);
+        if (s === 'complete') complete++;
+      });
+      applyDot('dot-preface', p['preface']);
+      for (var i = 1; i <= TOTAL_PARTS; i++) {
+        applyDot('dot-part' + i, p['part' + i]);
+      }
+      document.getElementById('progress-text').textContent =
+        complete + ' / ' + TOTAL_CHAPTERS + ' chapters';
+      document.getElementById('progress-fill').style.width =
+        (complete / TOTAL_CHAPTERS * 100) + '%';
+    }
+    document.addEventListener('DOMContentLoaded', updateProgressUI);
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>

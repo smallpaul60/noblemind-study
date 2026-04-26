@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 5: The Church and the Individual | Why the Division Among Brethren?</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #c8c0b4;
+      --text-muted: #8a8070;
+      --accent: #3F5F3F;
+      --accent-glow: rgba(63, 95, 63, 0.4);
+      --accent-soft: rgba(63, 95, 63, 0.12);
+      --accent-secondary: #88a888;
+      --accent-secondary-glow: rgba(136, 168, 136, 0.3);
+      --scripture-border: #88a888;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark); color: var(--text-primary);
+      font-size: 1.1rem; line-height: 1.85;
+      min-height: 100vh; padding: 30px 20px;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(63, 95, 63,0.08), transparent 50%),
+        radial-gradient(circle at bottom, rgba(136, 168, 136,0.06), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative; z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px); padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(63, 95, 63,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(136, 168, 136,0.4), transparent 50%),
+        radial-gradient(circle at bottom, rgba(63, 95, 63,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(136, 168, 136,0.15),
+        0 0 80px rgba(63, 95, 63,0.2);
+      max-width: 860px; width: 100%; margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative; overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(63, 95, 63,0.05), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute; bottom: -12px; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 14px; border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(63, 95, 63,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(63, 95, 63,0.4);
+    }
+    .nav-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      margin-bottom: 28px; padding: 14px 18px;
+      background: rgba(63, 95, 63,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(63, 95, 63,0.12);
+      position: relative; z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary); text-decoration: none;
+      padding: 8px 14px; border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(63, 95, 63,0.25);
+      font-size: 0.85rem; transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer; min-width: 220px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2388a888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark); color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--accent-secondary); font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px; padding-bottom: 24px;
+      border-bottom: 1px solid rgba(63, 95, 63,0.2);
+      position: relative; z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px; font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px; letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem; color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-top: 32px; margin-bottom: 14px;
+    }
+    .content h3 {
+      font-size: 1.15rem; color: var(--accent);
+      margin-top: 24px; margin-bottom: 10px;
+    }
+    blockquote.scripture {
+      margin: 20px 0; padding: 16px 20px;
+      background: rgba(136, 168, 136,0.06);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+    }
+    blockquote.scripture p {
+      margin-bottom: 0; color: var(--text-primary);
+    }
+    blockquote.scripture cite {
+      display: block; margin-top: 6px;
+      color: var(--accent-secondary);
+      font-style: normal; font-weight: 500; font-size: 0.9rem;
+    }
+    .mark-complete {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin: 30px 0 10px; padding: 12px;
+      background: rgba(63, 95, 63,0.06);
+      border: 1px solid rgba(63, 95, 63,0.2);
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(63, 95, 63,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(63, 95, 63,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: transparent; transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent); color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent-secondary); font-weight: 600; font-size: 0.9rem;
+    }
+    .part-intro-body {
+      font-style: italic;
+      color: var(--text-secondary);
+      max-width: 580px;
+      margin: 10px auto 0;
+      text-align: left;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+    .part-intro-body p {
+      margin-bottom: 14px;
+    }
+    footer {
+      margin-top: 40px; padding-top: 24px;
+      border-top: 1px solid rgba(63, 95, 63,0.15);
+      text-align: center; position: relative; z-index: 1;
+    }
+    .footer-nav {
+      display: flex; justify-content: space-between; margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary); text-decoration: none;
+      padding: 10px 20px; border-radius: 8px;
+      background: rgba(136, 168, 136,0.08);
+      border: 1px solid rgba(136, 168, 136,0.25);
+      transition: all 0.3s; font-size: 0.9rem;
+    }
+    .footer-nav a:hover {
+      background: rgba(136, 168, 136,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled { opacity: 0.35; pointer-events: none; }
+    .copyright {
+      color: var(--text-muted); font-size: 0.78rem; margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #3F5F3F; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      blockquote.scripture { background: #f9f9f9; border-left-color: #88a888; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select {
+        padding: 10px 14px; font-size: 0.9rem; min-height: 44px;
+      }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.95rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a {
+        text-align: center; padding: 12px 20px; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Why the Division Among Brethren?
+        </a>
+        <select id="chapter-select" onchange="goToChapter(this.value)">
+          <option value="">Jump to...</option>
+          <option value="preface.html">Preface</option>
+          <option value="part-1.html">─ Part One: Background ─</option>
+          <option value="chapter-01.html">Ch 1: Why This Matters</option>
+          <option value="chapter-02.html">Ch 2: A Short History of the Division</option>
+          <option value="part-2.html">─ Part Two: The Foundation ─</option>
+          <option value="chapter-03.html">Ch 3: The Question of Authority</option>
+          <option value="chapter-04.html">Ch 4: The Work God Gave the Church</option>
+          <option value="chapter-05.html" selected>Ch 5: The Church and the Individual</option>
+          <option value="part-3.html">─ Part Three: The Four Questions ─</option>
+          <option value="chapter-06.html">Ch 6: Church-Supported Institutions</option>
+          <option value="chapter-07.html">Ch 7: The Sponsoring Church Arrangement</option>
+          <option value="chapter-08.html">Ch 8: The Treasury and Benevolence</option>
+          <option value="chapter-09.html">Ch 9: Fellowship Halls and Social Meals</option>
+          <option value="part-4.html">─ Part Four: What It Means ─</option>
+          <option value="chapter-10.html">Ch 10: What's Really at Stake</option>
+          <option value="chapter-11.html">Ch 11: For Further Study</option>
+        </select>
+      </nav>
+
+      
+      <header>
+        <p class="chapter-num">Chapter Five</p>
+        <h1>The Church and the Individual</h1>
+      </header>
+      <div class="content"><p>The question this chapter settles is simple in its statement and large in its consequences. Are the individual Christian and the local church the same actor under different names — so that whatever the individual is commanded to do the collective body may also do — or does Scripture treat them as distinct, each with its own work and its own charter?</p>
+<p>The question is not academic. It is the hinge on which several chapters of this booklet turn. A great many institutional arguments begin by treating the church as &ldquo;just individual Christians acting together,&rdquo; and once that framing is accepted, almost any work the individual is commanded becomes a work the collective body may undertake. If the framing is right, those arguments have force. If the framing is wrong, they have none. Scripture itself decides.</p>
+<h3>The Cornerstone Text</h3>
+<p>Paul writes to Timothy: &ldquo;If any woman who is a believer has dependent widows, she must assist them and the church must not be burdened, so that it may assist those who are widows indeed&rdquo; (1 Tim. 5:16).</p>
+<p>Three observations arise from the text itself before any outside reasoning is applied.</p>
+<p>First, the individual believer has an obligation the church does not carry. The believing woman with dependent widows in her family &ldquo;must assist them.&rdquo; That is her responsibility. The church is not instructed to relieve her of it.</p>
+<p>Second, when the individual&rsquo;s obligation is loaded onto the church, the apostle describes the result with a specific word: the church is &ldquo;<em>burdened</em>.&rdquo; This word is doing real work in the sentence. If the individual and the church were the same actor with the same list of obligations, there would be no burden — the obligation would already sit on both at once. Paul&rsquo;s language presumes a distinction. The church has a charter of its own, and that charter can be weighed down when obligations outside it are added.</p>
+<p>Third, the church does have a benevolence obligation, but it is specified and limited: &ldquo;those who are widows indeed.&rdquo; What a &ldquo;widow indeed&rdquo; is has already been defined in the preceding verses (1 Tim. 5:3–10) — a woman genuinely alone, advanced in years, who meets specific criteria of faithfulness. The church&rsquo;s benevolence is not open-ended; it is aimed at a defined recipient within a defined class. The individual&rsquo;s benevolence, by contrast, has no such limit placed on it in Scripture.</p>
+<p>If the church and the individual were the same actor, this verse is incoherent. Paul would be telling an individual to carry a responsibility she already shares with the church, while warning her not to transfer it to a body that already holds it. The verse only makes sense if the two actors have different lists.</p>
+<h3>The Pattern Beneath</h3>
+<p>Chapter 3 established that Old Testament examples and patterns instruct the Christian per Romans 15:4 and 1 Corinthians 10:11 — not as binding law, but as a window into God&rsquo;s character and method. The distinction Paul draws in 1 Timothy 5:16 is not an innovation. It reflects how God had always ordered the life of His people.</p>
+<p>Under the Mosaic law, God set up what amounted to parallel systems. The tabernacle — and later the temple — was funded by the tithe of the whole nation (Num. 18:21–24; Deut. 12:5–14). That tithe supported the priests and Levites in their work of worship and of teaching the law. It was, in effect, the treasury of the collective body doing the work God had assigned to that collective body.</p>
+<p>Poor relief was funded differently. The individual landowner was commanded to leave the corners of his field unharvested (Lev. 19:9–10). He was to leave the forgotten sheaf in the field (Deut. 24:19). He was not to glean his olive tree or his vineyard a second time; what remained was left for the alien, the orphan, and the widow (Deut. 24:20–21). Every seventh year the land was to lie fallow, &ldquo;so that the needy of your people may eat&rdquo; (Ex. 23:10–11).</p>
+<p>These were not temple functions. The priests did not collect the gleanings and redistribute them. The tabernacle treasury did not fund a welfare system. Each Israelite landowner, in his own field, at his own cost, obeyed his own command.</p>
+<p>God could have designed it differently. He could have funneled everything through the tabernacle — collected all relief in the treasury and distributed it through the priests. He did not. He distinguished what the collective body did through its appointed officers from what the individual did in his own sphere. Two spheres, two funding streams, two sets of commanded actions. Both were required; neither was optional.</p>
+<p>When Paul writes to Timothy twelve hundred years later and distinguishes the individual&rsquo;s obligation from the church&rsquo;s, he is not drawing a new line. He is carrying a line God had drawn from the beginning.</p>
+<h3>A Picture from Ruth</h3>
+<p>The principle becomes concrete in the narrative of Ruth 2. Naomi and Ruth return to Bethlehem in poverty. Ruth goes out to glean, and &ldquo;she happened to come to the portion of the field belonging to Boaz&rdquo; (Ruth 2:3).</p>
+<p>What she finds there is not temple charity. It is a man — an individual Israelite — obeying the commands God had placed on him as an individual landowner. Boaz goes beyond the minimum: he instructs his young men, &ldquo;Also you shall purposely pull out for her some grain from the bundles and leave it that she may glean, and do not rebuke her&rdquo; (Ruth 2:16). He invites her to eat with his workers at mealtime (v. 14). He ensures her safety in the field (v. 9).</p>
+<p>Notice what is absent from the narrative. No priest intervenes. No tabernacle offering is made. No collective Israelite body acts on Naomi and Ruth&rsquo;s behalf. Their need is met because God built individual responsibility into the fabric of Israelite life, and one individual — Boaz — was faithful to what God had placed on him personally. The text tells us plainly that Ruth&rsquo;s provision came from one man&rsquo;s field, one man&rsquo;s obedience, one man&rsquo;s willingness to go beyond the bare minimum.</p>
+<p>This is what individual benevolence looks like in practice. It costs the individual something. It happens in his own sphere, with his own resources. It is not administered through a collective treasury. And when the collective body was functioning rightly in its own sphere — the tabernacle was staffed and supplied, the priests were teaching the law — individual benevolence and collective worship were both happening at the same time, without either replacing the other.</p>
+<h3>The New Testament Keeps the Distinction</h3>
+<p>If this pattern were only in the Old Testament, we might ask whether it carried over into the age of the church. But 1 Timothy 5:16 has already answered that question. And other New Testament passages corroborate.</p>
+<p>When Jesus teaches on giving in Matthew 6:1–4, He addresses the individual: &ldquo;But when you give to the poor, do not let your left hand know what your right hand is doing&rdquo; (v. 3). The giving is individual, personal, and done in a way that excludes any collective arrangement by its very manner. &ldquo;<em>Your</em>&rdquo; appears eleven times in those four verses. The person addressed is the individual disciple.</p>
+<p>Paul writes to the Ephesians: &ldquo;He who steals must steal no longer; but rather he must labor, performing with his own hands what is good, so that he will have something to share with one who has need&rdquo; (Eph. 4:28). The working, the earning, and the sharing are all individual acts. The individual labors with his own hands; the individual shares from what he has earned. The church treasury is nowhere in view.</p>
+<p>Galatians 6:10 will receive full treatment in a later chapter, but it belongs in this survey: &ldquo;So then, while we have opportunity, let us do good to all people, and especially to those who are of the household of the faith.&rdquo; The &ldquo;us&rdquo; of verse 10 is established by the opening of the chapter: &ldquo;Brethren . . . you who are spiritual, restore such a one&rdquo; (Gal. 6:1). Paul is writing to individual Christians about individual conduct. The &ldquo;good to all people&rdquo; is the individual&rsquo;s scope, not the collective treasury&rsquo;s.</p>
+<p>Across the Testaments, the same pattern holds. The individual has one list; the collective body has another; both are required; they are not the same list.</p>
+<h3>The Principle Stated</h3>
+<p>The individual Christian carries a broad obligation. He is to do good to all people (Gal. 6:10). He is to share with anyone who has need (Eph. 4:28). He is to visit orphans and widows in their distress (James 1:27). He is to bear his brother&rsquo;s burdens (Gal. 6:2). The scope of individual responsibility reaches to every person God places in his path, whether saint or stranger, neighbor or enemy.</p>
+<p>The local congregation operates within a narrower charter. Its authorized work — to be developed more fully in Chapter 4 and in the specific chapters that follow — includes worship, the edification of the saints, the preaching of the gospel, and benevolence to needy saints. This charter is defined not by human judgment of what seems good but by what Scripture authorizes. Where Scripture speaks, the church acts. Where Scripture does not authorize, the church has not been given the work.</p>
+<p>This is not a doctrine of stinginess. It is a doctrine of order. God assigned specific work to specific actors. The faithful congregation does the work God gave it. The faithful Christian, in addition, does the work God gave him as an individual — in his own life, with his own hands, from his own resources. Both are commanded. Neither substitutes for the other.</p>
+<p>It is worth noting what happens when the distinction collapses. If the individual transfers his personal obligation to the collective treasury — if he hands his duty to visit the widow to the church&rsquo;s benevolence committee and considers himself discharged — he has not obeyed. He has delegated. And the New Testament does not permit him to delegate what God placed on him personally. A church cannot visit a widow; only a person can visit a widow. A church cannot labor with its hands; only an individual can labor. When individual duty is routed through collective action, it is not magnified. It is quietly abandoned.</p>
+<h3>Why This Chapter Matters</h3>
+<p>The specific issues this booklet examines in the chapters ahead — orphan homes, the sponsoring church arrangement, the scope of the treasury, fellowship meals — all turn, at one point or another, on the distinction this chapter has drawn.</p>
+<p>In each case, a familiar argument will appear. Because the individual is commanded to care for orphans, the church may build an institution to do it on a larger scale. Because the individual is commanded to preach the gospel, the church may fund a sponsoring arrangement to preach at a reach no individual could manage. Because the individual is commanded to do good to all people, the church may feed the neighborhood. Each of these moves depends on one assumption: that the individual and the collective body have the same list.</p>
+<p>If the distinction is real — and Paul makes it explicit in 1 Timothy 5:16 — then every one of those arguments has to be re-examined on its own Scriptural merits. It is not enough to show that the individual is commanded to do the work in question. One must show that the collective body has been given the work, from the Scripture&rsquo;s own direct statement, approved apostolic example, or necessary inference. Without that showing, the argument fails not because it is too generous but because it is acting outside authority.</p>
+<p>The remaining chapters are that examination, question by question.</p>
+<h3>For Reflection and Discussion</h3>
+<ol>
+<li>
+<p>Read 1 Timothy 5:16 slowly. Paul says loading the individual&rsquo;s obligation onto the church would &ldquo;burden&rdquo; the church. If the individual and the church were the same actor, how could the word &ldquo;<em>burden</em>&rdquo; apply here at all?</p>
+</li>
+<li>
+<p>Under the Mosaic law, the gleaning commands governed private fields, not the tabernacle treasury. What does that arrangement suggest about how God distinguished collective worship from individual benevolence? What does its presence in the law reveal about God&rsquo;s method?</p>
+</li>
+<li>
+<p>Read Matthew 6:1–4 and Ephesians 4:28. Are these passages addressed to the individual Christian, the collective church, or both? What specifically in the text tells you?</p>
+</li>
+<li>
+<p>If the individual transfers his personal obligations to the collective treasury and considers himself discharged, has he obeyed or has he delegated? What is the practical difference?</p>
+</li>
+<li>
+<p>Consider Boaz in Ruth 2. What did his obedience cost him personally? What would have been different — about Boaz, and about Ruth — if the obligation had been funneled through the tabernacle treasury instead of being carried on his own field?</p>
+</li>
+</ol></div>
+    
+
+      <div class="mark-complete" id="mark-complete" onclick="toggleComplete()">
+        <div class="check" id="check-icon">&check;</div>
+        <span>Mark Chapter Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-04.html">&larr; Chapter 4</a>
+          <a href="part-3.html">Part Three &rarr;</a>
+        </div>
+        <p class="copyright">Why the Division Among Brethren? &copy; Paul Hainline 2026<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'whyTheDivision_progress';
+    var CH = 'ch5';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+    function toggleComplete() {
+      var p = loadProgress();
+      p[CH] = p[CH] === 'complete' ? 'visited' : 'complete';
+      saveProgress(p);
+      updateUI();
+    }
+    function updateUI() {
+      var p = loadProgress();
+      var el = document.getElementById('mark-complete');
+      if (p[CH] === 'complete') el.classList.add('completed');
+      else el.classList.remove('completed');
+    }
+    function goToChapter(url) { if (url) window.location.href = url; }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      if (!p[CH]) { p[CH] = 'visited'; saveProgress(p); }
+      updateUI();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') window.location.href = 'chapter-04.html';
+      if (e.key === 'ArrowRight') window.location.href = 'part-3.html';
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+</body>
+</html>
