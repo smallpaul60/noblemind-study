@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v179';
+const CACHE_NAME = 'noblemind-study-v180';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -24,6 +24,10 @@ const CACHE_FILES = [
   '/icon-512.png',
   '/favicon.ico',
   '/og-default.png',
+  '/assets/nm-brand.css',
+  '/assets/fonts/cardo-400.woff2',
+  '/assets/fonts/cardo-400-italic.woff2',
+  '/assets/fonts/cardo-700.woff2',
   '/BridgeMoments/logo.png',
   '/BridgeMoments/favicon.ico',
   '/BridgeMoments/favicon-32.png',
