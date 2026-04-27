@@ -69,7 +69,7 @@ Reduce glow effects to near-zero. One thin gold hairline is enough; the dark its
 ## Layout Principles
 
 - Generous margins. The reader is studying, not scrolling.
-- Reading column: 480–540px max. Long lines kill comprehension.
+- Reading column: 680px max on desktop. Clamps to viewport on narrow screens. Past ~740px, study prose starts reading like a blog post.
 - Scripture indents and shifts to italic with a thin gold left rule — visually distinct from commentary at all times.
 - One accent color per section, not three.
 - The crest appears small. The text is the hero.
