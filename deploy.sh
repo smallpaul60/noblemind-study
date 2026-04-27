@@ -49,6 +49,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='WhyTheDivision/Resource Appendix_*.pdf' \
   --exclude='TheGodWhoShowedUp/em-dash_alt-0151.odt' \
   --exclude='archive/' \
+  --exclude='design-refs/' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""
