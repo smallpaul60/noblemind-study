@@ -22,7 +22,7 @@ BLEED = 0.125
 TRIM_W = 5.5
 TRIM_H = 8.5
 PAGE_COUNT = 170
-SPINE_W = round(PAGE_COUNT * 0.0029, 3)
+SPINE_W = 0.443  # Lulu template value (170 pp B&W white) — keep in sync with generate_lulu_paperback_cover.py
 
 DOC_W = BLEED + TRIM_W + SPINE_W + TRIM_W + BLEED
 DOC_H = BLEED + TRIM_H + BLEED

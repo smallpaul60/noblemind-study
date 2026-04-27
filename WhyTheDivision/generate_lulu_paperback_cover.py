@@ -32,12 +32,12 @@ pdfmetrics.registerFont(TTFont("EBGaramond-Italic",
                                 str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
 # --- Page count & spine width ---
-# Update PAGE_COUNT to match the printed Lulu interior page count.
-# Update SPINE_W to Lulu's exact value once you generate the cover
-# template in Lulu's design step. The formula below is an estimate;
-# Lulu's actual value for 88-page B&W white was 0.258" (~0.0029/page).
+# SPINE_W comes from Lulu's cover template (download link in the Design
+# step of Lulu's project wizard). For a 170-page 5.5x8.5 B&W white
+# paperback Lulu's template gives 0.443". Update SPINE_W if the
+# interior page count changes.
 PAGE_COUNT = 170
-SPINE_W    = round(PAGE_COUNT * 0.0029, 3)
+SPINE_W    = 0.443                   # Lulu template value (170 pp B&W white)
 
 # --- Document dimensions ---
 BLEED  = 0.125
