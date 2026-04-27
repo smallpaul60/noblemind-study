@@ -2,282 +2,215 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!--
+  Books page — brand-refresh treatment.
+
+  Brand: /design-refs/BRAND_BRIEF.md.
+  Visuals: /assets/nm-brand.css.
+
+  Visual refresh only — no content changes. Book cards (titles, subtitles,
+  descriptions, action buttons, format tags) all preserved verbatim. The
+  Read-more toggle JS and the ctmGated() download gate JS are unchanged.
+-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Books — NobleMind Press</title>
-  <link rel="canonical" href="https://noblemind.study/books.html">
+
+  <title>Books &mdash; NobleMind Press</title>
   <meta name="description" content="Scripture study books from NobleMind Press. Read online, download PDF, or grab the EPUB.">
+
+  <link rel="canonical" href="https://noblemind.study/books.html">
+
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
-  <style>
-    :root {
-      --bg-dark: #0d0d0d;
-      --bg-panel: #1a1a1a;
-      --bg-card: rgba(10, 17, 40, 0.96);
-      --text-primary: #f5f5f5;
-      --text-secondary: #a0a0a0;
-      --text-muted: #888;
-      --border-color: #2a2a2a;
-      --border-glass: rgba(148, 163, 184, 0.45);
-      --accent: #06FFA5;
-      --accent-soft: rgba(6, 255, 165, 0.18);
-      --accent-glow: rgba(6, 255, 165, 0.5);
-      --accent-blue: #5ee5ff;
-      --accent-blue-glow: rgba(94, 229, 255, 0.5);
-      --radius-card: 22px;
-    }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta name="theme-color" content="#0A0E14">
+
+  <link rel="stylesheet" href="/assets/nm-brand.css">
+
+  <style>
+    /* Page-specific layout — tokens come from /assets/nm-brand.css. */
+    * { box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      line-height: 1.6;
+      margin: 0;
+      background: var(--ink);
+      color: var(--body);
+      font-family: var(--font-body);
+      line-height: 1.7;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
-        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
-      pointer-events: none;
-    }
+    /* Wider page-wrapper override — books need room for cover + info side by side. */
+    .page-wrapper { max-width: 920px; }
 
-    .glass-page-wrapper {
-      position: relative;
-      z-index: 10;
-      border-radius: calc(var(--radius-card) + 4px);
-      padding: 3px;
-      background:
-        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
-        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
-        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
-      box-shadow:
-        0 0 50px rgba(94,229,255,0.3),
-        0 0 80px rgba(6,255,165,0.35);
-      max-width: 900px;
-      width: 100%;
+    .nav-strip { max-width: 1100px; margin: 0 auto; }
+    .nav-strip a { text-decoration: none; }
+
+    .article {
+      padding: 2.5rem 2rem 2rem;
+      max-width: var(--column-read);
       margin: 0 auto;
     }
 
-    .glass-page-inner {
-      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
-      border-radius: var(--radius-card);
-      padding: 3rem 2.5rem;
-      backdrop-filter: blur(22px);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.25);
-    }
+    .article a { color: var(--lamplight); transition: opacity 0.2s; }
+    .article a:hover { opacity: 0.78; }
 
-    .glass-page-inner::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 150px;
-      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    .glass-tab {
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 14px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
-      box-shadow: 0 0 30px rgba(94,229,255,0.6);
-    }
-
-    header {
+    /* Title block */
+    .title-block {
       text-align: center;
-      margin-bottom: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .back-link {
-      display: inline-block;
-      color: var(--accent);
-      text-decoration: none;
-      font-size: 0.9rem;
-      margin-bottom: 16px;
-      transition: opacity 0.2s;
-    }
-
-    .back-link:hover {
-      opacity: 0.8;
+      margin-bottom: 1.75rem;
     }
 
     h1 {
-      font-size: 2.2rem;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: var(--accent);
-      text-shadow: 0 0 25px var(--accent-glow);
+      font-family: var(--font-serif);
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--parchment);
+      line-height: 1.15;
+      letter-spacing: 0.003em;
+      margin: 0 0 0.4rem;
     }
 
     .imprint {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-style: italic;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--vellum);
     }
 
-    /* --- Welcome / Where to Start --- */
+    /* --- Welcome / Where to Start ---
+       Quiet ink card with a hairline gold left rule, in the .scrip family. */
     .welcome {
-      margin-bottom: 28px;
-      padding: 20px 24px;
-      background: rgba(6, 255, 165, 0.03);
-      border: 1px solid rgba(6, 255, 165, 0.12);
-      border-radius: 14px;
-      position: relative;
-      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto 1.75rem;
+      padding: 1.1rem 1.4rem;
+      background: rgba(212, 162, 76, 0.04);
+      border: 1px solid var(--rule-faint);
+      border-left: 2px solid var(--rule-gold);
+      border-radius: 0 4px 4px 0;
     }
     .welcome p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.7;
-      margin-bottom: 10px;
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      color: var(--body);
+      line-height: 1.65;
+      margin: 0 0 0.6rem;
     }
-    .welcome p:last-child { margin-bottom: 0; }
-    .welcome strong { color: var(--text-primary); }
-    .welcome a { color: var(--accent); text-decoration: none; }
-    .welcome a:hover { text-decoration: underline; }
+    .welcome p:last-child { margin: 0; }
+    .welcome strong { color: var(--parchment); }
+    .welcome a { color: var(--lamplight); text-decoration: none; }
+    .welcome a:hover { opacity: 0.78; }
 
-    /* --- Section Jump Nav --- */
+    /* --- Section jump nav --- */
     .section-nav {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       flex-wrap: wrap;
       justify-content: center;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
+      margin: 0 auto 2.25rem;
+      max-width: 720px;
     }
     .section-nav a {
-      display: inline-block;
-      padding: 7px 16px;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 3px;
+      color: var(--vellum);
+      background: transparent;
+      border: 1px solid var(--rule-faint);
       text-decoration: none;
-      color: var(--text-secondary);
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(148,163,184,0.15);
-      transition: all 0.2s ease;
+      transition: border-color 0.2s, color 0.2s;
     }
     .section-nav a:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: rgba(6, 255, 165, 0.06);
+      color: var(--parchment);
+      border-color: var(--rule-gold);
     }
 
-    /* --- Books List --- */
+    /* --- Section headers --- */
+    .section-header {
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--rule-faint);
+      scroll-margin-top: 20px;
+    }
+    .section-header:first-of-type { margin-top: 0; }
+    .section-header h2 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--berean);
+      font-weight: 400;
+      margin: 0 0 0.3rem;
+    }
+    .section-header p {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-style: italic;
+      color: var(--vellum);
+      margin: 0;
+    }
+
+    /* --- Books list --- */
     .books-list {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      position: relative;
-      z-index: 1;
+      gap: 1rem;
     }
 
     .book-card {
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 22px 24px;
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid var(--rule-faint);
+      border-radius: 4px;
+      padding: 1.4rem 1.5rem;
       display: flex;
-      gap: 22px;
+      gap: 1.4rem;
       align-items: flex-start;
+      transition: border-color 0.25s ease;
     }
-
-    .book-card::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 60px;
-      background: radial-gradient(ellipse at top, rgba(6,255,165,0.1), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-
-    .book-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-3px);
-      box-shadow: 0 0 30px var(--accent-glow);
-    }
-
-    .book-card:hover::before {
-      opacity: 1;
-    }
+    .book-card:hover { border-color: var(--rule-gold); }
 
     .book-cover {
       flex-shrink: 0;
-      width: 120px;
-      position: relative;
-      z-index: 1;
+      width: 110px;
     }
-
     .book-cover img {
       width: 100%;
       height: auto;
-      border-radius: 6px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.4), 0 0 20px rgba(6,255,165,0.08);
-      border: 1px solid rgba(148,163,184,0.15);
-      transition: box-shadow 0.25s ease;
+      border-radius: 3px;
+      border: 1px solid var(--rule-faint);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
     }
 
-    .book-card:hover .book-cover img {
-      box-shadow: 0 6px 24px rgba(0,0,0,0.5), 0 0 30px rgba(6,255,165,0.15);
-    }
-
-    .book-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .book-info { flex: 1; min-width: 0; }
 
     .book-card h2 {
-      font-size: 1.2rem;
-      color: var(--accent);
-      margin-bottom: 4px;
-      position: relative;
-      z-index: 1;
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--parchment);
+      letter-spacing: 0.003em;
+      margin: 0 0 0.25rem;
     }
 
     .book-subtitle {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
+      font-family: var(--font-serif);
       font-style: italic;
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
+      font-size: 15px;
+      color: var(--vellum);
+      margin: 0 0 0.7rem;
     }
 
     .book-description {
-      color: var(--text-secondary);
-      font-size: 0.92rem;
-      line-height: 1.6;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 1;
+      font-family: var(--font-body);
+      font-size: 15.5px;
+      color: var(--body);
+      line-height: 1.65;
+      margin: 0 0 0.85rem;
     }
-
     .book-description.truncated {
       display: -webkit-box;
       -webkit-line-clamp: 3;
@@ -286,581 +219,555 @@
     }
 
     .book-note {
-      color: var(--accent);
-      font-size: 0.85rem;
+      font-family: var(--font-serif);
       font-style: italic;
-      opacity: 0.85;
-      margin: -4px 0 12px 0;
+      font-size: 14px;
+      color: var(--lamplight);
+      opacity: 0.9;
+      margin: -0.3rem 0 0.75rem;
     }
 
     .read-more-btn {
       background: none;
       border: none;
-      color: var(--accent);
-      font-size: 0.82rem;
+      color: var(--lamplight);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       cursor: pointer;
       padding: 0;
-      margin-bottom: 12px;
+      margin: 0 0 0.85rem;
       display: block;
-      position: relative;
-      z-index: 1;
-      opacity: 0.8;
+      opacity: 0.85;
       transition: opacity 0.2s;
     }
     .read-more-btn:hover { opacity: 1; }
 
+    /* Action buttons —
+       .btn / .btn-primary come from /assets/nm-brand.css (gold + ink).
+       The vendor variants below match that base shape but shift color so
+       the destination (Amazon, Lulu) is recognizable without breaking the
+       brand restraint. */
     .book-actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 9px 18px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: all 0.25s ease;
-      border: none;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #22c55e);
-      color: #020617;
-      box-shadow: 0 0 20px rgba(6,255,165,0.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 35px rgba(6,255,165,0.5);
     }
 
     .btn-outline {
       background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--accent);
+      color: var(--parchment);
+      border: 1px solid var(--rule-faint);
     }
-
-    .btn-outline:hover {
-      background: var(--accent);
-      color: #020617;
-    }
+    .btn-outline:hover { border-color: var(--rule-gold); opacity: 1; }
 
     .btn-amazon {
       background: transparent;
-      color: #FF9900;
-      border: 1px solid #FF9900;
+      color: #F5A745;
+      border: 1px solid rgba(245, 167, 69, 0.45);
     }
     .btn-amazon:hover {
-      background: #FF9900;
-      color: #020617;
+      background: #F5A745;
+      color: var(--ink);
+      opacity: 1;
     }
 
     .btn-lulu {
       background: transparent;
-      color: #00AEEF;
-      border: 1px solid #00AEEF;
+      color: #5EBFD6;
+      border: 1px solid rgba(94, 191, 214, 0.45);
     }
     .btn-lulu:hover {
-      background: #00AEEF;
-      color: #020617;
+      background: #5EBFD6;
+      color: var(--ink);
+      opacity: 1;
     }
 
+    /* --- Format tags --- */
     .book-meta {
       display: flex;
-      gap: 12px;
+      gap: 0.7rem;
       align-items: center;
       flex-wrap: wrap;
-      margin-top: 12px;
-      position: relative;
-      z-index: 1;
+      margin-top: 0.85rem;
     }
-
-    .book-meta span {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .book-meta > span:not(.format-tag) {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--vellum);
     }
-
     .format-tag {
       display: inline-block;
-      font-size: 0.7rem;
-      padding: 2px 8px;
-      border-radius: 4px;
-      background: rgba(148,163,184,0.08);
-      border: 1px solid rgba(148,163,184,0.18);
-      color: var(--text-muted);
-      letter-spacing: 0.03em;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: transparent;
+      border: 1px solid var(--rule-faint);
+      color: var(--vellum);
     }
 
     footer {
-      margin-top: 36px;
+      max-width: var(--column-read);
+      margin: 2.5rem auto 0;
+      padding: 1.5rem 2rem 2.5rem;
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
-      padding-top: 20px;
-      border-top: 1px solid rgba(148,163,184,0.15);
+      border-top: 1px solid var(--rule-faint);
     }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      opacity: 0.8;
-    }
-
-    .section-header {
-      margin-top: 36px;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(6, 255, 165, 0.2);
-      scroll-margin-top: 20px;
-    }
-    .section-header:first-child {
-      margin-top: 0;
-    }
-    .section-header h2 {
-      font-size: 0.85rem;
+    footer p {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-      font-weight: 400;
-      margin-bottom: 4px;
+      color: var(--vellum);
+      margin: 0 0 0.4rem;
     }
-    .section-header p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
+    footer p:last-child { margin: 0; opacity: 0.7; font-size: 9.5px; }
+    footer a { color: var(--vellum); text-decoration: none; }
+    footer a:hover { color: var(--lamplight); opacity: 1; }
 
     @media (max-width: 600px) {
-      body { padding: 20px 12px; }
-      h1 { font-size: 1.7rem; }
-      .glass-page-inner { padding: 2rem 1.2rem; }
-      .book-card { flex-direction: column; align-items: center; text-align: center; padding: 20px 16px; }
-      .book-cover { width: 140px; }
-      .book-actions { flex-direction: column; }
-      .btn { justify-content: center; }
-      .glass-page-wrapper { border-radius: 18px; }
-      .glass-page-inner { border-radius: 16px; }
-      .welcome { padding: 16px; }
-      .section-nav { gap: 6px; }
-      .section-nav a { padding: 6px 12px; font-size: 0.78rem; }
+      .article { padding: 1.5rem 1.25rem 1.5rem; }
+      .nav-strip { padding: 0.9rem 1.25rem; }
+      h1 { font-size: 28px; }
+      .book-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.25rem 1rem;
+      }
+      .book-cover { width: 130px; }
+      .book-actions { flex-direction: column; width: 100%; }
+      .btn { justify-content: center; text-align: center; }
+      .section-nav a { padding: 6px 11px; font-size: 9px; }
+      footer { padding: 1.25rem 1.25rem 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="glass-page-wrapper">
-    <div class="glass-page-inner">
-      <header>
-        <a href="index.html" class="back-link">&larr; Back to Noble Mind Study</a>
-        <h1>Books</h1>
-        <p class="imprint">NobleMind Press</p>
-      </header>
 
-      <section class="welcome">
-        <p>Every book here is free to read online. No account, no paywall &mdash; just open it and start reading. PDFs and EPUBs are available for most titles if you prefer to read offline.</p>
-        <p><strong>Not sure where to start?</strong> If you&rsquo;re new to the Bible or exploring faith for the first time, begin with <a href="FromTheBeginning/index.html">From the Beginning</a>. If you&rsquo;re a believer looking for deeper study, <a href="CanTheseBonesLive/index.html">Can These Bones Live?</a> traces a single pattern through the whole Bible that you may have never seen before.</p>
-      </section>
+  <div class="page-wrapper">
+    <div class="page-inner">
 
-      <nav class="section-nav">
-        <a href="#starting-point">Starting Point</a>
-        <a href="#young-adults">For Young Adults</a>
-        <a href="#hard-seasons">For Hard Seasons</a>
-        <a href="#bible-studies">Bible Studies</a>
-      </nav>
+  <header class="nav-strip">
+    <a href="index.html" style="display: flex; align-items: center; gap: 10px;">
+      <img src="icon-192.png" alt="" width="22" height="22" style="border-radius: 3px; display: block;">
+      <span class="cd" style="font-size: 15px; color: var(--parchment); font-weight: 700; letter-spacing: 0.01em;">Noble Mind Study</span>
+    </a>
+    <nav class="mn" style="font-size: 10px; color: var(--vellum);">
+      <a href="principles.html" style="margin: 0 9px; color: inherit;">Method</a>
+      <a href="index.html#studies" style="margin: 0 9px; color: inherit;">Studies</a>
+      <a href="books.html" style="margin: 0 0 0 9px; color: inherit;">Books</a>
+    </nav>
+  </header>
 
-      <div class="books-list">
+  <article class="article">
 
-        <div class="section-header" id="starting-point">
-          <h2>Starting Point</h2>
-          <p>No background required &mdash; start here if the Bible is new to you</p>
-        </div>
+    <div class="title-block">
+      <h1>Books</h1>
+      <p class="imprint">NobleMind Press</p>
+    </div>
 
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="FromTheBeginning/cover_thumb.jpg" alt="From the Beginning cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>From the Beginning</h2>
-            <p class="book-subtitle">The Gospel from the Ground Up</p>
-            <p class="book-description long">Starting from zero &mdash; no assumptions, no church background required. Ten chapters that walk you from creation through the cross, the empty tomb, and into the life that follows. Written for the seeker, the skeptic, and anyone ready to open the Book for the first time.</p>
-            <p class="book-note">Free to download. Printed at cost.</p>
-            <div class="book-actions">
-              <a href="FromTheBeginning/index.html" class="btn btn-primary">Read Online</a>
-              <a href="FromTheBeginning/FromTheBeginning.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="FromTheBeginning/FromTheBeginning.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.lulu.com/shop/paul-hainline-and-pam-hainline/from-the-beginning/paperback/product-e7nweej.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul &amp; Pam Hainline</span>
-              <span>10 Chapters</span>
-              <span class="format-tag">Online</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-            </div>
-          </div>
-        </div>
+    <section class="welcome">
+      <p>Every book here is free to read online. No account, no paywall &mdash; just open it and start reading. PDFs and EPUBs are available for most titles if you prefer to read offline.</p>
+      <p><strong>Not sure where to start?</strong> If you&rsquo;re new to the Bible or exploring faith for the first time, begin with <a href="FromTheBeginning/index.html">From the Beginning</a>. If you&rsquo;re a believer looking for deeper study, <a href="CanTheseBonesLive/index.html">Can These Bones Live?</a> traces a single pattern through the whole Bible that you may have never seen before.</p>
+    </section>
 
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="WhyDoYouDelay/cover_thumb.jpg" alt="Why Do You Delay? cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Why Do You Delay?</h2>
-            <p class="book-subtitle">Baptism, Salvation, and What the Bible Actually Says</p>
-            <p class="book-description long">Thirteen chapters across three parts: what the Lord and His apostles taught, what the early church did in every conversion in Acts, and honest answers to the common objections raised in our time. Built entirely from the New Testament itself, ending at the question Ananias asked Saul of Tarsus two thousand years ago.</p>
-            <div class="book-actions">
-              <a href="WhyDoYouDelay/index.html" class="btn btn-primary">Read Online</a>
-              <a href="WhyDoYouDelay/Why_Do_You_Delay.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="WhyDoYouDelay/Why_Do_You_Delay.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.lulu.com/shop/paul-hainline/why-do-you-delay/paperback/product-dye87m9.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
-              <a href="https://www.lulu.com/shop/paul-hainline/why-do-you-delay/hardcover/product-7kdw55m.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Hardcover</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>13 Chapters</span>
-              <span class="format-tag">Online</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
+    <nav class="section-nav">
+      <a href="#starting-point">Starting Point</a>
+      <a href="#young-adults">For Young Adults</a>
+      <a href="#hard-seasons">For Hard Seasons</a>
+      <a href="#bible-studies">Bible Studies</a>
+    </nav>
 
-        <div class="section-header" id="young-adults">
-          <h2>For Young Adults</h2>
-          <p>Scripture-rooted guides for stepping into adulthood with purpose</p>
-        </div>
+    <div class="books-list">
 
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="A_Good_Name/cover_thumb.jpg" alt="Your Name Means Everything: A Good Name cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Your Name Means Everything: A Good Name</h2>
-            <p class="book-subtitle">A Straight-Talk Guide for Young Men Who Want to Matter</p>
-            <p class="book-description long">A 13-chapter guide rooted in Scripture for young men stepping into adulthood &mdash; covering identity, integrity, purpose, relationships, work, money, and the church. Every chapter built on what God&rsquo;s Word actually says.</p>
-            <div class="book-actions">
-              <a href="A_Good_Name/index.html" class="btn btn-primary">Read Online</a>
-              <a href="A_Good_Name/YourNameMeansEverything.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="A_Good_Name/YourNameMeansEverything.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.amazon.com/s?k=9798995428800" target="_blank" rel="noopener" class="btn btn-amazon">Amazon</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul &amp; Pam Hainline</span>
-              <span>13 Chapters</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="StrengthAndDignity/cover_thumb.jpg" alt="Your Name Means Everything: Strength and Dignity cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Your Name Means Everything: Strength and Dignity</h2>
-            <p class="book-subtitle">What the Bible Says to Young Women About Character, Wisdom, and Faith</p>
-            <p class="book-description long">The companion volume for young women &mdash; a 13-chapter guide rooted in Scripture for those stepping into adulthood. From Ruth and Esther to the woman at the well, every chapter shows what it means to build a life of strength, wisdom, and genuine faith.</p>
-            <div class="book-actions">
-              <a href="StrengthAndDignity/index.html" class="btn btn-primary">Read Online</a>
-              <a href="StrengthAndDignity/Strength_and_Dignity.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="StrengthAndDignity/Strength_and_Dignity.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.amazon.com/s?k=9798995428824" target="_blank" rel="noopener" class="btn btn-amazon">Amazon</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul &amp; Pam Hainline</span>
-              <span>13 Chapters</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-header" id="hard-seasons">
-          <h2>For Hard Seasons</h2>
-          <p>Written for people walking through real valleys right now</p>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="before-i-formed-you/cover_thumb.jpg" alt="Before I Formed You cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Before I Formed You</h2>
-            <p class="book-subtitle">What God Says to the Woman Holding This Book</p>
-            <p class="book-description long">Written for the woman holding it right now &mdash; wherever she is, whatever she&rsquo;s facing. Eight chapters walking through the stories of women in Scripture who faced moments they did not choose: Hagar, Jochebed, Hannah, Ruth, Rahab, Mary, and Esther. Every one of them carried something whose purpose was larger than anything they could see. Everything in these pages comes from Scripture. We didn&rsquo;t add to it. We just told the stories and let God&rsquo;s Word speak for itself.</p>
-            <p class="book-note">Free to download. Printed at cost.</p>
-            <div class="book-actions">
-              <a href="before-i-formed-you/index.html" class="btn btn-primary">Read Online</a>
-              <a href="before-i-formed-you/BeforeIFormedYou.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="before-i-formed-you/BeforeIFormedYou.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.lulu.com/shop/paul-hainline-and-pamela-hainline/before-i-formed-you/paperback/product-65dvjm8.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul &amp; Pam Hainline</span>
-              <span>8 Chapters</span>
-              <span class="format-tag">Online</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="ChangeTheMind_ChangeTheMan/cover_thumb.jpg" alt="Change the Mind, Change the Man cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Change the Mind, Change the Man</h2>
-            <p class="book-subtitle">Inspired by the teaching of Freddie Anderson</p>
-            <p class="book-description long">A straightforward examination of what God&rsquo;s Word says about addiction, recovery, and the turning of the mind &mdash; written for the one who is struggling and the family that carries the weight. This is not a clinical guide. It is a careful, honest walk through Scripture by a man who was introduced to drugs at thirteen, arrested at seventeen and sentenced to life in prison, and who has lived every chapter of it. Whether you are the addict, the parent, the spouse, or the friend &mdash; this book speaks to all of you at once. Because addiction is a shared story, and the road through it is walked together.</p>
-            <div class="book-actions">
-              <a href="ChangeTheMind_ChangeTheMan/index.html" class="btn btn-primary">Read Online</a>
-              <a href="#" onclick="ctmGated('ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.pdf'); return false;" class="btn btn-outline">PDF</a>
-              <a href="#" onclick="ctmGated('ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub'); return false;" class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>10 Chapters</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="ThroughTheValley/cover_thumb.jpg" alt="Through the Valley cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Through the Valley</h2>
-            <p class="book-subtitle">What God Says When the Shadow Is Real</p>
-            <p class="book-description long">Most books about grief are written for after. But you&rsquo;re not after. You&rsquo;re in it right now. Maybe your body is the one that&rsquo;s failing. Maybe you&rsquo;re the one sitting beside the bed, watching someone you love move toward the end of their life on this earth. Either way, you know something most people around you don&rsquo;t fully understand &mdash; this valley is real, it is dark, and it doesn&rsquo;t care about your schedule or your prayers or your plans. This book was written for both of you. To be read together, while you still can.</p>
-            <div class="book-actions">
-              <a href="ThroughTheValley/index.html" class="btn btn-primary">Read Online</a>
-              <a href="ThroughTheValley/Through_the_Valley.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="ThroughTheValley/Through_the_Valley.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.amazon.com/s?k=9798995428879" target="_blank" rel="noopener" class="btn btn-amazon">Amazon</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>8 Chapters</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="OneDayCloserToHome/cover_thumb.jpg" alt="One Day Closer to Home cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>One Day Closer to Home</h2>
-            <p class="book-subtitle">A Book of Hope for Those in the Final Chapters</p>
-            <p class="book-description long">Every day that passes isn&rsquo;t taking something from you &mdash; it&rsquo;s bringing you one day closer to home. A 13-chapter journey through Scripture for the aging believer, from Simeon&rsquo;s anticipation and Caleb&rsquo;s mountain to Paul&rsquo;s tent, Abraham&rsquo;s city, and the tears God will one day wipe away.</p>
-            <div class="book-actions">
-              <a href="OneDayCloserToHome/index.html" class="btn btn-primary">Read Online</a>
-              <a href="OneDayCloserToHome/One_Day_Closer_to_Home.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="OneDayCloserToHome/One_Day_Closer_to_Home.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>13 Chapters</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-header" id="bible-studies">
-          <h2>Bible Studies</h2>
-          <p>Topical studies that follow a single thread through the whole Bible</p>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="TheGodWhoShowedUp/cover_thumb.jpg" alt="The God Who Showed Up cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>The God Who Showed Up</h2>
-            <p class="book-subtitle">What His Names Reveal About Who He Is</p>
-            <p class="book-description long">God did not reveal all His names at once. He revealed each one at a specific moment &mdash; when His people needed to know that particular truth about who He is. From Elohim in Genesis 1 to Immanuel in Matthew 1, this book follows the names of God in the order He revealed them &mdash; not as a dictionary, but as a journey. The same journey Israel walked out of Egypt and into the promises of God. The same journey every Christian walks today.</p>
-            <div class="book-actions">
-              <a href="TheGodWhoShowedUp/index.html" class="btn btn-primary">Read Online</a>
-              <a href="TheGodWhoShowedUp/The_God_Who_Showed_Up.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="TheGodWhoShowedUp/The_God_Who_Showed_Up.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul &amp; Pam Hainline</span>
-              <span>12 Chapters</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="ANewAndLivingWay/cover_thumb.jpg" alt="A New and Living Way cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>A New and Living Way</h2>
-            <p class="book-subtitle">What the Bible Teaches About Prayer</p>
-            <p class="book-description">A 12-chapter journey through Scripture&rsquo;s teaching on prayer &mdash; from the first cries of Genesis through the torn veil, the Lord&rsquo;s Prayer, and into the living practice of the early church.</p>
-            <div class="book-actions">
-              <a href="ANewAndLivingWay/index.html" class="btn btn-primary">Read Online</a>
-              <a href="ANewAndLivingWay/A_New_and_Living_Way.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="ANewAndLivingWay/A_New_and_Living_Way.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>12 Chapters</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="TheCharacterNoOneCouldInvent/cover_thumb.jpg" alt="The Character No One Could Invent cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>The Character No One Could Invent</h2>
-            <p class="book-subtitle">The Evidence of Jesus&rsquo; Deity in the Portrait Itself</p>
-            <p class="book-description long">A deep look at the character of Jesus Christ as portrayed in the Gospels &mdash; examining why the person described in Scripture could not have been fabricated by human imagination. The men who wrote about Jesus misunderstood Him, feared when He was calm, and fled when He stood firm. Yet somehow they produced a portrait no dramatist has ever matched.</p>
-            <div class="book-actions">
-              <a href="TheCharacterNoOneCouldInvent/index.html" class="btn btn-primary">Read Online</a>
-              <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>13 Chapters</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="BridgeMoments/cover_thumb.jpg" alt="Bridge Moments cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Bridge Moments</h2>
-            <p class="book-subtitle">Making the Most of Every Opportunity</p>
-            <p class="book-description long">A 20-chapter study exploring how Jesus and the early church turned everyday encounters into life-changing conversations. Learn to recognize and respond to the bridge moments God places in your path.</p>
-            <div class="book-actions">
-              <a href="BridgeMoments/index.html" class="btn btn-primary">Read Online</a>
-              <a href="BridgeMoments/BridgeMoments.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="BridgeMoments/BridgeMoments.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>20 Chapters + 3 Appendices</span>
-              <span class="format-tag">Online</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="WhyTheDivision/cover_thumb.jpg" alt="Why the Division Among Brethren? cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Why the Division Among Brethren?</h2>
-            <p class="book-subtitle">The Underlying Issue Between Institutional and Non-Institutional churches of Christ</p>
-            <p class="book-description long">A short, patient look at a division more than seventy years old &mdash; one most members today have never had explained to them in the other side&rsquo;s own words. Eleven chapters across four parts state both positions at full strength, walk the relevant Scriptures text by text, and let the text carry the conclusion. Written for the reader who wants to think for himself in front of the open Bible.</p>
-            <div class="book-actions">
-              <a href="WhyTheDivision/index.html" class="btn btn-primary">Read Online</a>
-              <a href="WhyTheDivision/Why_The_Division.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="WhyTheDivision/Why_The_Division.epub" download class="btn btn-outline">EPUB</a>
-              <a href="https://www.lulu.com/shop/paul-hainline/why-the-division-among-brethren/paperback/product-zmeekn9.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>11 Chapters in 4 Parts</span>
-              <span class="format-tag">Online</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="CanTheseBonesLive/cover_thumb.jpg" alt="Can These Bones Live? cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>Can These Bones Live?</h2>
-            <p class="book-subtitle">How God Has Always Made Dead Things Live</p>
-            <p class="book-description long">God showed Ezekiel a valley of dry bones and asked the one question only God can answer: can these live? The answer, then and now, is the same &mdash; and it comes by the same means. The word of God gives form. The Spirit of God gives life. Together, and only together, they make dead things stand. Eleven chapters trace that single pattern through the whole Bible, from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church.</p>
-            <div class="book-actions">
-              <a href="CanTheseBonesLive/index.html" class="btn btn-primary">Read Online</a>
-              <a href="CanTheseBonesLive/CanTheseBonesLive.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="CanTheseBonesLive/CanTheseBonesLive.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>11 Chapters + 2 Appendices</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-card">
-          <div class="book-cover">
-            <img src="TheLastWeekOfTheLamb/cover_thumb.jpg" alt="The Last Week of the Lamb cover" loading="lazy">
-          </div>
-          <div class="book-info">
-            <h2>The Last Week of the Lamb</h2>
-            <p class="book-subtitle">The Passover Pattern Good Friday Missed</p>
-            <p class="book-description long">For seventeen centuries, the church has placed the crucifixion on a Friday &mdash; but Friday gives you two nights in the tomb, not three. This book doesn&rsquo;t start with tradition. It starts with the text. Following the time markers the Gospel writers actually wrote, a different week emerges &mdash; a week where the Lamb of God dies on the exact day, at the exact hour, that God commanded the Passover lamb to be killed fifteen centuries earlier. Every conclusion is shown. Every assumption is identified. Every inference is labeled honestly. You will not be asked to take anyone&rsquo;s word for it. You will be asked to open your Bible.</p>
-            <div class="book-actions">
-              <a href="TheLastWeekOfTheLamb/index.html" class="btn btn-primary">Read Online</a>
-              <a href="TheLastWeekOfTheLamb/The_Last_Week_of_the_Lamb.pdf" target="_blank" class="btn btn-outline">PDF</a>
-              <a href="TheLastWeekOfTheLamb/The_Last_Week_of_the_Lamb.epub" download class="btn btn-outline">EPUB</a>
-            </div>
-            <div class="book-meta">
-              <span>Paul Hainline</span>
-              <span>12 Chapters + Prologue, Interlude &amp; Epilogue</span>
-              <span class="format-tag">PDF</span>
-              <span class="format-tag">EPUB</span>
-              <span class="format-tag">Paperback</span>
-              <span class="format-tag">Hardcover</span>
-            </div>
-          </div>
-        </div>
-
+      <div class="section-header" id="starting-point">
+        <h2>Starting Point</h2>
+        <p>No background required &mdash; start here if the Bible is new to you</p>
       </div>
 
-      <footer>
-        <p><a href="index.html">Noble Mind Study</a> &middot; NobleMind Press</p>
-        <p style="margin-top:8px;">&copy; 2026 Paul Hainline. All rights reserved.</p>
-      </footer>
-    </div>
-    <div class="glass-tab"></div>
-  </div>
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="FromTheBeginning/cover_thumb.jpg" alt="From the Beginning cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>From the Beginning</h2>
+          <p class="book-subtitle">The Gospel from the Ground Up</p>
+          <p class="book-description long">Starting from zero &mdash; no assumptions, no church background required. Ten chapters that walk you from creation through the cross, the empty tomb, and into the life that follows. Written for the seeker, the skeptic, and anyone ready to open the Book for the first time.</p>
+          <p class="book-note">Free to download. Printed at cost.</p>
+          <div class="book-actions">
+            <a href="FromTheBeginning/index.html" class="btn btn-primary">Read Online</a>
+            <a href="FromTheBeginning/FromTheBeginning.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="FromTheBeginning/FromTheBeginning.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.lulu.com/shop/paul-hainline-and-pam-hainline/from-the-beginning/paperback/product-e7nweej.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul &amp; Pam Hainline</span>
+            <span>10 Chapters</span>
+            <span class="format-tag">Online</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="WhyDoYouDelay/cover_thumb.jpg" alt="Why Do You Delay? cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Why Do You Delay?</h2>
+          <p class="book-subtitle">Baptism, Salvation, and What the Bible Actually Says</p>
+          <p class="book-description long">Thirteen chapters across three parts: what the Lord and His apostles taught, what the early church did in every conversion in Acts, and honest answers to the common objections raised in our time. Built entirely from the New Testament itself, ending at the question Ananias asked Saul of Tarsus two thousand years ago.</p>
+          <div class="book-actions">
+            <a href="WhyDoYouDelay/index.html" class="btn btn-primary">Read Online</a>
+            <a href="WhyDoYouDelay/Why_Do_You_Delay.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="WhyDoYouDelay/Why_Do_You_Delay.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.lulu.com/shop/paul-hainline/why-do-you-delay/paperback/product-dye87m9.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
+            <a href="https://www.lulu.com/shop/paul-hainline/why-do-you-delay/hardcover/product-7kdw55m.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Hardcover</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>13 Chapters</span>
+            <span class="format-tag">Online</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" id="young-adults">
+        <h2>For Young Adults</h2>
+        <p>Scripture-rooted guides for stepping into adulthood with purpose</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="A_Good_Name/cover_thumb.jpg" alt="Your Name Means Everything: A Good Name cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Your Name Means Everything: A Good Name</h2>
+          <p class="book-subtitle">A Straight-Talk Guide for Young Men Who Want to Matter</p>
+          <p class="book-description long">A 13-chapter guide rooted in Scripture for young men stepping into adulthood &mdash; covering identity, integrity, purpose, relationships, work, money, and the church. Every chapter built on what God&rsquo;s Word actually says.</p>
+          <div class="book-actions">
+            <a href="A_Good_Name/index.html" class="btn btn-primary">Read Online</a>
+            <a href="A_Good_Name/YourNameMeansEverything.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="A_Good_Name/YourNameMeansEverything.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.amazon.com/s?k=9798995428800" target="_blank" rel="noopener" class="btn btn-amazon">Amazon</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul &amp; Pam Hainline</span>
+            <span>13 Chapters</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="StrengthAndDignity/cover_thumb.jpg" alt="Your Name Means Everything: Strength and Dignity cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Your Name Means Everything: Strength and Dignity</h2>
+          <p class="book-subtitle">What the Bible Says to Young Women About Character, Wisdom, and Faith</p>
+          <p class="book-description long">The companion volume for young women &mdash; a 13-chapter guide rooted in Scripture for those stepping into adulthood. From Ruth and Esther to the woman at the well, every chapter shows what it means to build a life of strength, wisdom, and genuine faith.</p>
+          <div class="book-actions">
+            <a href="StrengthAndDignity/index.html" class="btn btn-primary">Read Online</a>
+            <a href="StrengthAndDignity/Strength_and_Dignity.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="StrengthAndDignity/Strength_and_Dignity.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.amazon.com/s?k=9798995428824" target="_blank" rel="noopener" class="btn btn-amazon">Amazon</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul &amp; Pam Hainline</span>
+            <span>13 Chapters</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" id="hard-seasons">
+        <h2>For Hard Seasons</h2>
+        <p>Written for people walking through real valleys right now</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="before-i-formed-you/cover_thumb.jpg" alt="Before I Formed You cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Before I Formed You</h2>
+          <p class="book-subtitle">What God Says to the Woman Holding This Book</p>
+          <p class="book-description long">Written for the woman holding it right now &mdash; wherever she is, whatever she&rsquo;s facing. Eight chapters walking through the stories of women in Scripture who faced moments they did not choose: Hagar, Jochebed, Hannah, Ruth, Rahab, Mary, and Esther. Every one of them carried something whose purpose was larger than anything they could see. Everything in these pages comes from Scripture. We didn&rsquo;t add to it. We just told the stories and let God&rsquo;s Word speak for itself.</p>
+          <p class="book-note">Free to download. Printed at cost.</p>
+          <div class="book-actions">
+            <a href="before-i-formed-you/index.html" class="btn btn-primary">Read Online</a>
+            <a href="before-i-formed-you/BeforeIFormedYou.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="before-i-formed-you/BeforeIFormedYou.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.lulu.com/shop/paul-hainline-and-pamela-hainline/before-i-formed-you/paperback/product-65dvjm8.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul &amp; Pam Hainline</span>
+            <span>8 Chapters</span>
+            <span class="format-tag">Online</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="ChangeTheMind_ChangeTheMan/cover_thumb.jpg" alt="Change the Mind, Change the Man cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Change the Mind, Change the Man</h2>
+          <p class="book-subtitle">Inspired by the teaching of Freddie Anderson</p>
+          <p class="book-description long">A straightforward examination of what God&rsquo;s Word says about addiction, recovery, and the turning of the mind &mdash; written for the one who is struggling and the family that carries the weight. This is not a clinical guide. It is a careful, honest walk through Scripture by a man who was introduced to drugs at thirteen, arrested at seventeen and sentenced to life in prison, and who has lived every chapter of it. Whether you are the addict, the parent, the spouse, or the friend &mdash; this book speaks to all of you at once. Because addiction is a shared story, and the road through it is walked together.</p>
+          <div class="book-actions">
+            <a href="ChangeTheMind_ChangeTheMan/index.html" class="btn btn-primary">Read Online</a>
+            <a href="#" onclick="ctmGated('ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.pdf'); return false;" class="btn btn-outline">PDF</a>
+            <a href="#" onclick="ctmGated('ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub'); return false;" class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>10 Chapters</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="ThroughTheValley/cover_thumb.jpg" alt="Through the Valley cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Through the Valley</h2>
+          <p class="book-subtitle">What God Says When the Shadow Is Real</p>
+          <p class="book-description long">Most books about grief are written for after. But you&rsquo;re not after. You&rsquo;re in it right now. Maybe your body is the one that&rsquo;s failing. Maybe you&rsquo;re the one sitting beside the bed, watching someone you love move toward the end of their life on this earth. Either way, you know something most people around you don&rsquo;t fully understand &mdash; this valley is real, it is dark, and it doesn&rsquo;t care about your schedule or your prayers or your plans. This book was written for both of you. To be read together, while you still can.</p>
+          <div class="book-actions">
+            <a href="ThroughTheValley/index.html" class="btn btn-primary">Read Online</a>
+            <a href="ThroughTheValley/Through_the_Valley.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="ThroughTheValley/Through_the_Valley.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.amazon.com/s?k=9798995428879" target="_blank" rel="noopener" class="btn btn-amazon">Amazon</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>8 Chapters</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="OneDayCloserToHome/cover_thumb.jpg" alt="One Day Closer to Home cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>One Day Closer to Home</h2>
+          <p class="book-subtitle">A Book of Hope for Those in the Final Chapters</p>
+          <p class="book-description long">Every day that passes isn&rsquo;t taking something from you &mdash; it&rsquo;s bringing you one day closer to home. A 13-chapter journey through Scripture for the aging believer, from Simeon&rsquo;s anticipation and Caleb&rsquo;s mountain to Paul&rsquo;s tent, Abraham&rsquo;s city, and the tears God will one day wipe away.</p>
+          <div class="book-actions">
+            <a href="OneDayCloserToHome/index.html" class="btn btn-primary">Read Online</a>
+            <a href="OneDayCloserToHome/One_Day_Closer_to_Home.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="OneDayCloserToHome/One_Day_Closer_to_Home.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>13 Chapters</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" id="bible-studies">
+        <h2>Bible Studies</h2>
+        <p>Topical studies that follow a single thread through the whole Bible</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="TheGodWhoShowedUp/cover_thumb.jpg" alt="The God Who Showed Up cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>The God Who Showed Up</h2>
+          <p class="book-subtitle">What His Names Reveal About Who He Is</p>
+          <p class="book-description long">God did not reveal all His names at once. He revealed each one at a specific moment &mdash; when His people needed to know that particular truth about who He is. From Elohim in Genesis 1 to Immanuel in Matthew 1, this book follows the names of God in the order He revealed them &mdash; not as a dictionary, but as a journey. The same journey Israel walked out of Egypt and into the promises of God. The same journey every Christian walks today.</p>
+          <div class="book-actions">
+            <a href="TheGodWhoShowedUp/index.html" class="btn btn-primary">Read Online</a>
+            <a href="TheGodWhoShowedUp/The_God_Who_Showed_Up.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="TheGodWhoShowedUp/The_God_Who_Showed_Up.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul &amp; Pam Hainline</span>
+            <span>12 Chapters</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="ANewAndLivingWay/cover_thumb.jpg" alt="A New and Living Way cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>A New and Living Way</h2>
+          <p class="book-subtitle">What the Bible Teaches About Prayer</p>
+          <p class="book-description">A 12-chapter journey through Scripture&rsquo;s teaching on prayer &mdash; from the first cries of Genesis through the torn veil, the Lord&rsquo;s Prayer, and into the living practice of the early church.</p>
+          <div class="book-actions">
+            <a href="ANewAndLivingWay/index.html" class="btn btn-primary">Read Online</a>
+            <a href="ANewAndLivingWay/A_New_and_Living_Way.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="ANewAndLivingWay/A_New_and_Living_Way.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>12 Chapters</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="TheCharacterNoOneCouldInvent/cover_thumb.jpg" alt="The Character No One Could Invent cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>The Character No One Could Invent</h2>
+          <p class="book-subtitle">The Evidence of Jesus&rsquo; Deity in the Portrait Itself</p>
+          <p class="book-description long">A deep look at the character of Jesus Christ as portrayed in the Gospels &mdash; examining why the person described in Scripture could not have been fabricated by human imagination. The men who wrote about Jesus misunderstood Him, feared when He was calm, and fled when He stood firm. Yet somehow they produced a portrait no dramatist has ever matched.</p>
+          <div class="book-actions">
+            <a href="TheCharacterNoOneCouldInvent/index.html" class="btn btn-primary">Read Online</a>
+            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>13 Chapters</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="BridgeMoments/cover_thumb.jpg" alt="Bridge Moments cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Bridge Moments</h2>
+          <p class="book-subtitle">Making the Most of Every Opportunity</p>
+          <p class="book-description long">A 20-chapter study exploring how Jesus and the early church turned everyday encounters into life-changing conversations. Learn to recognize and respond to the bridge moments God places in your path.</p>
+          <div class="book-actions">
+            <a href="BridgeMoments/index.html" class="btn btn-primary">Read Online</a>
+            <a href="BridgeMoments/BridgeMoments.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="BridgeMoments/BridgeMoments.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>20 Chapters + 3 Appendices</span>
+            <span class="format-tag">Online</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="WhyTheDivision/cover_thumb.jpg" alt="Why the Division Among Brethren? cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Why the Division Among Brethren?</h2>
+          <p class="book-subtitle">The Underlying Issue Between Institutional and Non-Institutional churches of Christ</p>
+          <p class="book-description long">A short, patient look at a division more than seventy years old &mdash; one most members today have never had explained to them in the other side&rsquo;s own words. Eleven chapters across four parts state both positions at full strength, walk the relevant Scriptures text by text, and let the text carry the conclusion. Written for the reader who wants to think for himself in front of the open Bible.</p>
+          <div class="book-actions">
+            <a href="WhyTheDivision/index.html" class="btn btn-primary">Read Online</a>
+            <a href="WhyTheDivision/Why_The_Division.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="WhyTheDivision/Why_The_Division.epub" download class="btn btn-outline">EPUB</a>
+            <a href="https://www.lulu.com/shop/paul-hainline/why-the-division-among-brethren/paperback/product-zmeekn9.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>11 Chapters in 4 Parts</span>
+            <span class="format-tag">Online</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="CanTheseBonesLive/cover_thumb.jpg" alt="Can These Bones Live? cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>Can These Bones Live?</h2>
+          <p class="book-subtitle">How God Has Always Made Dead Things Live</p>
+          <p class="book-description long">God showed Ezekiel a valley of dry bones and asked the one question only God can answer: can these live? The answer, then and now, is the same &mdash; and it comes by the same means. The word of God gives form. The Spirit of God gives life. Together, and only together, they make dead things stand. Eleven chapters trace that single pattern through the whole Bible, from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church.</p>
+          <div class="book-actions">
+            <a href="CanTheseBonesLive/index.html" class="btn btn-primary">Read Online</a>
+            <a href="CanTheseBonesLive/CanTheseBonesLive.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="CanTheseBonesLive/CanTheseBonesLive.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>11 Chapters + 2 Appendices</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="TheLastWeekOfTheLamb/cover_thumb.jpg" alt="The Last Week of the Lamb cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>The Last Week of the Lamb</h2>
+          <p class="book-subtitle">The Passover Pattern Good Friday Missed</p>
+          <p class="book-description long">For seventeen centuries, the church has placed the crucifixion on a Friday &mdash; but Friday gives you two nights in the tomb, not three. This book doesn&rsquo;t start with tradition. It starts with the text. Following the time markers the Gospel writers actually wrote, a different week emerges &mdash; a week where the Lamb of God dies on the exact day, at the exact hour, that God commanded the Passover lamb to be killed fifteen centuries earlier. Every conclusion is shown. Every assumption is identified. Every inference is labeled honestly. You will not be asked to take anyone&rsquo;s word for it. You will be asked to open your Bible.</p>
+          <div class="book-actions">
+            <a href="TheLastWeekOfTheLamb/index.html" class="btn btn-primary">Read Online</a>
+            <a href="TheLastWeekOfTheLamb/The_Last_Week_of_the_Lamb.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="TheLastWeekOfTheLamb/The_Last_Week_of_the_Lamb.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>12 Chapters + Prologue, Interlude &amp; Epilogue</span>
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">EPUB</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.books-list -->
+
+  </article>
+
+  <footer>
+    <p><a href="index.html">Noble Mind Study</a> &middot; NobleMind Press</p>
+    <p>&copy; 2026 Paul Hainline. All rights reserved.</p>
+  </footer>
+
+    </div><!-- /.page-inner -->
+    <div class="page-tab"></div>
+  </div><!-- /.page-wrapper -->
+
   <script>
     // Gated downloads for Change the Mind, Change the Man — same sessionStorage
     // key as the online reader so one unlock covers the whole book. The PDF
