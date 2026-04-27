@@ -1,0 +1,314 @@
+/*
+ * Noble Mind Study — brand stylesheet
+ *
+ * Single source of truth for the brand-refresh design system. Linked from
+ * every public page. Per-page <style> blocks may override layout, never
+ * tokens.
+ *
+ * Spec: /design-refs/BRAND_BRIEF.md
+ * Mockups: /design-refs/hero-mockup.html, /design-refs/study-page-mockup.html
+ */
+
+/* ------------------------------------------------------------------
+ * Tokens
+ * ------------------------------------------------------------------ */
+
+:root {
+  /* Palette */
+  --ink:        #0A0E14;
+  --parchment:  #F2EBDC;
+  --body:       #E8E2D2;
+  --lamplight:  #D4A24C;
+  --berean:     #4FB286;
+  --vellum:     #8A8578;
+
+  /* Typography
+   *
+   * --font-body is the workhorse for running prose — readability dominates
+   * aesthetic uniformity for long-form doctrinal pages, so body paragraphs
+   * use a clean system sans-serif. --font-serif (Cardo) is reserved for
+   * emphasis surfaces: H1, dek, kicker, sec-label, .scrip-text, .scrip-cite,
+   * .li (em-dash bullets), .answer-block, .three-questions asides,
+   * .tail-heading. See feedback_readability_over_aesthetics.md.
+   */
+  --font-body:  system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Cardo', Georgia, 'Times New Roman', serif;
+  --font-mono:  ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Rules — literal borders, never atmospheric box-shadow */
+  --rule-gold:  rgba(212, 162, 76, 0.45);
+  --rule-faint: rgba(242, 235, 220, 0.08);
+
+  /* Layout */
+  --column-read: min(680px, 100% - 2rem);
+}
+
+/* ------------------------------------------------------------------
+ * Fonts
+ *
+ * Cardo — OFL, self-hosted from @fontsource/cardo@5.0.5. Latin subset.
+ * Georgia is the fallback so a slow font load shows similar metrics
+ * rather than blocking first paint.
+ * ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: 'Cardo';
+  src: url('fonts/cardo-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cardo';
+  src: url('fonts/cardo-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cardo';
+  src: url('fonts/cardo-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------
+ * Utility classes
+ *
+ * The vocabulary of the brand, in selectors. Pages compose these into
+ * their own layouts — this file does not impose a body baseline.
+ * ------------------------------------------------------------------ */
+
+/* Type primitives */
+
+.cd { font-family: var(--font-serif); }
+
+.mn {
+  font-family: var(--font-mono);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Editorial kicker — A STUDY · NO. 14 · BAPTISM. Berean green; reserved
+   alongside the section markers. */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--berean);
+}
+
+/* Reading column — clamps to 540px and shrinks gracefully on mobile. */
+.column-read {
+  max-width: var(--column-read);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Scripture block — italic Cardo with a thin gold left rule and a
+   mono small-caps citation underneath. Replaces the green-tinted
+   blockquote pattern from the old design. */
+
+.scrip {
+  border-left: 1px solid var(--rule-gold);
+  padding: 4px 0 4px 18px;
+  margin: 0 0 1.4rem;
+}
+
+.scrip-text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--parchment);
+  line-height: 1.7;
+  margin: 0 0 8px;
+}
+
+.scrip-cite {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--lamplight);
+}
+
+/* Em-dash list item — for short enumerations under "What the text
+   does NOT do" and similar sections. Gold em-dash, body color. */
+
+.li {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--body);
+  line-height: 1.7;
+  padding: 5px 0 5px 20px;
+  position: relative;
+}
+
+.li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--lamplight);
+}
+
+/* Section heading row — number in mono Berean green, label in Cardo
+   bold sentence case. The 01/02/03/04 markers of the method. */
+
+.sec-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 1.1rem;
+}
+
+.sec-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--berean);
+}
+
+.sec-label {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--parchment);
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+
+/* Answer block — closes every study. 2px solid gold left rule and a
+   faint gold fill. The verdict word inside is gold-on-gold. */
+
+.answer-block {
+  border-left: 2px solid var(--lamplight);
+  background: rgba(212, 162, 76, 0.05);
+  padding: 18px 22px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* Top nav strip — small wordmark left, mono small-caps links right,
+   faint parchment hairline below. */
+
+.nav-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 2rem;
+  border-bottom: 1px solid var(--rule-faint);
+}
+
+/* Buttons — mono small-caps label, two variants. UI font here is
+   intentional: buttons are interface, not body prose. */
+
+.btn {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 3px;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.82; }
+
+/* Variant rules use 2-class specificity (.btn.btn-primary) so they win
+   against per-page link colors like `.article a { color: var(--lamplight); }`.
+   Without this, gold-on-gold buttons render unreadable inside .article. */
+.btn.btn-primary {
+  background: var(--lamplight);
+  color: var(--ink);
+}
+
+.btn.btn-ghost {
+  background: transparent;
+  color: var(--parchment);
+  border: 1px solid var(--rule-faint);
+}
+
+/* ------------------------------------------------------------------
+ * Page frame — gold-haloed panel chrome
+ *
+ * The brand identity element. Pages opt in by wrapping their body
+ * content:
+ *
+ *   <div class="page-wrapper">
+ *     <div class="page-inner"> ... </div>
+ *     <div class="page-tab"></div>
+ *   </div>
+ *
+ * The wrapper provides the soft gold halo (gradient padding ring +
+ * outer box-shadow). The inner panel sits over it with a deep ink
+ * gradient and a hairline gold border. A subtle lamplight glow
+ * catches the top edge of the panel like light on the spine of an
+ * open book. The tab is a vestigial pill at the bottom edge — the
+ * brand reads thinner without it.
+ *
+ * Glow opacities are dialed roughly halved from the old neon
+ * treatment, and the multi-color rainbow is collapsed to a single
+ * lamplight tone. This is the "outline / glow but in gold, more
+ * subtle" pass.
+ * ------------------------------------------------------------------ */
+
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 2rem auto 3rem;
+  padding: 2px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top left,    rgba(212, 162, 76, 0.42), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(212, 162, 76, 0.18), transparent 55%);
+  box-shadow:
+    0 0 40px rgba(212, 162, 76, 0.10),
+    0 0 90px rgba(212, 162, 76, 0.06);
+}
+
+.page-inner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(13, 18, 28, 0.98), rgba(10, 14, 20, 0.99));
+  border-radius: 20px;
+  border: 1px solid rgba(212, 162, 76, 0.18);
+  overflow: hidden;
+}
+
+.page-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: radial-gradient(ellipse at top, rgba(212, 162, 76, 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.page-tab {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top, rgba(212, 162, 76, 0.55), rgba(10, 14, 20, 1));
+  box-shadow: 0 0 20px rgba(212, 162, 76, 0.18);
+}

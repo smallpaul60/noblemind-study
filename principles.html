@@ -2,425 +2,309 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!--
+  Principles page — brand-refresh treatment.
+
+  Brand: /design-refs/BRAND_BRIEF.md.
+  Visuals: /assets/nm-brand.css.
+
+  This page is a thin renderer over /data/principles_public.md. The
+  doctrinal content lives in the markdown file, not here. The script
+  block below is unchanged from the prior version — it produces
+  <p class="scripture">…<span class="scripture-ref">…</span></p> for
+  blockquotes; the CSS in this file styles those classes to match the
+  brand's .scrip / .scrip-cite block aesthetic.
+-->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How to Read the Bible Like It Means What It Says - Noble Mind Study</title>
-  <link rel="canonical" href="https://noblemind.study/principles.html">
+
+  <title>How to Read the Bible Like It Means What It Says &mdash; Noble Mind Study</title>
   <meta name="description" content="Principles for honest Bible study. Scripture interprets Scripture. From NobleMind.Study.">
+
+  <link rel="canonical" href="https://noblemind.study/principles.html">
+
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
+
+  <meta name="theme-color" content="#0A0E14">
+
+  <link rel="stylesheet" href="/assets/nm-brand.css">
+
   <style>
-    :root {
-      /* Core Colors */
-      --bg-dark: #0d0d0d;
-      --bg-panel: #1a1a1a;
-      --bg-glass: rgba(13, 13, 13, 0.6);
-      --bg-card: rgba(10, 17, 40, 0.96);
-      --text-primary: #f5f5f5;
-      --text-secondary: #a0a0a0;
-      --text-muted: #888;
-      --border-color: #2a2a2a;
-      --border-glass: rgba(148, 163, 184, 0.45);
-
-      /* Accents */
-      --accent: #06FFA5;
-      --accent-soft: rgba(6, 255, 165, 0.18);
-      --accent-glow: rgba(6, 255, 165, 0.5);
-      --accent-blue: #5ee5ff;
-      --accent-blue-glow: rgba(94, 229, 255, 0.5);
-
-      /* Effects */
-      --glass-blur: blur(12px);
-      --shadow-glow: 0 0 30px rgba(6, 255, 165, 0.4);
-      --radius-card: 22px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Page-specific layout — tokens come from /assets/nm-brand.css. */
+    * { box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
+      margin: 0;
+      background: var(--ink);
+      color: var(--body);
+      font-family: var(--font-body);
       line-height: 1.7;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 20px;
     }
 
-    /* Background glow overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
-        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
-      pointer-events: none;
-    }
+    .nav-strip { max-width: 1100px; margin: 0 auto; }
+    .nav-strip a { text-decoration: none; }
 
-    /* Main Glass Card Wrapper */
-    .glass-page-wrapper {
-      position: relative;
-      z-index: 10;
-      border-radius: calc(var(--radius-card) + 4px);
-      padding: 3px;
-      background:
-        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
-        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
-        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
-      box-shadow:
-        0 0 50px rgba(94,229,255,0.3),
-        0 0 80px rgba(6,255,165,0.35);
-      max-width: 800px;
-      width: 100%;
+    .article {
+      padding: 3rem 2rem 2.5rem;
+      max-width: var(--column-read);
       margin: 0 auto;
     }
 
-    /* Inner page container */
-    .glass-page-inner {
-      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
-      border-radius: var(--radius-card);
-      padding: 3rem 2.5rem;
-      backdrop-filter: blur(22px);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.25);
-    }
-
-    /* Inner glow at top */
-    .glass-page-inner::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 150px;
-      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    /* Glass tab at bottom */
-    .glass-tab {
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 14px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
-      box-shadow: 0 0 30px rgba(94,229,255,0.6);
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent);
-      text-decoration: none;
-      margin-bottom: 24px;
-      font-size: 0.95rem;
-      padding: 8px 16px;
-      border-radius: 8px;
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .back-link:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 25px var(--accent-glow);
-      transform: translateX(-4px);
-    }
-
-    /* Title section */
-    .title-section {
-      text-align: center;
-      margin-bottom: 32px;
-      position: relative;
-      z-index: 1;
-    }
+    .article a { color: var(--lamplight); transition: opacity 0.2s; }
+    .article a:hover { opacity: 0.78; }
 
     h1 {
-      font-size: 2rem;
-      margin-bottom: 8px;
+      font-family: var(--font-serif);
+      font-size: 38px;
       font-weight: 700;
-      color: var(--text-primary);
-      position: relative;
-      z-index: 1;
+      color: var(--parchment);
+      line-height: 1.15;
+      letter-spacing: 0.003em;
+      margin: 0 0 0.6rem;
     }
 
-    .subtitle {
-      font-size: 1.15rem;
-      color: var(--accent);
+    .dek {
+      font-family: var(--font-serif);
+      font-size: 18px;
       font-style: italic;
-      text-shadow: 0 0 15px var(--accent-glow);
-      margin-bottom: 16px;
+      color: var(--vellum);
+      line-height: 1.6;
+      margin: 0 0 1.25rem;
     }
 
     .title-meta {
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--vellum);
+      margin: 0 0 1.5rem;
     }
 
-    .title-meta a {
-      color: var(--accent);
-      text-decoration: none;
+    .title-meta a { color: var(--vellum); text-decoration: none; }
+
+    .hr-gold {
+      width: 36px;
+      height: 1px;
+      background: var(--lamplight);
+      border: 0;
+      margin: 0 0 2rem;
+      opacity: 0.6;
     }
 
     h2 {
-      font-size: 1.5rem;
-      margin: 40px 0 16px;
-      color: var(--text-primary);
+      font-family: var(--font-serif);
+      font-size: 26px;
       font-weight: 700;
-      position: relative;
-      z-index: 1;
+      color: var(--parchment);
+      line-height: 1.25;
+      letter-spacing: 0.005em;
+      margin: 2.5rem 0 1rem;
     }
 
     h3 {
-      font-size: 1.15rem;
-      margin: 0 0 12px;
-      color: var(--accent);
-      text-shadow: 0 0 12px var(--accent-glow);
+      font-family: var(--font-serif);
+      font-size: 19px;
       font-weight: 700;
+      color: var(--parchment);
+      letter-spacing: 0.005em;
+      margin: 0 0 0.75rem;
     }
 
     p {
-      margin-bottom: 16px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Scripture quote block */
-    .scripture {
-      font-style: italic;
-      color: var(--text-secondary);
-      margin: 16px 0;
-      padding: 12px 16px;
-      background: rgba(6, 255, 165, 0.05);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-    }
-
-    .scripture-ref {
-      color: var(--accent);
-      font-style: normal;
-      text-shadow: 0 0 8px var(--accent-glow);
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--body);
+      line-height: 1.7;
+      margin: 0 0 1rem;
     }
 
     ul, ol {
-      margin: 16px 0 16px 24px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--body);
+      line-height: 1.7;
+      margin: 1rem 0 1rem 1.5rem;
+      padding-left: 0.5rem;
     }
 
-    li {
-      margin-bottom: 8px;
-    }
+    ul li, ol li { margin-bottom: 0.4rem; }
 
-    strong {
-      color: var(--text-primary);
-    }
-
-    em {
-      color: var(--text-primary);
-      font-style: italic;
-    }
+    strong { color: var(--parchment); }
+    em { color: var(--parchment); font-style: italic; }
 
     hr {
-      border: none;
-      border-top: 1px solid rgba(148,163,184,0.15);
-      margin: 32px 0;
-      position: relative;
-      z-index: 1;
+      border: 0;
+      border-top: 1px solid var(--rule-faint);
+      margin: 2rem 0;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: all 0.2s ease;
-    }
-
-    a:hover {
-      text-shadow: 0 0 12px var(--accent-glow);
-    }
-
-    /* Section cards */
-    .section-card {
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 24px;
-      margin: 24px 0;
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .section-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: radial-gradient(ellipse at top, rgba(6,255,165,0.08), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-
-    .section-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-      box-shadow: 0 0 35px var(--accent-glow);
-    }
-
-    .section-card:hover::before {
-      opacity: 1;
-    }
-
-    .principles-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .loading-note {
-      color: var(--text-muted);
-      text-align: center;
-      padding: 2rem 0;
+    /* Scripture quote block — JS renders <p class="scripture">…<span class="scripture-ref">…</span></p>.
+       Styled here to match the brand's .scrip aesthetic: thin gold left rule,
+       italic Cardo body, mono small-caps gold citation underneath. */
+    .scripture {
+      font-family: var(--font-serif);
       font-style: italic;
+      font-size: 18px;
+      color: var(--parchment);
+      line-height: 1.7;
+      border-left: 1px solid var(--rule-gold);
+      padding: 4px 0 4px 18px;
+      margin: 1rem 0 1.4rem;
     }
 
-    .load-error {
-      color: var(--text-muted);
-      text-align: center;
-      padding: 2rem 0;
+    .scripture-ref {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--lamplight);
+      font-style: normal;
+      margin-top: 8px;
     }
 
-    /* Download button */
+    /* Section card — wraps each H3 and its following content. The renderer
+       inserts the .section-card; this CSS just gives it the brand frame:
+       a hairline gold left rule and a faint top border. */
+    .section-card {
+      background: rgba(212, 162, 76, 0.03);
+      border: 1px solid var(--rule-faint);
+      border-left: 2px solid var(--rule-gold);
+      border-radius: 0 4px 4px 0;
+      padding: 1.5rem 1.75rem;
+      margin: 1.75rem 0;
+    }
+
+    .section-card h3 { margin-top: 0; }
+
+    .section-card p:last-child,
+    .section-card ul:last-child,
+    .section-card ol:last-child { margin-bottom: 0; }
+
+    /* Download buttons — gold, mono small-caps, ink text. Uses .btn-primary
+       from nm-brand.css; this rule adds the SVG icon spacing. */
     .download-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: all 0.25s ease;
-      background: linear-gradient(135deg, var(--accent), #22c55e);
-      color: #020617;
-      box-shadow: 0 0 25px rgba(6,255,165,0.35);
-      margin: 24px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    .download-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 40px rgba(6,255,165,0.55);
-      color: #020617;
-      text-shadow: none;
+      margin: 1.5rem 0;
     }
 
     .download-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 13px;
+      height: 13px;
       fill: currentColor;
     }
 
+    .principles-content { position: relative; }
+
+    .loading-note,
+    .load-error {
+      font-family: var(--font-serif);
+      font-style: italic;
+      color: var(--vellum);
+      text-align: center;
+      padding: 2rem 0;
+    }
+
     footer {
-      margin-top: 40px;
+      max-width: var(--column-read);
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
-      padding-top: 20px;
-      border-top: 1px solid rgba(148,163,184,0.15);
     }
 
-    footer .scripture {
-      background: none;
-      border: none;
-      padding: 0;
-      text-align: center;
-      margin-bottom: 12px;
+    footer .scrip { border-left: 0; padding: 0; margin: 0 0 0.75rem; }
+    footer .scrip-text { color: var(--vellum); font-size: 14px; line-height: 1.6; margin: 0 0 4px; font-style: italic; }
+    footer .scrip-cite { color: var(--berean); font-size: 10px; }
+
+    .contact {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vellum);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .contact a { color: var(--vellum); text-decoration: none; }
+
+    .copyright {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vellum);
+      opacity: 0.7;
+      margin: 0;
     }
 
-    footer .copyright {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    footer .contact {
-      margin-top: 8px;
-      font-size: 0.85rem;
-    }
-
-    footer .contact a {
-      color: var(--accent);
-    }
-
-    /* Responsive */
     @media (max-width: 600px) {
-      body { padding: 20px 12px; }
-      h1 { font-size: 1.5rem; }
-      h2 { font-size: 1.3rem; }
-      .glass-page-inner { padding: 2rem 1.5rem; }
-      .glass-page-wrapper { border-radius: 18px; }
-      .glass-page-inner { border-radius: 16px; }
+      .article { padding: 2rem 1.25rem 2rem; }
+      .nav-strip { padding: 0.9rem 1.25rem; }
+      h1 { font-size: 30px; }
+      h2 { font-size: 22px; }
+      h3 { font-size: 18px; }
+      .section-card { padding: 1.25rem 1.25rem; }
+      footer { padding: 0 1.25rem 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="glass-page-wrapper">
-    <div class="glass-page-inner">
-      <a href="index.html" class="back-link">&larr; Back to Home</a>
 
-      <div class="title-section">
-        <h1>How to Read the Bible Like It Means What It Says</h1>
-        <p class="subtitle">Principles for Honest Bible Study</p>
-        <p class="title-meta"><a href="https://noblemind.study">NobleMind.Study</a></p>
-      </div>
+  <div class="page-wrapper">
+    <div class="page-inner">
 
-      <a href="Bible_Study_Principles.pdf" download class="download-btn">
-        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-        Download PDF
-      </a>
+  <header class="nav-strip">
+    <a href="index.html" style="display: flex; align-items: center; gap: 10px;">
+      <img src="icon-192.png" alt="" width="22" height="22" style="border-radius: 3px; display: block;">
+      <span class="cd" style="font-size: 15px; color: var(--parchment); font-weight: 700; letter-spacing: 0.01em;">Noble Mind Study</span>
+    </a>
+    <nav class="mn" style="font-size: 10px; color: var(--vellum);">
+      <a href="principles.html" style="margin: 0 9px; color: inherit;">Method</a>
+      <a href="index.html#studies" style="margin: 0 9px; color: inherit;">Studies</a>
+      <a href="books.html" style="margin: 0 0 0 9px; color: inherit;">Books</a>
+    </nav>
+  </header>
 
-      <div id="principlesContent" class="principles-content" aria-busy="true">
-        <p class="loading-note">Loading principles&hellip;</p>
-      </div>
+  <article class="article">
 
-      <a href="Bible_Study_Principles.pdf" download class="download-btn">
-        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-        Download PDF
-      </a>
+    <h1>How to Read the Bible Like It Means What It Says</h1>
+    <p class="dek">Principles for Honest Bible Study</p>
+    <p class="title-meta"><a href="https://noblemind.study">NobleMind.Study</a></p>
 
-      <footer>
-        <p class="scripture">"Your word is a lamp to my feet and a light to my path." <span class="scripture-ref">&mdash; Psalm 119:105</span></p>
-        <p class="contact"><a href="https://noblemind.study">noblemind.study</a> &middot; <a href="https://x.com/Bridge_Moments" target="_blank">@Bridge_Moments</a> &middot; paul@noblemind.study</p>
-        <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
-      </footer>
+    <hr class="hr-gold">
+
+    <a href="Bible_Study_Principles.pdf" download class="btn btn-primary download-btn">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      Download PDF
+    </a>
+
+    <div id="principlesContent" class="principles-content" aria-busy="true">
+      <p class="loading-note">Loading principles&hellip;</p>
     </div>
-    <div class="glass-tab"></div>
-  </div>
+
+    <a href="Bible_Study_Principles.pdf" download class="btn btn-primary download-btn">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      Download PDF
+    </a>
+
+  </article>
+
+  <footer>
+    <div class="scrip">
+      <p class="scrip-text">Your word is a lamp to my feet and a light to my path.</p>
+      <span class="scrip-cite">Psalm 119:105 &middot; NASB</span>
+    </div>
+    <p class="contact"><a href="https://noblemind.study">noblemind.study</a> &middot; paul@noblemind.study</p>
+    <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
+  </footer>
+
+    </div><!-- /.page-inner -->
+    <div class="page-tab"></div>
+  </div><!-- /.page-wrapper -->
 
   <script>
     // Minimal markdown renderer for the principles document.

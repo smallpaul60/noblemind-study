@@ -3,25 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <!--
-  Test-This-Claim page — first entry in the series. Also serves as the de facto
-  template: copy this file, rename to a new slug, and update:
-    - <title>, <meta name="description">, canonical URL
-    - OpenGraph + Twitter tags (og:title/description/url; twitter:title/description)
-    - Schema.org QAPage JSON-LD block (question name/text, acceptedAnswer.text)
-    - Section 1 (H1 headline) — the exact question
-    - Section 2 (one-sentence answer) — must match meta description AND JSON-LD
-    - Sections 3 through 6 (doctrinal content — awaits Paul's approval per the build plan)
-    - Section 7's study-tool link (preloaded ?claim= or ?passage=)
-    - Section 8 (related studies — point at real sibling pages)
+  Test-This-Claim page — brand-refresh treatment.
 
-  Design follows the existing NobleMind aesthetic: dark glass card, accent color
-  #06FFA5, reading-width column (~760px). Scripture quotations are rendered
-  inline within running prose with (Book Ch:vv, NASB) citations; set-off
-  blockquotes use the .scripture class where appropriate.
+  Brand: /design-refs/BRAND_BRIEF.md.
+  Visuals: /assets/nm-brand.css. The per-page <style> below holds layout
+  and one-offs only — never tokens.
 
-  Do not fill in doctrinal statements without explicit approval, per the
-  project build plan. Every NASB quotation must be cross-checked against the
-  actual NASB text (e.g. Bolls.Life) before publishing.
+  Doctrinal content here is approved. Do not modify NASB quotations
+  without re-verifying against Bolls.Life. Do not introduce new
+  doctrinal claims without explicit author approval.
 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -39,7 +29,7 @@
   <meta property="og:image" content="https://noblemind.study/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Noble Mind Study — Study the Bible like it means what it says.">
+  <meta property="og:image:alt" content="Noble Mind Study — Test it against the text.">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -52,8 +42,8 @@
   <link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
   <link rel="apple-touch-icon" href="../icon-192.png">
 
-  <!-- Theme color matches site dark theme -->
-  <meta name="theme-color" content="#0d0d0d">
+  <!-- Theme color matches new dark Ink background -->
+  <meta name="theme-color" content="#0A0E14">
 
   <!-- Schema.org QAPage -->
   <script type="application/ld+json">
@@ -86,430 +76,270 @@
   }
   </script>
 
+  <link rel="stylesheet" href="/assets/nm-brand.css">
+
   <style>
-    :root {
-      --bg-dark: #0d0d0d;
-      --bg-panel: #1a1a1a;
-      --bg-glass: rgba(13, 13, 13, 0.6);
-      --text-primary: #f5f5f5;
-      --text-secondary: #a0a0a0;
-      --text-muted: #888;
-      --border-color: #2a2a2a;
-      --border-glass: rgba(148, 163, 184, 0.45);
-
-      --accent: #06FFA5;
-      --accent-soft: rgba(6, 255, 165, 0.18);
-      --accent-glow: rgba(6, 255, 165, 0.5);
-      --accent-blue: #5ee5ff;
-      --accent-amber: #f0ad4e;
-
-      --glass-blur: blur(12px);
-      --radius-card: 22px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* Page-specific layout — tokens come from /assets/nm-brand.css. */
+    * { box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      line-height: 1.7;
+      margin: 0;
+      background: var(--ink);
+      color: var(--body);
+      font-family: var(--font-body);
+      line-height: 1.75;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 20px;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
-        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
-      pointer-events: none;
-    }
+    .nav-strip { max-width: 1100px; margin: 0 auto; }
+    .nav-strip a { text-decoration: none; }
 
-    .glass-page-wrapper {
-      position: relative;
-      z-index: 10;
-      border-radius: calc(var(--radius-card) + 4px);
-      padding: 3px;
-      background:
-        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
-        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
-        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
-      box-shadow:
-        0 0 50px rgba(94,229,255,0.3),
-        0 0 80px rgba(6,255,165,0.35);
-      max-width: 760px;
-      width: 100%;
+    .article {
+      padding: 3rem 2rem 2.5rem;
+      max-width: var(--column-read);
       margin: 0 auto;
     }
-
-    .glass-page-inner {
-      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
-      border-radius: var(--radius-card);
-      padding: 3rem 2.5rem;
-      backdrop-filter: blur(22px);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.25);
-    }
-
-    .glass-page-inner::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 150px;
-      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    .glass-tab {
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 14px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
-      box-shadow: 0 0 30px rgba(94,229,255,0.6);
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent);
-      text-decoration: none;
-      margin-bottom: 24px;
-      font-size: 0.95rem;
-      padding: 8px 16px;
-      border-radius: 8px;
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .back-link:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 25px var(--accent-glow);
-      transform: translateX(-4px);
-    }
-
-    .series-eyebrow {
-      display: inline-block;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-soft);
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
-    }
+    .article a { color: var(--lamplight); transition: opacity 0.2s; }
+    .article a:hover { opacity: 0.78; }
 
     h1 {
-      font-size: 2rem;
-      line-height: 1.2;
-      margin-bottom: 16px;
-      font-weight: 700;
-      color: var(--text-primary);
-      position: relative;
-      z-index: 1;
+      font-family: var(--font-serif);
+      font-size: 38px; font-weight: 700;
+      color: var(--parchment);
+      line-height: 1.15; letter-spacing: 0.003em;
+      margin: 0 0 0.9rem;
     }
 
-    .lead-answer {
-      font-size: 1.15rem;
-      color: var(--text-primary);
-      line-height: 1.6;
-      margin: 0 0 28px;
-      padding: 16px 20px;
-      background: rgba(6, 255, 165, 0.06);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 10px 10px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    h2 {
-      font-size: 1.4rem;
-      margin: 36px 0 14px;
-      color: var(--text-primary);
-      font-weight: 700;
-      position: relative;
-      z-index: 1;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-      margin: 20px 0 10px;
-      color: var(--accent);
-      text-shadow: 0 0 12px var(--accent-glow);
-      font-weight: 700;
+    .dek {
+      font-family: var(--font-serif);
+      font-size: 16px; font-style: italic;
+      color: var(--vellum);
+      line-height: 1.6; margin: 0 0 2rem;
     }
 
     p {
-      margin-bottom: 16px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
+      font-family: var(--font-body);
+      font-size: 17px;
+      color: var(--body);
+      line-height: 1.7;
+      margin: 0 0 1rem;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: all 0.2s ease;
+    .article > section { margin-bottom: 2.25rem; }
+    .article > section:last-of-type { margin-bottom: 0; }
+
+    .hr-gold {
+      width: 36px; height: 1px;
+      background: var(--lamplight);
+      border: 0; margin: 0 0 2.5rem; opacity: 0.6;
+    }
+    .hr-gold.tail { margin: 3rem 0 1.5rem; opacity: 0.45; }
+
+    .answer-verdict { color: var(--lamplight); font-weight: 700; }
+    .three-questions p { font-family: var(--font-serif); font-size: 18px; line-height: 1.75; }
+    .three-questions p em { color: var(--parchment); font-style: italic; }
+
+    .tail-heading {
+      font-family: var(--font-serif);
+      font-size: 19px; font-weight: 700;
+      color: var(--parchment);
+      margin: 3rem 0 1rem;
+      letter-spacing: 0.005em;
     }
 
-    a:hover {
-      text-shadow: 0 0 12px var(--accent-glow);
-    }
-
-    ul, ol {
-      margin: 16px 0 16px 24px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
-    }
-
-    li { margin-bottom: 8px; }
-
-    strong { color: var(--text-primary); }
-    em { color: var(--text-primary); font-style: italic; }
-
-    hr {
-      border: none;
-      border-top: 1px solid rgba(148,163,184,0.15);
-      margin: 32px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    code {
-      font-family: ui-monospace, Menlo, Consolas, monospace;
-      font-size: 0.92em;
-      background: rgba(94,229,255,0.08);
-      color: var(--accent-blue);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    /* Scripture blockquote — use <blockquote class="scripture"> for quoted NASB passages. */
-    .scripture {
-      font-style: italic;
-      color: var(--text-secondary);
-      margin: 18px 0;
-      padding: 14px 18px;
-      background: rgba(6, 255, 165, 0.05);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-    }
-    .scripture-ref {
-      color: var(--accent);
-      font-style: normal;
-      text-shadow: 0 0 8px var(--accent-glow);
-      display: block;
-      margin-top: 6px;
-      font-size: 0.92em;
-    }
-
-    /* Section card — for content sections that group related sub-items. */
-    .section-card {
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 22px;
-      margin: 16px 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* TODO marker — visibly distinct so reviewers can find unfilled sections at a glance. */
-    .section-card.todo {
-      border: 1px dashed var(--accent-amber);
-      background: rgba(240, 173, 78, 0.06);
-    }
-    .todo-note {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 0;
-    }
-    .todo-note strong {
-      color: var(--accent-amber);
-      letter-spacing: 0.02em;
-    }
-
-    /* "Examine this yourself" call-to-action block */
-    .examine-cta {
-      background: rgba(94, 229, 255, 0.06);
-      border: 1px solid rgba(94, 229, 255, 0.3);
-      border-radius: 14px;
-      padding: 22px 24px;
-      margin: 16px 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-    .examine-cta p:last-of-type { margin-bottom: 0; }
-    .examine-cta ul {
-      margin: 12px 0 4px;
-    }
-    .examine-cta li a {
-      font-weight: 600;
-    }
-
-    /* Related studies list */
-    .related-studies {
-      position: relative;
-      z-index: 1;
-    }
-    .related-studies .note {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
+    .list-plain { margin: 0; padding: 0; list-style: none; }
+    .xref-lead { color: var(--lamplight); font-weight: 700; letter-spacing: 0.01em; }
 
     footer {
-      margin-top: 48px;
+      max-width: var(--column-read);
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
-      padding-top: 24px;
-      border-top: 1px solid rgba(148,163,184,0.15);
     }
-    footer .scripture {
-      background: none;
-      border: none;
-      padding: 0;
-      text-align: center;
-      margin-bottom: 12px;
+    footer .scrip { border-left: 0; padding: 0; margin: 0 0 0.75rem; }
+    footer .scrip-text { color: var(--vellum); font-size: 14px; line-height: 1.6; margin: 0 0 4px; font-style: italic; }
+    footer .scrip-cite { color: var(--berean); font-size: 10px; }
+
+    .contact {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--vellum);
+      margin: 1.5rem 0 0.5rem;
     }
-    footer .contact { margin-top: 8px; }
-    footer .contact a { color: var(--accent); }
-    footer .copyright { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+    .contact a { color: var(--vellum); text-decoration: none; }
+
+    .copyright {
+      font-family: var(--font-mono);
+      font-size: 9.5px; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--vellum);
+      opacity: 0.7; margin: 0;
+    }
 
     @media (max-width: 600px) {
-      body { padding: 20px 12px; }
-      h1 { font-size: 1.5rem; }
-      h2 { font-size: 1.2rem; }
-      .glass-page-inner { padding: 2rem 1.5rem; }
-      .glass-page-wrapper { border-radius: 18px; }
-      .glass-page-inner { border-radius: 16px; }
-      .lead-answer { font-size: 1.05rem; }
+      .article { padding: 2rem 1.25rem 2rem; }
+      .nav-strip { padding: 0.9rem 1.25rem; }
+      h1 { font-size: 30px; }
+      footer { padding: 0 1.25rem 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="glass-page-wrapper">
-    <div class="glass-page-inner">
 
-      <a href="../index.html" class="back-link">&larr; Back to Home</a>
+  <div class="page-wrapper">
+    <div class="page-inner">
 
-      <span class="series-eyebrow">Test This Claim</span>
+  <header class="nav-strip">
+    <a href="../index.html" style="display: flex; align-items: center; gap: 10px;">
+      <img src="../icon-192.png" alt="" width="22" height="22" style="border-radius: 3px; display: block;">
+      <span class="cd" style="font-size: 15px; color: var(--parchment); font-weight: 700; letter-spacing: 0.01em;">Noble Mind Study</span>
+    </a>
+    <nav class="mn" style="font-size: 10px; color: var(--vellum);">
+      <a href="../principles.html" style="margin: 0 9px; color: inherit;">Method</a>
+      <a href="../index.html#studies" style="margin: 0 9px; color: inherit;">Studies</a>
+      <a href="../books.html" style="margin: 0 0 0 9px; color: inherit;">Books</a>
+    </nav>
+  </header>
 
-      <!-- 1. Question headline -->
-      <h1>What does "saint" mean in the New Testament?</h1>
+  <article class="article">
 
-      <!-- 2. One-sentence answer -->
-      <p class="lead-answer">
-        A saint in the New Testament is every living Christian &mdash; not a deceased, canonized, or especially holy person. The word applies to all who belong to Christ.
-      </p>
+    <div class="kicker" style="margin-bottom: 1.25rem;">A Study &middot; No. 5 &middot; Vocabulary</div>
 
-      <hr>
+    <h1>What does &ldquo;saint&rdquo; mean in the New Testament?</h1>
 
-      <!-- 3. What does the text actually say? -->
-      <h2>What does the text actually say?</h2>
-      <div class="section-card">
-        <p>Paul's letters settle this question on the first line of almost every one of them. He addresses the Christians at Rome as "all who are beloved of God in Rome, called [as] saints" (Rom. 1:7, NASB). He writes to Corinth "to those who have been sanctified in Christ Jesus, saints by calling" (1 Cor. 1:2, NASB). Philippi receives a letter addressed "to all the saints in Christ Jesus who are in Philippi" (Phil. 1:1, NASB). Ephesians opens "to the saints who are at Ephesus" (Eph. 1:1, NASB). Colossians: "to the saints and faithful brethren in Christ [who are] at Colossae" (Col. 1:2, NASB).</p>
+    <p class="dek">A short answer, and the citations that lead to it.</p>
 
-        <p>Notice what is being said and what is not. Paul is writing to <em>living</em> congregations. He is writing to <em>all</em> of them &mdash; not to a spiritual elite within them, not to canonized dead believers, but to every Christian who will hear the letter read. The Corinthian church, which Paul will spend the rest of the letter correcting for division, tolerance of sin, abuse of the Lord's Supper, and disorder in worship, is addressed as "saints." The word did not mean "people of extraordinary sanctity." It meant Christians.</p>
+    <hr class="hr-gold">
 
-        <p>Ananias confirms the same usage in Acts. When the Lord tells him to go to Saul, Ananias objects: "Lord, I have heard from many about this man, how much harm he did to Your saints at Jerusalem" (Acts 9:13, NASB). The "saints" Saul was persecuting were the ordinary Christians who had fled or hidden when Saul came after them. They were not canonized. Many of them were not especially famous. They were simply those who belonged to Christ, and the inspired record calls them saints.</p>
+    <!-- 01 — What the text actually says.
+         Three opening paragraphs intact. The five short Pauline greetings
+         (Rom. 1:7 / 1 Cor. 1:2 / Phil. 1:1 / Eph. 1:1 / Col. 1:2) stay
+         inline as a chain — they read as cumulative evidence and breaking
+         them into .scrip blocks would disrupt the rhythm. Acts 9:13
+         (Ananias) is promoted to a .scrip block as the anchor quote. -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">01</span>
+        <h2 class="sec-label">What the text actually says</h2>
       </div>
 
-      <!-- 4. The Three Questions -->
-      <h2>The Three Questions</h2>
-      <div class="section-card">
+      <p>Paul's letters settle this question on the first line of almost every one of them. He addresses the Christians at Rome as &ldquo;all who are beloved of God in Rome, called [as] saints&rdquo; (Rom. 1:7, NASB). He writes to Corinth &ldquo;to those who have been sanctified in Christ Jesus, saints by calling&rdquo; (1 Cor. 1:2, NASB). Philippi receives a letter addressed &ldquo;to all the saints in Christ Jesus who are in Philippi&rdquo; (Phil. 1:1, NASB). Ephesians opens &ldquo;to the saints who are at Ephesus&rdquo; (Eph. 1:1, NASB). Colossians: &ldquo;to the saints and faithful brethren in Christ [who are] at Colossae&rdquo; (Col. 1:2, NASB).</p>
+
+      <p>Notice what is being said and what is not. Paul is writing to <em>living</em> congregations. He is writing to <em>all</em> of them &mdash; not to a spiritual elite within them, not to canonized dead believers, but to every Christian who will hear the letter read. The Corinthian church, which Paul will spend the rest of the letter correcting for division, tolerance of sin, abuse of the Lord's Supper, and disorder in worship, is addressed as &ldquo;saints.&rdquo; The word did not mean &ldquo;people of extraordinary sanctity.&rdquo; It meant Christians.</p>
+
+      <p>Ananias confirms the same usage in Acts. When the Lord tells him to go to Saul, Ananias objects:</p>
+
+      <div class="scrip">
+        <p class="scrip-text">&ldquo;Lord, I have heard from many about this man, how much harm he did to Your saints at Jerusalem&rdquo;</p>
+        <span class="scrip-cite">Acts 9:13 &middot; NASB</span>
+      </div>
+
+      <p>The &ldquo;saints&rdquo; Saul was persecuting were the ordinary Christians who had fled or hidden when Saul came after them. They were not canonized. Many of them were not especially famous. They were simply those who belonged to Christ, and the inspired record calls them saints.</p>
+
+      <div class="three-questions" style="margin-top: 1.5rem;">
         <p><em>Who is speaking?</em> Paul, in his letters to the churches. Luke, recording Ananias's words. The voices that teach the church what it actually is.</p>
 
-        <p><em>To whom are they speaking?</em> Living Christian congregations &mdash; the people walking into assemblies week by week in the first century. Ordinary men and women who had believed the gospel and been baptized into Christ. When Paul writes "to the saints," he is writing to <em>them</em>, directly.</p>
+        <p><em>To whom are they speaking?</em> Living Christian congregations &mdash; the people walking into assemblies week by week in the first century. Ordinary men and women who had believed the gospel and been baptized into Christ. When Paul writes &ldquo;to the saints,&rdquo; he is writing to <em>them</em>, directly.</p>
 
-        <p><em>Under what circumstances?</em> The normal life of the church in its first generation. These are the addresses of letters &mdash; the opening greetings apostles chose to use, not theological treatises on ecclesiology. If "saint" had meant something rare or elevated, Paul would not have used it as his default word for every Christian he wrote to.</p>
+        <p><em>Under what circumstances?</em> The normal life of the church in its first generation. These are the addresses of letters &mdash; the opening greetings apostles chose to use, not theological treatises on ecclesiology. If &ldquo;saint&rdquo; had meant something rare or elevated, Paul would not have used it as his default word for every Christian he wrote to.</p>
+      </div>
+    </section>
+
+    <!-- 02 — The pattern Scripture gives.
+         All six paragraphs of the prior page's "Cross-references" section,
+         intact. Then the necessary-inference paragraph (Conclusion para 1)
+         and the honest-disagreement paragraph (Conclusion para 3) relocated
+         here verbatim. -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">02</span>
+        <h2 class="sec-label">The pattern Scripture gives</h2>
       </div>
 
-      <!-- 5. Cross-references -->
-      <h2>Cross-references</h2>
-      <div class="section-card">
-        <p>The Greek word translated "saint" is <em>hagios</em> &mdash; literally, "holy one" or "set apart one." It appears roughly sixty times in the New Testament as a designation for Christians, and its meaning is consistent everywhere it occurs. It describes a person who has been set apart to God through Christ. The setting apart is what the word is naming &mdash; not a post-death canonization, not a hierarchy of moral achievement, not an exceptional status reserved for the few.</p>
+      <p>The Greek word translated &ldquo;saint&rdquo; is <em>hagios</em> &mdash; literally, &ldquo;holy one&rdquo; or &ldquo;set apart one.&rdquo; It appears roughly sixty times in the New Testament as a designation for Christians, and its meaning is consistent everywhere it occurs. It describes a person who has been set apart to God through Christ. The setting apart is what the word is naming &mdash; not a post-death canonization, not a hierarchy of moral achievement, not an exceptional status reserved for the few.</p>
 
-        <p>Several observations from the text deepen the picture.</p>
+      <p>Several observations from the text deepen the picture.</p>
 
-        <p><strong>Paul uses "saints" and "brethren" interchangeably.</strong> In the same letters where he addresses saints, he uses "brethren" freely to mean the same group (Rom. 12:1; 1 Cor. 1:10; Phil. 1:12). Two different words, one set of people &mdash; every Christian. The New Testament does not create a tier of "ordinary brethren" beneath a tier of "special saints." The tier does not exist in the text.</p>
+      <p><span class="xref-lead">Paul uses &ldquo;saints&rdquo; and &ldquo;brethren&rdquo; interchangeably.</span> In the same letters where he addresses saints, he uses &ldquo;brethren&rdquo; freely to mean the same group (Rom. 12:1; 1 Cor. 1:10; Phil. 1:12). Two different words, one set of people &mdash; every Christian. The New Testament does not create a tier of &ldquo;ordinary brethren&rdquo; beneath a tier of &ldquo;special saints.&rdquo; The tier does not exist in the text.</p>
 
-        <p><strong>No individual Christian is called "Saint [Name]" in the New Testament.</strong> Peter is never "Saint Peter" in the inspired text. Paul is never "Saint Paul." Mary is never "Saint Mary." The possessive title is entirely a post-apostolic development. The New Testament uses the word only in its Scriptural sense &mdash; living Christians, as a group, called "saints" because they have been set apart to God.</p>
+      <p><span class="xref-lead">No individual Christian is called &ldquo;Saint [Name]&rdquo; in the New Testament.</span> Peter is never &ldquo;Saint Peter&rdquo; in the inspired text. Paul is never &ldquo;Saint Paul.&rdquo; Mary is never &ldquo;Saint Mary.&rdquo; The possessive title is entirely a post-apostolic development. The New Testament uses the word only in its Scriptural sense &mdash; living Christians, as a group, called &ldquo;saints&rdquo; because they have been set apart to God.</p>
 
-        <p><strong>The word is used of still-living Christians in the present tense.</strong> When Paul asks the churches to take up a collection "for the saints" (1 Cor. 16:1; Rom. 15:25&ndash;26), he means for the poor Christians in Jerusalem &mdash; living people in need of material help. When he asks the Colossians to greet "every saint in Christ Jesus" (Phil. 4:21, NASB), he is addressing those currently in the congregation. The word in Scripture is not a title given after death. It is a description of what Christians <em>are</em>.</p>
+      <p><span class="xref-lead">The word is used of still-living Christians in the present tense.</span> When Paul asks the churches to take up a collection &ldquo;for the saints&rdquo; (1 Cor. 16:1; Rom. 15:25&ndash;26), he means for the poor Christians in Jerusalem &mdash; living people in need of material help. When he asks the Colossians to greet &ldquo;every saint in Christ Jesus&rdquo; (Phil. 4:21, NASB), he is addressing those currently in the congregation. The word in Scripture is not a title given after death. It is a description of what Christians <em>are</em>.</p>
 
-        <p><strong>The transformation to a post-apostolic title came later.</strong> Over the centuries after the apostles, the word narrowed in popular usage &mdash; first to the especially admired Christian dead, then eventually to a formal category of canonized figures recognized by particular institutions. That narrowing is a development of church history, not a reading of the text. The text's own usage never narrows the word. In Scripture, saints are not a subset of Christians. They are Christians.</p>
+      <p><span class="xref-lead">The transformation to a post-apostolic title came later.</span> Over the centuries after the apostles, the word narrowed in popular usage &mdash; first to the especially admired Christian dead, then eventually to a formal category of canonized figures recognized by particular institutions. That narrowing is a development of church history, not a reading of the text. The text's own usage never narrows the word. In Scripture, saints are not a subset of Christians. They are Christians.</p>
 
-        <p>A question sometimes raised: doesn't calling all Christians "saints" sound presumptuous? The question assumes that the word means "person of great personal holiness" &mdash; but that is not what <em>hagios</em> means in the New Testament. It means "set apart one." The holiness it names is the holiness of belonging to God, not the holiness of personal moral perfection. Paul can call the Corinthians "saints" in the first verse and spend fifteen chapters rebuking them in the next without contradicting himself. The saints <em>are</em> still the people set apart to God. They are also, at the same time, people growing in that set-apart life and often falling short in it. The word describes their relationship to God, not their track record.</p>
+      <p>A question sometimes raised: doesn't calling all Christians &ldquo;saints&rdquo; sound presumptuous? The question assumes that the word means &ldquo;person of great personal holiness&rdquo; &mdash; but that is not what <em>hagios</em> means in the New Testament. It means &ldquo;set apart one.&rdquo; The holiness it names is the holiness of belonging to God, not the holiness of personal moral perfection. Paul can call the Corinthians &ldquo;saints&rdquo; in the first verse and spend fifteen chapters rebuking them in the next without contradicting himself. The saints <em>are</em> still the people set apart to God. They are also, at the same time, people growing in that set-apart life and often falling short in it. The word describes their relationship to God, not their track record.</p>
+
+      <!-- Closing paragraphs of 02 — necessary-inference + honest-disagreement.
+           Source: prior page Conclusion paras 1 and 3 (verbatim). -->
+      <p>The text establishes this explicitly: every living Christian in the New Testament is called a saint, and the word is used as a universal designation for believers rather than as a special title for an elite few. The text establishes by necessary inference that the modern usage &mdash; &ldquo;Saint [Name]&rdquo; as a posthumous honorific for a formally recognized deceased believer &mdash; is a development later than the New Testament's own vocabulary.</p>
+
+      <p>Honest students have disagreed on secondary questions &mdash; whether the long tradition of honoring faithful Christians of the past is valuable, whether the word's later narrowing is a harmless drift or a confusion worth correcting, how to respond to a culture that uses &ldquo;saint&rdquo; in ways the text does not. But on the question this page is asking &mdash; <em>What does &ldquo;saint&rdquo; mean in the New Testament?</em> &mdash; the text itself is the answer. The word is simple, wide, and democratic. Every Christian is a saint. The New Testament calls them nothing less.</p>
+    </section>
+
+    <!-- 03 — What the text does NOT do.
+         Bullets distilled verbatim from prior page Conclusion para 2. -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">03</span>
+        <h2 class="sec-label">What the text does <em style="color: var(--lamplight); font-style: italic;">not</em> do</h2>
       </div>
 
-      <!-- 6. Conclusion -->
-      <h2>Conclusion</h2>
-      <div class="section-card">
-        <p>The text establishes this explicitly: every living Christian in the New Testament is called a saint, and the word is used as a universal designation for believers rather than as a special title for an elite few. The text establishes by necessary inference that the modern usage &mdash; "Saint [Name]" as a posthumous honorific for a formally recognized deceased believer &mdash; is a development later than the New Testament's own vocabulary.</p>
+      <ul class="list-plain">
+        <li class="li">Restrict &ldquo;saint&rdquo; to the dead.</li>
+        <li class="li">Restrict &ldquo;saint&rdquo; to the especially holy.</li>
+        <li class="li">Restrict &ldquo;saint&rdquo; to apostles or martyrs.</li>
+        <li class="li">Establish a process by which some Christians become saints while others do not.</li>
+      </ul>
+    </section>
 
-        <p>What the text does not do: restrict "saint" to the dead, restrict it to the especially holy, restrict it to apostles or martyrs, or establish a process by which some Christians become saints while others do not. In Scripture, the moment someone belongs to Christ, the word applies.</p>
-
-        <p>Honest students have disagreed on secondary questions &mdash; whether the long tradition of honoring faithful Christians of the past is valuable, whether the word's later narrowing is a harmless drift or a confusion worth correcting, how to respond to a culture that uses "saint" in ways the text does not. But on the question this page is asking &mdash; <em>What does "saint" mean in the New Testament?</em> &mdash; the text itself is the answer. The word is simple, wide, and democratic. Every Christian is a saint. The New Testament calls them nothing less.</p>
-
-        <p>Examine this yourself. Read the opening line of every epistle in the New Testament. Notice who is being addressed, and what word is used. Notice that Paul does not write to "a few" &mdash; he writes to "all." Believe the text.</p>
+    <!-- 04 — Answer.
+         The verdict block is the prior page's lead-answer (verbatim). The
+         closing "Examine this yourself" paragraph follows from the prior
+         Conclusion (paragraph 4, verbatim). -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">04</span>
+        <h2 class="sec-label">Answer</h2>
       </div>
 
-      <!-- 7. Examine this yourself -->
-      <h2>Examine this yourself</h2>
-      <div class="examine-cta">
-        <p>Don't take anyone's word for it &mdash; not ours, not a preacher's, not an AI's. Open the Scriptures yourself, and test every claim.</p>
-        <ul>
-          <li><a href="../Noble_Mind_Study_Tool_v2.html?claim=A%20saint%20is%20a%20canonized%20deceased%20believer%20specially%20recognized%20by%20the%20church.">📋 Audit this claim in the study tool</a> &mdash; opens the study tool with the Berean Claim Audit prompt preloaded, ready to copy into any AI chat.</li>
-          <li><a href="../principles.html">📖 Read the Noble Mind principles</a> &mdash; the method behind every study on this site.</li>
-          <li><a href="../Noble_Mind_Study_Tool_v2.html?passage=Rom.%201%3A7">✝️ Open Rom. 1:7 in the study tool</a> &mdash; a concrete starting point.</li>
-        </ul>
+      <div class="answer-block">
+        <p class="cd" style="font-size: 19px; color: var(--parchment); line-height: 1.65; margin: 0;">A saint in the New Testament is <span class="answer-verdict">every living Christian</span> &mdash; not a deceased, canonized, or especially holy person. The word applies to all who belong to Christ.</p>
       </div>
 
-      <!-- 8. Related studies -->
-      <h2>Related studies</h2>
-      <div class="related-studies">
-        <ul>
-          <li><a href="does-the-new-testament-authorize-instrumental-music.html">Does the New Testament authorize instrumental music in worship?</a></li>
-          <li><a href="infant-baptism-in-the-new-testament.html">Is infant baptism in the New Testament?</a></li>
-          <li><a href="is-the-sinners-prayer-in-the-bible.html">Is the &ldquo;sinner's prayer&rdquo; in the Bible?</a></li>
-        </ul>
-      </div>
+      <p style="margin-top: 1.5rem;">Examine this yourself. Read the opening line of every epistle in the New Testament. Notice who is being addressed, and what word is used. Notice that Paul does not write to &ldquo;a few&rdquo; &mdash; he writes to &ldquo;all.&rdquo; Believe the text.</p>
+    </section>
 
-      <footer>
-        <p class="scripture">&ldquo;Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so.&rdquo; <span class="scripture-ref">&mdash; Acts 17:11, NASB</span></p>
-        <p class="contact"><a href="https://noblemind.study">noblemind.study</a> &middot; <a href="https://x.com/Bridge_Moments" target="_blank" rel="noopener">@Bridge_Moments</a> &middot; paul@noblemind.study</p>
-        <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
-      </footer>
+    <h2 class="tail-heading">Examine this yourself</h2>
+    <p>Don't take anyone's word for it &mdash; not ours, not a preacher's, not an AI's. Open the Scriptures yourself, and test every claim.</p>
+    <ul class="list-plain">
+      <li class="li"><a href="../Noble_Mind_Study_Tool_v2.html?claim=A%20saint%20is%20a%20canonized%20deceased%20believer%20specially%20recognized%20by%20the%20church.">Audit this claim in the study tool</a> &mdash; opens the study tool with the Berean Claim Audit prompt preloaded, ready to copy into any AI chat.</li>
+      <li class="li"><a href="../principles.html">Read the Noble Mind principles</a> &mdash; the method behind every study on this site.</li>
+      <li class="li"><a href="../Noble_Mind_Study_Tool_v2.html?passage=Rom.%201%3A7">Open Rom. 1:7 in the study tool</a> &mdash; a concrete starting point.</li>
+    </ul>
+
+    <h2 class="tail-heading">Related studies</h2>
+    <ul class="list-plain">
+      <li class="li"><a href="does-the-new-testament-authorize-instrumental-music.html">Does the New Testament authorize instrumental music in worship?</a></li>
+      <li class="li"><a href="infant-baptism-in-the-new-testament.html">Is infant baptism in the New Testament?</a></li>
+      <li class="li"><a href="is-the-sinners-prayer-in-the-bible.html">Is the &ldquo;sinner's prayer&rdquo; in the Bible?</a></li>
+    </ul>
+
+    <hr class="hr-gold tail">
+
+  </article>
+
+  <footer>
+    <div class="scrip">
+      <p class="scrip-text">examining the Scriptures daily to see whether these things were so.</p>
+      <span class="scrip-cite">Acts 17:11 &middot; NASB</span>
     </div>
-    <div class="glass-tab"></div>
-  </div>
+    <p class="contact"><a href="https://noblemind.study">noblemind.study</a> &middot; paul@noblemind.study</p>
+    <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
+  </footer>
+
+    </div><!-- /.page-inner -->
+    <div class="page-tab"></div>
+  </div><!-- /.page-wrapper -->
 
   <script src="/nm-core.js" defer></script>
 </body>

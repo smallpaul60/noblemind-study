@@ -94,6 +94,17 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - Offline-first: everything the user needs must work without a network connection.
 - Accessibility: Open Dyslexic font option, high contrast, semantic HTML.
 
+### Doctrinal content
+
+No doctrinal text — paragraphs, sentences, claims, or Scripture quotations — may be dropped, summarized, condensed, or rewritten during a refactor or reskin without explicit author sign-off.
+
+- **Reformatting** prose into a list of the same content is fine.
+- **Relocating** approved prose to a new section is fine, as long as an HTML comment traces the source paragraph.
+- **Removing** content because it "feels redundant" is *not* fine. Surface every drop as a question to the author *before* committing.
+- **NASB quotations** must be cross-checked against the actual text per `design-refs/BRAND_BRIEF.md` § Scripture accuracy. Near-quotes are not Scripture. The mono small-caps gold citation is reserved for verbatim NASB only.
+
+This applies to every editorial page, every test-this-claim study, every book chapter, every mockup, and every Scripture or doctrinal claim anywhere on the site.
+
 ### Per-book generator scripts
 
 Each book directory follows the same script layout:
