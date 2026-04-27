@@ -224,3 +224,79 @@
   color: var(--parchment);
   border: 1px solid var(--rule-faint);
 }
+
+/* ------------------------------------------------------------------
+ * Page frame — gold-haloed panel chrome
+ *
+ * The brand identity element. Pages opt in by wrapping their body
+ * content:
+ *
+ *   <div class="page-wrapper">
+ *     <div class="page-inner"> ... </div>
+ *     <div class="page-tab"></div>
+ *   </div>
+ *
+ * The wrapper provides the soft gold halo (gradient padding ring +
+ * outer box-shadow). The inner panel sits over it with a deep ink
+ * gradient and a hairline gold border. A subtle lamplight glow
+ * catches the top edge of the panel like light on the spine of an
+ * open book. The tab is a vestigial pill at the bottom edge — the
+ * brand reads thinner without it.
+ *
+ * Glow opacities are dialed roughly halved from the old neon
+ * treatment, and the multi-color rainbow is collapsed to a single
+ * lamplight tone. This is the "outline / glow but in gold, more
+ * subtle" pass.
+ * ------------------------------------------------------------------ */
+
+.page-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 2rem auto 3rem;
+  padding: 2px;
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top left,    rgba(212, 162, 76, 0.42), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(212, 162, 76, 0.18), transparent 55%);
+  box-shadow:
+    0 0 40px rgba(212, 162, 76, 0.10),
+    0 0 90px rgba(212, 162, 76, 0.06);
+}
+
+.page-inner {
+  position: relative;
+  background: linear-gradient(135deg, rgba(13, 18, 28, 0.98), rgba(10, 14, 20, 0.99));
+  border-radius: 20px;
+  border: 1px solid rgba(212, 162, 76, 0.18);
+  overflow: hidden;
+}
+
+.page-inner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background: radial-gradient(ellipse at top, rgba(212, 162, 76, 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page-inner > * {
+  position: relative;
+  z-index: 1;
+}
+
+.page-tab {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top, rgba(212, 162, 76, 0.55), rgba(10, 14, 20, 1));
+  box-shadow: 0 0 20px rgba(212, 162, 76, 0.18);
+}
