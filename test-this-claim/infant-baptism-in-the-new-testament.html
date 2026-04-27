@@ -3,25 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <!--
-  Test-This-Claim page — first entry in the series. Also serves as the de facto
+  Test-This-Claim page — first entry in the series. Also the de facto
   template: copy this file, rename to a new slug, and update:
     - <title>, <meta name="description">, canonical URL
-    - OpenGraph + Twitter tags (og:title/description/url; twitter:title/description)
-    - Schema.org QAPage JSON-LD block (question name/text, acceptedAnswer.text)
-    - Section 1 (H1 headline) — the exact question
-    - Section 2 (one-sentence answer) — must match meta description AND JSON-LD
-    - Sections 3 through 6 (doctrinal content — awaits Paul's approval per the build plan)
-    - Section 7's study-tool link (preloaded ?claim= or ?passage=)
-    - Section 8 (related studies — point at real sibling pages)
+    - OpenGraph + Twitter tags
+    - Schema.org QAPage JSON-LD block
+    - The kicker (A Study · No. N · Topic)
+    - <h1> question and the italic dek beneath it
+    - Sections 01–04 (the method spine)
+    - Examine this yourself — the study-tool ?claim= / ?passage= links
+    - Related studies — sibling links
 
-  Design follows the existing NobleMind aesthetic: dark glass card, accent color
-  #06FFA5, reading-width column (~760px). Scripture quotations are rendered
-  inline within running prose with (Book Ch:vv, NASB) citations; set-off
-  blockquotes use the .scripture class where appropriate.
+  Brand: /design-refs/BRAND_BRIEF.md.
+  Visuals: /assets/nm-brand.css. The per-page <style> below holds layout
+  and one-offs only — never tokens.
 
-  Do not fill in doctrinal statements without explicit approval, per the
-  project build plan. Every NASB quotation must be cross-checked against the
-  actual NASB text (e.g. Bolls.Life) before publishing.
+  Doctrinal content here is approved. Do not modify NASB quotations
+  without re-verifying against Bolls.Life. Do not introduce new
+  doctrinal claims without explicit author approval.
 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -39,7 +38,7 @@
   <meta property="og:image" content="https://noblemind.study/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Noble Mind Study — Study the Bible like it means what it says.">
+  <meta property="og:image:alt" content="Noble Mind Study — Test it against the text.">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -52,10 +51,10 @@
   <link rel="icon" type="image/png" sizes="192x192" href="../icon-192.png">
   <link rel="apple-touch-icon" href="../icon-192.png">
 
-  <!-- Theme color matches site dark theme -->
-  <meta name="theme-color" content="#0d0d0d">
+  <!-- Theme color matches new dark Ink background -->
+  <meta name="theme-color" content="#0A0E14">
 
-  <!-- Schema.org QAPage — TODO(content): replace acceptedAnswer.text when Paul approves section 2 copy. -->
+  <!-- Schema.org QAPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -86,428 +85,318 @@
   }
   </script>
 
+  <link rel="stylesheet" href="/assets/nm-brand.css">
+
   <style>
-    :root {
-      --bg-dark: #0d0d0d;
-      --bg-panel: #1a1a1a;
-      --bg-glass: rgba(13, 13, 13, 0.6);
-      --text-primary: #f5f5f5;
-      --text-secondary: #a0a0a0;
-      --text-muted: #888;
-      --border-color: #2a2a2a;
-      --border-glass: rgba(148, 163, 184, 0.45);
+    /* Page-specific layout — tokens come from /assets/nm-brand.css. */
 
-      --accent: #06FFA5;
-      --accent-soft: rgba(6, 255, 165, 0.18);
-      --accent-glow: rgba(6, 255, 165, 0.5);
-      --accent-blue: #5ee5ff;
-      --accent-amber: #f0ad4e;
-
-      --glass-blur: blur(12px);
-      --radius-card: 22px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      line-height: 1.7;
+      margin: 0;
+      background: var(--ink);
+      color: var(--body);
+      font-family: var(--font-serif);
+      line-height: 1.75;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 40px 20px;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
-        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
-      pointer-events: none;
-    }
-
-    .glass-page-wrapper {
-      position: relative;
-      z-index: 10;
-      border-radius: calc(var(--radius-card) + 4px);
-      padding: 3px;
-      background:
-        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
-        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
-        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
-      box-shadow:
-        0 0 50px rgba(94,229,255,0.3),
-        0 0 80px rgba(6,255,165,0.35);
-      max-width: 760px;
-      width: 100%;
+    .nav-strip {
+      max-width: 900px;
       margin: 0 auto;
     }
 
-    .glass-page-inner {
-      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
-      border-radius: var(--radius-card);
-      padding: 3rem 2.5rem;
-      backdrop-filter: blur(22px);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.25);
+    .nav-strip a { text-decoration: none; }
+
+    .article {
+      padding: 3rem 2rem 2.5rem;
+      max-width: 540px;
+      margin: 0 auto;
     }
 
-    .glass-page-inner::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 150px;
-      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    .glass-tab {
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 14px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
-      box-shadow: 0 0 30px rgba(94,229,255,0.6);
-    }
-
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent);
-      text-decoration: none;
-      margin-bottom: 24px;
-      font-size: 0.95rem;
-      padding: 8px 16px;
-      border-radius: 8px;
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .back-link:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 25px var(--accent-glow);
-      transform: translateX(-4px);
-    }
-
-    .series-eyebrow {
-      display: inline-block;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-soft);
-      padding: 4px 12px;
-      border-radius: 999px;
-      margin-bottom: 16px;
-      position: relative;
-      z-index: 1;
-    }
+    .article a { color: var(--lamplight); transition: opacity 0.2s; }
+    .article a:hover { opacity: 0.78; }
 
     h1 {
-      font-size: 2rem;
-      line-height: 1.2;
-      margin-bottom: 16px;
+      font-family: var(--font-serif);
+      font-size: 38px;
       font-weight: 700;
-      color: var(--text-primary);
-      position: relative;
-      z-index: 1;
+      color: var(--parchment);
+      line-height: 1.15;
+      letter-spacing: 0.003em;
+      margin: 0 0 0.9rem;
     }
 
-    .lead-answer {
-      font-size: 1.15rem;
-      color: var(--text-primary);
+    .dek {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-style: italic;
+      color: var(--vellum);
       line-height: 1.6;
-      margin: 0 0 28px;
-      padding: 16px 20px;
-      background: rgba(6, 255, 165, 0.06);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 10px 10px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    h2 {
-      font-size: 1.4rem;
-      margin: 36px 0 14px;
-      color: var(--text-primary);
-      font-weight: 700;
-      position: relative;
-      z-index: 1;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-      margin: 20px 0 10px;
-      color: var(--accent);
-      text-shadow: 0 0 12px var(--accent-glow);
-      font-weight: 700;
+      margin: 0 0 2rem;
     }
 
     p {
-      margin-bottom: 16px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
+      font-family: var(--font-serif);
+      font-size: 16.5px;
+      color: var(--body);
+      line-height: 1.75;
+      margin: 0 0 1rem;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: all 0.2s ease;
+    .article > section { margin-bottom: 2.25rem; }
+
+    .article > section:last-of-type { margin-bottom: 0; }
+
+    .hr-gold {
+      width: 36px;
+      height: 1px;
+      background: var(--lamplight);
+      border: 0;
+      margin: 0 0 2.5rem;
+      opacity: 0.6;
     }
 
-    a:hover {
-      text-shadow: 0 0 12px var(--accent-glow);
+    .hr-gold.tail {
+      margin: 3rem 0 1.5rem;
+      opacity: 0.45;
     }
 
-    ul, ol {
-      margin: 16px 0 16px 24px;
-      color: var(--text-secondary);
-      position: relative;
-      z-index: 1;
+    .answer-verdict { color: var(--lamplight); font-weight: 700; }
+
+    .three-questions p em { color: var(--parchment); font-style: italic; }
+
+    /* Tail headings (Examine / Related) — same .sec-label type, no number row. */
+    .tail-heading {
+      font-family: var(--font-serif);
+      font-size: 17.5px;
+      font-weight: 700;
+      color: var(--parchment);
+      margin: 3rem 0 1rem;
+      letter-spacing: 0.005em;
     }
 
-    li { margin-bottom: 8px; }
-
-    strong { color: var(--text-primary); }
-    em { color: var(--text-primary); font-style: italic; }
-
-    hr {
-      border: none;
-      border-top: 1px solid rgba(148,163,184,0.15);
-      margin: 32px 0;
-      position: relative;
-      z-index: 1;
-    }
-
-    code {
-      font-family: ui-monospace, Menlo, Consolas, monospace;
-      font-size: 0.92em;
-      background: rgba(94,229,255,0.08);
-      color: var(--accent-blue);
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    /* Scripture blockquote — use <blockquote class="scripture"> for quoted NASB passages. */
-    .scripture {
-      font-style: italic;
-      color: var(--text-secondary);
-      margin: 18px 0;
-      padding: 14px 18px;
-      background: rgba(6, 255, 165, 0.05);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-    }
-    .scripture-ref {
-      color: var(--accent);
-      font-style: normal;
-      text-shadow: 0 0 8px var(--accent-glow);
-      display: block;
-      margin-top: 6px;
-      font-size: 0.92em;
-    }
-
-    /* Section card — for content sections that group related sub-items. */
-    .section-card {
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 22px;
-      margin: 16px 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* TODO marker — visibly distinct so reviewers can find unfilled sections at a glance. */
-    .section-card.todo {
-      border: 1px dashed var(--accent-amber);
-      background: rgba(240, 173, 78, 0.06);
-    }
-    .todo-note {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.6;
+    .list-plain {
       margin: 0;
-    }
-    .todo-note strong {
-      color: var(--accent-amber);
-      letter-spacing: 0.02em;
-    }
-
-    /* "Examine this yourself" call-to-action block */
-    .examine-cta {
-      background: rgba(94, 229, 255, 0.06);
-      border: 1px solid rgba(94, 229, 255, 0.3);
-      border-radius: 14px;
-      padding: 22px 24px;
-      margin: 16px 0 24px;
-      position: relative;
-      z-index: 1;
-    }
-    .examine-cta p:last-of-type { margin-bottom: 0; }
-    .examine-cta ul {
-      margin: 12px 0 4px;
-    }
-    .examine-cta li a {
-      font-weight: 600;
-    }
-
-    /* Related studies list */
-    .related-studies {
-      position: relative;
-      z-index: 1;
-    }
-    .related-studies .note {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
+      padding: 0;
+      list-style: none;
     }
 
     footer {
-      margin-top: 48px;
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
-      padding-top: 24px;
-      border-top: 1px solid rgba(148,163,184,0.15);
     }
-    footer .scripture {
-      background: none;
-      border: none;
-      padding: 0;
-      text-align: center;
-      margin-bottom: 12px;
+
+    footer .scrip { border-left: 0; padding: 0; margin: 0 0 0.75rem; }
+    footer .scrip-text { color: var(--vellum); font-size: 14px; line-height: 1.6; margin: 0 0 4px; font-style: italic; }
+    footer .scrip-cite { color: var(--berean); font-size: 10px; }
+
+    .contact {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vellum);
+      margin: 1.5rem 0 0.5rem;
     }
-    footer .contact { margin-top: 8px; }
-    footer .contact a { color: var(--accent); }
-    footer .copyright { font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; }
+
+    .contact a { color: var(--vellum); text-decoration: none; }
+
+    .copyright {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vellum);
+      opacity: 0.7;
+      margin: 0;
+    }
 
     @media (max-width: 600px) {
-      body { padding: 20px 12px; }
-      h1 { font-size: 1.5rem; }
-      h2 { font-size: 1.2rem; }
-      .glass-page-inner { padding: 2rem 1.5rem; }
-      .glass-page-wrapper { border-radius: 18px; }
-      .glass-page-inner { border-radius: 16px; }
-      .lead-answer { font-size: 1.05rem; }
+      .article { padding: 2rem 1.25rem 2rem; }
+      .nav-strip { padding: 0.9rem 1.25rem; }
+      h1 { font-size: 30px; }
+      footer { padding: 0 1.25rem 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="glass-page-wrapper">
-    <div class="glass-page-inner">
 
-      <a href="../index.html" class="back-link">&larr; Back to Home</a>
+  <header class="nav-strip">
+    <a href="../index.html" style="display: flex; align-items: center; gap: 10px;">
+      <svg width="22" height="22" viewBox="0 0 56 56" aria-hidden="true">
+        <rect x="8" y="8" width="40" height="40" rx="3" fill="#141A22" stroke="#D4A24C" stroke-width="1.5"/>
+        <path d="M14 27.5 L28 23.5 L42 27.5 L42 38 L28 34 L14 38 Z" fill="#D4A24C"/>
+      </svg>
+      <span class="cd" style="font-size: 15px; color: var(--parchment); font-weight: 700; letter-spacing: 0.01em;">Noble Mind Study</span>
+    </a>
+    <nav class="mn" style="font-size: 10px; color: var(--vellum);">
+      <a href="../principles.html" style="margin: 0 9px; color: inherit;">Method</a>
+      <a href="../index.html#studies" style="margin: 0 9px; color: inherit;">Studies</a>
+      <a href="../books.html" style="margin: 0 0 0 9px; color: inherit;">Books</a>
+    </nav>
+  </header>
 
-      <span class="series-eyebrow">Test This Claim</span>
+  <article class="article">
 
-      <!-- 1. Question headline -->
-      <h1>Is infant baptism in the New Testament?</h1>
+    <div class="kicker" style="margin-bottom: 1.25rem;">A Study &middot; No. 1 &middot; Baptism</div>
 
-      <!-- 2. One-sentence answer -->
-      <p class="lead-answer">
-        No. Every baptism in the New Testament follows belief, repentance, or confession. Infants cannot do those &mdash; and have nothing to repent of.
-      </p>
+    <h1>Is infant baptism in the New Testament?</h1>
 
-      <hr>
+    <p class="dek">A short answer, and the citations that lead to it.</p>
 
-      <!-- 3. What does the text actually say? -->
-      <h2>What does the text actually say?</h2>
-      <div class="section-card">
-        <p>The New Testament records a number of baptisms. Every one of them follows something the person being baptized has done &mdash; believed, repented, confessed, or called on the name of the Lord. None of them follows a decision made on that person's behalf.</p>
+    <hr class="hr-gold">
 
-        <p>When Jesus gave the commission, He said: "Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit" (Matt. 28:19, NASB). The order is set by the text itself &mdash; make disciples, then baptize. Mark's record puts it directly: "He who has believed and has been baptized shall be saved" (Mark 16:16, NASB). Belief comes first.</p>
-
-        <p>On the day of Pentecost, Peter's hearers were cut to the heart and asked what to do. His answer: "Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins" (Acts 2:38, NASB). The text then adds: "So then, those who had received his word were baptized" (Acts 2:41, NASB). Received the word, then baptized.</p>
-
-        <p>The pattern continues through Acts. In Samaria: "when they believed Philip preaching the good news about the kingdom of God and the name of Jesus Christ, they were being baptized, men and women alike" (Acts 8:12, NASB). Luke specifies men and women &mdash; not infants. Saul was told, "Get up and be baptized, and wash away your sins, calling on His name" (Acts 22:16, NASB). Calling is an act of the one being baptized. At Corinth, "many of the Corinthians when they heard were believing and being baptized" (Acts 18:8, NASB). Hearing and believing precede baptism in every case the text records.</p>
+    <!-- 01 — What the text actually says.
+         Body content is the prior page's "What does the text actually say?" section,
+         with the longest NASB quotations promoted to .scrip blocks. The prior page's
+         "The Three Questions" lives at the end of this section as a methodological
+         aside, since it is about parsing what the text says. No prose is removed. -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">01</span>
+        <h2 class="sec-label">What the text actually says</h2>
       </div>
 
-      <!-- 4. The Three Questions -->
-      <h2>The Three Questions</h2>
-      <div class="section-card">
+      <p>The New Testament records a number of baptisms. Every one of them follows something the person being baptized has done &mdash; believed, repented, confessed, or called on the name of the Lord. None of them follows a decision made on that person's behalf.</p>
+
+      <p>When Jesus gave the commission, He said:</p>
+
+      <div class="scrip">
+        <p class="scrip-text">&ldquo;Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit&rdquo;</p>
+        <span class="scrip-cite">Matt. 28:19 &middot; NASB</span>
+      </div>
+
+      <p>The order is set by the text itself &mdash; make disciples, then baptize. Mark's record puts it directly: &ldquo;He who has believed and has been baptized shall be saved&rdquo; (Mark 16:16, NASB). Belief comes first.</p>
+
+      <p>On the day of Pentecost, Peter's hearers were cut to the heart and asked what to do. His answer:</p>
+
+      <div class="scrip">
+        <p class="scrip-text">&ldquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins&rdquo;</p>
+        <span class="scrip-cite">Acts 2:38 &middot; NASB</span>
+      </div>
+
+      <p>The text then adds: &ldquo;So then, those who had received his word were baptized&rdquo; (Acts 2:41, NASB). Received the word, then baptized.</p>
+
+      <p>The pattern continues through Acts. In Samaria:</p>
+
+      <div class="scrip">
+        <p class="scrip-text">&ldquo;when they believed Philip preaching the good news about the kingdom of God and the name of Jesus Christ, they were being baptized, men and women alike&rdquo;</p>
+        <span class="scrip-cite">Acts 8:12 &middot; NASB</span>
+      </div>
+
+      <p>Luke specifies men and women &mdash; not infants. Saul was told, &ldquo;Get up and be baptized, and wash away your sins, calling on His name&rdquo; (Acts 22:16, NASB). Calling is an act of the one being baptized. At Corinth, &ldquo;many of the Corinthians when they heard were believing and being baptized&rdquo; (Acts 18:8, NASB). Hearing and believing precede baptism in every case the text records.</p>
+
+      <div class="three-questions" style="margin-top: 1.5rem;">
         <p><em>Who is speaking?</em> The apostles, by command of Jesus (Matt. 28:19&ndash;20). The pattern in Acts is what the apostles themselves did when they carried out that command. This is not a peripheral voice in the text &mdash; it is the apostolic practice of the commissioned church.</p>
 
-        <p><em>To whom are they speaking?</em> "All the nations" (Matt. 28:19, NASB) &mdash; the hearers of the preached word, anyone who heard and responded. The command and the practice both presuppose a hearer capable of responding.</p>
+        <p><em>To whom are they speaking?</em> &ldquo;All the nations&rdquo; (Matt. 28:19, NASB) &mdash; the hearers of the preached word, anyone who heard and responded. The command and the practice both presuppose a hearer capable of responding.</p>
 
         <p><em>Under what circumstances?</em> The founding and spreading of the church after the resurrection. Every baptism recorded in Acts takes place in this context &mdash; conversion following the preaching of the gospel.</p>
       </div>
+    </section>
 
-      <!-- 5. Cross-references -->
-      <h2>Cross-references</h2>
-      <div class="section-card">
-        <p>The New Testament also tells us what baptism is <em>for</em>, and the purpose is not compatible with an unconscious subject. Baptism is "for the forgiveness of your sins" (Acts 2:38, NASB) &mdash; it presupposes sin committed and forgiveness sought. It is "buried with Him through baptism into death, so that as Christ was raised from the dead through the glory of the Father, so we too might walk in newness of life" (Rom. 6:4, NASB) &mdash; it presupposes a death to sin to be buried. Peter writes that "baptism now saves you &mdash; not the removal of dirt from the flesh, but an appeal to God for a good conscience &mdash; through the resurrection of Jesus Christ" (1 Pet. 3:21, NASB). An appeal to God for a good conscience requires a conscience making the appeal.</p>
-
-        <p>There is another dimension to this. An infant has nothing to repent of. Scripture is explicit that sin is personal, not inherited: "The person who sins will die. The son will not bear the punishment for the father's iniquity, nor will the father bear the punishment for the son's iniquity; the righteousness of the righteous will be upon himself, and the wickedness of the wicked will be upon himself" (Ezek. 18:20, NASB). The Law said the same: "'Fathers shall not be put to death for [their] sons, nor shall sons be put to death for [their] fathers; everyone shall be put to death for his own sin." (Deut. 24:16, NASB). A baptism "for the forgiveness of your sins" (Acts 2:38, NASB) has no object in someone who has committed no sin.</p>
-
-        <p>Paul anchors entry into Christ in faith: "For you are all sons of God through faith in Christ Jesus. For all of you who were baptized into Christ have clothed yourselves with Christ" (Gal. 3:26&ndash;27, NASB). Faith is first; baptism is the act in which the believer is clothed with Christ.</p>
-
-        <p>The passages most often used to argue for infant baptism are the "household" accounts &mdash; Lydia (Acts 16:15), the Philippian jailer (Acts 16:33), Crispus (Acts 18:8), and Stephanas (1 Cor. 1:16). Quoted in full, these passages answer themselves. Of the jailer's household, Luke records: "And they spoke the word of the Lord to him together with all who were in his house&hellip; and immediately he was baptized, he and all his [household]. And he brought them into his house and set food before them, and rejoiced greatly, having believed in God with his whole household." (Acts 16:32&ndash;34, NASB). The word was preached to all who were in the house, and the whole household believed. Of Crispus: "Crispus, the leader of the synagogue, believed in the Lord with all his household" (Acts 18:8, NASB). The household believed before being baptized. The text never records an infant present, and never records anyone baptized who had not heard and believed.</p>
-
-        <p>Jesus did interact with children &mdash; but not by baptizing them. He said, "Let the children alone, and do not hinder them from coming to Me; for the kingdom of heaven belongs to such as these" (Matt. 19:14, NASB). He did not say they needed cleansing. He said the kingdom belongs to them. If infant baptism were the apostolic pattern, this was the moment to establish it. Jesus blessed them instead.</p>
+    <!-- 02 — The pattern Scripture gives.
+         Opens with the three-line distillation, then the prior page's
+         "Cross-references" section, which already builds the pattern from
+         multiple angles (purposes, sin is personal, faith first, household
+         passages, Jesus and children). -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">02</span>
+        <h2 class="sec-label">The pattern Scripture gives</h2>
       </div>
 
-      <!-- 6. Conclusion -->
-      <h2>Conclusion</h2>
-      <div class="section-card">
-        <p>The text establishes this explicitly: every baptism it records is of a hearer who believed, repented, confessed, or called on the name of the Lord. No exception. The text establishes by necessary inference that baptism is for a capable subject &mdash; because its stated purposes (forgiveness of sins, burial with Christ, appeal to God for a good conscience, clothing oneself with Christ through faith) all require a capable subject. And Scripture is explicit that sin is personal, not inherited (Ezek. 18:20; Deut. 24:16) &mdash; which means an infant has nothing a baptism of repentance could address.</p>
+      <p>Faith, then baptism. Hearing, then baptism. Repentance, then baptism. The order is consistent in every recorded baptism in the New Testament &mdash; a willing response that follows belief.</p>
 
-        <p>What the text does not do: record a single infant baptism, command the baptism of infants, describe the children Jesus blessed as being baptized, or teach that guilt is passed from parent to child.</p>
+      <p>The New Testament also tells us what baptism is <em>for</em>, and the purpose is not compatible with an unconscious subject. Baptism is &ldquo;for the forgiveness of your sins&rdquo; (Acts 2:38, NASB) &mdash; it presupposes sin committed and forgiveness sought. It is &ldquo;buried with Him through baptism into death, so that as Christ was raised from the dead through the glory of the Father, so we too might walk in newness of life&rdquo; (Rom. 6:4, NASB) &mdash; it presupposes a death to sin to be buried. Peter writes that &ldquo;baptism now saves you &mdash; not the removal of dirt from the flesh, but an appeal to God for a good conscience &mdash; through the resurrection of Jesus Christ&rdquo; (1 Pet. 3:21, NASB). An appeal to God for a good conscience requires a conscience making the appeal.</p>
 
-        <p>Honest students have disagreed on secondary questions &mdash; how formally apostolic approval attaches to each recorded example, how to weigh silence on any topic, how later post-apostolic practice relates to the New Testament pattern. But on the question this page is asking &mdash; <em>Is infant baptism in the New Testament?</em> &mdash; the text itself is the answer. It is not there. The pattern Scripture gives is faith, then baptism; hearing, then baptism; repentance, then baptism.</p>
+      <p>There is another dimension to this. An infant has nothing to repent of. Scripture is explicit that sin is personal, not inherited: &ldquo;The person who sins will die. The son will not bear the punishment for the father's iniquity, nor will the father bear the punishment for the son's iniquity; the righteousness of the righteous will be upon himself, and the wickedness of the wicked will be upon himself&rdquo; (Ezek. 18:20, NASB). The Law said the same: &ldquo;'Fathers shall not be put to death for [their] sons, nor shall sons be put to death for [their] fathers; everyone shall be put to death for his own sin.&rdquo; (Deut. 24:16, NASB). A baptism &ldquo;for the forgiveness of your sins&rdquo; (Acts 2:38, NASB) has no object in someone who has committed no sin.</p>
 
-        <p>Examine this yourself. Read every baptism in Acts. Ask the Three Questions of each one. Believe the text.</p>
+      <p>Paul anchors entry into Christ in faith: &ldquo;For you are all sons of God through faith in Christ Jesus. For all of you who were baptized into Christ have clothed yourselves with Christ&rdquo; (Gal. 3:26&ndash;27, NASB). Faith is first; baptism is the act in which the believer is clothed with Christ.</p>
+
+      <p>The passages most often used to argue for infant baptism are the &ldquo;household&rdquo; accounts &mdash; Lydia (Acts 16:15), the Philippian jailer (Acts 16:33), Crispus (Acts 18:8), and Stephanas (1 Cor. 1:16). Quoted in full, these passages answer themselves. Of the jailer's household, Luke records: &ldquo;And they spoke the word of the Lord to him together with all who were in his house&hellip; and immediately he was baptized, he and all his [household]. And he brought them into his house and set food before them, and rejoiced greatly, having believed in God with his whole household.&rdquo; (Acts 16:32&ndash;34, NASB). The word was preached to all who were in the house, and the whole household believed. Of Crispus: &ldquo;Crispus, the leader of the synagogue, believed in the Lord with all his household&rdquo; (Acts 18:8, NASB). The household believed before being baptized. The text never records an infant present, and never records anyone baptized who had not heard and believed.</p>
+
+      <p>Jesus did interact with children &mdash; but not by baptizing them. He said, &ldquo;Let the children alone, and do not hinder them from coming to Me; for the kingdom of heaven belongs to such as these&rdquo; (Matt. 19:14, NASB). He did not say they needed cleansing. He said the kingdom belongs to them. If infant baptism were the apostolic pattern, this was the moment to establish it. Jesus blessed them instead.</p>
+
+      <!-- Closing paragraph of 02 — the necessary-inference argument and the
+           inherited-guilt cross-references (Ezek. 18:20; Deut. 24:16).
+           Source: prior page Conclusion, paragraph 1 (verbatim, relocated
+           here per author direction so the inference step lands inside
+           "the pattern Scripture gives" rather than the verdict section). -->
+      <p>The text establishes this explicitly: every baptism it records is of a hearer who believed, repented, confessed, or called on the name of the Lord. No exception. The text establishes by necessary inference that baptism is for a capable subject &mdash; because its stated purposes (forgiveness of sins, burial with Christ, appeal to God for a good conscience, clothing oneself with Christ through faith) all require a capable subject. And Scripture is explicit that sin is personal, not inherited (Ezek. 18:20; Deut. 24:16) &mdash; which means an infant has nothing a baptism of repentance could address.</p>
+    </section>
+
+    <!-- 03 — What the text does NOT do.
+         The four bullets are taken verbatim from the prior page's Conclusion
+         paragraph 2; the brief calls for them as an em-dash list. -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">03</span>
+        <h2 class="sec-label">What the text does <em style="color: var(--lamplight); font-style: italic;">not</em> do</h2>
       </div>
 
-      <!-- 7. Examine this yourself -->
-      <h2>Examine this yourself</h2>
-      <div class="examine-cta">
-        <p>Don't take anyone's word for it &mdash; not ours, not a preacher's, not an AI's. Open the Scriptures yourself, and test every claim.</p>
-        <ul>
-          <li><a href="../Noble_Mind_Study_Tool_v2.html?claim=Infant%20baptism%20is%20a%20New%20Testament%20practice.">📋 Audit this claim in the study tool</a> &mdash; opens the study tool with the Berean Claim Audit prompt preloaded, ready to copy into any AI chat.</li>
-          <li><a href="../principles.html">📖 Read the Noble Mind principles</a> &mdash; the method behind every study on this site.</li>
-          <li><a href="../Noble_Mind_Study_Tool_v2.html?passage=Acts%202%3A38">✝️ Open Acts 2:38 in the study tool</a> &mdash; a concrete starting point.</li>
-        </ul>
+      <ul class="list-plain">
+        <li class="li">Record a single infant baptism.</li>
+        <li class="li">Command the baptism of infants.</li>
+        <li class="li">Describe the children Jesus blessed as being baptized.</li>
+        <li class="li">Teach that guilt is passed from parent to child.</li>
+      </ul>
+    </section>
+
+    <!-- 04 — Answer.
+         The verdict block is the prior page's lead-answer (verbatim), now placed
+         where the brief specifies the verdict belongs. The two paragraphs that
+         follow are from the prior Conclusion (paras 3 and 4) — the
+         honest-disagreement caveat and the closing call to examine. -->
+    <section>
+      <div class="sec-row">
+        <span class="sec-num">04</span>
+        <h2 class="sec-label">Answer</h2>
       </div>
 
-      <!-- 8. Related studies -->
-      <h2>Related studies</h2>
-      <div class="related-studies">
-        <ul>
-          <li><a href="baptism-sprinkling-pouring-or-immersion.html">What does the Bible say about baptism &mdash; sprinkling, pouring, or immersion?</a></li>
-          <li><a href="inherited-guilt-and-original-sin.html">Does the Bible teach inherited guilt (so-called &ldquo;original sin&rdquo;)?</a></li>
-          <li><a href="is-the-sinners-prayer-in-the-bible.html">Is the &ldquo;sinner's prayer&rdquo; in the Bible?</a></li>
-        </ul>
+      <div class="answer-block">
+        <p class="cd" style="font-size: 17.5px; color: var(--parchment); line-height: 1.65; margin: 0;"><span class="answer-verdict">No.</span> Every baptism in the New Testament follows belief, repentance, or confession. Infants cannot do those &mdash; and have nothing to repent of.</p>
       </div>
 
-      <footer>
-        <p class="scripture">&ldquo;Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so.&rdquo; <span class="scripture-ref">&mdash; Acts 17:11, NASB</span></p>
-        <p class="contact"><a href="https://noblemind.study">noblemind.study</a> &middot; <a href="https://x.com/Bridge_Moments" target="_blank" rel="noopener">@Bridge_Moments</a> &middot; paul@noblemind.study</p>
-        <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
-      </footer>
+      <p style="margin-top: 1.5rem;">Honest students have disagreed on secondary questions &mdash; how formally apostolic approval attaches to each recorded example, how to weigh silence on any topic, how later post-apostolic practice relates to the New Testament pattern. But on the question this page is asking &mdash; <em>Is infant baptism in the New Testament?</em> &mdash; the text itself is the answer. It is not there. The pattern Scripture gives is faith, then baptism; hearing, then baptism; repentance, then baptism.</p>
+
+      <p>Examine this yourself. Read every baptism in Acts. Ask the Three Questions of each one. Believe the text.</p>
+    </section>
+
+    <!-- Tail blocks: Examine yourself + Related studies.
+         No section number — they are not part of the 01–04 spine. Restyled
+         as plain em-dash lists; the previous "examine-cta" panel chrome and
+         emoji prefixes are removed per the brief. -->
+    <h2 class="tail-heading">Examine this yourself</h2>
+    <p>Don't take anyone's word for it &mdash; not ours, not a preacher's, not an AI's. Open the Scriptures yourself, and test every claim.</p>
+    <ul class="list-plain">
+      <li class="li"><a href="../Noble_Mind_Study_Tool_v2.html?claim=Infant%20baptism%20is%20a%20New%20Testament%20practice.">Audit this claim in the study tool</a> &mdash; opens the study tool with the Berean Claim Audit prompt preloaded, ready to copy into any AI chat.</li>
+      <li class="li"><a href="../principles.html">Read the Noble Mind principles</a> &mdash; the method behind every study on this site.</li>
+      <li class="li"><a href="../Noble_Mind_Study_Tool_v2.html?passage=Acts%202%3A38">Open Acts 2:38 in the study tool</a> &mdash; a concrete starting point.</li>
+    </ul>
+
+    <h2 class="tail-heading">Related studies</h2>
+    <ul class="list-plain">
+      <li class="li"><a href="baptism-sprinkling-pouring-or-immersion.html">What does the Bible say about baptism &mdash; sprinkling, pouring, or immersion?</a></li>
+      <li class="li"><a href="inherited-guilt-and-original-sin.html">Does the Bible teach inherited guilt (so-called &ldquo;original sin&rdquo;)?</a></li>
+      <li class="li"><a href="is-the-sinners-prayer-in-the-bible.html">Is the &ldquo;sinner's prayer&rdquo; in the Bible?</a></li>
+    </ul>
+
+    <hr class="hr-gold tail">
+
+  </article>
+
+  <footer>
+    <div class="scrip">
+      <p class="scrip-text">examining the Scriptures daily to see whether these things were so.</p>
+      <span class="scrip-cite">Acts 17:11 &middot; NASB</span>
     </div>
-    <div class="glass-tab"></div>
-  </div>
+    <p class="contact"><a href="https://noblemind.study">noblemind.study</a> &middot; paul@noblemind.study</p>
+    <p class="copyright">&copy; 2026 Paul Hainline</p>
+  </footer>
 
   <script src="/nm-core.js" defer></script>
 </body>
