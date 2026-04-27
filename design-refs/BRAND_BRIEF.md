@@ -88,6 +88,16 @@ Reduce glow effects to near-zero. One thin gold hairline is enough; the dark its
 
 Acts 17:11 — the noble-minded Bereans examined the Scriptures daily to see whether these things were so. That's the whole brand. Every study page closes with this verse, in small-caps gold.
 
+## Scripture accuracy
+
+Every Scripture quotation on any NobleMind surface — site, book, mockup, social post — must be cross-checked against the actual NASB text before publishing.
+
+- **Verbatim or paraphrase, never both.** A line is either an exact NASB quote with its citation, or clearly framed as paraphrase / editorial language. There is no middle ground. *"Examine the Scriptures daily to see whether these things are so."* with `Acts 17:11 · NASB` underneath is a violation: the verse uses *examining*, not *Examine*, and *were*, not *are*.
+- **The citation format is reserved for verbatim.** The mono small-caps gold citation (`Acts 17:11 · NASB`) marks a direct NASB quote. Paraphrase or commentary takes no citation, or labels itself as paraphrase.
+- **Partial quotes are fine** as long as the words quoted are exact NASB text. *"…examining the Scriptures daily to see whether these things were so."* with `Acts 17:11 · NASB` is correct; the words are NASB.
+
+Paraphrase is not Scripture.
+
 ## Scope
 
 - **Editorial pages** (`index.html`, `principles.html`, `books.html`, `user-guide.html`, `test-this-claim/*.html`) are reading surfaces. They follow this brief in full — Cardo serif, 540px reading column, lamplight-gold accents, Berean green reserved for section markers.
