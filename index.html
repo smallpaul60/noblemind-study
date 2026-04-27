@@ -3,699 +3,580 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Noble Mind Study — Study the Bible like it means what it says.</title>
+  <title>Noble Mind Study — Test it against the text.</title>
   <meta name="description" content="Honest Bible study. Scripture interprets Scripture. Test any claim against the text — using the Noble Mind method and a free study tool.">
   <link rel="canonical" href="https://noblemind.study/">
 
   <!-- OpenGraph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Noble Mind Study">
-  <meta property="og:title" content="Noble Mind Study — Study the Bible like it means what it says.">
+  <meta property="og:title" content="Noble Mind Study — Test it against the text.">
   <meta property="og:description" content="Honest Bible study. Scripture interprets Scripture. Test any claim against the text — using the Noble Mind method and a free study tool.">
   <meta property="og:url" content="https://noblemind.study/">
   <meta property="og:image" content="https://noblemind.study/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Noble Mind Study — Study the Bible like it means what it says.">
+  <meta property="og:image:alt" content="Noble Mind Study — Test it against the text.">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Noble Mind Study — Study the Bible like it means what it says.">
+  <meta name="twitter:title" content="Noble Mind Study — Test it against the text.">
   <meta name="twitter:description" content="Honest Bible study. Scripture interprets Scripture. Test any claim against the text.">
   <meta name="twitter:image" content="https://noblemind.study/og-default.png">
 
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d0d0d">
+  <meta name="theme-color" content="#0A0E14">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Noble Mind">
   <link rel="icon" href="favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
+
+  <link rel="stylesheet" href="/assets/nm-brand.css">
+
   <style>
-    :root {
-      /* Core Colors */
-      --bg-dark: #0d0d0d;
-      --bg-panel: #1a1a1a;
-      --bg-glass: rgba(13, 13, 13, 0.6);
-      --bg-card: rgba(10, 17, 40, 0.96);
-      --text-primary: #f5f5f5;
-      --text-secondary: #a0a0a0;
-      --text-muted: #888;
-      --border-color: #2a2a2a;
-      --border-glass: rgba(148, 163, 184, 0.45);
+    /* Page-specific layout — tokens come from /assets/nm-brand.css. */
 
-      /* Accents */
-      --accent: #06FFA5;
-      --accent-soft: rgba(6, 255, 165, 0.18);
-      --accent-glow: rgba(6, 255, 165, 0.5);
-      --accent-blue: #5ee5ff;
-      --accent-blue-glow: rgba(94, 229, 255, 0.5);
-
-      /* Effects */
-      --glass-blur: blur(12px);
-      --shadow-glow: 0 0 30px rgba(6, 255, 165, 0.4);
-      --radius-card: 22px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      line-height: 1.6;
+      margin: 0;
+      background: var(--ink);
+      color: var(--body);
+      font-family: var(--font-serif);
+      line-height: 1.75;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
     }
 
-    /* Background glow overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at top, rgba(6,255,165,0.12), transparent 50%),
-        radial-gradient(circle at bottom, rgba(94,229,255,0.1), transparent 50%);
-      pointer-events: none;
-    }
+    a { transition: opacity 0.2s; }
+    a:hover { opacity: 0.78; }
 
-    /* Main Glass Card Wrapper - wraps entire page */
-    .glass-page-wrapper {
-      position: relative;
-      z-index: 10;
-      border-radius: calc(var(--radius-card) + 4px);
-      padding: 3px;
-      background:
-        radial-gradient(circle at top left, rgba(6,255,165,0.7), transparent 50%),
-        radial-gradient(circle at top right, rgba(94,229,255,0.6), transparent 50%),
-        radial-gradient(circle at bottom, rgba(124,58,237,0.5), transparent 55%);
-      box-shadow:
-        0 0 50px rgba(94,229,255,0.3),
-        0 0 80px rgba(6,255,165,0.35);
-      max-width: 750px;
-      width: 100%;
+    /* HERO ---------------------------------------------------------- */
+
+    .hero {
+      max-width: var(--column-read);
       margin: 0 auto;
-    }
-
-    /* Inner page container */
-    .glass-page-inner {
-      background: linear-gradient(135deg, rgba(10,17,40,0.96), rgba(13,13,13,0.98));
-      border-radius: var(--radius-card);
-      padding: 3rem 2.5rem;
-      backdrop-filter: blur(22px);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.25);
-    }
-
-    /* Inner glow at top */
-    .glass-page-inner::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 150px;
-      background: radial-gradient(ellipse at top, rgba(6, 255, 165, 0.08), transparent 70%);
-      pointer-events: none;
-    }
-
-    /* Glass tab at bottom */
-    .glass-tab {
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 14px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(6,255,165,0.9), rgba(5,6,10,1));
-      box-shadow: 0 0 30px rgba(94,229,255,0.6);
-    }
-
-    header {
+      padding: 4rem 2rem 2.75rem;
       text-align: center;
-      margin-bottom: 32px;
-      position: relative;
-      z-index: 1;
     }
 
-    .logo {
-      width: 100px;
-      height: auto;
-      margin-bottom: 16px;
-      filter: drop-shadow(0 0 25px rgba(6,255,165,0.5));
+    .hero .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      margin: 0 auto 1.5rem;
+      display: block;
     }
 
     h1 {
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: var(--accent);
-      text-shadow: 0 0 25px var(--accent-glow);
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 48px;
+      color: var(--parchment);
+      letter-spacing: 0.003em;
+      line-height: 1.05;
+      margin: 0 0 0.4rem;
     }
 
-    .tagline {
-      color: var(--text-secondary);
-      font-size: 1.05rem;
-    }
-
-    /* Verse Section */
-    .verse-section {
-      background: rgba(6, 255, 165, 0.05);
-      border: 1px solid rgba(6, 255, 165, 0.2);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .verse-text {
+    .hero .tagline {
+      font-family: var(--font-serif);
+      font-size: 19px;
       font-style: italic;
-      font-size: 1.05rem;
+      color: var(--vellum);
+      letter-spacing: 0.005em;
+      margin: 0 0 2rem;
+    }
+
+    .hr-gold {
+      width: 44px;
+      height: 1px;
+      background: var(--lamplight);
+      border: 0;
+      opacity: 0.65;
+      margin: 0 auto 2rem;
+    }
+
+    .anchor-quote {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--parchment);
       line-height: 1.7;
-      margin-bottom: 10px;
-      color: var(--text-primary);
+      max-width: 470px;
+      margin: 0 auto 1.1rem;
+      padding: 0;
     }
 
-    .verse-ref {
-      color: var(--accent);
-      font-weight: 500;
-      text-shadow: 0 0 10px var(--accent-glow);
+    .anchor-cite {
+      font-size: 11px;
+      color: var(--lamplight);
+      margin: 0 0 2.5rem;
     }
 
-    /* About Section */
-    .about {
-      color: var(--text-secondary);
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .about p {
-      margin-bottom: 14px;
-    }
-
-    /* Links Section */
-    .links {
+    .hero-buttons {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .link-card {
-      display: block;
-      background: rgba(13, 13, 13, 0.5);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 18px 22px;
-      text-decoration: none;
-      color: var(--text-primary);
-      transition: all 0.25s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .link-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background: radial-gradient(ellipse at top, rgba(6,255,165,0.1), transparent 70%);
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-
-    .link-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-4px);
-      box-shadow: 0 0 35px var(--accent-glow);
-    }
-
-    .link-card:hover::before {
-      opacity: 1;
-    }
-
-    .link-card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 5px;
-      color: var(--accent);
-      position: relative;
-      z-index: 1;
-    }
-
-    .link-card p {
-      color: var(--text-secondary);
-      font-size: 0.9rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Buttons */
-    .button-row {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
+      justify-content: center;
       flex-wrap: wrap;
     }
 
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 600;
-      transition: all 0.25s ease;
-      border: none;
-      cursor: pointer;
+    /* METHOD ROW ---------------------------------------------------- */
+
+    .method-row {
+      max-width: var(--column-read);
+      margin: 0 auto;
+      padding: 1.75rem 2rem 2rem;
+      border-top: 1px solid var(--rule-faint);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #22c55e);
-      color: #020617;
-      box-shadow: 0 0 25px rgba(6,255,165,0.35);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 40px rgba(6,255,165,0.55);
-    }
-
-    .btn-install {
-      background: linear-gradient(135deg, var(--accent-blue), #3b82f6);
-      color: #020617;
-      box-shadow: 0 0 25px rgba(94,229,255,0.35);
-    }
-
-    .btn-install:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 40px rgba(94,229,255,0.55);
-    }
-
-    .btn svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    #installBtn {
-      display: inline-flex;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 36px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      position: relative;
-      z-index: 1;
-      padding-top: 20px;
-      border-top: 1px solid rgba(148,163,184,0.15);
-    }
-
-    footer .verse {
-      margin-bottom: 12px;
-      font-style: italic;
-    }
-
-    footer .copyright {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    /* Method Demo — the landing-page showcase of the method applied to a real question */
-    .method-demo {
-      background: rgba(6, 255, 165, 0.04);
-      border: 1px solid rgba(6, 255, 165, 0.25);
-      border-radius: 16px;
-      padding: 24px 24px 20px;
-      margin: 28px 0 18px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .demo-eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.14em;
+    .method-step .num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin: 0 0 8px;
+      color: var(--berean);
+      margin-bottom: 6px;
+    }
+
+    .method-step .label {
+      font-family: var(--font-serif);
+      font-size: 14px;
+      color: var(--parchment);
+      line-height: 1.35;
+    }
+
+    /* ARTICLE — below-the-fold sections ----------------------------- */
+
+    .article {
+      max-width: var(--column-read);
+      margin: 0 auto;
+      padding: 2rem 2rem 0;
+    }
+
+    .article a { color: var(--lamplight); }
+
+    .article p {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--body);
+      line-height: 1.75;
+      margin: 0 0 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 19px;
       font-weight: 700;
+      color: var(--parchment);
+      margin: 3rem 0 1rem;
     }
 
-    .demo-question {
-      font-size: 1.2rem;
-      color: var(--text-primary);
-      margin: 0 0 20px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-color);
-      line-height: 1.4;
-    }
+    /* Demo — method applied to one question ------------------------- */
 
-    .demo-question em {
+    .demo .question {
       font-style: italic;
-      color: var(--text-primary);
+      color: var(--parchment);
+      font-size: 19px;
+      margin: 0 0 1.75rem;
     }
 
-    .demo-step {
-      margin-bottom: 18px;
-    }
-
-    .demo-step:last-of-type {
-      margin-bottom: 14px;
-    }
-
-    .demo-step h3 {
-      font-size: 0.9rem;
-      color: var(--accent);
-      text-shadow: 0 0 10px var(--accent-glow);
-      margin: 0 0 10px;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
-
-    .demo-step p {
-      color: var(--text-secondary);
-      margin: 0;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .demo-step .scripture {
-      font-style: italic;
-      color: var(--text-secondary);
-      margin: 8px 0;
-      padding: 10px 14px;
-      background: rgba(6, 255, 165, 0.05);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      font-size: 0.95rem;
-      line-height: 1.55;
-    }
-
-    .demo-step .scripture-ref {
-      color: var(--accent);
+    .demo .question strong {
       font-style: normal;
-      text-shadow: 0 0 8px var(--accent-glow);
-      display: block;
-      margin-top: 4px;
-      font-size: 0.82rem;
+      color: var(--lamplight);
+      font-weight: 700;
+      letter-spacing: 0.04em;
     }
 
-    .demo-answer p {
-      font-size: 1.02rem;
-      color: var(--text-primary);
-      padding: 14px 16px;
-      background: rgba(6, 255, 165, 0.08);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 10px 10px 0;
-      margin-top: 4px;
-      line-height: 1.55;
+    .demo .demo-step {
+      margin-bottom: 1.5rem;
     }
 
     .demo-full-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 6px;
-      color: var(--accent);
-      font-weight: 600;
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: var(--lamplight);
       text-decoration: none;
-      font-size: 0.95rem;
+      font-family: var(--font-serif);
+      font-size: 16px;
     }
 
-    .demo-full-link:hover {
-      text-shadow: 0 0 12px var(--accent-glow);
-      transform: translateX(3px);
-    }
+    /* Primary CTA — bring your own question ------------------------- */
 
-    /* Primary CTA — "Bring your own question" */
     .primary-cta {
       display: block;
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: 700;
+      margin: 2.5rem auto;
+      max-width: 440px;
       padding: 18px 28px;
-      margin: 24px 0 28px;
-      border-radius: 14px;
+      text-align: center;
+      background: var(--lamplight);
+      color: var(--ink);
       text-decoration: none;
-      background: linear-gradient(135deg, var(--accent), #22c55e);
-      color: #020617;
-      box-shadow: 0 0 30px rgba(6, 255, 165, 0.4);
-      transition: all 0.25s ease;
-      position: relative;
-      z-index: 1;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 3px;
+      transition: opacity 0.2s;
     }
 
-    .primary-cta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 45px rgba(6, 255, 165, 0.6);
-    }
-
-    .primary-cta-label {
-      display: block;
-    }
+    .primary-cta:hover { opacity: 0.88; }
 
     .primary-cta-sub {
       display: block;
-      font-size: 0.85rem;
-      font-weight: 500;
-      opacity: 0.78;
-      margin-top: 4px;
-      letter-spacing: normal;
+      font-size: 11px;
+      font-weight: 400;
+      opacity: 0.75;
+      margin-top: 6px;
+      letter-spacing: 0.04em;
+      text-transform: none;
     }
 
-    /* Studies library — lists all six test-this-claim pages */
-    .studies-list {
-      background: rgba(13, 13, 13, 0.5);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 22px 24px 20px;
-      margin: 28px 0 18px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .studies-eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin: 0 0 8px;
-      font-weight: 700;
-    }
+    /* Studies list — em-dash list of test-this-claim pages ---------- */
 
     .studies-intro {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin: 0 0 14px;
-      line-height: 1.55;
+      margin: 0 0 1rem;
     }
 
     .studies-list ul {
       list-style: none;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
     }
 
     .studies-list li {
-      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--body);
+      line-height: 1.7;
+      padding: 5px 0 5px 20px;
+      position: relative;
     }
 
-    .studies-list li a {
-      color: var(--text-primary);
+    .studies-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--lamplight);
+    }
+
+    .studies-list a {
+      color: var(--body);
       text-decoration: none;
-      display: block;
-      padding: 10px 14px;
-      border-radius: 8px;
-      background: rgba(6, 255, 165, 0.04);
-      border: 1px solid transparent;
-      transition: all 0.2s ease;
-      line-height: 1.45;
-      font-size: 0.97rem;
     }
 
-    .studies-list li a:hover {
-      background: rgba(6, 255, 165, 0.08);
-      border-color: rgba(6, 255, 165, 0.3);
-      color: var(--accent);
-      padding-left: 18px;
+    .studies-list a:hover {
+      color: var(--lamplight);
+      opacity: 1;
     }
 
-    /* Below-the-fold: short feature line + trimmed link grid */
+    /* Features line ------------------------------------------------- */
+
     .features-line {
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin: 18px 0 16px;
-      position: relative;
-      z-index: 1;
+      color: var(--vellum);
+      font-style: italic;
+      font-size: 16px;
+      margin: 2.75rem 0 1.5rem;
     }
+
+    /* Bottom link grid ---------------------------------------------- */
 
     .link-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      position: relative;
-      z-index: 1;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
     }
+
+    .link-grid a {
+      display: block;
+      padding: 1.25rem;
+      border: 1px solid var(--rule-faint);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: border-color 0.2s, opacity 0.2s;
+    }
+
+    .link-grid a:hover {
+      border-color: var(--rule-gold);
+      opacity: 1;
+    }
+
+    .link-grid h2 {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--parchment);
+      margin: 0 0 0.5rem;
+    }
+
+    .link-grid p {
+      font-family: var(--font-serif);
+      font-size: 14.5px;
+      color: var(--vellum);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    /* Install button ----------------------------------------------- */
 
     .install-row {
       text-align: center;
-      margin: 22px 0 8px;
-      position: relative;
-      z-index: 1;
+      margin: 2rem 0 1rem;
+    }
+
+    .install-row button {
+      background: transparent;
+      color: var(--parchment);
+      border: 1px solid var(--rule-faint);
+      padding: 11px 22px;
+      border-radius: 3px;
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .install-row button:hover {
+      border-color: var(--rule-gold);
+    }
+
+    .install-row svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
     }
 
     .api-credit {
       text-align: center;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      margin: 10px 0 0;
-      position: relative;
-      z-index: 1;
+      color: var(--vellum);
+      font-size: 13px;
+      font-style: italic;
+      margin: 1.5rem 0 0;
     }
 
-    .api-credit a {
-      color: var(--accent);
+    .api-credit a { color: var(--vellum); }
+
+    /* Footer ------------------------------------------------------- */
+
+    footer {
+      max-width: var(--column-read);
+      margin: 3rem auto 0;
+      padding: 2rem 2rem 3rem;
+      text-align: center;
+      border-top: 1px solid var(--rule-faint);
     }
 
-    /* Responsive */
+    footer .verse {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--vellum);
+      line-height: 1.6;
+      margin: 0 0 4px;
+    }
+
+    footer .verse-ref {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--berean);
+      margin: 0 0 1.5rem;
+    }
+
+    footer .copyright {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--vellum);
+      opacity: 0.7;
+      margin: 0;
+    }
+
     @media (max-width: 600px) {
-      body { padding: 20px 12px; }
-      h1 { font-size: 1.7rem; }
-      .glass-page-inner { padding: 2rem 1.5rem; }
-      .button-row { flex-direction: column; }
-      .btn { justify-content: center; }
-      .glass-page-wrapper { border-radius: 18px; }
-      .glass-page-inner { border-radius: 16px; }
-      .method-demo { padding: 20px 18px 16px; }
-      .demo-question { font-size: 1.05rem; }
-      .primary-cta { font-size: 1rem; padding: 16px 20px; }
+      .hero { padding: 3rem 1.25rem 2rem; }
+      h1 { font-size: 38px; }
+      .method-row { grid-template-columns: repeat(2, 1fr); padding: 1.5rem 1.25rem; }
+      .article { padding: 1.5rem 1.25rem 0; }
+      .link-grid { grid-template-columns: 1fr; }
+      footer { padding: 1.5rem 1.25rem 2rem; margin-top: 2rem; }
     }
   </style>
 </head>
 <body>
-  <div class="glass-page-wrapper">
-    <div class="glass-page-inner">
-      <header>
-        <img src="icon-192.png" alt="Noble Mind Study Logo" class="logo">
-        <h1>Noble Mind Study</h1>
-        <p class="tagline">Study the Bible like it means what it says.</p>
-      </header>
 
-      <div class="verse-section">
-        <p class="verse-text">"Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so."</p>
-        <p class="verse-ref">Acts 17:11 (NASB)</p>
-      </div>
+  <!-- HERO -->
+  <section class="hero">
+    <img src="icon-192.png" alt="Noble Mind Study" class="logo">
+    <h1>Noble Mind Study</h1>
+    <p class="tagline">Test it against the text.</p>
 
-      <!-- Method Demo — compresses the approved infant-baptism study onto the landing page. All Scripture quotes and doctrinal prose are lifted verbatim from /test-this-claim/infant-baptism-in-the-new-testament.html after NASB verification. -->
-      <section class="method-demo">
-        <h2 class="demo-eyebrow">The method, in one example</h2>
-        <p class="demo-question"><strong>Q:</strong> <em>Is infant baptism in the New Testament?</em></p>
+    <hr class="hr-gold">
 
-        <div class="demo-step">
-          <h3>1. What the text actually says</h3>
-          <p class="scripture">"Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit" <span class="scripture-ref">&mdash; Matt. 28:19, NASB</span></p>
-          <p class="scripture">"Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins" <span class="scripture-ref">&mdash; Acts 2:38, NASB</span></p>
-          <p class="scripture">"when they believed Philip preaching the good news about the kingdom of God and the name of Jesus Christ, they were being baptized, men and women alike" <span class="scripture-ref">&mdash; Acts 8:12, NASB</span></p>
-        </div>
+    <blockquote class="anchor-quote">&ldquo;Now these were more noble-minded than those in Thessalonica, for they received the word with great eagerness, examining the Scriptures daily to see whether these things were so.&rdquo;</blockquote>
+    <p class="mn anchor-cite">Acts 17:11 &middot; NASB</p>
 
-        <div class="demo-step">
-          <h3>2. The pattern Scripture gives</h3>
-          <p>Faith, then baptism. Hearing, then baptism. Repentance, then baptism.</p>
-        </div>
-
-        <div class="demo-step">
-          <h3>3. What the text does not do</h3>
-          <p>Record a single infant baptism. Command the baptism of infants. Describe the children Jesus blessed as being baptized. Teach that guilt is passed from parent to child.</p>
-        </div>
-
-        <div class="demo-step demo-answer">
-          <h3>4. Answer</h3>
-          <p>No. Every baptism in the New Testament follows belief, repentance, or confession. Infants cannot do those &mdash; and have nothing to repent of.</p>
-        </div>
-
-        <a href="test-this-claim/infant-baptism-in-the-new-testament.html" class="demo-full-link">See the full study &rarr;</a>
-      </section>
-
-      <a href="Noble_Mind_Study_Tool_v2.html" class="primary-cta">
-        <span class="primary-cta-label">Bring your own question &rarr;</span>
-        <span class="primary-cta-sub">Opens the Noble Mind Study Tool &mdash; a free in-browser study workspace</span>
-      </a>
-
-      <section class="studies-list">
-        <h2 class="studies-eyebrow">Test a claim</h2>
-        <p class="studies-intro">Each page applies the method to a question a young seeker actually asks, grounded in direct NASB citations.</p>
-        <ul>
-          <li><a href="test-this-claim/infant-baptism-in-the-new-testament.html">Is infant baptism in the New Testament?</a></li>
-          <li><a href="test-this-claim/baptism-sprinkling-pouring-or-immersion.html">What does the Bible say about baptism &mdash; sprinkling, pouring, or immersion?</a></li>
-          <li><a href="test-this-claim/is-the-sinners-prayer-in-the-bible.html">Is the &ldquo;sinner's prayer&rdquo; in the Bible?</a></li>
-          <li><a href="test-this-claim/inherited-guilt-and-original-sin.html">Does the Bible teach inherited guilt (so-called &ldquo;original sin&rdquo;)?</a></li>
-          <li><a href="test-this-claim/what-does-saint-mean-in-the-new-testament.html">What does &ldquo;saint&rdquo; mean in the New Testament?</a></li>
-          <li><a href="test-this-claim/does-the-new-testament-authorize-instrumental-music.html">Does the New Testament authorize instrumental music in worship?</a></li>
-        </ul>
-      </section>
-
-      <p class="features-line">Runs in your browser. No account required. Free.</p>
-
-      <div class="link-grid">
-        <a href="principles.html" class="link-card">
-          <h2>Principles</h2>
-          <p>How to Read the Bible Like It Means What It Says &mdash; the method behind every study.</p>
-        </a>
-
-        <a href="user-guide.html" class="link-card">
-          <h2>User Guide</h2>
-          <p>Full documentation for the study tool, including the Berean Prompt buttons.</p>
-        </a>
-
-        <a href="books.html" class="link-card">
-          <h2>Books</h2>
-          <p>Scripture study books from NobleMind Press &mdash; read online, download, or order in print.</p>
-        </a>
-      </div>
-
-      <div class="install-row">
-        <button id="installBtn" class="btn btn-install">
-          <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-          <span id="installBtnText">Install as app</span>
-        </button>
-        <div id="installStatus" style="display:none; margin-top:8px; padding:8px 12px; border-radius:8px; font-size:0.9rem;"></div>
-      </div>
-
-      <p class="api-credit">Scripture lookups powered by <a href="https://bolls.life" target="_blank" rel="noopener">Bolls.Life API</a>.</p>
-
-      <footer>
-        <p class="verse">"Your word is a lamp to my feet and a light to my path." — Psalm 119:105</p>
-        <p class="copyright">© 2026 Paul Hainline. All rights reserved.</p>
-      </footer>
+    <div class="hero-buttons">
+      <a class="btn btn-primary" href="#studies">Begin a study</a>
+      <a class="btn btn-ghost" href="principles.html">See the method</a>
     </div>
-    <div class="glass-tab"></div>
-  </div>
+  </section>
+
+  <!-- METHOD ROW — preview of the 01–04 spine.
+       Every study on this site follows the same shape; this row sets that
+       expectation up front. Labels match BRAND_BRIEF.md § Method. -->
+  <section class="method-row">
+    <div class="method-step">
+      <div class="num">01</div>
+      <div class="label">What the text actually says</div>
+    </div>
+    <div class="method-step">
+      <div class="num">02</div>
+      <div class="label">The pattern Scripture gives</div>
+    </div>
+    <div class="method-step">
+      <div class="num">03</div>
+      <div class="label">What the text does <em style="color: var(--lamplight); font-style: italic;">not</em> do</div>
+    </div>
+    <div class="method-step">
+      <div class="num">04</div>
+      <div class="label">Answer, in plain words</div>
+    </div>
+  </section>
+
+  <article class="article">
+
+    <!-- Method demo — compresses the approved infant-baptism study onto the
+         landing page. All Scripture quotes and doctrinal prose are lifted
+         verbatim from /test-this-claim/infant-baptism-in-the-new-testament.html
+         after NASB verification. The 01–04 spine here mirrors the full study. -->
+    <h2 class="section-title">The method, in one example</h2>
+    <div class="demo">
+
+      <p class="question"><strong>Q:</strong> Is infant baptism in the New Testament?</p>
+
+      <div class="demo-step">
+        <div class="sec-row">
+          <span class="sec-num">01</span>
+          <h3 class="sec-label">What the text actually says</h3>
+        </div>
+        <div class="scrip">
+          <p class="scrip-text">&ldquo;Go therefore and make disciples of all the nations, baptizing them in the name of the Father and the Son and the Holy Spirit&rdquo;</p>
+          <span class="scrip-cite">Matt. 28:19 &middot; NASB</span>
+        </div>
+        <div class="scrip">
+          <p class="scrip-text">&ldquo;Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins&rdquo;</p>
+          <span class="scrip-cite">Acts 2:38 &middot; NASB</span>
+        </div>
+        <div class="scrip">
+          <p class="scrip-text">&ldquo;when they believed Philip preaching the good news about the kingdom of God and the name of Jesus Christ, they were being baptized, men and women alike&rdquo;</p>
+          <span class="scrip-cite">Acts 8:12 &middot; NASB</span>
+        </div>
+      </div>
+
+      <div class="demo-step">
+        <div class="sec-row">
+          <span class="sec-num">02</span>
+          <h3 class="sec-label">The pattern Scripture gives</h3>
+        </div>
+        <p>Faith, then baptism. Hearing, then baptism. Repentance, then baptism.</p>
+      </div>
+
+      <div class="demo-step">
+        <div class="sec-row">
+          <span class="sec-num">03</span>
+          <h3 class="sec-label">What the text does <em style="color: var(--lamplight); font-style: italic;">not</em> do</h3>
+        </div>
+        <ul class="list-plain">
+          <li class="li">Record a single infant baptism.</li>
+          <li class="li">Command the baptism of infants.</li>
+          <li class="li">Describe the children Jesus blessed as being baptized.</li>
+          <li class="li">Teach that guilt is passed from parent to child.</li>
+        </ul>
+      </div>
+
+      <div class="demo-step">
+        <div class="sec-row">
+          <span class="sec-num">04</span>
+          <h3 class="sec-label">Answer</h3>
+        </div>
+        <div class="answer-block">
+          <p class="cd" style="font-size: 19px; color: var(--parchment); line-height: 1.65; margin: 0;"><span style="color: var(--lamplight); font-weight: 700;">No.</span> Every baptism in the New Testament follows belief, repentance, or confession. Infants cannot do those &mdash; and have nothing to repent of.</p>
+        </div>
+      </div>
+
+      <p><a class="demo-full-link" href="test-this-claim/infant-baptism-in-the-new-testament.html">See the full study &rarr;</a></p>
+
+    </div>
+
+    <!-- Primary CTA — entry point into the interactive study tool -->
+    <a href="Noble_Mind_Study_Tool_v2.html" class="primary-cta">
+      Bring your own question &rarr;
+      <span class="primary-cta-sub">Opens the Noble Mind Study Tool — a free in-browser study workspace</span>
+    </a>
+
+    <!-- Studies list — six test-this-claim entries -->
+    <section class="studies-list">
+      <h2 id="studies" class="section-title">Test a claim</h2>
+      <p class="studies-intro">Each page applies the method to a question a young seeker actually asks, grounded in direct NASB citations.</p>
+      <ul>
+        <li><a href="test-this-claim/infant-baptism-in-the-new-testament.html">Is infant baptism in the New Testament?</a></li>
+        <li><a href="test-this-claim/baptism-sprinkling-pouring-or-immersion.html">What does the Bible say about baptism &mdash; sprinkling, pouring, or immersion?</a></li>
+        <li><a href="test-this-claim/is-the-sinners-prayer-in-the-bible.html">Is the &ldquo;sinner's prayer&rdquo; in the Bible?</a></li>
+        <li><a href="test-this-claim/inherited-guilt-and-original-sin.html">Does the Bible teach inherited guilt (so-called &ldquo;original sin&rdquo;)?</a></li>
+        <li><a href="test-this-claim/what-does-saint-mean-in-the-new-testament.html">What does &ldquo;saint&rdquo; mean in the New Testament?</a></li>
+        <li><a href="test-this-claim/does-the-new-testament-authorize-instrumental-music.html">Does the New Testament authorize instrumental music in worship?</a></li>
+      </ul>
+    </section>
+
+    <p class="features-line">Runs in your browser. No account required. Free.</p>
+
+    <!-- Bottom link grid: Principles / User Guide / Books -->
+    <div class="link-grid">
+      <a href="principles.html">
+        <h2>Principles</h2>
+        <p>How to Read the Bible Like It Means What It Says &mdash; the method behind every study.</p>
+      </a>
+      <a href="user-guide.html">
+        <h2>User Guide</h2>
+        <p>Full documentation for the study tool, including the Berean Prompt buttons.</p>
+      </a>
+      <a href="books.html">
+        <h2>Books</h2>
+        <p>Scripture study books from NobleMind Press &mdash; read online, download, or order in print.</p>
+      </a>
+    </div>
+
+    <!-- PWA install button -->
+    <div class="install-row">
+      <button id="installBtn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <span id="installBtnText">Install as app</span>
+      </button>
+      <div id="installStatus" style="display:none; margin-top:8px; padding:8px 12px; border-radius:3px; font-size:13px;"></div>
+    </div>
+
+    <p class="api-credit">Scripture lookups powered by <a href="https://bolls.life" target="_blank" rel="noopener">Bolls.Life API</a>.</p>
+
+  </article>
+
+  <footer>
+    <p class="verse">&ldquo;Your word is a lamp to my feet and a light to my path.&rdquo;</p>
+    <p class="verse-ref">Psalm 119:105 &middot; NASB</p>
+    <p class="copyright">&copy; 2026 Paul Hainline. All rights reserved.</p>
+  </footer>
 
   <script>
     // Register Service Worker for PWA
@@ -720,8 +601,9 @@
     function showStatus(message, isError) {
       installStatus.textContent = message;
       installStatus.style.display = 'block';
-      installStatus.style.background = isError ? 'rgba(220,50,50,0.2)' : 'rgba(6,255,165,0.2)';
-      installStatus.style.color = isError ? '#ff6b6b' : '#06FFA5';
+      installStatus.style.background = isError ? 'rgba(220,50,50,0.10)' : 'rgba(212,162,76,0.08)';
+      installStatus.style.color = isError ? '#ff6b6b' : 'var(--lamplight)';
+      installStatus.style.border = '1px solid ' + (isError ? 'rgba(220,50,50,0.3)' : 'rgba(212,162,76,0.45)');
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
