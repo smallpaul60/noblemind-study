@@ -51,6 +51,8 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='archive/' \
   --exclude='design-refs/' \
   --exclude='Works_In_Progress/' \
+  --exclude='*.wav' \
+  --exclude='Audio Files/' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""

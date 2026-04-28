@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v195';
+const CACHE_NAME = 'noblemind-study-v196';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -70,6 +70,7 @@ const CACHE_FILES = [
   '/ThroughTheValley/scripture-index.html',
   '/ThroughTheValley/Through_the_Valley.pdf',
   '/ThroughTheValley/Through_the_Valley.epub',
+  '/ThroughTheValley/audio.html',
   '/TheCharacterNoOneCouldInvent/index.html',
   '/TheCharacterNoOneCouldInvent/foreword.html',
   '/TheCharacterNoOneCouldInvent/chapter-01.html',
