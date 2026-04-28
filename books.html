@@ -102,16 +102,20 @@
     .welcome a { color: var(--lamplight); text-decoration: none; }
     .welcome a:hover { opacity: 0.78; }
 
-    /* --- Section jump nav --- */
-    .section-nav {
+    /* --- Category filters ---
+       Real filter behavior, not anchor jumps. Clicking a pill hides every
+       book-section except the one whose data-section matches data-filter.
+       "All" restores everything. The active pill gets a lamplight border
+       and parchment text; resting pills are vellum-on-faint-rule. */
+    .filter-bar {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
       justify-content: center;
       margin: 0 auto 2.25rem;
-      max-width: 720px;
+      max-width: 760px;
     }
-    .section-nav a {
+    .filter-btn {
       font-family: var(--font-mono);
       font-size: 10px;
       letter-spacing: 0.18em;
@@ -120,13 +124,18 @@
       border-radius: 3px;
       color: var(--vellum);
       background: transparent;
-      border: 1px solid var(--rule-faint);
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
+      border: 2px solid var(--rule-faint);
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
     }
-    .section-nav a:hover {
+    .filter-btn:hover {
       color: var(--parchment);
       border-color: var(--rule-gold);
+    }
+    .filter-btn.active {
+      color: var(--parchment);
+      border-color: var(--lamplight);
+      background: rgba(212, 162, 76, 0.08);
     }
 
     /* --- Section headers --- */
@@ -376,15 +385,18 @@
       <p><strong>Not sure where to start?</strong> If you&rsquo;re new to the Bible or exploring faith for the first time, begin with <a href="FromTheBeginning/index.html">From the Beginning</a>. If you&rsquo;re a believer looking for deeper study, <a href="CanTheseBonesLive/index.html">Can These Bones Live?</a> traces a single pattern through the whole Bible that you may have never seen before.</p>
     </section>
 
-    <nav class="section-nav">
-      <a href="#starting-point">Starting Point</a>
-      <a href="#young-adults">For Young Adults</a>
-      <a href="#hard-seasons">For Hard Seasons</a>
-      <a href="#bible-studies">Bible Studies</a>
-    </nav>
+    <div class="filter-bar" role="tablist" aria-label="Filter books by category">
+      <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
+      <button type="button" class="filter-btn" data-filter="starting-point" aria-pressed="false">Starting Point</button>
+      <button type="button" class="filter-btn" data-filter="young-adults" aria-pressed="false">Young Adults</button>
+      <button type="button" class="filter-btn" data-filter="hard-seasons" aria-pressed="false">Hard Seasons</button>
+      <button type="button" class="filter-btn" data-filter="bible-studies" aria-pressed="false">Bible Studies</button>
+      <button type="button" class="filter-btn" data-filter="apologetics" aria-pressed="false">Apologetics</button>
+    </div>
 
     <div class="books-list">
 
+      <section class="book-section" data-section="starting-point">
       <div class="section-header" id="starting-point">
         <h2>Starting Point</h2>
         <p>No background required &mdash; start here if the Bible is new to you</p>
@@ -443,6 +455,9 @@
         </div>
       </div>
 
+      </section><!-- /starting-point -->
+
+      <section class="book-section" data-section="young-adults">
       <div class="section-header" id="young-adults">
         <h2>For Young Adults</h2>
         <p>Scripture-rooted guides for stepping into adulthood with purpose</p>
@@ -494,6 +509,9 @@
         </div>
       </div>
 
+      </section><!-- /young-adults -->
+
+      <section class="book-section" data-section="hard-seasons">
       <div class="section-header" id="hard-seasons">
         <h2>For Hard Seasons</h2>
         <p>Written for people walking through real valleys right now</p>
@@ -592,6 +610,9 @@
         </div>
       </div>
 
+      </section><!-- /hard-seasons -->
+
+      <section class="book-section" data-section="bible-studies">
       <div class="section-header" id="bible-studies">
         <h2>Bible Studies</h2>
         <p>Topical studies that follow a single thread through the whole Bible</p>
@@ -633,28 +654,6 @@
           <div class="book-meta">
             <span>Paul Hainline</span>
             <span>12 Chapters</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="book-card">
-        <div class="book-cover">
-          <img src="TheCharacterNoOneCouldInvent/cover_thumb.jpg" alt="The Character No One Could Invent cover" loading="lazy">
-        </div>
-        <div class="book-info">
-          <h2>The Character No One Could Invent</h2>
-          <p class="book-subtitle">The Evidence of Jesus&rsquo; Deity in the Portrait Itself</p>
-          <p class="book-description long">A deep look at the character of Jesus Christ as portrayed in the Gospels &mdash; examining why the person described in Scripture could not have been fabricated by human imagination. The men who wrote about Jesus misunderstood Him, feared when He was calm, and fled when He stood firm. Yet somehow they produced a portrait no dramatist has ever matched.</p>
-          <div class="book-actions">
-            <a href="TheCharacterNoOneCouldInvent/index.html" class="btn btn-primary">Read Online</a>
-            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.pdf" target="_blank" class="btn btn-outline">PDF</a>
-            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.epub" download class="btn btn-outline">EPUB</a>
-          </div>
-          <div class="book-meta">
-            <span>Paul Hainline</span>
-            <span>13 Chapters</span>
-            <span class="format-tag">Paperback</span>
-            <span class="format-tag">Hardcover</span>
           </div>
         </div>
       </div>
@@ -755,6 +754,38 @@
         </div>
       </div>
 
+      </section><!-- /bible-studies -->
+
+      <section class="book-section" data-section="apologetics">
+      <div class="section-header" id="apologetics">
+        <h2>Apologetics</h2>
+        <p>The case for the Christian faith, made from Scripture and history</p>
+      </div>
+
+      <div class="book-card">
+        <div class="book-cover">
+          <img src="TheCharacterNoOneCouldInvent/cover_thumb.jpg" alt="The Character No One Could Invent cover" loading="lazy">
+        </div>
+        <div class="book-info">
+          <h2>The Character No One Could Invent</h2>
+          <p class="book-subtitle">The Evidence of Jesus&rsquo; Deity in the Portrait Itself</p>
+          <p class="book-description long">A deep look at the character of Jesus Christ as portrayed in the Gospels &mdash; examining why the person described in Scripture could not have been fabricated by human imagination. The men who wrote about Jesus misunderstood Him, feared when He was calm, and fled when He stood firm. Yet somehow they produced a portrait no dramatist has ever matched.</p>
+          <div class="book-actions">
+            <a href="TheCharacterNoOneCouldInvent/index.html" class="btn btn-primary">Read Online</a>
+            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="TheCharacterNoOneCouldInvent/The_Character_No_One_Could_Invent.epub" download class="btn btn-outline">EPUB</a>
+          </div>
+          <div class="book-meta">
+            <span>Paul Hainline</span>
+            <span>13 Chapters</span>
+            <span class="format-tag">Paperback</span>
+            <span class="format-tag">Hardcover</span>
+          </div>
+        </div>
+      </div>
+
+      </section><!-- /apologetics -->
+
     </div><!-- /.books-list -->
 
   </article>
@@ -791,6 +822,27 @@
         sessionStorage.setItem('ctm_attempts', String(attempts + 1));
       }
     }
+
+    // Category filters — show all sections, or only the one matching the
+    // active pill. State lives on the buttons themselves (no URL hash, no
+    // history); reload returns to "All".
+    (function () {
+      var btns = document.querySelectorAll('.filter-btn');
+      var sections = document.querySelectorAll('.book-section');
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var filter = btn.dataset.filter;
+          btns.forEach(function (b) {
+            var on = (b === btn);
+            b.classList.toggle('active', on);
+            b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          });
+          sections.forEach(function (s) {
+            s.style.display = (filter === 'all' || s.dataset.section === filter) ? '' : 'none';
+          });
+        });
+      });
+    })();
 
     // Read More / Read Less toggle for long descriptions
     document.querySelectorAll('.book-description.long').forEach(function(desc) {

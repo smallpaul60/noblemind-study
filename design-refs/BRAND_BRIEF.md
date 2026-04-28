@@ -31,7 +31,9 @@ Thinking believers, honest seekers, and anyone who has been told "the Bible says
 
 Mood: a quiet study at night. Lamp on the desk. Open Bible. Not a dashboard. Not a chapel. A workspace for careful reading.
 
-Reduce glow effects to near-zero. One thin gold hairline is enough; the dark itself does the work.
+Glow restraint: keep glow effects modest, not flashy. The neon-green ambient bloom of the prior look is gone. A soft lamplight halo at the page boundary is permitted and intentional — it reads as warm desk light, not as a UI effect.
+
+**Borders, not hairlines.** Visible chrome (panels, cards, page edges, buttons, dividers) must use a 2px minimum border. 1px sub-pixel hairlines read as broken/missing to readers with normal vision and are off-limits as a "tasteful refinement." This is an accessibility commitment, not a stylistic preference.
 
 ## Color Palette
 
@@ -97,6 +99,18 @@ Every Scripture quotation on any NobleMind surface — site, book, mockup, socia
 - **Partial quotes are fine** as long as the words quoted are exact NASB text. *"…examining the Scriptures daily to see whether these things were so."* with `Acts 17:11 · NASB` is correct; the words are NASB.
 
 Paraphrase is not Scripture.
+
+## Implementation notes
+
+These are durable rules that have already cost us once and must not be re-litigated each refactor.
+
+### Brand-button specificity
+
+Brand button classes in `assets/nm-brand.css` are written with **two-class specificity**: `.btn.btn-primary` (0,2,0) and `.btn.btn-ghost` (0,2,0), not `.btn-primary` (0,1,0) alone.
+
+This is required because page-level scopes routinely set `.article a { color: var(--lamplight); }` (0,1,1), which would otherwise win against a single-class button rule and produce the gold-on-gold "invisible button text" bug. The two-class form keeps button text on its intended ink/parchment color regardless of where the button is rendered.
+
+When adding a new brand button variant: write it as `.btn.btn-newvariant` in the brand stylesheet. Do not write it as `.btn-newvariant` even if testing in isolation suggests it's "fine."
 
 ## Scope
 
