@@ -64,7 +64,7 @@ Opens with the universal experience of the family's dreaded phone call — the h
 ### Chapter 2: The Progression
 *How the mind turns — one step at a time.*
 
-Traces the anatomy of temptation through James 1:14-15 with detailed Greek word study: *exelkomenos* (drawn out — a hunting term), *deleazomenos* (enticed — a fishing term), *syllabousa* (conceived — a biological term). Maps this progression onto the reality of addiction — the first choice, the craving disguised as a choice, the gestation period, the full maturity of sin, and the death it produces. Paralleled with the author's own progression from age 14 to 17. Introduces Romans 1:18-32 as the theological engine of addiction: the mind that turns from God creates a vacuum that must be filled.
+Traces the anatomy of temptation through James 1:14-15 with detailed Greek word study: *exelkomenos* (drawn out — a hunting term), *deleazomenos* (enticed — a fishing term), *syllabousa* (conceived — a biological term). Maps this progression onto the reality of addiction — the first choice, the craving disguised as a choice, the gestation period, the full maturity of sin, and the death it produces. Paralleled with the author's own progression from age 13 to 17. Introduces Romans 1:18-32 as the theological engine of addiction: the mind that turns from God creates a vacuum that must be filled.
 
 ### Chapter 3: Where Did We Go Wrong?
 *The question that keeps the family awake — and the answer no one wants to hear.*
@@ -110,7 +110,7 @@ The final chapter steps back from addiction to ask the foundational question: Wh
 
 ## About the Author
 
-Paul Hainline was introduced to drugs at age fourteen. By seventeen, the progression of addiction had led to robbery and murder, and he was sentenced to life in prison. He served thirty-three years before parole was granted. During those decades, after trying self-help, secular philosophy, and his own reasoning, he returned to the faith he had been raised in — not through a program or a dramatic conversion experience, but through the honest study of Scripture, guided by the teaching of Freddie Anderson, a preacher whose method was to open the Bible and let it answer.
+Paul Hainline was introduced to drugs at age thirteen. By seventeen, the progression of addiction had led to robbery and murder, and he was sentenced to life in prison. He served thirty-three years before parole was granted. During those decades, after trying self-help, secular philosophy, and his own reasoning, he returned to the faith he had been raised in — not through a program or a dramatic conversion experience, but through the honest study of Scripture, guided by the teaching of Freddie Anderson, a preacher whose method was to open the Bible and let it answer.
 
 Paul is the author of eight completed books published through NobleMind Press (noblemind.study), covering subjects from prayer (*A New and Living Way*) to evangelism (*Bridge Moments*) to the character of Christ (*The Character No One Could Invent*) to grief (*Through the Valley*) to guides for young men and women (*Your Name Means Everything: A Good Name* and *Strength and Dignity*, co-authored with his wife, Pam Hainline). He also created the Noble Mind Study Tool, a free, open-source Bible study application used by students of Scripture worldwide.
 

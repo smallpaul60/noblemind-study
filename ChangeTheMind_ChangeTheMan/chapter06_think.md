@@ -12,7 +12,7 @@ Every time. Not what he thought. Not what some scholar said. Not what a commenta
 
 That method did something to me that I did not fully understand until years later. It did not just teach me content — although it did. It did not just fill my head with Scripture — although it did that too. What Freddie's method taught me was how to *think*. How to let Scripture interpret Scripture. How to ask, "What does the text actually say?" before asking, "What does it mean?" How to recognize error when I heard it — not because I had memorized every false teaching, but because I knew the original well enough that the counterfeit could not pass.
 
-And Freddie taught me one more thing. He taught me the single most important truth in this book, the truth that everything else rests on, the truth that became the subtitle on the cover:
+And Freddie taught me one more thing. He taught me the single most important truth in this book, the truth that everything else rests on, the line from which this book takes its title:
 
 If you change a person's mind, you change everything about them. And if you don't change their mind, you don't change anything.
 
