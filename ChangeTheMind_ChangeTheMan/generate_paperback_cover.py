@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Generate Lulu-ready PAPERBACK cover PDF for Change the Mind, Change the Man.
 
-Template specs (from Lulu template for 5.5x8.5 paperback, 141 pages):
-  Total document size (with bleed): 11.628" x 8.75"
+Template specs (from Lulu template for 5.5x8.5 paperback, 144 pages on cream):
+  Total document size (with bleed): 11.632" x 8.75"
   Book trim size: 5.5" x 8.5"
-  Spine width: 0.378"
+  Spine width: 0.382"
   Bleed area: 0.125"
   Safety margin: 0.5"
 """
@@ -32,7 +32,7 @@ pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
 # --- Document dimensions ---
-DOC_W = 11.628 * inch
+DOC_W = 11.632 * inch
 DOC_H = 8.75 * inch
 
 # --- Colors ---
@@ -41,7 +41,7 @@ TEXT_WHITE = Color(1, 1, 1)
 
 # --- Layout ---
 BLEED = 0.125 * inch
-SPINE_W = 0.378 * inch
+SPINE_W = 0.382 * inch
 COVER_W = 5.5 * inch  # trim width of each cover panel
 SAFETY = 0.5 * inch
 
@@ -50,7 +50,7 @@ SAFETY = 0.5 * inch
 # But the bleeds overlap between panels, so:
 # back_cover_with_bleed = bleed + 5.5 + bleed/overlap = 5.625" (left edge to spine)
 # Actually: total = back_cover_w_bleed + spine + front_cover_w_bleed
-# back_cover_w_bleed = (DOC_W - SPINE_W) / 2 = (11.628 - 0.378) / 2 = 5.625"
+# back_cover_w_bleed = (DOC_W - SPINE_W) / 2 = (11.632 - 0.382) / 2 = 5.625"
 
 BACK_COVER_LEFT = 0
 BACK_COVER_RIGHT = (DOC_W - SPINE_W * inch / inch * inch) / 2  # Hmm, let me just calculate directly
@@ -164,7 +164,7 @@ def draw_front_cover_text(c):
 
 
 def draw_spine(c):
-    """Draw spine text. Spine is narrow (0.378") so use small font."""
+    """Draw spine text. Spine is narrow (0.382") so use small font."""
     c.saveState()
     c.translate(SPINE_CENTER_X, COVER_CENTER_Y)
     c.rotate(270)
@@ -217,9 +217,9 @@ def draw_back_cover(c):
 
 def main():
     print('Generating Lulu PAPERBACK cover PDF for "Change the Mind, Change the Man"...')
-    print(f'  Document size: 11.628" x 8.75"')
-    print(f'  Spine width: 0.378"')
-    print(f'  Page count: 141')
+    print(f'  Document size: 11.632" x 8.75"')
+    print(f'  Spine width: 0.382"')
+    print(f'  Page count: 144 (cream)')
 
     c = canvas.Canvas(str(OUTPUT), pagesize=(DOC_W, DOC_H))
 
