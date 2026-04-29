@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Generate Lulu-ready cover PDF for Change the Mind, Change the Man.
 
-Template specs (from Lulu template for 5.5x8.5 hardcover with flaps, 141 pages):
+Template specs (Lulu Hardcover Linen Wrap, 5.5x8.5, 144 pages on cream):
   Total document size (with bleed): 19.375" x 9.25"
   Book cover size (with bleed): 5.75" x 8.75"
   Book trim size: 5.5" x 8.5"
-  Spine width: 0.625" (page count: 141)
+  Spine width: 0.625" (boards dominate; same value held for 141->144 pages)
   Bleed area: 0.125" on cover panels
   Safety margin: 0.5"
-  Flap dimension: 3.25" x 8.5"
+  Flap dimension: 3.25" x 9.25"
   Flap live area: 2.25" x 7.75"
   Fold safety margin: 0.25"
 """
@@ -329,7 +329,7 @@ def main():
     print('Generating Lulu cover PDF for "Change the Mind, Change the Man"...')
     print(f'  Document size: 19.375" x 9.25"')
     print(f'  Spine width: 0.625"')
-    print(f'  Page count: 141')
+    print(f'  Page count: 144 (cream paper)')
 
     c = canvas.Canvas(str(OUTPUT), pagesize=(DOC_W, DOC_H))
 
