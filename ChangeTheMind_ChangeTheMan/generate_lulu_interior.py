@@ -518,9 +518,29 @@ body {
     margin-top: 0.15in;
 }
 
-/* === DEDICATION PAGE (verso after title, or recto) === */
-.dedication-page {
+/* === COPYRIGHT PAGE (verso, page 2, facing dedication recto) === */
+.copyright-page {
     page: front-verso;
+    page-break-after: always;
+    padding-top: 1.5in;
+    text-align: center;
+    font-size: 9pt;
+    line-height: 1.55;
+    color: #333;
+}
+.copyright-page p { margin-bottom: 3pt; }
+.copyright-page .book-title {
+    font-style: italic;
+    font-size: 10pt;
+    margin-bottom: 0.2in;
+    color: #1a1a1a;
+}
+.copyright-page .section-gap { margin-top: 0.18in; }
+.copyright-page .isbn { font-variant-numeric: tabular-nums; }
+
+/* === DEDICATION PAGE (recto, page 3, facing copyright verso) === */
+.dedication-page {
+    page: front-recto;
     page-break-after: always;
     padding-top: 1.5in;
     font-size: 10.5pt;
@@ -549,7 +569,7 @@ body {
 
 /* === DISCLAIMER PAGES === */
 .disclaimer-page {
-    page: front-recto;
+    page: front-verso;
     page-break-after: always;
     padding-top: 1.5in;
 }
@@ -576,7 +596,7 @@ body {
 }
 
 .legal-disclaimer {
-    page: front-verso;
+    page: front-recto;
 }
 
 /* === TABLE OF CONTENTS === */
@@ -863,19 +883,33 @@ def build_full_html(chapter_sections, toc_html, scripture_index_html, dedication
     <p class="inspired-by">Inspired by the teaching of Freddie Anderson</p>
   </div>
 
-  <!-- DEDICATION (page 2, verso) -->
+  <!-- COPYRIGHT PAGE (page 2, verso) -->
+  <div class="copyright-page">
+    <p class="book-title">Change the Mind, Change the Man</p>
+    <p>Copyright \u00a9 2026 Paul Hainline</p>
+    <p>All rights reserved.</p>
+    <p class="section-gap">No part of this book may be reproduced or transmitted in any form without written permission from the author, except for brief quotations in critical articles or reviews.</p>
+    <p class="section-gap">Scripture quotations are taken from the New American Standard Bible\u00ae (NASB), Copyright \u00a9 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation. Used by permission. All rights reserved. (www.lockman.org)</p>
+    <p class="section-gap isbn">ISBN (Paperback): 979-8-9954288-4-8</p>
+    <p class="isbn">ISBN (Hardcover): 979-8-9954288-5-5</p>
+    <p class="section-gap">NobleMind Press</p>
+    <p>noblemind.study</p>
+    <p class="section-gap">Printed in the United States of America</p>
+  </div>
+
+  <!-- DEDICATION (page 3, recto) -->
   <div class="dedication-page">
     <h2>Dedication</h2>
     {dedication_html}
   </div>
 
-  <!-- AUTHOR'S DISCLAIMER (page 3, recto) -->
+  <!-- AUTHOR'S DISCLAIMER (page 4, verso) -->
   <div class="disclaimer-page">
     <h2>Author\u2019s Disclaimer</h2>
     {authors_disclaimer_html}
   </div>
 
-  <!-- LEGAL DISCLAIMER (page 4, verso) -->
+  <!-- LEGAL DISCLAIMER (page 5, recto) -->
   <div class="disclaimer-page legal-disclaimer">
     <h2>Legal Disclaimer</h2>
     {legal_disclaimer_html}

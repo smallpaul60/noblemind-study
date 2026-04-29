@@ -13,6 +13,7 @@ Template specs (from Lulu template for 5.5x8.5 hardcover with flaps, 141 pages):
   Fold safety margin: 0.25"
 """
 
+import sys
 from pathlib import Path
 from reportlab.lib.pagesizes import inch
 from reportlab.lib.colors import Color, white
@@ -22,8 +23,12 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.utils import ImageReader
 
 BOOK_DIR = Path(__file__).parent
+sys.path.insert(0, str(BOOK_DIR.parent / "tools"))
+from isbn_barcode import draw_isbn_barcode  # noqa: E402
+
 OUTPUT = BOOK_DIR / "ChangeTheMind_ChangeTheMan_Cover.pdf"
 IMAGE_FILE = BOOK_DIR / "desert_valley_cover_1725x2775.png"
+ISBN_HARDCOVER = "979-8-9954288-5-5"
 
 # Register EB Garamond fonts
 FONT_DIR = Path.home() / ".local/share/fonts"
@@ -335,6 +340,17 @@ def main():
     draw_back_cover(c)
     draw_front_flap(c)
     draw_back_flap(c)
+
+    # ISBN barcode — bottom-right of back panel, on the spine side per Lulu
+    # convention. White panel acts as the EAN-13 quiet zone.
+    barcode_panel_w = 1.75 * inch
+    draw_isbn_barcode(
+        c,
+        ISBN_HARDCOVER,
+        x_left=BACK_TRIM_RIGHT - SAFETY - barcode_panel_w,
+        y_bottom=TRIM_BOTTOM + SAFETY,
+        panel_w=barcode_panel_w,
+    )
 
     c.save()
     print(f"\nCover saved to {OUTPUT}")

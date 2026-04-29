@@ -12,12 +12,19 @@ IngramSpark specs for 7" x 10" perfect bound paperback, B&W white paper:
   Total document: 14.39" x 10.25"
 """
 
+import sys
 from pathlib import Path
 from reportlab.lib.pagesizes import inch
 from reportlab.lib.colors import Color
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+
+GUIDE_DIR_FOR_TOOLS = Path(__file__).parent
+sys.path.insert(0, str(GUIDE_DIR_FOR_TOOLS.parent.parent / "tools"))
+from isbn_barcode import draw_isbn_barcode  # noqa: E402
+
+ISBN_STUDY_GUIDE = "979-8-9954288-6-2"
 
 GUIDE_DIR = Path(__file__).parent
 OUTPUT = GUIDE_DIR / "ChangeTheMind_StudyGuide_Cover.pdf"
@@ -222,10 +229,10 @@ def draw_back_cover(c):
     c.drawCentredString(cx, y, "And the text is already doing the work.")
     y -= line_h * 2.0
 
-    # NASB attribution — very small, bottom area
+    # NASB attribution — very small, raised above the ISBN barcode panel
     c.setFillColor(Color(0.5, 0.48, 0.43))
     c.setFont("EBGaramond-Italic", 7.5)
-    nasb_y = TRIM_BOTTOM + 0.7 * inch
+    nasb_y = TRIM_BOTTOM + 1.8 * inch
     c.drawCentredString(cx, nasb_y + line_h * 0.6,
                         "Scripture quotations from the New American Standard Bible\u00ae (NASB).")
     c.drawCentredString(cx, nasb_y,
@@ -250,6 +257,17 @@ def main():
     draw_front_cover(c)
     draw_back_cover(c)
     # Spine is too thin for text — just navy background
+
+    # ISBN barcode — bottom-right of back panel, on the spine side per Lulu
+    # convention. The white panel acts as the EAN-13 quiet zone over navy.
+    barcode_panel_w = 1.75 * inch
+    draw_isbn_barcode(
+        c,
+        ISBN_STUDY_GUIDE,
+        x_left=BACK_TRIM_RIGHT - SAFETY - barcode_panel_w,
+        y_bottom=TRIM_BOTTOM + SAFETY,
+        panel_w=barcode_panel_w,
+    )
 
     c.save()
     print(f'Cover saved to {OUTPUT}')
