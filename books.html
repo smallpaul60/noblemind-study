@@ -10,7 +10,7 @@
 
   Visual refresh only — no content changes. Book cards (titles, subtitles,
   descriptions, action buttons, format tags) all preserved verbatim. The
-  Read-more toggle JS and the ctmGated() download gate JS are unchanged.
+  Read-more toggle JS is unchanged.
 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -555,8 +555,8 @@
           <p class="book-description long">A straightforward examination of what God&rsquo;s Word says about addiction, recovery, and the turning of the mind &mdash; written for the one who is struggling and the family that carries the weight. This is not a clinical guide. It is a careful, honest walk through Scripture by a man who was introduced to drugs at thirteen, arrested at seventeen and sentenced to life in prison, and who has lived every chapter of it. Whether you are the addict, the parent, the spouse, or the friend &mdash; this book speaks to all of you at once. Because addiction is a shared story, and the road through it is walked together.</p>
           <div class="book-actions">
             <a href="ChangeTheMind_ChangeTheMan/index.html" class="btn btn-primary">Read Online</a>
-            <a href="#" onclick="ctmGated('ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.pdf'); return false;" class="btn btn-outline">PDF</a>
-            <a href="#" onclick="ctmGated('ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub'); return false;" class="btn btn-outline">EPUB</a>
+            <a href="ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.pdf" target="_blank" class="btn btn-outline">PDF</a>
+            <a href="ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub" download class="btn btn-outline">EPUB</a>
             <a href="https://www.lulu.com/shop/paul-hainline/change-the-mind-change-the-man/paperback/product-2mddz2j.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Paperback</a>
             <a href="https://www.lulu.com/shop/paul-hainline/change-the-mind-change-the-man/hardcover/product-nvrr292.html" target="_blank" rel="noopener" class="btn btn-lulu">Order Hardcover</a>
           </div>
@@ -806,29 +806,6 @@
   </div><!-- /.page-wrapper -->
 
   <script>
-    // Gated downloads for Change the Mind, Change the Man — same sessionStorage
-    // key as the online reader so one unlock covers the whole book. The PDF
-    // itself is also AES-256 encrypted with the same password as a backstop.
-    function ctmGated(url) {
-      if (sessionStorage.getItem('ctm_auth') === 'granted') {
-        window.open(url, '_blank', 'noopener');
-        return;
-      }
-      var attempts = parseInt(sessionStorage.getItem('ctm_attempts') || '0');
-      if (attempts >= 3) {
-        window.location.href = '/index.html';
-        return;
-      }
-      var p = prompt('This book is currently in review.\nPlease enter the access code:');
-      if (p && p.toLowerCase().trim() === 'freddie') {
-        sessionStorage.setItem('ctm_auth', 'granted');
-        sessionStorage.removeItem('ctm_attempts');
-        window.open(url, '_blank', 'noopener');
-      } else {
-        sessionStorage.setItem('ctm_attempts', String(attempts + 1));
-      }
-    }
-
     // Category filters — show all sections, or only the one matching the
     // active pill. State lives on the buttons themselves (no URL hash, no
     // history); reload returns to "All".

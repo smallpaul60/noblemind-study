@@ -32,7 +32,6 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='*.py' \
   --exclude='PRINCIPLES.md' \
   --exclude='console/' \
-  --exclude='ChangeTheMind_ChangeTheMan/Change_the_Mind_Change_the_Man.epub' \
   --exclude='CLAUDE.md' \
   --exclude='Bible_Study_Principles_Comprehensive_04-20-2026.md' \
   --exclude='NobleMind_Build_Plan_for_Claude_Code.md' \

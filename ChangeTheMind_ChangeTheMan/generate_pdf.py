@@ -4,16 +4,12 @@
 Distinct from the Lulu print interior. Reader-friendly single-sided layout
 with cover, title, copyright, TOC, and 10 chapters.
 
-The reader PDF is encrypted with the password 'freddie', matching the
-online reader gate. The password also guards the download button client-side.
-
 Output: Change_the_Mind_Change_the_Man.pdf  (5.5" x 8.5", EB Garamond)
 """
 
 import re
 from pathlib import Path
 import weasyprint
-from pypdf import PdfReader, PdfWriter
 
 # Reuse the chapter list + markdown parser from the existing Lulu script.
 # The parser understands this book's specific markdown conventions
@@ -28,8 +24,6 @@ COVER = BOOK_DIR / "cover_front_only.jpg"
 TITLE = "Change the Mind, Change the Man"
 SUBTITLE = "A Biblical Path from Addiction to Recovery"
 AUTHOR = "Paul Hainline"
-# Password that gates both the online reader and the PDF file itself.
-PDF_PASSWORD = "freddie"
 
 
 def build_chapter(filename, label, title, tagline):
@@ -248,15 +242,6 @@ def build_full_html(chapter_sections, toc_html):
 </html>"""
 
 
-def encrypt_pdf(path, password):
-    """Re-write the PDF encrypted with the given password (AES-256)."""
-    reader = PdfReader(str(path))
-    writer = PdfWriter(clone_from=reader)
-    writer.encrypt(user_password=password, owner_password=None, algorithm="AES-256")
-    with open(path, "wb") as f:
-        writer.write(f)
-
-
 def main():
     print("Building chapters...")
     sections = []
@@ -272,13 +257,8 @@ def main():
 
     print("Rendering PDF...")
     weasyprint.HTML(string=html, base_url=str(BOOK_DIR)).write_pdf(str(OUTPUT))
-    size_before = OUTPUT.stat().st_size
-    print(f"  wrote {size_before:,} bytes (unencrypted)")
-
-    print(f"Encrypting with password '{PDF_PASSWORD}'...")
-    encrypt_pdf(OUTPUT, PDF_PASSWORD)
-    size_after = OUTPUT.stat().st_size
-    print(f"Wrote {OUTPUT}  ({size_after:,} bytes, AES-256)")
+    size = OUTPUT.stat().st_size
+    print(f"Wrote {OUTPUT}  ({size:,} bytes)")
 
     debug.unlink(missing_ok=True)
 

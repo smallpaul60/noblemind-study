@@ -23,7 +23,7 @@ AUTHOR = "Paul Hainline"
 PROGRESS_KEY = "changeTheMindChangeTheMan_progress"
 COPYRIGHT = "&copy; 2026 Paul Hainline. All rights reserved."
 TOTAL_CHAPTERS = 10
-PASSWORD = "freddie"
+# PASSWORD gate removed 2026-04-30: Freddie gave his blessing; book is publicly available.
 
 CHAPTERS = [
     {
@@ -92,26 +92,6 @@ NUM_WORDS = [
     "One", "Two", "Three", "Four", "Five",
     "Six", "Seven", "Eight", "Nine", "Ten",
 ]
-
-PASSWORD_JS = """<script>
-(function() {
-  if (sessionStorage.getItem('ctm_auth') === 'granted') return;
-  var attempts = parseInt(sessionStorage.getItem('ctm_attempts') || '0');
-  if (attempts >= 3) {
-    window.location.href = '/index.html';
-    return;
-  }
-  var p = prompt('This book is currently in review.\\nPlease enter the access code:');
-  if (p && p.toLowerCase().trim() === 'freddie') {
-    sessionStorage.setItem('ctm_auth', 'granted');
-    sessionStorage.removeItem('ctm_attempts');
-  } else {
-    sessionStorage.setItem('ctm_attempts', String(attempts + 1));
-    window.location.href = '/index.html';
-  }
-})();
-</script>"""
-
 
 # ---------------------------------------------------------------------------
 # Color scheme constants
@@ -759,7 +739,6 @@ def generate_chapter_html(chapter_info, content_html):
   </style>
 </head>
 <body>
-  {PASSWORD_JS}
   <div class="glass-page-wrapper">
     <div class="glass-page-inner">
 
@@ -1213,7 +1192,6 @@ def generate_index_html():
   </style>
 </head>
 <body>
-  {PASSWORD_JS}
   <div class="glass-page-wrapper">
     <div class="glass-page-inner">
 
