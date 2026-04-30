@@ -23,6 +23,7 @@ func SetupRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/nm/s", requireAuth(handleStats))
 	mux.HandleFunc("GET /api/nm/rt", requireAuth(handleRealtime))
 	mux.HandleFunc("GET /api/nm/r", requireAuth(handleRecent))
+	mux.HandleFunc("GET /api/nm/reports", requireAuth(handleReports))
 	mux.HandleFunc("GET /api/nm/v", handleVerify)
 	mux.HandleFunc("GET /console", handleDashboard)  // Dashboard serves login UI itself
 	mux.HandleFunc("GET /console/", handleDashboard)

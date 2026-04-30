@@ -681,8 +681,19 @@
       <div id="downloadLog"></div>
     </div>
 
+    <!-- Reports -->
+    <div class="card" style="margin-top:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <h3 style="color:var(--accent);margin:0">REPORTS</h3>
+        <button class="refresh-btn" onclick="loadReports()">Generate Report</button>
+      </div>
+      <div id="reportsContent" style="margin-top:14px;color:var(--text-muted);font-size:0.9rem">
+        Click <strong style="color:var(--text)">Generate Report</strong> to build a deep-dive report for the period selected at the top of the page. Includes: overview, returning readers (with their journey), per-book engagement, discovery sources, standout sessions, downloads, audio engagement, and Test This Claim engagement.
+      </div>
+    </div>
+
     <footer>
-      <p>NobleMind Console &mdash; Privacy-first analytics. No cookies. No tracking across days.</p>
+      <p>NobleMind Console &mdash; Privacy-first analytics. No cookies. No fingerprinting. Hashed IPs only.</p>
       <p style="margin-top:8px">&copy; 2026 Paul Hainline. All rights reserved.</p>
     </footer>
   </div>
@@ -1175,6 +1186,213 @@
     }, 30000);
 
     document.getElementById('periodSelect').addEventListener('change', loadData);
+
+    // ----- Reports -----
+    function fmtDuration(secs) {
+      secs = parseInt(secs) || 0;
+      if (secs <= 0) return '—';
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      if (m === 0) return s + 's';
+      const h = Math.floor(m / 60);
+      if (h === 0) return m + 'm ' + s + 's';
+      return h + 'h ' + (m % 60) + 'm';
+    }
+
+    function escapeHTML(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function tile(label, value, color) {
+      color = color || 'var(--text)';
+      return '<div style="background:rgba(0,0,0,0.25);border:1px solid rgba(148,163,184,0.18);border-radius:8px;padding:10px 12px">'
+        + '<div style="font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted)">' + escapeHTML(label) + '</div>'
+        + '<div style="font-size:1.35rem;color:' + color + ';margin-top:4px">' + value + '</div>'
+        + '</div>';
+    }
+
+    function reportH4(text) {
+      return '<h4 style="color:var(--accent);margin:26px 0 10px;font-size:0.95rem;letter-spacing:0.04em">'
+        + escapeHTML(text) + '</h4>';
+    }
+
+    function renderOverview(o) {
+      let html = reportH4('Overview');
+      html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px">';
+      html += tile('Views', o.total_views || 0);
+      html += tile('Unique Visitors', o.unique_visitors || 0, '#5ee5ff');
+      html += tile('Returning (≥2 days)', o.returning_visitors || 0, '#06FFA5');
+      const dev = o.device_split || {};
+      const devStr = Object.keys(dev).map(k => k + ' ' + dev[k]).join(' · ') || '—';
+      html += tile('Device Mix', '<span style="font-size:0.85rem">' + escapeHTML(devStr) + '</span>');
+      html += '</div>';
+      if (o.top_countries && o.top_countries.length) {
+        html += '<div style="margin-top:10px;font-size:0.85rem;color:var(--text-muted)">';
+        html += '<strong style="color:var(--text)">Top locations:</strong> ';
+        html += o.top_countries.map(c => escapeHTML(c.label) + ' (' + c.count + ')').join(' · ');
+        html += '</div>';
+      }
+      return html;
+    }
+
+    function renderReturning(rows) {
+      let html = reportH4('Returning Readers (≥2 days in window)');
+      if (!rows || rows.length === 0) {
+        return html + '<div style="color:var(--text-muted);font-size:0.85rem">No returning readers in this window yet.</div>';
+      }
+      html += '<div style="display:flex;flex-direction:column;gap:12px">';
+      for (const r of rows) {
+        html += '<div style="background:rgba(0,0,0,0.25);border:1px solid rgba(148,163,184,0.18);border-radius:8px;padding:12px 14px">';
+        html += '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">';
+        html += '<div><strong style="color:var(--accent)">' + escapeHTML(r.location || 'Unknown') + '</strong>';
+        html += ' <span style="color:var(--text-muted);font-size:0.8rem">' + escapeHTML(r.device || '') + '</span></div>';
+        html += '<div style="color:var(--text-muted);font-size:0.8rem">vh=' + escapeHTML((r.visitor_hash || '').slice(0,8)) + '</div>';
+        html += '</div>';
+        const days = (r.days_seen || []).join(', ');
+        html += '<div style="margin-top:6px;font-size:0.85rem">';
+        html += (r.days_seen || []).length + ' days &middot; ' + (r.total_views || 0) + ' views &middot; ' + fmtDuration(r.total_dwell_seconds);
+        if (days) html += ' &middot; <span style="color:var(--text-muted)">' + escapeHTML(days) + '</span>';
+        html += '</div>';
+        if (r.top_paths && r.top_paths.length) {
+          html += '<div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted)">' + r.top_paths.map(escapeHTML).join('<br>') + '</div>';
+        }
+        if (r.downloads && r.downloads.length) {
+          html += '<div style="margin-top:6px;font-size:0.8rem;color:#c084fc">↓ ' + r.downloads.map(escapeHTML).join(', ') + '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderPerBook(rows) {
+      let html = reportH4('Per-Book Engagement');
+      if (!rows || rows.length === 0) return html + '<div style="color:var(--text-muted);font-size:0.85rem">No book activity in this window.</div>';
+      html += '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+      html += '<thead><tr style="text-align:left;color:var(--text-muted);font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase">'
+        + '<th style="padding:6px 4px">Book</th><th>Visitors</th><th>Views</th><th>Dwell</th><th>Deepest</th><th>Downloads</th></tr></thead><tbody>';
+      for (const b of rows) {
+        html += '<tr style="border-top:1px solid rgba(148,163,184,0.12)">'
+          + '<td style="padding:6px 4px"><strong>' + escapeHTML(b.book) + '</strong></td>'
+          + '<td>' + b.visitors + '</td>'
+          + '<td>' + b.views + '</td>'
+          + '<td>' + fmtDuration(b.total_dwell_seconds) + '</td>'
+          + '<td style="color:var(--text-muted)">' + escapeHTML(b.deepest_chapter || '—') + '</td>'
+          + '<td style="color:' + (b.downloads ? '#c084fc' : 'var(--text-muted)') + '">' + (b.downloads || 0) + '</td>'
+          + '</tr>';
+      }
+      html += '</tbody></table>';
+      return html;
+    }
+
+    function renderDiscovery(rows) {
+      let html = reportH4('Discovery Sources');
+      if (!rows || rows.length === 0) return html + '<div style="color:var(--text-muted);font-size:0.85rem">No referrer data.</div>';
+      html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">';
+      for (const b of rows) {
+        html += '<div style="background:rgba(0,0,0,0.25);border:1px solid rgba(148,163,184,0.18);border-radius:8px;padding:10px 12px">';
+        html += '<div style="display:flex;justify-content:space-between"><strong>' + escapeHTML(b.bucket) + '</strong>'
+          + '<span style="color:var(--text-muted);font-size:0.85rem">' + b.visitors + ' visitors / ' + b.views + ' views</span></div>';
+        if (b.examples && b.examples.length) {
+          html += '<div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted)">'
+            + b.examples.map(e => escapeHTML(e.label) + ' (' + e.count + ')').join('<br>') + '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderStandout(rows) {
+      let html = reportH4('Standout Sessions (≥5 pageviews in one day)');
+      if (!rows || rows.length === 0) return html + '<div style="color:var(--text-muted);font-size:0.85rem">Nothing standout this window.</div>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px">';
+      for (const s of rows) {
+        html += '<div style="background:rgba(0,0,0,0.25);border:1px solid rgba(148,163,184,0.18);border-radius:8px;padding:10px 12px">';
+        html += '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px">';
+        html += '<div><strong>' + escapeHTML(s.date) + '</strong> &middot; ' + escapeHTML(s.location || 'Unknown')
+          + ' <span style="color:var(--text-muted);font-size:0.8rem">' + escapeHTML(s.device || '') + '</span></div>';
+        html += '<div style="font-size:0.85rem">' + s.views + ' views &middot; ' + fmtDuration(s.dwell_seconds) + '</div>';
+        html += '</div>';
+        if (s.top_paths && s.top_paths.length) {
+          html += '<div style="margin-top:6px;font-size:0.8rem;color:var(--text-muted)">' + s.top_paths.map(escapeHTML).join('<br>') + '</div>';
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+      return html;
+    }
+
+    function renderDownloads(rows) {
+      let html = reportH4('Downloads');
+      if (!rows || rows.length === 0) return html + '<div style="color:var(--text-muted);font-size:0.85rem">No downloads this window.</div>';
+      html += '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+      html += '<thead><tr style="text-align:left;color:var(--text-muted);font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase">'
+        + '<th style="padding:6px 4px">When</th><th>File</th><th>From Page</th><th>Visitor</th></tr></thead><tbody>';
+      for (const d of rows) {
+        const ts = (d.timestamp || '').replace('T',' ').replace('Z','');
+        html += '<tr style="border-top:1px solid rgba(148,163,184,0.12)">'
+          + '<td style="padding:6px 4px;color:var(--text-muted)">' + escapeHTML(ts) + '</td>'
+          + '<td style="color:#c084fc">' + escapeHTML(d.file) + '</td>'
+          + '<td style="color:var(--text-muted)">' + escapeHTML(d.from_page || '—') + '</td>'
+          + '<td style="font-size:0.78rem;color:var(--text-muted)">' + escapeHTML((d.location || '') + ' · vh=' + (d.visitor_hash || '').slice(0,8)) + '</td>'
+          + '</tr>';
+      }
+      html += '</tbody></table>';
+      return html;
+    }
+
+    function renderPagePattern(title, rows) {
+      let html = reportH4(title);
+      if (!rows || rows.length === 0) return html + '<div style="color:var(--text-muted);font-size:0.85rem">No activity on these pages this window.</div>';
+      html += '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+      html += '<thead><tr style="text-align:left;color:var(--text-muted);font-size:0.75rem;letter-spacing:0.05em;text-transform:uppercase">'
+        + '<th style="padding:6px 4px">Page</th><th>Visitors</th><th>Views</th><th>Avg Dwell</th><th>Total Dwell</th></tr></thead><tbody>';
+      for (const p of rows) {
+        html += '<tr style="border-top:1px solid rgba(148,163,184,0.12)">'
+          + '<td style="padding:6px 4px">' + escapeHTML(p.path) + '</td>'
+          + '<td>' + p.visitors + '</td>'
+          + '<td>' + p.views + '</td>'
+          + '<td>' + fmtDuration(p.avg_dwell_seconds) + '</td>'
+          + '<td>' + fmtDuration(p.total_dwell_seconds) + '</td>'
+          + '</tr>';
+      }
+      html += '</tbody></table>';
+      return html;
+    }
+
+    function renderReports(d) {
+      let html = '<div style="color:var(--text-muted);font-size:0.8rem;margin-bottom:6px">';
+      html += 'Window: last ' + d.days + ' days &middot; Generated ' + escapeHTML(d.generated_at || '');
+      html += '</div>';
+      html += renderOverview(d.overview || {});
+      html += renderReturning(d.returning_readers || []);
+      html += renderPerBook(d.per_book || []);
+      html += renderDiscovery(d.discovery || []);
+      html += renderStandout(d.standout_sessions || []);
+      html += renderDownloads(d.downloads || []);
+      html += renderPagePattern('Audio Engagement (people listening)', d.audio_engagement || []);
+      html += renderPagePattern('Test This Claim Engagement', d.test_this_claim || []);
+      return html;
+    }
+
+    async function loadReports() {
+      const period = document.getElementById('periodSelect').value;
+      const container = document.getElementById('reportsContent');
+      container.innerHTML = '<div style="color:var(--text-muted)">Building report…</div>';
+      try {
+        const r = await fetch(baseURL + '/api/nm/reports?days=' + encodeURIComponent(period), {
+          headers: { 'Authorization': 'Bearer ' + getToken() }
+        });
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        container.innerHTML = renderReports(data);
+      } catch (e) {
+        container.innerHTML = '<div style="color:#f87171">Error: ' + escapeHTML(e.message) + '</div>';
+      }
+    }
   </script>
 </body>
 </html>
