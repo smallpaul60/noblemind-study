@@ -11,63 +11,70 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"time"
 )
 
-// SaltManager handles daily salt rotation for IP hashing.
+// SaltManager holds the permanent visitor-IP salt. The salt is loaded once
+// at startup by InitSalt(); after that the value never changes for the life
+// of the process (and across restarts, as it is persisted to the database
+// when not provided via the environment).
+//
+// Switched from a rotating daily salt to a permanent salt on 2026-04-30:
+// the daily rotation prevented us from seeing returning visitors across
+// days, which made the analytics far less useful. Hashed IPs with a
+// stable secret salt are still pseudonymous (the raw IP is never stored
+// in the database), so the privacy posture is largely unchanged — only
+// the cross-day correlation property differs.
 type SaltManager struct {
 	mu   sync.RWMutex
 	salt string
-	date string
 }
 
 var saltMgr = &SaltManager{}
 
-// GetSalt returns today's salt, generating a new one if the day changed.
-func (sm *SaltManager) GetSalt() string {
-	today := time.Now().UTC().Format("2006-01-02")
-
-	sm.mu.RLock()
-	if sm.date == today && sm.salt != "" {
-		defer sm.mu.RUnlock()
-		return sm.salt
-	}
-	sm.mu.RUnlock()
-
-	sm.mu.Lock()
-	defer sm.mu.Unlock()
-
-	// Double-check after acquiring write lock
-	if sm.date == today && sm.salt != "" {
-		return sm.salt
+// InitSalt loads the permanent salt from VISITOR_SALT env var if set,
+// otherwise reads (or generates and persists) a salt stored in the
+// daily_salt table under the special key 'PERMANENT'. Must be called
+// once at startup after initDB().
+func InitSalt() {
+	if envSalt := strings.TrimSpace(os.Getenv("VISITOR_SALT")); envSalt != "" {
+		saltMgr.mu.Lock()
+		saltMgr.salt = envSalt
+		saltMgr.mu.Unlock()
+		log.Println("visitor salt loaded from VISITOR_SALT env var")
+		return
 	}
 
-	// Try to load from DB
+	const permKey = "PERMANENT"
 	var salt string
-	err := db.QueryRow(`SELECT salt FROM daily_salt WHERE date = ?`, today).Scan(&salt)
-	if err == nil {
-		sm.salt = salt
-		sm.date = today
-		return sm.salt
+	err := db.QueryRow(`SELECT salt FROM daily_salt WHERE date = ?`, permKey).Scan(&salt)
+	if err == nil && salt != "" {
+		saltMgr.mu.Lock()
+		saltMgr.salt = salt
+		saltMgr.mu.Unlock()
+		log.Println("visitor salt loaded from database (no env var set)")
+		return
 	}
 
-	// Generate new salt
 	b := make([]byte, 32)
 	if _, err := rand.Read(b); err != nil {
-		log.Fatalf("failed to generate salt: %v", err)
+		log.Fatalf("failed to generate visitor salt: %v", err)
 	}
 	salt = hex.EncodeToString(b)
-
-	db.Exec(`INSERT OR REPLACE INTO daily_salt (date, salt) VALUES (?, ?)`, today, salt)
-	sm.salt = salt
-	sm.date = today
-	return sm.salt
+	if _, err := db.Exec(`INSERT OR REPLACE INTO daily_salt (date, salt) VALUES (?, ?)`, permKey, salt); err != nil {
+		log.Fatalf("failed to persist visitor salt: %v", err)
+	}
+	saltMgr.mu.Lock()
+	saltMgr.salt = salt
+	saltMgr.mu.Unlock()
+	log.Println("visitor salt generated and persisted to database (set VISITOR_SALT in .env to override)")
 }
 
-// HashIP takes an IP string, combines it with today's salt, and returns
-// a truncated SHA-256 hash. The raw IP is never stored.
+// HashIP takes an IP string, combines it with the permanent salt, and
+// returns a truncated SHA-256 hash. The raw IP is never stored.
 func HashIP(ip string) string {
-	salt := saltMgr.GetSalt()
+	saltMgr.mu.RLock()
+	salt := saltMgr.salt
+	saltMgr.mu.RUnlock()
 	h := sha256.Sum256([]byte(ip + "|" + salt))
 	return hex.EncodeToString(h[:])[:16]
 }

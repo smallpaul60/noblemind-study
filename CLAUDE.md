@@ -32,7 +32,7 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - `console/dashboard.html` — Single-file analytics UI (embedded via `go:embed`), Chart.js, NobleMind theme.
 - `console/deploy-console.sh` — Cross-compile, SCP to VPS, restart systemd service.
 - `console/noblemind-console.service` — Systemd unit file.
-- **Privacy model:** Raw IPs never stored. SHA-256(IP + daily_salt) truncated to 16 hex chars. No cookies, no localStorage, no fingerprinting. Daily salt rotation prevents cross-day correlation.
+- **Privacy model:** Raw IPs never stored. SHA-256(IP + permanent_salt) truncated to 16 hex chars. No cookies, no localStorage, no fingerprinting. Permanent salt loaded from `VISITOR_SALT` env var (auto-generated and persisted to the `daily_salt` table under key `PERMANENT` if unset). Stable visitor hash means returning visitors are detectable across days; the daily salt rotation was removed 2026-04-30 because the cross-day blackout was hurting analytics more than it was protecting users.
 - **VPS directory:** `/home/paul/noblemind-console/` (separate from static site).
 - **Database:** SQLite at `/home/paul/noblemind-console/analytics.db`. Raw data purged after 90 days.
 - **Auth:** Token-based via `?token=` query param or `Authorization: Bearer` header. Token stored in `/home/paul/noblemind-console/.env`.

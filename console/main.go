@@ -33,6 +33,9 @@ func main() {
 	defer db.Close()
 	log.Println("database initialized")
 
+	// Load (or generate) the permanent visitor-IP salt
+	InitSalt()
+
 	// Load GeoIP database (optional)
 	LoadGeoIP(*geoPath)
 
