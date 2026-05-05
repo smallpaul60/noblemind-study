@@ -1,498 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CHAPTER NINE: What to Expect from a Young Woman Who Fears God | Your Name Means Everything: A Good Name</title>
-  <link rel="canonical" href="https://noblemind.study/A_Good_Name/chapter-09.html">
-  <style>
-    :root {
-      --bg-dark: #0d0d0d;
-      --bg-inner: rgba(13, 15, 20, 0.96);
-      --text-primary: #f0ece4;
-      --text-secondary: #b8b0a2;
-      --text-muted: #8a8278;
-      --accent: #C9956B;
-      --accent-glow: rgba(201, 149, 107, 0.4);
-      --accent-soft: rgba(201, 149, 107, 0.12);
-      --accent-secondary: #8B9B7A;
-      --accent-secondary-glow: rgba(139, 155, 122, 0.3);
-      --scripture-border: #8B9B7A;
-      --box-principle: #C9956B;
-      --box-principle-bg: rgba(201, 149, 107, 0.08);
-      --glass-blur: blur(12px);
-      --radius-card: 22px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Segoe UI', Georgia, serif;
-      background: var(--bg-dark);
-      color: var(--text-primary);
-      font-size: 1.1rem;
-      line-height: 1.85;
-      min-height: 100vh;
-      padding: 30px 20px;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at top, rgba(201,149,107,0.06), transparent 50%),
-        radial-gradient(circle at bottom, rgba(139,155,122,0.04), transparent 50%);
-      pointer-events: none;
-    }
-    .glass-page-wrapper {
-      position: relative;
-      z-index: 10;
-      border-radius: calc(var(--radius-card) + 4px);
-      padding: 3px;
-      background:
-        radial-gradient(circle at top left, rgba(201,149,107,0.45), transparent 50%),
-        radial-gradient(circle at top right, rgba(139,155,122,0.35), transparent 50%),
-        radial-gradient(circle at bottom, rgba(201,149,107,0.2), transparent 55%);
-      box-shadow:
-        0 0 50px rgba(139,155,122,0.15),
-        0 0 80px rgba(201,149,107,0.2);
-      max-width: 860px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    .glass-page-inner {
-      background: var(--bg-inner);
-      backdrop-filter: var(--glass-blur);
-      -webkit-backdrop-filter: var(--glass-blur);
-      border-radius: var(--radius-card);
-      padding: 3rem 2.5rem;
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(148,163,184,0.15);
-    }
-    .glass-page-inner::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 150px;
-      background: radial-gradient(ellipse at top, rgba(201,149,107,0.04), transparent 70%);
-      pointer-events: none;
-    }
-    .glass-tab {
-      position: absolute;
-      bottom: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 14px;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, rgba(201,149,107,0.85), rgba(13,13,13,1));
-      box-shadow: 0 0 30px rgba(201,149,107,0.4);
-    }
-    .nav-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 28px;
-      padding: 14px 18px;
-      background: rgba(201,149,107,0.04);
-      border-radius: 12px;
-      border: 1px solid rgba(201,149,107,0.12);
-      position: relative;
-      z-index: 1;
-    }
-    .nav-controls a, .nav-controls select {
-      color: var(--text-primary);
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(201,149,107,0.25);
-      font-size: 0.85rem;
-      transition: all 0.3s;
-    }
-    .nav-controls a:hover, .nav-controls select:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-    .nav-controls select {
-      cursor: pointer;
-      min-width: 180px;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C9956B' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 30px;
-    }
-    .nav-controls select option {
-      background: var(--bg-dark);
-      color: var(--text-primary);
-    }
-    .home-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent-secondary);
-      font-size: 0.85rem;
-    }
-    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
-    header {
-      text-align: center;
-      margin-bottom: 32px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid rgba(201,149,107,0.2);
-      position: relative;
-      z-index: 1;
-    }
-    h1 {
-      font-size: 2.2rem;
-      color: var(--accent);
-      text-shadow: 0 0 20px var(--accent-glow);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-    .chapter-num {
-      font-size: 1.05rem;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-    .subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      font-style: italic;
-      margin-bottom: 8px;
-    }
-    .epigraph {
-      margin-bottom: 28px;
-      padding: 22px;
-      background: rgba(201,149,107,0.04);
-      border-radius: 14px;
-      text-align: center;
-      border: 1px solid rgba(201,149,107,0.15);
-      position: relative;
-      z-index: 1;
-    }
-    .epigraph blockquote {
-      font-style: italic;
-      font-size: 1.15rem;
-      color: var(--text-primary);
-      line-height: 1.8;
-      margin-bottom: 0;
-      border: none;
-      padding: 0;
-      background: transparent;
-    }
-    .epigraph cite {
-      display: block;
-      margin-top: 8px;
-      color: var(--accent);
-      font-style: normal;
-      font-weight: 500;
-    }
-    .content { position: relative; z-index: 1; }
-    .content h2 {
-      color: var(--accent);
-      font-size: 1.45rem;
-      margin: 32px 0 16px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid rgba(201,149,107,0.2);
-    }
-    .content p {
-      margin-bottom: 16px;
-      color: var(--text-secondary);
-      text-align: justify;
-    }
-    blockquote.scripture {
-      margin: 20px 0;
-      padding: 16px 20px;
-      background: rgba(139,155,122,0.04);
-      border-left: 3px solid var(--scripture-border);
-      border-radius: 0 10px 10px 0;
-      font-style: italic;
-    }
-    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
-    blockquote.scripture cite {
-      display: block;
-      margin-top: 6px;
-      color: var(--accent);
-      font-style: normal;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-    .principle-box {
-      margin: 24px 0;
-      padding: 20px 22px;
-      border-radius: 12px;
-      background: var(--box-principle-bg);
-      border: 1px solid rgba(201,149,107,0.25);
-      border-left: 4px solid var(--box-principle);
-    }
-    .principle-box p { color: var(--text-primary); }
-    .divider {
-      text-align: center;
-      margin: 28px 0;
-      color: var(--text-muted);
-      opacity: 0.4;
-    }
-    .reflection-section {
-      margin-top: 40px;
-      border-top: 2px solid rgba(201,149,107,0.3);
-      padding-top: 24px;
-    }
-    .reflection-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      padding: 14px 18px;
-      background: rgba(201,149,107,0.08);
-      border: 1px solid rgba(201,149,107,0.2);
-      border-radius: 12px;
-      transition: all 0.3s;
-      user-select: none;
-    }
-    .reflection-header:hover {
-      border-color: var(--accent);
-      background: rgba(201,149,107,0.12);
-    }
-    .reflection-header h2 {
-      color: var(--accent);
-      font-size: 1.3rem;
-      margin: 0;
-      border: none;
-      padding: 0;
-    }
-    .reflection-header .arrow {
-      color: var(--accent);
-      font-size: 1.3rem;
-      transition: transform 0.3s;
-    }
-    .reflection-header.expanded .arrow {
-      transform: rotate(180deg);
-    }
-    .reflection-body {
-      display: none;
-      padding-top: 20px;
-    }
-    .reflection-body.expanded {
-      display: block;
-    }
-    .reflection-question {
-      margin-bottom: 24px;
-      padding: 16px;
-      background: rgba(201,149,107,0.04);
-      border-radius: 10px;
-      border: 1px solid rgba(201,149,107,0.1);
-    }
-    .reflection-question .q-num {
-      color: var(--accent);
-      font-weight: 700;
-      margin-right: 8px;
-    }
-    .reflection-question .q-text {
-      color: var(--text-primary);
-      line-height: 1.7;
-    }
-    .reflection-question textarea {
-      width: 100%;
-      margin-top: 12px;
-      padding: 10px 12px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid rgba(201,149,107,0.2);
-      border-radius: 8px;
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 1rem;
-      line-height: 1.6;
-      resize: vertical;
-      min-height: 60px;
-      transition: border-color 0.3s;
-    }
-    .reflection-question textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 8px var(--accent-glow);
-    }
-    .reflection-question textarea::placeholder {
-      color: var(--text-muted);
-    }
-    .mark-complete {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 30px 0 10px;
-      padding: 12px;
-      background: rgba(201,149,107,0.06);
-      border: 1px solid rgba(201,149,107,0.2);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s;
-      user-select: none;
-    }
-    .mark-complete:hover {
-      border-color: var(--accent);
-      background: rgba(201,149,107,0.1);
-    }
-    .mark-complete.completed {
-      background: rgba(201,149,107,0.12);
-      border-color: var(--accent);
-    }
-    .mark-complete .check {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      color: transparent;
-      transition: all 0.3s;
-    }
-    .mark-complete.completed .check {
-      background: var(--accent);
-      color: #0d0d0d;
-    }
-    .mark-complete span:last-child {
-      color: var(--accent);
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    footer {
-      margin-top: 40px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(201,149,107,0.15);
-      text-align: center;
-      position: relative;
-      z-index: 1;
-    }
-    .footer-nav {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-    .footer-nav a {
-      color: var(--accent-secondary);
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      background: rgba(139,155,122,0.08);
-      border: 1px solid rgba(139,155,122,0.25);
-      transition: all 0.3s;
-      font-size: 0.9rem;
-    }
-    .footer-nav a:hover {
-      background: rgba(139,155,122,0.15);
-      box-shadow: 0 0 10px var(--accent-secondary-glow);
-    }
-    .footer-nav a.disabled {
-      opacity: 0.35;
-      pointer-events: none;
-    }
-    .copyright {
-      color: var(--text-muted);
-      font-size: 0.78rem;
-      margin-top: 12px;
-    }
-    .copyright a { color: var(--accent-secondary); text-decoration: none; }
-    @media print {
-      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
-      body::before { display: none; }
-      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
-      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
-      .glass-page-inner::before { display: none; }
-      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
-      header { border-bottom: 2px solid #333; }
-      h1 { color: #8B6914; text-shadow: none; font-size: 18pt; }
-      .content h2 { color: #8B6914; border-bottom-color: #8B6914; }
-      .content p { color: #333; }
-      blockquote.scripture { background: #f9f9f9; border-left-color: #5a6b4a; }
-      .principle-box { background: #fdf8f0; border-color: #C9956B; }
-      .reflection-body { display: block !important; }
-      .reflection-question textarea { display: none; }
-      .copyright { color: #999; }
-      a { color: #333; text-decoration: none; }
-    }
-    @media (max-width: 900px) {
-      body { padding: 20px 12px; }
-      .glass-page-inner { padding: 2rem 1.8rem; }
-      h1 { font-size: 1.8rem; }
-    }
-    @media (max-width: 600px) {
-      html { -webkit-text-size-adjust: 100%; }
-      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
-      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
-      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
-      .glass-page-inner::before { height: 80px; }
-      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
-      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
-      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
-      .nav-controls select { width: 100%; }
-      header { margin-bottom: 20px; padding-bottom: 16px; }
-      h1 { font-size: 1.4rem; }
-      .chapter-num { font-size: 0.95rem; }
-      .epigraph { padding: 16px 14px; margin-bottom: 20px; }
-      .epigraph blockquote { font-size: 1.05rem; }
-      .content p { text-align: left; margin-bottom: 14px; }
-      .content h2 { font-size: 1.25rem; margin: 24px 0 12px; }
-      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
-      .principle-box { padding: 14px 16px; margin: 18px 0; }
-      .reflection-section { margin-top: 28px; }
-      .reflection-header { padding: 12px 14px; min-height: 44px; }
-      .reflection-header h2 { font-size: 1.1rem; }
-      .reflection-question { padding: 12px; }
-      .reflection-question textarea { font-size: 1rem; min-height: 80px; }
-      .mark-complete { min-height: 44px; padding: 12px; }
-      footer { margin-top: 28px; }
-      .footer-nav { flex-direction: column; gap: 10px; }
-      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-  </style>
-</head>
-<body>
-  <div class="glass-page-wrapper">
-    <div class="glass-page-inner">
+#!/usr/bin/env python3
+"""
+Build chapter-09.html for A Good Name from AGoodName_Chapter9.md.
 
-      <nav class="nav-controls">
-        <a href="index.html" class="home-link">
-          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-          Your Name Means Everything: A Good Name
-        </a>
-          <select id="chapter-select" onchange="goToChapter(this.value)">
-            <option value="">Jump to...</option>
-            <option value="introduction.html">Introduction</option>
-            <option value="chapter-01.html">Ch 1: Your Name Is Your Most Valuable Asset</option>
-            <option value="chapter-02.html">Ch 2: The Man in the Mirror</option>
-            <option value="chapter-03.html">Ch 3: When Nobody's Watching</option>
-            <option value="chapter-04.html">Ch 4: Made On Purpose, For a Purpose</option>
-            <option value="chapter-05.html">Ch 5: The Relationship You Need Most</option>
-            <option value="chapter-06.html">Ch 6: The Bible Isn't What You Think</option>
-            <option value="chapter-07.html">Ch 7: Putting Down the Phone</option>
-            <option value="chapter-08.html">Ch 8: She Is Somebody's Daughter</option>
-            <option value="chapter-09.html" selected>Ch 9: What to Expect from a Young Woman Who Fears God</option>
-            <option value="chapter-10.html">Ch 10: The Friends You Choose</option>
-            <option value="chapter-11.html">Ch 11: Honor Your Father and Mother</option>
-            <option value="chapter-12.html">Ch 12: Work Like It Matters</option>
-            <option value="chapter-13.html">Ch 13: Money Will Test Your Character</option>
-            <option value="chapter-14.html">Ch 14: The Church Is Not Optional</option>
-            <option value="conclusion.html">Conclusion: Your Move</option>
-            <option value="scripture-index.html">Scripture Index</option>
-          </select>
-      </nav>
+Uses chapter-08.html as the template (styles + script + page chrome are
+identical across all chapters) and substitutes the chapter-specific
+content blocks: title, canonical link, dropdown, header, epigraph, body
+content, footer nav, and CH_NUM.
 
-      <header>
-        <p class="chapter-num">CHAPTER NINE</p>
-        <h1>What to Expect from a Young Woman Who Fears God</h1>
-      </header>
+The dropdown is built for the FINAL state of the book (with new Ch 9
+inserted between current Ch 8 and current Ch 9 — the renumber pass
+updates the other chapters' dropdowns to match).
+"""
 
-      <section class="epigraph">
-        <blockquote>"Charm is deceitful and beauty is vain, but a woman who fears the LORD, she shall be praised."</blockquote>
-        <cite>— Proverbs 31:30 (NASB)</cite>
-      </section>
+import re
+from pathlib import Path
 
-      <div class="content">
+BOOK_DIR = Path(__file__).parent
+TEMPLATE = BOOK_DIR / "chapter-08.html"
+SRC_MD = BOOK_DIR / "AGoodName_Chapter9.md"
+DEST = BOOK_DIR / "chapter-09.html"
+
+
+# ========================================================================
+# Body content for the new Chapter 9, hand-converted from the markdown.
+# Markdown structure:
+#   **Section Heading**     -> <h2>
+#   plain paragraph         -> <p>
+#   > *italic quote*        -> <blockquote class="scripture">
+#   > — citation            -> <cite>
+#   > ***bold-italic***     -> <div class="principle-box">
+#   For Further Study list  -> <ul>
+#   "One Question to Sit With" + question  -> <h2> + <p><em>...</em></p>
+#   "One Thing to Do" + prose -> <h2> + <p>
+# Then closing scripture, then reflection-section.
+# ========================================================================
+
+BODY_CONTENT = """
         <p>The last chapter was about you.</p>
 
         <p>It was about how you carry yourself around the young women in your life — how you see them, how you speak to them, how you protect them, how you refuse to use them. That conversation had to come first because it is the one over which you have the most control. You do not get to choose what other people do. You only get to choose what <em>you</em> do, and the man you are becoming is being built one decision at a time, in how you treat the people God puts in your path.</p>
@@ -852,104 +395,111 @@
             </div>
           </div>
         </section>
-      </div>
+"""
 
-      <div id=\"mark-complete\" class="mark-complete" onclick="toggleComplete()">
-        <span class="check"></span>
-        <span>Mark Chapter Complete</span>
-      </div>
+# ========================================================================
+# Final dropdown — Ch 9 NEW chapter inserted, old 9-13 shifted to 10-14.
+# ========================================================================
 
-      <footer>
-        <div class="footer-nav">
+DROPDOWN = '''          <select id="chapter-select" onchange="goToChapter(this.value)">
+            <option value="">Jump to...</option>
+            <option value="introduction.html">Introduction</option>
+            <option value="chapter-01.html">Ch 1: Your Name Is Your Most Valuable Asset</option>
+            <option value="chapter-02.html">Ch 2: The Man in the Mirror</option>
+            <option value="chapter-03.html">Ch 3: When Nobody's Watching</option>
+            <option value="chapter-04.html">Ch 4: Made On Purpose, For a Purpose</option>
+            <option value="chapter-05.html">Ch 5: The Relationship You Need Most</option>
+            <option value="chapter-06.html">Ch 6: The Bible Isn't What You Think</option>
+            <option value="chapter-07.html">Ch 7: Putting Down the Phone</option>
+            <option value="chapter-08.html">Ch 8: She Is Somebody's Daughter</option>
+            <option value="chapter-09.html" selected>Ch 9: What to Expect from a Young Woman Who Fears God</option>
+            <option value="chapter-10.html">Ch 10: The Friends You Choose</option>
+            <option value="chapter-11.html">Ch 11: Honor Your Father and Mother</option>
+            <option value="chapter-12.html">Ch 12: Work Like It Matters</option>
+            <option value="chapter-13.html">Ch 13: Money Will Test Your Character</option>
+            <option value="chapter-14.html">Ch 14: The Church Is Not Optional</option>
+            <option value="conclusion.html">Conclusion: Your Move</option>
+            <option value="scripture-index.html">Scripture Index</option>
+          </select>'''
+
+
+def main():
+    src = TEMPLATE.read_text(encoding="utf-8")
+
+    # 1. <title>
+    src = re.sub(
+        r"<title>[^<]*</title>",
+        "<title>CHAPTER NINE: What to Expect from a Young Woman Who Fears God | Your Name Means Everything: A Good Name</title>",
+        src,
+        count=1,
+    )
+
+    # 2. <link rel="canonical">
+    src = re.sub(
+        r'<link rel="canonical" href="https://noblemind\.study/A_Good_Name/chapter-08\.html">',
+        '<link rel="canonical" href="https://noblemind.study/A_Good_Name/chapter-09.html">',
+        src,
+        count=1,
+    )
+
+    # 3. Replace the dropdown <select>...</select>
+    src = re.sub(
+        r'\s*<select id="chapter-select".*?</select>',
+        "\n" + DROPDOWN,
+        src,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    # 4. Header — chapter-num + h1
+    src = re.sub(
+        r'<header>\s*<p class="chapter-num">[^<]*</p>\s*<h1>[^<]*</h1>\s*</header>',
+        '<header>\n        <p class="chapter-num">CHAPTER NINE</p>\n        <h1>What to Expect from a Young Woman Who Fears God</h1>\n      </header>',
+        src,
+        count=1,
+    )
+
+    # 5. Epigraph
+    src = re.sub(
+        r'<section class="epigraph">.*?</section>',
+        '''<section class="epigraph">
+        <blockquote>"Charm is deceitful and beauty is vain, but a woman who fears the LORD, she shall be praised."</blockquote>
+        <cite>— Proverbs 31:30 (NASB)</cite>
+      </section>''',
+        src,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    # 6. Replace <div class="content">...</div> body. The content div ends
+    # right before the <div id="mark-complete"> button.
+    src = re.sub(
+        r'(<div class="content">).*?(\s*</div>\s*<div id="mark-complete")',
+        r"\1" + BODY_CONTENT + r"      </div>\n\n      <div id=\"mark-complete\"",
+        src,
+        count=1,
+        flags=re.DOTALL,
+    )
+
+    # 7. Footer-nav: prev = ch-08, next = ch-10 (final state after renumber)
+    src = re.sub(
+        r'<div class="footer-nav">.*?</div>',
+        '''<div class="footer-nav">
           <a href="chapter-08.html">&larr; Ch 8: She Is Somebody's Daughter</a>
           <a href="chapter-10.html">Ch 10: The Friends You Choose &rarr;</a>
-        </div>
-        <p class="copyright">Your Name Means Everything: A Good Name &copy; 2026 Paul &amp; Pam Hainline. All Rights Reserved.<br>
-        Digitized for <a href="../index.html">NobleMind.Study</a></p>
-      </footer>
-    </div>
-    <div class="glass-tab"></div>
-  </div>
-  <script>
-    const PROGRESS_KEY = 'yourNameMeansEverything_progress';
-    const CH_NUM = 9;
+        </div>''',
+        src,
+        count=1,
+        flags=re.DOTALL,
+    )
 
-    function loadProgress() {
-      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
-      catch(e) { return {}; }
-    }
+    # 8. CH_NUM = 8 -> 9
+    src = re.sub(r"const CH_NUM = 8;", "const CH_NUM = 9;", src, count=1)
 
-    function markVisited() {
-      var p = loadProgress();
-      if (!p['ch' + CH_NUM]) p['ch' + CH_NUM] = 'visited';
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
-    }
+    DEST.write_text(src, encoding="utf-8")
+    print(f"Wrote {DEST}")
+    print(f"  Length: {len(src)} bytes, {src.count(chr(10))} lines")
 
-    function toggleComplete() {
-      var p = loadProgress();
-      var key = 'ch' + CH_NUM;
-      p[key] = p[key] === 'complete' ? 'visited' : 'complete';
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
-      updateCompleteBtn();
-    }
 
-    function updateCompleteBtn() {
-      var p = loadProgress();
-      var btn = document.getElementById('mark-complete');
-      if (!btn) return;
-      var done = p['ch' + CH_NUM] === 'complete';
-      btn.className = 'mark-complete' + (done ? ' completed' : '');
-      btn.querySelector('.check').textContent = done ? '\u2713' : '';
-      btn.querySelector('span:last-child').textContent = done ? 'Chapter Complete' : 'Mark Chapter Complete';
-    }
-
-    function toggleReflection() {
-      var header = document.querySelector('.reflection-header');
-      var body = document.querySelector('.reflection-body');
-      if (!header || !body) return;
-      header.classList.toggle('expanded');
-      body.classList.toggle('expanded');
-    }
-
-    function loadNote(qNum) {
-      return localStorage.getItem('yourNameMeansEverything_notes_ch' + CH_NUM + '_q' + qNum) || '';
-    }
-
-    function saveNote(qNum, value) {
-      localStorage.setItem('yourNameMeansEverything_notes_ch' + CH_NUM + '_q' + qNum, value);
-    }
-
-    function initNotes() {
-      document.querySelectorAll('.reflection-question textarea').forEach(function(ta) {
-        var qNum = ta.dataset.question;
-        ta.value = loadNote(qNum);
-        ta.addEventListener('input', function() {
-          saveNote(qNum, this.value);
-        });
-      });
-    }
-
-    function goToChapter(val) {
-      if (val) window.location.href = val;
-    }
-
-    document.addEventListener('keydown', function(e) {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
-      if (e.key === 'ArrowLeft') {
-        var prev = document.querySelector('.footer-nav a:first-child');
-        if (prev && !prev.classList.contains('disabled')) prev.click();
-      } else if (e.key === 'ArrowRight') {
-        var next = document.querySelector('.footer-nav a:last-child');
-        if (next && !next.classList.contains('disabled')) next.click();
-      }
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-      markVisited();
-      updateCompleteBtn();
-      initNotes();
-    });
-  </script>
-  <script src="/nm-core.js" defer></script>
-</body>
-</html>
+if __name__ == "__main__":
+    main()

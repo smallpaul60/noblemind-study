@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v212';
+const CACHE_NAME = 'noblemind-study-v213';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -120,6 +120,25 @@ const CACHE_FILES = [
   '/StrengthAndDignity/conclusion.html',
   '/StrengthAndDignity/scripture-index.html',
   '/StrengthAndDignity/Strength_and_Dignity.pdf',
+  '/A_Good_Name/index.html',
+  '/A_Good_Name/introduction.html',
+  '/A_Good_Name/chapter-01.html',
+  '/A_Good_Name/chapter-02.html',
+  '/A_Good_Name/chapter-03.html',
+  '/A_Good_Name/chapter-04.html',
+  '/A_Good_Name/chapter-05.html',
+  '/A_Good_Name/chapter-06.html',
+  '/A_Good_Name/chapter-07.html',
+  '/A_Good_Name/chapter-08.html',
+  '/A_Good_Name/chapter-09.html',
+  '/A_Good_Name/chapter-10.html',
+  '/A_Good_Name/chapter-11.html',
+  '/A_Good_Name/chapter-12.html',
+  '/A_Good_Name/chapter-13.html',
+  '/A_Good_Name/chapter-14.html',
+  '/A_Good_Name/conclusion.html',
+  '/A_Good_Name/scripture-index.html',
+  '/A_Good_Name/YourNameMeansEverything.pdf',
   '/OneDayCloserToHome/index.html',
   '/OneDayCloserToHome/chapter-01.html',
   '/OneDayCloserToHome/chapter-02.html',

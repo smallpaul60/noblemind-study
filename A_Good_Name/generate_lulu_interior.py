@@ -34,6 +34,7 @@ CHAPTERS = [
     "chapter-11.html",
     "chapter-12.html",
     "chapter-13.html",
+    "chapter-14.html",
     "conclusion.html",
 ]
 
@@ -47,11 +48,12 @@ CHAPTER_TITLES = {
     "chapter-06.html": ("The Bible Isn\u2019t What You Think It Is", "Chapter 6", "Part Two: Who God Is"),
     "chapter-07.html": ("Putting Down the Phone Long Enough to Hear Something True", "Chapter 7", "Part Two: Who God Is"),
     "chapter-08.html": ("She Is Somebody\u2019s Daughter", "Chapter 8", "Part Three: How You Treat People"),
-    "chapter-09.html": ("The Friends You Choose Will Choose Your Future", "Chapter 9", "Part Three: How You Treat People"),
-    "chapter-10.html": ("Honor Your Father and Mother (Even When It\u2019s Hard)", "Chapter 10", "Part Three: How You Treat People"),
-    "chapter-11.html": ("Work Like It Matters Because It Does", "Chapter 11", "Part Four: How You Build a Life"),
-    "chapter-12.html": ("Money Will Test Your Character", "Chapter 12", "Part Four: How You Build a Life"),
-    "chapter-13.html": ("The Church Is Not Optional", "Chapter 13", "Part Four: How You Build a Life"),
+    "chapter-09.html": ("What to Expect from a Young Woman Who Fears God", "Chapter 9", "Part Three: How You Treat People"),
+    "chapter-10.html": ("The Friends You Choose Will Choose Your Future", "Chapter 10", "Part Three: How You Treat People"),
+    "chapter-11.html": ("Honor Your Father and Mother (Even When It\u2019s Hard)", "Chapter 11", "Part Three: How You Treat People"),
+    "chapter-12.html": ("Work Like It Matters Because It Does", "Chapter 12", "Part Four: How You Build a Life"),
+    "chapter-13.html": ("Money Will Test Your Character", "Chapter 13", "Part Four: How You Build a Life"),
+    "chapter-14.html": ("The Church Is Not Optional", "Chapter 14", "Part Four: How You Build a Life"),
     "conclusion.html": ("Your Move", "Conclusion", None),
 }
 
