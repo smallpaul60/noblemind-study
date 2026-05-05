@@ -106,7 +106,7 @@ A few days. Seven years felt like a few days because he loved her.
 
 That is what real love does. It waits. It works. It does not demand to take what it has not earned. It does not pressure for shortcuts. The young man who loves you the way Jacob loved Rachel will be patient — because patience is what love does.
 
-The second example is Boaz, who you have already met in Chapter 1. When Ruth came into his fields gleaning, Boaz noticed her — but watch what he did.
+The second example is Boaz, the kinsman-redeemer in Ruth's story. When Ruth came into his fields gleaning, Boaz noticed her — but watch what he did.
 
 He spoke to her kindly (Ruth 2:8). He gave her his protection — telling his young men not to touch her (Ruth 2:9). He provided for her beyond what was required (Ruth 2:14–16). And when Ruth came to him alone at night, in vulnerability, asking him to be her redeemer — when he could have taken advantage of her — he did the opposite. He praised her character. He covered her. He told her to wait until morning.
 
