@@ -34,8 +34,6 @@ A brother does not use his sister. He does not pressure her. He does not flatter
 
 If a young man cannot treat you the way he would treat his own sister, he is not treating you the way Scripture commands.
 
-That is a high standard. It is also the standard.
-
 ***If he cannot treat you with the dignity he would give his own sister, he has already failed the test.***
 
 **Pure Hearts and Self-Control**
