@@ -48,6 +48,10 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='WhyTheDivision/Debates_Notes/' \
   --exclude='WhyTheDivision/Resource Appendix_*.pdf' \
   --exclude='TheGodWhoShowedUp/em-dash_alt-0151.odt' \
+  --exclude='A_Good_Name/A_GOOD_NAME_CH9_HANDOFF.md' \
+  --exclude='A_Good_Name/AGoodName_ClaudeCode_Handoff.md' \
+  --exclude='A_Good_Name/AGoodName_Chapter9.md' \
+  --exclude='A_Good_Name/AGoodName_Chapter9.docx' \
   --exclude='strength_and_dignity/' \
   --exclude='a_new_and_living_way/' \
   --exclude='archive/' \
