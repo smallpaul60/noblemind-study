@@ -32,6 +32,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='*.py' \
   --exclude='PRINCIPLES.md' \
   --exclude='console/' \
+  --exclude='cloud-tts/' \
   --exclude='CLAUDE.md' \
   --exclude='Bible_Study_Principles_Comprehensive_04-20-2026.md' \
   --exclude='NobleMind_Build_Plan_for_Claude_Code.md' \
@@ -47,6 +48,8 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='WhyTheDivision/Debates_Notes/' \
   --exclude='WhyTheDivision/Resource Appendix_*.pdf' \
   --exclude='TheGodWhoShowedUp/em-dash_alt-0151.odt' \
+  --exclude='strength_and_dignity/' \
+  --exclude='a_new_and_living_way/' \
   --exclude='archive/' \
   --exclude='design-refs/' \
   --exclude='Works_In_Progress/' \
@@ -54,6 +57,8 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='Audio Files/' \
   --exclude='Text Files for Audio/' \
   --exclude='text-files-for-audio/' \
+  --exclude='audio-files-for-book/' \
+  --exclude='audio-files/' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""
