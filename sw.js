@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v206';
+const CACHE_NAME = 'noblemind-study-v212';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -116,6 +116,7 @@ const CACHE_FILES = [
   '/StrengthAndDignity/chapter-11.html',
   '/StrengthAndDignity/chapter-12.html',
   '/StrengthAndDignity/chapter-13.html',
+  '/StrengthAndDignity/chapter-14.html',
   '/StrengthAndDignity/conclusion.html',
   '/StrengthAndDignity/scripture-index.html',
   '/StrengthAndDignity/Strength_and_Dignity.pdf',
@@ -133,7 +134,36 @@ const CACHE_FILES = [
   '/OneDayCloserToHome/chapter-11.html',
   '/OneDayCloserToHome/chapter-12.html',
   '/OneDayCloserToHome/chapter-13.html',
-  '/OneDayCloserToHome/One_Day_Closer_to_Home.pdf'
+  '/OneDayCloserToHome/One_Day_Closer_to_Home.pdf',
+  '/before-i-formed-you/index.html',
+  '/before-i-formed-you/preface.html',
+  '/before-i-formed-you/chapter-01.html',
+  '/before-i-formed-you/chapter-02.html',
+  '/before-i-formed-you/chapter-03.html',
+  '/before-i-formed-you/chapter-04.html',
+  '/before-i-formed-you/chapter-05.html',
+  '/before-i-formed-you/chapter-06.html',
+  '/before-i-formed-you/chapter-07.html',
+  '/before-i-formed-you/chapter-08.html',
+  '/before-i-formed-you/closing.html',
+  '/before-i-formed-you/audio.html',
+  '/before-i-formed-you/BeforeIFormedYou.pdf',
+  '/before-i-formed-you/BeforeIFormedYou.epub',
+  '/FromTheBeginning/index.html',
+  '/FromTheBeginning/dedication.html',
+  '/FromTheBeginning/chapter-01.html',
+  '/FromTheBeginning/chapter-02.html',
+  '/FromTheBeginning/chapter-03.html',
+  '/FromTheBeginning/chapter-04.html',
+  '/FromTheBeginning/chapter-05.html',
+  '/FromTheBeginning/chapter-06.html',
+  '/FromTheBeginning/chapter-07.html',
+  '/FromTheBeginning/chapter-08.html',
+  '/FromTheBeginning/chapter-09.html',
+  '/FromTheBeginning/chapter-10.html',
+  '/FromTheBeginning/audio.html',
+  '/FromTheBeginning/FromTheBeginning.pdf',
+  '/FromTheBeginning/FromTheBeginning.epub'
 ];
 
 // Install event - cache essential files

@@ -23,7 +23,7 @@ LANGUAGE = "en"
 ISBN = "979-8-9954288-2-4"
 DESCRIPTION = (
     "A Bible-based guide for young women navigating identity, character, "
-    "relationships, and faith. Thirteen chapters rooted in Scripture \u2014 "
+    "relationships, and faith. Fourteen chapters rooted in Scripture \u2014 "
     "not opinions, not trends."
 )
 
@@ -37,12 +37,13 @@ CHAPTERS = [
     ("chapter-05.html", "Chapter 5", "The Relationship You Actually Need Most", "Part Two: Who God Is"),
     ("chapter-06.html", "Chapter 6", "The Bible Isn\u2019t What You Think It Is", None),
     ("chapter-07.html", "Chapter 7", "Putting Down the Phone Long Enough to Hear Something True", None),
-    ("chapter-08.html", "Chapter 8", "He Is Somebody\u2019s Son", "Part Three: How You Treat People"),
-    ("chapter-09.html", "Chapter 9", "The Friends You Choose Will Choose Your Future", None),
-    ("chapter-10.html", "Chapter 10", "Honor Your Father and Mother (Even When It\u2019s Hard)", None),
-    ("chapter-11.html", "Chapter 11", "Work Like It Matters Because It Does", "Part Four: How You Build a Life"),
-    ("chapter-12.html", "Chapter 12", "Money Will Test Your Character", None),
-    ("chapter-13.html", "Chapter 13", "The Church Is Not Optional", None),
+    ("chapter-08.html", "Chapter 8", "He Is Somebody\u2019s Son", "Part Three: How You Walk With People"),
+    ("chapter-09.html", "Chapter 9", "What to Expect from a Young Man Who Fears God", None),
+    ("chapter-10.html", "Chapter 10", "The Friends You Choose Will Choose Your Future", None),
+    ("chapter-11.html", "Chapter 11", "Honor Your Father and Mother (Even When It\u2019s Hard)", None),
+    ("chapter-12.html", "Chapter 12", "Work Like It Matters Because It Does", "Part Four: How You Build a Life"),
+    ("chapter-13.html", "Chapter 13", "Money Will Test Your Character", None),
+    ("chapter-14.html", "Chapter 14", "The Church Is Not Optional", None),
     ("conclusion.html", "Conclusion", "Your Move", None),
     ("scripture-index.html", "Scripture Index", "Scripture Index", None),
 ]
@@ -418,7 +419,7 @@ def main():
     part_names = {
         "Part One: Who You Are": ("Part One", "Who You Are"),
         "Part Two: Who God Is": ("Part Two", "Who God Is"),
-        "Part Three: How You Treat People": ("Part Three", "How You Treat People"),
+        "Part Three: How You Walk With People": ("Part Three", "How You Treat People"),
         "Part Four: How You Build a Life": ("Part Four", "How You Build a Life"),
     }
 
