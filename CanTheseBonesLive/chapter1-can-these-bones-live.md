@@ -24,7 +24,7 @@ Five years into exile, God spoke to him.
 
 Not in the temple. Not in Jerusalem. In Babylon. By a river in a foreign land, among the displaced and the defeated, God opened His mouth and spoke to a priest who had lost everything except the voice of the One who called him.
 
-What God showed him over the next twenty-two years would fill forty-eight chapters of Scripture — visions of divine glory, prophecies of judgment against Israel and the surrounding nations, warnings, lamentations, and promises so vivid they still stop readers in their tracks three thousand years later.
+What God showed him over the next twenty-two years would fill forty-eight chapters of Scripture — visions of divine glory, prophecies of judgment against Israel and the surrounding nations, warnings, lamentations, and promises so vivid they still grip readers three thousand years later.
 
 But the vision we are concerned with did not come early. It came late — after Jerusalem had fallen, after the temple had been destroyed, after the last ember of hope had gone cold.
 
