@@ -45,7 +45,7 @@ That phrase — *in Christ* — is one of the most important phrases in all of t
 
 •  •  •
 
-Paul the apostle opens his letter to the Ephesians with a statement that ought to stop every reader in his tracks:
+Read this carefully:
 
 *"Blessed be the God and Father of our Lord Jesus Christ, who has blessed us with every spiritual blessing in the heavenly places in Christ."*
 — Ephesians 1:3
