@@ -52,6 +52,8 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='A_Good_Name/AGoodName_ClaudeCode_Handoff.md' \
   --exclude='A_Good_Name/AGoodName_Chapter9.md' \
   --exclude='A_Good_Name/AGoodName_Chapter9.docx' \
+  --exclude='A_Good_Name/YourNameMeansEverything_Special_Edition_*.pdf' \
+  --exclude='A_Good_Name/Message-to-Hagen.pdf' \
   --exclude='strength_and_dignity/' \
   --exclude='a_new_and_living_way/' \
   --exclude='archive/' \
