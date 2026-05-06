@@ -56,6 +56,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='A_Good_Name/Message-to-Hagen.pdf' \
   --exclude='*hardcover-template.pdf' \
   --exclude='*Edition-Jacket.pdf' \
+  --exclude='*_Lulu_Metadata.docx' \
   --exclude='strength_and_dignity/' \
   --exclude='a_new_and_living_way/' \
   --exclude='archive/' \
