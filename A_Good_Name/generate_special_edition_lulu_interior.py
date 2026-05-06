@@ -136,9 +136,13 @@ def build_toc():
     return "\n".join(toc_items)
 
 
-# Cover gold (#C4A960) — matches the navy/gold paperback and hardcover.
+# Cover palette — gold and navy match the navy/gold paperback and hardcover.
+# Gold is the frame; Navy carries the title-like content (chapter titles,
+# H2 section headings) so the interior speaks the same color language as
+# the cover instead of being one undifferentiated wash of gold.
 GOLD = "#C4A960"
 GOLD_DIM = "#9D8546"
+NAVY = "#182030"
 
 CSS = f"""
 @font-face {{
@@ -414,7 +418,7 @@ body {{
 .chapter-header h1 {{
     font-size: 20pt;
     font-weight: bold;
-    color: {GOLD};
+    color: {NAVY};
     margin-bottom: 6pt;
     line-height: 1.2;
 }}
@@ -460,7 +464,7 @@ body {{
 .chapter-body h2 {{
     font-size: 13pt;
     font-weight: bold;
-    color: {GOLD_DIM};
+    color: {NAVY};
     margin-top: 0.3in;
     margin-bottom: 0.12in;
     page-break-after: avoid;
@@ -570,7 +574,7 @@ section.epigraph cite, .epigraph cite {{
     font-size: 13pt;
     font-weight: bold;
     font-style: italic;
-    color: {GOLD_DIM};
+    color: {NAVY};
     margin-top: 0.3in;
     margin-bottom: 0.12in;
 }}
