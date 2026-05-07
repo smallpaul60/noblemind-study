@@ -42,7 +42,8 @@ SPINE_W = 0.197 * inch          # Lulu cream paper, per template
 TRIM_W = 7.0 * inch
 TRIM_H = 10.0 * inch
 BLEED = 0.125 * inch
-SAFETY = 0.5 * inch
+SAFETY = 0.5 * inch          # used for the ISBN barcode placement
+BLURB_INSET = 1.0 * inch     # back-cover blurb column inset (wider than SAFETY for a more readable measure)
 
 DOC_W = BLEED + TRIM_W + SPINE_W + TRIM_W + BLEED   # 14.447"
 DOC_H = BLEED + TRIM_H + BLEED                      # 10.25"
@@ -135,13 +136,13 @@ def draw_front_cover(c):
 
 def draw_back_cover(c):
     """Draw back cover with blurb text."""
-    safe_left = BACK_TRIM_LEFT + SAFETY
-    safe_right = BACK_TRIM_RIGHT - SAFETY
+    safe_left = BACK_TRIM_LEFT + BLURB_INSET
+    safe_right = BACK_TRIM_RIGHT - BLURB_INSET
     text_width = safe_right - safe_left
     cx = BACK_CENTER_X
 
     y = TRIM_TOP - 1.3 * inch
-    line_h = 14
+    line_h = 15
 
     def draw_paragraph(text, font, size, color, centered=True, spacing=0.3):
         nonlocal y
