@@ -27,7 +27,7 @@ from isbn_barcode import draw_isbn_barcode  # noqa: E402
 ISBN_STUDY_GUIDE = "979-8-9954288-6-2"
 
 GUIDE_DIR = Path(__file__).parent
-OUTPUT = GUIDE_DIR / "ChangeTheMind_StudyGuide_Cover.pdf"
+OUTPUT = GUIDE_DIR / "ChangeTheMind_StudyGuide_IngramSpark_Paperback_Cover.pdf"
 
 # Register EB Garamond fonts
 FONT_DIR = Path.home() / ".local/share/fonts"
@@ -218,16 +218,6 @@ def draw_back_cover(c):
         "EBGaramond-Italic", 9.5,
         Color(0.7, 0.67, 0.6), centered=True
     )
-
-    draw_gap(0.8)
-
-    # Closing line
-    c.setFillColor(GOLD)
-    c.setFont("EBGaramond-Italic", 10)
-    c.drawCentredString(cx, y, "The valley has a through. The road is long.")
-    y -= line_h * 0.3
-    c.drawCentredString(cx, y, "And the text is already doing the work.")
-    y -= line_h * 2.0
 
     # NASB attribution — very small, raised above the ISBN barcode panel
     c.setFillColor(Color(0.5, 0.48, 0.43))
