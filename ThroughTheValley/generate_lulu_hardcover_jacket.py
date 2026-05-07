@@ -91,16 +91,27 @@ TRIM_BOTTOM = _x(BLEED_W + TURN_IN)              # 0.5"  from bottom of doc
 TRIM_TOP    = DOC_H - _x(BLEED_W + TURN_IN)      # 0.5"  from top of doc
 COVER_CENTER_Y = (TRIM_TOP + TRIM_BOTTOM) / 2
 
-# Centers
-BACK_CENTER_X  = (BACK_COVER_LEFT + BACK_COVER_RIGHT) / 2
-FRONT_CENTER_X = (FRONT_COVER_LEFT + FRONT_COVER_RIGHT) / 2
+# --- Visible-when-bound area (fold-to-fold, includes wraps) ---
+# Centering text/images to the bare COVER panel pushes content toward the
+# spine because the wrap on the outer side adds visible width on the
+# bound book. Use these visible spans instead.
+BACK_VISIBLE_LEFT   = BACK_WRAP_LEFT       # back flap-cover fold
+BACK_VISIBLE_RIGHT  = BACK_COVER_RIGHT     # spine fold (back side)
+BACK_VISIBLE_CENTER = (BACK_VISIBLE_LEFT + BACK_VISIBLE_RIGHT) / 2
+
+FRONT_VISIBLE_LEFT   = FRONT_COVER_LEFT    # spine fold (front side)
+FRONT_VISIBLE_RIGHT  = FRONT_WRAP_RIGHT    # cover-flap fold (front)
+FRONT_VISIBLE_CENTER = (FRONT_VISIBLE_LEFT + FRONT_VISIBLE_RIGHT) / 2
 
 # --- Safety margins ---
-SAFETY = 0.5 * inch              # text safety from any cover trim edge
-FLAP_FOLD_SAFETY = 0.5 * inch    # flap fold line (toward board)
-FLAP_TRIM_SAFETY = 0.5 * inch    # flap outer (turn-in) edge
-TOP_HEAD_PAD = 0.625 * inch      # extra ascender headroom on first line
-IMAGE_INSET = 0.125 * inch       # cover image inset from panel edges
+# Standing rule (memory: feedback_cover_clearance_and_centering): give plenty
+# of clearance on flaps and back-cover text. Vertical space is rarely the
+# constraint — readability is.
+BLURB_INSET = 1.0 * inch         # back-cover text column inset (each side)
+FLAP_FOLD_SAFETY = 0.75 * inch   # flap fold line (toward board)
+FLAP_TRIM_SAFETY = 0.75 * inch   # flap outer (turn-in) edge
+SAFETY = 0.5 * inch              # generic safety (e.g. barcode placement)
+TOP_HEAD_PAD = 0.75 * inch       # extra ascender headroom on first line
 
 FRONT_FLAP_SAFE_LEFT  = FRONT_FLAP_LEFT + FLAP_FOLD_SAFETY
 FRONT_FLAP_SAFE_RIGHT = FRONT_FLAP_RIGHT - FLAP_TRIM_SAFETY
@@ -136,11 +147,16 @@ def draw_background(c):
 
 
 def draw_front_cover(c):
-    """Place the cover image centered on the front cover panel.
+    """Fill the visible front cover with the cover image, edge-to-edge.
 
     The source JPG has white padding baked into its margins; we crop the
-    real content bbox before placing so that deep green surrounds the
-    image instead of leaving white slivers.
+    real content bbox before placing.
+
+    Placement uses cover-fit (fill the area, may crop slightly) — NOT
+    letterbox — so the image fills the visible front when bound and we
+    don't get green slivers at the panel edges. Image bleeds into the
+    top/bottom turn-in and lightly past the spine fold / cover-flap fold,
+    all of which fold or trim away on the finished book.
     """
     pil_img = Image.open(str(IMAGE_FILE)).convert("RGB")
     import numpy as np
@@ -163,23 +179,36 @@ def draw_front_cover(c):
     img_w, img_h = img.getSize()
     img_aspect = img_w / img_h
 
-    # Target: visible front cover area, less IMAGE_INSET on each side
-    target_x = FRONT_COVER_LEFT + IMAGE_INSET
-    target_w = (FRONT_COVER_RIGHT - FRONT_COVER_LEFT) - 2 * IMAGE_INSET
-    target_y = TRIM_BOTTOM + IMAGE_INSET
-    target_h = (TRIM_TOP - TRIM_BOTTOM) - 2 * IMAGE_INSET
+    # Target: visible front cover area (fold-to-fold horizontally, trim
+    # to trim vertically). Anchored at the spine fold on the left so we
+    # never overflow into the spine area. The cropped cover image has an
+    # aspect of ~0.667 which matches the visible 5.5"x8.25" area to
+    # within a fraction of a percent, so we simply scale to fill.
+    target_x = FRONT_VISIBLE_LEFT
+    target_w = FRONT_VISIBLE_RIGHT - FRONT_VISIBLE_LEFT
+    target_y = TRIM_BOTTOM
+    target_h = TRIM_TOP - TRIM_BOTTOM
     target_aspect = target_w / target_h
 
-    if img_aspect > target_aspect:
-        draw_w = target_w
-        draw_h = target_w / img_aspect
-        draw_x = target_x
-        draw_y = target_y + (target_h - draw_h) / 2
-    else:
+    # Pick the dimension whose required scale is larger, so the image
+    # covers the target exactly (any tiny aspect mismatch overflows
+    # equally on the dominant axis and is hidden by the fold/trim).
+    if img_aspect >= target_aspect:
+        # Image is wider-aspect: scale to fill height, allow horizontal
+        # overflow centered (will fall partially under the cover-flap
+        # fold on the right; spine fold on the left would also receive
+        # overflow but we anchor at FRONT_VISIBLE_LEFT to prevent it).
         draw_h = target_h
         draw_w = target_h * img_aspect
         draw_x = target_x + (target_w - draw_w) / 2
         draw_y = target_y
+    else:
+        # Image is taller-aspect: scale to fill width, vertical overflow
+        # is absorbed by the top/bottom turn-in folds.
+        draw_w = target_w
+        draw_h = target_w / img_aspect
+        draw_x = target_x
+        draw_y = target_y + (target_h - draw_h) / 2
 
     c.drawImage(img, draw_x, draw_y, width=draw_w, height=draw_h)
 
@@ -196,11 +225,18 @@ def draw_spine(c):
 
 
 def draw_back_cover(c):
-    """Back cover: hook, body paragraphs, broadened dedication, attribution, barcode."""
-    safe_left = BACK_COVER_LEFT + SAFETY
-    safe_right = BACK_COVER_RIGHT - SAFETY
+    """Back cover: hook, body paragraphs, broadened dedication, attribution, barcode.
+
+    Text column uses BLURB_INSET (1.0") off the visible-area edges (which
+    include the back wrap on the outer side and run to the spine fold on
+    the inner side). Centering uses the visible center, not the bare
+    cover panel center, so content does not appear shifted toward the
+    spine on the bound book.
+    """
+    safe_left = BACK_VISIBLE_LEFT + BLURB_INSET
+    safe_right = BACK_VISIBLE_RIGHT - BLURB_INSET
     text_width = safe_right - safe_left
-    cx = (safe_left + safe_right) / 2
+    cx = BACK_VISIBLE_CENTER
 
     def centered(text, font, size, baseline):
         c.setFont(font, size)
@@ -257,13 +293,16 @@ def draw_back_cover(c):
              "EBGaramond-Italic", 8, y)
 
     # --- ISBN barcode (mandatory; bottom-right of back cover, on white panel) ---
+    # Barcode placement uses SAFETY (0.5"), independent of BLURB_INSET, so
+    # widening the blurb column doesn't push the barcode away from its
+    # conventional spine-side bottom-corner position.
     barcode_img = ImageReader(str(BARCODE_IMAGE))
     bc_w = 1.75 * inch
     bc_h = bc_w * 280 / 523                 # preserve barcode PNG aspect
     pad = 0.08 * inch
     box_w = bc_w + 2 * pad
     box_h = bc_h + 2 * pad
-    box_x = safe_right - box_w
+    box_x = BACK_VISIBLE_RIGHT - SAFETY - box_w
     box_y = TRIM_BOTTOM + SAFETY
     c.setFillColor(white)
     c.rect(box_x, box_y, box_w, box_h, fill=1, stroke=0)
