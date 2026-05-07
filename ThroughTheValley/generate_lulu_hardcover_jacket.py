@@ -162,47 +162,69 @@ def draw_front_cover(c):
     Hainline" (replacing the prior PAUL HAINLINE that was rasterized
     into the previous cover image).
     """
-    img = ImageReader(str(IMAGE_FILE))
-    img_w, img_h = img.getSize()
-    img_aspect = img_w / img_h
+    # Pre-crop the source so it matches the visible-front aspect
+    # exactly (6.0"/9.25" = 0.649). Image fills the front panel
+    # bleed-to-bleed vertically with no green slivers; the few percent
+    # of pixels cropped from each side fall outside the focal area
+    # (staff, path, sun).
+    pil_img = Image.open(str(IMAGE_FILE)).convert("RGB")
+    src_w, src_h = pil_img.size
+    src_aspect = src_w / src_h
 
-    # Width-fit: image fills the visible cover width edge-to-edge. Height
-    # comes out slightly larger than the visible area (8.5"); the
-    # overflow lands in the top/bottom turn-in folds and is hidden.
     target_x = FRONT_VISIBLE_LEFT
-    target_w = FRONT_VISIBLE_RIGHT - FRONT_VISIBLE_LEFT
-    draw_w = target_w
-    draw_h = target_w / img_aspect
-    draw_x = target_x
-    draw_y = (DOC_H - draw_h) / 2
+    target_w = FRONT_VISIBLE_RIGHT - FRONT_VISIBLE_LEFT   # 6.0" in points
+    target_h = DOC_H                                       # 9.25" in points
+    target_aspect = target_w / target_h                    # ~0.649
 
-    c.drawImage(img, draw_x, draw_y, width=draw_w, height=draw_h)
+    if src_aspect > target_aspect:
+        new_w = int(round(src_h * target_aspect))
+        x0 = (src_w - new_w) // 2
+        pil_img = pil_img.crop((x0, 0, x0 + new_w, src_h))
+    elif src_aspect < target_aspect:
+        new_h = int(round(src_w / target_aspect))
+        y0 = (src_h - new_h) // 2
+        pil_img = pil_img.crop((0, y0, src_w, y0 + new_h))
+
+    buf = io.BytesIO()
+    pil_img.save(buf, format="JPEG", quality=92)
+    buf.seek(0)
+    img = ImageReader(buf)
+    c.drawImage(img, target_x, 0, width=target_w, height=target_h)
 
     # --- Vector text overlay ---
     cx = FRONT_VISIBLE_CENTER
 
-    # Title: "Through the" (smaller line) above "Valley" (larger line),
-    # both in Great Vibes script, dark forest green to match the trees
-    # and the book's brand palette.
+    # Title in Great Vibes script. Two lines with enough vertical gap
+    # between baselines to clear the script font's ascenders/descenders
+    # so the lines no longer crowd into each other.
     c.setFillColor(DEEP_GREEN)
-    c.setFont("GreatVibes", 56)
-    c.drawCentredString(cx, TRIM_TOP - 0.95 * inch, "Through the")
-    c.setFont("GreatVibes", 88)
-    c.drawCentredString(cx, TRIM_TOP - 1.85 * inch, "Valley")
+    c.setFont("GreatVibes", 60)
+    c.drawCentredString(cx, TRIM_TOP - 0.85 * inch, "Through the")
+    c.setFont("GreatVibes", 100)
+    c.drawCentredString(cx, TRIM_TOP - 2.30 * inch, "Valley")
 
-    # Subtitle: italic serif, smaller, just below the title block.
-    c.setFont("EBGaramond-Italic", 16)
-    c.drawCentredString(cx, TRIM_TOP - 2.55 * inch,
+    # Subtitle, sitting clear of "Valley" descenders.
+    c.setFont("EBGaramond-Italic", 17)
+    c.drawCentredString(cx, TRIM_TOP - 3.05 * inch,
                         "What God Says When the Shadow Is Real")
 
-    # Byline: small-caps letter-spaced, cream against the lower meadow
-    # area which has enough darkness in it to read as light text.
+    # Byline: EB Garamond all-caps with light letter spacing via the
+    # text-object API (Canvas itself has no setCharSpace). Compute the
+    # spaced width manually so we can center it.
     c.setFillColor(CREAM)
-    c.setFont("EBGaramond", 18)
-    byline = "PAUL  &  PAM  HAINLINE"
-    # Manually space-out the letters for a small-caps feel.
-    spaced = " ".join(list(byline.replace("  ", " ")))
-    c.drawCentredString(cx, TRIM_BOTTOM + 0.55 * inch, spaced)
+    byline_font = "EBGaramond"
+    byline_size = 17
+    char_space = 1.5
+    byline_text = "PAUL & PAM HAINLINE"
+    natural_w = c.stringWidth(byline_text, byline_font, byline_size)
+    spaced_w = natural_w + char_space * (len(byline_text) - 1)
+    byline_x = cx - spaced_w / 2
+    byline_y = TRIM_BOTTOM + 0.55 * inch
+    text_obj = c.beginText(byline_x, byline_y)
+    text_obj.setFont(byline_font, byline_size)
+    text_obj.setCharSpace(char_space)
+    text_obj.textOut(byline_text)
+    c.drawText(text_obj)
 
 
 def draw_spine(c):
@@ -302,9 +324,11 @@ def draw_back_cover(c):
 
 
 def draw_front_flap(c):
-    """Front flap: short book description."""
+    """Front flap: short book description, centered within the flap text column."""
     safe_left = FRONT_FLAP_SAFE_LEFT
+    safe_right = FRONT_FLAP_SAFE_RIGHT
     text_width = FRONT_FLAP_TEXT_W
+    cx = (safe_left + safe_right) / 2
 
     c.setFillColor(CREAM)
     y = TRIM_TOP - TOP_HEAD_PAD
@@ -327,22 +351,24 @@ def draw_front_flap(c):
             continue
         for line in wrap_text(c, text, font, size, text_width):
             c.setFont(font, size)
-            c.drawString(safe_left, y, line)
+            c.drawCentredString(cx, y, line)
             y -= line_height
         y -= line_height * 0.2
 
 
 def draw_back_flap(c):
-    """Back flap: About the Author (Berean framing per the standing wording)."""
+    """Back flap: About the Author (centered)."""
     safe_left = BACK_FLAP_SAFE_LEFT
+    safe_right = BACK_FLAP_SAFE_RIGHT
     text_width = BACK_FLAP_TEXT_W
+    cx = (safe_left + safe_right) / 2
 
     c.setFillColor(CREAM)
 
     y = TRIM_TOP - TOP_HEAD_PAD
     header = "About the Author"
     c.setFont("EBGaramond", 10)
-    c.drawString(safe_left, y, header)
+    c.drawCentredString(cx, y, header)
     y -= 16
 
     line_height = 10.5
@@ -359,7 +385,7 @@ def draw_back_flap(c):
             continue
         for line in wrap_text(c, text, "EBGaramond", 7.5, text_width):
             c.setFont("EBGaramond", 7.5)
-            c.drawString(safe_left, y, line)
+            c.drawCentredString(cx, y, line)
             y -= line_height
         y -= line_height * 0.2
 
