@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 import weasyprint
 
 BOOK_DIR = Path(__file__).parent
-OUTPUT = BOOK_DIR / "Through_the_Valley_IngramSpark_Interior.pdf"
+OUTPUT = BOOK_DIR / "Through_the_Valley_Lulu_Interior.pdf"
 
 FONT_DIR = Path.home() / ".local" / "share" / "fonts"
 
@@ -731,7 +731,10 @@ def build_full_html(chapter_sections, toc_html, scripture_index_html, front_matt
 
   <!-- DEDICATION (page 2, verso) -->
   <div class="dedication-page">
-    <p>To Mark and Bonnie.</p>
+    <p>To everyone walking through this valley &mdash;</p>
+    <p>the one whose body is failing,</p>
+    <p>and the one sitting at the bedside.</p>
+    <p>&nbsp;</p>
     <p>You are not walking into the valley; you are walking through it.</p>
     <p>The Shepherd is already there.</p>
   </div>
@@ -744,7 +747,8 @@ def build_full_html(chapter_sections, toc_html, scripture_index_html, front_matt
     <p>&nbsp;</p>
     <p>Published by NobleMind Press</p>
     <p>&nbsp;</p>
-    <p class="isbn">ISBN 979-8-9954288-7-9</p>
+    <p class="isbn">Paperback ISBN: 979-8-9954288-7-9</p>
+    <p class="isbn">Hardcover ISBN: 979-8-9954288-8-6</p>
     <p>&nbsp;</p>
     <p>Scripture quotations are taken from the New American Standard Bible\u00ae (NASB),<br>
     Copyright \u00a9 1960, 1971, 1977, 1995, 2020 by The Lockman Foundation.<br>
