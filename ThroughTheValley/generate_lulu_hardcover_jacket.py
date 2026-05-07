@@ -35,29 +35,30 @@ from reportlab.pdfgen import canvas
 
 BOOK_DIR = Path(__file__).parent
 OUTPUT = BOOK_DIR / "Through_the_Valley_Lulu_Hardcover_Jacket.pdf"
-IMAGE_FILE = BOOK_DIR / "cover_image_extracted.jpg"
+IMAGE_FILE = BOOK_DIR / "new-cover-image-original.png"   # clean portrait, no baked text
 BARCODE_IMAGE = BOOK_DIR / "barcode_978-8-9954288-8-6.png"   # hardcover ISBN
 
-# Register EB Garamond fonts
+# Register fonts. EB Garamond for body, Great Vibes for the cover script title.
 FONT_DIR = Path.home() / ".local/share/fonts"
 pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
+pdfmetrics.registerFont(TTFont("GreatVibes", str(FONT_DIR / "GreatVibes-Regular.ttf")))
 
-# --- Document dimensions (Lulu spec) ---
-PAGE_COUNT = 116
+# --- Document dimensions (Lulu spec, confirmed by downloaded template 2026-05-07) ---
+PAGE_COUNT = 120
 DOC_W_IN = 19.250
 DOC_H_IN = 9.250
 DOC_W = DOC_W_IN * inch
 DOC_H = DOC_H_IN * inch
 
-# Panel widths (Lulu)
+# Panel widths (Lulu — 3.25" flaps, 5.75" covers; sums to exactly 19.25")
 BLEED_W = 0.125
-FLAP_W = 3.75
+FLAP_W = 3.25
 WRAP_W = 0.25
-COVER_W = 5.25
+COVER_W = 5.75
 SPINE_W = 0.50
-COVER_H = 8.25
-TURN_IN = 0.375          # space between bleed and visible cover area (top/bottom)
+COVER_H = 8.50
+TURN_IN = 0.250          # space between bleed and visible cover area (top/bottom)
 
 # --- Colors (match IngramSpark version exactly so both editions read the same) ---
 DEEP_GREEN = Color(0.110, 0.180, 0.110)   # #1C2E1C deep forest green
@@ -147,70 +148,61 @@ def draw_background(c):
 
 
 def draw_front_cover(c):
-    """Fill the visible front cover with the cover image, edge-to-edge.
+    """Fill visible front with the image, then overlay vector title,
+    subtitle, and byline.
 
-    The source JPG has white padding baked into its margins; we crop the
-    real content bbox before placing.
+    Image: scaled to fill the visible front width exactly (6.0", from
+    spine fold to cover-flap fold) and centered vertically. Any small
+    aspect mismatch is absorbed by the top/bottom turn-in folds, which
+    are hidden on the bound book.
 
-    Placement uses cover-fit (fill the area, may crop slightly) — NOT
-    letterbox — so the image fills the visible front when bound and we
-    don't get green slivers at the panel edges. Image bleeds into the
-    top/bottom turn-in and lightly past the spine fold / cover-flap fold,
-    all of which fold or trim away on the finished book.
+    Text: all vector. Title in Great Vibes script (matches the original
+    cover's title face), subtitle in EB Garamond italic, byline in EB
+    Garamond small-caps letter-spaced. New byline reads "Paul & Pam
+    Hainline" (replacing the prior PAUL HAINLINE that was rasterized
+    into the previous cover image).
     """
-    pil_img = Image.open(str(IMAGE_FILE)).convert("RGB")
-    import numpy as np
-    arr = np.array(pil_img)
-    h, w = arr.shape[:2]
-    light = (arr[..., 0] >= 220) & (arr[..., 1] >= 220) & (arr[..., 2] >= 220)
-    content = ~light
-    col_thresh = int(h * 0.20)
-    row_thresh = int(w * 0.20)
-    cols = np.where(content.sum(axis=0) > col_thresh)[0]
-    rows = np.where(content.sum(axis=1) > row_thresh)[0]
-    if len(cols) and len(rows):
-        pil_img = pil_img.crop((int(cols[0]), int(rows[0]),
-                                int(cols[-1]) + 1, int(rows[-1]) + 1))
-
-    buf = io.BytesIO()
-    pil_img.save(buf, format="JPEG", quality=92)
-    buf.seek(0)
-    img = ImageReader(buf)
+    img = ImageReader(str(IMAGE_FILE))
     img_w, img_h = img.getSize()
     img_aspect = img_w / img_h
 
-    # Target: visible front cover area (fold-to-fold horizontally, trim
-    # to trim vertically). Anchored at the spine fold on the left so we
-    # never overflow into the spine area. The cropped cover image has an
-    # aspect of ~0.667 which matches the visible 5.5"x8.25" area to
-    # within a fraction of a percent, so we simply scale to fill.
+    # Width-fit: image fills the visible cover width edge-to-edge. Height
+    # comes out slightly larger than the visible area (8.5"); the
+    # overflow lands in the top/bottom turn-in folds and is hidden.
     target_x = FRONT_VISIBLE_LEFT
     target_w = FRONT_VISIBLE_RIGHT - FRONT_VISIBLE_LEFT
-    target_y = TRIM_BOTTOM
-    target_h = TRIM_TOP - TRIM_BOTTOM
-    target_aspect = target_w / target_h
-
-    # Pick the dimension whose required scale is larger, so the image
-    # covers the target exactly (any tiny aspect mismatch overflows
-    # equally on the dominant axis and is hidden by the fold/trim).
-    if img_aspect >= target_aspect:
-        # Image is wider-aspect: scale to fill height, allow horizontal
-        # overflow centered (will fall partially under the cover-flap
-        # fold on the right; spine fold on the left would also receive
-        # overflow but we anchor at FRONT_VISIBLE_LEFT to prevent it).
-        draw_h = target_h
-        draw_w = target_h * img_aspect
-        draw_x = target_x + (target_w - draw_w) / 2
-        draw_y = target_y
-    else:
-        # Image is taller-aspect: scale to fill width, vertical overflow
-        # is absorbed by the top/bottom turn-in folds.
-        draw_w = target_w
-        draw_h = target_w / img_aspect
-        draw_x = target_x
-        draw_y = target_y + (target_h - draw_h) / 2
+    draw_w = target_w
+    draw_h = target_w / img_aspect
+    draw_x = target_x
+    draw_y = (DOC_H - draw_h) / 2
 
     c.drawImage(img, draw_x, draw_y, width=draw_w, height=draw_h)
+
+    # --- Vector text overlay ---
+    cx = FRONT_VISIBLE_CENTER
+
+    # Title: "Through the" (smaller line) above "Valley" (larger line),
+    # both in Great Vibes script, dark forest green to match the trees
+    # and the book's brand palette.
+    c.setFillColor(DEEP_GREEN)
+    c.setFont("GreatVibes", 56)
+    c.drawCentredString(cx, TRIM_TOP - 0.95 * inch, "Through the")
+    c.setFont("GreatVibes", 88)
+    c.drawCentredString(cx, TRIM_TOP - 1.85 * inch, "Valley")
+
+    # Subtitle: italic serif, smaller, just below the title block.
+    c.setFont("EBGaramond-Italic", 16)
+    c.drawCentredString(cx, TRIM_TOP - 2.55 * inch,
+                        "What God Says When the Shadow Is Real")
+
+    # Byline: small-caps letter-spaced, cream against the lower meadow
+    # area which has enough darkness in it to read as light text.
+    c.setFillColor(CREAM)
+    c.setFont("EBGaramond", 18)
+    byline = "PAUL  &  PAM  HAINLINE"
+    # Manually space-out the letters for a small-caps feel.
+    spaced = " ".join(list(byline.replace("  ", " ")))
+    c.drawCentredString(cx, TRIM_BOTTOM + 0.55 * inch, spaced)
 
 
 def draw_spine(c):
