@@ -51,14 +51,21 @@ DOC_H_IN = 9.250
 DOC_W = DOC_W_IN * inch
 DOC_H = DOC_H_IN * inch
 
-# Panel widths (Lulu — 3.25" flaps, 5.75" covers; sums to exactly 19.25")
-BLEED_W = 0.125
+# Panel widths — straight from Lulu's downloaded template spec.
+# Lulu's spec gives flap, flap-fold, and spine; no separate bleed margin
+# is added beyond the doc edges. Cover width is whatever's left:
+#   3.25 (flap) + 0.25 (fold) + COVER + 0.5 (spine) + COVER + 0.25 + 3.25 = 19.25
+#   COVER = (19.25 - 7.5) / 2 = 5.875"
+# Earlier versions of this file added a phantom 0.125" bleed on each
+# side of the doc and used COVER = 5.75". That shifted flaps 0.125"
+# toward the spine and broke centering. The correct values are below.
+BLEED_W = 0.0
 FLAP_W = 3.25
-WRAP_W = 0.25
-COVER_W = 5.75
+WRAP_W = 0.25      # the "Flap Fold Width" in Lulu's spec
+COVER_W = 5.875
 SPINE_W = 0.50
 COVER_H = 8.50
-TURN_IN = 0.250          # space between bleed and visible cover area (top/bottom)
+TURN_IN = 0.375          # wrap-over from doc edge into visible cover (top/bottom)
 
 # --- Colors (match IngramSpark version exactly so both editions read the same) ---
 DEEP_GREEN = Color(0.110, 0.180, 0.110)   # #1C2E1C deep forest green
@@ -257,32 +264,32 @@ def draw_back_cover(c):
         c.drawCentredString(cx, baseline, text)
 
     # --- Hook line (italic, light sage) ---
-    y = TRIM_TOP - 0.85 * inch
+    y = TRIM_TOP - 0.7 * inch
     c.setFillColor(SAGE_LIGHT)
     hook = "This book is short enough to read in a hospital room. It is meant to be."
-    for line in wrap_text(c, hook, "EBGaramond-Italic", 12, text_width):
-        centered(line, "EBGaramond-Italic", 12, y)
-        y -= 17
+    for line in wrap_text(c, hook, "EBGaramond-Italic", 10.5, text_width):
+        centered(line, "EBGaramond-Italic", 10.5, y)
+        y -= 14
 
     # --- Thin decorative line ---
-    y -= 14
+    y -= 10
     line_hw = 0.6 * inch
     c.setStrokeColor(SAGE_LIGHT)
     c.setLineWidth(0.4)
     c.line(cx - line_hw, y, cx + line_hw, y)
-    y -= 26
+    y -= 18
 
     # --- Body text (cream) ---
     c.setFillColor(CREAM)
-    body_size = 11
-    line_height = 17       # generous leading so the column breathes
-    para_gap = line_height * 0.85
+    body_size = 10
+    line_height = 13.5
+    para_gap = 8
 
     body_paragraphs = [
         "Someone you love is dying. Or maybe that someone is you.",
         "Through the Valley walks with two people at once — the one whose body is failing and the one who will be left behind. It does not separate them, because they are walking through the same valley.",
-        "In eight chapters anchored entirely in Scripture, this book examines what God actually says — not platitudes, not near-death stories, not clinical speculation. What does God say about His presence when He feels absent? What happens after death? And how do you grieve honestly while holding to a hope that Scripture calls certain?",
-        "The valley is real. The shadow is dark. But David did not say ‘if I walk into the valley.’ He said ‘even though I walk through.’ The valley has a through. And the Shepherd is already there.",
+        "In eight chapters anchored entirely in Scripture, this book examines what God actually says — not platitudes, not near-death stories, not clinical speculation. What does God say about His presence when He feels absent? What happens after death?",
+        "The valley is real. But David did not say ‘if I walk into the valley.’ He said ‘even though I walk through.’ The valley has a through. And the Shepherd is already there.",
     ]
     for para in body_paragraphs:
         for line in wrap_text(c, para, "EBGaramond", body_size, text_width):
@@ -299,14 +306,14 @@ def draw_back_cover(c):
         "and the one sitting at the bedside.",
     ]
     for line in dedication_lines:
-        centered(line, "EBGaramond-Italic", 11, y)
-        y -= 15
+        centered(line, "EBGaramond-Italic", 9.5, y)
+        y -= 12
 
     # --- Scripture attribution (small, muted sage) ---
-    y -= 14
+    y -= 10
     c.setFillColor(SAGE_MUTED)
     centered("Scripture quotations from the New American Standard Bible® (NASB).",
-             "EBGaramond-Italic", 9, y)
+             "EBGaramond-Italic", 8, y)
 
     # --- ISBN barcode (mandatory; bottom-right of back cover, on white panel) ---
     # Barcode placement uses SAFETY (0.5"), independent of BLURB_INSET, so
@@ -334,18 +341,18 @@ def draw_front_flap(c):
 
     c.setFillColor(CREAM)
     y = TRIM_TOP - TOP_HEAD_PAD
-    line_height = 14    # was 11 — more breathing room
-    para_gap = 16
+    line_height = 12
+    para_gap = 12
 
     paragraphs = [
-        ("EBGaramond-Italic", 10,
+        ("EBGaramond-Italic", 9,
          "Through the Valley is written for the hardest season — when someone you love is facing the end, or when that someone is you."),
         (None, 0, ""),
-        ("EBGaramond", 9,
+        ("EBGaramond", 8.5,
          "Built on five principles — the Bible as sole authority, word-for-word accuracy, Scripture interprets Scripture, intellectual honesty, and a shared journey — each chapter walks with both the one who is departing and the one who remains."),
         (None, 0, ""),
-        ("EBGaramond", 9,
-         "This is not a book of platitudes. It acknowledges that the pain is real, the body decays, and the questions are often loud. It does not pretend the valley is not dark. It simply trusts that the Light is brighter."),
+        ("EBGaramond", 8.5,
+         "Not a book of platitudes. It acknowledges that the pain is real and the questions are often loud. It does not pretend the valley is not dark. It simply trusts that the Light is brighter."),
     ]
 
     for font, size, text in paragraphs:
@@ -356,7 +363,7 @@ def draw_front_flap(c):
             c.setFont(font, size)
             c.drawCentredString(cx, y, line)
             y -= line_height
-        y -= 4   # tiny tail-space after a paragraph block
+        y -= 2
 
 
 def draw_back_flap(c):
@@ -370,18 +377,18 @@ def draw_back_flap(c):
 
     y = TRIM_TOP - TOP_HEAD_PAD
     header = "About the Author"
-    c.setFont("EBGaramond", 12)
+    c.setFont("EBGaramond", 11)
     c.drawCentredString(cx, y, header)
-    y -= 22       # was 16 — larger header needs more clearance
+    y -= 18
 
-    body_size = 9      # was 7.5 — more readable
-    line_height = 14   # was 10.5 — generous leading
-    para_gap = 18
+    body_size = 8
+    line_height = 11
+    para_gap = 10
 
     paragraphs = [
         "Paul Hainline writes using the Berean approach of “examining the Scriptures daily to see whether these things were so” (Acts 17:11), and letting Scripture interpret Scripture. He is the author of multiple books on Bible study, evangelism, and Christian living, and writes with his wife Pam on books for teenagers in the Your Name Means Everything series.",
         "",
-        "All of his books are available as free PDF and EPUB downloads at noblemind.study, alongside the Noble Mind Study Tool — a free, offline-capable Bible study application built around the same Berean methodology.",
+        "All of his books are available as free PDF and EPUB downloads at noblemind.study.",
     ]
 
     for text in paragraphs:
@@ -392,7 +399,7 @@ def draw_back_flap(c):
             c.setFont("EBGaramond", body_size)
             c.drawCentredString(cx, y, line)
             y -= line_height
-        y -= 4
+        y -= 2
 
 
 def main():
