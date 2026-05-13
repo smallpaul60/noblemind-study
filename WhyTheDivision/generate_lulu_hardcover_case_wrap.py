@@ -16,7 +16,14 @@ Lulu specs (from Lulu's case-wrap template for a 5.5x8.5 hardcover):
   Safety margin:        0.625" inside the board edge
 """
 
+import sys
 from pathlib import Path
+
+# Register Standard-14 font overrides (Helvetica → embedded Liberation Sans)
+# BEFORE any ReportLab Canvas is constructed. Without this Lulu/IngramSpark
+# preflight reports Helvetica as unembedded and rejects the cover.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
+import isbn_barcode  # noqa: F401
 
 from reportlab.lib.pagesizes import inch
 from reportlab.lib.colors import Color
@@ -43,9 +50,11 @@ pdfmetrics.registerFont(TTFont("EBGaramond-Italic",
 # hardcover template tool before final upload.
 # ============================================================================
 PAGE_COUNT  = 170
-PB_SPINE    = round(PAGE_COUNT * 0.0029, 3)
-HC_OVERHEAD = 0.242                    # board-thickness add observed for WDYD
-SPINE_W_IN  = round(PB_SPINE + HC_OVERHEAD, 3)
+# Spine width pulled from Lulu's downloaded case-wrap template
+# (lulu-hardcover-casew-wrap-cover-template.pdf, 2026-05-13).
+# The earlier estimate of 0.735" (PB_SPINE 0.493" + 0.242" board overhead)
+# was 0.047" too wide vs Lulu's actual value — always trust the template.
+SPINE_W_IN  = 0.688
 
 PANEL_W_IN  = 5.75
 PANEL_H_IN  = 9.00
@@ -348,8 +357,7 @@ def main():
           '"Why the Division Among Brethren?"...')
     print(f'  Document size: {DOC_W_IN}" x {DOC_H_IN}"')
     print(f'  Panel face size: {PANEL_W_IN}" x {PANEL_H_IN}"')
-    print(f'  Spine width: {SPINE_W_IN:.3f}" (estimated; '
-          'update with Lulu template value before final upload)')
+    print(f'  Spine width: {SPINE_W_IN:.3f}" (from Lulu template)')
     print(f'  Wrap: {WRAP_IN}" past board edge')
     print(f'  Safety: {SAFETY_IN}" inside board edge')
     print()
