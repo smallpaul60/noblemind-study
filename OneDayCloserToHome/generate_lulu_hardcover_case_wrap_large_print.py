@@ -174,20 +174,7 @@ def draw_front_face(c):
     c.drawCentredString(cx, FACE_TOP - 2.05 * inch, "A Book of Hope for Those")
     c.drawCentredString(cx, FACE_TOP - 2.32 * inch, "in the Final Chapters")
 
-    # --- LARGE PRINT EDITION badge ---
-    # Sits between subtitle and author. Sunrise gold so it stands out
-    # cleanly against the dark wash but doesn't compete with the title.
-    badge_y = FACE_TOP - 2.85 * inch
-    c.setStrokeColor(SUNRISE_GOLD)
-    c.setLineWidth(0.6)
-    rule_hw = 1.0 * inch
-    c.line(cx - rule_hw, badge_y + 0.18 * inch, cx + rule_hw, badge_y + 0.18 * inch)
-    c.setFillColor(SUNRISE_GOLD)
-    c.setFont("EBGaramond", 12)
-    c.drawCentredString(cx, badge_y, "L A R G E   P R I N T   E D I T I O N")
-    c.line(cx - rule_hw, badge_y - 0.10 * inch, cx + rule_hw, badge_y - 0.10 * inch)
-
-    # --- Bottom gradient for author ---
+    # --- Bottom gradient for author + LARGE PRINT line ---
     c.saveState()
     p = c.beginPath(); p.rect(FRONT_FACE_LEFT, FACE_BOTTOM, target_w, target_h); p.close()
     c.clipPath(p, stroke=0)
@@ -204,8 +191,16 @@ def draw_front_face(c):
     # --- Author ---
     c.setFillColor(CREAM)
     c.setFont("EBGaramond", 16)
-    c.drawCentredString(cx, FACE_BOTTOM + SAFETY_IN * inch + 0.2 * inch,
+    c.drawCentredString(cx, FACE_BOTTOM + SAFETY_IN * inch + 0.45 * inch,
                         "P A U L   H A I N L I N E")
+
+    # --- LARGE PRINT EDITION line — quiet typographic note below the
+    # author, sunrise gold so it reads as a quality marker rather than
+    # competing with the title block. Sits just above the safety line. ---
+    c.setFillColor(SUNRISE_GOLD)
+    c.setFont("EBGaramond", 11)
+    c.drawCentredString(cx, FACE_BOTTOM + SAFETY_IN * inch + 0.13 * inch,
+                        "L A R G E   P R I N T   E D I T I O N")
 
 
 def draw_spine(c):
