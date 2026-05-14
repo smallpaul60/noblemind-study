@@ -445,7 +445,7 @@ def build_full_html(chapter_sections, toc_html, scripture_index_html):
 
   <div class="title-page">
     <h1>A New and<br>Living Way</h1>
-    <p class="subtitle-line">Learning to Pray as the Bible Actually Teaches</p>
+    <p class="subtitle-line">What the Bible Teaches About Prayer</p>
     <p class="author">Paul Hainline</p>
     <p class="anchor-verse">
       &ldquo;Therefore, brethren, since we have confidence to enter the holy place
