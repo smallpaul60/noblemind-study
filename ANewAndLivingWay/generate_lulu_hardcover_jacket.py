@@ -90,7 +90,13 @@ SLATE       = Color(0.545, 0.529, 0.475)   # #8B8779
 FLAP_SAFETY      = 0.75 * inch
 BACK_BLURB_INSET = 1.00 * inch
 COVER_SAFETY     = 0.5  * inch
-VISUAL_SHIFT     = 0.10 * inch   # nudge flap & back text toward spine
+
+# Visual shifts — text nudged toward the spine because the jacket wraps
+# around the board edges. Per Paul's Lulu preview review 2026-05-14,
+# the flaps needed a noticeably bigger shift than the back cover. Back
+# cover looked balanced at 0.10"; flaps required ~0.25".
+BACK_VISUAL_SHIFT = 0.10 * inch
+FLAP_VISUAL_SHIFT = 0.25 * inch
 
 
 def _load_hires_cover():
@@ -229,7 +235,7 @@ def draw_back_cover(c):
     safe_left  = BACK_COVER_LEFT + BACK_BLURB_INSET
     safe_right = BACK_COVER_RIGHT - BACK_BLURB_INSET
     text_width = safe_right - safe_left
-    cx = BACK_CENTER_X + VISUAL_SHIFT
+    cx = BACK_CENTER_X + BACK_VISUAL_SHIFT
 
     # --- Anchor verse (italic copper) ---
     y = DOC_H - 1.0 * inch
@@ -311,7 +317,7 @@ def draw_front_flap(c):
     safe_left  = FRONT_FLAP_LEFT + FLAP_SAFETY
     safe_right = FRONT_FLAP_RIGHT - FLAP_SAFETY
     text_width = safe_right - safe_left
-    flap_cx = (FRONT_FLAP_LEFT + FRONT_FLAP_RIGHT) / 2 - VISUAL_SHIFT
+    flap_cx = (FRONT_FLAP_LEFT + FRONT_FLAP_RIGHT) / 2 - FLAP_VISUAL_SHIFT
 
     c.setFillColor(CREAM)
     y = DOC_H - 0.95 * inch
@@ -379,7 +385,7 @@ def draw_back_flap(c):
     safe_left  = BACK_FLAP_LEFT + FLAP_SAFETY
     safe_right = BACK_FLAP_RIGHT - FLAP_SAFETY
     text_width = safe_right - safe_left
-    flap_cx = (BACK_FLAP_LEFT + BACK_FLAP_RIGHT) / 2 + VISUAL_SHIFT
+    flap_cx = (BACK_FLAP_LEFT + BACK_FLAP_RIGHT) / 2 + FLAP_VISUAL_SHIFT
 
     c.setFillColor(COPPER)
     y = DOC_H - 0.95 * inch
