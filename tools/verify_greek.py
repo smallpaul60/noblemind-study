@@ -171,9 +171,15 @@ def has_greek_features(word):
     Used only as a tiebreaker — if Strong's misses and no verse matches,
     a word lacking these features is treated as English emphasis and
     skipped rather than reported as a failure.
+
+    Note: 'th', 'ph', 'ch' are intentionally excluded from the standalone
+    digraph set — they are too common in English ('everything', 'phrase',
+    'church') to use as Greek markers on their own. Legitimate Greek words
+    containing those digraphs are picked up either by the verse stem-match
+    or by Strong's pronunciation lookup, not by this fallback.
     """
     w = word.lower()
-    if re.search(r"(ph|ch|ps|th|rh|ē|ō)", w):
+    if re.search(r"(ps|rh|ē|ō)", w):
         return True
     if re.search(
         r"(etai$|omai$|izō$|omen$|ousin$|ousi$|omenoi$|ētēs$|ētos$|ētai$|ōs$|ōn$)",

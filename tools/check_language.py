@@ -41,6 +41,36 @@ PROJECT_DIR = SCRIPT_DIR.parent
 # ─────────────────────────────────────────────────────────────────────
 
 FLAGGED_TERMS = [
+    # ── Tier-1 banned narrative cliches ───────────────────────────
+    # See feedback_avoid_cliche_phrases.md. The underlying move Paul
+    # wants gone is telling the reader to be impressed *before* the
+    # verse lands. Let the verse carry its own weight.
+    (r'\bstop\s+(?:you|me|us|him|her|them|every\s+\w+|the\s+\w+|each\s+\w+|a\s+\w+|any\s+\w+)\s+(?:cold|dead|short)\b',
+     'banned cliche',
+     'Tier-1 banned: "stop X cold / dead / short" telegraphs that the next quote is impressive. '
+     'Use a plain transition instead: "addressed this directly," "Read this carefully," '
+     '"added this:". See feedback_avoid_cliche_phrases.md.'),
+
+    (r'\bstop\s+(?:you|me|us|him|her|them|every\s+\w+|the\s+\w+).{0,30}\bin\s+(?:your|my|our|their|his|her)\s+tracks\b',
+     'banned cliche',
+     'Tier-1 banned: "stop X in [their] tracks" — Paul does not talk this way. '
+     'See feedback_avoid_cliche_phrases.md.'),
+
+    (r'\bin\s+(?:your|my|our|their|his|her)\s+tracks\b',
+     'banned cliche',
+     'Tier-1 banned fragment from the "in your tracks" cliche family. '
+     'See feedback_avoid_cliche_phrases.md.'),
+
+    (r'\bfreeze\s+(?:you|us|him|her|them)\b',
+     'banned cliche',
+     'Tier-1 banned: "freeze you" reads as borrowed cliche, not Paul\'s voice. '
+     'See feedback_avoid_cliche_phrases.md.'),
+
+    (r'\bpull\s+(?:you|us|him|her|them)\s+up\s+short\b',
+     'banned cliche',
+     'Tier-1 banned: "pull X up short" reads as borrowed cliche. '
+     'See feedback_avoid_cliche_phrases.md.'),
+
     # ── Worldly relationship constructs ───────────────────────────
     (r'\bher wife\b', 'worldly construct',
      'Same-sex marriage construct. Marriage is one man and one woman '

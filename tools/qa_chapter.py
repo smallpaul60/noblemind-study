@@ -29,6 +29,7 @@ STAGES = [
     ("Scripture (NASB)", "verify_scripture.py"),
     ("Language",         "check_language.py"),
     ("Greek (TR)",       "verify_greek.py"),
+    ("Word counts",      "verify_word_counts.py"),
 ]
 
 
@@ -57,6 +58,9 @@ SUMMARY_PATTERNS = {
     ),
     "verify_greek.py": re.compile(
         r"OVERALL:\s*(\d+)\s+candidates?,\s*(\d+)\s+verified,\s*(\d+)\s+unverified"
+    ),
+    "verify_word_counts.py": re.compile(
+        r"OVERALL:\s*(\d+)\s+claims?,\s*(\d+)\s+mismatch(?:es)?"
     ),
 }
 
@@ -88,6 +92,14 @@ def stage_status(script_name, output):
         if unverified == 0:
             return "PASS", f"{verified}/{total} verified"
         return "FAIL", f"{verified}/{total} verified, {unverified} unverified"
+
+    if script_name == "verify_word_counts.py":
+        total, mismatches = map(int, m.groups())
+        if total == 0:
+            return "n/a", "no verifiable word-count claims"
+        if mismatches == 0:
+            return "PASS", f"{total} claim(s) match"
+        return "FAIL", f"{mismatches} mismatch(es) of {total} claim(s)"
 
     return "?", "unknown stage"
 
