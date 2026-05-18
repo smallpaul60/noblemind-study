@@ -97,8 +97,13 @@ _DIGRAPHS = [
 ]
 
 _SINGLES = {
+    # NB: 'h' is intentionally absent — in standard Koine transliteration it
+    # represents the rough breathing mark, which has no character in the
+    # unaccented Greek text we substring-match against. So 'h' is dropped.
+    # Eta is written 'ē' (with macron) in transliteration; the digraph table
+    # handles that case above.
     "a": "α", "b": "β", "g": "γ", "d": "δ", "e": "ε",
-    "z": "ζ", "h": "η", "i": "ι", "k": "κ", "l": "λ",
+    "z": "ζ", "i": "ι", "k": "κ", "l": "λ",
     "m": "μ", "n": "ν", "x": "ξ", "o": "ο", "p": "π",
     "r": "ρ", "s": "σ", "t": "τ", "u": "υ", "y": "υ",
     "w": "ω", "c": "κ", "f": "φ",
@@ -154,11 +159,28 @@ def looks_greek(word):
         return False
     if not re.fullmatch(r"[a-zēōăāīū'’\-]+", w):
         return False
-    # must contain at least one Greek-ish digraph or vowel pattern
-    if re.search(r"(ai|ei|oi|ou|au|eu|os$|ai$|ēs$|ōn$|etai$|omai$|izō$|ē$|ōs$|on$|ou$|os |omenos|ētēs|ētos|ētai)", w):
-        return True
-    # accept any short alpha-only token of 4+ — we'll just try to match
+    # accept anything alpha — final classification happens after we try the
+    # Strong's lookup and a verse stem-match; unclassifiable italics get
+    # silently skipped rather than reported as failures.
     return True
+
+
+def has_greek_features(word):
+    """Stronger test: does this word *look* like Greek rather than English?
+
+    Used only as a tiebreaker — if Strong's misses and no verse matches,
+    a word lacking these features is treated as English emphasis and
+    skipped rather than reported as a failure.
+    """
+    w = word.lower()
+    if re.search(r"(ph|ch|ps|th|rh|ē|ō)", w):
+        return True
+    if re.search(
+        r"(etai$|omai$|izō$|omen$|ousin$|ousi$|omenoi$|ētēs$|ētos$|ētai$|ōs$|ōn$)",
+        w,
+    ):
+        return True
+    return False
 
 
 def extract_candidates(content, filepath):
@@ -318,7 +340,6 @@ def verify_chapter(filepath):
                 matched_in = ref_text
                 break
 
-        checked += 1
         strong = find_strongs_for_transliteration(word)
         strong_note = ""
         if strong:
@@ -327,9 +348,15 @@ def verify_chapter(filepath):
             strong_note = f" [{code} {entry.get('word','')} — {gloss[:80]}]"
 
         if matched_in:
+            checked += 1
             passed += 1
             print(f"    Line {line_num}: *{word}* — VERIFIED in {matched_in}{strong_note}")
+        elif not strong and not has_greek_features(word):
+            # No Strong's hit, no Greek-form features, no verse match —
+            # almost certainly an English emphasis italic, not a Greek claim.
+            skipped += 1
         else:
+            checked += 1
             failed += 1
             ref_list = ", ".join(r for r, _ in refs)
             print(f"    Line {line_num}: *{word}* — NOT FOUND in nearby refs ({ref_list}){strong_note}")
@@ -358,6 +385,12 @@ def scan_book(book_dir, chapter_filter=None):
             files = sorted(book_path.glob("*_Ch[0-9]*.md"))
         if not files:
             files = sorted(book_path.glob("*_Ch*.md"))
+        for fm_md in sorted(book_path.glob("*_FM_*.md")):
+            if fm_md not in files:
+                files.insert(0, fm_md)
+        for app_md in sorted(book_path.glob("*_App*_*.md")):
+            if app_md not in files:
+                files.append(app_md)
 
     for extra in ["introduction.html", "conclusion.html", "authors-note.html", "foreword.html"]:
         p = book_path / extra

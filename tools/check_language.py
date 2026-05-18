@@ -486,12 +486,20 @@ def scan_book(book_dir, chapter_filter=None):
         files = sorted(book_path.glob("chapter*.html"))
     if not files:
         files = sorted(book_path.glob("*Chapter*.md"))
+        if not files:
+            files = sorted(book_path.glob("*_Ch[0-9]*.md"))
         for extra_md in sorted(book_path.glob("*Introduction*.md")):
             if extra_md not in files:
                 files.insert(0, extra_md)
         for extra_md in sorted(book_path.glob("*Conclusion*.md")):
             if extra_md not in files:
                 files.append(extra_md)
+        for fm_md in sorted(book_path.glob("*_FM_*.md")):
+            if fm_md not in files:
+                files.insert(0, fm_md)
+        for app_md in sorted(book_path.glob("*_App*_*.md")):
+            if app_md not in files:
+                files.append(app_md)
 
     # Also check intro, conclusion, etc. (HTML)
     for extra in ["introduction.html", "conclusion.html", "authors-note.html",

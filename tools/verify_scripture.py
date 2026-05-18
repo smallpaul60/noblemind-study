@@ -376,6 +376,13 @@ def scan_book(book_dir, chapter_filter=None):
             chapter_files = sorted(book_path.glob("*_Ch[0-9]*.md"))
         if not chapter_files:
             chapter_files = sorted(book_path.glob("*_Ch*.md"))
+        # Also include front matter and appendices
+        for fm_md in sorted(book_path.glob("*_FM_*.md")):
+            if fm_md not in chapter_files:
+                chapter_files.insert(0, fm_md)
+        for app_md in sorted(book_path.glob("*_App*_*.md")):
+            if app_md not in chapter_files:
+                chapter_files.append(app_md)
         # Also include Introduction.md
         for extra_md in sorted(book_path.glob("*Introduction.md")):
             if extra_md not in chapter_files:
