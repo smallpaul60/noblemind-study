@@ -109,6 +109,7 @@ BOOK_DIRS = [
     "StrengthAndDignity",
     "TheCharacterNoOneCouldInvent",
     "TheGodWhoShowedUp",
+    "TheLoveGodCallsUsTo",
     "ThroughTheValley",
     "YourNameMeansEverything",
 ]
@@ -391,7 +392,9 @@ def scan_book(book_dir, chapter_filter=None):
                          if f"chapter-{chapter_filter:02d}" in f.name.lower()
                          or f"chapter{chapter_filter}" in f.name.lower()
                          or f"_ch{chapter_filter}." in f.name.lower()
-                         or f"_ch{chapter_filter:02d}." in f.name.lower()]
+                         or f"_ch{chapter_filter:02d}." in f.name.lower()
+                         or f"_ch{chapter_filter}_" in f.name.lower()
+                         or f"_ch{chapter_filter:02d}_" in f.name.lower()]
 
     total = 0
     matched = 0

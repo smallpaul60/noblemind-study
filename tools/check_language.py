@@ -41,6 +41,48 @@ PROJECT_DIR = SCRIPT_DIR.parent
 # ─────────────────────────────────────────────────────────────────────
 
 FLAGGED_TERMS = [
+    # ── Worldly relationship constructs ───────────────────────────
+    (r'\bher wife\b', 'worldly construct',
+     'Same-sex marriage construct. Marriage is one man and one woman '
+     '(Genesis 2:24, Matthew 19:4-6, Ephesians 5:22-33).'),
+
+    (r'\bhis husband\b', 'worldly construct',
+     'Same-sex marriage construct. Marriage is one man and one woman '
+     '(Genesis 2:24, Matthew 19:4-6, Ephesians 5:22-33).'),
+
+    (r'\bsame[- ]?sex\s+(?:marriage|couple|union|partner|relationship|spouse|wedding)\b',
+     'worldly construct',
+     'Cultural construct contradicting biblical marriage. Flag for '
+     'review — may appear legitimately only when explicitly contrasting '
+     'with the biblical definition.'),
+
+    (r'\bgay\s+(?:marriage|couple|wedding|union)\b', 'worldly construct',
+     'Cultural construct contradicting biblical marriage. Flag for review.'),
+
+    (r'\bnon[- ]?binary\b', 'worldly construct',
+     'Cultural construct. Scripture identifies two sexes: male and '
+     'female (Genesis 1:27).'),
+
+    (r'\btransgender(?:ed|ism)?\b', 'worldly construct',
+     'Cultural construct. Flag for review — handle in light of '
+     'Genesis 1:27.'),
+
+    (r'\b(?:preferred|chosen|self[- ]?identified)\s+pronouns?\b',
+     'worldly construct',
+     'Cultural construct. Flag for review.'),
+
+    (r'\bgender\s+identity\b', 'worldly construct',
+     'Cultural construct. Flag for review — discuss in light of '
+     'Genesis 1:27.'),
+
+    (r'\bassigned\s+(?:male|female)\s+at\s+birth\b', 'worldly construct',
+     'Cultural construct. Sex is created, not assigned '
+     '(Genesis 1:27, Psalm 139:13-16).'),
+
+    (r'\bcis(?:gender)?\b', 'worldly construct',
+     'Cultural construct presupposing the gender-identity framework. '
+     'Flag for review.'),
+
     # ── Denominational terms ──────────────────────────────────────
     (r'\btrinity\b', 'denominational',
      'Not a Bible word. Describe the concept directly: Father, Son, and Holy Spirit.'),
@@ -116,6 +158,62 @@ FLAGGED_TERMS = [
 
     (r'\bsecondary matters?\b', 'denominational',
      'Imports a ranking system for Scripture. The Bible does not distinguish primary vs secondary matters.'),
+
+    # ── Denominational terms — salvation framings ─────────────────
+    (r'\bfaith[- ]alone\b', 'denominational',
+     'Reformed/Baptist/evangelical sola fide framing. Use biblical '
+     'language: "obey the gospel" (2 Thess 1:8, 1 Pet 4:17, Rom 10:16, '
+     'Rom 6:17). The gospel is defined in 1 Cor 15:3-4.'),
+
+    (r'\btrust[- ]?alone\b', 'denominational',
+     'Reformed/Baptist/evangelical framing. Use biblical language: '
+     '"obey the gospel" (2 Thess 1:8, 1 Pet 4:17).'),
+
+    (r'\bjust\s+believe\b', 'denominational',
+     'Reformed/Baptist/evangelical framing of salvation as bare mental '
+     'assent. Use biblical language: "obey the gospel" (2 Thess 1:8).'),
+
+    (r'\bturns?\s+from\s+sin\s+and\s+trusts?\b', 'denominational',
+     'Reformed/Baptist/evangelical sola fide framing. Use biblical '
+     'language: "obey the gospel" (2 Thess 1:8, 1 Pet 4:17). The full '
+     'NT pattern includes hearing, believing, repenting, confessing, '
+     'baptism, faithful obedience.'),
+
+    (r'\bbelieves?\s+(?:in\s+)?(?:Jesus|Christ|Him)\s+and\s+(?:is|are|will\s+be)\s+saved\b',
+     'denominational',
+     'Faith-alone framing. The Bible\'s pattern of response is fuller '
+     '(see Acts 2:38, Acts 22:16, Romans 6:3-4).'),
+
+    (r'\b(?:lived|fulfilled)\s+the\s+(?:perfect\s+)?life\s+(?:you|we|they)\s+(?:could|couldn\'?t|never|have\s+not|cannot|can\'?t)\b',
+     'denominational',
+     'Reformed doctrine of Christ\'s active obedience imputed to '
+     'believers. Not stated in Scripture in these terms. Use Paul\'s '
+     'own gospel summary: 1 Cor 15:3-4.'),
+
+    (r'\b(?:active|passive)\s+obedience\s+of\s+Christ\b', 'denominational',
+     'Reformed theological term for the imputation framework. Not '
+     'in Scripture in these terms.'),
+
+    (r'\bimputed\s+righteousness\b', 'denominational',
+     'Reformed technical term. Use biblical language for justification '
+     '(Romans 3:21-26, Romans 4).'),
+
+    (r'\balien\s+righteousness\b', 'denominational',
+     'Reformed/Lutheran technical term. Not biblical language.'),
+
+    (r'\bsola\s+(?:fide|gratia|scriptura|christus)\b', 'denominational',
+     'Reformation Latin slogan. Not biblical language. Describe what '
+     'is meant directly.'),
+
+    (r'\b(?:ask\w*|invit\w*)\s+(?:Jesus|Christ|the\s+Lord)\s+into\s+(?:your|his|her|my|their)\s+heart\b',
+     'denominational',
+     'Not a Bible phrase. Use the NT response to the gospel '
+     '(Acts 2:38, Romans 6:3-4).'),
+
+    (r'\bgive\s+(?:your|his|her|my|their)\s+(?:heart|life)\s+to\s+(?:Jesus|Christ|the\s+Lord)\b',
+     'denominational',
+     'Not a Bible phrase. Use the NT response to the gospel '
+     '(Acts 2:38, Romans 6:3-4).'),
 
     # ── Denominational titles ─────────────────────────────────────
     (r'\bpastor(?!al|s of)\b(?!\s+(?:the|a|this|that|their|his|her|our)\s+(?:sheep|flock|herd))',
@@ -206,6 +304,78 @@ FLAGGED_TERMS = [
     (r'\bcanonical\b', 'theological jargon',
      'May be appropriate in some contexts. Flag for review — consider "books of the Bible" or similar.'),
 
+    # ── Imprecise spiritual phrases ───────────────────────────────
+    (r'\bwork(?:s|ing|ed)?\s+of\s+the\s+(?:Holy\s+)?Spirit\b',
+     'imprecise spiritual',
+     'Vague phrase without precise scriptural referent. Name '
+     'specifically: "renewing of the mind" (Romans 12:2), "fruit of '
+     'the Spirit" (Galatians 5:22), "indwelling of the Holy Spirit" '
+     '(Romans 8:9), "sealed with the Holy Spirit" (Ephesians 1:13).'),
+
+    (r'\bmove(?:s|d|ment)?\s+of\s+the\s+(?:Holy\s+)?Spirit\b',
+     'imprecise spiritual',
+     'Vague phrase, often associated with charismatic experience. '
+     'Describe specifically what is meant.'),
+
+    (r'\b(?:I|he|she|we|they)\s+(?:feel|felt|am|was|are|were|been)\s+led\b',
+     'imprecise spiritual',
+     'Subjective leading language. Scripture is the believer\'s guide '
+     '(2 Timothy 3:16-17).'),
+
+    (r'\bfeeling\s+led\b', 'imprecise spiritual',
+     'Subjective leading language. Scripture is the believer\'s guide '
+     '(2 Timothy 3:16-17).'),
+
+    (r'\bthe\s+anointing\b', 'imprecise spiritual',
+     'Charismatic phrase without precise NT referent for the ordinary '
+     'believer. Avoid unless quoting OT priestly/kingly anointing or '
+     'specific NT use (1 John 2:20, 27).'),
+
+    (r'\banointed\s+(?:preacher|man\s+of\s+God|teaching|sermon|message|service|worship|leader)\b',
+     'imprecise spiritual',
+     'Charismatic usage. Avoid.'),
+
+    (r'\b(?:God|the\s+Lord)\s+laid\s+(?:it|this|that|something)\s+on\s+(?:my|his|her|their)\s+heart\b',
+     'imprecise spiritual',
+     'Subjective revelation claim. Scripture is the authority '
+     '(2 Timothy 3:16-17, Hebrews 1:1-2).'),
+
+    (r'\blaid\s+(?:it|this|that)\s+on\s+(?:my|his|her|their)\s+heart\b',
+     'imprecise spiritual',
+     'Subjective revelation claim. Scripture is the authority.'),
+
+    (r'\b(?:God|the\s+Lord|the\s+Spirit)\s+(?:told|said\s+to|spoke\s+to|whispered\s+to)\s+(?:me|him|her|us|them)\b',
+     'imprecise spiritual',
+     'Subjective revelation claim. God has spoken finally in His Son '
+     'through the completed Word (Hebrews 1:1-2).'),
+
+    (r'\bhearing\s+from\s+(?:God|the\s+Lord)\b', 'imprecise spiritual',
+     'Subjective revelation language. God speaks through His '
+     'completed Word (Hebrews 1:1-2).'),
+
+    (r'\bword\s+from\s+(?:God|the\s+Lord)\b', 'imprecise spiritual',
+     'Suggests personal prophecy/subjective revelation. Scripture is '
+     'the completed Word (Hebrews 1:1-2). Flag for review.'),
+
+    (r'\bpraying\s+through\b', 'imprecise spiritual',
+     'Pentecostal/charismatic phrase. Describe what is meant directly.'),
+
+    (r'\bclaim(?:ing|ed|s)?\s+(?:the\s+)?(?:promise|victory|healing|breakthrough)\b',
+     'imprecise spiritual',
+     'Word-of-faith / charismatic phrase. Avoid.'),
+
+    (r'\bsoak(?:ing)?\s+in\s+(?:the\s+)?(?:Spirit|presence|glory)\b',
+     'imprecise spiritual',
+     'Charismatic experiential phrase. Avoid.'),
+
+    (r'\bslain\s+in\s+the\s+Spirit\b', 'imprecise spiritual',
+     'Charismatic/Pentecostal phenomenon. Not in Scripture.'),
+
+    (r'\bspirit[- ]?filled\b', 'imprecise spiritual',
+     'Often used in charismatic sense. The Bible uses "filled with the '
+     'Spirit" with specific contextual meanings — flag for review '
+     '(Ephesians 5:18, Acts 2:4, 4:31).'),
+
     # ── Religious jargon / churchy language ───────────────────────
     (r'\bquiet time\b', 'religious jargon',
      'Christian subculture phrase. Say "prayer" or "time in the Word" or describe directly.'),
@@ -255,6 +425,7 @@ BOOK_DIRS = [
     "StrengthAndDignity",
     "TheCharacterNoOneCouldInvent",
     "TheGodWhoShowedUp",
+    "TheLoveGodCallsUsTo",
     "ThroughTheValley",
     "YourNameMeansEverything",
 ]
@@ -332,7 +503,11 @@ def scan_book(book_dir, chapter_filter=None):
     if chapter_filter is not None:
         files = [f for f in files
                  if f"chapter-{chapter_filter:02d}" in f.name.lower()
-                 or f"chapter{chapter_filter}" in f.name.lower()]
+                 or f"chapter{chapter_filter}" in f.name.lower()
+                 or f"_ch{chapter_filter}." in f.name.lower()
+                 or f"_ch{chapter_filter:02d}." in f.name.lower()
+                 or f"_ch{chapter_filter}_" in f.name.lower()
+                 or f"_ch{chapter_filter:02d}_" in f.name.lower()]
 
     total_findings = 0
 
