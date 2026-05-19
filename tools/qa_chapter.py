@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """Run the full per-chapter QA gate.
 
-Runs the three NobleMind Press verifiers in sequence against a single book
+Runs the four NobleMind Press verifiers in sequence against a single book
 (optionally a single chapter):
 
   1. verify_scripture.py   — NASB blockquote accuracy vs Bolls.Life
   2. check_language.py     — denominational / theological / churchy jargon
   3. verify_greek.py       — italicized Greek transliterations vs TR text
+  4. verify_counts.py      — word counts, verse counts, chapter/attribute
+                             counts vs the per-book outline
 
 Each tool's full output is forwarded to stdout so you can inspect findings.
 A final consolidated summary reports PASS/FAIL per stage.
@@ -29,7 +31,7 @@ STAGES = [
     ("Scripture (NASB)", "verify_scripture.py"),
     ("Language",         "check_language.py"),
     ("Greek (TR)",       "verify_greek.py"),
-    ("Word counts",      "verify_word_counts.py"),
+    ("Counts",           "verify_counts.py"),
 ]
 
 
@@ -59,8 +61,8 @@ SUMMARY_PATTERNS = {
     "verify_greek.py": re.compile(
         r"OVERALL:\s*(\d+)\s+candidates?,\s*(\d+)\s+verified,\s*(\d+)\s+unverified"
     ),
-    "verify_word_counts.py": re.compile(
-        r"OVERALL:\s*(\d+)\s+claims?,\s*(\d+)\s+mismatch(?:es)?"
+    "verify_counts.py": re.compile(
+        r"OVERALL:\s*(\d+)\s+claims?,\s*(\d+)\s+mismatch(?:es)?,\s*(\d+)\s+warnings?"
     ),
 }
 
@@ -93,12 +95,13 @@ def stage_status(script_name, output):
             return "PASS", f"{verified}/{total} verified"
         return "FAIL", f"{verified}/{total} verified, {unverified} unverified"
 
-    if script_name == "verify_word_counts.py":
-        total, mismatches = map(int, m.groups())
-        if total == 0:
-            return "n/a", "no verifiable word-count claims"
+    if script_name == "verify_counts.py":
+        total, mismatches, warnings = map(int, m.groups())
+        if total == 0 and warnings == 0:
+            return "n/a", "no verifiable count claims"
         if mismatches == 0:
-            return "PASS", f"{total} claim(s) match"
+            suffix = f", {warnings} warning(s)" if warnings else ""
+            return "PASS", f"{total} claim(s) clean{suffix}"
         return "FAIL", f"{mismatches} mismatch(es) of {total} claim(s)"
 
     return "?", "unknown stage"
