@@ -126,6 +126,22 @@ FLAGGED_TERMS = [
     (r'\birresistible grace\b', 'denominational',
      'Calvinist doctrinal term. Not in Scripture.'),
 
+    (r'\bcommon grace\b', 'denominational',
+     'Reformed systematic-theology label. The concept (God\'s kindness '
+     'extends to all) is biblical — Matthew 5:45, Acts 14:17 — but the '
+     'label imports the Reformed framework. State the truth directly '
+     'and cite the passage.'),
+
+    (r'\bprevenient grace\b', 'denominational',
+     'Wesleyan/Arminian systematic-theology label. Not Bible vocabulary.'),
+
+    (r'\bgeneral grace\b', 'denominational',
+     'Reformed systematic-theology label (synonym for common grace). '
+     'State the truth directly and cite the passage.'),
+
+    (r'\befficacious grace\b', 'denominational',
+     'Catholic/Reformed systematic-theology label. Not Bible vocabulary.'),
+
     (r'\bunconditional election\b', 'denominational',
      'Calvinist doctrinal term. Not in Scripture.'),
 
