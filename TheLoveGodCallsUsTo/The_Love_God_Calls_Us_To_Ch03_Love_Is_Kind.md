@@ -25,7 +25,9 @@ The strong, armed with their correct understanding, were eating freely in front 
 
 Read that slowly. The strong had been *right* and still managed to *ruin* a brother for whose sake Christ died. That is what knowledge without kindness does. It uses its rightness as a weapon. It looks down at the weak from a height the weak cannot yet climb to, and it eats its meat in front of them, and it is technically allowed to. And it ruins them.
 
-Now you can hear what Paul is saying in 13:4. *Love is kind.* You were right about the meat. You were ruinous about the brother. Whatever else you have learned, you have not learned that the truth has a manner. The doctrine has a hand to it. And the hand you have been using has been hurting people. The love you claim to have is not the love I am writing about.
+The same unkindness was at work in the chapter on spiritual gifts a few pages later. The believer with the showy gift was using his gift to elevate himself, not to build up the brother whose gift was quieter. The eye was looking at the hand and saying, in effect, *I have no need of you* (1 Corinthians 12:21). That is exactly the absence of kindness this verse forbids. Kindness in the gift-giver toward the gift-less would have looked like the strong using his visible gift to make the brother with the invisible gift visible. Instead, the strong used the gift to make himself visible and left the brother in the shadow he was already in.
+
+Now you can hear what Paul is saying in 13:4. *Love is kind.* You were right about the meat. You were ruinous about the brother. You were spiritually gifted, and you used the gift to puff yourself up rather than to lift the brother sitting beside you. Whatever else you have learned, you have not learned that the truth has a manner, and the gift has a duty. The doctrine has a hand to it. And the hand you have been using has been hurting people. The love you claim to have is not the love I am writing about.
 
 ### The God who is kind
 
@@ -69,6 +71,10 @@ Kindness looks like a wife who, when her husband comes home from a hard day, han
 It looks like a father who, on his way home from work, stops to pick up a small thing his son has been wanting, not because the boy earned it, but because the father remembered.
 
 It looks like a teenager who, walking past a younger child sitting alone at the lunch table, sits down and starts a conversation, not because the younger child is interesting, but because the younger child is alone.
+
+It looks like a high-school boy who notices the girl in his class being teased by a louder boy in the hallway, and who steps in beside her, quietly, and walks her to her next class without making a scene about it.
+
+It looks like a high-school girl who texts a classmate she barely knows after hearing the classmate is having a hard week — *thinking about you, praying for you* — and asks nothing back.
 
 It looks like a neighbor who, when the elderly woman across the street comes out to check her mail, walks her box up the driveway for her without being asked, and does not stay to be thanked.
 

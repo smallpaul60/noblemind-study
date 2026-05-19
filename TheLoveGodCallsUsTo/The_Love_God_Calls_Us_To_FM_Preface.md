@@ -2,13 +2,15 @@
 
 ## Before You Begin
 
-This is a book about 1 Corinthians 13:4–8 — the chapter the world has come to call *the love chapter,* and most often quotes at weddings.
+This is a book about 1 Corinthians 13 — the chapter the world has come to call *the love chapter,* and most often quotes at weddings.
 
 It is not a wedding book.
 
 The passage was not written to a happy bride and groom standing at an altar. It was written to a fractured, gift-proud, scorekeeping church in a Greek port city that had let love go off the rails on every front Paul could name. He had just finished telling them, in chapter 12, that the spiritual gifts they were quarreling over were given for the building up of the body. He would, in chapter 14, return to the same gifts and try to bring some order to a chaotic worship service. Between those two chapters of correction stands 1 Corinthians 13, which is not a poem about love. It is the diagnostic Paul wrote to a church that had forgotten what love looked like.
 
-That is the chapter this book walks through. Fifteen attributes — *love is patient, love is kind, love is not jealous,* and on through *love bears all things, believes all things, hopes all things, endures all things* — each one given a chapter of its own. An opening chapter on the *if I have not love* stakes Paul lays down in verses 1–3, and a closing chapter on the eternal weight of love in verses 8–13, frame the fifteen attribute chapters between them.
+That is the chapter this book walks through. Fifteen attributes — *love is patient, love is kind, love is not jealous,* and on through *love bears all things, believes all things, hopes all things, endures all things* — taken up across fourteen chapters. An opening chapter on the *if I have not love* stakes Paul lays down in verses 1–3, and a closing chapter on the eternal weight of love in verses 8–13, frame the fourteen chapters of attributes between them.
+
+(One small note for the student walking through this book alongside the wall posters in the classroom: *"love does not brag and is not arrogant"* — the fourth poster on the wall — appears here as two chapters, because Paul uses two distinct Greek verbs for two distinct failures. The wall holds them side by side; the book takes them one at a time.)
 
 The aim is plain. To let the chapter say what it actually says. To hear it in its first setting, addressed to a first-century church with first-century problems. And to feel, by the end, that the love Paul is describing is both impossibly high and actually possible — high because no one but Christ has ever loved this way, and possible because the same Christ who loved this way has gone to work in His people to produce in them what He alone has perfected.
 
@@ -58,7 +60,7 @@ And do the work of study, not just reading. A man can read the Bible his whole l
 
 ### A final word before Chapter 1
 
-There is no preface that can prepare a reader for what 1 Corinthians 13 is going to ask of them. The chapter is small. Six verses, fifteen attributes. You could read it in three minutes. But Paul wrote it knowing it would do its work over decades, not minutes, and the work it does is the slow remaking of a person into the image of the One whose nature this kind of love describes.
+There is no preface that can prepare a reader for what 1 Corinthians 13 is going to ask of them. The chapter is short. Thirteen verses. Fifteen attributes of love named at the heart of it. You could read the whole thing in three minutes. But Paul wrote it knowing it would do its work over decades, not minutes, and the work it does is the slow remaking of a person into the image of the One whose nature this kind of love describes.
 
 You are about to begin. Take your time. Sit with the verses. Argue with the chapters where you need to. Bring it all back to the Word.
 

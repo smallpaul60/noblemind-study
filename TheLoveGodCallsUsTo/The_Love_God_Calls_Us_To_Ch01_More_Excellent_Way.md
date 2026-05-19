@@ -14,7 +14,7 @@ If I speak with the tongues of men and of angels, but do not have love, I am noi
 
 Three sentences. Three of the most impressive things a believer can do — speak in tongues, possess revelation, give until there is nothing left to give — each weighed and found weightless without love. That is where this chapter begins. Not at *love is patient,* the familiar warm opening of the love poem. At three statements that destroy a Corinthian believer's most carefully built theology about what makes him spiritual.
 
-We will get to *love is patient.* But we cannot get there until we walk through the doorway Paul puts in front of it, and that doorway is the most uncomfortable opening in the New Testament.
+We will get to *love is patient.* But we cannot get there until we walk through the doorway Paul puts in front of it, and that doorway is one of the most uncomfortable openings in the New Testament.
 
 ### Where this passage sits
 
@@ -95,7 +95,7 @@ The Son of God did not come into the world wielding the impressive gifts. He cou
 > *Greater love has no one than this, that one lay down his life for his friends.*
 > — John 15:13 (NASB)
 
-The cross is the more excellent way given a public demonstration. It is what love looks like when it has been pushed all the way to the bottom of what love is willing to do.
+The cross is the more excellent way given a public demonstration. There Christ Himself laid down His life for those He loved — love pushed as far as love can be pushed, by the One who alone could push it that far.
 
 > *But God demonstrates His own love toward us, in that while we were yet sinners, Christ died for us.*
 > — Romans 5:8 (NASB)
@@ -116,13 +116,13 @@ All of it. Without love. Is nothing.
 
 This is the leveling truth that opens 1 Corinthians 13, and it is the reason the rest of the book matters. Love is not the advanced material of the Christian life, reserved for those who have already mastered the basics. Love is the basics. It is the elementary lesson and the senior thesis and everything in between. It is the measure by which every other lesson is graded. And until the Christian sees this — until he has felt the weight of these three sentences and understood that without love he is, in God's accounting, nothing — he is not ready to learn what love actually looks like.
 
-The next fifteen chapters of this book are the answer to that question. They are 1 Corinthians 13:4–8, walked through one attribute at a time, with the help of all the Scripture that supports them. The closing chapter is the eternal weight of love — the reason love is the greatest of the three Christian virtues, the only one of them that lasts into the country we are walking toward.
+The next fourteen chapters of this book walk through 1 Corinthians 13:4–7, attribute by attribute, with the help of all the Scripture that supports them. The closing chapter takes up verses 8 through 13 — the eternal weight of love, the reason love is the greatest of the three Christian virtues, the only one of them that lasts into the country we are walking toward.
 
 But before any of that, this chapter has to do its work. It has to take down whatever you came in proud of, and lay it next to Paul's three sentences, and ask whether what you have built was built on the foundation Paul has just named.
 
 If the answer is yes — if Christ has been the source of your love and the gifts have been His tools — then welcome to the book. The rest of it will sharpen what is already there.
 
-If the answer is no — if you are honest enough to admit that some of what you have built has been about the building of yourself rather than the building up of His body — then welcome, too. The next fifteen chapters are written for you. You are about to be shown the way more excellent than what you have been walking, and the One who walked it first stands at the head of the road, ready to teach you.
+If the answer is no — if you are honest enough to admit that some of what you have built has been about the building of yourself rather than the building up of His body — then welcome, too. The rest of this book is written for you. You are about to be shown the way more excellent than what you have been walking, and the One who walked it first stands at the head of the road, ready to teach you.
 
 Either way, this chapter has done its work. The ground is level. The standard is named. The way is set out.
 
