@@ -240,7 +240,7 @@ FLAGGED_TERMS = [
      'Not a Bible phrase. Use the NT response to the gospel '
      '(Acts 2:38, Romans 6:3-4).'),
 
-    (r'\bgive\s+(?:your|his|her|my|their)\s+(?:heart|life)\s+to\s+(?:Jesus|Christ|the\s+Lord)\b',
+    (r'\b(?:give|gives|giving|gave|given)\s+(?:your|his|her|my|their|our)\s+(?:hearts?|lives?|life)\s+to\s+(?:Jesus|Christ|the\s+Lord)\b',
      'denominational',
      'Not a Bible phrase. Use the NT response to the gospel '
      '(Acts 2:38, Romans 6:3-4).'),
