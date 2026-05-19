@@ -746,6 +746,28 @@ def _looks_hyperbolic(content: str, span_start: int, span_end: int) -> bool:
     return any(h in window for h in HYPERBOLE_HINTS)
 
 
+# Position-relative qualifiers — when a count is preceded by one of these,
+# it refers to position within an ordered set, not a total count.
+# "the next two verses" ≠ a claim that the chapter has two verses.
+# "the first two attributes" ≠ a claim that the book has two attributes.
+_POSITION_RELATIVE_PREFIX_RE = re.compile(
+    r'\b(?:the\s+|those\s+|these\s+)?'
+    r'(?:next|previous|following|remaining|first|last|other|earlier|later|'
+    r'preceding|coming|preceding|prior|opening|closing|final|initial)\s+$',
+    re.IGNORECASE,
+)
+
+
+def _is_position_relative(content: str, match_start: int) -> bool:
+    """True when a count claim is preceded by a position word like 'next',
+    'first', 'last', etc., within the last ~30 chars. Such claims describe
+    position within an ordered set, not totals.
+    """
+    window = content[max(0, match_start - 30):match_start]
+    window = strip_html(window)
+    return bool(_POSITION_RELATIVE_PREFIX_RE.search(window))
+
+
 def _canonical_book_for_lookup(raw_name: str):
     """Resolve a Bible book name to the canonical form used in BIBLE_VERSE_COUNTS."""
     key = raw_name.strip().lower()
@@ -782,6 +804,8 @@ def check_verse_count_claims(content: str):
             continue
         if _looks_hyperbolic(plain, m.start(), m.end()):
             continue
+        if _is_position_relative(plain, m.start()):
+            continue  # "the next two verses" — position, not total count
 
         # Look backward up to 250 chars for a Bible reference. The
         # claim "the chapter is small. Six verses" needs the Bible
@@ -956,6 +980,8 @@ def check_outline_claims(content: str, outline: dict, current_chapter: int = Non
             stated = parse_count(m.group(1))
             if stated is None:
                 continue
+            if _is_position_relative(plain, m.start()):
+                continue  # "the first two attributes" — position, not total
             _flag(m.start(), m.group(0), "attribute_count",
                   stated, stats["total_attributes"])
 
