@@ -233,6 +233,121 @@ HYPERBOLE_HINTS = (
     "seventy times",
 )
 
+# --- Category 7: categorical / superlative claims ---
+# Reads fluently, slips past review, but cannot be defended on its own.
+# "The only place...", "the most exalted...", "never...", "always...".
+# These are warnings, not errors — the writer reviews each one and
+# either softens or moves it to the per-book allow-list.
+CATEGORICAL_TRIGGERS = [
+    (r'\bthe\s+only\b',                          'the only'),
+    (r'\bthe\s+first\b',                         'the first'),
+    (r'\bthe\s+most\s+\w+',                      'the most X'),
+    (r'\bthe\s+single\b',                        'the single'),
+    (r'\bthe\s+sole\b',                          'the sole'),
+    (r'\bthe\s+greatest\b',                      'the greatest'),
+    (r'\bthe\s+best\b',                          'the best'),
+    (r'\bthe\s+worst\b',                         'the worst'),
+    (r'\bnever\b',                               'never'),
+    (r'\balways\b',                              'always'),
+    (r'\bno\s+one\s+(?:else|other|but)\b',       'no one else/but'),
+    (r'\bunique(?:ly)?\b',                       'unique(ly)'),
+    (r'\bsingular(?:ly)?\b',                     'singular(ly)'),
+    (r'\bonly\s+(?:place|time|book|one|way|reason|man|woman|person)\b',
+                                                  'only place/time/etc'),
+    (r'\bever\s+(?:written|spoken|said|done|made|created)\b',
+                                                  'ever written/spoken/etc'),
+    (r'\bmost\s+(?:important|sacred|exalted|uncomfortable|concentrated|powerful|profound|complete|perfect|severe|tender|searching|comprehensive)\b',
+                                                  'most {adjective}'),
+]
+
+# Allow-patterns (regexes that suppress a categorical match as "likely OK").
+# Match against the whole line; if any fires, the categorical match in
+# that line is downgraded from 'review' to 'likely OK'.
+CATEGORICAL_ALLOW_PATTERNS = [
+    # Structural numbered headings — "**The first** —" or "The first is"
+    (r'^\s*(?:\*\*)?\s*the\s+(?:first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\s*(?:\*\*)?\s*[—\-:]',
+     'structural numbering'),
+    # Common idioms
+    (r'\bfor\s+the\s+first\s+time\b',            'idiom: for the first time'),
+    (r'\bat\s+(?:the\s+)?first\b',               'idiom: at first / at the first'),
+    (r'\bof\s+first\s+importance\b',             'idiom: of first importance (1 Cor 15:3)'),
+    (r'\bnever\s+(?:asks|stops|fails|forgets|ends|fall(?:s|ing)?)\b',
+                                                  'idiom: never fails/ends/etc (1 Cor 13:8)'),
+    (r'\bnever\s+goes\s+off\b',                  'idiom: never goes off'),
+    (r'\balways\s+(?:protects|trusts|hopes|perseveres|bears|believes|endures)\b',
+                                                  'idiom: always X (1 Cor 13:7 NIV)'),
+    # Direct Scripture-quotation context: line inside a blockquote or
+    # immediately follows a NASB-style citation marker
+    (r'^\s*>\s',                                 'blockquote line'),
+    # "the most" used to introduce a comparison the writer is about to qualify
+    (r'\bone\s+of\s+the\s+most\b',               'qualifier: one of the most'),
+    (r'\bamong\s+the\s+(?:most|first|few)\b',    'qualifier: among the most'),
+]
+
+
+def load_categorical_allowlist(book_path: Path) -> list[str]:
+    """Load per-book approved categorical phrases.
+
+    File: <book_path>/categorical_allowlist.txt
+    One phrase per line. Lines starting with # are comments. Blank lines
+    are skipped. Matching is case-insensitive substring on the line
+    where a categorical trigger was found.
+    """
+    f = book_path / "categorical_allowlist.txt"
+    if not f.exists():
+        return []
+    out = []
+    for raw in f.read_text(encoding="utf-8").splitlines():
+        s = raw.strip()
+        if not s or s.startswith("#"):
+            continue
+        out.append(s)
+    return out
+
+
+def check_categorical_claims(content: str, phrase_allowlist=None):
+    """Flag categorical / superlative claims for human review.
+
+    Returns a list of warnings. Each warning has 'status':
+        'review'    — the writer should decide whether to soften
+        'likely OK' — matched an allow-pattern or per-book allow-list
+    """
+    if phrase_allowlist is None:
+        phrase_allowlist = []
+    findings = []
+    plain = strip_html(content)
+    lines = plain.split("\n")
+    for line_num, line in enumerate(lines, 1):
+        # Pre-compute which (if any) allow-pattern matches this line.
+        line_allowed_by = None
+        for allow_pat, allow_reason in CATEGORICAL_ALLOW_PATTERNS:
+            if re.search(allow_pat, line, re.IGNORECASE):
+                line_allowed_by = allow_reason
+                break
+        # Check per-book phrase allow-list (substring, case-insensitive)
+        if not line_allowed_by:
+            low = line.lower()
+            for phrase in phrase_allowlist:
+                if phrase.lower() in low:
+                    line_allowed_by = f'phrase allow-list: "{phrase}"'
+                    break
+
+        for pattern, label in CATEGORICAL_TRIGGERS:
+            for m in re.finditer(pattern, line, re.IGNORECASE):
+                start = max(0, m.start() - 30)
+                end = min(len(line), m.end() + 30)
+                context = line[start:end].strip()
+                findings.append({
+                    "category": "categorical",
+                    "line": line_num,
+                    "trigger": m.group(),
+                    "label": label,
+                    "context": context,
+                    "status": "likely OK" if line_allowed_by else "review",
+                    "allowed_by": line_allowed_by,
+                })
+    return findings
+
 LANGUAGE_QUALIFIERS = (
     "aramaic", "hebrew", "greek", "latin",
     "in the original", "original language",
@@ -934,15 +1049,17 @@ def has_language_qualifier(content, claim_start, claim_end):
     return any(q in window for q in LANGUAGE_QUALIFIERS)
 
 
-def scan_file(filepath, outline=None, want_warnings=False):
+def scan_file(filepath, outline=None, want_warnings=False,
+              categorical_allowlist=None):
     """Run all categories of count verification on a single file.
 
-    Returns a dict with five lists:
-        word_count_findings   — category 1 (word counts of phrases)
-        verse_count_findings  — category 2 (Bible verse counts)
-        verse_range_findings  — category 3 (verse ranges vs passage)
-        outline_findings      — categories 4-5 (chapter/attribute counts)
-        warnings              — category 6 (only if want_warnings)
+    Returns a dict with six lists:
+        word_count_findings    — category 1 (word counts of phrases)
+        verse_count_findings   — category 2 (Bible verse counts)
+        verse_range_findings   — category 3 (verse ranges vs passage)
+        outline_findings       — categories 4-5 (chapter/attribute counts)
+        categorical_findings   — category 7 (superlative claims for review)
+        warnings               — category 6 (only if want_warnings)
     Each finding has a 'status' of OK / MISMATCH where applicable.
     """
     with open(filepath, "r", encoding="utf-8") as f:
@@ -954,6 +1071,7 @@ def scan_file(filepath, outline=None, want_warnings=False):
         "verse_count_findings": [],
         "verse_range_findings": [],
         "outline_findings": [],
+        "categorical_findings": [],
         "warnings": [],
     }
 
@@ -996,6 +1114,11 @@ def scan_file(filepath, outline=None, want_warnings=False):
         result["outline_findings"] = check_outline_claims(
             content, outline, current_chapter=current_ch
         )
+
+    # ── Category 7: categorical / superlative claims ──────────────
+    result["categorical_findings"] = check_categorical_claims(
+        content, phrase_allowlist=categorical_allowlist or []
+    )
 
     # ── Category 6 (only on demand) ──────────────────────────────
     if want_warnings:
@@ -1086,7 +1209,23 @@ def _print_warnings(filename, warnings):
         print(f"    Line {w['line']}: \"{w['snippet']}\"")
 
 
-def scan_book(book_dir, chapter_filter=None, want_warnings=False):
+def _print_categorical(filename, categorical, verbose=False):
+    review = [c for c in categorical if c["status"] == "review"]
+    likely_ok = [c for c in categorical if c["status"] == "likely OK"]
+    if not review and not (verbose and likely_ok):
+        return
+    print(f"\n  {filename}  [categorical / superlative claims]")
+    for c in review:
+        print(f"    Line {c['line']}: \"{c['trigger']}\" [{c['label']}] — review")
+        print(f"      context: ...{c['context']}...")
+    if verbose and likely_ok:
+        for c in likely_ok:
+            print(f"    Line {c['line']}: \"{c['trigger']}\" [{c['label']}] "
+                  f"— likely OK ({c['allowed_by']})")
+
+
+def scan_book(book_dir, chapter_filter=None, want_warnings=False,
+              verbose_categorical=False):
     """Scan one book. Returns a dict of category totals."""
     book_path = PROJECT_DIR / book_dir
     if not book_path.exists():
@@ -1096,6 +1235,8 @@ def scan_book(book_dir, chapter_filter=None, want_warnings=False):
             "verse_claims": 0, "verse_mismatches": 0,
             "range_mismatches": 0,
             "outline_mismatches": 0,
+            "categorical_review": 0,
+            "categorical_ok": 0,
             "warnings": 0,
         }
 
@@ -1109,6 +1250,10 @@ def scan_book(book_dir, chapter_filter=None, want_warnings=False):
     else:
         print(f"  no book_outline.py — outline-based checks skipped")
 
+    categorical_allowlist = load_categorical_allowlist(book_path)
+    if categorical_allowlist:
+        print(f"  categorical allow-list: {len(categorical_allowlist)} entries")
+
     files = _collect_book_files(book_path)
     if chapter_filter is not None:
         files = _filter_to_chapter(files, chapter_filter)
@@ -1118,32 +1263,42 @@ def scan_book(book_dir, chapter_filter=None, want_warnings=False):
         "verse_claims": 0, "verse_mismatches": 0,
         "range_mismatches": 0,
         "outline_mismatches": 0,
+        "categorical_review": 0,
+        "categorical_ok": 0,
         "warnings": 0,
     }
 
     for fp in files:
-        r = scan_file(fp, outline=outline, want_warnings=want_warnings)
+        r = scan_file(fp, outline=outline, want_warnings=want_warnings,
+                      categorical_allowlist=categorical_allowlist)
 
         wc_total = len(r["word_count_findings"])
         wc_miss = sum(1 for f in r["word_count_findings"] if f["status"] == "MISMATCH")
         vc_total = len(r["verse_count_findings"])
         rng_total = len(r["verse_range_findings"])
         out_total = len(r["outline_findings"])
+        cat_review = sum(1 for c in r["categorical_findings"]
+                         if c["status"] == "review")
+        cat_ok = sum(1 for c in r["categorical_findings"]
+                     if c["status"] == "likely OK")
         warn_total = len(r["warnings"])
 
-        totals["word_claims"]       += wc_total
-        totals["word_mismatches"]   += wc_miss
-        totals["verse_claims"]      += vc_total  # only mismatches recorded
-        totals["verse_mismatches"]  += vc_total
-        totals["range_mismatches"]  += rng_total
+        totals["word_claims"]        += wc_total
+        totals["word_mismatches"]    += wc_miss
+        totals["verse_claims"]       += vc_total
+        totals["verse_mismatches"]   += vc_total
+        totals["range_mismatches"]   += rng_total
         totals["outline_mismatches"] += out_total
-        totals["warnings"]          += warn_total
+        totals["categorical_review"] += cat_review
+        totals["categorical_ok"]     += cat_ok
+        totals["warnings"]           += warn_total
 
         wc_misses = [f for f in r["word_count_findings"] if f["status"] == "MISMATCH"]
         _print_word_count_mismatches(fp.name, wc_misses)
         _print_simple_mismatches(fp.name, r["verse_count_findings"], "Bible verse counts")
         _print_simple_mismatches(fp.name, r["verse_range_findings"], "verse range vs passage")
         _print_simple_mismatches(fp.name, r["outline_findings"], "outline (chapters/attributes)")
+        _print_categorical(fp.name, r["categorical_findings"], verbose=verbose_categorical)
         if want_warnings:
             _print_warnings(fp.name, r["warnings"])
 
@@ -1152,20 +1307,24 @@ def scan_book(book_dir, chapter_filter=None, want_warnings=False):
 
 def main():
     ap = argparse.ArgumentParser(
-        description="Verify numerical claims in NobleMind Press books "
-                    "(word counts, verse counts, chapter/attribute counts).")
+        description="Verify numerical and categorical claims in NobleMind "
+                    "Press books (word counts, verse counts, "
+                    "chapter/attribute counts, superlative claims).")
     ap.add_argument("book", nargs="?", help="Book directory (default: all)")
     ap.add_argument("--chapter", type=int, help="Specific chapter to scan")
     ap.add_argument("--warnings", action="store_true",
                     help="Include catch-all category-6 number+noun warnings")
+    ap.add_argument("--verbose", action="store_true",
+                    help="Also print categorical claims suppressed by the allow-list")
     args = ap.parse_args()
 
     books = [args.book] if args.book else BOOK_DIRS
 
     print("=" * 60)
-    print("NobleMind Press — Count Verification")
+    print("NobleMind Press — Count & Categorical Verification")
     print("Categories: word counts, Bible verse counts, "
-          "outline (chapters/attributes), catch-all warnings")
+          "outline (chapters/attributes), categorical/superlative claims, "
+          "catch-all warnings")
     if not BIBLE_VERSE_COUNTS:
         print(f"  WARNING: {VERSE_COUNTS_FILE.relative_to(PROJECT_DIR)} not found — "
               f"Bible verse-count checks disabled.")
@@ -1177,6 +1336,8 @@ def main():
         "verse_claims": 0, "verse_mismatches": 0,
         "range_mismatches": 0,
         "outline_mismatches": 0,
+        "categorical_review": 0,
+        "categorical_ok": 0,
         "warnings": 0,
     }
 
@@ -1184,33 +1345,44 @@ def main():
         print(f"\n{'─' * 60}")
         print(f"BOOK: {book}")
         print(f"{'─' * 60}")
-        t = scan_book(book, chapter_filter=args.chapter, want_warnings=args.warnings)
+        t = scan_book(book, chapter_filter=args.chapter,
+                      want_warnings=args.warnings,
+                      verbose_categorical=args.verbose)
         total_miss = (t["word_mismatches"] + t["verse_mismatches"]
                       + t["range_mismatches"] + t["outline_mismatches"])
         if total_miss == 0:
             print(f"\n  Clean: {t['word_claims']} word claim(s), "
-                  f"0 verse-count issues, 0 outline issues.")
+                  f"0 verse-count issues, 0 outline issues, "
+                  f"{t['categorical_review']} categorical for review.")
         else:
             print(f"\n  Summary: {t['word_mismatches']} word-count, "
                   f"{t['verse_mismatches']} verse-count, "
                   f"{t['range_mismatches']} range, "
-                  f"{t['outline_mismatches']} outline mismatch(es).")
+                  f"{t['outline_mismatches']} outline mismatch(es); "
+                  f"{t['categorical_review']} categorical for review.")
         for k in grand:
             grand[k] += t[k]
 
     total_mismatches = (grand["word_mismatches"] + grand["verse_mismatches"]
                         + grand["range_mismatches"] + grand["outline_mismatches"])
+    # Roll categorical-review items into the warnings count so qa_chapter.py's
+    # existing parser picks them up as REVIEW-level signal (not FAIL).
+    total_warnings = grand["warnings"] + grand["categorical_review"]
 
     print(f"\n{'=' * 60}")
     # Format consumed by qa_chapter.py's SUMMARY_PATTERNS regex.
     print(f"OVERALL: {grand['word_claims']} claims, "
           f"{total_mismatches} mismatches, "
-          f"{grand['warnings']} warnings")
+          f"{total_warnings} warnings")
     print(f"  word claims checked: {grand['word_claims']} "
           f"({grand['word_mismatches']} mismatch(es))")
     print(f"  Bible verse counts:  {grand['verse_mismatches']} mismatch(es)")
     print(f"  verse ranges:        {grand['range_mismatches']} mismatch(es)")
     print(f"  outline (ch/attrs):  {grand['outline_mismatches']} mismatch(es)")
+    print(f"  categorical:         {grand['categorical_review']} for review, "
+          f"{grand['categorical_ok']} suppressed by allow-list")
+    if grand['warnings']:
+        print(f"  catch-all warnings:  {grand['warnings']}")
     print(f"{'=' * 60}")
 
     sys.exit(0 if total_mismatches == 0 else 1)
