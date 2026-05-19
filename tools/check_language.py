@@ -174,11 +174,44 @@ FLAGGED_TERMS = [
     (r'\bholy communion\b', 'denominational',
      'Denominational term. Use "the Lord\'s Supper" or "communion" as in 1 Corinthians 10:16.'),
 
+    # ── Denominational / liturgical holidays ──────────────────────
+    # Man-made traditions with no biblical mandate. Use biblical
+    # language for the events Scripture records (incarnation,
+    # resurrection, crucifixion, triumphal entry).
+    (r'\bchristmas(?:\s+eve)?\b', 'denominational',
+     'Man-made holiday tradition with no biblical mandate. For the event '
+     'Scripture records, use biblical language: the incarnation, the appearing '
+     'of Christ (Titus 3:4), the Word became flesh (John 1:14).'),
+
+    (r'\beaster\b', 'denominational',
+     'Man-made holiday tradition. For the event Scripture records, use '
+     'biblical language: the resurrection, the day Christ rose.'),
+
+    (r'\bgood\s+friday\b', 'denominational',
+     'Liturgical observance with no biblical mandate. Refer to the day of '
+     'the crucifixion or the cross directly.'),
+
+    (r'\bpalm\s+sunday\b', 'denominational',
+     'Liturgical observance with no biblical mandate. Refer to the '
+     'triumphal entry.'),
+
+    (r'\bholy\s+week\b', 'denominational',
+     'Liturgical framework with no biblical mandate.'),
+
+    (r'\bepiphany\b', 'denominational',
+     'Liturgical observance with no biblical mandate.'),
+
     (r'\blent\b', 'denominational',
      'Not a Bible observance. Flag for review — may be legitimate if discussing history.'),
 
-    (r'\badvent\b', 'denominational',
-     'Denominational calendar term. Flag for review.'),
+    # "Advent" in the sense of "the advent of Christ" is biblical; the
+    # seasonal observance is not. Negative lookahead exempts the
+    # biblical sense.
+    (r'\badvent\b(?!\s+of\s+(?:Christ|the\s+Lord|the\s+gospel))',
+     'denominational',
+     'Liturgical observance with no biblical mandate. The biblical sense '
+     '("the advent of Christ / the Lord / the gospel") is exempted; any '
+     'other use is flagged.'),
 
     (r'\bpurgatory\b', 'denominational',
      'Catholic doctrine. Not in Scripture.'),
