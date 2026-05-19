@@ -10,7 +10,7 @@ The passage was not written to a happy bride and groom standing at an altar. It 
 
 That is the chapter this book walks through. Fifteen attributes — *love is patient, love is kind, love is not jealous,* and on through *love bears all things, believes all things, hopes all things, endures all things* — taken up across fourteen chapters. An opening chapter on the *if I have not love* stakes Paul lays down in verses 1–3, and a closing chapter on the eternal weight of love in verses 8–13, frame the fourteen chapters of attributes between them.
 
-(One small note for the student walking through this book alongside the wall posters in the classroom: *"love does not brag and is not arrogant"* — the fourth poster on the wall — appears here as two chapters, because Paul uses two distinct Greek verbs for two distinct failures. The wall holds them side by side; the book takes them one at a time.)
+(One small note: *"love does not brag and is not arrogant"* — which many readers will have memorized as a single phrase — appears here as two separate chapters, because Paul uses two distinct Greek verbs for two distinct failures. The verse holds them side by side; the book takes them one at a time.)
 
 The aim is plain. To let the chapter say what it actually says. To hear it in its first setting, addressed to a first-century church with first-century problems. And to feel, by the end, that the love Paul is describing is both impossibly high and actually possible — high because no one but Christ has ever loved this way, and possible because the same Christ who loved this way has gone to work in His people to produce in them what He alone has perfected.
 

@@ -31,15 +31,15 @@ on
 
 ### For You *(recto, facing the inscription)*
 
-I do not know your name yet, but the people who handed you this book do. They wrote your name on the page across from this one, and they signed their own names below it. The book is yours. Take that personally. It was meant to be.
+I do not know your name yet, but the person who handed you this book does. Your name has been written on the page across from this one, and a name has been signed below it. The book is yours. Take that personally. It was meant to be.
 
-You are working through 1 Corinthians 13 — the chapter the world has heard a thousand times at weddings and read carefully almost nowhere else. You are reading it with a teacher in the room and a study guide in your hand, and you are being asked to think about what it actually means. That is rarer than you know. Most adults never do it.
+You are about to walk through 1 Corinthians 13 — the chapter the world has heard a thousand times at weddings and read carefully almost nowhere else. You are being asked to think about what it actually means. That is rarer than you know. Most people who quote the chapter never do it.
 
 You should know two things before you begin.
 
-The first is that this book is not a substitute for the chapter you are studying. It is a companion. The Word of God is the authority. This book is one believer trying to walk you through what he has seen there, in the hope that you will see more of it than he has. The verses are what matter. The book is borrowed light.
+The first is that this book is not a substitute for the chapter it walks through. It is a companion. The Word of God is the authority. This book is one believer trying to walk you through what he has seen there, in the hope that you will see more of it than he has. The verses are what matter. The book is borrowed light.
 
-The second is that what you are studying right now will outlast everything else you do this year. The math, the history, the team you are on, the schedule that feels enormous — all of it will pass. The love described in 1 Corinthians 13 will not. It is the eternal nature of God Himself, and you have been invited to learn what it looks like — and to begin practicing it now, while you are still young enough for the habits to set.
+The second is that what is described in this chapter will outlast everything else in your life. The work, the relationships, the seasons that feel enormous — all of them will pass. The love described in 1 Corinthians 13 will not. It is the eternal nature of God Himself, and you have been invited to learn what it looks like — and to begin practicing it now, whatever stage of life you are in.
 
 Take your time. Read it slowly. Argue with it where you need to. Bring it back to the Word and let the Word answer.
 
