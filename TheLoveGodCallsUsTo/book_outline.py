@@ -14,7 +14,7 @@ chapter rather than splitting them.
 BOOK_OUTLINE = {
     "title": "The Love God Calls Us To",
     "subtitle": "Walking Out 1 Corinthians 13",
-    "passage": "1 Corinthians 13:4-7",
+    "passage": "1 Corinthians 12:31-13:13",
     "front_matter": [
         "Inscription",
         "Dedication",
