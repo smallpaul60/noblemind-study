@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v234';
+const CACHE_NAME = 'noblemind-study-v235';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -182,7 +182,29 @@ const CACHE_FILES = [
   '/FromTheBeginning/chapter-10.html',
   '/FromTheBeginning/audio.html',
   '/FromTheBeginning/FromTheBeginning.pdf',
-  '/FromTheBeginning/FromTheBeginning.epub'
+  '/FromTheBeginning/FromTheBeginning.epub',
+  '/TheLoveGodCallsUsTo/index.html',
+  '/TheLoveGodCallsUsTo/dedication.html',
+  '/TheLoveGodCallsUsTo/preface.html',
+  '/TheLoveGodCallsUsTo/chapter-01.html',
+  '/TheLoveGodCallsUsTo/chapter-02.html',
+  '/TheLoveGodCallsUsTo/chapter-03.html',
+  '/TheLoveGodCallsUsTo/chapter-04.html',
+  '/TheLoveGodCallsUsTo/chapter-05.html',
+  '/TheLoveGodCallsUsTo/chapter-06.html',
+  '/TheLoveGodCallsUsTo/chapter-07.html',
+  '/TheLoveGodCallsUsTo/chapter-08.html',
+  '/TheLoveGodCallsUsTo/chapter-09.html',
+  '/TheLoveGodCallsUsTo/chapter-10.html',
+  '/TheLoveGodCallsUsTo/chapter-11.html',
+  '/TheLoveGodCallsUsTo/chapter-12.html',
+  '/TheLoveGodCallsUsTo/chapter-13.html',
+  '/TheLoveGodCallsUsTo/chapter-14.html',
+  '/TheLoveGodCallsUsTo/chapter-15.html',
+  '/TheLoveGodCallsUsTo/chapter-16.html',
+  '/TheLoveGodCallsUsTo/appendix-a.html',
+  '/TheLoveGodCallsUsTo/The_Love_God_Calls_Us_To.pdf',
+  '/TheLoveGodCallsUsTo/The_Love_God_Calls_Us_To.epub'
 ];
 
 // Install event - cache essential files
