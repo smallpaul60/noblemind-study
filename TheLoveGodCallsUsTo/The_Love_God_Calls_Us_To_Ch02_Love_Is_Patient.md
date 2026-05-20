@@ -74,17 +74,17 @@ Look at the picture Scripture paints. God is *slow to anger* — which means the
 
 That is the patience we are called to. Not the absence of feeling. Not the absence of a justified reaction. The restraint of one.
 
-The person you live with said something tonight that cut you. You felt it. The reaction is real. Your husband, your wife, your child, your parent, your friend, your coworker, the brother in the church who has wounded you for the fourth time this month — none of these encounters lacks justification for a sharp response. Patience does not mean you did not feel it. Patience means you felt it and did not light.
+The person you live with said something tonight that cut you. You felt it. The reaction is real. Your mom, your dad, your sibling, your friend, your classmate, the brother in the church who has wounded you for the fourth time this month — none of these encounters lacks justification for a sharp response. Patience does not mean you did not feel it. Patience means you felt it and did not light.
 
 A long-tempered Christian is not a man with no temper. He is a man whose temper is long. The fuel is the same fuel any short-tempered man would have. The fuse is what is different. And the fuse, in the believer, is being made longer by the same Lord whose own fuse extends to the end of history for the sake of sinners.
 
 ### What it looks like
 
-Patience looks like a mother who has answered the same question from her child for the fifth time today and answers it a sixth time without sighing.
+Patience looks like a high-school student who has been asked the same question by his younger sibling for the fifth time today and answers it a sixth time without sighing.
 
-It looks like a husband who has heard the same anxious worry from his wife for thirty years and listens to it again tonight as if it were the first time.
+It looks like a teenage girl whose closest friend has been processing the same hurt out loud for the fourth conversation in a month, and who listens to it again tonight as if it were the first time.
 
-It looks like an adult son sitting with his father, whose memory has begun to fail, hearing the same story three times in an hour and laughing in the right places every time, because the man telling it does not know it is the third time, and to deny him the laughter would be to remind him he is failing.
+It looks like a teenager sitting with a grandparent whose memory has begun to fail, hearing the same story three times in an hour and laughing in the right places every time, because the one telling it does not know it is the third time, and to deny him the laughter would be to remind him he is failing.
 
 It looks like a teacher who has explained the same point to the same student in the same class for the third time, and who is preparing, without resentment, to explain it a fourth.
 
@@ -108,7 +108,7 @@ The patience He showed His disciples on the road is the patience He shows you to
 
 The world's love is impatient. It has always been so, and the present generation has only sharpened it.
 
-The world ends a relationship over an inconvenience. The world quits a job at the first hard week. The world abandons a marriage when the early excitement fades and the work begins. The world raises children with a stopwatch instead of with time, and the children grow up not knowing how to wait either.
+The world ends a friendship over an inconvenience. The world quits a hard class at the first low grade. The world ghosts a relationship the moment it stops being fun. The world scrolls through people instead of waiting on them, and a generation has grown up not knowing how to wait at all.
 
 That impatience reaches into the church. The Christian who cannot wait for an answer to prayer, and concludes the answer is no. The Christian who cannot wait for a brother to grow, and writes him off as unteachable. The Christian who cannot wait for his own sanctification, and decides the gospel must not be doing its work in him. The Christian who cannot wait for a slow elder to think through a hard question, and bypasses the elders to do what he wanted to do anyway. All of it is the same disease. The fuse is short. The reaction lights and goes off. And whatever is built next is built on the rubble of what patience could have preserved.
 

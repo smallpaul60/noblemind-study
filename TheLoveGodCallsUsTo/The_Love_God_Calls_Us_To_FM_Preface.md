@@ -26,7 +26,7 @@ The Corinthian failure is then named — what was actually happening in that chu
 
 The vertical foundation is then drawn. Each attribute Paul names is also, without exception, an attribute of God Himself. *Love is patient* — and so is God, with us, every day. *Love does not take into account a wrong suffered* — and neither does the Lord, with the sin of the man covered by Christ. The horizontal call to love becomes possible only because the vertical foundation is in place. The book never separates the two.
 
-The modern application comes last. What does this attribute look like in a marriage, in a family, in a classroom, in a church? Concrete, specific, named. Not lists of tips. Pictures of what the attribute actually looks like in motion.
+The modern application comes last. What does this attribute look like in a friendship, in a family, in a classroom, in a church? Concrete, specific, named. Not lists of tips. Pictures of what the attribute actually looks like in motion.
 
 And at the end of every chapter, a single reflection prompt under the header *THINK.* One prompt, not five. Not designed to be answered in thirty seconds and walked away from. Designed to follow you into the next day.
 

@@ -110,7 +110,7 @@ If you are reading this book, you may not have spoken in tongues. You may not be
 
 That does not let you out of the chapter.
 
-The Corinthian gifts were extreme cases for a reason. Paul reaches for the most impressive things he can name because if those are nothing without love, then everything less impressive is also nothing without love. The eloquent prayer in the believer with a cold heart. The careful theology in the Christian who treats his family with contempt. The visible service in the believer who is secretly contemptuous of the people he is serving. The faithful church attendance in the man who is privately keeping a ledger against his brother.
+The Corinthian gifts were extreme cases for a reason. Paul reaches for the most impressive things he can name because if those are nothing without love, then everything less impressive is also nothing without love. The eloquent prayer in the believer with a cold heart. The careful theology in the student who can quote chapter and verse and treats his siblings with contempt at the dinner table. The visible service in the believer who is secretly contemptuous of the people he is serving. The faithful church attendance in the man who is privately keeping a ledger against his brother.
 
 All of it. Without love. Is nothing.
 

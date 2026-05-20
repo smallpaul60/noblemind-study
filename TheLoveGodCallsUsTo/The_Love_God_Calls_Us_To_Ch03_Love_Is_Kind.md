@@ -66,9 +66,9 @@ That is why Paul names them in this order. *Love is patient. Love is kind.* The 
 
 ### What it looks like
 
-Kindness looks like a wife who, when her husband comes home from a hard day, hands him a cup of coffee before he has thought to ask for one.
+Kindness looks like a teenage daughter who, when her mom or dad walks in from a hard day at work, hands them a glass of cold water or a snack before being asked.
 
-It looks like a father who, on his way home from work, stops to pick up a small thing his son has been wanting, not because the boy earned it, but because the father remembered.
+It looks like an older sibling who, on her way home from a shopping trip, picks up a small thing her younger brother has been wanting, not because he earned it, but because she remembered.
 
 It looks like a teenager who, walking past a younger child sitting alone at the lunch table, sits down and starts a conversation, not because the younger child is interesting, but because the younger child is alone.
 
@@ -80,7 +80,7 @@ It looks like a neighbor who, when the elderly woman across the street comes out
 
 It looks like a believer who, when the slow learner in the Bible class is still struggling with the same question three weeks later, opens his own notes and walks the question through again, gently, as if it had never been asked before.
 
-It looks like a man who pays for the coffee of the stranger behind him in line and is gone before the stranger turns around.
+It looks like a student who pays for the lunch of the kid behind him in the cafeteria line who forgot his money, and walks off before the kid can thank him.
 
 It looks like a friend who notices that something is wrong and asks once, without prying, and waits.
 

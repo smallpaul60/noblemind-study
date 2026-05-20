@@ -68,7 +68,7 @@ Patience absorbs the wrong I have suffered. Kindness gives the good my brother d
 
 The first three deal with what is in my heart toward my brother. The fourth deals with what comes out of my mouth about myself. They belong together because they fail together. The braggart is almost never patient with the brother who interrupts his story. He is almost never kind to the brother whose accomplishments threaten to shrink his own. He is almost always envious of the man whose story he cannot match. The braggart's vices travel as a pack. Take down one, and you start to take down the rest.
 
-That is why Paul puts *does not brag* here, between *not jealous* and *not arrogant.* He is walking the believer through the cluster. The envious heart is one symptom. The bragging mouth is another. The arrogant self-estimation underneath both is what we will turn to next. But for now, the believer is being asked to look at his own talk and answer one question. *Where in my conversation is the work being done to make me look bigger than I am?* If the answer is *nowhere,* the believer is closer to the love of 1 Corinthians 13 than he knew. If the answer is *almost everywhere,* he has more company than he knew, and he has work to do.
+That is why Paul puts *does not brag* here, right after *does not envy* and right before *is not arrogant.* He is walking the believer through the cluster. The envious heart is one symptom. The bragging mouth is another. The arrogant self-estimation underneath both is what we will turn to next. But for now, the believer is being asked to look at his own talk and answer one question. *Where in my conversation is the work being done to make me look bigger than I am?* If the answer is *nowhere,* the believer is closer to the love of 1 Corinthians 13 than he knew. If the answer is *almost everywhere,* he has more company than he knew, and he has work to do.
 
 ### What it looks like
 
@@ -82,9 +82,9 @@ It looks like a teenage boy on a first date who, instead of running through the 
 
 It looks like a teenage girl who, instead of carefully curating the version of her life she posts online, posts less, and lets the friends who actually know her see the ordinary days too.
 
-It looks like a young employee whose ideas built a project most of the team is now being praised for, and who lets the praise land on the team without inserting *actually, that was my idea.*
+It looks like a student working on a group project whose ideas actually saved the assignment, and who lets the teacher's praise land on the whole group on Monday without jumping in to say, *actually, that was my idea.*
 
-It looks like a husband who has had a hard, faithful week at work and who, when he comes home, does not run through the inventory of what he carried. He kisses his wife. He asks how her day was. The inventory was carried in for the Lord, who already saw it, and that is enough.
+It looks like a teenager who spent his entire Saturday mowing the lawn, cleaning his room, and doing extra chores, and who, when his parents get home, does not instantly run through the inventory of everything he did to get a pat on the back. He did the work for the Lord, who already saw it, and that is enough.
 
 It looks like a believer who, when his prayer for a friend is answered, does not tell the friend *I have been praying.* He thanks God and keeps walking.
 
@@ -94,7 +94,7 @@ It looks like Christ. The One who, when the crowd on the hillside was ready to c
 
 ### The world's bragging, and ours
 
-The world has always rewarded the braggart. It promotes him at work. It elects him to office. It hands him the camera. The man who can present himself with the most polish, the most confidence, the most carefully edited resume of his own accomplishments, has always done well in this world, and he is doing well at this moment in the office buildings and on the platforms.
+The world has always rewarded the braggart. It promotes him at work. It elects him to office. It hands him the camera. The man who can present himself with the most polish, the most confidence, the most carefully edited resume of his own accomplishments, has always done well in this world, and he is doing well at this moment on corporate stages and social media platforms.
 
 What is new in this generation is that everyone now has a platform. The phone in the hand of every teenager is, among other things, a stage. The photograph posted is a small performance. The caption is a small advertisement. The day-by-day record of the better self is a long, slow brag with a beautifying filter on top. Most of the people doing it do not think of it as bragging. The water is the temperature of the room. But Paul's question still cuts. *Where, in what you have been showing the world, is the work being done to make you look bigger than you are?* If the answer is honest, it is convicting.
 
