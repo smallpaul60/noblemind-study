@@ -381,6 +381,105 @@
       .section-nav a { padding: 6px 11px; font-size: 9px; }
       footer { padding: 1.25rem 1.25rem 2rem; }
     }
+
+    /* Site-wide search across all books */
+    .search-bar {
+      max-width: 640px; margin: 1.5rem auto 2rem;
+      position: relative;
+    }
+    .search-bar input[type="search"] {
+      width: 100%; padding: 14px 18px 14px 44px;
+      background: rgba(15, 15, 18, 0.85);
+      border: 1px solid rgba(196, 168, 84, 0.35);
+      border-radius: 12px;
+      color: rgba(240, 236, 228, 0.98);
+      font-family: 'Segoe UI', Georgia, serif;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-bar input[type="search"]:focus {
+      outline: none;
+      border-color: rgba(196, 168, 84, 0.7);
+      box-shadow: 0 0 0 3px rgba(196, 168, 84, 0.15);
+    }
+    .search-bar::before {
+      content: ""; position: absolute;
+      top: 50%; left: 16px;
+      width: 18px; height: 18px;
+      transform: translateY(-50%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c4a854' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      pointer-events: none;
+    }
+    .search-results {
+      margin-top: 1rem;
+      background: rgba(15, 15, 18, 0.85);
+      border: 1px solid rgba(196, 168, 84, 0.25);
+      border-radius: 12px;
+      max-height: 60vh; overflow-y: auto;
+      display: none;
+    }
+    .search-results.visible { display: block; }
+    .search-results .search-meta {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      color: rgba(192, 184, 168, 0.7);
+      border-bottom: 1px solid rgba(196, 168, 84, 0.15);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .search-results .search-meta .search-clear {
+      background: none; border: none;
+      color: rgba(196, 168, 84, 0.85);
+      cursor: pointer; font-size: 0.85rem; font-family: inherit;
+    }
+    .search-results .search-meta .search-clear:hover { color: rgba(255, 235, 130, 1); }
+    .search-results a.search-hit {
+      display: flex; gap: 14px;
+      padding: 14px 16px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+      color: inherit;
+      transition: background 0.2s;
+    }
+    .search-results a.search-hit:last-child { border-bottom: none; }
+    .search-results a.search-hit:hover { background: rgba(196, 168, 84, 0.06); }
+    .search-results .hit-thumb {
+      width: 52px; height: 80px; flex-shrink: 0;
+      background: rgba(0,0,0,0.4);
+      border-radius: 4px; overflow: hidden;
+      border: 1px solid rgba(196, 168, 84, 0.2);
+    }
+    .search-results .hit-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .search-results .hit-body { flex: 1; min-width: 0; }
+    .search-results .hit-book {
+      font-size: 0.78rem;
+      font-variant: small-caps; letter-spacing: 0.08em;
+      color: rgba(196, 168, 84, 0.9);
+      margin-bottom: 2px;
+    }
+    .search-results .hit-chapter {
+      color: rgba(240, 236, 228, 0.98);
+      font-weight: 600; font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+    .search-results .hit-snippet {
+      color: rgba(192, 184, 168, 0.85);
+      font-size: 0.85rem;
+      line-height: 1.45;
+      font-family: Georgia, serif;
+    }
+    .search-results .hit-snippet mark {
+      background: rgba(196, 168, 84, 0.45);
+      color: rgba(255, 244, 220, 1);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    .search-status {
+      padding: 16px;
+      text-align: center;
+      color: rgba(192, 184, 168, 0.7);
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -411,6 +510,11 @@
       <p>Every book here is free to read online. No account, no paywall &mdash; just open it and start reading. PDFs and EPUBs are available for most titles if you prefer to read offline.</p>
       <p><strong>Not sure where to start?</strong> If you&rsquo;re new to the Bible or exploring faith for the first time, begin with <a href="FromTheBeginning/index.html">From the Beginning</a>. If you&rsquo;re a believer looking for deeper study, <a href="CanTheseBonesLive/index.html">Can These Bones Live?</a> traces a single pattern through the whole Bible that you may have never seen before.</p>
     </section>
+
+    <div class="search-bar">
+      <input type="search" id="book-search" placeholder="Search across every book…" autocomplete="off">
+      <div class="search-results" id="search-results" role="listbox" aria-label="Search results"></div>
+    </div>
 
     <div class="filter-bar" role="tablist" aria-label="Filter books by category">
       <button type="button" class="filter-btn active" data-filter="all" aria-pressed="true">All</button>
@@ -970,6 +1074,124 @@
       desc.parentNode.insertBefore(btn, desc.nextSibling);
     });
   </script>
+
+  <script>
+    // Site-wide search across all books.
+    // Loads /search_index.json on first keystroke, then runs simple
+    // case-insensitive substring matching client-side.
+    (function () {
+      const input = document.getElementById('book-search');
+      const results = document.getElementById('search-results');
+      if (!input || !results) return;
+
+      let index = null;
+      let indexLoading = false;
+      let lastQuery = '';
+      let debounceTimer = null;
+
+      function loadIndex() {
+        if (index || indexLoading) return;
+        indexLoading = true;
+        results.classList.add('visible');
+        results.innerHTML = '<div class="search-status">Loading search index…</div>';
+        fetch('/search_index.json')
+          .then(r => r.json())
+          .then(data => { index = data; runSearch(input.value.trim()); })
+          .catch(() => {
+            results.innerHTML = '<div class="search-status">Search index failed to load. Try refreshing the page.</div>';
+          })
+          .finally(() => { indexLoading = false; });
+      }
+
+      function escapeHtml(s) {
+        return s.replace(/[&<>"']/g, c =>
+          ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+      }
+      function escapeRegExp(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      }
+
+      function buildSnippet(text, query) {
+        const lower = text.toLowerCase();
+        const q = query.toLowerCase();
+        const idx = lower.indexOf(q);
+        if (idx === -1) return '';
+        const radius = 90;
+        const start = Math.max(0, idx - radius);
+        const end = Math.min(text.length, idx + query.length + radius);
+        const prefix = start > 0 ? '…' : '';
+        const suffix = end < text.length ? '…' : '';
+        const raw = text.substring(start, end);
+        // Highlight every occurrence of the query in the snippet
+        const re = new RegExp('(' + escapeRegExp(query) + ')', 'gi');
+        return prefix + escapeHtml(raw).replace(re, '<mark>$1</mark>') + suffix;
+      }
+
+      function runSearch(query) {
+        if (!query || query.length < 2) {
+          results.classList.remove('visible');
+          results.innerHTML = '';
+          lastQuery = '';
+          return;
+        }
+        if (!index) { loadIndex(); return; }
+        lastQuery = query;
+        const lowerQ = query.toLowerCase();
+        const hits = [];
+        for (const entry of index) {
+          if (entry.text.toLowerCase().indexOf(lowerQ) === -1) continue;
+          hits.push(entry);
+          if (hits.length >= 50) break;
+        }
+        if (hits.length === 0) {
+          results.classList.add('visible');
+          results.innerHTML = '<div class="search-status">No matches for &ldquo;' + escapeHtml(query) + '&rdquo;.</div>';
+          return;
+        }
+        const meta = '<div class="search-meta">' +
+          '<span>' + hits.length + (hits.length >= 50 ? '+' : '') + ' result' + (hits.length === 1 ? '' : 's') +
+          ' for &ldquo;' + escapeHtml(query) + '&rdquo;</span>' +
+          '<button type="button" class="search-clear">Clear</button>' +
+          '</div>';
+        const cards = hits.map(entry => {
+          const snippet = buildSnippet(entry.text, query);
+          const labelLine = entry.label ? '<div class="hit-chapter">' +
+            escapeHtml(entry.label) + (entry.title ? ': ' + escapeHtml(entry.title) : '') + '</div>'
+            : '<div class="hit-chapter">' + escapeHtml(entry.title) + '</div>';
+          return '<a class="search-hit" href="' + entry.url + '?q=' + encodeURIComponent(query) + '">' +
+            '<div class="hit-thumb"><img src="' + entry.thumb + '" alt="" loading="lazy"></div>' +
+            '<div class="hit-body">' +
+              '<div class="hit-book">' + escapeHtml(entry.book) + '</div>' +
+              labelLine +
+              '<div class="hit-snippet">' + snippet + '</div>' +
+            '</div>' +
+          '</a>';
+        }).join('');
+        results.classList.add('visible');
+        results.innerHTML = meta + cards;
+        results.querySelector('.search-clear').addEventListener('click', () => {
+          input.value = '';
+          input.focus();
+          runSearch('');
+        });
+      }
+
+      input.addEventListener('input', () => {
+        const q = input.value.trim();
+        if (debounceTimer) clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => runSearch(q), 180);
+      });
+
+      // Preload the index when the search bar is first focused
+      input.addEventListener('focus', () => { if (!index && !indexLoading) loadIndex(); }, { once: true });
+
+      // Esc clears
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { input.value = ''; runSearch(''); }
+      });
+    })();
+  </script>
+
   <script src="/nm-core.js" defer></script>
 </body>
 </html>

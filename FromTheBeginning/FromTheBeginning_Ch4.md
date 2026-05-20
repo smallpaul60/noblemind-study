@@ -16,7 +16,7 @@ After the man and the woman chose to disobey, God addressed each of the parties 
 
 On the surface, this sounds like God is simply cursing a snake. But look closer. God says the woman will have a *seed* — a descendant — and that this descendant will crush the serpent's head. The serpent will wound Him, but the wound will be to the heel. The serpent's wound will be to the head — and a wound to the head is fatal.
 
-This is the first promise of rescue in the entire Bible. Theologians have called it the *protoevangelium* — the "first gospel." And it tells us something remarkable: before God even finished pronouncing the consequences of sin, He was already announcing the solution.
+This is the first promise of rescue in the entire Bible. And it tells us something remarkable: before God even finished pronouncing the consequences of sin, He was already announcing the solution.
 
 Remember what we established in Chapter One — that God had a plan in place before the foundation of the world (2 Timothy 1:9, Ephesians 1:4). This is that plan beginning to surface. Not fully visible yet. Not named. Not detailed. Just a seed — the promise that Someone was coming who would crush the enemy that had just deceived the human race.
 

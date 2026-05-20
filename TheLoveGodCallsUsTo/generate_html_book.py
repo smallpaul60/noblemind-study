@@ -528,6 +528,7 @@ def build_chapter_page(section, idx, sections):
     </div>
   </div>
   {mark_script}
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -693,6 +694,7 @@ def build_index(sections):
     }}
     document.addEventListener('DOMContentLoaded', updateProgressUI);
   </script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
