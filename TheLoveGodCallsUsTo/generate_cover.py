@@ -85,14 +85,12 @@ def build_cover(target_w, target_h):
     draw = ImageDraw.Draw(canvas)
     s = target_h / 1700  # scale factor
 
-    label_size = int(26 * s)        # "1 CORINTHIANS 13" cap label
     small_title_size = int(64 * s)  # "The Love God" italic
     big_title_size = int(108 * s)   # "Calls Us To" bold
     subtitle_size = int(34 * s)     # "Walking Out 1 Corinthians 13"
     author_size = int(42 * s)
     publisher_size = int(20 * s)
 
-    f_label = load_font(FONT_ITALIC, label_size)
     f_small = load_font(FONT_ITALIC, small_title_size)
     f_big = load_font(FONT_BOLD, big_title_size)
     f_subtitle = load_font(FONT_ITALIC, subtitle_size)
@@ -112,27 +110,25 @@ def build_cover(target_w, target_h):
             tw = bbox[2] - bbox[0]
             draw.text(((target_w - tw) // 2, y), text, font=font, fill=fill)
 
-    # TOP BLOCK — pushed high so the figures stay clear
-    label_y = int(target_h * 0.032)
-    center_text(label_y, "1 CORINTHIANS 13", f_label, ACCENT_GOLD,
-                spacing=int(7 * s))
-
-    small_y = label_y + int(label_size * 2.4)
+    # TOP BLOCK — title raised, then subtitle given more breathing room.
+    # The redundant "1 CORINTHIANS 13" label has been removed since the
+    # subtitle already names the passage.
+    small_y = int(target_h * 0.050)
     center_text(small_y, "The Love God", f_small, CREAM)
 
     big_y = small_y + int(small_title_size * 1.15)
     center_text(big_y, "Calls Us To", f_big, CREAM)
 
-    subtitle_y = big_y + int(big_title_size * 1.05)
+    subtitle_y = big_y + int(big_title_size * 1.35)
     center_text(subtitle_y, "Walking Out 1 Corinthians 13",
                 f_subtitle, CREAM_SOFT)
 
-    # BOTTOM BLOCK — author + publisher in the darkened floor area
-    author_y = target_h - int(85 * s)
+    # BOTTOM BLOCK — lifted off the bottom edge for proper breathing room.
+    author_y = target_h - int(140 * s)
     center_text(author_y, "PAUL HAINLINE", f_author, CREAM,
                 spacing=int(8 * s))
 
-    pub_y = target_h - int(35 * s)
+    pub_y = target_h - int(75 * s)
     center_text(pub_y, "NobleMind Press", f_pub, ACCENT_GOLD)
 
     return canvas
