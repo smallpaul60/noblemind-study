@@ -164,9 +164,36 @@ header h1 {
   color: var(--accent-secondary); border: none;
 }
 .content .reflection-body p { margin-bottom: 1rem; }
+.mark-complete {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 2.5rem auto 0; padding: 12px 20px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(196,168,84,0.25);
+  border-radius: 10px;
+  color: var(--text-secondary); cursor: pointer;
+  font-family: inherit; font-size: 0.9rem;
+  transition: all 0.3s;
+}
+.mark-complete:hover {
+  background: rgba(196,168,84,0.12);
+  border-color: var(--accent); color: var(--accent);
+}
+.mark-complete.done {
+  background: rgba(196,168,84,0.15);
+  border-color: var(--accent); color: var(--accent);
+}
+.mark-complete .check {
+  width: 18px; height: 18px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+}
+.mark-complete.done .check::after { content: "\2713"; }
+.mark-row { text-align: center; }
 .footer-nav {
   display: flex; justify-content: space-between; align-items: center;
-  margin-top: 3rem; padding-top: 1.5rem;
+  margin-top: 2rem; padding-top: 1.5rem;
   border-top: 1px solid rgba(148,163,184,0.18);
 }
 .footer-nav a {
@@ -289,6 +316,13 @@ header h1 {
 <section class="reflection"><div class="reflection-header"><h3>THINK</h3></div><div class="reflection-body"><p class="reflection-question"><span class="q-text">Name one person you have been silently above for years. Not someone you have been openly rude to — that would be easier to deal with. Someone you have decided, without saying so, is beneath you. Maybe a classmate whose interests seem trivial. Maybe a relative whose life you have quietly judged. Maybe a brother or sister in the congregation whose questions strike you as slow. Maybe a coworker whose taste seems beneath yours. Now do one small act of service for that person this week — something you would not normally do, something they will not see coming, something done without telling anyone you did it. <em>And as you do it, ask the Lord to make plain to you what the silent verdict you have been passing on this person has cost you in your walk with Him.</em> The answer may surprise you. The deflation may begin there.</span></p></div></section>
       </div>
 
+      <div class="mark-row">
+        <button class="mark-complete" id="mark-complete-btn" data-ch="6">
+          <span class="check"></span>
+          <span class="label">Mark Complete</span>
+        </button>
+      </div>
+
       <div class="footer-nav">
         <a href="chapter-05.html">&larr; Chapter 5: Love Does Not Brag</a>
         <div class="spacer"></div>
@@ -297,5 +331,47 @@ header h1 {
 
     </div>
   </div>
+  
+  <script>
+    var PROGRESS_KEY = 'theLoveGodCallsUsTo_progress';
+    var CH = 6;
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) {
+      try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+      catch(e) {}
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      // Mark as visited on landing if not already complete
+      if (p[key] !== 'complete') {
+        p[key] = 'visited';
+        saveProgress(p);
+      }
+      var btn = document.getElementById('mark-complete-btn');
+      if (!btn) return;
+      if (p[key] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('.label').textContent = 'Completed';
+      }
+      btn.addEventListener('click', function() {
+        var p = loadProgress();
+        var key = 'ch' + CH;
+        if (p[key] === 'complete') {
+          p[key] = 'visited';
+          btn.classList.remove('done');
+          btn.querySelector('.label').textContent = 'Mark Complete';
+        } else {
+          p[key] = 'complete';
+          btn.classList.add('done');
+          btn.querySelector('.label').textContent = 'Completed';
+        }
+        saveProgress(p);
+      });
+    });
+  </script>
 </body>
 </html>

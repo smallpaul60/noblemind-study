@@ -164,9 +164,36 @@ header h1 {
   color: var(--accent-secondary); border: none;
 }
 .content .reflection-body p { margin-bottom: 1rem; }
+.mark-complete {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 2.5rem auto 0; padding: 12px 20px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(196,168,84,0.25);
+  border-radius: 10px;
+  color: var(--text-secondary); cursor: pointer;
+  font-family: inherit; font-size: 0.9rem;
+  transition: all 0.3s;
+}
+.mark-complete:hover {
+  background: rgba(196,168,84,0.12);
+  border-color: var(--accent); color: var(--accent);
+}
+.mark-complete.done {
+  background: rgba(196,168,84,0.15);
+  border-color: var(--accent); color: var(--accent);
+}
+.mark-complete .check {
+  width: 18px; height: 18px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+}
+.mark-complete.done .check::after { content: "\2713"; }
+.mark-row { text-align: center; }
 .footer-nav {
   display: flex; justify-content: space-between; align-items: center;
-  margin-top: 3rem; padding-top: 1.5rem;
+  margin-top: 2rem; padding-top: 1.5rem;
   border-top: 1px solid rgba(148,163,184,0.18);
 }
 .footer-nav a {
@@ -288,6 +315,13 @@ header h1 {
 <section class="reflection"><div class="reflection-header"><h3>THINK</h3></div><div class="reflection-body"><p class="reflection-question"><span class="q-text">Bring to mind one person whose recent failure you have, secretly, enjoyed even a little. The classmate who finally got caught. The neighbor whose marriage hit the rocks. The public figure whose hypocrisy was exposed. The brother in the church whose ministry stumbled. <em>Now ask: what does the small pleasure I took in that moment say about where my heart has been pointed?</em> Sit with the question long enough to be honest about the answer. Then take the next step. <em>Pray for that person, by name, that God would do toward them what He is doing toward you — grow them, restore them, redirect them, save them.</em> The prayer is the practice of rejoicing with the truth instead of with the wrong. The first time you do it, the old habit will object. The fifth time, it will object less. By the time you have done it for a year, you will find that you have been given a different heart, and the pleasure verse 6 calls love into has become a pleasure you actually take.</span></p></div></section>
       </div>
 
+      <div class="mark-row">
+        <button class="mark-complete" id="mark-complete-btn" data-ch="11">
+          <span class="check"></span>
+          <span class="label">Mark Complete</span>
+        </button>
+      </div>
+
       <div class="footer-nav">
         <a href="chapter-10.html">&larr; Chapter 10: Love Does Not Take Into Account a Wrong Suffered</a>
         <div class="spacer"></div>
@@ -296,5 +330,47 @@ header h1 {
 
     </div>
   </div>
+  
+  <script>
+    var PROGRESS_KEY = 'theLoveGodCallsUsTo_progress';
+    var CH = 11;
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+    function saveProgress(p) {
+      try { localStorage.setItem(PROGRESS_KEY, JSON.stringify(p)); }
+      catch(e) {}
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var p = loadProgress();
+      var key = 'ch' + CH;
+      // Mark as visited on landing if not already complete
+      if (p[key] !== 'complete') {
+        p[key] = 'visited';
+        saveProgress(p);
+      }
+      var btn = document.getElementById('mark-complete-btn');
+      if (!btn) return;
+      if (p[key] === 'complete') {
+        btn.classList.add('done');
+        btn.querySelector('.label').textContent = 'Completed';
+      }
+      btn.addEventListener('click', function() {
+        var p = loadProgress();
+        var key = 'ch' + CH;
+        if (p[key] === 'complete') {
+          p[key] = 'visited';
+          btn.classList.remove('done');
+          btn.querySelector('.label').textContent = 'Mark Complete';
+        } else {
+          p[key] = 'complete';
+          btn.classList.add('done');
+          btn.querySelector('.label').textContent = 'Completed';
+        }
+        saveProgress(p);
+      });
+    });
+  </script>
 </body>
 </html>
