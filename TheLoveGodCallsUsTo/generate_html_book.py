@@ -90,10 +90,11 @@ body::before {{
 }}
 .nav-controls {{
   display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 18px; margin: -3rem -2.5rem 2rem -2.5rem;
-  background: rgba(0,0,0,0.25);
-  border-bottom: 1px solid rgba(148,163,184,0.12);
-  border-radius: var(--radius-card) var(--radius-card) 0 0;
+  flex-wrap: wrap; gap: 16px;
+  padding: 14px 20px; margin-bottom: 1.8rem;
+  background: rgba(15,15,18, 0.6);
+  border-radius: 12px;
+  border: 1px solid rgba(148,163,184,0.15);
 }}
 .home-link {{
   color: var(--text-secondary); text-decoration: none;
@@ -225,11 +226,16 @@ header h1 {{
 .footer-nav a:hover {{ color: var(--accent-secondary); }}
 .footer-nav .spacer {{ flex: 1; }}
 @media (max-width: 600px) {{
-  body {{ padding: 10px 6px; font-size: 1rem; }}
-  .glass-page-inner {{ padding: 1.2rem 1rem; }}
-  .nav-controls {{ flex-direction: column; gap: 8px; align-items: stretch; }}
-  #chapter-select {{ max-width: 100%; }}
+  html {{ -webkit-text-size-adjust: 100%; }}
+  body {{ padding: 10px 6px; font-size: 1rem; line-height: 1.75; }}
+  .glass-page-wrapper {{ border-radius: 16px; padding: 2px; }}
+  .glass-page-inner {{ padding: 1.2rem 1rem; border-radius: 14px; }}
+  .nav-controls {{ padding: 10px 12px; gap: 10px; }}
+  .home-link {{ font-size: 0.85rem; }}
+  #chapter-select {{ max-width: 100%; font-size: 0.8rem; }}
   header h1 {{ font-size: 1.5rem; }}
+  .content blockquote {{ padding: 0.6rem 0.8rem; margin: 1rem 0.3rem; }}
+  .footer-nav a {{ padding: 12px 0; min-height: 44px; display: flex; align-items: center; }}
 }}
 """
 
