@@ -144,29 +144,49 @@ def _is_scripture_blockquote(html_str: str) -> bool:
 
 def _process_blockquote(html_str: str) -> str:
     """Convert a markdown-generated <blockquote> with cited Scripture
-    into the project's <blockquote class="scripture"> + <cite> format."""
-    soup_text = html_str
-    # Pull all <p> children of the blockquote
+    into the project's <blockquote class="scripture"> + <cite> format.
+
+    Handles two markdown shapes:
+      A) Multi-paragraph blockquote (separated by blank `>` lines) —
+         markdown produces multiple <p> tags inside the blockquote.
+      B) Single-paragraph blockquote (consecutive `>` lines, no blank
+         separator) — markdown joins them into one <p> with an
+         internal newline. The em-dash citation sits at the end of
+         that single <p>.
+    """
     p_matches = re.findall(r"<p>(.*?)</p>", html_str, flags=re.DOTALL)
-    if len(p_matches) < 2:
-        return html_str  # not a cite-style blockquote, leave it alone
 
-    # The last <p> starting with an em-dash is the citation
-    cite_text = None
-    quote_lines = []
-    for p in p_matches:
-        stripped = p.strip()
-        if (cite_text is None
-                and re.match(r"^[—–\-]\s*\d?\s*[A-Z]", stripped)):
-            cite_text = re.sub(r"^[—–\-]\s*", "", stripped)
-        else:
-            quote_lines.append(p)
+    # --- Case A: multi-paragraph blockquote ---
+    if len(p_matches) >= 2:
+        cite_text = None
+        quote_lines = []
+        for p in p_matches:
+            stripped = p.strip()
+            if (cite_text is None
+                    and re.match(r"^[—–\-]\s*\d?\s*[A-Z]", stripped)):
+                cite_text = re.sub(r"^[—–\-]\s*", "", stripped)
+            else:
+                quote_lines.append(p)
+        if not cite_text:
+            return html_str
+        quote_html = " ".join(f"<p>{q}</p>" for q in quote_lines)
+        return f'<blockquote class="scripture">{quote_html}<cite>{cite_text}</cite></blockquote>'
 
-    if not cite_text:
-        return html_str
+    # --- Case B: single <p> with an internal em-dash citation ---
+    if len(p_matches) == 1:
+        p_content = p_matches[0]
+        # Look for newline + em-dash + book-name pattern
+        m = re.search(
+            r"\n\s*[—–\-]\s*(\d?\s*[A-Z][a-z].+)\s*$",
+            p_content,
+            flags=re.DOTALL,
+        )
+        if m:
+            quote_text = p_content[:m.start()].rstrip()
+            cite_text = m.group(1).strip()
+            return f'<blockquote class="scripture"><p>{quote_text}</p><cite>{cite_text}</cite></blockquote>'
 
-    quote_html = " ".join(f"<p>{q}</p>" for q in quote_lines)
-    return f'<blockquote class="scripture">{quote_html}<cite>{cite_text}</cite></blockquote>'
+    return html_str
 
 
 def parse_chapter_md(md_path: Path) -> dict:
@@ -228,12 +248,15 @@ def parse_chapter_md(md_path: Path) -> dict:
         return _process_blockquote(m.group(0))
     body_html = re.sub(r"<blockquote>.*?</blockquote>", _repl, body_html, flags=re.DOTALL)
 
-    # Extract first scripture blockquote as epigraph (it sits right under the H2)
+    # Extract first scripture blockquote as epigraph only when it is the
+    # literal first thing in the body. Otherwise (e.g. Appendix A, where
+    # the first scripture quote sits several paragraphs deep), leave it
+    # in place.
     epigraph_html = None
-    m = re.search(r'(<blockquote class="scripture">.*?</blockquote>)', body_html, flags=re.DOTALL)
+    m = re.match(r'\s*(<blockquote class="scripture">.*?</blockquote>)', body_html, flags=re.DOTALL)
     if m:
         epigraph_html = m.group(1)
-        body_html = body_html.replace(m.group(1), "", 1).strip()
+        body_html = body_html[m.end():].strip()
 
     # Convert <hr /> dividers (from --- in markdown) to .divider divs
     body_html = re.sub(
