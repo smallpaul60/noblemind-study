@@ -70,13 +70,14 @@ TRIM_BOTTOM = BLEED * inch
 SAFETY = 0.5 * inch
 FRONT_SAFETY = 0.25 * inch
 
-# --- Palette (sampled from the footwashing painting) ---
-DEEP_BROWN  = Color(0.117, 0.082, 0.055)   # #1E1510 — deep warm wall shadow
-CREAM       = Color(0.961, 0.929, 0.890)   # #F5EDE3
-CREAM_SOFT  = Color(0.882, 0.823, 0.706)   # #E1D2B4
-WARM_GOLD   = Color(0.769, 0.659, 0.392)   # #C4A864 — oil-lamp glow
+# --- Palette (matches generate_cover.py exactly) ---
+DEEP_BROWN  = Color(0.117, 0.082, 0.055)   # #1E1510 — back-cover background
+CREAM       = Color(0.961, 0.910, 0.804)   # #F5E8CD  (245,232,205)
+CREAM_SOFT  = Color(0.882, 0.824, 0.706)   # #E1D2B4  (225,210,180)
+ACCENT_GOLD = Color(0.831, 0.706, 0.431)   # #D4B46E  (212,180,110)
+WARM_GOLD   = ACCENT_GOLD
 GOLD_DEEP   = Color(0.620, 0.529, 0.290)   # #9E874A
-WARM_RED    = Color(0.769, 0.318, 0.247)   # #C4513F — accent for verse rule
+WARM_RED    = Color(0.769, 0.318, 0.247)   # #C4513F — back-cover verse rule
 SLATE       = Color(0.604, 0.561, 0.494)   # #9A8F7E
 
 
@@ -125,7 +126,27 @@ def draw_background(c):
     c.rect(0, 0, DOC_W, DOC_H, fill=1, stroke=0)
 
 
+def _draw_centered_spaced(c, text, font_name, font_size, cx, baseline_y, char_spacing_pt):
+    """Centered drawString with extra spacing between every character (no kerning)."""
+    c.setFont(font_name, font_size)
+    widths = [c.stringWidth(ch, font_name, font_size) for ch in text]
+    total = sum(widths) + char_spacing_pt * (len(text) - 1)
+    x = cx - total / 2
+    for ch, wch in zip(text, widths):
+        c.drawString(x, baseline_y, ch)
+        x += wch + char_spacing_pt
+
+
 def draw_front_cover(c):
+    """Front cover — typography matches generate_cover.py exactly.
+
+    Pixel-to-point conversion: source image is 1700px tall = 8.5" trim
+    (200 px/inch), so 1 Pillow_px = 0.36 pt. Pillow's draw.text anchors
+    at the top of the EM box; ReportLab's drawString anchors at the
+    baseline. We convert top-of-EM positions to baseline positions by
+    subtracting ~0.80*font_size, which lines the visible glyphs up to
+    the same place the original cover_front.jpg shows.
+    """
     cx = FRONT_CENTER_X
     img = _load_hires_cover()
     iw, ih = img.getSize()
@@ -152,60 +173,57 @@ def draw_front_cover(c):
     c.drawImage(img, draw_x, draw_y, width=draw_w, height=draw_h)
     c.restoreState()
 
-    # --- Top darkening band so cream title reads on the warm wall ---
-    c.saveState()
-    p = c.beginPath(); p.rect(target_x, 0, target_w, DOC_H); p.close()
-    c.clipPath(p, stroke=0)
-    top_h = 2.2 * inch
-    steps = 220
-    for i in range(steps):
-        alpha = 0.55 * (1 - i / steps) ** 1.4
-        c.setFillColor(Color(0.04, 0.025, 0.015, alpha))
-        y = DOC_H - (i * top_h / steps)
-        h = top_h / steps + 1
-        c.rect(target_x, y - h, target_w, h, fill=1, stroke=0)
-    c.restoreState()
+    # No darkening bands — cream + the painting's wall tones carry the contrast.
 
-    # --- Title: italic "The Love God" + bold "Calls Us To" ---
+    PX_TO_PT = 72.0 / 200.0
+    BASELINE_FACTOR = 0.80
+
+    def baseline_from_top_px(top_px, size_px):
+        top_in = top_px / 200.0
+        return TRIM_TOP - (top_in * inch) - BASELINE_FACTOR * size_px * PX_TO_PT
+
+    def baseline_from_bottom_px(top_px_from_top, size_px):
+        bot_in = (1700 - top_px_from_top) / 200.0
+        return TRIM_BOTTOM + (bot_in * inch) - BASELINE_FACTOR * size_px * PX_TO_PT
+
+    small_size  = 64 * PX_TO_PT   # ~23 pt  italic
+    big_size    = 108 * PX_TO_PT  # ~39 pt  bold
+    sub_size    = 34 * PX_TO_PT   # ~12 pt  italic
+    author_size = 42 * PX_TO_PT   # ~15 pt  bold
+    pub_size    = 20 * PX_TO_PT   # ~7  pt  italic
+
+    # Original Pillow top-edge positions (from cover_front.jpg layout)
+    small_top_px = int(1700 * 0.050)                # 85
+    big_top_px   = small_top_px + int(64 * 1.15)    # 158
+    sub_top_px   = big_top_px   + int(108 * 1.35)   # 304
+
+    # --- Title block: italic "The Love God" + bold "Calls Us To" ---
     c.setFillColor(CREAM)
-    c.setFont("EBGaramond-Italic", 26)
-    c.drawCentredString(cx, DOC_H - 0.70 * inch, "The Love God")
-    check_front_safety(c, "The Love God", "EBGaramond-Italic", 26, cx)
+    c.setFont("EBGaramond-Italic", small_size)
+    c.drawCentredString(cx, baseline_from_top_px(small_top_px, 64), "The Love God")
+    check_front_safety(c, "The Love God", "EBGaramond-Italic", small_size, cx)
 
-    c.setFont("EBGaramond", 44)
-    c.drawCentredString(cx, DOC_H - 1.30 * inch, "Calls Us To")
-    check_front_safety(c, "Calls Us To", "EBGaramond", 44, cx)
+    c.setFont("EBGaramond", big_size)
+    c.drawCentredString(cx, baseline_from_top_px(big_top_px, 108), "Calls Us To")
+    check_front_safety(c, "Calls Us To", "EBGaramond", big_size, cx)
 
     # --- Subtitle ---
     c.setFillColor(CREAM_SOFT)
-    c.setFont("EBGaramond-Italic", 13)
-    c.drawCentredString(cx, DOC_H - 1.75 * inch, "Walking Out 1 Corinthians 13")
-    check_front_safety(c, "Walking Out 1 Corinthians 13", "EBGaramond-Italic", 13, cx)
+    c.setFont("EBGaramond-Italic", sub_size)
+    c.drawCentredString(cx, baseline_from_top_px(sub_top_px, 34),
+                        "Walking Out 1 Corinthians 13")
+    check_front_safety(c, "Walking Out 1 Corinthians 13",
+                       "EBGaramond-Italic", sub_size, cx)
 
-    # --- Bottom darkening band for author + publisher ---
-    c.saveState()
-    p = c.beginPath(); p.rect(target_x, 0, target_w, DOC_H); p.close()
-    c.clipPath(p, stroke=0)
-    bot_h = 1.5 * inch
-    bsteps = 220
-    for i in range(bsteps):
-        alpha = 0.55 * (i / bsteps) ** 1.4
-        c.setFillColor(Color(0.04, 0.025, 0.015, alpha))
-        y = bot_h * (1 - i / bsteps)
-        h = bot_h / bsteps + 1
-        c.rect(target_x, y - h, target_w, h, fill=1, stroke=0)
-    c.restoreState()
-
-    # --- Author + publisher ---
+    # --- Author (with original 8px letter spacing) + publisher ---
     c.setFillColor(CREAM)
-    c.setFont("EBGaramond", 15)
-    author_y = TRIM_BOTTOM + SAFETY + 0.35 * inch
-    c.drawCentredString(cx, author_y, "P A U L   H A I N L I N E")
-    check_front_safety(c, "P A U L   H A I N L I N E", "EBGaramond", 15, cx)
+    author_baseline = baseline_from_bottom_px(1560, 42)   # 140 px above bottom
+    _draw_centered_spaced(c, "PAUL HAINLINE", "EBGaramond", author_size, cx,
+                          author_baseline, 8 * PX_TO_PT)
 
-    c.setFillColor(WARM_GOLD)
-    c.setFont("EBGaramond-Italic", 9)
-    c.drawCentredString(cx, TRIM_BOTTOM + SAFETY - 0.05 * inch, "NobleMind Press")
+    c.setFillColor(ACCENT_GOLD)
+    c.setFont("EBGaramond-Italic", pub_size)
+    c.drawCentredString(cx, baseline_from_bottom_px(1625, 20), "NobleMind Press")
 
 
 def draw_spine(c):
