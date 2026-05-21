@@ -38,7 +38,7 @@ That is what the long road requires. The decision to flee must be made *before* 
 
 The apostle Paul put it as a command: "Now flee from youthful lusts and pursue righteousness, faith, love and peace, with those who call on the Lord from a pure heart" (2 Timothy 2:22). The word is *pheugo* — flee, run, escape. Not *resist*. Not *endure*. Not *manage*. Flee. And notice what Paul places immediately after the fleeing: *pursue*. You run *from* something and *to* something. And you do it *with those who call on the Lord*. The fleeing is not into isolation. It is into the company of people who are running in the same direction.
 
-Daniel's three friends understood this same principle — from the other side. When King Nebuchadnezzar commanded all the people of Babylon to fall down and worship the golden image he had built, Shadrach, Meshach, and Abed-nego did not bow. The king was furious. He offered them a second chance. And their answer should stop every person on the long road in their tracks:
+Daniel's three friends understood this same principle — from the other side. When King Nebuchadnezzar commanded all the people of Babylon to fall down and worship the golden image he had built, Shadrach, Meshach, and Abed-nego did not bow. The king was furious. He offered them a second chance. And every person on the long road should know their answer by heart:
 
 *"O Nebuchadnezzar, we do not need to give you an answer concerning this matter. If it be so, our God whom we serve is able to deliver us from the furnace of blazing fire; and He will deliver us out of your hand, O king. But even if He does not, let it be known to you, O king, that we are not going to serve your gods or worship the golden image that you have set up."*
 — Daniel 3:16-18

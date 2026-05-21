@@ -18,7 +18,7 @@ What I do know is what happened next. Because what happened next follows a patte
 
 •  •  •
 
-James, the Lord's brother, wrote a passage that maps the anatomy of temptation with surgical precision. He was not writing about drugs. He was writing about something far broader — the way sin works in any human heart, in any age, under any circumstance. But if you have lived through the progression of addiction, either as the addict or as the family watching it happen, these words will stop you cold:
+James, the Lord's brother, wrote a passage that maps the anatomy of temptation with surgical precision. He was not writing about drugs. He was writing about something far broader — the way sin works in any human heart, in any age, under any circumstance. But if you have lived through the progression of addiction, either as the addict or as the family watching it happen, you will recognize the description exactly:
 
 > *"But each one is tempted when he is carried away and enticed by his own desire. Then when desire has conceived, it gives birth to sin; and when sin is accomplished, it brings forth death."*
 >
@@ -126,7 +126,7 @@ The writer of Hebrews says it plainly:
 >
 > — Hebrews 3:13 (NASB)
 
-Two words matter here more than any others. The first is *hardened* — *sklērunthē*, from *sklērunō*. This is the root that gives us the medical term "sclerosis" — the hardening of tissue until it can no longer function as it was designed to. A hardened artery can't carry blood properly. A hardened heart can't feel what it was meant to feel. The conviction that used to sting doesn't reach anymore. The shame that used to stop you in your tracks barely registers. The voices of the people who love you, who are begging you to change — you can hear the words, but they don't penetrate. The tissue has hardened. It happens slowly. One choice at a time. One yes at a time. And by the time the hardening is advanced, the person inside doesn't know it has happened. They think they're the same person they always were. They think they can still feel what they used to feel. They can't.
+Two words matter here more than any others. The first is *hardened* — *sklērunthē*, from *sklērunō*. This is the root that gives us the medical term "sclerosis" — the hardening of tissue until it can no longer function as it was designed to. A hardened artery can't carry blood properly. A hardened heart can't feel what it was meant to feel. The conviction that used to sting doesn't reach anymore. The shame that used to weigh on you barely registers. The voices of the people who love you, who are begging you to change — you can hear the words, but they don't penetrate. The tissue has hardened. It happens slowly. One choice at a time. One yes at a time. And by the time the hardening is advanced, the person inside doesn't know it has happened. They think they're the same person they always were. They think they can still feel what they used to feel. They can't.
 
 The second word is *deceitfulness* — *apatē*. Sin lies. That is its nature, and its lies are not crude or obvious. They are tailored. Personalized. Relentless. Sin tells the addict: *You're in control.* Sin tells the addict: *You can stop whenever you want.* Sin tells the addict: *One more time won't change anything.* Sin tells the addict: *You're not like those people — you can manage this.* And the cruelest lie of all: *Tomorrow. You can deal with it tomorrow.*
 

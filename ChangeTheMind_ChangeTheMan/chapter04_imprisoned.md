@@ -4,7 +4,7 @@
 
 ## *Not every prison has walls you can see.*
 
-A preacher named Freddie Anderson — the man who taught me how to read the Bible and let it speak for itself — once made a statement that stopped me in my tracks. It was not from a sermon text. It was not an exegetical point. It was an observation about life, delivered the way Freddie delivered most things — plainly, without decoration, and with the kind of precision that doesn't let you look away.
+A preacher named Freddie Anderson — the man who taught me how to read the Bible and let it speak for itself — once made a statement that I have never forgotten. It was not from a sermon text. It was not an exegetical point. It was an observation about life, delivered the way Freddie delivered most things — plainly, without decoration, and with the kind of precision that doesn't let you look away.
 
 He said: *"All of the imprisoned are not in prison."*
 
