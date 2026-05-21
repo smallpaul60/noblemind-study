@@ -88,7 +88,7 @@ It looks like a teenage girl who refuses to repost the gossip she just read abou
 
 It looks like a Christian young person who, when an adult in the congregation does something that strikes him as foolish or inconsistent, does not roll his eyes, does not make the comment to his friends after worship, does not catalog the failing for later use. He prays for the adult. He keeps walking. The respect he shows is the form. The contempt he refuses is the form.
 
-It looks like Christ. The One who, when the woman caught in adultery was thrown at His feet by men who wanted to entertain themselves with her shame, bent down and wrote in the dust until the stones fell from their hands and the men walked away (John 8:6–9). The One who refused to play the game of public humiliation even though He was the only one in the room with the standing to throw the first stone. The One whose every conduct, in every moment of every day, was the perfect *schēma* of a Son sent by His Father into a world that did not know how to behave.
+It looks like Christ. The One who, when a woman known in the city as a sinner wept at His feet in a Pharisee's house and the host silently judged her unfitness to touch a holy man, refused the host's verdict — turned to him instead, named the love this woman was showing that the host had not, and sent her away in peace (Luke 7:36–50). The One who refused to play the game of public humiliation even though He was the only one in the room with the standing to render it. The One whose every conduct, in every moment of every day, was the perfect *schēma* of a Son sent by His Father into a world that did not know how to behave.
 
 ### The world's unbecoming, and ours
 
