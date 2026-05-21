@@ -27,7 +27,7 @@ DESCRIPTION = (
     "A walk through 1 Corinthians 13 — the love chapter — taken not "
     "as a wedding text but as the apostle Paul's diagnostic for a "
     "fractured first-century church. Fifteen attributes of love, "
-    "addressed one chapter at a time, with the Greek named where it "
+    "addressed across fourteen chapters, with the Greek named where it "
     "helps, the Corinthian failures named where they sharpen the "
     "modern reader's seeing, and the love itself set forth as the "
     "eternal nature of God Himself, into which every believer is being "

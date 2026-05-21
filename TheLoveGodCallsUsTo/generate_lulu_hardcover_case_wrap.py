@@ -295,7 +295,7 @@ def draw_back_face(c):
     c.setFillColor(CREAM)
     body = [
         "The world has heard this chapter a thousand times at weddings and read it carefully almost nowhere else.",
-        "Paul did not write 1 Corinthians 13 as wedding poetry. He wrote it to a fractured first-century church that had collected impressive spiritual gifts and lost the one thing that made the gifts mean anything. Fifteen attributes of love, addressed one chapter at a time, with the Greek named where it helps and the Corinthian failures named where they sharpen what we are now being asked to do.",
+        "Paul did not write 1 Corinthians 13 as wedding poetry. He wrote it to a fractured first-century church that had collected impressive spiritual gifts and lost the one thing that made the gifts mean anything. Fifteen attributes of love, addressed across fourteen chapters, with the Greek named where it helps and the Corinthian failures named where they sharpen what we are now being asked to do.",
         "Written for junior-high and high-school students. Useful for any believer who wants to walk out what this chapter actually demands.",
         "The love described here is the eternal nature of God Himself, and you have been invited to learn what it looks like — and to begin practicing it now.",
     ]
