@@ -82,21 +82,19 @@ A long-tempered Christian is not a man with no temper. He is a man whose temper 
 
 Patience looks like a high-school student who has been asked the same question by his younger sibling for the fifth time today and answers it a sixth time without sighing.
 
-It looks like a teenage girl whose closest friend has been processing the same hurt out loud for the fourth conversation in a month, and who listens to it again tonight as if it were the first time.
+It looks like a teenage girl whose closest friend has canceled on her three times in a row this semester with a half-sentence excuse — and who, when the next text comes through with another suggestion, holds her resentment back and answers her warmly anyway.
 
-It looks like a teenager sitting with a grandparent whose memory has begun to fail, hearing the same story three times in an hour and laughing in the right places every time, because the one telling it does not know it is the third time, and to deny him the laughter would be to remind him he is failing.
+It looks like a teenager sitting with a grandfather whose mind has started to slip, who has just been accused of taking something he never touched — and who, instead of defending himself, says he is sorry the thing was lost and changes the subject, because the grandfather will not remember the accusation in an hour, but he will remember being argued with.
 
 It looks like a teacher who has explained the same point to the same student in the same class for the third time, and who is preparing, without resentment, to explain it a fourth.
 
 It looks like a teenager kneeling down to tie a little brother's shoes because the little brother's hands are not yet quick, and the bus is coming, and the teenager could have done it in three seconds and saved everyone the trouble — but instead the teenager guides the small hands through the loops once more, slowly, because the little brother will need to learn this, and patience is the only thing that teaches it.
 
-It looks like a high-school girl whose boyfriend is still working through the same insecurity for the fourth conversation in a month, and who listens through it again, and answers the same reassurance again, because she has decided that the man she is praying he will become is worth the slow road there.
+It looks like a teenager whose father has just come through the door tired and short, and snapped at him about something small — and who, knowing the father is exhausted, does not snap back, does not roll his eyes, does not retreat behind a closed door. He answers calmly and lets the tone go.
 
 It looks like a high-school boy on a project team with a classmate who works far slower than he does, and who, instead of taking over and finishing the work himself, sits down beside the slower student and walks him through it, because the grade matters less than the brother.
 
-It looks like a friend listening — really listening — to a hard story being told slowly by someone who needs to be heard.
-
-It looks like a teacher at the front of a high-school Bible class, who has prepared notes the students will not all read, and who will press into the lesson anyway, week after week, for the sake of the one student in the room who is being changed.
+It looks like a teenager whose teammate, after a botched play, has whipped around and snapped at her in front of the whole bench — and who, instead of snapping back, hands her the water bottle and waits for the next whistle.
 
 It looks like Christ.
 
