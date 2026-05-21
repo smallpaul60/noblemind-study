@@ -515,16 +515,55 @@ def strip_html(text):
     return re.sub(r'<[^>]+>', '', text)
 
 
+# Block-level HTML elements that are navigation / metadata chrome
+# (NOT body content). Lines inside these are skipped during scanning
+# to prevent chapter-title text in dropdowns from generating
+# duplicate flag hits on every page.
+CHROME_BLOCKS = ('head', 'select', 'nav')
+
+
+def _build_chrome_skip_set(lines):
+    """Return a set of 1-indexed line numbers that fall inside any
+    chrome block (<head>, <select>, <nav>). Uses a simple state machine
+    that supports nested same-tag blocks one level deep and tags that
+    open and close on the same line."""
+    skip = set()
+    open_pat = {b: re.compile(rf'<{b}\b', re.IGNORECASE) for b in CHROME_BLOCKS}
+    close_pat = {b: re.compile(rf'</{b}>', re.IGNORECASE) for b in CHROME_BLOCKS}
+    current_block = None
+    for i, line in enumerate(lines, 1):
+        if current_block is not None:
+            skip.add(i)
+            if close_pat[current_block].search(line):
+                current_block = None
+            continue
+        for b in CHROME_BLOCKS:
+            if open_pat[b].search(line):
+                # If both open and close on same line, just skip this line
+                if close_pat[b].search(line):
+                    skip.add(i)
+                else:
+                    current_block = b
+                    skip.add(i)
+                break
+    return skip
+
+
 def scan_file(filepath, terms):
-    """Scan a single file for flagged terms. Returns list of findings."""
+    """Scan a single file for flagged terms. Returns list of findings.
+    Skips lines inside <head>, <select>, and <nav> blocks so chapter
+    titles in navigation dropdowns and page metadata don't generate
+    duplicate hits across every chapter file."""
     with open(filepath, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    # For HTML files, work with stripped text but keep line mapping
     lines = content.split('\n')
+    chrome_lines = _build_chrome_skip_set(lines)
     findings = []
 
     for line_num, line in enumerate(lines, 1):
+        if line_num in chrome_lines:
+            continue
         # Strip HTML for matching but keep original for display
         plain = strip_html(line)
         if not plain.strip():
