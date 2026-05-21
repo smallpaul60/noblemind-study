@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Generate Lulu paperback cover PDF for 'The Love God Calls Us To'.
 
-Lulu specs (5.5x8.5 perfect-bound paperback, 224 pages, B&W cream
+Lulu specs (5.5x8.5 perfect-bound paperback, 235 pages, B&W cream
 interior; spine width from Lulu template):
   Trim: 5.5" x 8.5"
-  Spine: 0.565"  (Lulu template; 224 × 0.00226 + 0.057 ≈ 0.563", template 0.565)
+  Spine: 0.589"  (Lulu template; 235 × 0.00226 + 0.057 ≈ 0.588", template 0.589)
   Bleed: 0.125" outside edges
-  Total document: 11.815" x 8.750"
+  Total document: 11.839" x 8.750"
+
+Page count grew from 224 → 235 when the Scripture Index was added as
+back matter. Spine width grew by 0.024" / 0.62 mm.
 
 Source image: washing_feet_cover.png (Christ kneeling, washing the feet
 of a disciple). The composed cover_front.jpg has the title typography
@@ -39,7 +42,7 @@ pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
 # --- Dimensions (from Lulu template) ---
-SPINE_W = 0.565
+SPINE_W = 0.589
 BLEED = 0.125
 TRIM_W = 5.5
 TRIM_H = 8.5
