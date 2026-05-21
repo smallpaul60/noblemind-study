@@ -170,6 +170,6 @@ This is where every human religion apart from the gospel makes its mistake. Ever
 
 Paul didn't stop at the wages. He gave the whole verse. The wages of sin is death — but there is a gift. A free gift. Eternal life. And it comes through someone specific: Christ Jesus our Lord.
 
-You can't fix this. But God can. And the remarkable thing — the thing that should stop you in your tracks — is that He already planned to. Before the foundation of the world, before the first sin was committed, before Adam ever reached for that fruit, God had a plan. And that plan didn't begin with the New Testament. It began with a promise spoken in the very same chapter where everything fell apart.
+You can't fix this. But God can. And the remarkable thing — the thing that should make you pause — is that He already planned to. Before the foundation of the world, before the first sin was committed, before Adam ever reached for that fruit, God had a plan. And that plan didn't begin with the New Testament. It began with a promise spoken in the very same chapter where everything fell apart.
 
 That promise — and the long thread that runs from it through the rest of Scripture — is where we're going next.

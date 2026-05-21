@@ -14,7 +14,7 @@ During His ministry, Jesus made a promise. After Peter confessed Him as "the Chr
 
 > *"I will build My church; and the gates of Hades will not overpower it."* — **Matthew 16:18, NASB**
 
-Three words in that sentence deserve your full attention: *My church.* Not Peter's church. Not Paul's church. Not any man's church. *My* church. Jesus claimed ownership of it before it even existed. He said *He* would build it. And He said nothing would stop it.
+Two words in that sentence deserve your full attention: *My church.* Not Peter's church. Not Paul's church. Not any man's church. *My* church. Jesus claimed ownership of it before it even existed. He said *He* would build it. And He said nothing would stop it.
 
 And that is exactly what happened. On the day of Pentecost — the day Peter stood up and preached the first gospel sermon after the resurrection — the church began. Three thousand people heard the message, believed it, repented, and were baptized. And then Luke tells us what happened next:
 

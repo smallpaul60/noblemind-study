@@ -158,7 +158,7 @@ Remember what we said about Abraham on Mount Moriah? A father willing to offer h
 
 In Chapter Three, we looked at the first half of one of the most important verses in all of Scripture: "For the wages of sin is death" (Romans 6:23). The wages — what sin earns, what it pays, what it produces — is death. Separation from God. That is the problem.
 
-But that verse doesn't end there. It continues with six words that change everything:
+But that verse doesn't end there. It continues:
 
 > *"For the wages of sin is death, but the free gift of God is eternal life in Christ Jesus our Lord."* — **Romans 6:23, NASB**
 
