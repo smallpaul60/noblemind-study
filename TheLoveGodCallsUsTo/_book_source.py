@@ -89,6 +89,8 @@ CHAPTERS = [
 BACK_MATTER = [
     ("The_Love_God_Calls_Us_To_AppA_Obey_The_Gospel.md",
         "Appendix A", "What It Means to Obey the Gospel", None),
+    ("__SCRIPTURE_INDEX__",
+        "Scripture Index", "Scripture Index", None),
 ]
 
 # All sections in publication order
@@ -288,6 +290,170 @@ def parse_chapter_md(md_path: Path) -> dict:
     }
 
 
+BIBLE_BOOK_ORDER = [
+    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+    "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel",
+    "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles",
+    "Ezra", "Nehemiah", "Esther", "Job", "Psalm", "Proverbs",
+    "Ecclesiastes", "Song of Solomon",
+    "Isaiah", "Jeremiah", "Lamentations", "Ezekiel", "Daniel",
+    "Hosea", "Joel", "Amos", "Obadiah", "Jonah",
+    "Micah", "Nahum", "Habakkuk", "Zephaniah", "Haggai", "Zechariah", "Malachi",
+    "Matthew", "Mark", "Luke", "John", "Acts", "Romans",
+    "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians",
+    "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians",
+    "1 Timothy", "2 Timothy", "Titus", "Philemon",
+    "Hebrews", "James", "1 Peter", "2 Peter",
+    "1 John", "2 John", "3 John", "Jude", "Revelation",
+]
+
+SCRIPTURE_RE = re.compile(
+    r'\b('
+    r'Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|'
+    r'1\s*Samuel|2\s*Samuel|1\s*Kings|2\s*Kings|1\s*Chronicles|2\s*Chronicles|'
+    r'Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song\s*of\s*Solomon|'
+    r'Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|'
+    r'Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|'
+    r'Matthew|Mark|Luke|John|Acts|Romans|'
+    r'1\s*Corinthians|2\s*Corinthians|Galatians|Ephesians|Philippians|Colossians|'
+    r'1\s*Thessalonians|2\s*Thessalonians|1\s*Timothy|2\s*Timothy|Titus|Philemon|'
+    r'Hebrews|James|1\s*Peter|2\s*Peter|1\s*John|2\s*John|3\s*John|Jude|Revelation'
+    r')\s+'
+    r'(\d+(?::\d+(?:\s*[-–]\s*\d+)*)?(?:\s*[-–]\s*\d+(?::\d+)?)?)',
+    re.IGNORECASE,
+)
+
+
+def _canonicalize_book_name(raw: str) -> str:
+    """Normalize a captured book name to its canonical form."""
+    normalized = re.sub(r'\s+', ' ', raw.strip())
+    # Title-case-friendly normalization for canonical lookup
+    lower = normalized.lower().replace('  ', ' ')
+    for book in BIBLE_BOOK_ORDER + ["Psalms"]:
+        if lower == book.lower():
+            return "Psalm" if book == "Psalms" else book
+    # Last resort: just title-case it
+    return normalized
+
+
+def _extract_scripture_refs_from_text(text: str) -> list:
+    """Return a list of (canonical_book, ref_string) tuples found in text."""
+    refs = []
+    for m in SCRIPTURE_RE.finditer(text):
+        book = _canonicalize_book_name(m.group(1))
+        verse_part = re.sub(r'\s+', '', m.group(2))
+        full_ref = f"{book} {verse_part}"
+        # Tidy any en-dashes back to en-dash glyph for display
+        full_ref = full_ref.replace('-', '–')
+        refs.append((book, full_ref))
+    return refs
+
+
+def _verse_sort_key(ref: str) -> tuple:
+    """Sort by chapter then starting verse so 4:7 comes before 4:18.
+    Pulls the chapter:verse from the END of the ref so leading book
+    numbers (1 Corinthians, 2 Peter, etc.) don't poison the sort."""
+    m = re.search(r'(\d+)(?::(\d+))?(?:[-–]\d+(?::\d+)?)?$', ref)
+    if not m:
+        return (0, 0)
+    chapter = int(m.group(1))
+    verse = int(m.group(2)) if m.group(2) else 0
+    return (chapter, verse)
+
+
+def build_scripture_index_section(sections: list) -> dict:
+    """Build a Scripture Index section dict from already-loaded sections.
+
+    Scans every section's body_html (and epigraph) for Bible references,
+    groups them by book in canonical order, lists where each reference
+    appears (Preface / Chapter N / Appendix A), and returns a section
+    dict with the same shape as a parsed chapter."""
+    from collections import defaultdict
+    ref_locations = defaultdict(set)
+
+    def label_for(section):
+        meta = section.get("label_meta", "")
+        if meta == "Inscription & Dedication":
+            return "Dedication"
+        return meta
+
+    for section in sections:
+        if section.get("filename") == "__SCRIPTURE_INDEX__":
+            continue
+        # Combine epigraph + body for ref scanning
+        combined = (section.get("epigraph_html") or "") + " " + \
+                   (section.get("body_html") or "")
+        # Strip HTML tags to plain text for clean matching
+        plain = re.sub(r'<[^>]+>', ' ', combined)
+        plain = re.sub(r'&[a-zA-Z]+;', ' ', plain)
+        plain = re.sub(r'\s+', ' ', plain)
+        for book, full_ref in _extract_scripture_refs_from_text(plain):
+            ref_locations[(book, full_ref)].add(label_for(section))
+
+    # Sort: by canonical book order, then by chapter/verse within book
+    book_index = {b: i for i, b in enumerate(BIBLE_BOOK_ORDER)}
+    sorted_keys = sorted(
+        ref_locations.keys(),
+        key=lambda k: (book_index.get(k[0], 999), _verse_sort_key(k[1])),
+    )
+
+    # Build HTML grouped by book
+    parts = []
+    current_book = None
+    for book, ref in sorted_keys:
+        if book != current_book:
+            current_book = book
+            parts.append(
+                f'<h2 class="si-book">{book}</h2>'
+            )
+        locations = sorted(
+            ref_locations[(book, ref)],
+            key=lambda L: (
+                0 if L == "Dedication"
+                else 1 if L == "Preface"
+                else 2 if L.startswith("Chapter")
+                else 3,
+                int(re.search(r'\d+', L).group()) if re.search(r'\d+', L) else 0
+            ),
+        )
+        loc_str = ", ".join(locations)
+        parts.append(
+            f'<p class="si-entry">'
+            f'<span class="si-ref">{ref}</span>'
+            f'<span class="si-locations">{loc_str}</span>'
+            f'</p>'
+        )
+
+    intro = (
+        '<p class="si-intro">Every Scripture reference cited in the book, '
+        'in canonical order, with the section(s) where it appears. The '
+        'main passage of the book — 1 Corinthians 13 — is referenced in '
+        'almost every chapter and is not listed exhaustively below; '
+        'individual verses within it (13:4, 13:5, 13:6, 13:7, 13:8&#x2013;13) '
+        'are listed where the discussion centers on them.</p>'
+    )
+
+    body_html = (
+        '<section class="chapter scripture-index">'
+        '<div class="chapter-body">'
+        + intro
+        + "\n".join(parts)
+        + '</div></section>'
+    )
+
+    return {
+        "label": "Scripture Index",
+        "title": "Scripture Index",
+        "epigraph_html": "",
+        "body_html": body_html,
+        "filename": "__SCRIPTURE_INDEX__",
+        "slug": "scripture-index",
+        "label_meta": "Scripture Index",
+        "title_meta": "Scripture Index",
+        "part": None,
+    }
+
+
 def load_all_sections(class_edition: bool = False) -> list:
     """Return a list of parsed sections in publication order.
 
@@ -298,9 +464,18 @@ def load_all_sections(class_edition: bool = False) -> list:
       title_meta - the title as recorded in ALL_SECTIONS (may differ
                    slightly from the parsed title — meta wins for TOC)
       part      - the part heading (or None)
+
+    Special handling: the __SCRIPTURE_INDEX__ sentinel triggers a
+    dynamically-built index section based on Scripture references in
+    all previously-loaded sections.
     """
     out = []
     for meta_filename, meta_label, meta_title, meta_part in ALL_SECTIONS:
+        if meta_filename == "__SCRIPTURE_INDEX__":
+            # Build the index from sections loaded so far
+            index_section = build_scripture_index_section(out)
+            out.append(index_section)
+            continue
         actual = resolve_filename(meta_filename, class_edition)
         md_path = BOOK_DIR / actual
         if not md_path.exists():

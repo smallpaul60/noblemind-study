@@ -147,6 +147,15 @@ blockquote.scripture cite { display: block; margin-top: 3pt; font-style: normal;
 
 em { font-style: italic; }
 strong { font-weight: bold; }
+
+/* Scripture Index back-matter section */
+.scripture-index .chapter-body { font-size: 10.5pt; line-height: 1.45; }
+.scripture-index .chapter-body p { text-indent: 0; }
+.si-intro { font-style: italic; color: #444; margin-bottom: 0.2in !important; text-align: left !important; }
+.si-book { font-size: 12pt; font-weight: bold; color: #1a1a1a; margin-top: 0.18in !important; margin-bottom: 0.06in !important; page-break-after: avoid; }
+.si-entry { font-size: 10pt; line-height: 1.45; padding-left: 0.2in; margin-top: 0 !important; margin-bottom: 2pt !important; text-align: left !important; }
+.si-ref { display: inline-block; min-width: 1.6in; font-variant: small-caps; letter-spacing: 0.02em; color: #1a1a1a; }
+.si-locations { color: #555; }
 """
 
 
