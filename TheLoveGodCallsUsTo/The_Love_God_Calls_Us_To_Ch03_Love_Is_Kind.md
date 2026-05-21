@@ -7,7 +7,7 @@
 
 The Greek word Paul reaches for here is *chrēsteuetai.* It is a verb built from the adjective *chrēstos,* which means *useful, good for something, kind in the active sense.* In ordinary Greek, a *chrēstos* tool was one that did its job. A *chrēstos* slave was one whose work was good. A *chrēstos* person was one who could be counted on for genuine, practical good. The word does not mean *nice* in our modern thin sense. It means *good at being good to people.*
 
-*Chrēsteuetai* — the verb Paul uses here — appears nowhere else in the New Testament. He coined it, or nearly coined it, to do exactly the work he needed it to do in this list. *Love acts in the chrēstos way.* Love is the kind of thing that gets up and does good for someone. Not feels good about them. Not means well toward them. *Does good to them.*
+*Chrēsteuetai* — the verb Paul uses here — appears nowhere else in the New Testament. He pulled a rare, almost-unused word from the older Greek to do exactly the work he needed it to do in this list. *Love acts in the chrēstos way.* Love is the kind of thing that gets up and does good for someone. Not feels good about them. Not means well toward them. *Does good to them.*
 
 ### What was happening in Corinth
 
@@ -84,7 +84,7 @@ It looks like a student who pays for the lunch of the kid behind him in the cafe
 
 It looks like a friend who notices that something is wrong and asks once, without prying, and waits.
 
-It looks like Christ. The One who saw the woman at the well and offered her water she did not know existed. The One who saw Zaccheus up a tree and invited Himself to dinner. The One who saw the woman taken in adultery and bent down to write in the dust until the stones fell from her accusers' hands. The One who, hanging on a cross, looked at a thief and promised him paradise. Story after story in the Gospels shows kindness initiating where it was not required to initiate. He owed those people nothing. He gave them what they did not earn.
+It looks like Christ. The One who saw the woman at the well and offered her water she did not know existed. The One who saw Zacchaeus up a tree and invited Himself to dinner. The One who stopped a whole crowd to find the woman who had spent twelve years and her last coin on doctors and reached out for the hem of His robe. The One who, hanging on a cross, looked at a thief and promised him paradise. Story after story in the Gospels shows kindness initiating where it was not required to initiate. He owed those people nothing. He gave them what they did not earn.
 
 ### The world's kindness, and ours
 
