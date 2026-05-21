@@ -7,7 +7,7 @@
 
 The Greek word Paul reaches for is *zēloō.* It is the verb form of *zēlos* — a word that, by itself, can go either way. Used well, *zēlos* is the heat of zeal. The man who is *zealous* for a good cause pours his energy into it. Used badly, the same heat is envy — the rising resentment a man feels when someone else has what he wanted. Same word. Same temperature inside the chest. Only the direction of the gaze decides which it is. The zealous man is looking at the work in front of him. The envious man is looking sideways at his brother.
 
-Paul has just used the word in its good sense one verse earlier. He closes the chapter on spiritual gifts by telling the Corinthians, *"But earnestly desire the greater gifts"* (12:31, NASB). The verb there is the same root — *zēloute,* *be zealous for.* Then he writes the love chapter, and the third thing he says love is, is the opposite use of the same word. *Love does not zēloō.* Love does not envy. Whatever zeal you were just told to have, do not let it curdle into the wrong kind of zeal — the kind that watches your brother get the gift you wanted and resents him for it.
+Paul has just used the word in its good sense at the end of the previous chapter, closing his discussion of spiritual gifts with the line *"But earnestly desire the greater gifts"* (12:31, NASB). The verb there is the same root — *zēloute,* *be zealous for.* Then he writes the love chapter, and the third thing he says love is, is the opposite use of the same word. *Love does not zēloō.* Love does not envy. Whatever zeal you were just told to have, do not let it curdle into the wrong kind of zeal — the kind that watches your brother get the gift you wanted and resents him for it.
 
 ### What was happening in Corinth
 
