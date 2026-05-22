@@ -494,13 +494,16 @@
     }
     .nm-copy-toast.visible { opacity: 1; }
 
-    /* Feature 3 — display preferences (font size + line spacing) */
-    body.nm-font-large .glass-page-inner { font-size: 1.12em; }
-    body.nm-font-larger .glass-page-inner { font-size: 1.28em; }
-    body.nm-leading-loose .glass-page-inner p,
-    body.nm-leading-loose .glass-page-inner li { line-height: 1.95; }
-    body.nm-leading-looser .glass-page-inner p,
-    body.nm-leading-looser .glass-page-inner li { line-height: 2.15; }
+    /* Feature 3 — display preferences (font size + line spacing).
+       Font scaling lives on <html> so every rem-based size in chapter
+       pages scales proportionally; ancestor-class line-height rules stay
+       targeted at <p>/<li> inside chapter content. */
+    html.nm-font-large { font-size: 112.5%; }
+    html.nm-font-larger { font-size: 128%; }
+    html.nm-leading-loose .glass-page-inner p,
+    html.nm-leading-loose .glass-page-inner li { line-height: 1.95; }
+    html.nm-leading-looser .glass-page-inner p,
+    html.nm-leading-looser .glass-page-inner li { line-height: 2.15; }
     .nm-display-row {
       display: flex; flex-wrap: wrap; align-items: center;
       gap: 6px; margin: 6px 0 10px 0;
@@ -1785,11 +1788,12 @@
 
   function applyDisplayPreferences() {
     const prefs = getDisplayPrefs();
-    document.body.classList.remove(...FONT_CLASSES, ...LEAD_CLASSES);
-    if (prefs.font === "large") document.body.classList.add("nm-font-large");
-    else if (prefs.font === "larger") document.body.classList.add("nm-font-larger");
-    if (prefs.leading === "loose") document.body.classList.add("nm-leading-loose");
-    else if (prefs.leading === "looser") document.body.classList.add("nm-leading-looser");
+    const root = document.documentElement;
+    root.classList.remove(...FONT_CLASSES, ...LEAD_CLASSES);
+    if (prefs.font === "large") root.classList.add("nm-font-large");
+    else if (prefs.font === "larger") root.classList.add("nm-font-larger");
+    if (prefs.leading === "loose") root.classList.add("nm-leading-loose");
+    else if (prefs.leading === "looser") root.classList.add("nm-leading-looser");
   }
 
   function setFontPref(size) {
