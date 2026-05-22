@@ -2583,11 +2583,11 @@
   // forward. Placed here because Feature 1 already inlined its own; both
   // popups can use this. For now, only Strong's calls it.
   function positionPopupNear(popupEl, anchorEl) {
+    const wasVisible = popupEl.classList.contains("visible");
     popupEl.style.left = "-9999px";
     popupEl.style.top = "0";
     popupEl.classList.add("visible");
     const popupRect = popupEl.getBoundingClientRect();
-    popupEl.classList.remove("visible");
 
     const rect = anchorEl.getBoundingClientRect();
     let top = rect.bottom + window.scrollY + 6;
@@ -2601,6 +2601,8 @@
     }
     popupEl.style.left = left + "px";
     popupEl.style.top = top + "px";
+    // Only hide afterward if the popup wasn't already visible when we entered
+    if (!wasVisible) popupEl.classList.remove("visible");
   }
 
   if (document.readyState === "loading") {
