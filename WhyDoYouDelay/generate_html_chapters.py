@@ -440,6 +440,7 @@ def _page_frame(title, inner_html, chapter_select, prev_link, next_link,
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -987,6 +988,7 @@ def build_index_html(book):
     document.addEventListener('DOMContentLoaded', updateProgressUI);
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 

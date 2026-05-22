@@ -1,12 +1,14 @@
 # Panel 6 — Love does not seek its own
 
-**Concept:** A youth-group potluck at the church fellowship hall. The subject — a white teen boy, first in line at the serving table with an empty plate in his hand — has just stepped sideways and is making a small "after you" gesture toward a younger Black girl behind him. She is stepping up to the table with her own plate, looking up at him with quiet surprise. His plate is still empty.
+**Concept:** A late-afternoon walk outside the church building after a youth-group meeting. The subject — a white teen boy in just a t-shirt — is walking next to a younger Black girl who is swimming in his oversized burgundy plaid flannel. He is visibly chilly, arms folded across his chest for warmth, but his expression is easy and warm. She is bundled inside the too-big jacket and content.
 
-**Why this composition:** "Does not seek its own" is about yielding your turn / your portion / your way, which is hard to picture except by showing the moment of yielding itself. The empty plate is the central physical cue — per [[smallest-physical-fix-first]] — because it tells the viewer that the subject was *next*, could have *served himself first*, and chose not to. The age gap (high-school boy yielding to a younger child) sharpens the read: there is no social pressure forcing him to step aside, he simply did.
+**Why this composition:** The previous draft (potluck "after-you" gesture) relied on an *empty plate* — a "what's not there" cue that viewers have to notice as an absence. The other panels in the series carry their verse via something visible *on the body or in the hand* (ribbon in hands, trophy resting on lectern, body turned out of the huddle). This version puts the cost on the giver's body directly: he is cold because she is warm. The verse appears in a single glance — per [[smallest-physical-fix-first]], the oversized flannel on the smaller frame *is* the verse. Nothing else has to do the work.
 
-**Why a church fellowship hall and not the cafeteria:** The wall hangs in a JH/HS classroom at the church building, so a recognizably-church setting once or twice in the 13 panels grounds the wall in the kids' own community — they'll recognize their own potlucks. Previous panels have been at school (hallway, art room, multipurpose room, hallway), so this one varies the location.
+**Why his expression matters:** "Does not seek its own" is joyful yielding, not grudging sacrifice. The boy must look calm and content — not shivering-miserable, not noble-suffering. A small smile, easy stride, no self-pity. He gave the jacket because he wanted to, and is fine.
 
-**Demographics tracker:**
+**Why outside the church:** Panels 2–5 covered school hallway, school art room, multipurpose room, school hallway. The previous v1 of panel 6 set the scene at a church fellowship hall to ground the wall in the kids' own community. This version keeps the church-setting variety by walking the pair past the church building toward the parking lot at golden hour — recognizably their own building, but outdoors so the golden light reads as intended.
+
+**Demographics tracker (unchanged):**
 
 | Panel | Subject | Secondary |
 |---|---|---|
@@ -20,47 +22,44 @@
 
 ```
 Photorealistic image of a white teenage boy, around 15 years old, with
-short sandy-brown hair and a slim build, standing at the front of a
-potluck serving line in a church fellowship hall. He is holding an
-empty paper plate in his left hand. He has just stepped sideways from
-the front of the line and turned slightly toward the younger child
-behind him.
+short sandy-brown hair and a slim build, walking along a sidewalk
+beside the church building on a crisp late-afternoon autumn day. He is
+wearing only a soft cream short-sleeve henley t-shirt and weathered
+denim jeans, with brown leather sneakers. He has no jacket of his own.
 
-His right hand is extended in a small open-palm "after you" gesture
-toward the girl. His body is angled to make room — feet shifted to
-the side, weight settled, shoulders square to her instead of to the
-table. His plate is visibly empty: he has taken nothing yet. The
-serving spoons in the casseroles closest to him remain untouched.
+He is visibly a little cold — arms folded loosely across his chest,
+shoulders slightly raised, one hand tucked under the opposite elbow.
+His posture is relaxed, not hunched in misery. His expression is calm
+and unselfconscious — small easy smile, eyes ahead or glancing kindly
+sideways at the girl, no performance, no martyrdom, no awareness of
+being watched.
 
-His expression is warm and unselfconscious — small easy smile, eyes
-on the girl, no performance, no awareness of being watched.
+Walking beside him, a Black girl around 10 or 11 years old, with two
+short braids and a small frame, is bundled inside a clearly oversized
+deep-burgundy and cream plaid flannel jacket that obviously belongs to
+him. The jacket is visibly too big for her: the sleeves hang well
+past her hands, the shoulder seams sit halfway down her upper arms,
+the hem falls to her thighs, the collar stands tall around her neck.
+She is holding the front edges together with her covered hands. She is
+warm, settled, content.
 
-Beside him, a Black girl around 10 or 11 years old, with two short
-braids and a small frame, is stepping up to the table with her own
-paper plate held in both hands. She is looking up at him with quiet
-surprise, eyebrows just lifted, mouth slightly open as if she just
-said "really?" before stepping forward.
+Underneath the jacket she is wearing a soft mustard long-sleeve top
+and warm tan corduroy pants, with brown leather lace-up boots.
 
-Her expression is a soft mix of surprise and warm gratitude.
+Her expression is a quiet, warm gratitude — small contented smile,
+eyes ahead, glancing sideways at him with appreciation.
 
-Modest everyday clothing: the boy in a cream button-down shirt with
-the sleeves rolled to the elbow, weathered denim, and brown leather
-sneakers; the girl in a soft mustard pinafore-style jumper over a
-cream long-sleeve t-shirt and warm tan corduroy pants. No bold logos,
-no athletic brands.
+They are walking together, in step, toward a parking lot visible
+further down the sidewalk. The church building is behind and to one
+side of them — softly out of focus, recognizable as a small simple
+brick or clapboard church with a peaked roof, no signage in focus,
+no banners. A few autumn-colored trees frame the walk.
 
-Setting: a church fellowship hall set up for a youth-group potluck
-in the late afternoon. A long banquet-style serving table runs across
-the middle of the frame, covered with a cream tablecloth and laid
-with covered casserole dishes, a basket of rolls, a bowl of green
-salad, and a pitcher of water. Tall windows along the side wall let
-in warm directional golden light. The wooden floor is polished. The
-walls are simple painted drywall, no signage, no banners.
-
-Background: two or three other people further back in the line,
-softly out of focus, holding plates, waiting their turn. An adult or
-two visible deeper in the room behind a round table, also out of
-focus.
+Background: scattered autumn leaves on the sidewalk and grass. Two
+or three other youth-group teens visible further ahead near the
+parking lot, softly out of focus, also walking toward parent cars.
+A parent or two faintly visible by a car, out of focus. No vehicles
+in sharp focus.
 
 ──── LOCKED VISUAL LANGUAGE — DO NOT MODIFY ────
 
@@ -100,8 +99,10 @@ Aspect ratio: 4:3, portrait orientation.
 
 ## Note before you generate
 
-Two specific failure modes to watch for:
+Three specific failure modes to watch for:
 
-1. **The empty plate.** If the model puts food on his plate, the read collapses — he becomes "polite friend at the food line" instead of "yielded his turn." The empty plate is the verse. If the first generation has food on it, regen note is: `the boy's plate is completely empty — he has not served himself yet`.
+1. **The boy in a jacket.** The model will default to "everyone dressed for the weather." If it puts any coat, overshirt, hoodie, or vest on the boy, the verse collapses — he becomes "two friends walking home" instead of "he gave her his jacket." Regen note: `the boy is wearing ONLY a short-sleeve t-shirt — no jacket, no coat, no overshirt, no hoodie, no vest. He has given his to the girl. His arms are bare from the elbow down.`
 
-2. **No saturated red on the table.** Tomato sauce, ketchup, watermelon, anything bright red will fight the locked palette. The catalog dishes listed (covered casseroles, rolls, green salad, water pitcher) are deliberately tame on color. If the model adds bright red food, regen note is: `keep the food in warm muted earth tones — no bright red dishes`.
+2. **The flannel fits the girl.** If the model resizes the jacket to her frame, the "this is his" read disappears. The whole point is that it is *visibly his*. Regen note: `the flannel jacket is dramatically oversized on the girl — sleeves much longer than her arms, shoulders sliding off, hem at her thighs. It is obviously not her own.`
+
+3. **The boy looks miserable.** "Does not seek its own" is joyful yielding. If he is shivering, blue-lipped, hunched, or grimacing, the read flips to grumpy martyrdom. Regen note: `the boy's expression is calm and content, not miserable or shivering — he is a little cold but glad she has his jacket. Small easy smile.`

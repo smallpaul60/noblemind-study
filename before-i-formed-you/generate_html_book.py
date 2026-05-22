@@ -467,6 +467,7 @@ def build_page_html(page_index):
     <div class="glass-tab"></div>
   </div>{progress_script}
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -847,6 +848,7 @@ def build_index_html():
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 

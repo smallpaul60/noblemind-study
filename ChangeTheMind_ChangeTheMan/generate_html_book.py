@@ -830,6 +830,7 @@ def generate_chapter_html(chapter_info, content_html):
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -1324,6 +1325,7 @@ def generate_index_html():
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 

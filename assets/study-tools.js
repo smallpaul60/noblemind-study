@@ -259,6 +259,37 @@
       color: rgba(255, 235, 130, 0.95);
     }
     .nm-note-modal .nm-modal-actions button:hover { filter: brightness(1.15); }
+    .nm-tools-panel .nm-toolbar {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.2);
+      border-bottom: 1px solid rgba(196, 168, 84, 0.12);
+    }
+    .nm-tools-panel .nm-toolbar button {
+      flex: 1;
+      background: rgba(196, 168, 84, 0.1);
+      border: 1px solid rgba(196, 168, 84, 0.22);
+      border-radius: 6px;
+      color: rgba(240, 236, 228, 0.92);
+      padding: 6px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+    }
+    .nm-tools-panel .nm-toolbar button:hover {
+      background: rgba(196, 168, 84, 0.2);
+      border-color: rgba(196, 168, 84, 0.5);
+      color: rgba(255, 235, 130, 0.95);
+    }
+    .nm-tools-panel .nm-toolbar .nm-toolbar-msg {
+      font-size: 0.72rem;
+      color: rgba(192, 184, 168, 0.75);
+      padding: 4px 6px;
+      align-self: center;
+      font-style: italic;
+    }
     @media (max-width: 600px) {
       .nm-tools-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; font-size: 1.25rem; }
       .nm-tools-panel { right: 10px; left: 10px; width: auto; bottom: 70px; }
@@ -622,6 +653,127 @@
     }
   }
 
+  // ---- export / import backup ----------------------------------------------
+
+  const STORAGE_PREFIX = "nm_study_";
+  const BACKUP_FORMAT = "noblemind-highlights-v1";
+
+  function collectAllHighlights() {
+    const pages = {};
+    let total = 0;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(STORAGE_PREFIX)) continue;
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key));
+        if (parsed && Array.isArray(parsed.highlights) && parsed.highlights.length > 0) {
+          const pagePath = key.slice(STORAGE_PREFIX.length);
+          pages[pagePath] = { highlights: parsed.highlights };
+          total += parsed.highlights.length;
+        }
+      } catch (e) { /* skip corrupt entries */ }
+    }
+    return { pages, total };
+  }
+
+  function exportBackup() {
+    const { pages, total } = collectAllHighlights();
+    if (total === 0) {
+      flashToolbarMessage("Nothing to back up yet.");
+      return;
+    }
+    const payload = {
+      format: BACKUP_FORMAT,
+      exported_at: new Date().toISOString(),
+      page_count: Object.keys(pages).length,
+      highlight_count: total,
+      pages,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `noblemind-highlights-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    flashToolbarMessage(`Saved ${total} highlight${total === 1 ? "" : "s"} from ${Object.keys(pages).length} page${Object.keys(pages).length === 1 ? "" : "s"}.`);
+  }
+
+  function importBackup(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      let payload;
+      try { payload = JSON.parse(reader.result); }
+      catch (e) {
+        flashToolbarMessage("Could not read that file — not valid JSON.");
+        return;
+      }
+      if (!payload || payload.format !== BACKUP_FORMAT || !payload.pages || typeof payload.pages !== "object") {
+        flashToolbarMessage("That doesn't look like a Noble Mind backup file.");
+        return;
+      }
+      let addedHighlights = 0;
+      let touchedPages = 0;
+      for (const pagePath in payload.pages) {
+        const incoming = payload.pages[pagePath];
+        if (!incoming || !Array.isArray(incoming.highlights)) continue;
+        const key = STORAGE_PREFIX + pagePath;
+        let existing = { highlights: [] };
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && Array.isArray(parsed.highlights)) existing = parsed;
+          }
+        } catch (e) { /* fall back to empty */ }
+        const existingIds = new Set(existing.highlights.map((h) => h.id));
+        let pageAdded = 0;
+        for (const h of incoming.highlights) {
+          if (!h || typeof h.id !== "string" || existingIds.has(h.id)) continue;
+          existing.highlights.push(h);
+          existingIds.add(h.id);
+          pageAdded++;
+        }
+        if (pageAdded > 0) {
+          try { localStorage.setItem(key, JSON.stringify(existing)); }
+          catch (e) { /* quota — skip silently */ }
+          touchedPages++;
+          addedHighlights += pageAdded;
+        }
+      }
+      // Reload state for the current page and re-render
+      state = loadState();
+      applyPersistedHighlights();
+      refreshFabCount();
+      renderPanel();
+      if (addedHighlights === 0) {
+        flashToolbarMessage("No new highlights to add — backup already matches.");
+      } else {
+        flashToolbarMessage(`Restored ${addedHighlights} highlight${addedHighlights === 1 ? "" : "s"} across ${touchedPages} page${touchedPages === 1 ? "" : "s"}.`);
+      }
+    };
+    reader.onerror = () => flashToolbarMessage("Could not read that file.");
+    reader.readAsText(file);
+  }
+
+  function flashToolbarMessage(msg) {
+    if (!panel) return;
+    const toolbar = panel.querySelector(".nm-toolbar");
+    if (!toolbar) return;
+    let el = toolbar.querySelector(".nm-toolbar-msg");
+    if (!el) {
+      el = document.createElement("div");
+      el.className = "nm-toolbar-msg";
+      toolbar.appendChild(el);
+    }
+    el.textContent = msg;
+    clearTimeout(flashToolbarMessage._t);
+    flashToolbarMessage._t = setTimeout(() => { if (el) el.textContent = ""; }, 4000);
+  }
+
   function ensurePanel() {
     if (panel) return panel;
     panel = document.createElement("div");
@@ -631,11 +783,24 @@
         <h3>My Highlights</h3>
         <button class="nm-close" aria-label="Close">×</button>
       </header>
+      <div class="nm-toolbar">
+        <button data-action="export" title="Download a backup of every highlight and note in this browser, across all books">Export backup</button>
+        <button data-action="import" title="Restore highlights and notes from a backup file">Import backup</button>
+        <input type="file" class="nm-import-input" accept=".json,application/json" style="display:none" />
+      </div>
       <div class="nm-list"></div>
     `;
     document.body.appendChild(panel);
     panel.querySelector(".nm-close").addEventListener("click", () => {
       panel.classList.remove("visible");
+    });
+    panel.querySelector('[data-action="export"]').addEventListener("click", exportBackup);
+    const fileInput = panel.querySelector(".nm-import-input");
+    panel.querySelector('[data-action="import"]').addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) importBackup(file);
+      fileInput.value = "";
     });
     return panel;
   }

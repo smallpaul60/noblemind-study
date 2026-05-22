@@ -1010,6 +1010,7 @@ def generate_section_html(section, content_html, index_in_sections):
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>
 """
@@ -1566,6 +1567,7 @@ def generate_index_html():
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>
 """

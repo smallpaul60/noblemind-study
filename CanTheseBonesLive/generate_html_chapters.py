@@ -607,6 +607,7 @@ def build_chapter_html(md_file, ch_num, title):
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -742,6 +743,7 @@ def build_appendix_html(md_file, letter, label, title, idx):
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -1144,6 +1146,7 @@ def build_index_html():
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 

@@ -937,6 +937,7 @@ HTML_TEMPLATE = """\
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 
@@ -1329,6 +1330,7 @@ INDEX_TEMPLATE = """\
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>"""
 

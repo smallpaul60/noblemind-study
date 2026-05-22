@@ -1550,6 +1550,7 @@ def generate_chapter_html(ch_meta, content):
   <script>{get_chapter_js(ch_num)}
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>'''
 
@@ -2215,6 +2216,7 @@ def generate_index_html():
     }});
   </script>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>'''
 
@@ -2324,6 +2326,7 @@ def generate_appendix_html(letter, title, subtitle, elements):
     <div class="glass-tab"></div>
   </div>
   <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
 </body>
 </html>'''
 
