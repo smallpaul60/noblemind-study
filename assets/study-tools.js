@@ -451,11 +451,291 @@
       font-style: italic;
       margin-top: 6px;
     }
+    /* Feature 2 — paragraph permalinks */
+    .nm-para-anchor {
+      display: inline-block;
+      margin-left: 8px;
+      opacity: 0;
+      color: rgba(196, 168, 84, 0.6);
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.18s, color 0.18s;
+      font-size: 0.85em;
+      user-select: none;
+      vertical-align: baseline;
+    }
+    p:hover > .nm-para-anchor,
+    h2:hover > .nm-para-anchor,
+    h3:hover > .nm-para-anchor,
+    .nm-para-anchor:focus,
+    .nm-para-anchor:hover {
+      opacity: 1;
+      color: rgba(255, 235, 130, 0.95);
+    }
+    @media (hover: none) {
+      .nm-para-anchor { opacity: 0.35; }
+    }
+    .nm-copy-toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 9px 18px;
+      background: rgba(15, 15, 18, 0.96);
+      border: 1px solid rgba(196, 168, 84, 0.45);
+      border-radius: 22px;
+      color: rgba(255, 235, 130, 0.95);
+      font-size: 0.85rem;
+      font-family: 'Segoe UI', Georgia, serif;
+      z-index: 10003;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s;
+    }
+    .nm-copy-toast.visible { opacity: 1; }
+
+    /* Feature 3 — display preferences (font size + line spacing) */
+    body.nm-font-large .glass-page-inner { font-size: 1.12em; }
+    body.nm-font-larger .glass-page-inner { font-size: 1.28em; }
+    body.nm-leading-loose .glass-page-inner p,
+    body.nm-leading-loose .glass-page-inner li { line-height: 1.95; }
+    body.nm-leading-looser .glass-page-inner p,
+    body.nm-leading-looser .glass-page-inner li { line-height: 2.15; }
+    .nm-display-row {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 6px; margin: 6px 0 10px 0;
+    }
+    .nm-display-row .nm-display-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(192, 184, 168, 0.75);
+      margin-right: 4px;
+      min-width: 88px;
+    }
+    .nm-display-row button {
+      background: rgba(196, 168, 84, 0.10);
+      border: 1px solid rgba(196, 168, 84, 0.22);
+      border-radius: 6px;
+      color: rgba(240, 236, 228, 0.92);
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+    }
+    .nm-display-row button:hover {
+      background: rgba(196, 168, 84, 0.2);
+      border-color: rgba(196, 168, 84, 0.5);
+    }
+    .nm-display-row button.nm-active {
+      background: rgba(196, 168, 84, 0.32);
+      border-color: rgba(255, 235, 130, 0.65);
+      color: rgba(255, 235, 130, 0.95);
+    }
+
+    /* Feature 4 — Continue reading prompt on book index */
+    .nm-continue-banner {
+      margin: 0 0 1.8rem 0;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, rgba(196,168,84,0.16), rgba(196,81,63,0.10));
+      border: 1px solid rgba(196, 168, 84, 0.4);
+      border-radius: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+      font-family: 'Segoe UI', Georgia, serif;
+    }
+    .nm-continue-banner .nm-continue-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 84, 0.85);
+      margin-bottom: 3px;
+    }
+    .nm-continue-banner .nm-continue-where {
+      font-size: 1.05rem;
+      color: rgba(240, 236, 228, 0.96);
+    }
+    .nm-continue-banner .nm-continue-link {
+      padding: 8px 16px;
+      background: rgba(255, 235, 130, 0.18);
+      border: 1px solid rgba(255, 235, 130, 0.55);
+      border-radius: 8px;
+      color: rgba(255, 235, 130, 0.95);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nm-continue-banner .nm-continue-link:hover {
+      background: rgba(255, 235, 130, 0.3);
+      transform: translateY(-1px);
+    }
+    .nm-continue-banner .nm-continue-dismiss {
+      background: none;
+      border: none;
+      color: rgba(192, 184, 168, 0.55);
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0 6px;
+      line-height: 1;
+    }
+    .nm-continue-banner .nm-continue-dismiss:hover { color: rgba(255, 235, 130, 0.9); }
+
+    /* Feature 5 — per-book search on the index page */
+    .nm-book-search-row {
+      margin: 0 0 1.6rem 0;
+    }
+    .nm-book-search-input {
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 10px;
+      color: rgba(240, 236, 228, 0.95);
+      font-family: 'Segoe UI', Georgia, serif;
+      font-size: 0.92rem;
+      box-sizing: border-box;
+    }
+    .nm-book-search-input:focus {
+      outline: none;
+      border-color: rgba(196, 168, 84, 0.6);
+      background: rgba(0,0,0,0.6);
+    }
+    .nm-book-search-input::placeholder {
+      color: rgba(192, 184, 168, 0.55);
+      font-style: italic;
+    }
+    .nm-book-search-results {
+      margin-top: 10px;
+      max-height: 50vh;
+      overflow-y: auto;
+      border: 1px solid rgba(148, 163, 184, 0.15);
+      border-radius: 10px;
+      background: rgba(0,0,0,0.3);
+      display: none;
+    }
+    .nm-book-search-results.visible { display: block; }
+    .nm-book-search-results .nm-bs-item {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .nm-book-search-results .nm-bs-item:last-child { border-bottom: none; }
+    .nm-book-search-results .nm-bs-item:hover { background: rgba(196, 168, 84, 0.10); }
+    .nm-book-search-results .nm-bs-where {
+      font-size: 0.74rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 84, 0.85);
+      margin-bottom: 4px;
+    }
+    .nm-book-search-results .nm-bs-snippet {
+      font-size: 0.88rem;
+      color: rgba(232, 226, 212, 0.92);
+      line-height: 1.45;
+    }
+    .nm-book-search-results .nm-bs-empty {
+      padding: 16px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: rgba(192, 184, 168, 0.7);
+      font-style: italic;
+    }
+    .nm-book-search-results mark.nm-match {
+      background: rgba(255, 235, 130, 0.45);
+      color: inherit;
+      padding: 0 1px;
+      border-radius: 2px;
+    }
+
+    /* Feature 1 — verse-reference hover popups */
+    .nm-verse-ref {
+      color: rgba(196, 168, 84, 0.95);
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(196, 168, 84, 0.55);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      padding: 0 1px;
+    }
+    .nm-verse-ref:hover,
+    .nm-verse-ref:focus {
+      background: rgba(196, 168, 84, 0.16);
+      border-bottom-color: rgba(255, 235, 130, 0.9);
+      color: rgba(255, 235, 130, 0.98);
+      outline: none;
+    }
+    .nm-verse-popup {
+      position: absolute;
+      z-index: 10002;
+      max-width: 380px;
+      min-width: 220px;
+      background: rgba(15, 15, 18, 0.98);
+      border: 1px solid rgba(196, 168, 84, 0.4);
+      border-radius: 10px;
+      padding: 12px 14px 12px 14px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+      color: rgba(232, 226, 212, 0.95);
+      font-family: 'Segoe UI', Georgia, serif;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      display: none;
+    }
+    .nm-verse-popup.visible { display: block; }
+    .nm-verse-popup .nm-vp-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px;
+    }
+    .nm-verse-popup .nm-vp-cite {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 84, 0.95);
+      font-weight: 700;
+    }
+    .nm-verse-popup .nm-vp-close {
+      background: none; border: none;
+      color: rgba(192, 184, 168, 0.7);
+      cursor: pointer;
+      font-size: 1.15rem;
+      line-height: 1;
+      padding: 0 2px;
+    }
+    .nm-verse-popup .nm-vp-close:hover { color: rgba(255, 235, 130, 0.95); }
+    .nm-verse-popup .nm-vp-body {
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .nm-verse-popup .nm-vp-body .nm-vp-verse {
+      margin-bottom: 4px;
+    }
+    .nm-verse-popup .nm-vp-body .nm-vp-vnum {
+      font-size: 0.72em;
+      vertical-align: super;
+      color: rgba(196, 168, 84, 0.85);
+      margin-right: 3px;
+    }
+    .nm-verse-popup .nm-vp-loading {
+      font-style: italic;
+      color: rgba(192, 184, 168, 0.7);
+    }
+    .nm-verse-popup .nm-vp-translation {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      font-size: 0.72rem;
+      color: rgba(192, 184, 168, 0.6);
+      font-style: italic;
+      text-align: right;
+    }
+
     @media (max-width: 600px) {
       .nm-tools-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; font-size: 1.25rem; }
       .nm-tools-panel { right: 10px; left: 10px; width: auto; bottom: 70px; }
       .nm-help-fab { left: 14px; bottom: 14px; padding: 8px 13px; font-size: 0.8rem; }
       .nm-help-popup { top: 10px; left: 10px; right: 10px; width: auto; max-height: 85vh; }
+      .nm-verse-popup { max-width: calc(100vw - 30px); }
     }
   `;
 
@@ -1191,11 +1471,28 @@
   // ---- Tools / Help popup --------------------------------------------------
 
   const HELP_HTML = `
+    <h4>Display</h4>
+    <div class="nm-display-row" data-row="font">
+      <span class="nm-display-label">Text size</span>
+      <button data-size="default">A</button>
+      <button data-size="large">A+</button>
+      <button data-size="larger">A++</button>
+    </div>
+    <div class="nm-display-row" data-row="leading">
+      <span class="nm-display-label">Line spacing</span>
+      <button data-leading="default">Normal</button>
+      <button data-leading="loose">Loose</button>
+      <button data-leading="looser">Looser</button>
+    </div>
+
     <h4>About this reader</h4>
     <p>Every book here is free to read online, with a matching PDF and EPUB. Once a page loads, it works offline.</p>
 
     <h4>Search across every book</h4>
-    <p>On the <strong>Books</strong> page, the search bar at the top searches the full text of every book at once. Click any result to jump to the matching paragraph in that chapter.</p>
+    <p>On the <strong>Books</strong> page, the search bar at the top searches the full text of every book at once. Each book's table of contents also has a search box that searches only that book.</p>
+
+    <h4>Verse references</h4>
+    <p>Scripture references in book text (like <em>John 3:16</em> or <em>1 Corinthians 13:4–7</em>) are underlined with a small dot underline. Click one to see the verse text inline. Uses the King James Version (in the public domain) so it works without internet.</p>
 
     <h4>Highlight a sentence</h4>
     <p>While reading any chapter, select a sentence with your mouse or finger. A small popup appears with:</p>
@@ -1205,10 +1502,13 @@
     </ul>
 
     <h4>Your notebook</h4>
-    <p>The <strong>📓 button</strong> at the bottom-right of every chapter page opens your notebook. It lists every highlight and note you've saved on that page. Click any item to scroll back to it. The red badge shows how many are on the current page.</p>
+    <p>The <strong>📓 button</strong> at the bottom-right of every chapter page opens your notebook. It lists every highlight and note you've saved on that page, and lets you search across every book. The red badge shows how many highlights are on the current page.</p>
 
-    <h4>Search every note you've saved</h4>
-    <p>Inside the notebook, type in the <em>"Find in my notes"</em> box to search across every book — not just this chapter. Results show the book and chapter; click one to navigate there with the highlight ready to view.</p>
+    <h4>Continue where you left off</h4>
+    <p>When you return to a book's table of contents, a <strong>Resume</strong> button appears at the top showing the last chapter you read.</p>
+
+    <h4>Share a paragraph</h4>
+    <p>Hover over any paragraph and a small <code>¶</code> mark appears at the end. Click it to copy a direct link to that paragraph — useful when sharing a specific passage with someone in your study group.</p>
 
     <h4>Back up your notes</h4>
     <p>Your highlights and notes live in this browser only. If you clear browsing data they will be erased. Use <strong>Export backup</strong> in the notebook to save a JSON file to your drive, and <strong>Import backup</strong> to restore it later — on any browser or computer.</p>
@@ -1248,6 +1548,13 @@
     helpPopup.querySelector(".nm-help-close").addEventListener("click", () => {
       helpPopup.classList.remove("visible");
     });
+    helpPopup.querySelectorAll('.nm-display-row[data-row="font"] button').forEach((b) => {
+      b.addEventListener("click", () => setFontPref(b.getAttribute("data-size")));
+    });
+    helpPopup.querySelectorAll('.nm-display-row[data-row="leading"] button').forEach((b) => {
+      b.addEventListener("click", () => setLeadingPref(b.getAttribute("data-leading")));
+    });
+    refreshDisplayControls();
     makeDraggable(helpPopup, helpPopup.querySelector(".nm-help-popup-header"));
     restoreHelpPopupPosition(helpPopup);
     return helpPopup;
@@ -1339,36 +1646,654 @@
     document.head.appendChild(style);
   }
 
-  function isChapterPage() {
-    return !!document.querySelector(".glass-page-inner");
+  function getPageType() {
+    if (document.querySelector(".lesson-grid")) return "book-index";
+    if (document.querySelector(".glass-page-inner")) return "book-chapter";
+    return "catalog";
   }
 
   function init() {
     injectStyle();
+    applyDisplayPreferences();      // Feature 3 — apply persisted font/leading
+    ensureHelpFab();                 // Tools button on every page
 
-    // Tools/Help button is on every page that loads this script.
-    ensureHelpFab();
+    const pageType = getPageType();
+    if (pageType === "book-chapter") initChapterPage();
+    else if (pageType === "book-index") initBookIndexPage();
+  }
 
-    // Highlights / notes / search land are chapter-only.
-    if (!isChapterPage()) return;
-
+  function initChapterPage() {
     handleSearchQuery();
     applyPersistedHighlights();
     ensureFab();
     refreshFabCount();
     bindHighlightClicks();
+    injectParagraphAnchors();    // Feature 2
+    recordLastChapter();          // Feature 4 (writer side)
+    linkifyVerseRefs();           // Feature 1
 
-    // Selection popup
     let popupTimer = null;
     document.addEventListener("selectionchange", () => {
       if (popupTimer) clearTimeout(popupTimer);
       popupTimer = setTimeout(showPopupAtSelection, 150);
     });
     document.addEventListener("mousedown", (e) => {
-      if (e.target.closest(".nm-selection-popup, .nm-tools-fab, .nm-tools-panel, .nm-note-modal, .nm-help-fab, .nm-help-popup")) return;
+      if (e.target.closest(".nm-selection-popup, .nm-tools-fab, .nm-tools-panel, .nm-note-modal, .nm-help-fab, .nm-help-popup, .nm-verse-popup, .nm-verse-ref")) return;
       hidePopup();
     });
   }
+
+  function initBookIndexPage() {
+    injectContinueBanner();       // Feature 4 (reader side)
+    injectBookSearch();            // Feature 5
+  }
+
+  // ============================================================
+  // Feature 2 — per-paragraph permalinks
+  // ============================================================
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    }
+    return fallbackCopy(text);
+  }
+  function fallbackCopy(text) {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.left = "-10000px";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  function flashCopyToast(message) {
+    let toast = document.querySelector(".nm-copy-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "nm-copy-toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add("visible");
+    clearTimeout(flashCopyToast._t);
+    flashCopyToast._t = setTimeout(() => toast.classList.remove("visible"), 1800);
+  }
+
+  function injectParagraphAnchors() {
+    const root = findContentRoot();
+    if (!root) return;
+    // Skip paragraphs that are inside nav, header, footer, or other chrome
+    const paragraphs = Array.from(root.querySelectorAll("p")).filter((p) => {
+      if (p.closest(".nav-controls, .footer-nav, footer, header.glass-page-header, .nm-tools-panel, .nm-help-popup, .nm-selection-popup")) return false;
+      // Must have meaningful text content (skip empty/short)
+      return p.textContent.trim().length >= 20;
+    });
+    let seq = 0;
+    for (const p of paragraphs) {
+      seq++;
+      if (!p.id) p.id = "p" + seq;
+      // Don't re-add the anchor if already there
+      if (p.querySelector(".nm-para-anchor")) continue;
+      const a = document.createElement("a");
+      a.href = "#" + p.id;
+      a.className = "nm-para-anchor";
+      a.title = "Copy link to this paragraph";
+      a.setAttribute("aria-label", "Copy link to this paragraph");
+      a.textContent = "¶";
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const url = window.location.origin + window.location.pathname + "#" + p.id;
+        Promise.resolve(copyToClipboard(url)).then(() => flashCopyToast("Paragraph link copied"));
+        history.replaceState(null, "", "#" + p.id);
+      });
+      p.appendChild(a);
+    }
+    // Scroll into view on landing
+    const hash = window.location.hash;
+    if (hash && /^#p\d+$/.test(hash)) {
+      const target = document.getElementById(hash.slice(1));
+      if (target) setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "center" }), 150);
+    }
+  }
+
+  // ============================================================
+  // Feature 3 — display preferences (font size + line spacing)
+  // ============================================================
+
+  const DISPLAY_KEY = "nm_display";
+  const FONT_CLASSES = ["nm-font-large", "nm-font-larger"];
+  const LEAD_CLASSES = ["nm-leading-loose", "nm-leading-looser"];
+
+  function getDisplayPrefs() {
+    try {
+      const raw = localStorage.getItem(DISPLAY_KEY);
+      if (!raw) return { font: "default", leading: "default" };
+      const p = JSON.parse(raw);
+      return {
+        font: ["default", "large", "larger"].includes(p.font) ? p.font : "default",
+        leading: ["default", "loose", "looser"].includes(p.leading) ? p.leading : "default",
+      };
+    } catch (e) { return { font: "default", leading: "default" }; }
+  }
+
+  function saveDisplayPrefs(prefs) {
+    try { localStorage.setItem(DISPLAY_KEY, JSON.stringify(prefs)); }
+    catch (e) {}
+  }
+
+  function applyDisplayPreferences() {
+    const prefs = getDisplayPrefs();
+    document.body.classList.remove(...FONT_CLASSES, ...LEAD_CLASSES);
+    if (prefs.font === "large") document.body.classList.add("nm-font-large");
+    else if (prefs.font === "larger") document.body.classList.add("nm-font-larger");
+    if (prefs.leading === "loose") document.body.classList.add("nm-leading-loose");
+    else if (prefs.leading === "looser") document.body.classList.add("nm-leading-looser");
+  }
+
+  function setFontPref(size) {
+    const prefs = getDisplayPrefs();
+    prefs.font = size;
+    saveDisplayPrefs(prefs);
+    applyDisplayPreferences();
+    refreshDisplayControls();
+  }
+  function setLeadingPref(leading) {
+    const prefs = getDisplayPrefs();
+    prefs.leading = leading;
+    saveDisplayPrefs(prefs);
+    applyDisplayPreferences();
+    refreshDisplayControls();
+  }
+  function refreshDisplayControls() {
+    if (!helpPopup) return;
+    const prefs = getDisplayPrefs();
+    helpPopup.querySelectorAll('.nm-display-row[data-row="font"] button').forEach((b) => {
+      b.classList.toggle("nm-active", b.getAttribute("data-size") === prefs.font);
+    });
+    helpPopup.querySelectorAll('.nm-display-row[data-row="leading"] button').forEach((b) => {
+      b.classList.toggle("nm-active", b.getAttribute("data-leading") === prefs.leading);
+    });
+  }
+
+  // ============================================================
+  // Feature 4 — Continue where you left off
+  // ============================================================
+
+  const LAST_KEY_PREFIX = "nm_last_";
+
+  function bookDirFromPath(pathname) {
+    const parts = pathname.split("/").filter(Boolean);
+    return parts.length > 0 ? parts[0] : null;
+  }
+  function isIndexFilename(pathname) {
+    const parts = pathname.split("/").filter(Boolean);
+    if (parts.length === 0) return false;
+    const last = parts[parts.length - 1];
+    return last === "" || last.toLowerCase() === "index.html";
+  }
+
+  function chapterLabelFromDOM() {
+    // Prefer the lesson-num + lesson-title pattern, else the h1, else prettyChapterFromPath
+    const root = findContentRoot();
+    if (root) {
+      const h1 = root.querySelector("h1");
+      if (h1) {
+        const txt = h1.textContent.replace(/\s+/g, " ").trim();
+        if (txt) return txt;
+      }
+    }
+    return prettyChapterFromPath(window.location.pathname);
+  }
+
+  function recordLastChapter() {
+    const bookDir = bookDirFromPath(window.location.pathname);
+    if (!bookDir) return;
+    if (isIndexFilename(window.location.pathname)) return; // index isn't a chapter
+    const entry = {
+      url: window.location.pathname,
+      label: chapterLabelFromDOM(),
+      ts: Date.now(),
+    };
+    try { localStorage.setItem(LAST_KEY_PREFIX + bookDir, JSON.stringify(entry)); }
+    catch (e) {}
+  }
+
+  function getLastChapter(bookDir) {
+    try {
+      const raw = localStorage.getItem(LAST_KEY_PREFIX + bookDir);
+      if (!raw) return null;
+      const e = JSON.parse(raw);
+      if (!e || typeof e.url !== "string") return null;
+      return e;
+    } catch (e) { return null; }
+  }
+
+  function injectContinueBanner() {
+    const bookDir = bookDirFromPath(window.location.pathname);
+    if (!bookDir) return;
+    const last = getLastChapter(bookDir);
+    if (!last) return;
+    // Only show if the last-visited URL differs from this index URL
+    if (last.url === window.location.pathname) return;
+    const root = findContentRoot();
+    if (!root) return;
+    const banner = document.createElement("div");
+    banner.className = "nm-continue-banner";
+    banner.innerHTML = `
+      <div>
+        <div class="nm-continue-label">Continue reading</div>
+        <div class="nm-continue-where">${escapeHtml(last.label || "Last chapter")}</div>
+      </div>
+      <a class="nm-continue-link" href="${escapeHtml(last.url)}">Resume →</a>
+      <button class="nm-continue-dismiss" aria-label="Dismiss continue prompt" title="Dismiss">×</button>
+    `;
+    // Insert at the very top of the content root, after nav controls if present
+    const navControls = root.querySelector(".nav-controls");
+    if (navControls && navControls.nextSibling) {
+      root.insertBefore(banner, navControls.nextSibling);
+    } else {
+      root.insertBefore(banner, root.firstChild);
+    }
+    banner.querySelector(".nm-continue-dismiss").addEventListener("click", () => {
+      banner.remove();
+      try { localStorage.removeItem(LAST_KEY_PREFIX + bookDir); } catch (e) {}
+    });
+  }
+
+  // ============================================================
+  // Feature 5 — search within a single book
+  // ============================================================
+
+  let _searchIndex = null;
+  let _searchIndexLoading = null;
+
+  function loadSearchIndex() {
+    if (_searchIndex) return Promise.resolve(_searchIndex);
+    if (_searchIndexLoading) return _searchIndexLoading;
+    _searchIndexLoading = fetch("/search_index.json")
+      .then((r) => r.json())
+      .then((data) => {
+        _searchIndex = Array.isArray(data) ? data : [];
+        return _searchIndex;
+      })
+      .catch(() => { _searchIndex = []; return _searchIndex; });
+    return _searchIndexLoading;
+  }
+
+  function injectBookSearch() {
+    const bookDir = bookDirFromPath(window.location.pathname);
+    if (!bookDir) return;
+    const root = findContentRoot();
+    if (!root) return;
+    // Find lesson-grid (or chapter list) to anchor the search above it
+    const lessonGrid = root.querySelector(".lesson-grid, .chapters");
+    if (!lessonGrid) return;
+    if (root.querySelector(".nm-book-search-row")) return; // idempotent
+
+    const row = document.createElement("div");
+    row.className = "nm-book-search-row";
+    row.innerHTML = `
+      <input type="search" class="nm-book-search-input" placeholder="Search this book…" aria-label="Search within this book" />
+      <div class="nm-book-search-results" aria-live="polite"></div>
+    `;
+    lessonGrid.parentNode.insertBefore(row, lessonGrid);
+
+    const input = row.querySelector(".nm-book-search-input");
+    const results = row.querySelector(".nm-book-search-results");
+    let debounce = null;
+
+    input.addEventListener("input", () => {
+      const q = input.value.trim();
+      clearTimeout(debounce);
+      if (q.length < 2) {
+        results.classList.remove("visible");
+        results.innerHTML = "";
+        return;
+      }
+      debounce = setTimeout(() => runBookSearch(bookDir, q, results), 140);
+    });
+  }
+
+  function runBookSearch(bookDir, query, resultsEl) {
+    loadSearchIndex().then((index) => {
+      const lq = query.toLowerCase();
+      const bookEntries = index.filter((e) => typeof e.url === "string" && e.url.startsWith(bookDir + "/"));
+      const matches = [];
+      for (const entry of bookEntries) {
+        const text = (entry.text || "").toLowerCase();
+        const title = (entry.title || "").toLowerCase();
+        const label = (entry.label || "").toLowerCase();
+        const idxT = text.indexOf(lq);
+        const inTitle = title.includes(lq) || label.includes(lq);
+        if (idxT === -1 && !inTitle) continue;
+        // Snippet: window around the first match (or first 160 chars of text)
+        let snippet = "";
+        if (idxT !== -1) {
+          const start = Math.max(0, idxT - 60);
+          const end = Math.min(entry.text.length, idxT + query.length + 80);
+          snippet = (start > 0 ? "…" : "") + entry.text.slice(start, end) + (end < entry.text.length ? "…" : "");
+        } else {
+          snippet = entry.text.slice(0, 160) + (entry.text.length > 160 ? "…" : "");
+        }
+        matches.push({ entry, snippet });
+      }
+      renderBookSearchResults(resultsEl, matches, query);
+    });
+  }
+
+  function renderBookSearchResults(el, matches, query) {
+    if (matches.length === 0) {
+      el.innerHTML = `<div class="nm-bs-empty">No matches for <em>${escapeHtml(query)}</em> in this book.</div>`;
+      el.classList.add("visible");
+      return;
+    }
+    el.innerHTML = matches.map(({ entry, snippet }) => `
+      <div class="nm-bs-item" data-url="/${escapeHtml(entry.url)}" data-query="${escapeHtml(query)}">
+        <div class="nm-bs-where">${escapeHtml(entry.label || "")}${entry.title ? " · " + escapeHtml(entry.title) : ""}</div>
+        <div class="nm-bs-snippet">${highlightMatch(snippet, query)}</div>
+      </div>
+    `).join("");
+    el.classList.add("visible");
+    el.querySelectorAll(".nm-bs-item").forEach((it) => {
+      it.addEventListener("click", () => {
+        const url = it.getAttribute("data-url");
+        const q = it.getAttribute("data-query");
+        window.location.href = url + "?q=" + encodeURIComponent(q);
+      });
+    });
+  }
+
+  // ============================================================
+  // Feature 1 — verse-reference hover popups
+  // ============================================================
+
+  const BOOK_NAMES = {
+    // OT
+    "genesis":1,"gen":1,"gn":1,
+    "exodus":2,"exod":2,"exo":2,"ex":2,
+    "leviticus":3,"lev":3,"lv":3,
+    "numbers":4,"num":4,"nu":4,"nm":4,
+    "deuteronomy":5,"deut":5,"dt":5,
+    "joshua":6,"josh":6,"jos":6,"jsh":6,
+    "judges":7,"judg":7,"jdg":7,"jdgs":7,
+    "ruth":8,"rth":8,"ru":8,
+    "1 samuel":9,"1samuel":9,"1 sam":9,"1sam":9,"1 sm":9,"1sm":9,
+    "2 samuel":10,"2samuel":10,"2 sam":10,"2sam":10,"2 sm":10,"2sm":10,
+    "1 kings":11,"1kings":11,"1 kgs":11,"1kgs":11,"1 ki":11,"1ki":11,
+    "2 kings":12,"2kings":12,"2 kgs":12,"2kgs":12,"2 ki":12,"2ki":12,
+    "1 chronicles":13,"1chronicles":13,"1 chr":13,"1chr":13,"1 chron":13,"1chron":13,
+    "2 chronicles":14,"2chronicles":14,"2 chr":14,"2chr":14,"2 chron":14,"2chron":14,
+    "ezra":15,"ezr":15,
+    "nehemiah":16,"neh":16,
+    "esther":17,"esth":17,"est":17,
+    "job":18,"jb":18,
+    "psalms":19,"psalm":19,"ps":19,"psa":19,"pss":19,
+    "proverbs":20,"prov":20,"pr":20,"prv":20,
+    "ecclesiastes":21,"eccl":21,"ecc":21,"qoh":21,
+    "song of solomon":22,"song of songs":22,"song":22,"sos":22,"ss":22,"canticles":22,
+    "isaiah":23,"isa":23,"is":23,
+    "jeremiah":24,"jer":24,
+    "lamentations":25,"lam":25,
+    "ezekiel":26,"ezek":26,"eze":26,"ezk":26,
+    "daniel":27,"dan":27,"dn":27,
+    "hosea":28,"hos":28,
+    "joel":29,"joe":29,"jl":29,
+    "amos":30,"am":30,
+    "obadiah":31,"obad":31,"ob":31,
+    "jonah":32,"jnh":32,"jon":32,
+    "micah":33,"mic":33,"mi":33,
+    "nahum":34,"nah":34,"na":34,
+    "habakkuk":35,"hab":35,"hb":35,
+    "zephaniah":36,"zeph":36,"zep":36,
+    "haggai":37,"hag":37,"hg":37,
+    "zechariah":38,"zech":38,"zec":38,
+    "malachi":39,"mal":39,
+    // NT
+    "matthew":40,"matt":40,"mt":40,
+    "mark":41,"mk":41,"mar":41,
+    "luke":42,"lk":42,"luk":42,
+    "john":43,"jn":43,"joh":43,
+    "acts":44,"ac":44,
+    "romans":45,"rom":45,"rm":45,
+    "1 corinthians":46,"1corinthians":46,"1 cor":46,"1cor":46,"1 co":46,
+    "2 corinthians":47,"2corinthians":47,"2 cor":47,"2cor":47,"2 co":47,
+    "galatians":48,"gal":48,
+    "ephesians":49,"eph":49,
+    "philippians":50,"phil":50,"php":50,
+    "colossians":51,"col":51,
+    "1 thessalonians":52,"1thessalonians":52,"1 thess":52,"1thess":52,"1 th":52,
+    "2 thessalonians":53,"2thessalonians":53,"2 thess":53,"2thess":53,"2 th":53,
+    "1 timothy":54,"1timothy":54,"1 tim":54,"1tim":54,"1 ti":54,
+    "2 timothy":55,"2timothy":55,"2 tim":55,"2tim":55,"2 ti":55,
+    "titus":56,"tit":56,
+    "philemon":57,"philem":57,"phlm":57,"phm":57,
+    "hebrews":58,"heb":58,
+    "james":59,"jas":59,"jms":59,
+    "1 peter":60,"1peter":60,"1 pet":60,"1pet":60,"1 pe":60,"1pe":60,
+    "2 peter":61,"2peter":61,"2 pet":61,"2pet":61,"2 pe":61,"2pe":61,
+    "1 john":62,"1john":62,"1 jn":62,"1jn":62,
+    "2 john":63,"2john":63,"2 jn":63,"2jn":63,
+    "3 john":64,"3john":64,"3 jn":64,"3jn":64,
+    "jude":65,"jud":65,
+    "revelation":66,"rev":66,"rv":66,"apocalypse":66,
+  };
+
+  // Pretty display names from book number
+  const BOOK_PRETTY = {
+    1:"Genesis",2:"Exodus",3:"Leviticus",4:"Numbers",5:"Deuteronomy",
+    6:"Joshua",7:"Judges",8:"Ruth",9:"1 Samuel",10:"2 Samuel",
+    11:"1 Kings",12:"2 Kings",13:"1 Chronicles",14:"2 Chronicles",
+    15:"Ezra",16:"Nehemiah",17:"Esther",18:"Job",19:"Psalms",20:"Proverbs",
+    21:"Ecclesiastes",22:"Song of Solomon",23:"Isaiah",24:"Jeremiah",
+    25:"Lamentations",26:"Ezekiel",27:"Daniel",28:"Hosea",29:"Joel",
+    30:"Amos",31:"Obadiah",32:"Jonah",33:"Micah",34:"Nahum",35:"Habakkuk",
+    36:"Zephaniah",37:"Haggai",38:"Zechariah",39:"Malachi",
+    40:"Matthew",41:"Mark",42:"Luke",43:"John",44:"Acts",45:"Romans",
+    46:"1 Corinthians",47:"2 Corinthians",48:"Galatians",49:"Ephesians",
+    50:"Philippians",51:"Colossians",52:"1 Thessalonians",53:"2 Thessalonians",
+    54:"1 Timothy",55:"2 Timothy",56:"Titus",57:"Philemon",58:"Hebrews",
+    59:"James",60:"1 Peter",61:"2 Peter",62:"1 John",63:"2 John",64:"3 John",
+    65:"Jude",66:"Revelation",
+  };
+
+  // Build regex from BOOK_NAMES — longest keys first to ensure greedy match
+  let _verseRefRegex = null;
+  function buildVerseRefRegex() {
+    if (_verseRefRegex) return _verseRefRegex;
+    const keys = Object.keys(BOOK_NAMES).sort((a, b) => b.length - a.length);
+    const escapedKeys = keys.map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s+"));
+    // (?:Book) [optional period or comma not consumed] [whitespace] (chapter):(verse)[-(end)]
+    const pattern = "(?:^|(?<=[^A-Za-z0-9]))" + "(" + escapedKeys.join("|") + ")" + "\\.?\\s+(\\d{1,3}):(\\d{1,3})(?:\\s*[\\-\\u2013]\\s*(\\d{1,3}))?";
+    _verseRefRegex = new RegExp(pattern, "gi");
+    return _verseRefRegex;
+  }
+
+  function linkifyVerseRefs() {
+    const root = findContentRoot();
+    if (!root) return;
+    const re = buildVerseRefRegex();
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const p = node.parentElement;
+        if (!p) return NodeFilter.FILTER_REJECT;
+        if (p.closest("a, .nm-verse-ref, mark, .nm-tools-fab, .nm-tools-panel, .nm-selection-popup, .nm-help-fab, .nm-help-popup, script, style, .nav-controls, .footer-nav, .nm-para-anchor")) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const nodesToProcess = [];
+    let n;
+    while ((n = walker.nextNode())) {
+      if (re.test(n.nodeValue)) nodesToProcess.push(n);
+      re.lastIndex = 0;
+    }
+    for (const node of nodesToProcess) wrapVerseRefsInNode(node, re);
+  }
+
+  function wrapVerseRefsInNode(textNode, re) {
+    const text = textNode.nodeValue;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let lastIndex = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const fullMatch = m[0];
+      const bookKey = m[1];
+      const chap = parseInt(m[2], 10);
+      const vStart = parseInt(m[3], 10);
+      const vEnd = m[4] ? parseInt(m[4], 10) : vStart;
+      const bookNum = BOOK_NAMES[bookKey.toLowerCase().replace(/\s+/g, " ")];
+      if (!bookNum) continue;
+      // Append the unmatched chunk before this match
+      if (m.index > lastIndex) frag.appendChild(document.createTextNode(text.slice(lastIndex, m.index)));
+      // Build the wrap span
+      const a = document.createElement("a");
+      a.className = "nm-verse-ref";
+      a.href = "javascript:void(0)";
+      a.setAttribute("role", "button");
+      a.setAttribute("data-book", String(bookNum));
+      a.setAttribute("data-chap", String(chap));
+      a.setAttribute("data-vstart", String(vStart));
+      a.setAttribute("data-vend", String(vEnd));
+      a.textContent = fullMatch;
+      frag.appendChild(a);
+      lastIndex = m.index + fullMatch.length;
+    }
+    if (lastIndex > 0) {
+      if (lastIndex < text.length) frag.appendChild(document.createTextNode(text.slice(lastIndex)));
+      textNode.parentNode.replaceChild(frag, textNode);
+    }
+  }
+
+  // ---- verse lookup (KJV.json, lazy) ----
+
+  let _kjvIndex = null;
+  let _kjvLoading = null;
+
+  function loadKjvIndex() {
+    if (_kjvIndex) return Promise.resolve(_kjvIndex);
+    if (_kjvLoading) return _kjvLoading;
+    _kjvLoading = fetch("/KJV.json")
+      .then((r) => r.json())
+      .then((arr) => {
+        const idx = new Map();
+        for (const v of arr) {
+          const key = v.book + ":" + v.chapter + ":" + v.verse;
+          idx.set(key, v.text);
+        }
+        _kjvIndex = idx;
+        return _kjvIndex;
+      })
+      .catch(() => { _kjvIndex = new Map(); return _kjvIndex; });
+    return _kjvLoading;
+  }
+
+  function stripStrongsTags(s) {
+    return s.replace(/<S>\d+<\/S>/g, "").replace(/\s+/g, " ").trim();
+  }
+
+  function lookupVerses(bookNum, chap, vStart, vEnd) {
+    return loadKjvIndex().then((idx) => {
+      const verses = [];
+      for (let v = vStart; v <= vEnd; v++) {
+        const key = bookNum + ":" + chap + ":" + v;
+        const text = idx.get(key);
+        if (text) verses.push({ verse: v, text: stripStrongsTags(text) });
+      }
+      return verses;
+    });
+  }
+
+  // ---- popup ----
+
+  let versePopup = null;
+
+  function ensureVersePopup() {
+    if (versePopup) return versePopup;
+    versePopup = document.createElement("div");
+    versePopup.className = "nm-verse-popup";
+    document.body.appendChild(versePopup);
+    return versePopup;
+  }
+
+  function hideVersePopup() {
+    if (versePopup) versePopup.classList.remove("visible");
+  }
+
+  function showVersePopupForRef(refEl) {
+    const bookNum = parseInt(refEl.getAttribute("data-book"), 10);
+    const chap = parseInt(refEl.getAttribute("data-chap"), 10);
+    const vStart = parseInt(refEl.getAttribute("data-vstart"), 10);
+    const vEnd = parseInt(refEl.getAttribute("data-vend"), 10);
+    const cite = BOOK_PRETTY[bookNum] + " " + chap + ":" + vStart + (vEnd !== vStart ? "-" + vEnd : "");
+    const p = ensureVersePopup();
+
+    p.innerHTML = `
+      <div class="nm-vp-header">
+        <span class="nm-vp-cite">${escapeHtml(cite)}</span>
+        <button class="nm-vp-close" aria-label="Close">×</button>
+      </div>
+      <div class="nm-vp-body"><span class="nm-vp-loading">Loading…</span></div>
+      <div class="nm-vp-translation">King James Version</div>
+    `;
+    p.querySelector(".nm-vp-close").addEventListener("click", hideVersePopup);
+    positionVersePopup(refEl);
+    p.classList.add("visible");
+
+    lookupVerses(bookNum, chap, vStart, vEnd).then((verses) => {
+      const body = p.querySelector(".nm-vp-body");
+      if (!body) return;
+      if (verses.length === 0) {
+        body.innerHTML = `<span class="nm-vp-loading">No matching verse found in KJV.</span>`;
+        return;
+      }
+      body.innerHTML = verses.map((v) =>
+        `<span class="nm-vp-verse"><span class="nm-vp-vnum">${v.verse}</span>${escapeHtml(v.text)}</span>`
+      ).join(" ");
+    });
+  }
+
+  function positionVersePopup(refEl) {
+    const p = ensureVersePopup();
+    // Temporarily show off-screen to measure
+    p.style.left = "-9999px";
+    p.style.top = "0";
+    p.classList.add("visible");
+    const popupRect = p.getBoundingClientRect();
+    p.classList.remove("visible");
+
+    const rect = refEl.getBoundingClientRect();
+    let top = rect.bottom + window.scrollY + 6;
+    let left = rect.left + window.scrollX;
+    // Keep within viewport horizontally
+    const maxLeft = window.innerWidth + window.scrollX - popupRect.width - 12;
+    if (left > maxLeft) left = maxLeft;
+    if (left < 8) left = 8;
+    // If popup would overflow below the viewport, put it above the ref
+    if (rect.bottom + popupRect.height + 12 > window.innerHeight) {
+      const candidate = rect.top + window.scrollY - popupRect.height - 6;
+      if (candidate > window.scrollY + 8) top = candidate;
+    }
+    p.style.left = left + "px";
+    p.style.top = top + "px";
+  }
+
+  // Wire click + outside-click handlers once at init
+  document.addEventListener("click", (e) => {
+    const ref = e.target.closest(".nm-verse-ref");
+    if (ref) {
+      e.preventDefault();
+      showVersePopupForRef(ref);
+      return;
+    }
+    // Click outside hides the popup
+    if (versePopup && versePopup.classList.contains("visible")) {
+      if (!e.target.closest(".nm-verse-popup")) hideVersePopup();
+    }
+  });
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
