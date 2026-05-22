@@ -60,9 +60,10 @@ WRAP = 0.625 * inch
 CASE_W = 5.75 * inch    # visible panel width (board including overhang)
 CASE_H = 9.00 * inch    # visible panel height (board including overhangs)
 
-# Hinge clearance — keep content inside the spine fold on each panel,
-# so it doesn't disappear into the hinge groove of a bound hardcover.
-HINGE_CLEAR = 0.25 * inch
+# Hinge clearance — small breathing room from the spine fold so content
+# doesn't get pulled into the hinge groove. Per-panel use varies; the
+# image needs only a hair, the back blurb needs more for visual balance.
+FRONT_HINGE_CLEAR = 0.125 * inch
 
 # --- Layout anchors (document coordinates) ---
 # Visible back case
@@ -126,9 +127,9 @@ def draw_front_cover_image(c):
     iw, ih = img.getSize()
     img_aspect = iw / ih
 
-    draw_w = TRIM_W - HINGE_CLEAR
+    draw_w = TRIM_W - FRONT_HINGE_CLEAR
     draw_h = draw_w / img_aspect
-    draw_x = FRONT_TRIM_LEFT + HINGE_CLEAR
+    draw_x = FRONT_TRIM_LEFT + FRONT_HINGE_CLEAR
     draw_y = TRIM_CY - (draw_h / 2)
 
     c.drawImage(
@@ -149,8 +150,8 @@ def draw_front_cover_text(c):
     HINGE_CLEAR and narrowed by the same amount, so the dark-well center
     is now measured against (FRONT_TRIM_LEFT + HINGE_CLEAR, TRIM_W - HINGE_CLEAR).
     """
-    image_left = FRONT_TRIM_LEFT + HINGE_CLEAR
-    image_width = TRIM_W - HINGE_CLEAR
+    image_left = FRONT_TRIM_LEFT + FRONT_HINGE_CLEAR
+    image_width = TRIM_W - FRONT_HINGE_CLEAR
     cx = image_left + (DARK_CENTER_X_FRAC * image_width)
 
     # --- Title ---
@@ -194,15 +195,16 @@ def draw_front_cover_text(c):
 # BACK COVER
 # ---------------------------------------------------------------------------
 
-# Back cover safe area — 0.5" outer edges, HINGE_CLEAR on the spine side
-# so blurb text doesn't crowd the hinge groove.
-BACK_SAFE_LEFT = BACK_TRIM_LEFT + 0.5 * inch
-BACK_SAFE_RIGHT = BACK_TRIM_RIGHT - HINGE_CLEAR
+# Back cover safe area — generous spine-side margin so the blurb breathes
+# away from the hinge, and a narrower column so the prose extends down the
+# panel instead of running in bunched-up wide lines.
+BACK_SAFE_LEFT = BACK_TRIM_LEFT + 0.625 * inch
+BACK_SAFE_RIGHT = BACK_TRIM_RIGHT - 1.0 * inch
 BACK_SAFE_TOP = TRIM_TOP - 0.5 * inch
 BACK_SAFE_BOTTOM = TRIM_BOTTOM + 0.5 * inch
 BACK_TEXT_WIDTH = BACK_SAFE_RIGHT - BACK_SAFE_LEFT
-# The visual center of the safe area (NOT the panel center) — keeps the
-# blurb breathing away from the hinge.
+# Visual center of the safe area (NOT the panel center) — shifted ~0.1875"
+# away from the spine, giving the blurb a clear outer-half bias.
 BACK_SAFE_CX = (BACK_SAFE_LEFT + BACK_SAFE_RIGHT) / 2
 
 
@@ -319,38 +321,24 @@ def draw_back_cover(c):
 # ---------------------------------------------------------------------------
 
 def draw_spine(c):
-    """Title + author centered on the spine, reading bottom-to-top (US convention).
+    """Title only, centered on the spine, reading top-to-bottom (European
+    convention — tilt head right to read with front cover facing you).
 
-    Spine is 0.813" wide. Type sized to clear ~0.1" on each side of the
-    spine band. Title in cream EB Garamond, author in gold below the title
-    block. Both rotated 90° so they read upward when the book stands on a
-    shelf with the front cover facing the reader.
+    Spine is 0.813" wide; cream EB Garamond at 18pt clears the spine band
+    with ~0.1" on each side.
     """
     spine_cx = (SPINE_LEFT + SPINE_RIGHT) / 2
     spine_cy = (TRIM_TOP + TRIM_BOTTOM) / 2
 
     title = "The Last Week of the Lamb"
-    author = "Paul Hainline"
-
     title_size = 18
-    author_size = 11
 
     c.saveState()
     c.translate(spine_cx, spine_cy)
-    c.rotate(90)
-    # After rotation: +x is up (toward TRIM_TOP), +y is toward the back cover.
-    # We want the title centered horizontally on the spine, so leave y=0.
-    # Title sits slightly forward (toward TRIM_TOP) of dead center; author
-    # sits behind it (toward TRIM_BOTTOM) for traditional spine layout.
+    c.rotate(-90)  # top-to-bottom reading
     c.setFillColor(CREAM)
     c.setFont("EBGaramond", title_size)
     c.drawCentredString(0, -title_size / 3, title)
-
-    c.setFillColor(GOLD)
-    c.setFont("EBGaramond", author_size)
-    title_width = c.stringWidth(title, "EBGaramond", title_size)
-    author_x_offset = -(title_width / 2) - 0.35 * inch
-    c.drawCentredString(author_x_offset, -author_size / 3, author)
     c.restoreState()
 
 
