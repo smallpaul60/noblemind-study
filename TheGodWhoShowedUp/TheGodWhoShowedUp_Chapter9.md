@@ -38,7 +38,7 @@ That makes every line of this Psalm specific. David knows what a shepherd does, 
 > *The Lord is my shepherd, I shall not want.*
 > — Psalm 23:1
 
-Five words that contain every name we have studied.
+Five words contain every name we have studied: "The Lord is my shepherd."
 
 "I shall not want" does not mean "I will never have needs." It means "I will not lack." The shepherd does not promise the absence of need — he promises the presence of provision. The sheep still get hungry. They still get thirsty. They still face terrain they cannot navigate alone. But the shepherd is there, and because the shepherd is there, the sheep lack nothing essential.
 

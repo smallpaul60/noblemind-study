@@ -29,7 +29,7 @@ They walked through. On dry ground. Water standing on both sides — not a shall
 
 And when Israel reached the far side, the sea returned:
 
-> The waters returned and covered the chariots and the horsemen, even all Pharaoh's army that had gone into the sea after them; not even one of them remained.
+> The waters returned and covered the chariots and the horsemen, even Pharaoh's entire army that had gone into the sea after them; not even one of them remained.
 > — Exodus 14:28
 
 Not one. The power that had enslaved them for four centuries was gone. Not weakened. Not negotiated with. Not reformed. Destroyed. The people who had said "it would have been better to serve the Egyptians" would never serve them again.

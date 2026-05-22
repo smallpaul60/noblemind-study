@@ -162,7 +162,7 @@ Where in your life have you stopped expecting what God promised and started sett
 
 One Thing to Do
 
-Read Genesis 17:1–8 and then Genesis 21:1–7 back to back. The promise and the fulfillment. Notice the years between them. Notice what God said and what God did. Then ask yourself: what has God said to me that I have stopped believing He will do? Write it down. Hold it before El Shaddai this week, and ask Him to restore the expectation.
+Read Genesis 17:1–8 and then Genesis 21:1–7 back to back. The promise and the fulfillment. Notice the years between them. Notice what God said and what God did. Then ask yourself: what has God said to me through His Word that I have stopped believing He will do? Write it down. Hold it before El Shaddai this week, and ask Him to restore the expectation.
 
 \* \* \*
 

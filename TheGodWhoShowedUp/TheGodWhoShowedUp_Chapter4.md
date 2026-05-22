@@ -53,7 +53,7 @@ Early in the morning. Not after weeks of deliberation. Not after arguing with Go
 
 The journey takes three days. Three days of walking with the son he has been told to sacrifice. Three days of silence — at least, the text records nothing of the conversation. Three days during which Abraham could have turned back at any moment and no one would have blamed him.
 
-On the third day, Abraham lifts his eyes and sees the place in the distance. And then he says something to his servants that stops a careful reader in their tracks:
+On the third day, Abraham lifts his eyes and sees the place in the distance. And then he says something to his servants that any careful reader should pause over:
 
 > Abraham said to his young men, "Stay here with the donkey, and I and the lad will go over there; and we will worship and return to you."
 > — Genesis 22:5
@@ -115,7 +115,7 @@ And then God speaks.
 
 *The Provision*
 
-> Then Abraham raised his eyes and looked, and behold, behind him a ram caught in the thicket by his horns; and Abraham went and took the ram and offered him as a burnt offering in the place of his son.
+> Then Abraham raised his eyes and looked, and behold, behind him a ram caught in the thicket by his horns; and Abraham went and took the ram and offered him up for a burnt offering in the place of his son.
 > — Genesis 22:13
 
 The ram was already there. Caught in the thicket, waiting. God had not scrambled to find a substitute at the last moment. The provision was in place before the knife was raised. Abraham simply had not seen it yet.

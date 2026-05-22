@@ -43,7 +43,7 @@ This is the first time Joshua appears in Scripture — and he appears as a warri
 
 But Moses himself goes to the top of the hill. With the staff of God in his hand — the same staff that struck the Nile, that was raised over the Red Sea, that struck the rock at Rephidim. And what happens on that hilltop is one of the most vivid pictures of spiritual reality in the entire Old Testament:
 
-> So Joshua did as Moses told him, and fought against Amalek; and Moses, Aaron, and Hur went up to the top of the hill. So it came about when Moses held his hand up, that Israel prevailed, and when he let his hand down, Amalek prevailed.
+> Joshua did as Moses told him, and fought against Amalek; and Moses, Aaron, and Hur went up to the top of the hill. So it came about when Moses held his hand up, that Israel prevailed, and when he let his hand down, Amalek prevailed.
 > — Exodus 17:10–11
 
 Read that again. When Moses' hands were up, Israel won. When his hands dropped, Amalek won. The battle on the ground was real — Joshua and his men were fighting with real swords against a real enemy. But the outcome of the battle was not determined on the ground. It was determined on the hilltop. The victory depended on something above the battlefield, not on the battlefield itself.
