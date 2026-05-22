@@ -333,6 +333,35 @@ def extract_scripture_quotes_md(content, filepath):
     return quotes
 
 
+def _matches_with_ellipses(quoted, actual):
+    """Return True if the quoted text contains ellipses (… or ...) and
+    every non-empty segment between them appears in `actual` in order.
+    Used to recognize ellipsis-marked partial quotes — standard
+    scholarly practice for eliding portions of a long verse."""
+    if '…' not in quoted and '...' not in quoted:
+        return False
+    segments = re.split(r'\s*…\s*|\s*\.\.\.\s*', quoted)
+    segments = [s.strip() for s in segments if s.strip()]
+    if len(segments) < 2:
+        return False
+
+    def _agg(s):
+        s = re.sub(r'[^\w\s]', ' ', s.lower())
+        return re.sub(r'\s+', ' ', s).strip()
+
+    a_agg = _agg(actual)
+    pos = 0
+    for seg in segments:
+        seg_agg = _agg(seg)
+        if not seg_agg:
+            continue
+        idx = a_agg.find(seg_agg, pos)
+        if idx == -1:
+            return False
+        pos = idx + len(seg_agg)
+    return True
+
+
 def compare_texts(quoted, actual):
     """Compare quoted text against actual NASB text.
 
@@ -368,6 +397,10 @@ def compare_texts(quoted, actual):
         classification = 'OK'
     elif q_agg and q_agg in a_agg:
         # Author's text is a contiguous subset of NASB — partial quote
+        classification = 'PARTIAL'
+    elif _matches_with_ellipses(q_full, a_no_brackets):
+        # Author uses … or ... to elide portions of a long verse;
+        # each segment appears in order in the NASB text.
         classification = 'PARTIAL'
     else:
         s = SequenceMatcher(None, q_full, a_no_brackets)
