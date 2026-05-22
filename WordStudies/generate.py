@@ -568,6 +568,23 @@ h1.title .original {
   margin-bottom: 0.8em;
   text-shadow: none;
 }
+/* Title-line Hebrew/Greek words are clickable Strong's refs. Keep them
+   visually understated (faint dotted indigo) but let them brighten on
+   hover so it's clear they're interactive. */
+h1.title .original .nm-strongs-ref {
+  color: inherit;
+  border-bottom: 1px dotted rgba(123, 176, 201, 0.4);
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.2s, border-bottom-color 0.2s, background 0.2s;
+}
+h1.title .original .nm-strongs-ref:hover,
+h1.title .original .nm-strongs-ref:focus {
+  color: #FFE082;
+  border-bottom-color: rgba(255, 235, 130, 0.85);
+  background: transparent;
+  outline: none;
+}
 .dek {
   font-family: 'Cardo', Georgia, serif;
   font-style: italic;
@@ -935,7 +952,15 @@ def render_index(themes_meta, total_words, total_excerpts, all_books_count):
         </a>""")
     body = f"""
       <h1 class="title">
-        <span class="original">אֱלֹהִים · λόγος · רוּחַ · ἀγάπη</span>
+        <span class="original">
+          <span class="nm-strongs-ref" data-strongs-num="H430" title="Click for definition" role="button" tabindex="0">אֱלֹהִים</span>
+          ·
+          <span class="nm-strongs-ref" data-strongs-num="G3056" title="Click for definition" role="button" tabindex="0">λόγος</span>
+          ·
+          <span class="nm-strongs-ref" data-strongs-num="H7307" title="Click for definition" role="button" tabindex="0">רוּחַ</span>
+          ·
+          <span class="nm-strongs-ref" data-strongs-num="G26" title="Click for definition" role="button" tabindex="0">ἀγάπη</span>
+        </span>
         Gems of the Original Languages
       </h1>
       <p class="dek">A Hebrew and Greek study companion to the Noble Mind Press books</p>
