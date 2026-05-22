@@ -290,9 +290,172 @@
       align-self: center;
       font-style: italic;
     }
+    .nm-tools-panel .nm-search-row {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(196, 168, 84, 0.12);
+      background: rgba(0,0,0,0.18);
+    }
+    .nm-tools-panel .nm-search-input {
+      width: 100%;
+      padding: 7px 10px;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 6px;
+      color: rgba(240, 236, 228, 0.95);
+      font-family: inherit;
+      font-size: 0.82rem;
+      box-sizing: border-box;
+    }
+    .nm-tools-panel .nm-search-input:focus {
+      outline: none;
+      border-color: rgba(196, 168, 84, 0.6);
+      background: rgba(0,0,0,0.6);
+    }
+    .nm-tools-panel .nm-search-input::placeholder {
+      color: rgba(192, 184, 168, 0.55);
+      font-style: italic;
+    }
+    .nm-tools-panel .nm-item .nm-where {
+      display: block;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 84, 0.85);
+      margin-bottom: 4px;
+    }
+    .nm-tools-panel .nm-item .nm-where .nm-where-sep {
+      color: rgba(192, 184, 168, 0.45);
+      margin: 0 4px;
+    }
+    .nm-tools-panel .nm-item mark.nm-match {
+      background: rgba(255, 235, 130, 0.45);
+      color: inherit;
+      padding: 0 1px;
+      border-radius: 2px;
+    }
+    .nm-help-fab {
+      position: fixed;
+      left: 20px; bottom: 20px;
+      padding: 9px 16px;
+      border-radius: 22px;
+      background: rgba(15, 15, 18, 0.92);
+      border: 1px solid rgba(196, 168, 84, 0.45);
+      color: rgba(196, 168, 84, 0.95);
+      font-size: 0.85rem;
+      font-family: 'Segoe UI', Georgia, serif;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      z-index: 9998;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .nm-help-fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(196,168,84,0.35);
+      background: rgba(20, 20, 24, 0.96);
+    }
+    .nm-help-fab .nm-help-icon {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border: 1px solid rgba(196, 168, 84, 0.65);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 16px;
+      font-size: 0.78rem;
+      margin-right: 7px;
+      vertical-align: -2px;
+    }
+    .nm-help-popup {
+      position: fixed;
+      top: 80px; right: 30px;
+      width: min(380px, calc(100vw - 30px));
+      max-height: 80vh;
+      background: rgba(15, 15, 18, 0.98);
+      border: 1px solid rgba(196, 168, 84, 0.4);
+      border-radius: 14px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+      z-index: 10001;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: 'Segoe UI', Georgia, serif;
+    }
+    .nm-help-popup.visible { display: flex; }
+    .nm-help-popup-header {
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.45);
+      border-bottom: 1px solid rgba(196, 168, 84, 0.22);
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: move;
+      user-select: none;
+      touch-action: none;
+    }
+    .nm-help-popup-header h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba(196, 168, 84, 0.95);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .nm-help-popup-header .nm-help-close {
+      background: none;
+      border: none;
+      color: rgba(192, 184, 168, 0.85);
+      font-size: 1.35rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+    .nm-help-popup-header .nm-help-close:hover {
+      color: rgba(255, 235, 130, 0.95);
+    }
+    .nm-help-popup-body {
+      padding: 14px 18px 18px 18px;
+      overflow-y: auto;
+      color: rgba(232, 226, 212, 0.92);
+      font-size: 0.88rem;
+      line-height: 1.55;
+    }
+    .nm-help-popup-body h4 {
+      margin: 14px 0 6px 0;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 84, 0.95);
+    }
+    .nm-help-popup-body h4:first-child {
+      margin-top: 0;
+    }
+    .nm-help-popup-body p {
+      margin: 0 0 8px 0;
+    }
+    .nm-help-popup-body ul {
+      margin: 0 0 8px 0;
+      padding-left: 20px;
+    }
+    .nm-help-popup-body li {
+      margin: 0 0 4px 0;
+    }
+    .nm-help-popup-body code,
+    .nm-help-popup-body kbd {
+      background: rgba(196, 168, 84, 0.14);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 0.82em;
+      font-family: 'Consolas', 'Menlo', monospace;
+      color: rgba(255, 235, 130, 0.95);
+    }
+    .nm-help-popup-body .nm-help-hint {
+      font-size: 0.78rem;
+      color: rgba(192, 184, 168, 0.75);
+      font-style: italic;
+      margin-top: 6px;
+    }
     @media (max-width: 600px) {
       .nm-tools-fab { right: 14px; bottom: 14px; width: 48px; height: 48px; font-size: 1.25rem; }
       .nm-tools-panel { right: 10px; left: 10px; width: auto; bottom: 70px; }
+      .nm-help-fab { left: 14px; bottom: 14px; padding: 8px 13px; font-size: 0.8rem; }
+      .nm-help-popup { top: 10px; left: 10px; right: 10px; width: auto; max-height: 85vh; }
     }
   `;
 
@@ -788,6 +951,9 @@
         <button data-action="import" title="Restore highlights and notes from a backup file">Import backup</button>
         <input type="file" class="nm-import-input" accept=".json,application/json" style="display:none" />
       </div>
+      <div class="nm-search-row">
+        <input type="search" class="nm-search-input" placeholder="Find in my notes — across every book…" aria-label="Search highlights and notes across all books" />
+      </div>
       <div class="nm-list"></div>
     `;
     document.body.appendChild(panel);
@@ -802,6 +968,12 @@
       if (file) importBackup(file);
       fileInput.value = "";
     });
+    const searchInput = panel.querySelector(".nm-search-input");
+    let searchTimer = null;
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => renderPanel(), 120);
+    });
     return panel;
   }
 
@@ -815,11 +987,88 @@
     }
   }
 
+  // ---- pretty names from URL paths -----------------------------------------
+
+  const SMALL_WORDS = new Set([
+    "a","an","and","or","but","of","the","to","for","in","on","with","by","as","at"
+  ]);
+
+  function titleCase(s) {
+    return s.split(/\s+/).filter(Boolean).map((w, i) => {
+      const lw = w.toLowerCase();
+      if (i > 0 && SMALL_WORDS.has(lw)) return lw;
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    }).join(" ");
+  }
+
+  function prettyBookFromPath(pathname) {
+    const parts = pathname.split("/").filter(Boolean);
+    if (parts.length === 0) return "";
+    let dir = parts[0];
+    // CamelCase → spaces, then snake_case / kebab-case → spaces
+    let spaced = dir.replace(/([a-z])([A-Z])/g, "$1 $2")
+                    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1 $2")
+                    .replace(/[_-]/g, " ");
+    return titleCase(spaced);
+  }
+
+  function prettyChapterFromPath(pathname) {
+    const parts = pathname.split("/").filter(Boolean);
+    if (parts.length < 2) return "";
+    const file = parts[parts.length - 1].replace(/\.html?$/i, "");
+    const m = file.match(/^chapter-?0*(\d+)$/i);
+    if (m) return `Chapter ${m[1]}`;
+    return titleCase(file.replace(/[-_]/g, " "));
+  }
+
+  // ---- cross-notes search --------------------------------------------------
+
+  function getSearchQuery() {
+    if (!panel) return "";
+    const input = panel.querySelector(".nm-search-input");
+    return input ? input.value.trim() : "";
+  }
+
+  function collectAllNotes() {
+    // Returns [{ pagePath, highlight }, ...] from every nm_study_* key.
+    const all = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || !key.startsWith(STORAGE_PREFIX)) continue;
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key));
+        if (!parsed || !Array.isArray(parsed.highlights)) continue;
+        const pagePath = key.slice(STORAGE_PREFIX.length);
+        for (const h of parsed.highlights) all.push({ pagePath, highlight: h });
+      } catch (e) { /* skip corrupt */ }
+    }
+    return all;
+  }
+
+  function highlightMatch(text, query) {
+    if (!query) return escapeHtml(text);
+    const idx = text.toLowerCase().indexOf(query.toLowerCase());
+    if (idx === -1) return escapeHtml(text);
+    const before = escapeHtml(text.slice(0, idx));
+    const match = escapeHtml(text.slice(idx, idx + query.length));
+    const after = escapeHtml(text.slice(idx + query.length));
+    return `${before}<mark class="nm-match">${match}</mark>${after}`;
+  }
+
   function renderPanel() {
     if (!panel) return;
     const list = panel.querySelector(".nm-list");
+    const query = getSearchQuery();
+    if (query) {
+      renderSearchResults(list, query);
+    } else {
+      renderCurrentChapter(list);
+    }
+  }
+
+  function renderCurrentChapter(list) {
     if (state.highlights.length === 0) {
-      list.innerHTML = '<div class="nm-empty">No highlights yet. Select any text on this page to save a highlight or attach a note.</div>';
+      list.innerHTML = '<div class="nm-empty">No highlights yet on this page. Select any text to save a highlight or attach a note. Or type above to search every book.</div>';
       return;
     }
     const sorted = [...state.highlights].sort((a, b) => a.ts - b.ts);
@@ -845,7 +1094,7 @@
       });
     });
     list.querySelectorAll("button[data-action]").forEach((b) => {
-      b.addEventListener("click", (e) => {
+      b.addEventListener("click", () => {
         const action = b.getAttribute("data-action");
         const id = b.getAttribute("data-id");
         if (action === "delete") {
@@ -853,6 +1102,70 @@
         } else if (action === "note") {
           const h = state.highlights.find((x) => x.id === id);
           if (h) openNoteModal(h);
+        }
+      });
+    });
+  }
+
+  function renderSearchResults(list, query) {
+    const all = collectAllNotes();
+    const lq = query.toLowerCase();
+    const currentPath = window.location.pathname;
+    // Match against highlight text and note body
+    const matches = all.filter(({ highlight }) => {
+      const t = (highlight.text || "").toLowerCase();
+      const n = (highlight.note || "").toLowerCase();
+      return t.includes(lq) || n.includes(lq);
+    });
+    if (matches.length === 0) {
+      list.innerHTML = `<div class="nm-empty">No highlights or notes match <em>${escapeHtml(query)}</em>.</div>`;
+      return;
+    }
+    // Sort: current page first, then by book name, then by chapter
+    matches.sort((a, b) => {
+      const aHere = a.pagePath === currentPath ? 0 : 1;
+      const bHere = b.pagePath === currentPath ? 0 : 1;
+      if (aHere !== bHere) return aHere - bHere;
+      if (a.pagePath !== b.pagePath) return a.pagePath.localeCompare(b.pagePath);
+      return (a.highlight.ts || 0) - (b.highlight.ts || 0);
+    });
+    list.innerHTML = `
+      <div class="nm-empty" style="text-align:left;padding:8px 4px 12px 4px;">
+        Found ${matches.length} match${matches.length === 1 ? "" : "es"} across your notes.
+      </div>
+      ${matches.map(({ pagePath, highlight }, idx) => {
+        const book = prettyBookFromPath(pagePath);
+        const chap = prettyChapterFromPath(pagePath);
+        const isHere = pagePath === currentPath;
+        return `
+          <div class="nm-item" data-idx="${idx}">
+            <span class="nm-where">
+              ${escapeHtml(book)}
+              ${chap ? `<span class="nm-where-sep">·</span>${escapeHtml(chap)}` : ""}
+              ${isHere ? `<span class="nm-where-sep">·</span><span style="color:rgba(255,235,130,0.85)">this page</span>` : ""}
+            </span>
+            <div class="nm-quote" data-page="${escapeHtml(pagePath)}" data-text="${escapeHtml(highlight.text)}">"${highlightMatch(highlight.text, query)}"</div>
+            ${highlight.note ? `<div class="nm-note">${highlightMatch(highlight.note, query)}</div>` : ""}
+          </div>
+        `;
+      }).join("")}
+    `;
+    list.querySelectorAll(".nm-quote").forEach((q) => {
+      q.addEventListener("click", () => {
+        const page = q.getAttribute("data-page");
+        const text = q.getAttribute("data-text");
+        if (page === currentPath) {
+          // Already here — scroll to it
+          const root = findContentRoot();
+          const range = findTextRange(root, text, null);
+          if (range) {
+            const node = range.startContainer.parentElement;
+            if (node) node.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+          panel.classList.remove("visible");
+        } else {
+          // Navigate; the ?q= handler on the destination will scroll + highlight
+          window.location.href = page + "?q=" + encodeURIComponent(text);
         }
       });
     });
@@ -875,6 +1188,149 @@
     });
   }
 
+  // ---- Tools / Help popup --------------------------------------------------
+
+  const HELP_HTML = `
+    <h4>About this reader</h4>
+    <p>Every book here is free to read online, with a matching PDF and EPUB. Once a page loads, it works offline.</p>
+
+    <h4>Search across every book</h4>
+    <p>On the <strong>Books</strong> page, the search bar at the top searches the full text of every book at once. Click any result to jump to the matching paragraph in that chapter.</p>
+
+    <h4>Highlight a sentence</h4>
+    <p>While reading any chapter, select a sentence with your mouse or finger. A small popup appears with:</p>
+    <ul>
+      <li><strong>Highlight</strong> — saves a yellow highlight on the phrase.</li>
+      <li><strong>Highlight + Note</strong> — saves the highlight <em>and</em> opens a box where you can type a note.</li>
+    </ul>
+
+    <h4>Your notebook</h4>
+    <p>The <strong>📓 button</strong> at the bottom-right of every chapter page opens your notebook. It lists every highlight and note you've saved on that page. Click any item to scroll back to it. The red badge shows how many are on the current page.</p>
+
+    <h4>Search every note you've saved</h4>
+    <p>Inside the notebook, type in the <em>"Find in my notes"</em> box to search across every book — not just this chapter. Results show the book and chapter; click one to navigate there with the highlight ready to view.</p>
+
+    <h4>Back up your notes</h4>
+    <p>Your highlights and notes live in this browser only. If you clear browsing data they will be erased. Use <strong>Export backup</strong> in the notebook to save a JSON file to your drive, and <strong>Import backup</strong> to restore it later — on any browser or computer.</p>
+
+    <h4>Offline reading</h4>
+    <p>You can read on a plane or without internet. Pages you've already visited stay cached.</p>
+
+    <p class="nm-help-hint">Drag the title bar above to move this panel anywhere on the screen. Click the × to close it.</p>
+  `;
+
+  let helpFab = null;
+  let helpPopup = null;
+
+  function ensureHelpFab() {
+    if (helpFab) return helpFab;
+    helpFab = document.createElement("button");
+    helpFab.className = "nm-help-fab";
+    helpFab.setAttribute("aria-label", "Open Tools and Help");
+    helpFab.innerHTML = '<span class="nm-help-icon">?</span>Tools';
+    helpFab.addEventListener("click", toggleHelpPopup);
+    document.body.appendChild(helpFab);
+    return helpFab;
+  }
+
+  function ensureHelpPopup() {
+    if (helpPopup) return helpPopup;
+    helpPopup = document.createElement("div");
+    helpPopup.className = "nm-help-popup";
+    helpPopup.innerHTML = `
+      <div class="nm-help-popup-header">
+        <h3>Tools &amp; Tips</h3>
+        <button class="nm-help-close" aria-label="Close">×</button>
+      </div>
+      <div class="nm-help-popup-body">${HELP_HTML}</div>
+    `;
+    document.body.appendChild(helpPopup);
+    helpPopup.querySelector(".nm-help-close").addEventListener("click", () => {
+      helpPopup.classList.remove("visible");
+    });
+    makeDraggable(helpPopup, helpPopup.querySelector(".nm-help-popup-header"));
+    restoreHelpPopupPosition(helpPopup);
+    return helpPopup;
+  }
+
+  function toggleHelpPopup() {
+    const p = ensureHelpPopup();
+    if (p.classList.contains("visible")) {
+      p.classList.remove("visible");
+    } else {
+      p.classList.add("visible");
+    }
+  }
+
+  function restoreHelpPopupPosition(p) {
+    try {
+      const raw = localStorage.getItem("nm_help_pos");
+      if (!raw) return;
+      const pos = JSON.parse(raw);
+      if (!pos || typeof pos.left !== "number" || typeof pos.top !== "number") return;
+      const maxLeft = window.innerWidth - 80;
+      const maxTop = window.innerHeight - 80;
+      const left = Math.max(0, Math.min(pos.left, maxLeft));
+      const top = Math.max(0, Math.min(pos.top, maxTop));
+      p.style.left = left + "px";
+      p.style.top = top + "px";
+      p.style.right = "auto";
+    } catch (e) { /* ignore */ }
+  }
+
+  function saveHelpPopupPosition(p) {
+    try {
+      const rect = p.getBoundingClientRect();
+      localStorage.setItem("nm_help_pos", JSON.stringify({ left: rect.left, top: rect.top }));
+    } catch (e) { /* quota — ignore */ }
+  }
+
+  function makeDraggable(el, handle) {
+    let dragging = false;
+    let startX = 0, startY = 0;
+    let originX = 0, originY = 0;
+
+    handle.addEventListener("pointerdown", (e) => {
+      // Don't drag if the user clicked the close button
+      if (e.target.closest(".nm-help-close")) return;
+      dragging = true;
+      const rect = el.getBoundingClientRect();
+      originX = rect.left;
+      originY = rect.top;
+      startX = e.clientX;
+      startY = e.clientY;
+      // Pin to absolute pixel position so right: auto and left: px take over
+      el.style.left = originX + "px";
+      el.style.top = originY + "px";
+      el.style.right = "auto";
+      handle.setPointerCapture(e.pointerId);
+      e.preventDefault();
+    });
+
+    handle.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      let newLeft = originX + dx;
+      let newTop = originY + dy;
+      // Keep at least 40px of the popup on-screen so it can't be dragged off entirely
+      const rect = el.getBoundingClientRect();
+      newLeft = Math.max(40 - rect.width, Math.min(newLeft, window.innerWidth - 40));
+      newTop = Math.max(0, Math.min(newTop, window.innerHeight - 40));
+      el.style.left = newLeft + "px";
+      el.style.top = newTop + "px";
+    });
+
+    const endDrag = (e) => {
+      if (!dragging) return;
+      dragging = false;
+      try { handle.releasePointerCapture(e.pointerId); } catch (_) {}
+      saveHelpPopupPosition(el);
+    };
+    handle.addEventListener("pointerup", endDrag);
+    handle.addEventListener("pointercancel", endDrag);
+  }
+
   // ---- init -----------------------------------------------------------------
 
   function injectStyle() {
@@ -883,8 +1339,19 @@
     document.head.appendChild(style);
   }
 
+  function isChapterPage() {
+    return !!document.querySelector(".glass-page-inner");
+  }
+
   function init() {
     injectStyle();
+
+    // Tools/Help button is on every page that loads this script.
+    ensureHelpFab();
+
+    // Highlights / notes / search land are chapter-only.
+    if (!isChapterPage()) return;
+
     handleSearchQuery();
     applyPersistedHighlights();
     ensureFab();
@@ -898,7 +1365,7 @@
       popupTimer = setTimeout(showPopupAtSelection, 150);
     });
     document.addEventListener("mousedown", (e) => {
-      if (e.target.closest(".nm-selection-popup, .nm-tools-fab, .nm-tools-panel, .nm-note-modal")) return;
+      if (e.target.closest(".nm-selection-popup, .nm-tools-fab, .nm-tools-panel, .nm-note-modal, .nm-help-fab, .nm-help-popup")) return;
       hidePopup();
     });
   }
