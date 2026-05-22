@@ -1581,7 +1581,7 @@
     <p>On the <strong>Books</strong> page, the search bar at the top searches the full text of every book at once. Each book's table of contents also has a search box that searches only that book.</p>
 
     <h4>Verse references</h4>
-    <p>Scripture references in book text (like <em>John 3:16</em> or <em>1 Corinthians 13:4–7</em>) are underlined with a small dot underline. Click one to see the verse text inline. Uses the King James Version (in the public domain) so it works without internet.</p>
+    <p>Scripture references in book text (like <em>John 3:16</em> or <em>1 Corinthians 13:4–7</em>) are underlined with a small dot underline. Click one to see the verse text inline. Shows the <strong>NASB 1995</strong> when online (via the Bolls.life Bible API) and falls back to the embedded <strong>King James Version</strong> when offline. The popup labels which translation it is showing.</p>
 
     <h4>Greek &amp; Hebrew terms</h4>
     <p>When a chapter uses a Greek or Hebrew word (like <em>agapē</em>, <em>makrothumeō</em>, <em>shalom</em>, or <em>Elohim</em>), the word will be subtly highlighted in warm gold. Click it for the Strong's entry — original script, pronunciation, and definition. Works offline.</p>
@@ -2301,6 +2301,93 @@
     });
   }
 
+  // ---- NASB hybrid lookup -----------------------------------------------
+  // Prefers (in order): a local /NASB.json if one ever ships, then the
+  // Bolls.life NASB API while online. Falls back to the embedded KJV
+  // index if both fail (offline, API down, timeout, empty response).
+  // Same return shape as lookupVerses so the caller is agnostic.
+
+  let _nasbIndex = null;
+  let _nasbLocalChecked = false;
+
+  function tryLoadLocalNasb() {
+    if (_nasbIndex) return Promise.resolve(_nasbIndex);
+    if (_nasbLocalChecked) return Promise.resolve(null);
+    _nasbLocalChecked = true;
+    return fetch("/NASB.json").then((r) => {
+      if (!r.ok) return null;
+      return r.json().then((arr) => {
+        if (!Array.isArray(arr)) return null;
+        const idx = new Map();
+        for (const v of arr) {
+          if (v && v.book != null && v.chapter != null && v.verse != null) {
+            idx.set(v.book + ":" + v.chapter + ":" + v.verse, v.text || "");
+          }
+        }
+        _nasbIndex = idx;
+        return idx;
+      }).catch(() => null);
+    }).catch(() => null);
+  }
+
+  function stripBibleMarkup(s) {
+    return (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  }
+
+  function tryNasbFromBolls(bookNum, chap, vStart, vEnd) {
+    const url = "https://bolls.life/get-text/NASB/" + bookNum + "/" + chap + "/";
+    return new Promise((resolve, reject) => {
+      const controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+      const timer = setTimeout(() => { if (controller) controller.abort(); reject(new Error("timeout")); }, 2500);
+      const opts = controller ? { signal: controller.signal } : {};
+      fetch(url, opts)
+        .then((r) => {
+          clearTimeout(timer);
+          if (!r.ok) throw new Error("status " + r.status);
+          return r.json();
+        })
+        .then((arr) => {
+          if (!Array.isArray(arr)) return reject(new Error("bad shape"));
+          const verses = [];
+          for (const v of arr) {
+            if (v && v.verse >= vStart && v.verse <= vEnd) {
+              verses.push({ verse: v.verse, text: stripBibleMarkup(v.text) });
+            }
+          }
+          resolve(verses);
+        })
+        .catch((e) => { clearTimeout(timer); reject(e); });
+    });
+  }
+
+  function tryNasb(bookNum, chap, vStart, vEnd) {
+    return tryLoadLocalNasb().then((idx) => {
+      if (idx) {
+        const verses = [];
+        for (let v = vStart; v <= vEnd; v++) {
+          const text = idx.get(bookNum + ":" + chap + ":" + v);
+          if (text) verses.push({ verse: v, text: stripBibleMarkup(text) });
+        }
+        return verses;
+      }
+      return tryNasbFromBolls(bookNum, chap, vStart, vEnd);
+    });
+  }
+
+  function lookupVersesWithFallback(bookNum, chap, vStart, vEnd) {
+    return tryNasb(bookNum, chap, vStart, vEnd)
+      .then((verses) => {
+        if (verses && verses.length > 0) {
+          return { translation: "New American Standard Bible 1995", verses };
+        }
+        throw new Error("nasb empty");
+      })
+      .catch(() => lookupVerses(bookNum, chap, vStart, vEnd).then((verses) => ({
+        translation: "King James Version",
+        verses,
+      })));
+  }
+
   // ---- popup ----
 
   let versePopup = null;
@@ -2331,22 +2418,25 @@
         <button class="nm-vp-close" aria-label="Close">×</button>
       </div>
       <div class="nm-vp-body"><span class="nm-vp-loading">Loading…</span></div>
-      <div class="nm-vp-translation">King James Version</div>
+      <div class="nm-vp-translation">Looking up…</div>
     `;
     p.querySelector(".nm-vp-close").addEventListener("click", hideVersePopup);
     positionVersePopup(refEl);
     p.classList.add("visible");
 
-    lookupVerses(bookNum, chap, vStart, vEnd).then((verses) => {
+    lookupVersesWithFallback(bookNum, chap, vStart, vEnd).then(({ translation, verses }) => {
       const body = p.querySelector(".nm-vp-body");
+      const transEl = p.querySelector(".nm-vp-translation");
       if (!body) return;
-      if (verses.length === 0) {
-        body.innerHTML = `<span class="nm-vp-loading">No matching verse found in KJV.</span>`;
+      if (!verses || verses.length === 0) {
+        body.innerHTML = `<span class="nm-vp-loading">No matching verse found.</span>`;
+        if (transEl) transEl.textContent = translation;
         return;
       }
       body.innerHTML = verses.map((v) =>
         `<span class="nm-vp-verse"><span class="nm-vp-vnum">${v.verse}</span>${escapeHtml(v.text)}</span>`
       ).join(" ");
+      if (transEl) transEl.textContent = translation;
     });
   }
 
