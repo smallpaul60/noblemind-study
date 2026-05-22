@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v273';
+const CACHE_NAME = 'noblemind-study-v274';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -207,7 +207,25 @@ const CACHE_FILES = [
   '/TheLoveGodCallsUsTo/chapter-16.html',
   '/TheLoveGodCallsUsTo/appendix-a.html',
   '/TheLoveGodCallsUsTo/The_Love_God_Calls_Us_To.pdf',
-  '/TheLoveGodCallsUsTo/The_Love_God_Calls_Us_To.epub'
+  '/TheLoveGodCallsUsTo/The_Love_God_Calls_Us_To.epub',
+  '/WordStudies/index.html',
+  '/WordStudies/preface.html',
+  '/WordStudies/lexicon.html',
+  '/WordStudies/by-strongs.html',
+  '/WordStudies/cover_thumb.jpg',
+  '/WordStudies/themes/names-of-god.html',
+  '/WordStudies/themes/word-spirit-breath.html',
+  '/WordStudies/themes/love.html',
+  '/WordStudies/themes/repentance-renewed-mind.html',
+  '/WordStudies/themes/faith-hope-endurance.html',
+  '/WordStudies/themes/holiness-grace-praise.html',
+  '/WordStudies/themes/time-and-eternal.html',
+  '/WordStudies/themes/lords-prayer.html',
+  '/WordStudies/themes/sin-guilt-confession.html',
+  '/WordStudies/themes/way-and-walk.html',
+  '/WordStudies/themes/last-week-lamb.html',
+  '/WordStudies/themes/body-soul-whole-person.html',
+  '/WordStudies/themes/foundational-words.html'
 ];
 
 // Install event - cache essential files
