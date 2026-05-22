@@ -2453,6 +2453,9 @@
     "psyche": "G5590",
     "sarx": "G4561",
     "prosphatos": "G4372",
+    "kairos": "G2540",
+    "perpereuetai": "G4068",
+    "ananeousthai": "G365", "ananeoo": "G365",
     // Hebrew — TheGodWhoShowedUp / ANLW / CTBL
     "elohim": "H430",
     "yahweh": "H3068", "yhwh": "H3068",
@@ -2470,6 +2473,9 @@
     "ruach": "H7307",
     "neshamah": "H5397",
     "'anah": "H6030", "anah": "H6030",
+    "messiah": "H4899", "mashiach": "H4899",
+    "arbayim": "H6153", "ereb": "H6153",
+    "apayim": "H639", "aph": "H639",
   };
 
   function normalizeStrongsKey(s) {
