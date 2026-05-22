@@ -122,7 +122,7 @@ And what did Hannah do?
 
 She poured her heart out to God in silence. She made a vow. She trusted Him with the deepest sorrow of her life. And when God finally answered and gave her a son — Samuel, who would become one of the great prophets of Israel — Hannah kept her vow and gave him back.
 
-> *"For this boy I prayed, and the LORD has granted me my petition which I asked of Him. So I have also dedicated him to the LORD; as long as he lives he is dedicated to the LORD."*
+> *"For this boy I prayed, and the LORD has given me my petition which I asked of Him. So I have also dedicated him to the LORD; as long as he lives he is dedicated to the LORD."*
 >
 > — 1 Samuel 1:27–28 (NASB)
 
