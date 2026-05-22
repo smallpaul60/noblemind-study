@@ -653,6 +653,92 @@
       border-radius: 2px;
     }
 
+    /* Feature 6 — Strong's hover on Greek/Hebrew transliterations */
+    .nm-strongs-ref {
+      color: rgba(255, 213, 110, 0.95);
+      border-bottom: 1px dotted rgba(196, 168, 84, 0.55);
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      padding: 0 1px;
+    }
+    .nm-strongs-ref:hover,
+    .nm-strongs-ref:focus {
+      background: rgba(196, 168, 84, 0.18);
+      border-bottom-color: rgba(255, 235, 130, 0.9);
+      color: rgba(255, 235, 130, 0.98);
+      outline: none;
+    }
+    .nm-strongs-popup {
+      position: absolute;
+      z-index: 10002;
+      max-width: 380px;
+      min-width: 240px;
+      background: rgba(15, 15, 18, 0.98);
+      border: 1px solid rgba(196, 168, 84, 0.42);
+      border-radius: 10px;
+      padding: 12px 14px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.6);
+      color: rgba(232, 226, 212, 0.95);
+      font-family: 'Segoe UI', Georgia, serif;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      display: none;
+    }
+    .nm-strongs-popup.visible { display: block; }
+    .nm-strongs-popup .nm-sp-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .nm-strongs-popup .nm-sp-number {
+      font-size: 0.74rem;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(196, 168, 84, 0.95);
+      font-weight: 700;
+    }
+    .nm-strongs-popup .nm-sp-close {
+      background: none; border: none;
+      color: rgba(192, 184, 168, 0.7);
+      cursor: pointer;
+      font-size: 1.15rem;
+      line-height: 1;
+      padding: 0 2px;
+    }
+    .nm-strongs-popup .nm-sp-close:hover { color: rgba(255, 235, 130, 0.95); }
+    .nm-strongs-popup .nm-sp-word {
+      font-size: 1.4rem;
+      color: rgba(255, 235, 130, 0.98);
+      line-height: 1.4;
+      margin-bottom: 2px;
+      /* Make sure unicode Greek/Hebrew renders well */
+      font-family: 'Cardo', 'Times New Roman', Georgia, serif;
+    }
+    .nm-strongs-popup .nm-sp-pron {
+      font-style: italic;
+      color: rgba(192, 184, 168, 0.85);
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+    .nm-strongs-popup .nm-sp-def {
+      max-height: 220px;
+      overflow-y: auto;
+      font-size: 0.88rem;
+      color: rgba(232, 226, 212, 0.94);
+    }
+    .nm-strongs-popup .nm-sp-loading {
+      font-style: italic;
+      color: rgba(192, 184, 168, 0.7);
+    }
+    .nm-strongs-popup .nm-sp-footer {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.12);
+      font-size: 0.7rem;
+      color: rgba(192, 184, 168, 0.55);
+      font-style: italic;
+      text-align: right;
+    }
+
     /* Feature 1 — verse-reference hover popups */
     .nm-verse-ref {
       color: rgba(196, 168, 84, 0.95);
@@ -1497,6 +1583,9 @@
     <h4>Verse references</h4>
     <p>Scripture references in book text (like <em>John 3:16</em> or <em>1 Corinthians 13:4–7</em>) are underlined with a small dot underline. Click one to see the verse text inline. Uses the King James Version (in the public domain) so it works without internet.</p>
 
+    <h4>Greek &amp; Hebrew terms</h4>
+    <p>When a chapter uses a Greek or Hebrew word (like <em>agapē</em>, <em>makrothumeō</em>, <em>shalom</em>, or <em>Elohim</em>), the word will be subtly highlighted in warm gold. Click it for the Strong's entry — original script, pronunciation, and definition. Works offline.</p>
+
     <h4>Highlight a sentence</h4>
     <p>While reading any chapter, select a sentence with your mouse or finger. A small popup appears with:</p>
     <ul>
@@ -1674,6 +1763,7 @@
     injectParagraphAnchors();    // Feature 2
     recordLastChapter();          // Feature 4 (writer side)
     linkifyVerseRefs();           // Feature 1
+    linkifyStrongsTerms();        // Feature 6
 
     let popupTimer = null;
     document.addEventListener("selectionchange", () => {
@@ -2287,17 +2377,231 @@
 
   // Wire click + outside-click handlers once at init
   document.addEventListener("click", (e) => {
-    const ref = e.target.closest(".nm-verse-ref");
-    if (ref) {
+    const verseRef = e.target.closest(".nm-verse-ref");
+    if (verseRef) {
       e.preventDefault();
-      showVersePopupForRef(ref);
+      hideStrongsPopup();
+      showVersePopupForRef(verseRef);
       return;
     }
-    // Click outside hides the popup
-    if (versePopup && versePopup.classList.contains("visible")) {
-      if (!e.target.closest(".nm-verse-popup")) hideVersePopup();
+    const strongsRef = e.target.closest(".nm-strongs-ref");
+    if (strongsRef) {
+      e.preventDefault();
+      hideVersePopup();
+      showStrongsPopupForRef(strongsRef);
+      return;
+    }
+    // Click outside any popup closes them
+    if (versePopup && versePopup.classList.contains("visible") && !e.target.closest(".nm-verse-popup")) {
+      hideVersePopup();
+    }
+    if (strongsPopup && strongsPopup.classList.contains("visible") && !e.target.closest(".nm-strongs-popup")) {
+      hideStrongsPopup();
     }
   });
+
+  // ============================================================
+  // Feature 6 — Strong's lookup on Greek/Hebrew transliterations
+  // ============================================================
+
+  // Curated transliteration → Strong's number table.
+  // Keys are normalized (lowercase, diacritics stripped, trailing punct removed).
+  // Both with-diacritics and without-diacritics variants normalize to the same key.
+  const STRONGS_LOOKUP = {
+    // Greek — 1 Corinthians 13 word-study (TheLoveGodCallsUsTo)
+    "agape": "G26", "agapai": "G26",
+    "agapao": "G25",
+    "makrothumeo": "G3114",
+    "chresteuomai": "G5541",
+    "chrestos": "G5543",
+    "zeloo": "G2206", "zeloute": "G2206",
+    "zelos": "G2205",
+    "perpereuomai": "G4068",
+    "physioo": "G5448",
+    "aschemoneo": "G807",
+    "schema": "G4976",
+    "logizomai": "G3049", "logizetai": "G3049",
+    "stego": "G4722", "stege": "G4722",
+    "pisteuo": "G4100",
+    "pistos": "G4103",
+    "elpizo": "G1679",
+    "hypomeno": "G5278",
+    "teleios": "G5046",
+    "meno": "G3306",
+    "paroxyno": "G3947",
+    // Greek — Philippians 2 / ChangeTheMind / OneDayCloserToHome
+    "morphe": "G3444",
+    "doulos": "G1401",
+    "phroneo": "G5426",
+    "kainos": "G2537",
+    "neos": "G3501",
+    "epekteinomenos": "G1901", "epekteinomai": "G1901",
+    "metamelomai": "G3338",
+    "katapino": "G2666", "katapothe": "G2666",
+    "egkakeo": "G1573",
+    // Greek — FromTheBeginning / TLWOTL
+    "tetelestai": "G5055", "teleo": "G5055",
+    "baptizo": "G907",
+    // Greek — CanTheseBonesLive
+    "emphysao": "G1720",
+    "pneo": "G4154",
+    // Greek — general theology
+    "epikaleomai": "G1941",
+    "kyrios": "G2962",
+    "christos": "G5547",
+    "pneuma": "G4151",
+    "psyche": "G5590",
+    "sarx": "G4561",
+    "prosphatos": "G4372",
+    // Hebrew — TheGodWhoShowedUp / ANLW / CTBL
+    "elohim": "H430",
+    "yahweh": "H3068", "yhwh": "H3068",
+    "shalom": "H7965",
+    "ra'ah": "H7200", "raah": "H7200", "jireh": "H7200",
+    "shamar": "H8104",
+    "hayah": "H1961",
+    "rapha": "H7495",
+    "nissi": "H5251",
+    "shammah": "H8033",
+    "tsidkenu": "H6664",
+    "rohi": "H7462",
+    "shaddai": "H7706",
+    "immanuel": "H6005",
+    "ruach": "H7307",
+    "neshamah": "H5397",
+    "'anah": "H6030", "anah": "H6030",
+  };
+
+  function normalizeStrongsKey(s) {
+    return s
+      .toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[.,;:!?]+$/g, "")
+      .replace(/[‘’]/g, "'")
+      .trim();
+  }
+
+  function linkifyStrongsTerms() {
+    const root = findContentRoot();
+    if (!root) return;
+    const candidates = root.querySelectorAll("em, i");
+    for (const em of candidates) {
+      if (em.classList.contains("nm-strongs-ref")) continue;
+      if (em.closest(".nm-tools-fab, .nm-tools-panel, .nm-help-popup, .nm-verse-popup, .nm-strongs-popup, .nm-selection-popup")) continue;
+      // Skip if the em wraps anchors/marks (verse refs, highlights) — keep them untouched
+      if (em.querySelector("a.nm-verse-ref, mark.nm-highlight")) continue;
+
+      // Author-annotated override
+      let snum = em.getAttribute("data-strongs");
+
+      if (!snum) {
+        const raw = em.textContent.trim();
+        if (!raw) continue;
+        if (/\s/.test(raw)) continue;                // single word only
+        if (raw.length < 3 || raw.length > 30) continue;
+        const key = normalizeStrongsKey(raw);
+        snum = STRONGS_LOOKUP[key];
+      }
+
+      if (!snum) continue;
+
+      em.classList.add("nm-strongs-ref");
+      em.setAttribute("data-strongs-num", snum);
+      em.setAttribute("role", "button");
+      em.setAttribute("tabindex", "0");
+      em.setAttribute("title", "Show Strong's definition");
+    }
+  }
+
+  // ---- strongs.json lazy load ----
+
+  let _strongsData = null;
+  let _strongsLoading = null;
+
+  function loadStrongsData() {
+    if (_strongsData) return Promise.resolve(_strongsData);
+    if (_strongsLoading) return _strongsLoading;
+    _strongsLoading = fetch("/strongs.json")
+      .then((r) => r.json())
+      .then((data) => { _strongsData = data || {}; return _strongsData; })
+      .catch(() => { _strongsData = {}; return _strongsData; });
+    return _strongsLoading;
+  }
+
+  // ---- popup ----
+
+  let strongsPopup = null;
+
+  function ensureStrongsPopup() {
+    if (strongsPopup) return strongsPopup;
+    strongsPopup = document.createElement("div");
+    strongsPopup.className = "nm-strongs-popup";
+    document.body.appendChild(strongsPopup);
+    return strongsPopup;
+  }
+
+  function hideStrongsPopup() {
+    if (strongsPopup) strongsPopup.classList.remove("visible");
+  }
+
+  function showStrongsPopupForRef(refEl) {
+    const snum = refEl.getAttribute("data-strongs-num");
+    if (!snum) return;
+    const p = ensureStrongsPopup();
+    p.innerHTML = `
+      <div class="nm-sp-header">
+        <span class="nm-sp-number">Strong's ${escapeHtml(snum)}</span>
+        <button class="nm-sp-close" aria-label="Close">×</button>
+      </div>
+      <div class="nm-sp-word">…</div>
+      <div class="nm-sp-pron"></div>
+      <div class="nm-sp-def"><span class="nm-sp-loading">Loading…</span></div>
+      <div class="nm-sp-footer">Strong's Hebrew &amp; Greek Dictionary</div>
+    `;
+    p.querySelector(".nm-sp-close").addEventListener("click", hideStrongsPopup);
+    positionPopupNear(p, refEl);
+    p.classList.add("visible");
+
+    loadStrongsData().then((data) => {
+      const entry = data[snum];
+      if (!entry) {
+        p.querySelector(".nm-sp-def").innerHTML = `<span class="nm-sp-loading">No entry found for ${escapeHtml(snum)}.</span>`;
+        p.querySelector(".nm-sp-word").textContent = "—";
+        return;
+      }
+      p.querySelector(".nm-sp-word").textContent = entry.word || "—";
+      p.querySelector(".nm-sp-pron").textContent = entry.pronunciation || "";
+      const defText = entry.definition || "(no definition)";
+      const usage = entry.usage ? `<div style="margin-top:6px;color:rgba(196,168,84,0.85);font-size:0.78rem;letter-spacing:0.04em"><strong>Translated:</strong> ${escapeHtml(entry.usage)}</div>` : "";
+      p.querySelector(".nm-sp-def").innerHTML = escapeHtml(defText) + usage;
+      // Reposition once content is in, in case the popup got taller
+      positionPopupNear(p, refEl);
+    });
+  }
+
+  // Shared positioning helper — also used by the verse popup logic going
+  // forward. Placed here because Feature 1 already inlined its own; both
+  // popups can use this. For now, only Strong's calls it.
+  function positionPopupNear(popupEl, anchorEl) {
+    popupEl.style.left = "-9999px";
+    popupEl.style.top = "0";
+    popupEl.classList.add("visible");
+    const popupRect = popupEl.getBoundingClientRect();
+    popupEl.classList.remove("visible");
+
+    const rect = anchorEl.getBoundingClientRect();
+    let top = rect.bottom + window.scrollY + 6;
+    let left = rect.left + window.scrollX;
+    const maxLeft = window.innerWidth + window.scrollX - popupRect.width - 12;
+    if (left > maxLeft) left = maxLeft;
+    if (left < 8) left = 8;
+    if (rect.bottom + popupRect.height + 12 > window.innerHeight) {
+      const candidate = rect.top + window.scrollY - popupRect.height - 6;
+      if (candidate > window.scrollY + 8) top = candidate;
+    }
+    popupEl.style.left = left + "px";
+    popupEl.style.top = top + "px";
+  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
