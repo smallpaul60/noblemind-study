@@ -1230,9 +1230,75 @@ def render_lexicon(words_data, strongs_to_translits, bdbt, excerpts, themes_meta
         {"".join(excerpt_html_parts)}
       </div>""")
 
+    filter_widget = """
+      <div style="margin: 1.4rem auto; max-width: 520px;">
+        <input type="search" id="lex-filter" placeholder="Find a word in the lexicon — e.g. agape, ruach, metanoia…"
+          aria-label="Filter lexicon entries"
+          style="width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.45);
+                 border: 1px solid rgba(196,168,84,0.32); border-radius: 10px;
+                 color: rgba(240,236,228,0.95); font-family: inherit; font-size: 0.95rem;
+                 box-sizing: border-box;" />
+        <div id="lex-filter-count" style="margin-top: 6px; text-align: center; font-size: 0.78rem;
+             color: rgba(192,184,168,0.65); font-style: italic;"></div>
+      </div>
+    """
+    filter_js = """
+      <script>
+        (function () {
+          var input = document.getElementById('lex-filter');
+          var counter = document.getElementById('lex-filter-count');
+          if (!input) return;
+          var entries = Array.from(document.querySelectorAll('.lex-entry'));
+          var headings = Array.from(document.querySelectorAll('h2.section-heading[id^="letter-"]'));
+          function norm(s) {
+            return s.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
+          }
+          function apply() {
+            var q = norm(input.value.trim());
+            if (!q) {
+              entries.forEach(function(e){ e.style.display = ''; });
+              headings.forEach(function(h){ h.style.display = ''; });
+              counter.textContent = '';
+              return;
+            }
+            var shown = 0;
+            entries.forEach(function(e){
+              var t = norm(e.textContent);
+              var match = t.indexOf(q) !== -1;
+              e.style.display = match ? '' : 'none';
+              if (match) shown++;
+            });
+            headings.forEach(function(h){
+              var letter = h.id.replace('letter-', '');
+              var any = entries.some(function(e){
+                return e.style.display !== 'none' &&
+                  norm(e.querySelector('h2').textContent).charAt(0).toUpperCase() === letter;
+              });
+              h.style.display = any ? '' : 'none';
+            });
+            counter.textContent = shown === 0
+              ? 'No entries match "' + input.value + '"'
+              : shown + ' entr' + (shown === 1 ? 'y' : 'ies') + ' shown.';
+          }
+          var timer = null;
+          input.addEventListener('input', function(){
+            clearTimeout(timer);
+            timer = setTimeout(apply, 80);
+          });
+          // If the URL has a hash on load, scroll to it and clear filter
+          if (window.location.hash) {
+            setTimeout(function(){
+              var target = document.getElementById(window.location.hash.slice(1));
+              if (target) target.scrollIntoView({behavior: 'smooth', block: 'center'});
+            }, 200);
+          }
+        })();
+      </script>
+    """
     body = f"""
       <h1 class="title" style="font-size: 2.2rem;">Alphabetical Lexicon</h1>
       <p class="dek">{len(words_data)} entries · A–Z by scholarly transliteration</p>
+      {filter_widget}
       {toc_html}
       {"".join(entries_html)}
       <p style="text-align:center; margin-top: 2.5rem;">
@@ -1240,6 +1306,7 @@ def render_lexicon(words_data, strongs_to_translits, bdbt, excerpts, themes_meta
           ← Back to the cover
         </a>
       </p>
+      {filter_js}
     """
     return render_page("lexicon.html", "Lexicon — Gems of the Original Languages", body, active="lex")
 

@@ -422,6 +422,18 @@ p.body { font-family: 'Cardo', Georgia, serif; font-size: 1.05rem; }
       
       <h1 class="title" style="font-size: 2.2rem;">Alphabetical Lexicon</h1>
       <p class="dek">161 entries · A–Z by scholarly transliteration</p>
+      
+      <div style="margin: 1.4rem auto; max-width: 520px;">
+        <input type="search" id="lex-filter" placeholder="Find a word in the lexicon — e.g. agape, ruach, metanoia…"
+          aria-label="Filter lexicon entries"
+          style="width: 100%; padding: 10px 14px; background: rgba(0,0,0,0.45);
+                 border: 1px solid rgba(196,168,84,0.32); border-radius: 10px;
+                 color: rgba(240,236,228,0.95); font-family: inherit; font-size: 0.95rem;
+                 box-sizing: border-box;" />
+        <div id="lex-filter-count" style="margin-top: 6px; text-align: center; font-size: 0.78rem;
+             color: rgba(192,184,168,0.65); font-style: italic;"></div>
+      </div>
+    
       <div class="lex-toc"><a href="#letter-A">A</a><a href="#letter-B">B</a><a href="#letter-C">C</a><a href="#letter-D">D</a><a href="#letter-E">E</a><span class="disabled">F</span><a href="#letter-G">G</a><a href="#letter-H">H</a><a href="#letter-I">I</a><span class="disabled">J</span><a href="#letter-K">K</a><a href="#letter-L">L</a><a href="#letter-M">M</a><a href="#letter-N">N</a><a href="#letter-O">O</a><a href="#letter-P">P</a><a href="#letter-Q">Q</a><a href="#letter-R">R</a><a href="#letter-S">S</a><a href="#letter-T">T</a><span class="disabled">U</span><span class="disabled">V</span><span class="disabled">W</span><span class="disabled">X</span><a href="#letter-Y">Y</a><a href="#letter-Z">Z</a></div>
       <h2 id="letter-'" class="section-heading" style="margin-top: 2.4rem;">— ' —</h2>
       <div class="lex-entry" id="anah-h6030">
@@ -3704,6 +3716,59 @@ p.body { font-family: 'Cardo', Georgia, serif; font-size: 1.05rem; }
           ← Back to the cover
         </a>
       </p>
+      
+      <script>
+        (function () {
+          var input = document.getElementById('lex-filter');
+          var counter = document.getElementById('lex-filter-count');
+          if (!input) return;
+          var entries = Array.from(document.querySelectorAll('.lex-entry'));
+          var headings = Array.from(document.querySelectorAll('h2.section-heading[id^="letter-"]'));
+          function norm(s) {
+            return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          }
+          function apply() {
+            var q = norm(input.value.trim());
+            if (!q) {
+              entries.forEach(function(e){ e.style.display = ''; });
+              headings.forEach(function(h){ h.style.display = ''; });
+              counter.textContent = '';
+              return;
+            }
+            var shown = 0;
+            entries.forEach(function(e){
+              var t = norm(e.textContent);
+              var match = t.indexOf(q) !== -1;
+              e.style.display = match ? '' : 'none';
+              if (match) shown++;
+            });
+            headings.forEach(function(h){
+              var letter = h.id.replace('letter-', '');
+              var any = entries.some(function(e){
+                return e.style.display !== 'none' &&
+                  norm(e.querySelector('h2').textContent).charAt(0).toUpperCase() === letter;
+              });
+              h.style.display = any ? '' : 'none';
+            });
+            counter.textContent = shown === 0
+              ? 'No entries match "' + input.value + '"'
+              : shown + ' entr' + (shown === 1 ? 'y' : 'ies') + ' shown.';
+          }
+          var timer = null;
+          input.addEventListener('input', function(){
+            clearTimeout(timer);
+            timer = setTimeout(apply, 80);
+          });
+          // If the URL has a hash on load, scroll to it and clear filter
+          if (window.location.hash) {
+            setTimeout(function(){
+              var target = document.getElementById(window.location.hash.slice(1));
+              if (target) target.scrollIntoView({behavior: 'smooth', block: 'center'});
+            }, 200);
+          }
+        })();
+      </script>
+    
     
     </div>
   </div>
