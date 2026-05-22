@@ -30,7 +30,7 @@ But on one point, all four accounts agree: the tomb was empty. The body was gone
 
 > *"The angel said to the women, 'Do not be afraid; for I know that you are looking for Jesus who has been crucified. He is not here, for He has risen, just as He said. Come, see the place where He was lying.'"* — **Matthew 28:5–6**
 
-Six words in the middle of that sentence carry the weight of the entire book: *"just as He said."*
+Four words in the middle of that sentence carry the weight of the entire book: *"just as He said."*
 
 He said three days and three nights. Three days and three nights passed. He said He would rise. He rose.
 

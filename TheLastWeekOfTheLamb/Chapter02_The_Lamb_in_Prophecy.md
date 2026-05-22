@@ -116,7 +116,7 @@ First: "The LORD was pleased to crush Him." This was not an accident. It was not
 
 Second: "If He would render Himself as a guilt offering." The word is *asham* — the guilt offering prescribed in the Law of Moses (Leviticus 5:14–6:7). The guilt offering was specifically for making restitution. It was the sacrifice that paid what was owed. Isaiah is saying that the servant's death would function as a guilt offering — paying the debt that the people owed but could not pay.
 
-Third — and this is the part that should stop you in your tracks: "He will see His offspring, He will prolong His days."
+Third — and this is the part to read carefully: "He will see His offspring, He will prolong His days."
 
 He will *prolong His days*. After being cut off from the land of the living. After dying. After being buried.
 
@@ -152,9 +152,9 @@ This is not a vague sketch. This is a detailed portrait, drawn seven centuries b
 
 For seven hundred years, that portrait waited. Israel read it. They debated it. Many applied it to the nation of Israel rather than to a single individual. Others recognized a suffering figure but could not reconcile Him with the conquering king they expected. The portrait was there in the text, but its meaning remained veiled.
 
-Then one day, on the banks of the Jordan River, a prophet named John — the last of the Old Testament-style prophets — saw Jesus of Nazareth walking toward him. And John said six words that connected every thread in this book:
+Then one day, on the banks of the Jordan River, a prophet named John — the last of the Old Testament-style prophets — saw Jesus of Nazareth walking toward him. And John said five words that connected every thread in this book:
 
-> *"Behold, the Lamb of God who takes away the sin of the world!"* — **John 1:29**
+> *"Behold, the Lamb of God!"* — **John 1:29**
 
 Think about the weight of that statement.
 
