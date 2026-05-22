@@ -1134,6 +1134,18 @@ def render_lexicon(words_data, strongs_to_translits, bdbt, excerpts, themes_meta
             pron = entry.get("pronunciation", "")
             definition_clean = clean_bdbt_definition(entry.get("definition", ""), snum)
             short_def = (entry.get("short_definition") or "").strip()
+            # Escape plain text first, then add Strong's cross-link anchors
+            # that turn "from G25" into a clickable link when the referenced
+            # Strong's number is also in our table.
+            covered_set = set(strongs_to_translits.keys())
+            def linkify_strongs_refs(text):
+                def repl(m):
+                    ref = m.group(0)
+                    if ref in covered_set:
+                        return f'<a href="#s-{ref.lower()}" style="color: var(--accent); text-decoration: none; border-bottom: 1px dotted rgba(196,168,84,0.5);">{ref}</a>'
+                    return ref
+                return re.sub(r"[GH]\d+", repl, text)
+            definition_clean = linkify_strongs_refs(html_mod.escape(definition_clean))
 
             translit_variants = [t for t in strongs_to_translits.get(snum, []) if t != primary]
             variant_html = ""
@@ -1199,8 +1211,11 @@ def render_lexicon(words_data, strongs_to_translits, bdbt, excerpts, themes_meta
                 excerpt_html_parts.append('<p class="no-excerpts">No chapter excerpts found in the current build. This word is in the curated table but may not yet be italicized in any chapter prose.</p>')
 
             slug_id = slug_for_word(snum, primary)
+            # Stable per-Strong's-number anchor for cross-link from Strong's popup
+            snum_anchor = f"s-{snum.lower()}"
             entries_html.append(f"""
       <div class="lex-entry" id="{h(slug_id)}">
+        <a id="{h(snum_anchor)}" style="position: relative; top: -30px;"></a>
         <h2>
           <span class="lex-original">{h(lex)}</span>
           {h(primary)}
@@ -1210,7 +1225,7 @@ def render_lexicon(words_data, strongs_to_translits, bdbt, excerpts, themes_meta
           {('<span class="lex-pron">' + h(pron) + '</span>') if pron else ''}
           {variant_html}
         </div>
-        <div class="lex-def">{h(short_def + ('. ' if short_def else '') + definition_clean) if (short_def or definition_clean) else '—'}</div>
+        <div class="lex-def">{(h(short_def) + ('. ' if short_def else '') + definition_clean) if (short_def or definition_clean) else '—'}</div>
         {themes_html}
         {"".join(excerpt_html_parts)}
       </div>""")

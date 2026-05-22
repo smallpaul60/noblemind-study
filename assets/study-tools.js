@@ -738,6 +738,23 @@
       font-style: italic;
       text-align: right;
     }
+    .nm-strongs-popup .nm-sp-lex-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 11px;
+      background: rgba(196, 168, 84, 0.14);
+      border: 1px solid rgba(196, 168, 84, 0.4);
+      border-radius: 6px;
+      color: rgba(255, 235, 130, 0.95);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .nm-strongs-popup .nm-sp-lex-link:hover {
+      background: rgba(196, 168, 84, 0.28);
+      border-color: rgba(255, 235, 130, 0.7);
+    }
 
     /* Feature 1 — verse-reference hover popups */
     .nm-verse-ref {
@@ -2927,6 +2944,11 @@
     const snum = refEl.getAttribute("data-strongs-num");
     if (!snum) return;
     const p = ensureStrongsPopup();
+    const lexHref = "/WordStudies/lexicon.html#s-" + encodeURIComponent(snum.toLowerCase());
+    const onLexiconPage = /\/WordStudies\//.test(window.location.pathname);
+    const lexLink = onLexiconPage
+      ? ""
+      : `<a class="nm-sp-lex-link" href="${lexHref}">Read more in the lexicon →</a>`;
     p.innerHTML = `
       <div class="nm-sp-header">
         <span class="nm-sp-number">Strong's ${escapeHtml(snum)}</span>
@@ -2935,6 +2957,7 @@
       <div class="nm-sp-word">…</div>
       <div class="nm-sp-pron"></div>
       <div class="nm-sp-def"><span class="nm-sp-loading">Loading…</span></div>
+      ${lexLink}
       <div class="nm-sp-footer">Strong's Hebrew &amp; Greek Dictionary</div>
     `;
     p.querySelector(".nm-sp-close").addEventListener("click", hideStrongsPopup);
