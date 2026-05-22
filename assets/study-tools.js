@@ -813,10 +813,33 @@
       margin-top: 8px;
       padding-top: 8px;
       border-top: 1px solid rgba(148, 163, 184, 0.12);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 6px;
       font-size: 0.72rem;
-      color: rgba(192, 184, 168, 0.6);
+    }
+    .nm-verse-popup .nm-vp-trans-label {
+      color: rgba(192, 184, 168, 0.55);
       font-style: italic;
-      text-align: right;
+    }
+    .nm-verse-popup .nm-vp-trans-select {
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(196, 168, 84, 0.32);
+      color: rgba(232, 226, 212, 0.92);
+      border-radius: 5px;
+      padding: 3px 6px;
+      font-family: inherit;
+      font-size: 0.74rem;
+      cursor: pointer;
+    }
+    .nm-verse-popup .nm-vp-trans-select:focus {
+      outline: none;
+      border-color: rgba(255, 235, 130, 0.7);
+    }
+    .nm-verse-popup .nm-vp-trans-select option {
+      background: rgba(15, 15, 18, 1);
+      color: rgba(240, 236, 228, 0.95);
     }
 
     @media (max-width: 600px) {
@@ -1581,7 +1604,16 @@
     <p>On the <strong>Books</strong> page, the search bar at the top searches the full text of every book at once. Each book's table of contents also has a search box that searches only that book.</p>
 
     <h4>Verse references</h4>
-    <p>Scripture references in book text (like <em>John 3:16</em> or <em>1 Corinthians 13:4–7</em>) are underlined with a small dot underline. Click one to see the verse text inline. Shows the <strong>NASB 1995</strong> when online (via the Bolls.life Bible API) and falls back to the embedded <strong>King James Version</strong> when offline. The popup labels which translation it is showing.</p>
+    <p>Scripture references in book text (like <em>John 3:16</em> or <em>1 Corinthians 13:4–7</em>) are underlined with a small dot underline. Click one to see the verse text inline.</p>
+    <p>The popup has a dropdown so you can pick your preferred translation:</p>
+    <ul>
+      <li><strong>NASB 1995</strong> — fetched live from the Bolls.life Bible API; only works online.</li>
+      <li><strong>Berean Standard Bible</strong> — modern, accurate, free public-domain.</li>
+      <li><strong>American Standard Version (1901)</strong> — direct lexical grandparent of the NASB.</li>
+      <li><strong>Young's Literal Translation</strong> — ultra-literal, useful for word-study comparison.</li>
+      <li><strong>King James Version</strong> — the embedded default; always available offline.</li>
+    </ul>
+    <p class="nm-help-hint">Your choice is remembered for future lookups. If a translation isn't available offline yet, you'll see KJV instead.</p>
 
     <h4>Greek &amp; Hebrew terms</h4>
     <p>When a chapter uses a Greek or Hebrew word (like <em>agapē</em>, <em>makrothumeō</em>, <em>shalom</em>, or <em>Elohim</em>), the word will be subtly highlighted in warm gold. Click it for the Strong's entry — original script, pronunciation, and definition. Works offline.</p>
@@ -2301,91 +2333,129 @@
     });
   }
 
-  // ---- NASB hybrid lookup -----------------------------------------------
-  // Prefers (in order): a local /NASB.json if one ever ships, then the
-  // Bolls.life NASB API while online. Falls back to the embedded KJV
-  // index if both fail (offline, API down, timeout, empty response).
-  // Same return shape as lookupVerses so the caller is agnostic.
+  // ---- multi-translation verse lookup -----------------------------------
+  // User picks one of several translations. NASB-online tries the Bolls
+  // API; everything else loads a local JSON. KJV is always the safety net
+  // because it's pre-cached on first visit.
 
-  let _nasbIndex = null;
-  let _nasbLocalChecked = false;
+  function stripBibleMarkup(s) {
+    return (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+  }
 
-  function tryLoadLocalNasb() {
-    if (_nasbIndex) return Promise.resolve(_nasbIndex);
-    if (_nasbLocalChecked) return Promise.resolve(null);
-    _nasbLocalChecked = true;
-    return fetch("/NASB.json").then((r) => {
-      if (!r.ok) return null;
-      return r.json().then((arr) => {
-        if (!Array.isArray(arr)) return null;
+  const OFFLINE_TRANSLATIONS = {
+    "KJV": { file: "/KJV.json", label: "King James Version", stripper: stripStrongsTags },
+    "ASV": { file: "/ASV.json", label: "American Standard Version (1901)", stripper: stripBibleMarkup },
+    "BSB": { file: "/BSB.json", label: "Berean Standard Bible", stripper: stripBibleMarkup },
+    "YLT": { file: "/YLT.json", label: "Young's Literal Translation", stripper: stripBibleMarkup },
+  };
+
+  const TRANSLATION_CHOICES = [
+    { code: "NASB-online", label: "NASB 1995 (online)" },
+    { code: "BSB",         label: "Berean Standard Bible" },
+    { code: "ASV",         label: "American Standard Version (1901)" },
+    { code: "YLT",         label: "Young's Literal Translation" },
+    { code: "KJV",         label: "King James Version" },
+  ];
+
+  const TRANSLATION_PREF_KEY = "nm_translation_pref";
+
+  function getTranslationPref() {
+    try {
+      const v = localStorage.getItem(TRANSLATION_PREF_KEY);
+      if (v && TRANSLATION_CHOICES.some((c) => c.code === v)) return v;
+    } catch (e) {}
+    return "NASB-online";
+  }
+  function setTranslationPref(code) {
+    try { localStorage.setItem(TRANSLATION_PREF_KEY, code); } catch (e) {}
+  }
+
+  const _offlineIndexes = {};
+  const _offlineLoading = {};
+
+  function loadOfflineIndex(code) {
+    if (_offlineIndexes[code]) return Promise.resolve(_offlineIndexes[code]);
+    if (_offlineLoading[code]) return _offlineLoading[code];
+    const t = OFFLINE_TRANSLATIONS[code];
+    if (!t) return Promise.resolve(null);
+    _offlineLoading[code] = fetch(t.file)
+      .then((r) => { if (!r.ok) throw new Error("fetch " + code + " failed"); return r.json(); })
+      .then((arr) => {
+        if (!Array.isArray(arr)) throw new Error("bad shape for " + code);
         const idx = new Map();
         for (const v of arr) {
           if (v && v.book != null && v.chapter != null && v.verse != null) {
             idx.set(v.book + ":" + v.chapter + ":" + v.verse, v.text || "");
           }
         }
-        _nasbIndex = idx;
+        _offlineIndexes[code] = idx;
         return idx;
-      }).catch(() => null);
-    }).catch(() => null);
-  }
-
-  function stripBibleMarkup(s) {
-    return (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
-  }
-
-  function tryNasbFromBolls(bookNum, chap, vStart, vEnd) {
-    const url = "https://bolls.life/get-text/NASB/" + bookNum + "/" + chap + "/";
-    return new Promise((resolve, reject) => {
-      const controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
-      const timer = setTimeout(() => { if (controller) controller.abort(); reject(new Error("timeout")); }, 2500);
-      const opts = controller ? { signal: controller.signal } : {};
-      fetch(url, opts)
-        .then((r) => {
-          clearTimeout(timer);
-          if (!r.ok) throw new Error("status " + r.status);
-          return r.json();
-        })
-        .then((arr) => {
-          if (!Array.isArray(arr)) return reject(new Error("bad shape"));
-          const verses = [];
-          for (const v of arr) {
-            if (v && v.verse >= vStart && v.verse <= vEnd) {
-              verses.push({ verse: v.verse, text: stripBibleMarkup(v.text) });
-            }
-          }
-          resolve(verses);
-        })
-        .catch((e) => { clearTimeout(timer); reject(e); });
-    });
-  }
-
-  function tryNasb(bookNum, chap, vStart, vEnd) {
-    return tryLoadLocalNasb().then((idx) => {
-      if (idx) {
-        const verses = [];
-        for (let v = vStart; v <= vEnd; v++) {
-          const text = idx.get(bookNum + ":" + chap + ":" + v);
-          if (text) verses.push({ verse: v, text: stripBibleMarkup(text) });
-        }
-        return verses;
-      }
-      return tryNasbFromBolls(bookNum, chap, vStart, vEnd);
-    });
-  }
-
-  function lookupVersesWithFallback(bookNum, chap, vStart, vEnd) {
-    return tryNasb(bookNum, chap, vStart, vEnd)
-      .then((verses) => {
-        if (verses && verses.length > 0) {
-          return { translation: "New American Standard Bible 1995", verses };
-        }
-        throw new Error("nasb empty");
       })
-      .catch(() => lookupVerses(bookNum, chap, vStart, vEnd).then((verses) => ({
-        translation: "King James Version",
-        verses,
-      })));
+      .catch(() => null);
+    return _offlineLoading[code];
+  }
+
+  function lookupOfflineVerses(code, bookNum, chap, vStart, vEnd) {
+    return loadOfflineIndex(code).then((idx) => {
+      if (!idx) return null;
+      const t = OFFLINE_TRANSLATIONS[code];
+      const verses = [];
+      for (let v = vStart; v <= vEnd; v++) {
+        const text = idx.get(bookNum + ":" + chap + ":" + v);
+        if (text) verses.push({ verse: v, text: t.stripper(text) });
+      }
+      return { translation: t.label, verses };
+    });
+  }
+
+  function lookupNasbOnline(bookNum, chap, vStart, vEnd) {
+    // Try local /NASB.json first if it ever appears
+    return fetch("/NASB.json", { method: "HEAD" })
+      .then((r) => r.ok)
+      .catch(() => false)
+      .then((hasLocal) => {
+        if (hasLocal) {
+          return loadOfflineIndex("NASB-LOCAL"); // not implemented yet — fall through
+        }
+        // Bolls.life live fetch with 2.5s timeout
+        const url = "https://bolls.life/get-text/NASB/" + bookNum + "/" + chap + "/";
+        return new Promise((resolve, reject) => {
+          const controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+          const timer = setTimeout(() => { if (controller) controller.abort(); reject(new Error("timeout")); }, 2500);
+          const opts = controller ? { signal: controller.signal } : {};
+          fetch(url, opts)
+            .then((r) => { clearTimeout(timer); if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+            .then((arr) => {
+              if (!Array.isArray(arr)) return reject(new Error("bad shape"));
+              const verses = [];
+              for (const v of arr) {
+                if (v && v.verse >= vStart && v.verse <= vEnd) {
+                  verses.push({ verse: v.verse, text: stripBibleMarkup(v.text) });
+                }
+              }
+              resolve({ translation: "New American Standard Bible 1995", verses });
+            })
+            .catch((e) => { clearTimeout(timer); reject(e); });
+        });
+      });
+  }
+
+  function lookupForPreference(pref, bookNum, chap, vStart, vEnd) {
+    let primary;
+    if (pref === "NASB-online") {
+      primary = lookupNasbOnline(bookNum, chap, vStart, vEnd);
+    } else {
+      primary = lookupOfflineVerses(pref, bookNum, chap, vStart, vEnd);
+    }
+    return Promise.resolve(primary)
+      .then((result) => {
+        if (result && result.verses && result.verses.length > 0) return result;
+        throw new Error("empty");
+      })
+      .catch(() => {
+        // Always fall back to KJV — pre-cached, instant, always available
+        return lookupOfflineVerses("KJV", bookNum, chap, vStart, vEnd);
+      });
   }
 
   // ---- popup ----
@@ -2404,6 +2474,41 @@
     if (versePopup) versePopup.classList.remove("visible");
   }
 
+  function renderVerseBody(p, refEl, pref) {
+    const bookNum = parseInt(refEl.getAttribute("data-book"), 10);
+    const chap = parseInt(refEl.getAttribute("data-chap"), 10);
+    const vStart = parseInt(refEl.getAttribute("data-vstart"), 10);
+    const vEnd = parseInt(refEl.getAttribute("data-vend"), 10);
+    const body = p.querySelector(".nm-vp-body");
+    if (!body) return;
+    body.innerHTML = `<span class="nm-vp-loading">Loading…</span>`;
+
+    lookupForPreference(pref, bookNum, chap, vStart, vEnd).then((result) => {
+      if (!result || !result.verses || result.verses.length === 0) {
+        body.innerHTML = `<span class="nm-vp-loading">No matching verse found.</span>`;
+        return;
+      }
+      body.innerHTML = result.verses.map((v) =>
+        `<span class="nm-vp-verse"><span class="nm-vp-vnum">${v.verse}</span>${escapeHtml(v.text)}</span>`
+      ).join(" ");
+      // If the actual translation differs from what the user asked for (fallback path),
+      // briefly hint that. We update the select to reflect what was actually shown only
+      // when the fallback fully replaced the choice (i.e. KJV when offline).
+      const transNote = p.querySelector(".nm-vp-trans-label");
+      if (transNote) {
+        const expectedLabel = pref === "NASB-online"
+          ? "New American Standard Bible 1995"
+          : (OFFLINE_TRANSLATIONS[pref] && OFFLINE_TRANSLATIONS[pref].label);
+        if (result.translation === expectedLabel) {
+          transNote.textContent = "Translation:";
+        } else {
+          transNote.textContent = "Showing " + result.translation + " (fell back from " + (expectedLabel || pref) + "):";
+        }
+      }
+      positionVersePopup(refEl);
+    });
+  }
+
   function showVersePopupForRef(refEl) {
     const bookNum = parseInt(refEl.getAttribute("data-book"), 10);
     const chap = parseInt(refEl.getAttribute("data-chap"), 10);
@@ -2411,6 +2516,11 @@
     const vEnd = parseInt(refEl.getAttribute("data-vend"), 10);
     const cite = BOOK_PRETTY[bookNum] + " " + chap + ":" + vStart + (vEnd !== vStart ? "-" + vEnd : "");
     const p = ensureVersePopup();
+    const pref = getTranslationPref();
+
+    const options = TRANSLATION_CHOICES.map((c) =>
+      `<option value="${escapeHtml(c.code)}"${c.code === pref ? " selected" : ""}>${escapeHtml(c.label)}</option>`
+    ).join("");
 
     p.innerHTML = `
       <div class="nm-vp-header">
@@ -2418,26 +2528,24 @@
         <button class="nm-vp-close" aria-label="Close">×</button>
       </div>
       <div class="nm-vp-body"><span class="nm-vp-loading">Loading…</span></div>
-      <div class="nm-vp-translation">Looking up…</div>
+      <div class="nm-vp-translation">
+        <span class="nm-vp-trans-label">Translation:</span>
+        <select class="nm-vp-trans-select" aria-label="Choose translation">${options}</select>
+      </div>
     `;
     p.querySelector(".nm-vp-close").addEventListener("click", hideVersePopup);
+    const sel = p.querySelector(".nm-vp-trans-select");
+    sel.addEventListener("change", () => {
+      const next = sel.value;
+      setTranslationPref(next);
+      renderVerseBody(p, refEl, next);
+    });
+    sel.addEventListener("click", (e) => e.stopPropagation());
+    sel.addEventListener("mousedown", (e) => e.stopPropagation());
+
     positionVersePopup(refEl);
     p.classList.add("visible");
-
-    lookupVersesWithFallback(bookNum, chap, vStart, vEnd).then(({ translation, verses }) => {
-      const body = p.querySelector(".nm-vp-body");
-      const transEl = p.querySelector(".nm-vp-translation");
-      if (!body) return;
-      if (!verses || verses.length === 0) {
-        body.innerHTML = `<span class="nm-vp-loading">No matching verse found.</span>`;
-        if (transEl) transEl.textContent = translation;
-        return;
-      }
-      body.innerHTML = verses.map((v) =>
-        `<span class="nm-vp-verse"><span class="nm-vp-vnum">${v.verse}</span>${escapeHtml(v.text)}</span>`
-      ).join(" ");
-      if (transEl) transEl.textContent = translation;
-    });
+    renderVerseBody(p, refEl, pref);
   }
 
   function positionVersePopup(refEl) {
