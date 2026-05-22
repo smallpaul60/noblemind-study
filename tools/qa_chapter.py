@@ -79,7 +79,7 @@ def stage_status(script_name, output):
             return "n/a", "no quotes found"
         if issues == 0:
             return "PASS", f"{matched}/{total} matched, 0 issues"
-        return "REVIEW", f"{matched}/{total} matched, {issues} issue(s) — partial quotes are usually false positives"
+        return "REVIEW", f"{matched}/{total} matched, {issues} issue(s) — partial quotes auto-classified, remaining issues are CLOSE or MISMATCH"
 
     if script_name == "check_language.py":
         (flags,) = map(int, m.groups())

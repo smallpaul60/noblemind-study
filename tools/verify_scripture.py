@@ -329,33 +329,67 @@ def extract_scripture_quotes_md(content, filepath):
 def compare_texts(quoted, actual):
     """Compare quoted text against actual NASB text.
 
-    Returns (similarity_ratio, differences_description).
+    Returns (similarity_ratio, differences_description, classification)
+    where classification is one of:
+      'OK'       — perfect match (modulo whitespace / NASB brackets)
+      'PARTIAL'  — author quoted a contiguous subset of NASB
+                   (intentional abbreviation, not an error)
+      'CLOSE'    — small textual modifications (worth review)
+      'MISMATCH' — significant textual differences (real issue)
     """
-    q = normalize_text(quoted)
-    a = normalize_text(actual)
+    q_full = normalize_text(quoted)
+    a_full = normalize_text(actual)
+    # Strip NASB editorial brackets (e.g., "[it]" → "it") so the
+    # author's bracket-free quote isn't flagged as different
+    a_no_brackets = re.sub(r'\[([^\]]*)\]', r'\1', a_full)
+    # Collapse whitespace introduced by bracket stripping
+    a_no_brackets = re.sub(r'\s+', ' ', a_no_brackets).strip()
 
-    # Check if the quote is a subset (partial quote with ellipsis)
-    # Many quotes omit parts with "..."
-    ratio = SequenceMatcher(None, q.lower(), a.lower()).ratio()
+    ratio = SequenceMatcher(None, q_full.lower(),
+                            a_no_brackets.lower()).ratio()
 
-    if q.lower() == a.lower():
-        return (1.0, None)
+    # Aggressive normalization for CLASSIFICATION decision only:
+    # lowercase + no punctuation + collapsed whitespace
+    def _aggressive(s):
+        s = re.sub(r'[^\w\s]', ' ', s.lower())
+        return re.sub(r'\s+', ' ', s).strip()
 
-    # Build a readable diff
+    q_agg = _aggressive(q_full)
+    a_agg = _aggressive(a_no_brackets)
+
+    if q_full.lower() == a_no_brackets.lower() or q_agg == a_agg:
+        classification = 'OK'
+    elif q_agg and q_agg in a_agg:
+        # Author's text is a contiguous subset of NASB — partial quote
+        classification = 'PARTIAL'
+    else:
+        s = SequenceMatcher(None, q_full, a_no_brackets)
+        has_modification = any(op[0] in ('replace', 'delete')
+                               for op in s.get_opcodes())
+        if not has_modification:
+            classification = 'PARTIAL'
+        elif ratio >= 0.85:
+            classification = 'CLOSE'
+        else:
+            classification = 'MISMATCH'
+
+    # Build the readable diff
     diffs = []
-    s = SequenceMatcher(None, q, a)
+    s = SequenceMatcher(None, q_full, a_no_brackets)
     for op, i1, i2, j1, j2 in s.get_opcodes():
         if op == 'equal':
             continue
         elif op == 'replace':
-            diffs.append(f'  BOOK: "{q[i1:i2]}"')
-            diffs.append(f'  NASB: "{a[j1:j2]}"')
+            diffs.append(f'  BOOK: "{q_full[i1:i2]}"')
+            diffs.append(f'  NASB: "{a_no_brackets[j1:j2]}"')
         elif op == 'insert':
-            diffs.append(f'  MISSING from book: "{a[j1:j2]}"')
+            label = ('partial quote omits' if classification == 'PARTIAL'
+                     else 'MISSING from book')
+            diffs.append(f'  {label}: "{a_no_brackets[j1:j2]}"')
         elif op == 'delete':
-            diffs.append(f'  EXTRA in book: "{q[i1:i2]}"')
+            diffs.append(f'  EXTRA in book: "{q_full[i1:i2]}"')
 
-    return (ratio, '\n'.join(diffs) if diffs else None)
+    return (ratio, '\n'.join(diffs) if diffs else None, classification)
 
 
 def scan_book(book_dir, chapter_filter=None):
@@ -445,20 +479,27 @@ def scan_book(book_dir, chapter_filter=None):
                 issues += 1
                 continue
 
-            ratio, diffs = compare_texts(quote_text, nasb_text)
+            ratio, diffs, classification = compare_texts(quote_text, nasb_text)
 
-            if ratio >= 0.98:
+            if classification == 'OK':
                 matched += 1
                 # Still show if not perfect
                 if ratio < 1.0:
                     print(f"    Line {line_num}: {strip_html(ref_text)} — OK (minor variance, {ratio:.0%})")
-            elif ratio >= 0.85:
+            elif classification == 'PARTIAL':
+                # Author intentionally quoted only a subset of the verse
+                # — not a textual error. Count as matched, not as issue.
+                matched += 1
+                print(f"    Line {line_num}: {strip_html(ref_text)} — PARTIAL ({ratio:.0%}, contiguous subset)")
+                if diffs:
+                    print(diffs)
+            elif classification == 'CLOSE':
                 matched += 1
                 print(f"    Line {line_num}: {strip_html(ref_text)} — CLOSE ({ratio:.0%})")
                 if diffs:
                     print(diffs)
                 issues += 1
-            else:
+            else:  # MISMATCH
                 print(f"    Line {line_num}: {strip_html(ref_text)} — MISMATCH ({ratio:.0%})")
                 if diffs:
                     print(diffs)
