@@ -387,6 +387,13 @@ def scan_book(book_dir, chapter_filter=None):
         for extra_md in sorted(book_path.glob("*Introduction.md")):
             if extra_md not in chapter_files:
                 chapter_files.insert(0, extra_md)
+    # Final fallback: monolithic study-guide-style markdown
+    # (single comprehensive file rather than per-chapter)
+    if not chapter_files:
+        for pattern in ("*STUDY_GUIDE*.md", "*COMPLETE*.md"):
+            for md in sorted(book_path.glob(pattern)):
+                if md not in chapter_files:
+                    chapter_files.append(md)
 
     # Also check introduction, conclusion, etc. (HTML)
     for extra in ["introduction.html", "conclusion.html", "authors-note.html", "foreword.html"]:

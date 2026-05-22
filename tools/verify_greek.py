@@ -397,6 +397,12 @@ def scan_book(book_dir, chapter_filter=None):
         for app_md in sorted(book_path.glob("*_App*_*.md")):
             if app_md not in files:
                 files.append(app_md)
+    # Final fallback: monolithic study-guide-style markdown
+    if not files:
+        for pattern in ("*STUDY_GUIDE*.md", "*COMPLETE*.md"):
+            for md in sorted(book_path.glob(pattern)):
+                if md not in files:
+                    files.append(md)
 
     for extra in ["introduction.html", "conclusion.html", "authors-note.html", "foreword.html"]:
         p = book_path / extra
