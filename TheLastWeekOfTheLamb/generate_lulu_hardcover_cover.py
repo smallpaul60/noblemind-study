@@ -195,17 +195,15 @@ def draw_front_cover_text(c):
 # BACK COVER
 # ---------------------------------------------------------------------------
 
-# Back cover safe area — generous spine-side margin so the blurb breathes
-# away from the hinge, and a narrower column so the prose extends down the
-# panel instead of running in bunched-up wide lines.
-BACK_SAFE_LEFT = BACK_TRIM_LEFT + 0.625 * inch
-BACK_SAFE_RIGHT = BACK_TRIM_RIGHT - 1.0 * inch
+# Back cover safe area — symmetric 0.75" margins so the blurb is centered
+# in the visible panel. Narrow column lets the prose run down vertically
+# rather than bunching up in wide lines.
+BACK_SAFE_LEFT = BACK_TRIM_LEFT + 0.75 * inch
+BACK_SAFE_RIGHT = BACK_TRIM_RIGHT - 0.75 * inch
 BACK_SAFE_TOP = TRIM_TOP - 0.5 * inch
 BACK_SAFE_BOTTOM = TRIM_BOTTOM + 0.5 * inch
 BACK_TEXT_WIDTH = BACK_SAFE_RIGHT - BACK_SAFE_LEFT
-# Visual center of the safe area (NOT the panel center) — shifted ~0.1875"
-# away from the spine, giving the blurb a clear outer-half bias.
-BACK_SAFE_CX = (BACK_SAFE_LEFT + BACK_SAFE_RIGHT) / 2
+BACK_SAFE_CX = (BACK_SAFE_LEFT + BACK_SAFE_RIGHT) / 2  # = panel center
 
 
 def wrap_text(c, text, font_name, font_size, max_width):
