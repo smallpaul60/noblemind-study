@@ -45,19 +45,24 @@ pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
 # --- Document dimensions (from Lulu template) ---
-# NOTE: a hardcover case board is 0.125" larger than the book block on
-# top, bottom, and outside (industry-standard "squares" / overhang).
-# So the VISIBLE case per panel is 5.625 x 8.75, not 5.5 x 8.5, and the
-# wrap allowance that folds around the case boards is 0.75" on each
-# outside edge (not 0.875). Layout check:
-#   0.75 + 5.625 + 0.813 + 5.625 + 0.75 = 13.563  (width)
-#   0.75 + 8.75 + 0.75                 = 10.25   (height)
+# Pulled from case-wrap-cover-template.pdf (re-downloaded 2026-05-21):
+#   Total: 13.563" x 10.25"
+#   Book trim: 5.75" x 9" per panel (board including 0.125" outside / 0.25" top+bottom overhang)
+#   Spine: 0.813"
+#   Wrap area: 0.625" on each outside edge (was 0.75" — corrected)
+# Layout check:
+#   0.625 + 5.75 + 0.813 + 5.75 + 0.625 = 13.563  (width)
+#   0.625 + 9.00 + 0.625                = 10.25   (height)
 DOC_W = 13.563 * inch
 DOC_H = 10.25 * inch
 SPINE_W = 0.813 * inch
-WRAP = 0.75 * inch
-CASE_W = 5.625 * inch   # visible panel width (board including 0.125 overhang)
-CASE_H = 8.75 * inch    # visible panel height (board including overhangs)
+WRAP = 0.625 * inch
+CASE_W = 5.75 * inch    # visible panel width (board including overhang)
+CASE_H = 9.00 * inch    # visible panel height (board including overhangs)
+
+# Hinge clearance — keep content inside the spine fold on each panel,
+# so it doesn't disappear into the hinge groove of a bound hardcover.
+HINGE_CLEAR = 0.25 * inch
 
 # --- Layout anchors (document coordinates) ---
 # Visible back case
@@ -113,20 +118,17 @@ def draw_background(c):
 
 
 def draw_front_cover_image(c):
-    """Draw the doorframe image fit-by-width into the visible front trim.
-
-    The image's aspect (0.667) is wider than the trim's aspect (0.647), so
-    fitting by width leaves small black bands (~0.128 in) at the top and
-    bottom of the trim. Those bands blend into the image's own black
-    background and are imperceptible.
+    """Draw the doorframe image fit-by-width into the visible front trim,
+    with HINGE_CLEAR breathing room on the spine side so the image
+    doesn't disappear into the hinge groove.
     """
     img = ImageReader(str(IMAGE_FILE))
     iw, ih = img.getSize()
     img_aspect = iw / ih
 
-    draw_w = TRIM_W
+    draw_w = TRIM_W - HINGE_CLEAR
     draw_h = draw_w / img_aspect
-    draw_x = FRONT_TRIM_LEFT
+    draw_x = FRONT_TRIM_LEFT + HINGE_CLEAR
     draw_y = TRIM_CY - (draw_h / 2)
 
     c.drawImage(
@@ -141,8 +143,15 @@ def frac_to_front_pdf_y(frac_from_top):
 
 
 def draw_front_cover_text(c):
-    """Title / gold rule / subtitle / author / imprint — matches the mockup."""
-    cx = FRONT_TRIM_LEFT + (DARK_CENTER_X_FRAC * TRIM_W)
+    """Title / gold rule / subtitle / author / imprint — matches the mockup.
+
+    Text rides over the doorframe image. The image was shifted right by
+    HINGE_CLEAR and narrowed by the same amount, so the dark-well center
+    is now measured against (FRONT_TRIM_LEFT + HINGE_CLEAR, TRIM_W - HINGE_CLEAR).
+    """
+    image_left = FRONT_TRIM_LEFT + HINGE_CLEAR
+    image_width = TRIM_W - HINGE_CLEAR
+    cx = image_left + (DARK_CENTER_X_FRAC * image_width)
 
     # --- Title ---
     c.setFillColor(CREAM)
@@ -185,12 +194,16 @@ def draw_front_cover_text(c):
 # BACK COVER
 # ---------------------------------------------------------------------------
 
-# Back cover safe area — 0.5" inside the visible back trim
+# Back cover safe area — 0.5" outer edges, HINGE_CLEAR on the spine side
+# so blurb text doesn't crowd the hinge groove.
 BACK_SAFE_LEFT = BACK_TRIM_LEFT + 0.5 * inch
-BACK_SAFE_RIGHT = BACK_TRIM_RIGHT - 0.5 * inch
+BACK_SAFE_RIGHT = BACK_TRIM_RIGHT - HINGE_CLEAR
 BACK_SAFE_TOP = TRIM_TOP - 0.5 * inch
 BACK_SAFE_BOTTOM = TRIM_BOTTOM + 0.5 * inch
 BACK_TEXT_WIDTH = BACK_SAFE_RIGHT - BACK_SAFE_LEFT
+# The visual center of the safe area (NOT the panel center) — keeps the
+# blurb breathing away from the hinge.
+BACK_SAFE_CX = (BACK_SAFE_LEFT + BACK_SAFE_RIGHT) / 2
 
 
 def wrap_text(c, text, font_name, font_size, max_width):
@@ -221,7 +234,7 @@ def draw_back_cover(c):
       - Italic closing tagline: "The tradition is old. But the text is older."
       - Footer: noblemind.study
     """
-    cx = BACK_TRIM_CX
+    cx = BACK_SAFE_CX
     c.setFillColor(WHITE)
 
     # Hook — tagline weight
@@ -302,6 +315,46 @@ def draw_back_cover(c):
 
 
 # ---------------------------------------------------------------------------
+# SPINE
+# ---------------------------------------------------------------------------
+
+def draw_spine(c):
+    """Title + author centered on the spine, reading bottom-to-top (US convention).
+
+    Spine is 0.813" wide. Type sized to clear ~0.1" on each side of the
+    spine band. Title in cream EB Garamond, author in gold below the title
+    block. Both rotated 90° so they read upward when the book stands on a
+    shelf with the front cover facing the reader.
+    """
+    spine_cx = (SPINE_LEFT + SPINE_RIGHT) / 2
+    spine_cy = (TRIM_TOP + TRIM_BOTTOM) / 2
+
+    title = "The Last Week of the Lamb"
+    author = "Paul Hainline"
+
+    title_size = 18
+    author_size = 11
+
+    c.saveState()
+    c.translate(spine_cx, spine_cy)
+    c.rotate(90)
+    # After rotation: +x is up (toward TRIM_TOP), +y is toward the back cover.
+    # We want the title centered horizontally on the spine, so leave y=0.
+    # Title sits slightly forward (toward TRIM_TOP) of dead center; author
+    # sits behind it (toward TRIM_BOTTOM) for traditional spine layout.
+    c.setFillColor(CREAM)
+    c.setFont("EBGaramond", title_size)
+    c.drawCentredString(0, -title_size / 3, title)
+
+    c.setFillColor(GOLD)
+    c.setFont("EBGaramond", author_size)
+    title_width = c.stringWidth(title, "EBGaramond", title_size)
+    author_x_offset = -(title_width / 2) - 0.35 * inch
+    c.drawCentredString(author_x_offset, -author_size / 3, author)
+    c.restoreState()
+
+
+# ---------------------------------------------------------------------------
 # PREVIEW
 # ---------------------------------------------------------------------------
 
@@ -329,7 +382,7 @@ def main():
     draw_front_cover_image(c)
     draw_front_cover_text(c)
     draw_back_cover(c)
-    # Spine intentionally left blank
+    draw_spine(c)
 
     c.save()
     print(f"  PDF saved to {OUTPUT_PDF}")
