@@ -119,7 +119,14 @@ _api_cache = {}
 
 
 def strip_html(text):
-    """Remove HTML tags and decode entities."""
+    """Remove HTML tags and decode entities.
+
+    <br> elements become a single space so words joined across a
+    display line-break (e.g., "for this<br>reason") don't end up
+    concatenated. Other inline tags strip cleanly.
+    """
+    # BR → space (preserve word boundary across display line-breaks)
+    text = re.sub(r'<\s*br\s*/?\s*>', ' ', text, flags=re.IGNORECASE)
     text = re.sub(r'<[^>]+>', '', text)
     text = html_mod.unescape(text)
     return text
