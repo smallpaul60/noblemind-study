@@ -2488,28 +2488,93 @@
     for (const em of candidates) {
       if (em.classList.contains("nm-strongs-ref")) continue;
       if (em.closest(".nm-tools-fab, .nm-tools-panel, .nm-help-popup, .nm-verse-popup, .nm-strongs-popup, .nm-selection-popup")) continue;
-      // Skip if the em wraps anchors/marks (verse refs, highlights) — keep them untouched
-      if (em.querySelector("a.nm-verse-ref, mark.nm-highlight")) continue;
+      if (em.querySelector("a.nm-verse-ref, mark.nm-highlight, .nm-strongs-ref")) continue;
 
-      // Author-annotated override
-      let snum = em.getAttribute("data-strongs");
-
-      if (!snum) {
-        const raw = em.textContent.trim();
-        if (!raw) continue;
-        if (/\s/.test(raw)) continue;                // single word only
-        if (raw.length < 3 || raw.length > 30) continue;
-        const key = normalizeStrongsKey(raw);
-        snum = STRONGS_LOOKUP[key];
+      // Author-annotated override — wraps the whole em
+      const explicit = em.getAttribute("data-strongs");
+      if (explicit) {
+        markEmAsStrongsRef(em, explicit);
+        continue;
       }
 
-      if (!snum) continue;
+      const raw = em.textContent.trim();
+      if (!raw) continue;
 
-      em.classList.add("nm-strongs-ref");
-      em.setAttribute("data-strongs-num", snum);
-      em.setAttribute("role", "button");
-      em.setAttribute("tabindex", "0");
-      em.setAttribute("title", "Show Strong's definition");
+      if (!/\s/.test(raw)) {
+        // Single-word italic — try matching the whole em text
+        if (raw.length < 3 || raw.length > 30) continue;
+        const key = normalizeStrongsKey(raw);
+        const snum = STRONGS_LOOKUP[key];
+        if (snum) markEmAsStrongsRef(em, snum);
+      } else {
+        // Multi-word italic ("Love does not zēloō.") — scan the words
+        // inside and wrap individual matches in spans. The italic
+        // styling comes from the surrounding <em>; the .nm-strongs-ref
+        // span adds the gold dotted underline + click handler.
+        linkifyStrongsWordsInside(em);
+      }
+    }
+  }
+
+  function markEmAsStrongsRef(em, snum) {
+    em.classList.add("nm-strongs-ref");
+    em.setAttribute("data-strongs-num", snum);
+    em.setAttribute("role", "button");
+    em.setAttribute("tabindex", "0");
+    em.setAttribute("title", "Show Strong's definition");
+  }
+
+  const WORD_RE = /[\p{L}\p{M}'’]+/gu;
+
+  function linkifyStrongsWordsInside(container) {
+    // Collect text nodes first, then mutate (mutating during traversal is unsafe)
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        if (parent.closest(".nm-strongs-ref, .nm-verse-ref")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const textNodes = [];
+    let n;
+    while ((n = walker.nextNode())) textNodes.push(n);
+
+    for (const node of textNodes) {
+      const text = node.nodeValue;
+      WORD_RE.lastIndex = 0;
+      const pieces = [];
+      let lastIndex = 0;
+      let m;
+      let foundAny = false;
+      while ((m = WORD_RE.exec(text)) !== null) {
+        const word = m[0];
+        if (word.length < 3 || word.length > 30) continue;
+        const key = normalizeStrongsKey(word);
+        const snum = STRONGS_LOOKUP[key];
+        if (!snum) continue;
+        foundAny = true;
+        if (m.index > lastIndex) {
+          pieces.push(document.createTextNode(text.slice(lastIndex, m.index)));
+        }
+        const span = document.createElement("span");
+        span.className = "nm-strongs-ref";
+        span.setAttribute("data-strongs-num", snum);
+        span.setAttribute("role", "button");
+        span.setAttribute("tabindex", "0");
+        span.setAttribute("title", "Show Strong's definition");
+        span.textContent = word;
+        pieces.push(span);
+        lastIndex = m.index + word.length;
+      }
+      if (foundAny) {
+        if (lastIndex < text.length) {
+          pieces.push(document.createTextNode(text.slice(lastIndex)));
+        }
+        const frag = document.createDocumentFragment();
+        for (const p of pieces) frag.appendChild(p);
+        node.parentNode.replaceChild(frag, node);
+      }
     }
   }
 
