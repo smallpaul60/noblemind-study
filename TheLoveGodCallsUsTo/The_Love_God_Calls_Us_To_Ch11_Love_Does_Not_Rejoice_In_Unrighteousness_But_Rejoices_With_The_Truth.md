@@ -52,7 +52,7 @@ The two halves of verse 6 are aimed at the believer because they are first true 
 
 The first half is stated plainly in the prophets:
 
-> *"As I live!" declares the Lord GOD, "I take no pleasure in the death of the wicked, but rather that the wicked turn from his way and live. Turn back, turn back from your evil ways! For why will you die, O house of Israel?"*
+> *"As I live!" declares the Lord GOD, "I take no pleasure in the death of the wicked, but rather that the wicked turn from his way and live. Turn back, turn back from your evil ways! Why then will you die, O house of Israel?"*
 > — Ezekiel 33:11 (NASB)
 
 *I take no pleasure in the death of the wicked.* That is the cleanest single statement of love-does-not-rejoice-in-unrighteousness Scripture contains. God's justice is real, and the death of the wicked is real, and God is not going to spare any wicked man from what his wickedness has earned him. But God Himself takes no pleasure in the spectacle. The judgment that has to come does not delight Him. He is grieved by it. The believer who has been quietly hoping for some particular sinner's downfall — the public figure he despises, the family member he has long since written off, the bully from years ago — is taking a pleasure his God does not take. The God of the universe stands over the death of the wicked and grieves; the believer who stands beside Him cannot stand grinning.
