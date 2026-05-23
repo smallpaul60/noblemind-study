@@ -294,6 +294,41 @@ FLAGGED_TERMS = [
      'Not a Bible phrase. Use the NT response to the gospel '
      '(Acts 2:38, Romans 6:3-4).'),
 
+    # ── Tiered-truth language — banned ────────────────────────────
+    # There is no such thing in Scripture as a "secondary" question
+    # or a "non-essential" matter. Truth matters, every part of it.
+    # Phrases that rank biblical teaching into more-important /
+    # less-important tiers are denominational framings, not biblical
+    # ones. Let the text speak; trust the reader to read it.
+    (r'\bsecondary\s+(?:question|questions|matter|matters|issue|issues|point|points|doctrine|doctrines|concern|concerns)\b',
+     'tiered truth',
+     'Tier-1 banned: "secondary question/matter/issue" implies a hierarchy '
+     'of importance among biblical truths. There is no such hierarchy in '
+     'Scripture. Let the text speak for itself.'),
+
+    (r'\b(?:non[- ]?essentials?|nonessentials?)\b',
+     'tiered truth',
+     'Tier-1 banned: "non-essential" implies some doctrines are dispensable. '
+     'Scripture does not categorize its teachings into essential and '
+     'non-essential. Address what the text says, directly.'),
+
+    (r'\bin\s+essentials,?\s+unity\b',
+     'tiered truth',
+     'Tier-1 banned: the "in essentials unity, in non-essentials liberty" '
+     'slogan presupposes a doctrinal hierarchy not found in Scripture.'),
+
+    (r'\bsalvation\s+(?:issue|matter|question)\b',
+     'tiered truth',
+     'Implies that some issues are "salvation issues" and others are not. '
+     'Scripture does not divide its teaching into salvation-affecting and '
+     'salvation-neutral categories.'),
+
+    (r'\bfundamentals?\s+of\s+the\s+faith\b',
+     'tiered truth',
+     'Fundamentalist categorization (the "five fundamentals" framework). '
+     'Use what Scripture actually says about specific teachings rather '
+     'than ranking some as "fundamental" and others as not.'),
+
     # ── Denominational titles ─────────────────────────────────────
     (r'\bpastor(?!al|s of)\b(?!\s+(?:the|a|this|that|their|his|her|our)\s+(?:sheep|flock|herd))',
      'title',
