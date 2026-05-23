@@ -37,6 +37,17 @@ BOOK_DIRS = [
     "TheCharacterNoOneCouldInvent",
 ]
 
+# Books that present multiple positions side by side. Excerpts from these
+# books may quote a position being examined rather than the author's own
+# conclusion, so the lexicon prepends a contextual notice above each
+# blockquote so the reader knows what they're reading.
+BOOK_CONTEXT_NOTES = {
+    "WhyTheDivision": (
+        "From a chapter examining both institutional and non-institutional "
+        "positions side by side — read in context."
+    ),
+}
+
 # Pretty book titles for citation
 BOOK_TITLES = {
     "TheLoveGodCallsUsTo": "The Love God Calls Us To",
@@ -813,6 +824,17 @@ p.body { font-family: 'Cardo', Georgia, serif; font-size: 1.05rem; }
   color: var(--text-primary);
 }
 .lex-entry blockquote em { color: #FFEB82; font-style: italic; }
+.lex-entry blockquote .lex-context-note {
+  margin: 0 0 12px 0;
+  padding: 6px 10px;
+  font-size: 0.76rem;
+  font-style: italic;
+  color: rgba(192, 184, 168, 0.78);
+  font-family: 'Cardo', Georgia, serif;
+  background: rgba(168, 68, 45, 0.10);
+  border-left: 2px solid rgba(168, 68, 45, 0.5);
+  border-radius: 4px;
+}
 .lex-entry .lex-cite {
   display: block;
   margin-top: 6px;
@@ -1210,8 +1232,11 @@ def render_lexicon(words_data, strongs_to_translits, bdbt, excerpts, themes_meta
                     ch_title = ex["chapter_title"] or ""
                     label = ex["chapter_label"] + (f" — {ch_title}" if ch_title and ch_title != ex["chapter_label"] else "")
                     chapter_href = f"/{ex['book_dir']}/{ex['chapter_file']}"
+                    note = BOOK_CONTEXT_NOTES.get(ex["book_dir"])
+                    note_html = f'<div class="lex-context-note">{h(note)}</div>' if note else ''
                     excerpt_html_parts.append(f"""
                 <blockquote>
+                  {note_html}
                   <p>{ex['paragraph_html']}</p>
                   <span class="lex-cite"><a href="{h(chapter_href)}">{h(ex['book_title'])} · {h(label)}</a></span>
                 </blockquote>""")
