@@ -30,9 +30,9 @@ FONT_DIR = Path.home() / ".local/share/fonts"
 pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
-# --- Spine (Lulu's exact value from upload tool) ---
-PAGE_COUNT = 148
-SPINE_W = 0.393   # Lulu spec for 148-page B&W paperback
+# --- Spine (Lulu's exact value from downloaded template) ---
+PAGE_COUNT = 152
+SPINE_W = 0.402   # Lulu spec for 152-page B&W paperback (template downloaded 2026-05-26)
 
 # --- Document dimensions ---
 BLEED = 0.125
@@ -235,10 +235,9 @@ def draw_back_cover(c):
     line_height = 13.5
 
     body_paragraphs = [
-        "God showed Ezekiel a valley of dry bones and asked the one question only God can answer: can these live?",
-        "The answer, then and now, is the same \u2014 and it comes by the same means. The word of God gives form. The Spirit of God gives life. Together, and only together, they make dead things stand.",
-        "This book traces that single pattern through the whole Bible, from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church. At every scale \u2014 creation, restoration, new birth, conversion \u2014 the mechanism is the same. Where the word goes silent or the breath is withheld, the bones dry out. Where both are present, the dead rise.",
-        "Eleven chapters. One question. One pattern. One God who has been doing this from the beginning.",
+        "God showed Ezekiel a valley of dry bones and asked the one question only God can answer: Can these bones live?",
+        "The answer, then and now, is the same \u2014 and it comes by the same means. The Word of God gives form. The Spirit of God gives life. Together, and only together, they make dead things stand.",
+        "Eleven chapters trace that single pattern through the whole Bible \u2014 from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church. Word without Spirit is a corpse. Spirit without Word has no body to inhabit. From Genesis to Revelation, every restoration Scripture records has come the same way: the Word goes out, the Spirit answers, and the slain stand on their feet \u2014 an exceedingly great army.",
     ]
     for para in body_paragraphs:
         lines = wrap_text(c, para, "EBGaramond", 10, text_width)
@@ -248,8 +247,14 @@ def draw_back_cover(c):
             y -= line_height
         y -= line_height * 0.4
 
+    # --- Tagline (italic, gold, matches the approved books.html closing) ---
+    y -= line_height * 0.2
+    c.setFillColor(GOLD_LIGHT)
+    c.setFont("EBGaramond-Italic", 11)
+    c.drawCentredString(cx, y, "If you can hear the question, you can be part of the answer.")
+    y -= line_height * 1.4
+
     # --- Attribution ---
-    y -= line_height * 0.3
     c.setFillColor(GOLD_MUTED)
     c.setFont("EBGaramond-Italic", 8)
     c.drawCentredString(
