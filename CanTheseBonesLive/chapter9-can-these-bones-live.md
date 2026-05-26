@@ -68,7 +68,7 @@ This is why Paul could write, at the end of his letter to the Galatians — afte
 
 The Israel of God. Paul used the name. He did not say "like Israel" or "a new Israel alongside the old." He said the Israel of God — at the close of a letter whose entire argument is that belonging to Christ, not belonging to the flesh, is what makes a person an heir of the promise.
 
-A grammatical note is owed here. The *kai* in "and upon the Israel of God" has been read two ways — as a simple connective pronouncing peace on two groups (the church and ethnic Israel), or as epexegetical ("and, that is, the Israel of God") identifying one group. The grammar alone does not settle it. The reading offered here takes the *kai* as epexegetical, because that is the reading consistent with the argument of the whole letter — a letter whose burden is that belonging to Christ, not belonging to the flesh, is what marks the heirs of the promise. The connective reading would have Paul contradict his own argument in its closing line.
+It is worth being honest about one point of grammar, because careful readers will raise it. The word translated "and" before "the Israel of God" is the Greek *kai*, and *kai* can work two ways. It can join two distinct groups — "peace upon those who walk by this rule, and also upon the Israel of God" — naming a second party. Or it can be explanatory — "peace upon those who walk by this rule, that is, upon the Israel of God" — identifying one group by two descriptions. The reading offered here depends on the second sense, and faithful students have taken it both ways. But the argument of this chapter does not stand or fall on this single word. Even if Galatians 6:16 were set aside entirely, the identity transfer is established by the texts already examined — Peter applying Sinai's language to former outsiders (1 Peter 2:9-10), Paul calling the church the true circumcision (Philippians 3:3) and the true Jew inwardly (Romans 2:28-29), and his insistence that "they are not all Israel who are descended from Israel" (Romans 9:6). Galatians 6:16 names plainly what those texts already demonstrate.
 
 He said it again from another angle in Philippians: "For we are the true circumcision, who worship in the Spirit of God and glory in Christ Jesus and put no confidence in the flesh" (Philippians 3:3). The true circumcision is not the mark on the body. It is the worship in the Spirit — the *ruach*, the *pneuma*, the same breath that has animated every living thing God has made since the garden.
 
@@ -122,7 +122,17 @@ And the condition is stated plainly: "to you, God's kindness, *if you continue* 
 
 The branches are cut off. The bones dry out. The valley fills again.
 
-One note on scope. Romans 11 raises questions this book is not taking up — most prominently, what Paul means when he writes that "all Israel will be saved" (Romans 11:25-27), which faithful readers have taken in different directions. This book engages Romans 11 for one purpose: its warning about the mechanism of life and death, the same mechanism that has run through every chapter. It is not offering a comprehensive treatment of every question the chapter raises. Those questions are worth a careful study of their own. The warning Paul delivered to the Gentile church — that God does not spare branches that do not continue in faith — stands regardless of how those other questions are resolved.
+---
+
+### What About "All Israel"?
+
+There is one passage in Romans 11 that must be faced directly, because it is the strongest text for the view this chapter has been arguing against. A few verses after the olive tree, Paul writes that "a partial hardening has happened to Israel until the fullness of the Gentiles has come in; and so all Israel will be saved" (Romans 11:25-26).
+
+All Israel will be saved. Read by itself, the verse can sound like a promise of national restoration for ethnic Israel as a distinct body, separate from the church. Faithful students have understood it that way, and honesty requires admitting the passage is genuinely debated.
+
+But it cannot be read by itself, because Paul has already told the reader — in this same letter — what he means by "Israel." Two chapters earlier: "they are not all Israel who are descended from Israel" (Romans 9:6). Paul defined the term himself, and his definition was not physical descent. And the olive tree he has just finished describing is one tree — natural branches and grafted branches drawing life from a single root. If "all Israel" is the whole of that tree, believing natural branches together with the wild branches grafted in, then "all Israel will be saved" is not a promise to a separate people. It is the completion of the one people of God this chapter has been describing.
+
+Which reading is correct? The text permits the question to remain open, and this study does not need to close it. What the text does not permit is the conclusion that Paul has suddenly reversed the argument of the preceding three chapters and re-established the very boundary he spent them dismantling. Whatever "all Israel" means, it means it within Paul's own definition of Israel — and that definition is not the flesh. The grafting still runs one direction: into the tree, by faith. And the warning still stands: branches that do not continue are cut off (Romans 11:22).
 
 ---
 
