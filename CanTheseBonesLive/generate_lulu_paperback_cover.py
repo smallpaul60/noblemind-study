@@ -94,7 +94,10 @@ def check_front_safety(c, text, font_name, font_size, cx):
 
 def wrap_text(c, text, font_name, font_size, max_width):
     c.setFont(font_name, font_size)
-    words = text.split()
+    # Split on regular whitespace only; preserve U+00A0 (non-breaking space)
+    # so phrases like "an exceedingly" stay glued across line breaks.
+    import re
+    words = re.split(r'[ \t\n]+', text.strip())
     lines, current = [], ""
     for w in words:
         test = f"{current} {w}".strip() if current else w
@@ -237,7 +240,7 @@ def draw_back_cover(c):
     body_paragraphs = [
         "God showed Ezekiel a valley of dry bones and asked the one question only God can answer: Can these bones live?",
         "The answer, then and now, is the same \u2014 and it comes by the same means. The Word of God gives form. The Spirit of God gives life. Together, and only together, they make dead things stand.",
-        "Eleven chapters trace that single pattern through the whole Bible \u2014 from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church. Word without Spirit is a corpse. Spirit without Word has no body to inhabit. From Genesis to Revelation, every restoration Scripture records has come the same way: the Word goes out, the Spirit answers, and the slain stand on their feet \u2014 an exceedingly great army.",
+        "Eleven chapters trace that single pattern through the whole Bible \u2014 from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church. Word without Spirit is a corpse. Spirit without Word has no body to inhabit. From Genesis to Revelation, every restoration Scripture records has come the same way: the Word goes out, the Spirit answers, and the slain stand on their feet \u2014 an\u00a0exceedingly great army.",
     ]
     for para in body_paragraphs:
         lines = wrap_text(c, para, "EBGaramond", 10, text_width)
