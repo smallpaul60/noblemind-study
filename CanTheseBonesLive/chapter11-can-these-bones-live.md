@@ -12,7 +12,7 @@ Ten chapters later, the question is still the question. But the reader who has w
 
 We have seen it happen. We have traced the answer from the first breath God ever breathed into lifeless dust to the last letters Christ dictated to His churches in Scripture. And what we have found is not complicated. It is not hidden. It is not a secret buried in the original languages or locked behind technical scholarship. It is a pattern so consistent that once you see it, you cannot stop seeing it.
 
-God brings dead things to life by two means — His word and His Spirit. And He has never used any other.
+God brings dead things to life by two means — His word and His Spirit. And wherever Scripture shows the work, it shows no other.
 
 ---
 
@@ -30,7 +30,7 @@ When the risen Christ stood before His disciples in the upper room, He breathed 
 
 When the church was born at Pentecost, the word was preached first — Peter's sermon, Scripture from beginning to end — and then the hearers responded, and they received the gift of the Holy Spirit. "Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit" (Acts 2:38). Three thousand came to life in a single day. Word and Spirit. Structure and breath.
 
-The pattern has operated at every scale — cosmic, national, individual. And it has always required both: the word and the Spirit, the structure and the breath, working together. Never one without the other. Never by any other means.
+The pattern has operated at every scale — cosmic, national, individual. And it has required both: the word and the Spirit, the structure and the breath, working together. Never one without the other — and Scripture records no other means.
 
 ---
 
@@ -41,8 +41,6 @@ But this pattern does not stop at nations and churches. It reaches into the life
 Jesus told Nicodemus — a Pharisee, a ruler of the Jews, a man who knew the Scriptures — "Unless one is born of water and the Spirit, he cannot enter into the kingdom of God" (John 3:5). Water and Spirit. Two components of one birth.
 
 Jesus expected Nicodemus to understand this. He rebuked him for not understanding: "Are you the teacher of Israel and do not understand these things?" (John 3:10). Whatever Jesus meant by "water and the Spirit," it was something a man who knew the Old Testament should have been able to grasp. And water in Scripture is water. It is not a symbol for something else. When the text means Spirit, it says Spirit. When it means the word, it says the word. When it says water, it means water. When Scripture does use water figuratively, it always signals it — either with a qualifier like "living water" (John 4:10; 7:38) or with an explicit explanation like "this He spoke of the Spirit" (John 7:39). Jesus does neither in John 3:5.
-
-Faithful students of Scripture have read "water" here in other ways — as a figure for physical birth, or as a symbol for the word. The reading offered here takes water as water, because that is what the Ezekiel 36 background and the apostolic practice both point to. The disagreement is real, and worth naming; the reading stands on the texts.
 
 What the apostles practiced confirms what Jesus said. When Peter stood before the crowd at Pentecost and told them what to do, his answer included both elements: "Repent, and each of you be baptized in the name of Jesus Christ for the forgiveness of your sins; and you will receive the gift of the Holy Spirit" (Acts 2:38). Baptism — water — and the gift of the Holy Spirit. The same two components Jesus named to Nicodemus, now given as the normative call to everyone who heard the word and asked what to do. Not two separate events, but two aspects of the same act — the obedient response to God's word and the life-giving breath of God's Spirit. Both required. The promise, Peter said, extended to "you and your children and for all who are far off, as many as the Lord our God will call to Himself" (Acts 2:39).
 
@@ -124,7 +122,7 @@ That is the antidote to the valley. Not a new program. Not a cultural strategy. 
 
 Can these bones live?
 
-The answer has always been yes. But only by the means God has always used.
+The answer has always been yes. But only by the means Scripture shows God using.
 
 His word spoken faithfully. His Spirit given to those who hear and obey — "the Holy Spirit, whom God has given to those who obey Him" (Acts 5:32). Structure and breath. Word and Spirit. The two-part mechanism that formed a man from dust in a garden and raised a nation from bones in a valley and brought three thousand to life in a single day in Jerusalem.
 

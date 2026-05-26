@@ -8,7 +8,7 @@ Chapter 3 traced the silence — the word of God growing rare, then scarce, then
 
 The cause of the death has been established. The word went silent. The breath departed. And what remained was a valley full of bones — very many, very dry.
 
-But God did not bring Ezekiel to the valley to give him a diagnosis. He brought him there to show him a remedy. And the remedy begins exactly where every act of creation and restoration in Scripture has always begun.
+But God did not bring Ezekiel to the valley to give him a diagnosis. He brought him there to show him a remedy. And the remedy begins exactly where creation and restoration begin in Scripture.
 
 With a voice.
 
@@ -90,7 +90,7 @@ This is the hinge of the entire book.
 
 The word is necessary. Without it, the bones stay scattered. Without it, there is no structure, no order, no form. The word is the indispensable first step. Nothing happens without the word.
 
-But the word was never meant to work alone. God did not design one act. He designed two. The word does exactly what God sends it to do — it assembles, it organizes, it builds the structure that life requires. And then the breath comes. Not because the word failed, but because God has always brought life through two means, and neither one replaces the other.
+But the word was never meant to work alone. God did not design one act. He designed two. The word does exactly what God sends it to do — it assembles, it organizes, it builds the structure that life requires. And then the breath comes. Not because the word failed, but because God brings life through two means, and Scripture never shows one standing in for the other.
 
 Structure is not life. Order is not breath. A body that has every component in the right place but no breath in its lungs is not a living person — it is a corpse in good condition. And a people who have the word of God accurately assembled — the right doctrine, the right structure, the right order — but no Spirit animating it are not a living body. They are Ezekiel 37:8. Complete. Covered. Correct.
 

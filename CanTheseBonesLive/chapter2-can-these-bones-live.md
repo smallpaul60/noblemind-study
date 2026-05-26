@@ -4,7 +4,7 @@
 
 Before anything ever died, God made something live.
 
-The account is in the second chapter of Genesis, and the language is so familiar that most readers pass over it without stopping to notice what it actually describes. But the details matter here — not just for what they tell us about the first man, but for what they establish about how God has always brought life into existence.
+The account is in the second chapter of Genesis, and the language is so familiar that most readers pass over it without stopping to notice what it actually describes. But the details matter here — not just for what they tell us about the first man, but for what they establish about the pattern by which God brings life into existence.
 
 "Then the Lord God formed man of dust from the ground, and breathed into his nostrils the breath of life; and man became a living being" (Genesis 2:7).
 
@@ -40,9 +40,9 @@ This is the principle the rest of this book will trace, and it needs to be set h
 
 God brings dead things to life by two means — His word and His Spirit. The word provides structure. The Spirit provides life. Both are required. The word without the Spirit assembles a body that cannot breathe. The Spirit without the word has no structure to fill. Together — and only together — they produce what neither can produce alone.
 
-Go back to Genesis 1. Before God formed anything, the earth was formless and void and darkness was over the surface of the deep. And the Spirit of God — *ruach elohim* — was moving over the surface of the waters (Genesis 1:2). The Spirit was present before the first word was spoken. Then God spoke: "Let there be light" (Genesis 1:3). The word went out, and creation came into being. Psalm 33:6 pairs the two forces at work: "By the word of the LORD the heavens were made, and by the breath of His mouth all their host." Word and Spirit. Voice and breath. Command and power. That is how God created light, sky, sea, land, vegetation, sun, moon, stars, fish, birds, animals, and man. Every act of creation involved both.
+Go back to Genesis 1. Before God formed anything, the earth was formless and void and darkness was over the surface of the deep. And the Spirit of God — *ruach elohim* — was moving over the surface of the waters (Genesis 1:2). The Spirit was present before the first word was spoken. Then God spoke: "Let there be light" (Genesis 1:3). The word went out, and creation came into being. Psalm 33:6 pairs the two forces at work: "By the word of the LORD the heavens were made, and by the breath of His mouth all their host." Word and Spirit. Voice and breath. Command and power. That is how God created light, sky, sea, land, vegetation, sun, moon, stars, fish, birds, animals, and man. The word was spoken at every act — "and God said" — and the Spirit had been there from the first verse, moving over the waters.
 
-And every act of resurrection — every time God has brought something dead back to life — has followed the same pattern. The word is spoken. The Spirit moves. The dead thing lives.
+And the resurrections Scripture records follow the same shape. The word goes out, and the dead live. The word is always named; the Spirit is not always narrated — but Scripture leaves no doubt about who gives life: "the body without the spirit is dead" (James 2:26).
 
 That is what happened in the valley.
 
