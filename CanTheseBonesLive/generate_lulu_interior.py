@@ -27,7 +27,7 @@ OUTPUT = BOOK_DIR / "CanTheseBonesLive_Lulu_Interior.pdf"
 FONT_DIR = Path.home() / ".local" / "share" / "fonts"
 
 TITLE = "Can These Bones Live?"
-SUBTITLE = "How God Has Always Made Dead Things Live"
+SUBTITLE = "How the Word and the Spirit Make Dead Things Live"
 AUTHOR = "Paul Hainline"
 
 CHAPTERS = [

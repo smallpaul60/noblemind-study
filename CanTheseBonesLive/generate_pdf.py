@@ -23,7 +23,7 @@ FONT_DIR = Path.home() / ".local" / "share" / "fonts"
 COVER = BOOK_DIR / "cover_front.jpg"
 
 TITLE = "Can These Bones Live?"
-SUBTITLE = "How God Has Always Made Dead Things Live"
+SUBTITLE = "How the Word and the Spirit Make Dead Things Live"
 AUTHOR = "Paul Hainline"
 
 CHAPTERS = [

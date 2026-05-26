@@ -1,16 +1,26 @@
 #!/usr/bin/env python3
 """Generate Lulu linen-hardcover DUST JACKET for Can These Bones Live?
 
-Lulu specs (from upload page for 148-page 5.5x8.5 linen hardcover w/ jacket):
+Lulu specs (from the downloaded template for 152-page 5.5x8.5 linen
+hardcover w/ jacket, re-aligned 2026-05-26):
   Document size:     19.375" x 9.25"
-  Spine width:       0.625"
-  Front/back flap:   3.25" x 9.25" each
-  Flap fold width:   0.25" (between cover panel and flap, each side)
+  Spine width:       0.625"  (152 pp on Lulu's template; spine width
+                              held steady from 148 pp)
+  Front/back cover:  5.75" each (includes 0.125" board overhang on
+                                 each side of the 5.5" trim)
+  Front/back flap:   3.25" each
+  Outer bleed:       0.375" beyond each flap edge
 
 Layout (left to right):
-  [3.25 back flap][0.25 fold][5.875 back cover][0.625 spine]
-  [5.875 front cover][0.25 fold][3.25 front flap]
-  Sum: 3.25 + 0.25 + 5.875 + 0.625 + 5.875 + 0.25 + 3.25 = 19.375 ✓
+  [0.375 bleed][3.25 back flap][5.75 back cover][0.625 spine]
+  [5.75 front cover][3.25 front flap][0.375 bleed]
+  Sum: 0.375 + 3.25 + 5.75 + 0.625 + 5.75 + 3.25 + 0.375 = 19.375 ✓
+
+Lulu treats the fold as part of the cover board (the 0.125" overhang on
+each side of the trim), not as a separate strip. The previous layout
+used a separate 0.25" fold region between flap and cover, which left
+the artwork shifted slightly out at the flap edges; this version
+aligns to the downloaded template guides.
 
 Design matches the approved paperback cover — same image, black title and
 subtitle, cream author block at the bottom. Flaps carry a teaser (front)
@@ -33,32 +43,35 @@ FONT_DIR = Path.home() / ".local/share/fonts"
 pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
-# --- Document dimensions (Lulu spec) ---
+# --- Document dimensions (Lulu spec, from downloaded template) ---
 DOC_W_IN = 19.375
 DOC_H_IN = 9.25
 SPINE_W_IN = 0.625
 FLAP_W_IN = 3.25
-FOLD_W_IN = 0.25
-COVER_W_IN = (DOC_W_IN - 2 * FLAP_W_IN - 2 * FOLD_W_IN - SPINE_W_IN) / 2  # 5.875
+COVER_W_IN = 5.75
+OUTER_BLEED_IN = 0.375  # outer bleed beyond each flap edge
 
 DOC_W = DOC_W_IN * inch
 DOC_H = DOC_H_IN * inch
 
 # --- Horizontal layout anchors ---
-BACK_FLAP_LEFT = 0
-BACK_FLAP_RIGHT = FLAP_W_IN * inch
-BACK_FOLD_LEFT = BACK_FLAP_RIGHT
-BACK_FOLD_RIGHT = BACK_FOLD_LEFT + FOLD_W_IN * inch
-BACK_COVER_LEFT = BACK_FOLD_RIGHT
-BACK_COVER_RIGHT = BACK_COVER_LEFT + COVER_W_IN * inch
-SPINE_LEFT = BACK_COVER_RIGHT
-SPINE_RIGHT = SPINE_LEFT + SPINE_W_IN * inch
+# Outer bleed extends the artwork past the flap edges so trimming
+# tolerance doesn't expose paper. Background fills the whole 19.375";
+# text and graphics stay inside the live-area safe margins.
+LEFT_BLEED_LEFT = 0
+LEFT_BLEED_RIGHT = OUTER_BLEED_IN * inch
+BACK_FLAP_LEFT = LEFT_BLEED_RIGHT
+BACK_FLAP_RIGHT = BACK_FLAP_LEFT + FLAP_W_IN * inch        # 3.625"
+BACK_COVER_LEFT = BACK_FLAP_RIGHT
+BACK_COVER_RIGHT = BACK_COVER_LEFT + COVER_W_IN * inch     # 9.375"
+SPINE_LEFT = BACK_COVER_RIGHT                              # 9.375"
+SPINE_RIGHT = SPINE_LEFT + SPINE_W_IN * inch               # 10.000"
 FRONT_COVER_LEFT = SPINE_RIGHT
-FRONT_COVER_RIGHT = FRONT_COVER_LEFT + COVER_W_IN * inch
-FRONT_FOLD_LEFT = FRONT_COVER_RIGHT
-FRONT_FOLD_RIGHT = FRONT_FOLD_LEFT + FOLD_W_IN * inch
-FRONT_FLAP_LEFT = FRONT_FOLD_RIGHT
-FRONT_FLAP_RIGHT = DOC_W
+FRONT_COVER_RIGHT = FRONT_COVER_LEFT + COVER_W_IN * inch   # 15.750"
+FRONT_FLAP_LEFT = FRONT_COVER_RIGHT
+FRONT_FLAP_RIGHT = FRONT_FLAP_LEFT + FLAP_W_IN * inch      # 19.000"
+RIGHT_BLEED_LEFT = FRONT_FLAP_RIGHT
+RIGHT_BLEED_RIGHT = DOC_W                                  # 19.375"
 
 BACK_CENTER_X = (BACK_COVER_LEFT + BACK_COVER_RIGHT) / 2
 FRONT_CENTER_X = (FRONT_COVER_LEFT + FRONT_COVER_RIGHT) / 2
@@ -162,8 +175,8 @@ def draw_front_cover(c):
     # Subtitle
     c.setFillColor(BLACK)
     c.setFont("EBGaramond-Italic", 12.5)
-    c.drawCentredString(cx, DOC_H - 2.55 * inch, "How God Has Always Made")
-    c.drawCentredString(cx, DOC_H - 2.82 * inch, "Dead Things Live")
+    c.drawCentredString(cx, DOC_H - 2.55 * inch, "How the Word and the Spirit")
+    c.drawCentredString(cx, DOC_H - 2.82 * inch, "Make Dead Things Live")
 
     # Bottom gradient for author readability
     c.saveState()
@@ -373,14 +386,16 @@ def main():
     print(f'  Document size:  {DOC_W_IN}" x {DOC_H_IN}"')
     print(f'  Spine:          {SPINE_W_IN}"')
     print(f'  Cover panel:    {COVER_W_IN}" x {DOC_H_IN}" each')
-    print(f'  Flap:           {FLAP_W_IN}" x {DOC_H_IN}"   Fold: {FOLD_W_IN}"')
+    print(f'  Flap:           {FLAP_W_IN}" x {DOC_H_IN}"   Outer bleed: {OUTER_BLEED_IN}"')
     print()
     print(f'  Panel x-positions (inches):')
+    print(f'    left bleed : {LEFT_BLEED_LEFT/inch:.3f} .. {LEFT_BLEED_RIGHT/inch:.3f}')
     print(f'    back flap  : {BACK_FLAP_LEFT/inch:.3f} .. {BACK_FLAP_RIGHT/inch:.3f}')
     print(f'    back cover : {BACK_COVER_LEFT/inch:.3f} .. {BACK_COVER_RIGHT/inch:.3f}')
     print(f'    spine      : {SPINE_LEFT/inch:.3f} .. {SPINE_RIGHT/inch:.3f}')
     print(f'    front cover: {FRONT_COVER_LEFT/inch:.3f} .. {FRONT_COVER_RIGHT/inch:.3f}')
     print(f'    front flap : {FRONT_FLAP_LEFT/inch:.3f} .. {FRONT_FLAP_RIGHT/inch:.3f}')
+    print(f'    right bleed: {RIGHT_BLEED_LEFT/inch:.3f} .. {RIGHT_BLEED_RIGHT/inch:.3f}')
 
     c = canvas.Canvas(str(OUTPUT), pagesize=(DOC_W, DOC_H))
     c.setTitle("Can These Bones Live? \u2014 Lulu Hardcover Jacket")

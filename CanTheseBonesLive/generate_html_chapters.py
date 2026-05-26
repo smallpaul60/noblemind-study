@@ -45,7 +45,7 @@ TOTAL = len(CHAPTERS)
 PROGRESS_KEY = "canTheseBonesLive_progress"
 
 BOOK_TITLE = "Can These Bones Live?"
-BOOK_SUBTITLE = "How God Has Always Made Dead Things Live"
+BOOK_SUBTITLE = "How the Word and the Spirit Make Dead Things Live"
 BOOK_AUTHOR = "Paul Hainline"
 
 # Index page intro blurb (from generate_lulu_paperback_cover.py body_paragraphs)

@@ -168,10 +168,10 @@ def draw_front_cover(c):
     # --- Subtitle ---
     c.setFillColor(Color(0, 0, 0))
     c.setFont("EBGaramond-Italic", 12.5)
-    c.drawCentredString(cx, DOC_H - 2.55 * inch, "How God Has Always Made")
-    c.drawCentredString(cx, DOC_H - 2.82 * inch, "Dead Things Live")
-    check_front_safety(c, "How God Has Always Made", "EBGaramond-Italic", 12, cx)
-    check_front_safety(c, "Dead Things Live", "EBGaramond-Italic", 12, cx)
+    c.drawCentredString(cx, DOC_H - 2.55 * inch, "How the Word and the Spirit")
+    c.drawCentredString(cx, DOC_H - 2.82 * inch, "Make Dead Things Live")
+    check_front_safety(c, "How the Word and the Spirit", "EBGaramond-Italic", 12, cx)
+    check_front_safety(c, "Make Dead Things Live", "EBGaramond-Italic", 12, cx)
 
     # --- Bottom gradient for author readability ---
     c.saveState()
