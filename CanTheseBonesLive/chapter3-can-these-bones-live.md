@@ -8,7 +8,7 @@ That is the first thing a careful reader must understand about the death that ch
 
 The death of a nation works the same way.
 
-Israel did not wake up one morning in the valley. The bones dried out over generations — slowly, silently, one degree at a time. And the drying always began in the same place: the word of God went quiet. Not all at once. Not in a dramatic moment of national rebellion. It faded. The voice that had sustained them grew faint, and the people gradually stopped noticing it was gone.
+Israel did not wake up one morning in the valley. The bones dried out over generations — slowly, silently, one degree at a time. And the drying began where Scripture shows it begin: the word of God went quiet. Not all at once. Not in a dramatic moment of national rebellion. It faded. The voice that had sustained them grew faint, and the people gradually stopped noticing it was gone.
 
 Scripture describes this process in precise terms, and it is worth tracing the progression from the earliest warning to the final silence.
 

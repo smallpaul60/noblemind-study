@@ -42,7 +42,7 @@ The things that remain. There were still remnants — elements of life that had 
 
 Then the command: "So remember what you have received and heard; and keep it, and repent" (Revelation 3:3).
 
-Remember what you have received and heard. The word. The teaching. The apostolic message that gave Sardis its life in the first place. Christ did not tell them to seek a new experience. He did not prescribe a new method. He told them to go back to what they had received — the word they had heard — and keep it. Hold onto it. Obey it. The remedy for death is the same remedy it has always been: return to the word.
+Remember what you have received and heard. The word. The teaching. The apostolic message that gave Sardis its life in the first place. Christ did not tell them to seek a new experience. He did not prescribe a new method. He told them to go back to what they had received — the word they had heard — and keep it. Hold onto it. Obey it. The remedy for death is the remedy Scripture has named from the beginning: return to the word.
 
 And repent. Turn around. The death was not something that had happened to Sardis from the outside. It was something that had happened because they had let go of what they had received. The breath departed because the word was no longer being kept. The solution was to return to it.
 

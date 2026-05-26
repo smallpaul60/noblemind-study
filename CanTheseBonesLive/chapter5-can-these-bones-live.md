@@ -126,7 +126,7 @@ When was the last time the word of God produced that response?
 
 The cause of the death has been established. The word went silent. The priests stopped teaching. The people stopped listening. The book was in the temple and no one opened it. The bones dried out over generations, one degree at a time, until the valley was all that remained.
 
-But God did not leave Ezekiel in the valley just to show him the death. He brought him there to show him the remedy. And the remedy begins the same way it has always begun — with a voice.
+But God did not leave Ezekiel in the valley just to show him the death. He brought him there to show him the remedy. And the remedy begins where Scripture shows it begin — with a voice.
 
 "Prophesy over these bones."
 

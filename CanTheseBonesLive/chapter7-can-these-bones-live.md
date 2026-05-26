@@ -154,7 +154,7 @@ God told Ezekiel to call the *ruach* from the four winds to *naphach* — breath
 
 The risen Christ stood before His disciples and *emphysaō* — breathed on them. "Receive the Holy Spirit."
 
-The mechanism has never changed.
+Scripture records no other mechanism.
 
 ---
 

@@ -152,7 +152,7 @@ Peter recognized these two events as the same kind of thing. And by calling Acts
 
 Every other conversion recorded in Acts follows the normative pattern Peter laid down in Acts 2:38. The word is preached. The hearers respond — they repent, they are baptized. The gift of the Holy Spirit is received. No tongues of fire. No sound from heaven. No visible outpouring to convince onlookers. The Samaritans in Acts 8 (Acts 8:12-17). The Ethiopian in Acts 8 (Acts 8:36-38). Saul of Tarsus in Acts 9 (Acts 9:17-18). Lydia and the Philippian jailer in Acts 16 (Acts 16:14-15, 30-33). The Ephesian disciples in Acts 19 (Acts 19:1-6). In each case, the pattern is the same — word and Spirit, structure and breath, the mechanism that has operated since the garden.
 
-The distinction between the extraordinary and the ordinary does not weaken the thesis. It strengthens it. The miraculous signs of Acts 2 and Acts 10 were God making visible what normally happens invisibly. The mechanism underneath is the same in every case. The word goes out. The Spirit is given. The dead come to life. What changed in those two special moments was not the mechanism — it was how much of it God allowed the witnesses to see.
+The distinction between the extraordinary and the ordinary does not weaken the thesis. It strengthens it. The miraculous signs of Acts 2 and Acts 10 were God making visible what normally happens invisibly. The mechanism underneath, wherever Scripture shows it, is the same. The word goes out. The Spirit is given. The dead come to life. What changed in those two special moments was not the mechanism — it was how much of it God allowed the witnesses to see.
 
 ---
 
