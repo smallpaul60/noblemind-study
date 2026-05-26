@@ -70,6 +70,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='audio-files/' \
   --exclude='apostle-paul/paul-*-journey.png' \
   --exclude='apostle-paul/paul-taken-to-rome.png' \
+  --exclude='apostle-paul/SPOKE_PLAN.md' \
   "$SITE_DIR/" "$VPS_HOST:$VPS_DIR/"
 echo "Files synced."
 echo ""
