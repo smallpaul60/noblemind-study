@@ -94,10 +94,14 @@ COVER_SAFETY = 0.5 * inch
 FLAP_SAFETY = 0.5 * inch
 BACK_BLURB_INSET = 0.75 * inch   # extra breathing room inside back cover
 
-# Visual-balance shifts (nudge text toward the spine). The geometric
-# panel centers are mathematically symmetric, but the Lulu preview reads
-# flap text as pulled toward the outer edges, so we pre-shift it inward.
-FLAP_VISUAL_SHIFT = 0.20 * inch
+# Visual-balance shifts. The geometric panel centers are mathematically
+# symmetric, but the Lulu preview reads flap text as cramped against
+# the spine — so we shift it OUTWARD (away from the spine, toward the
+# free edge of the flap). 0.15" lands the text-block outer edge right
+# at the 0.5" outer safety margin without violating it. Back-cover
+# blurb is biased toward the spine by 0.10" to compensate for the
+# back-cover-side fold visibility.
+FLAP_VISUAL_SHIFT = 0.15 * inch
 BACK_VISUAL_SHIFT = 0.10 * inch
 
 
@@ -271,8 +275,8 @@ def draw_front_flap(c):
     safe_left = FRONT_FLAP_LEFT + FLAP_SAFETY
     safe_right = FRONT_FLAP_RIGHT - FLAP_SAFETY
     text_width = safe_right - safe_left
-    # Pull text toward the spine (shift left for the right-hand flap)
-    flap_cx = (FRONT_FLAP_LEFT + FRONT_FLAP_RIGHT) / 2 - FLAP_VISUAL_SHIFT
+    # Push text toward the outer edge (shift right for the right-hand flap)
+    flap_cx = (FRONT_FLAP_LEFT + FRONT_FLAP_RIGHT) / 2 + FLAP_VISUAL_SHIFT
 
     c.setFillColor(CREAM)
     y = DOC_H - 0.85 * inch
@@ -335,8 +339,8 @@ def draw_back_flap(c):
     safe_left = BACK_FLAP_LEFT + FLAP_SAFETY
     safe_right = BACK_FLAP_RIGHT - FLAP_SAFETY
     text_width = safe_right - safe_left
-    # Pull text toward the spine (shift right for the left-hand flap)
-    flap_cx = (BACK_FLAP_LEFT + BACK_FLAP_RIGHT) / 2 + FLAP_VISUAL_SHIFT
+    # Push text toward the outer edge (shift left for the left-hand flap)
+    flap_cx = (BACK_FLAP_LEFT + BACK_FLAP_RIGHT) / 2 - FLAP_VISUAL_SHIFT
 
     c.setFillColor(GOLD_LIGHT)
     y = DOC_H - 0.85 * inch
