@@ -24,7 +24,12 @@ from pathlib import Path
 from weasyprint import HTML
 
 ROOT = Path(__file__).resolve().parent.parent
-APOSTLE_DIR = ROOT / "apostle-paul"
+APOSTLE_DIR = ROOT / "apostle-paul"  # legacy default; per-spoke `dir` field overrides
+
+
+def spoke_dir(spoke):
+    """Resolve a spoke's working directory (defaults to apostle-paul/)."""
+    return ROOT / spoke.get("dir", "apostle-paul")
 
 # Parchment palette (same as the HTML spokes)
 PARCHMENT = "#F5EDD6"
@@ -91,6 +96,15 @@ SPOKES = [
         "title": "Paul’s Conversion in Three Tellings",
         "subtitle": "Acts 9 · Acts 22 · Acts 26 — Side by Side",
         "date_range": "",
+    },
+    {
+        "kind": "ot",
+        "dir": "old-testament-timeline",
+        "source": "index.html",
+        "output": "Old_Testament_Timeline.pdf",
+        "title": "The Old Testament Timeline",
+        "subtitle": "From Creation to Malachi — The Unfolding of God’s Plan",
+        "date_range": "c. 4000 BC – c. 400 BC",
     },
 ]
 
@@ -183,6 +197,7 @@ body {{
   text-align: center;
   padding-top: 2.5in;
   position: relative;
+  min-height: 9in; /* fill the page so .source absolute-positions to the bottom */
 }}
 .title-page h1 {{
   font-family: Georgia, 'Times New Roman', serif;
@@ -225,14 +240,11 @@ body {{
   line-height: 1.55;
 }}
 .title-page .source {{
-  position: absolute;
-  bottom: 0.5in;
-  left: 0;
-  right: 0;
   text-align: center;
   font-size: 9pt;
   color: {GRAY};
   font-style: italic;
+  margin: 18pt auto 0 auto;
 }}
 .phase {{
   text-align: center;
@@ -434,14 +446,19 @@ def title_page(spoke):
                 "witnesses; they are the same event narrated for three different audiences. "
                 "This document lays them side by side feature-by-feature, with commentary on "
                 "the apparent contradictions.")
+    elif spoke["kind"] == "ot":
+        note = ("One hundred fifteen events across thirteen phases. Structural framework drawn "
+                "from Bob Waldron's teaching. Hebrew Masoretic chronology with the Exodus at "
+                "1446 BC; pre-patriarchal dates use the broader Ussher-style framework.")
 
+    site_path = spoke.get("dir", "apostle-paul") + "/"
     return f"""<div class="title-page">
   <h1>{spoke['title']}</h1>
   <h2>{spoke['subtitle']}</h2>
   {f'<div class="date-range">{spoke["date_range"]}</div>' if spoke['date_range'] else ''}
   <div class="rule"></div>
+  <div class="source">Primary Source: Holy Scripture &nbsp;&middot;&nbsp; noblemind.study/{site_path}</div>
   <div class="note">{note}</div>
-  <div class="source">Primary Source: Holy Scripture &nbsp;&middot;&nbsp; noblemind.study/apostle-paul/</div>
 </div>"""
 
 
@@ -475,7 +492,7 @@ def render_event(event, types_map):
 
 
 def render_chronological(spoke):
-    source = APOSTLE_DIR / spoke["source"]
+    source = spoke_dir(spoke) / spoke["source"]
     events = extract_js_array(source, "events")
     phases = extract_js_array(source, "PHASES") or []
     # Some pages name it PHASE_LABELS instead (Life timeline)
@@ -524,10 +541,11 @@ def render_chronological(spoke):
         for ev in events:
             body_parts.append(render_event(ev, types_map))
 
+    site_url = f"https://noblemind.study/{spoke.get('dir', 'apostle-paul')}/"
     body_parts.append(
         '<footer class="print-footer">'
         '<p>Compiled from the Holy Bible &middot; '
-        '<a href="https://noblemind.study/apostle-paul/" style="color:inherit;">noblemind.study/apostle-paul/</a></p>'
+        f'<a href="{site_url}" style="color:inherit;">{site_url[8:]}</a></p>'
         '<p>Generated automatically &mdash; this document mirrors the interactive timeline online.</p>'
         '</footer>'
     )
@@ -536,7 +554,7 @@ def render_chronological(spoke):
 
 
 def render_conversion(spoke):
-    source = APOSTLE_DIR / spoke["source"]
+    source = spoke_dir(spoke) / spoke["source"]
     comparisons = extract_js_array(source, "comparisons")
     commentaries = extract_js_array(source, "commentaries")
 
@@ -610,19 +628,20 @@ def wrap_html(title, body):
 
 
 def main():
-    print(f"Building Apostle Paul timeline PDFs into {APOSTLE_DIR}/\n")
+    print(f"Building timeline PDFs\n")
     for spoke in SPOKES:
-        source = APOSTLE_DIR / spoke["source"]
-        output = APOSTLE_DIR / spoke["output"]
+        sd = spoke_dir(spoke)
+        source = sd / spoke["source"]
+        output = sd / spoke["output"]
         if not source.exists():
             print(f"  SKIP   {spoke['output']:<42} (source {spoke['source']} not found)")
             continue
-        print(f"  build  {spoke['output']:<42} <- {spoke['source']}")
+        print(f"  build  {spoke['output']:<42} <- {sd.name}/{spoke['source']}")
         if spoke["kind"] == "conversion":
             html = render_conversion(spoke)
         else:
             html = render_chronological(spoke)
-        HTML(string=html, base_url=str(APOSTLE_DIR)).write_pdf(str(output))
+        HTML(string=html, base_url=str(sd)).write_pdf(str(output))
         size_kb = output.stat().st_size / 1024
         print(f"         {size_kb:>7.1f} KB")
     print("\nDone.")
