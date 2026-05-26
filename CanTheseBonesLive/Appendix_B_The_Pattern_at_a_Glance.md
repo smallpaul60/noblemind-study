@@ -2,7 +2,7 @@
 
 ## The Pattern at a Glance
 
-God brings dead things to life by two means — His word and His Spirit. Both are required. The word provides structure. The Spirit provides life. Together — and only together — they produce what neither can produce alone.
+God brings dead things to life by two means — His word and His Spirit. Both are required. The word provides structure. The Spirit provides life. Together, they produce what neither can produce alone.
 
 | Scale | Form / Structure | Breath / Life | Result |
 |---|---|---|---|

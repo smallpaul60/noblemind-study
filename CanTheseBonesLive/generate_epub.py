@@ -216,8 +216,8 @@ def main():
         'God showed Ezekiel a valley of dry bones and asked the one question '
         'only God can answer: can these live? The answer, then and now, is '
         'the same — and it comes by the same means. The word of God gives '
-        'form. The Spirit of God gives life. Together, and only together, '
-        'they raise the dead. Eleven chapters trace that pattern from Eden '
+        'form. The Spirit of God gives life. Together, they raise the dead. '
+        'Eleven chapters trace that pattern from Eden '
         'through the prophets, into the ministry of Jesus, out through the '
         'church of Acts, and forward to the last page of Revelation.')
 

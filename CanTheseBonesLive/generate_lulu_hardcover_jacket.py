@@ -239,7 +239,7 @@ def draw_back_cover(c):
     line_height = 13.5
     body_paragraphs = [
         "God showed Ezekiel a valley of dry bones and asked the one question only God can answer: can these live?",
-        "The answer, then and now, is the same \u2014 and it comes by the same means. The word of God gives form. The Spirit of God gives life. Together, and only together, they make dead things stand.",
+        "The answer, then and now, is the same \u2014 and it comes by the same means. The word of God gives form. The Spirit of God gives life. Together, they make dead things stand.",
         "This book traces that single pattern through the whole Bible, from the dust of Eden to the rushing wind of Pentecost, from the valley of bones to the seven letters Christ dictated to His own church. At every scale \u2014 creation, restoration, new birth, conversion \u2014 the mechanism is the same. Where the word goes silent or the breath is withheld, the bones dry out. Where both are present, the dead rise.",
         "Eleven chapters. One question. One pattern. One God who has been doing this from the beginning.",
     ]
@@ -302,7 +302,7 @@ def draw_front_flap(c):
         ("EBGaramond", 9,
             "Scripture answers it \u2014 not with a platitude, but with a "
             "pattern. The word of God gives form. The Spirit of God gives "
-            "life. Together, and only together, they make dead things stand."),
+            "life. Together, they make dead things stand."),
         ("EBGaramond", 9,
             "From the dust of Eden to the rushing wind of Pentecost, from "
             "the valley of bones to the seven letters Christ dictated to "
