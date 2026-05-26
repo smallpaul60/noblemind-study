@@ -16,6 +16,12 @@ echo "Deploying noblemind.study"
 echo "=========================================="
 echo ""
 
+# Step 1a: Rebuild Apostle Paul timeline PDFs from the live HTML so the
+# downloadable PDFs always match what's online.
+echo "[1a/4] Rebuilding Apostle Paul timeline PDFs..."
+python3 "$SITE_DIR/tools/build_timeline_pdfs.py"
+echo ""
+
 # Step 1: Regenerate sitemap.xml and robots.txt so <lastmod> timestamps stay current
 echo "[1/4] Regenerating sitemap.xml and robots.txt..."
 python3 "$SITE_DIR/tools/gen_sitemap.py"
