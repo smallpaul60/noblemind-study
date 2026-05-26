@@ -1073,6 +1073,39 @@
     margin-bottom: 5px;
   }
 
+  /* Permanent city-name tooltips on themed (journey) markers */
+  .leaflet-tooltip.city-label {
+    background: rgba(245, 240, 230, 0.92);
+    color: #2A1A05;
+    border: 1px solid rgba(107, 76, 26, 0.45);
+    border-radius: 3px;
+    padding: 1px 6px;
+    font-family: 'Georgia', serif;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+  }
+  .leaflet-tooltip.city-label::before { display: none; } /* hide arrow */
+
+  /* Timeline link in map legend (shown for Paul-journey themes) */
+  .legend-timeline-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 4px 10px;
+    background: rgba(232, 185, 35, 0.15);
+    border: 1px solid rgba(232, 185, 35, 0.5);
+    border-radius: 4px;
+    color: #e8b923;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .legend-timeline-link:hover {
+    background: rgba(232, 185, 35, 0.3);
+    color: #fff;
+  }
+
   .map-search-item {
     padding: 10px 15px;
     cursor: pointer;
@@ -6635,7 +6668,29 @@ function addAncientLabels() {
     { name: 'PERSIA', lat: 30.0, lon: 52.0, size: 'large' },
     { name: 'ARABIA', lat: 25.0, lon: 40.0, size: 'large' },
     { name: 'SINAI', lat: 29.5, lon: 34.0, size: 'medium' },
-    { name: 'MIDIAN', lat: 28.5, lon: 35.0, size: 'small' }
+    { name: 'MIDIAN', lat: 28.5, lon: 35.0, size: 'small' },
+    // NT-era regions (Asia Minor, Greece, Italy) for Paul's journeys
+    { name: 'CILICIA', lat: 36.85, lon: 34.5, size: 'small' },
+    { name: 'PAMPHYLIA', lat: 37.0, lon: 31.0, size: 'small' },
+    { name: 'PISIDIA', lat: 37.7, lon: 30.7, size: 'small' },
+    { name: 'LYCAONIA', lat: 37.7, lon: 32.7, size: 'small' },
+    { name: 'GALATIA', lat: 39.5, lon: 32.5, size: 'medium' },
+    { name: 'PHRYGIA', lat: 38.7, lon: 30.0, size: 'small' },
+    { name: 'CAPPADOCIA', lat: 38.5, lon: 35.5, size: 'small' },
+    { name: 'BITHYNIA', lat: 40.7, lon: 30.5, size: 'small' },
+    { name: 'MYSIA', lat: 39.7, lon: 27.5, size: 'small' },
+    { name: 'LYDIA', lat: 38.5, lon: 28.0, size: 'small' },
+    { name: 'ASIA', lat: 38.2, lon: 28.7, size: 'medium' },
+    { name: 'LYCIA', lat: 36.5, lon: 29.5, size: 'small' },
+    { name: 'CYPRUS', lat: 35.0, lon: 33.2, size: 'small' },
+    { name: 'MACEDONIA', lat: 41.0, lon: 22.5, size: 'medium' },
+    { name: 'THRACE', lat: 41.5, lon: 26.5, size: 'small' },
+    { name: 'ACHAIA', lat: 38.0, lon: 22.5, size: 'medium' },
+    { name: 'EPIRUS', lat: 39.5, lon: 20.5, size: 'small' },
+    { name: 'ILLYRICUM', lat: 42.5, lon: 19.5, size: 'small' },
+    { name: 'ITALY', lat: 42.5, lon: 13.0, size: 'large' },
+    { name: 'SICILY', lat: 37.6, lon: 14.0, size: 'small' },
+    { name: 'CRETE', lat: 35.2, lon: 24.8, size: 'small' }
   ];
 
   // Create water labels
@@ -6727,6 +6782,13 @@ function selectMapTheme(themeId) {
           popupContent += '</div>';
         }
         marker.bindPopup(popupContent);
+        // Permanent label so the city name reads at a glance (matches reference maps)
+        marker.bindTooltip(loc.name, {
+          permanent: true,
+          direction: 'right',
+          offset: [8, 0],
+          className: 'city-label'
+        });
         marker.addTo(bibleMap);
         mapMarkers.push(marker);
       }
@@ -6746,6 +6808,12 @@ function selectMapTheme(themeId) {
         popupContent += '<div class="popup-verses">' + cm.note + '</div>';
       }
       marker.bindPopup(popupContent);
+      marker.bindTooltip(cm.name, {
+        permanent: true,
+        direction: 'right',
+        offset: [8, 0],
+        className: 'city-label'
+      });
       marker.addTo(bibleMap);
       mapMarkers.push(marker);
     });
@@ -6762,6 +6830,10 @@ function selectMapTheme(themeId) {
       legendHtml += '</ol>';
     } else {
       legendHtml += '<small>' + theme.locations.length + ' locations</small>';
+    }
+    // For Paul-era themes, link out to the chronological life timeline
+    if (themeId === 'paul1' || themeId === 'paul2' || themeId === 'paul3' || themeId === 'rome') {
+      legendHtml += '<a href="apostle-paul/" target="_blank" class="legend-timeline-link">View Paul’s life timeline →</a>';
     }
     legendHtml += '</div>';
     document.getElementById('mapLegend').innerHTML = legendHtml;
