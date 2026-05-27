@@ -445,6 +445,10 @@ const DEEPDIVE_ATONEMENT = {
   label: "Step through the Day of Atonement — two goats, one offering →",
   href: "../the-day-of-atonement/"
 };
+const DEEPDIVE_APPOINTED = {
+  label: "Walk the appointed times of the LORD — Leviticus 23 feast by feast →",
+  href: "../the-appointed-times/"
+};
 
 // Companion books on this site that touch the OT timeline directly
 const BOOK_LAMB = {
@@ -841,7 +845,7 @@ const events = [
     detail: "Leviticus opens with the offerings — burnt, grain, peace, sin, guilt. Aaron and his sons are consecrated; Nadab and Abihu offer strange fire and are struck dead. Clean and unclean animals; laws of childbirth, leprosy, bodily discharges. The Day of Atonement — the great annual atonement at the mercy seat with two goats: one sacrificed, one bearing the sins of Israel into the wilderness. The feasts: Sabbath, Passover, Unleavened Bread, Firstfruits, Pentecost, Trumpets, Atonement, Tabernacles. The year of Jubilee. <em>You shall be holy, for I the Lord your God am holy.</em>",
     ref: "Leviticus",
     secondary: "Hebrews 9–10 treats the Day of Atonement as the type fulfilled in Christ's once-for-all sacrifice. The priestly system operates inside and around the tabernacle — every offering moves through the sequence: gate, altar, laver, holy place, veil, ark.",
-    deepDive: DEEPDIVE_ATONEMENT
+    deepDives: [DEEPDIVE_ATONEMENT, DEEPDIVE_APPOINTED]
   },
   {
     date: "About a year out",
@@ -1640,7 +1644,9 @@ function renderTimeline() {
     // Alternate sides
     const isLeft = globalIdx % 2 === 0;
 
-    const badge = ev.deepDive ? '<span class="deep-badge">deep dive</span>' : '';
+    // Normalize deepDives: accept either `deepDive` (single) or `deepDives` (array)
+    const deepDives = ev.deepDives || (ev.deepDive ? [ev.deepDive] : []);
+    const badge = deepDives.length ? '<span class="deep-badge">deep dive</span>' : '';
     el.innerHTML = `
       <div class="event-card" style="border-left-color: ${col}; ${isLeft ? '' : 'border-left: none; border-right: 4px solid ' + col}">
         <div class="event-date">${ev.date}</div>
@@ -1650,7 +1656,7 @@ function renderTimeline() {
         <div class="event-detail">
           <p>${ev.detail}</p>
           ${ev.secondary ? `<div class="secondary">📜 Secondary Source: ${ev.secondary}</div>` : ''}
-          ${ev.deepDive ? `<a class="deep-dive-link" href="${ev.deepDive.href}" onclick="event.stopPropagation()">🔍 ${ev.deepDive.label}</a>` : ''}
+          ${deepDives.map(d => `<a class="deep-dive-link" href="${d.href}" onclick="event.stopPropagation()">🔍 ${d.label}</a>`).join('')}
           ${ev.bookLink ? `<a class="book-link" href="${ev.bookLink.href}" onclick="event.stopPropagation()">📖 ${ev.bookLink.label}</a>` : ''}
         </div>
       </div>

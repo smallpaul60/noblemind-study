@@ -483,10 +483,15 @@ def render_event(event, types_map):
         parts.append(f'<div class="event-detail"><p>{event["detail"]}</p></div>')
     if event.get("secondary"):
         parts.append(f'<div class="event-secondary">{event["secondary"]}</div>')
-    if event.get("deepDive") and event["deepDive"].get("label"):
-        parts.append(
-            f'<div class="deep-dive-note">&rarr; {html_lib.escape(event["deepDive"]["label"])}</div>'
-        )
+    # Accept either deepDive (single) or deepDives (array)
+    deep_dives = event.get("deepDives") or (
+        [event["deepDive"]] if event.get("deepDive") else []
+    )
+    for dd in deep_dives:
+        if dd and dd.get("label"):
+            parts.append(
+                f'<div class="deep-dive-note">&rarr; {html_lib.escape(dd["label"])}</div>'
+            )
     if event.get("bookLink") and event["bookLink"].get("label"):
         parts.append(
             f'<div class="deep-dive-note">&rarr; {html_lib.escape(event["bookLink"]["label"])}</div>'
