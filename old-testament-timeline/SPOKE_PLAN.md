@@ -233,7 +233,47 @@ the Moabite widow whose redemption pictures Christ's also becomes
 Christ's literal ancestor. *The type and the fulfillment share a
 bloodline.* Few typological studies have a payoff that sharp.
 
-### 7. The Divided Kingdom Synoptic
+### 7. The Seven Appointed Times (Leviticus 23)
+
+**Shape:** A side-by-side study of the seven annual festivals plus the
+Sabbath, in chronological order through the year, with each festival
+showing its date, ritual elements, Old Testament meaning, and New
+Testament fulfillment:
+
+1. **Sabbath** (Lev 23:3) — weekly rest
+2. **Passover** (Nisan 14, Lev 23:5) — fulfilled at Christ's death
+3. **Unleavened Bread** (Nisan 15–21, Lev 23:6–8) — fulfilled in
+   Christ's sinless body in the tomb
+4. **Firstfruits** (the day after the Sabbath of Unleavened Bread,
+   Lev 23:9–14) — fulfilled in Christ's resurrection (1 Cor 15:20)
+5. **Pentecost / Weeks** (50 days after Firstfruits, Lev 23:15–22) —
+   fulfilled at the giving of the Spirit (Acts 2)
+6. **Trumpets** (Tishri 1, Lev 23:23–25) — the great trumpet call;
+   often connected to Christ's return
+7. **Day of Atonement** (Tishri 10, Lev 23:26–32) — see the
+   dedicated spoke
+8. **Tabernacles / Booths** (Tishri 15–21, Lev 23:33–43) — God
+   dwelling with man
+
+**Anchor events:**
+- The book of Leviticus / the priestly system (Phase 5)
+- Optional sidebar: The Passover event (Phase 5)
+- Optional sidebar: Pentecost in Acts (from the Apostle Paul hub)
+
+**Complexity:** *Medium.* Structurally similar to the Covenants
+spoke (parallel cards). The chronological spring → fall arrangement
+makes a strong visual story: the spring feasts cluster around
+Christ's death, burial, resurrection, and the giving of the Spirit;
+the fall feasts remain awaiting fulfillment.
+
+**Why it matters:** Each feast is a divine appointment Christ
+deliberately kept. He died on Passover. He was in the tomb during
+Unleavened Bread. He rose on Firstfruits — Paul calls this out
+explicitly (1 Cor 15:20). The Spirit came on Pentecost. The
+precision of God in the calendar of redemption is the same
+precision the Lamb and Tabernacle spokes show in other domains.
+
+### 8. The Divided Kingdom Synoptic
 
 **Shape:** Two parallel horizontal tracks running 931 BC → present-end-
 of-each-kingdom (722 BC for Israel, 586 BC for Judah). Each king on
@@ -274,12 +314,13 @@ most expensive build of the lot.
 | Order | Spoke | Tier | Complexity | Rationale |
 |---|---|---|---|---|
 | 1 | Passover Lamb (Lamb God Provides) | 1 | S | ✅ done. Validated the typology-sequence pattern. |
-| 2 | Tabernacle | 1 | M | Well-defined data; strong visualization; type-of-Christ teaching is core |
-| 3 | Kinsman-Redeemer (Ruth → Christ) | 1–2 | S–M | Same shape as the Lamb spoke; tight story; the type-becomes-genealogy payoff is sharp |
-| 4 | Covenants | 2 | M | Theological spine of the whole Bible; structured-table fits cleanly |
-| 5 | Day of Atonement | 2 | M-L | Natural follow-on to Tabernacle (re-uses the diagram) |
-| 6 | Promise Threads | 3 | L | Beautiful concept but the design is the real work; do after pattern is mature |
-| 7 | Divided Kingdom Synoptic | 3 | L | Most ambitious data work; substantial king-by-king research |
+| 2 | Tabernacle | 1 | M | ✅ done. |
+| 3 | Kinsman-Redeemer (Ruth → Christ) | 1–2 | S–M | ✅ done. The type-becomes-genealogy payoff is sharp. |
+| 4 | Covenants | 2 | M | ✅ done. Five covenants side by side. |
+| 5 | Day of Atonement | 2 | M-L | Natural follow-on to Tabernacle (re-uses the priestly framework) |
+| 6 | The Seven Appointed Times (Lev 23) | 2 | M | Parallel to Covenants; spring vs fall feasts is the structural story |
+| 7 | Promise Threads | 3 | L | Beautiful concept but the design is the real work; do after pattern is mature |
+| 8 | Divided Kingdom Synoptic | 3 | L | Most ambitious data work; substantial king-by-king research |
 
 The progression goes **small/contained → larger/more design → most
 ambitious**. Each spoke we build teaches us something about what works
