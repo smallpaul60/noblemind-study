@@ -653,6 +653,7 @@ SPOKE_DIRS = [
     "the-day-of-atonement",
     "the-appointed-times",
     "the-promise-threads",
+    "the-divided-kingdom",
     "genesis-genealogy",
     "apostle-paul",
 ]

@@ -321,7 +321,7 @@ most expensive build of the lot.
 | 6 | The Appointed Times of the LORD (Lev 23) | 2 | M | ✅ done. Renamed from "Seven Appointed Times" to avoid dispensationalist framing. |
 | 7 | Promise Threads | 3 | L | ✅ done. Eight threads, NT-named correspondences only. BEREAN_BRIEF.md drift-prevention now in place. |
 | 7 | Promise Threads | 3 | L | Beautiful concept but the design is the real work; do after pattern is mature |
-| 8 | Divided Kingdom Synoptic | 3 | L | Most ambitious data work; substantial king-by-king research |
+| 8 | Divided Kingdom Synoptic | 3 | L | ✅ done. 40 kings, 13 prophets, 8 external anchors on a 345-year two-track chart; Scripture's own verdict cited per king. |
 
 The progression goes **small/contained → larger/more design → most
 ambitious**. Each spoke we build teaches us something about what works
