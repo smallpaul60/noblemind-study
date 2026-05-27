@@ -319,6 +319,7 @@ most expensive build of the lot.
 | 4 | Covenants | 2 | M | ✅ done. Five covenants side by side. |
 | 5 | Day of Atonement | 2 | M-L | ✅ done. |
 | 6 | The Appointed Times of the LORD (Lev 23) | 2 | M | ✅ done. Renamed from "Seven Appointed Times" to avoid dispensationalist framing. |
+| 7 | Promise Threads | 3 | L | ✅ done. Eight threads, NT-named correspondences only. BEREAN_BRIEF.md drift-prevention now in place. |
 | 7 | Promise Threads | 3 | L | Beautiful concept but the design is the real work; do after pattern is mature |
 | 8 | Divided Kingdom Synoptic | 3 | L | Most ambitious data work; substantial king-by-king research |
 

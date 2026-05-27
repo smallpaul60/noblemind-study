@@ -528,6 +528,103 @@ FLAGGED_TERMS = [
 
     (r'\bdo life\b', 'religious jargon',
      'Modern church catchphrase. Say what you mean directly.'),
+
+    # ── Denominational frames (added for spokes/doctrinal pages) ──
+    # See old-testament-timeline/BEREAN_BRIEF.md for the full rationale.
+    # These patterns target SPECIFIC denominational phrasings, not bare
+    # words that legitimately appear in Scripture (e.g., "elect" alone
+    # is fine; "TULIP" or "perseverance of the saints" is the system).
+
+    # Dispensationalism
+    (r'\bpre-?tribulation\b', 'denominational frame',
+     'Dispensationalist eschatology. The pre-trib rapture is not in Scripture in this form. '
+     'See old-testament-timeline/BEREAN_BRIEF.md.'),
+    (r'\bthe\s+rapture\b', 'denominational frame',
+     'Dispensationalist eschatology. 1 Thess 4:17 uses "caught up" (Greek harpazo); '
+     '"the rapture" is a system-loaded term. See BEREAN_BRIEF.md.'),
+    (r'\bthe\s+tribulation(?:\s+period)?\b', 'denominational frame',
+     'Dispensationalist scheme. Scripture speaks of tribulation generally but '
+     '"the tribulation [period]" names a specific dispensational construct. See BEREAN_BRIEF.md.'),
+    (r'\b(?:pre|post|a)-?millennial\b', 'denominational frame',
+     'Eschatological system label. Use Scripture\'s own language about the kingdom. '
+     'See BEREAN_BRIEF.md.'),
+    (r'\bmillennial\s+reign\b', 'denominational frame',
+     'Specific eschatological construct. Rev 20\'s thousand years is the text; '
+     'the "millennial reign" framing is a system. See BEREAN_BRIEF.md.'),
+    (r'\bthe\s+millennium\b', 'denominational frame',
+     'Same as above — system framing. See BEREAN_BRIEF.md.'),
+    (r'\b(?:seven\s+)?dispensations?\b', 'denominational frame',
+     'Dispensationalist age-scheme. Not the Bible\'s own organizing framework. '
+     'See BEREAN_BRIEF.md.'),
+    (r'\btwo\s+peoples?\s+of\s+God\b', 'denominational frame',
+     'Dispensationalist separation of Israel and the church into two destinies. '
+     'See BEREAN_BRIEF.md.'),
+
+    # Hebrew Roots / Sacred Name
+    (r'\bYahshua\b|\bYahushua\b', 'denominational frame',
+     'Sacred Name movement. Use the NT\'s own "Jesus" / "Yeshua" in context. '
+     'See BEREAN_BRIEF.md.'),
+    (r'\bsacred\s+name\b', 'denominational frame',
+     'Sacred Name movement marker. See BEREAN_BRIEF.md.'),
+
+    # Reformed / Calvinist
+    (r'\bTULIP\b', 'denominational frame',
+     'Calvinist acronym (Total depravity, Unconditional election, Limited atonement, '
+     'Irresistible grace, Perseverance of the saints). Not Scripture\'s vocabulary. '
+     'See BEREAN_BRIEF.md.'),
+    (r'\btotal\s+depravity\b', 'denominational frame',
+     'Calvinist doctrinal label. See BEREAN_BRIEF.md.'),
+    (r'\bunconditional\s+election\b', 'denominational frame',
+     'Calvinist doctrinal label. See BEREAN_BRIEF.md.'),
+    (r'\blimited\s+atonement\b', 'denominational frame',
+     'Calvinist doctrinal label. See BEREAN_BRIEF.md.'),
+    (r'\birresistible\s+grace\b', 'denominational frame',
+     'Calvinist doctrinal label. See BEREAN_BRIEF.md.'),
+    (r'\bperseverance\s+of\s+the\s+saints\b', 'denominational frame',
+     'Calvinist doctrinal label (the "P" in TULIP). See BEREAN_BRIEF.md.'),
+    (r'\bdoctrines?\s+of\s+grace\b', 'denominational frame',
+     'Reformed shorthand for TULIP. See BEREAN_BRIEF.md.'),
+    (r'\bdecretal\s+will\b|\btwo\s+wills\s+of\s+God\b', 'denominational frame',
+     'Reformed systematic-theology category. See BEREAN_BRIEF.md.'),
+
+    # Roman Catholic
+    (r'\bmagisterium\b', 'denominational frame',
+     'Roman Catholic teaching authority. See BEREAN_BRIEF.md.'),
+    (r'\bapostolic\s+succession\b', 'denominational frame',
+     'Magisterial-authority claim. See BEREAN_BRIEF.md.'),
+    (r'\bpurgatory\b', 'denominational frame',
+     'Roman Catholic doctrine. Not in Scripture. See BEREAN_BRIEF.md.'),
+    (r'\bco-?redemptrix\b', 'denominational frame',
+     'Marian co-redemption — Roman Catholic teaching. See BEREAN_BRIEF.md.'),
+    (r'\bseven\s+sacraments\b', 'denominational frame',
+     'Roman Catholic sacramental enumeration. See BEREAN_BRIEF.md.'),
+
+    # Pentecostal / Charismatic specifics
+    (r'\bslain\s+in\s+the\s+spirit\b', 'denominational frame',
+     'Charismatic phenomenon. Not in Scripture. See BEREAN_BRIEF.md.'),
+    (r'\bword\s+of\s+faith\b', 'denominational frame',
+     'Word-of-Faith movement label. See BEREAN_BRIEF.md.'),
+    (r'\bhealth\s+and\s+wealth\b', 'denominational frame',
+     'Prosperity-gospel marker. See BEREAN_BRIEF.md.'),
+    (r'\bholy\s+laughter\b', 'denominational frame',
+     'Charismatic phenomenon (Toronto Blessing). See BEREAN_BRIEF.md.'),
+    (r'\btongues\s+as\s+(?:the\s+)?(?:initial\s+)?evidence\b', 'denominational frame',
+     'Pentecostal initial-evidence doctrine. See BEREAN_BRIEF.md.'),
+
+    # Sentimental Evangelical
+    (r'\bpersonal\s+(?:lord\s+and\s+)?savior\b', 'denominational frame',
+     'Evangelical sentimentality. Not biblical phrasing. See BEREAN_BRIEF.md.'),
+    (r'\bask(?:ing|ed)?\s+Jesus\s+into\s+(?:your|my|our|his|her|their)\s+heart\b', 'denominational frame',
+     'Revivalist invitation language. Not in Scripture. The NT pattern is hear-believe-repent-confess-be baptized. '
+     'See BEREAN_BRIEF.md.'),
+    (r'\bthe\s+sinner\'?s\s+prayer\b', 'denominational frame',
+     'Revivalist invention. Not in Scripture. See BEREAN_BRIEF.md.'),
+    (r'\baccept\s+(?:Christ|Jesus)\s+as\s+(?:your|my|our)\s+(?:personal\s+)?(?:lord\s+and\s+)?savior\b',
+     'denominational frame',
+     'Revivalist invitation. Not the NT\'s own salvation language. See BEREAN_BRIEF.md.'),
+    (r'\bget\s+saved\b', 'denominational frame',
+     'Revivalist colloquialism. The NT uses "be saved" / "be baptized into Christ". '
+     'See BEREAN_BRIEF.md.'),
 ]
 
 # ── Books to scan ─────────────────────────────────────────────────
@@ -542,6 +639,22 @@ BOOK_DIRS = [
     "TheLoveGodCallsUsTo",
     "ThroughTheValley",
     "YourNameMeansEverything",
+]
+
+# ── Spokes / doctrinal pages to scan ──────────────────────────────
+# Each is a directory containing an index.html (the full spoke).
+# See old-testament-timeline/BEREAN_BRIEF.md for the framing brief.
+SPOKE_DIRS = [
+    "old-testament-timeline",
+    "the-lamb-god-provides",
+    "the-tabernacle",
+    "the-kinsman-redeemer",
+    "the-covenants",
+    "the-day-of-atonement",
+    "the-appointed-times",
+    "the-promise-threads",
+    "genesis-genealogy",
+    "apostle-paul",
 ]
 
 
@@ -694,38 +807,95 @@ def scan_book(book_dir, chapter_filter=None):
     return total_findings
 
 
+def scan_spoke(spoke_dir):
+    """Scan all HTML files in a spoke / doctrinal-page directory.
+    Spokes are single-page studies, not chapter sequences — so we scan
+    every .html in the directory."""
+    spoke_path = PROJECT_DIR / spoke_dir
+    if not spoke_path.exists():
+        print(f"  Directory not found: {spoke_dir}")
+        return 0
+
+    files = sorted(spoke_path.glob("*.html"))
+    total_findings = 0
+
+    for filepath in files:
+        findings = scan_file(filepath, FLAGGED_TERMS)
+        if not findings:
+            continue
+
+        print(f"\n  {filepath.name} ({len(findings)} flags)")
+        for f in findings:
+            print(f"    Line {f['line']}: \"{f['term']}\" [{f['category']}]")
+            print(f"      Context: {f['context']}")
+            print(f"      Note: {f['reason']}")
+
+        total_findings += len(findings)
+
+    return total_findings
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Check books for denominational/theological/religious jargon")
-    parser.add_argument("book", nargs="?", help="Book directory to check (default: all)")
+        description="Check books and spokes for denominational/theological/religious jargon")
+    parser.add_argument("target", nargs="?", help="Book or spoke directory to check (default: all books)")
     parser.add_argument("--chapter", type=int, help="Specific chapter number to check")
+    parser.add_argument("--spokes", action="store_true",
+                        help="Scan spoke / doctrinal-page directories instead of books")
+    parser.add_argument("--spoke", help="Scan a single spoke directory by name")
     args = parser.parse_args()
-
-    books = [args.book] if args.book else BOOK_DIRS
 
     print("=" * 60)
     print("NobleMind Press — Language Check")
     print("Scanning for denominational, theological, and religious jargon")
+    print("Brief: old-testament-timeline/BEREAN_BRIEF.md")
     print("=" * 60)
 
     grand_total = 0
 
-    for book in books:
-        print(f"\n{'─' * 60}")
-        print(f"BOOK: {book}")
-        print(f"{'─' * 60}")
+    if args.spoke:
+        # Single spoke by name
+        spokes = [args.spoke]
+        scan_mode = "spoke"
+    elif args.spokes:
+        # All spokes
+        spokes = SPOKE_DIRS
+        scan_mode = "spoke"
+    elif args.target and args.target in SPOKE_DIRS:
+        # Target name matches a spoke
+        spokes = [args.target]
+        scan_mode = "spoke"
+    else:
+        # Books mode (default)
+        books = [args.target] if args.target else BOOK_DIRS
+        scan_mode = "book"
+        spokes = None
 
-        total = scan_book(book, args.chapter)
-
-        if total > 0:
-            print(f"\n  Total flags: {total}")
-        else:
-            print(f"  Clean — no flagged terms found.")
-
-        grand_total += total
+    if scan_mode == "spoke":
+        for spoke in spokes:
+            print(f"\n{'─' * 60}")
+            print(f"SPOKE: {spoke}")
+            print(f"{'─' * 60}")
+            total = scan_spoke(spoke)
+            if total > 0:
+                print(f"\n  Total flags: {total}")
+            else:
+                print(f"  Clean — no flagged terms found.")
+            grand_total += total
+    else:
+        for book in books:
+            print(f"\n{'─' * 60}")
+            print(f"BOOK: {book}")
+            print(f"{'─' * 60}")
+            total = scan_book(book, args.chapter)
+            if total > 0:
+                print(f"\n  Total flags: {total}")
+            else:
+                print(f"  Clean — no flagged terms found.")
+            grand_total += total
 
     print(f"\n{'=' * 60}")
-    print(f"OVERALL: {grand_total} flags across all scanned books")
+    print(f"OVERALL: {grand_total} flags")
     print(f"NOTE: Not all flags require changes. Review each in context.")
     print(f"{'=' * 60}")
 
