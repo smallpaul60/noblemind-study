@@ -30,14 +30,6 @@ AUTHOR = "Paul &amp; Pam Hainline"
 PROGRESS_KEY = "theLastWeekOfTheLamb_progress"
 COPYRIGHT = "&copy; 2026 Paul &amp; Pam Hainline. All rights reserved."
 
-# Access code. Lowercased for case-insensitive compare. Change here if needed.
-PASSWORD = "lamb"
-
-# Session-storage keys — isolated per book so other protected books are not
-# affected when this one changes.
-AUTH_KEY = "lwol_auth"
-ATTEMPTS_KEY = "lwol_attempts"
-
 # --------------------------------------------------------------------------
 # Section definitions
 # Each section is a page in the online reader. `slug` is the URL-safe
@@ -232,27 +224,12 @@ ACCENT_SECONDARY_RGB = "200, 121, 65"
 
 
 # --------------------------------------------------------------------------
-# Password gate
+# Password gate — REMOVED 2026-04-17. The book is public.
+# Kept as an empty placeholder so the two template f-strings below still
+# resolve. Do NOT reintroduce the gate without explicit author sign-off.
 # --------------------------------------------------------------------------
 
-PASSWORD_JS = f"""<script>
-(function() {{
-  if (sessionStorage.getItem('{AUTH_KEY}') === 'granted') return;
-  var attempts = parseInt(sessionStorage.getItem('{ATTEMPTS_KEY}') || '0');
-  if (attempts >= 3) {{
-    window.location.href = '/index.html';
-    return;
-  }}
-  var p = prompt('This book is currently in review.\\nPlease enter the access code:');
-  if (p && p.toLowerCase().trim() === '{PASSWORD}') {{
-    sessionStorage.setItem('{AUTH_KEY}', 'granted');
-    sessionStorage.removeItem('{ATTEMPTS_KEY}');
-  }} else {{
-    sessionStorage.setItem('{ATTEMPTS_KEY}', String(attempts + 1));
-    window.location.href = '/index.html';
-  }}
-}})();
-</script>"""
+PASSWORD_JS = ""
 
 
 # --------------------------------------------------------------------------
@@ -1609,7 +1586,6 @@ def main():
 
     print()
     print("Done! All files generated successfully.")
-    print(f"  Access code: '{PASSWORD}' (change PASSWORD constant to rotate)")
 
 
 if __name__ == '__main__':

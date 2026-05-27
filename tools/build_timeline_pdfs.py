@@ -120,11 +120,11 @@ const fs = require('fs');
 const html = fs.readFileSync(process.argv[1], 'utf8');
 const varName = process.argv[2];
 
-// Pre-define any DEEPDIVE_* constants so references inside the events array resolve.
-const deepDivePattern = /const (DEEPDIVE_[A-Z_]+) = (\\{[^}]*\\});/g;
+// Pre-define DEEPDIVE_* and BOOK_* constants so references inside the events array resolve.
+const constPattern = /const ((?:DEEPDIVE|BOOK)_[A-Z_]+) = (\\{[^}]*\\});/g;
 let preamble = '';
 let m1;
-while ((m1 = deepDivePattern.exec(html)) !== null) {
+while ((m1 = constPattern.exec(html)) !== null) {
   preamble += 'const ' + m1[1] + ' = ' + m1[2] + ';\\n';
 }
 
@@ -486,6 +486,10 @@ def render_event(event, types_map):
     if event.get("deepDive") and event["deepDive"].get("label"):
         parts.append(
             f'<div class="deep-dive-note">&rarr; {html_lib.escape(event["deepDive"]["label"])}</div>'
+        )
+    if event.get("bookLink") and event["bookLink"].get("label"):
+        parts.append(
+            f'<div class="deep-dive-note">&rarr; {html_lib.escape(event["bookLink"]["label"])}</div>'
         )
     parts.append('</div>')
     return "\n".join(parts)

@@ -1257,6 +1257,22 @@ INDEX_TEMPLATE = """\
       .lesson-grid {{ grid-template-columns: 1fr; gap: 10px; }}
       .lesson-card {{ padding: 14px 16px; min-height: 44px; }}
     }}
+      .hero-cover {{
+      text-align: center;
+      margin: 28px 0 8px;
+      position: relative;
+      z-index: 1;
+    }}
+    .hero-cover img {{
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.5),
+        0 0 60px var(--accent-soft);
+      border: 1px solid var(--accent-soft);
+    }}
   </style>
 </head>
 <body>
@@ -1272,6 +1288,10 @@ INDEX_TEMPLATE = """\
         </p>
         <a href="../index.html" class="return-link">&larr; Return to Noble Mind Study</a>
       </header>
+
+      <div class="hero-cover">
+        <img src="cover_front.jpg" alt="The God Who Showed Up — book cover" loading="eager">
+      </div>
 
       <section class="key-verse">
         <blockquote>
