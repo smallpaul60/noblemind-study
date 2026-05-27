@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tabernacle — A Pattern of the Heavenly Things | Noble Mind Study</title>
+<link rel="canonical" href="https://noblemind.study/the-tabernacle/">
+<meta name="description" content="An interactive floor plan of the Tabernacle of Moses — Exodus 25–40. Click any piece of furniture to read what it was, where it stood, what it pictured, and how Hebrews 8–10 reads it as a shadow of the heavenly things accomplished in Christ.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --parchment: #F5EDD6;
+    --parchment-dark: #E8D9B5;
+    --ink: #2A1A05;
+    --sepia: #6B4C1A;
+    --sepia-light: #A07840;
+    --gold: #C4A44A;
+    --gold-glow: #E0BF5C;
+    --bronze: #8B6B3A;
+    --crimson: #8B2020;
+    --linen: #F0E6CC;
+    --rampskins: #6B3E2A;
+    --tablet: #7A5C2A;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(180,140,60,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(140,100,40,0.06) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  header.page-header {
+    text-align: center;
+    padding: 44px 24px 30px;
+    border-bottom: 3px double var(--gold);
+    position: relative; z-index: 1;
+    background: linear-gradient(180deg, rgba(196,164,74,0.12) 0%, transparent 100%);
+  }
+
+  .backlink {
+    position: absolute; left: 22px; top: 20px;
+    font-size: 13px; color: var(--sepia); text-decoration: none;
+    font-family: 'Crimson Text', serif; opacity: 0.85;
+  }
+  .backlink:hover { opacity: 1; text-decoration: underline; }
+
+  header.page-header h1 {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: clamp(28px, 4vw, 50px);
+    color: var(--sepia); letter-spacing: 1px; line-height: 1.2;
+  }
+  header.page-header h2 {
+    font-family: 'IM Fell English', Georgia, serif; font-style: italic;
+    font-size: clamp(15px, 2vw, 21px); color: var(--sepia-light);
+    margin-top: 10px; font-weight: normal;
+  }
+  header.page-header p.lede {
+    font-size: 14.5px; color: #5A5A5A; margin: 12px auto 0;
+    font-style: italic; max-width: 720px; line-height: 1.6;
+  }
+
+  /* Controls */
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+    justify-content: center;
+    padding: 14px 22px; background: rgba(196,164,74,0.10);
+    border-bottom: 1px solid var(--gold);
+    position: sticky; top: 0; z-index: 50; backdrop-filter: blur(4px);
+  }
+  .ctrl-btn {
+    padding: 7px 16px; border-radius: 22px; border: 1.5px solid var(--sepia);
+    background: var(--parchment); color: var(--sepia);
+    font-family: 'IM Fell English', serif; font-size: 14px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:hover { background: var(--parchment-dark); }
+  .ctrl-btn.on { background: var(--sepia); color: var(--parchment); }
+
+  /* Main layout */
+  .wrap {
+    max-width: 1100px; margin: 0 auto;
+    padding: 30px 18px 80px;
+    position: relative; z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  @media (min-width: 880px) {
+    .wrap {
+      grid-template-columns: 380px 1fr;
+      align-items: start;
+    }
+  }
+
+  /* The plan (left column on desktop, top on mobile) */
+  .plan-wrap {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 10px rgba(42,26,5,0.08);
+    position: relative;
+  }
+
+  @media (min-width: 880px) {
+    .plan-wrap {
+      position: sticky;
+      top: 80px;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+  }
+
+  .plan-title {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  /* SVG plan */
+  svg.plan {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+  }
+
+  svg.plan text {
+    font-family: 'Crimson Text', serif;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  svg.plan .courtyard-bg {
+    fill: rgba(245, 230, 200, 0.6);
+    stroke: var(--sepia);
+    stroke-width: 1.5;
+  }
+  svg.plan .tabernacle-bg {
+    fill: rgba(230, 210, 170, 0.85);
+    stroke: var(--sepia);
+    stroke-width: 1.5;
+  }
+  svg.plan .holy-of-holies-bg {
+    fill: rgba(196, 164, 74, 0.22);
+    stroke: var(--gold);
+    stroke-width: 2;
+    stroke-dasharray: 0;
+  }
+  svg.plan .veil {
+    stroke: var(--crimson);
+    stroke-width: 2.5;
+    stroke-dasharray: 4 2;
+  }
+  svg.plan .gate {
+    stroke: var(--crimson);
+    stroke-width: 3;
+  }
+
+  svg.plan .piece {
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.2s;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  svg.plan .piece:hover { filter: brightness(1.1); }
+  svg.plan .piece.sel { filter: drop-shadow(0 0 8px var(--gold-glow)) brightness(1.15); }
+
+  svg.plan .piece-label {
+    font-size: 11px;
+    fill: var(--ink);
+    font-style: italic;
+    text-anchor: middle;
+  }
+
+  /* Approach mode — highlight the seven-stop journey */
+  svg.plan.approach-mode .piece:not(.in-approach) { opacity: 0.2; }
+  svg.plan.approach-mode .approach-line { opacity: 1; }
+  svg.plan .approach-line {
+    fill: none;
+    stroke: var(--crimson);
+    stroke-width: 2;
+    stroke-dasharray: 3 3;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  svg.plan .approach-num {
+    font-size: 10px;
+    font-weight: 700;
+    fill: var(--crimson);
+    text-anchor: middle;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  svg.plan.approach-mode .approach-num { opacity: 1; }
+
+  /* Detail panel (right column on desktop, bottom on mobile) */
+  .detail {
+    background: #FFFDF8;
+    border-left: 5px solid var(--sepia);
+    border-radius: 8px;
+    padding: 22px 26px;
+    box-shadow: 0 3px 14px rgba(42,26,5,0.10);
+    min-height: 300px;
+  }
+  .detail .placeholder {
+    color: var(--sepia-light);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .detail h3 {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    font-size: 26px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .detail .hebrew {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia-light);
+    font-style: italic;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .detail .stats {
+    margin: 10px 0 14px;
+    padding: 9px 12px;
+    background: rgba(245, 237, 214, 0.7);
+    border-radius: 6px;
+    font-size: 13.5px;
+    color: #3A2A12;
+  }
+  .detail .stats strong {
+    color: var(--sepia);
+    font-family: 'IM Fell English', serif;
+    margin-right: 6px;
+  }
+  .detail .body {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: #2A1A05;
+    margin-top: 8px;
+  }
+  .detail .body p { margin-bottom: 10px; }
+  .detail .body p:last-child { margin-bottom: 0; }
+  .detail .body em { color: var(--sepia); font-style: italic; }
+  .detail .typology {
+    margin-top: 14px;
+    background: rgba(196, 164, 74, 0.14);
+    border-left: 3px solid var(--gold);
+    padding: 11px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #2A1A05;
+  }
+  .detail .typology .label {
+    font-family: 'IM Fell English', serif;
+    font-size: 11.5px;
+    color: var(--sepia);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .detail .refs {
+    margin-top: 14px;
+    font-size: 13.5px;
+    color: var(--sepia);
+    font-style: italic;
+  }
+
+  /* About section */
+  details.about {
+    margin: 24px 0 0;
+    grid-column: 1 / -1;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 8px;
+    padding: 0 20px;
+  }
+  details.about summary {
+    cursor: pointer;
+    padding: 16px 0;
+    font-family: 'IM Fell English', serif;
+    font-size: 18px; color: var(--sepia);
+  }
+  details.about[open] summary { border-bottom: 1px solid var(--parchment-dark); }
+  details.about .body { padding: 14px 0 18px; font-size: 14.5px; line-height: 1.7; color: #3A2A12; }
+  details.about .body p { margin-bottom: 10px; }
+  details.about .body h4 {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    margin: 12px 0 4px;
+    font-size: 15px;
+  }
+
+  footer.page-footer {
+    text-align: center;
+    padding: 28px 20px 0;
+    font-size: 12px;
+    color: #5A5A5A;
+    font-style: italic;
+    line-height: 1.7;
+    grid-column: 1 / -1;
+  }
+  footer.page-footer p { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a class="backlink" href="../old-testament-timeline/">&#8592; Old Testament Timeline</a>
+  <h1>The Tabernacle</h1>
+  <h2>&ldquo;A pattern of the heavenly things&rdquo;</h2>
+  <p class="lede">Click any piece of furniture on the floor plan below to read what it was, where it stood, and what it pictured. The whole arrangement &mdash; gate, altar, laver, lampstand, table, incense, veil, ark, mercy seat &mdash; was given to Moses on the mountain as <em>the pattern of the things in the heavens</em> (Heb 8:5).</p>
+</header>
+
+<div class="controls">
+  <button class="ctrl-btn" id="approachBtn">Walk the priest&rsquo;s approach</button>
+  <button class="ctrl-btn" id="resetBtn">Reset</button>
+</div>
+
+<div class="wrap">
+
+  <!-- The Plan -->
+  <div class="plan-wrap">
+    <div class="plan-title">Floor Plan &middot; Looking down from above</div>
+    <svg class="plan" id="plan" viewBox="0 0 260 540" xmlns="http://www.w3.org/2000/svg" aria-label="Tabernacle floor plan">
+
+      <!-- Compass label: West = top, East = bottom (priest enters from the east) -->
+      <text x="130" y="14" text-anchor="middle" font-size="11" fill="#8A7048">WEST &middot; Holy of Holies</text>
+      <text x="130" y="534" text-anchor="middle" font-size="11" fill="#8A7048">EAST &middot; Entrance Gate</text>
+      <text x="14" y="270" font-size="11" fill="#8A7048" transform="rotate(-90, 14, 270)" text-anchor="middle">SOUTH</text>
+      <text x="246" y="270" font-size="11" fill="#8A7048" transform="rotate(90, 246, 270)" text-anchor="middle">NORTH</text>
+
+      <!-- Courtyard outline (50 x 100 cubits — drawn as 200x460 SVG units) -->
+      <rect class="courtyard-bg" x="30" y="30" width="200" height="460" rx="2" />
+
+      <!-- Tabernacle structure (10 x 30 cubits — drawn at top/west end) -->
+      <rect class="tabernacle-bg" x="80" y="60" width="100" height="160" rx="2" />
+
+      <!-- Holy of Holies (10 x 10 cubits — innermost, at the west end) -->
+      <rect class="holy-of-holies-bg" x="80" y="60" width="100" height="60" />
+      <text x="130" y="92" class="piece-label" style="font-size: 12px; font-style: italic; fill: var(--sepia);">Holy of Holies</text>
+      <text x="130" y="108" class="piece-label" style="font-size: 9.5px; fill: var(--sepia-light);">(the Most Holy Place)</text>
+
+      <!-- The veil (separating HoH from Holy Place) -->
+      <line class="veil" x1="80" y1="120" x2="180" y2="120" />
+      <text x="195" y="123" font-size="9.5" fill="#8B2020" font-style="italic">veil</text>
+
+      <!-- Holy Place label -->
+      <text x="130" y="180" class="piece-label" style="font-size: 12px; font-style: italic; fill: var(--sepia);">The Holy Place</text>
+
+      <!-- Tabernacle entrance (screen) -->
+      <line class="veil" x1="80" y1="220" x2="180" y2="220" style="stroke-dasharray: 6 2;" />
+      <text x="195" y="223" font-size="9.5" fill="#8B2020" font-style="italic">entrance veil</text>
+
+      <!-- Courtyard label -->
+      <text x="130" y="245" class="piece-label" style="font-size: 12px; font-style: italic; fill: var(--sepia);">The Outer Courtyard</text>
+
+      <!-- The Gate (east entrance) -->
+      <line class="gate" x1="80" y1="490" x2="180" y2="490" />
+
+      <!-- ===== FURNITURE ===== -->
+
+      <!-- 1. Ark of the Covenant (in the Holy of Holies) -->
+      <g class="piece" id="ark" data-piece="ark">
+        <rect x="115" y="78" width="30" height="20" rx="2" fill="#C4A44A" stroke="#6B4C1A" stroke-width="1.2" />
+        <rect x="113" y="76" width="34" height="4" rx="1" fill="#E0BF5C" />
+      </g>
+      <text x="130" y="74" class="piece-label" style="fill: var(--sepia);">Ark of the Covenant</text>
+
+      <!-- 2. Altar of Incense (in the Holy Place, in front of the veil) -->
+      <g class="piece" id="incense" data-piece="incense">
+        <rect x="120" y="128" width="20" height="14" rx="1" fill="#C4A44A" stroke="#6B4C1A" stroke-width="1.2" />
+      </g>
+      <text x="130" y="153" class="piece-label">Altar of Incense</text>
+
+      <!-- 3. Table of Showbread (NORTH side of Holy Place — right of viewer when looking up) -->
+      <g class="piece" id="showbread" data-piece="showbread">
+        <rect x="156" y="170" width="20" height="13" rx="1" fill="#7A5C2A" stroke="#6B4C1A" stroke-width="1.2" />
+      </g>
+      <text x="166" y="193" class="piece-label">Table of Showbread</text>
+
+      <!-- 4. Golden Lampstand / Menorah (SOUTH side of Holy Place — left) -->
+      <g class="piece" id="lampstand" data-piece="lampstand">
+        <!-- Stylized menorah: stand with seven branches -->
+        <line x1="94" y1="178" x2="94" y2="200" stroke="#C4A44A" stroke-width="2.5"/>
+        <path d="M 84 188 Q 84 178, 94 178 M 88 184 Q 88 175, 94 175 M 94 175 Q 94 172, 94 170 M 104 188 Q 104 178, 94 178 M 100 184 Q 100 175, 94 175" fill="none" stroke="#C4A44A" stroke-width="2"/>
+        <circle cx="94" cy="200" r="3" fill="#C4A44A" stroke="#6B4C1A" stroke-width="1"/>
+      </g>
+      <text x="94" y="213" class="piece-label">Golden Lampstand</text>
+
+      <!-- 5. Bronze Laver (in courtyard, between tabernacle entrance and bronze altar) -->
+      <g class="piece" id="laver" data-piece="laver">
+        <circle cx="130" cy="290" r="11" fill="#8B6B3A" stroke="#6B4C1A" stroke-width="1.2"/>
+        <circle cx="130" cy="290" r="6" fill="rgba(120, 170, 200, 0.55)" stroke="#6B4C1A" stroke-width="0.5"/>
+      </g>
+      <text x="130" y="316" class="piece-label">Bronze Laver</text>
+
+      <!-- 6. Bronze Altar (in courtyard, between gate and laver) -->
+      <g class="piece" id="altar" data-piece="altar">
+        <rect x="112" y="395" width="36" height="32" rx="2" fill="#8B6B3A" stroke="#6B4C1A" stroke-width="1.4"/>
+        <!-- horns at four corners -->
+        <rect x="110" y="393" width="5" height="5" fill="#8B6B3A" stroke="#6B4C1A" stroke-width="0.8"/>
+        <rect x="145" y="393" width="5" height="5" fill="#8B6B3A" stroke="#6B4C1A" stroke-width="0.8"/>
+        <rect x="110" y="423" width="5" height="5" fill="#8B6B3A" stroke="#6B4C1A" stroke-width="0.8"/>
+        <rect x="145" y="423" width="5" height="5" fill="#8B6B3A" stroke="#6B4C1A" stroke-width="0.8"/>
+      </g>
+      <text x="130" y="442" class="piece-label">Bronze Altar</text>
+
+      <!-- 7. The Gate (clickable as a piece for the approach) -->
+      <g class="piece" id="gate" data-piece="gate">
+        <rect x="98" y="487" width="64" height="6" fill="#8B2020" stroke="#6B4C1A" stroke-width="0.8" rx="1"/>
+      </g>
+      <text x="130" y="506" class="piece-label">The Gate</text>
+
+      <!-- ===== APPROACH PATH (visible only in approach mode) ===== -->
+      <path class="approach-line"
+            d="M 130 490
+               L 130 442
+               L 130 411
+               L 130 313
+               L 130 290
+               L 130 220
+               L 130 200
+               L 130 184
+               L 130 142
+               L 130 135
+               L 130 100"
+      />
+      <text class="approach-num" x="130" y="504">①</text>
+      <text class="approach-num" x="130" y="416">②</text>
+      <text class="approach-num" x="130" y="294">③</text>
+      <text class="approach-num" x="98" y="201">④</text>
+      <text class="approach-num" x="162" y="181">⑤</text>
+      <text class="approach-num" x="130" y="138">⑥</text>
+      <text class="approach-num" x="130" y="92">⑦</text>
+
+    </svg>
+    <p style="font-size: 11.5px; color: #8A7048; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">
+      Click any piece to read its details. The whole pattern was shown to Moses on Sinai (Heb 8:5).
+    </p>
+  </div>
+
+  <!-- Detail panel -->
+  <div class="detail" id="detail">
+    <p class="placeholder">
+      Click any piece of furniture on the floor plan to read what it was, where it stood, and what it pictured.
+      Or press <strong>Walk the priest&rsquo;s approach</strong> to see the seven-stop journey from the gate to the
+      ark &mdash; the path every offering followed, and the path Christ fulfilled in His one offering.
+    </p>
+  </div>
+
+  <!-- About / notes -->
+  <details class="about">
+    <summary>Notes on the pattern &mdash; what the New Testament does with the Tabernacle</summary>
+    <div class="body">
+      <p><strong>Hebrews is the New Testament commentary on the Tabernacle.</strong> Hebrews 8&ndash;10 treats the
+        whole structure, its furniture, and its priesthood as <em>a copy and shadow of the heavenly things,</em>
+        of which Christ is the substance. The high priest&rsquo;s yearly entry into the Holy of Holies on the Day of
+        Atonement (Lev 16) is the type; Christ&rsquo;s once-for-all entry into the heavenly sanctuary <em>with His
+        own blood</em> is the fulfillment (Heb 9:11&ndash;12).</p>
+
+      <h4>The pattern was given exactly</h4>
+      <p>Five times in Exodus 25&ndash;26 the Lord tells Moses: <em>see that you make it after the pattern which
+        was shown you on the mountain.</em> Hebrews picks up this exactness: <em>see, He says, that you make all
+        things according to the pattern which was shown you on the mountain</em> (Heb 8:5). The dimensions, the
+        materials, the arrangement &mdash; none of it was arbitrary. Each piece pictures something.</p>
+
+      <h4>The progression matters</h4>
+      <p>The order of approach &mdash; gate, bronze altar, bronze laver, holy place, veil, ark &mdash; is itself the
+        gospel sequence. A worshipper could not skip ahead. The altar (death) came before the laver (cleansing)
+        which came before the holy place (priestly fellowship) which was separated from the ark (God&rsquo;s
+        presence) by a veil. When Christ died, <em>the veil of the temple was torn in two from top to bottom</em>
+        (Matt 27:51) &mdash; the way into the holiest opened.</p>
+
+      <h4>Restraint in typology</h4>
+      <p>Not every detail of the Tabernacle was explicitly identified by the New Testament as a type of something
+        specific. Hebrews itself names some pieces and is reserved about others. Where Scripture explicitly draws
+        the line, the connection is firm; where it doesn&rsquo;t, the reader should hold the suggestion lightly.
+        This study follows that restraint: the typologies named below are the ones the New Testament names.</p>
+
+      <h4>The companion to this spoke</h4>
+      <p>The <strong>Day of Atonement</strong> ritual (Lev 16) walks through the Tabernacle from the bronze altar
+        to the mercy seat once a year. A future spoke will diagram that ritual on this same floor plan. For now,
+        the floor plan and its pieces give the framework that the ritual presupposes.</p>
+    </div>
+  </details>
+
+  <footer class="page-footer">
+    <p>Primary Source: The Holy Bible (Exodus 25&ndash;31; Exodus 35&ndash;40; Leviticus 16; Hebrews 8&ndash;10)</p>
+    <p>A deep-dive companion to the Noble Mind Study Old Testament Timeline &middot; <a style="color:inherit;" href="../old-testament-timeline/">Return to the timeline</a></p>
+  </footer>
+
+</div>
+
+<script>
+const PIECES = {
+  gate: {
+    name: "The Gate",
+    hebrew: "the screen of the gate of the court",
+    stats: {
+      Dimensions: "20 cubits wide, 5 cubits high (the only opening in the courtyard)",
+      Materials: "Blue, purple, and scarlet yarn, fine twisted linen &mdash; the work of a weaver",
+      Location: "East side of the courtyard, centered. The only way in."
+    },
+    body: "<p>The courtyard was enclosed by hangings of fine linen on all four sides. There was only one entrance &mdash; the gate, on the east. To approach God, a worshipper had to enter by this gate. No one came in by climbing the linen wall or going around. There was one gate, and only one.</p><p>The gate was 20 cubits wide &mdash; ample, easily found. Anyone who would come to God could come. But everyone who came in came in through this one place.</p>",
+    typology: "Jesus: <em>I am the door of the sheep&hellip; I am the door; if anyone enters through Me, he will be saved</em> (John 10:7, 9). And <em>I am the way, and the truth, and the life; no one comes to the Father but through Me</em> (John 14:6). The single gate was always the type of the one Way of access to God.",
+    refs: "Exodus 27:9&ndash;19; 38:9&ndash;20; John 10:7, 9; John 14:6"
+  },
+  altar: {
+    name: "The Bronze Altar",
+    hebrew: "the altar of burnt offering",
+    stats: {
+      Dimensions: "5 cubits square, 3 cubits high; horns on each of the four corners",
+      Materials: "Acacia wood overlaid with bronze; bronze grating beneath; bronze utensils",
+      Location: "Outer courtyard, between the gate and the laver &mdash; the first thing the worshipper meets after entering."
+    },
+    body: "<p>Every sacrifice was killed at the bronze altar. The morning lamb, the evening lamb, the burnt offerings, the peace offerings, the sin offerings, the trespass offerings &mdash; all of them. The fire on the altar was never to go out (Lev 6:13). Day and night, year after year, the smoke of the burning sacrifices rose from this altar in the courtyard.</p><p>It was the largest piece of furniture in the entire complex &mdash; and the first one the worshipper met after coming through the gate. Before any other thing happened, blood had to be shed. Death had to pay. Then everything else could follow.</p>",
+    typology: "The cross. The lamb is killed at the altar before anything else proceeds &mdash; just as Christ&rsquo;s death is the prior condition for everything His priesthood accomplishes afterward. Hebrews 13:10&ndash;12 makes the connection explicit: <em>we have an altar from which those who serve the tabernacle have no right to eat&hellip; therefore Jesus also suffered outside the gate, that He might sanctify the people through His own blood.</em> The horns of the altar, where the blood was applied (Ex 29:12), were where men fleeing for their lives would lay hold for refuge (1 Kings 1:50; 2:28).",
+    refs: "Exodus 27:1&ndash;8; 38:1&ndash;7; Leviticus 6:8&ndash;13; Hebrews 13:10&ndash;12"
+  },
+  laver: {
+    name: "The Bronze Laver",
+    hebrew: "the laver of bronze, with its base of bronze",
+    stats: {
+      Dimensions: "Not specified in Scripture; size unknown",
+      Materials: "Bronze (made from the mirrors of the women who served at the doorway of the tent of meeting &mdash; Ex 38:8)",
+      Location: "Between the bronze altar and the entrance to the tabernacle proper. Filled with water."
+    },
+    body: "<p>After the altar, before entering the tabernacle. The priests were to <em>wash their hands and their feet&hellip; that they may not die.</em> Every time they came in to minister, every time they offered at the altar, they washed first. Not bathed &mdash; the priests had been bathed once, at their consecration (Ex 29:4). But hands and feet were to be cleansed continually.</p><p>The bronze for the laver was made from the polished bronze mirrors the women donated. The mirror that had once shown a man his own face now held the water that cleansed him.</p>",
+    typology: "Two New Testament strands meet here. <strong>Washing of regeneration</strong> (Tit 3:5; cf. Heb 10:22 &mdash; <em>having our bodies washed with pure water</em>): the once-for-all cleansing that corresponds to the priests&rsquo; initial bathing at consecration. <strong>The Word as washing</strong> (Eph 5:26 &mdash; <em>that He might sanctify her, having cleansed her by the washing of water with the word</em>): the ongoing cleansing through Scripture, like the priests&rsquo; daily washing before service. The mirror motif itself appears in 2 Corinthians 3:18 and James 1:23&ndash;25.",
+    refs: "Exodus 30:17&ndash;21; 38:8; Ephesians 5:26; Titus 3:5; Hebrews 10:22"
+  },
+  lampstand: {
+    name: "The Golden Lampstand",
+    hebrew: "menorah",
+    stats: {
+      Dimensions: "Hammered from one talent of pure gold (~75 lbs); seven branches; almond-shaped cups and bulbs and flowers worked into the stem and branches",
+      Materials: "One solid piece of pure gold &mdash; not assembled, but hammered out of one mass",
+      Location: "In the Holy Place, on the SOUTH side (the priest&rsquo;s left as he faces toward the Holy of Holies)"
+    },
+    body: "<p>There were no windows in the Holy Place. The only light was the lampstand. Seven branches, seven lamps, fed with pure beaten olive oil, tended every morning and every evening by Aaron and his sons so that the light never went out (Ex 27:20&ndash;21; Lev 24:1&ndash;4). The lampstand alone lit the table and the altar of incense; it alone made the priestly service visible.</p><p>Notice the construction: the lampstand was beaten out of <em>one piece</em> of pure gold. Branches, cups, bulbs, flowers &mdash; all one piece, not assembled from parts. The unity of the lampstand is itself a feature of its symbolism.</p>",
+    typology: "<strong>Christ as the light of the world</strong> (John 8:12; 9:5). <strong>The Spirit&rsquo;s sevenfold work</strong> &mdash; Revelation 4:5 reads the seven lamps before the throne as <em>the seven spirits of God.</em> Revelation 1:12&ndash;20 reads the lampstands as <em>the churches</em>: Christ walks among them, and a church that loses its first love has its lampstand removed (Rev 2:5). The pure beaten olive oil that fed the lamps echoes the Spirit-anointing typology (Acts 10:38). One piece of gold, many branches, one light &mdash; the way the New Testament names Christ as head and the church as the body, all one.",
+    refs: "Exodus 25:31&ndash;40; 37:17&ndash;24; Leviticus 24:1&ndash;4; John 8:12; Revelation 1:12&ndash;20; 2:5; 4:5"
+  },
+  showbread: {
+    name: "The Table of Showbread",
+    hebrew: "the table of the bread of the Presence (lit. &lsquo;bread of the face&rsquo;)",
+    stats: {
+      Dimensions: "2 cubits long, 1 cubit wide, 1.5 cubits high",
+      Materials: "Acacia wood overlaid with pure gold; gold molding around the edge; gold dishes, pans, jars, and bowls",
+      Location: "In the Holy Place, on the NORTH side (the priest&rsquo;s right as he faces the Holy of Holies)"
+    },
+    body: "<p>Twelve loaves of unleavened bread were arranged on the table in two rows of six, with pure frankincense placed on each row. The bread was renewed every Sabbath &mdash; the priests removed the old loaves and ate them in the Holy Place, and twelve fresh loaves were set out for the coming week (Lev 24:5&ndash;9). The bread was always there, before the face of the Lord, twelve loaves for the twelve tribes of Israel.</p><p>The Hebrew name was <em>the bread of the Presence</em> &mdash; or more literally, the bread of the face. The bread sat in the Lord&rsquo;s presence continually.</p>",
+    typology: "Jesus: <em>I am the bread of life&hellip; the bread that I will give for the life of the world is My flesh</em> (John 6:35, 51). The twelve loaves picture the whole people of God in continual fellowship with Him. Notably, David and his men ate the showbread when fleeing Saul (1 Sam 21:1&ndash;6); Jesus appealed to this incident to defend His disciples eating on the Sabbath, claiming that <em>something greater than the temple is here</em> (Matt 12:3&ndash;8) &mdash; identifying Himself as the bread of the Presence in person.",
+    refs: "Exodus 25:23&ndash;30; 37:10&ndash;16; Leviticus 24:5&ndash;9; 1 Samuel 21:1&ndash;6; John 6:35&ndash;58; Matthew 12:3&ndash;8"
+  },
+  incense: {
+    name: "The Altar of Incense",
+    hebrew: "the golden altar of incense, before the veil",
+    stats: {
+      Dimensions: "1 cubit square, 2 cubits high; horns on the four corners",
+      Materials: "Acacia wood overlaid with pure gold; gold molding around the top",
+      Location: "In the Holy Place, immediately before the veil that separated the Holy of Holies"
+    },
+    body: "<p>Distinct from the bronze altar. This was the golden altar, inside the tabernacle, on which no burnt offering was ever made. Instead, fragrant incense &mdash; a special compound the Lord prescribed by formula (Ex 30:34&ndash;38) &mdash; was burned on it every morning and every evening, when the lamps were tended. The smoke of the incense rose continually in the Holy Place, ascending toward the veil and the Holy of Holies beyond.</p><p>Once a year, on the Day of Atonement, the high priest took coals from this altar into the Holy of Holies, where the cloud of incense covered the mercy seat as he sprinkled blood on it (Lev 16:12&ndash;13).</p>",
+    typology: "<strong>The prayers of the saints</strong>: Revelation 5:8 and 8:3&ndash;4 explicitly identify the incense rising before God as the prayers of His people. Christ at the right hand of the Father <em>always lives to make intercession for them</em> (Heb 7:25). The altar of incense stood closest to the veil &mdash; the place where the priestly intercession brushes against the Holy of Holies &mdash; and the incense rose continually because the intercession is continual.",
+    refs: "Exodus 30:1&ndash;10, 34&ndash;38; 37:25&ndash;28; Leviticus 16:12&ndash;13; Hebrews 7:25; Revelation 5:8; 8:3&ndash;4"
+  },
+  ark: {
+    name: "The Ark of the Covenant & Mercy Seat",
+    hebrew: "ʼărôn (chest) and kappōreth (cover, place of atonement)",
+    stats: {
+      Dimensions: "Ark: 2.5 cubits long, 1.5 cubits wide, 1.5 cubits high. Mercy seat: same length and width, of pure gold.",
+      Materials: "Ark: acacia wood overlaid inside and out with pure gold; gold molding. Mercy seat: one piece of pure gold, with two cherubim of beaten gold facing each other, wings overshadowing the seat.",
+      Location: "The only object in the Holy of Holies. The presence of God dwelt between the cherubim above the mercy seat."
+    },
+    body: "<p>The ark held three things (Heb 9:4): the two tablets of the covenant (Ex 25:16; 40:20), the golden jar of manna (Ex 16:33), and Aaron&rsquo;s rod that budded (Num 17:10). The lid &mdash; the mercy seat &mdash; was the throne of God on earth. The Lord declared: <em>there I will meet with you; and from above the mercy seat, from between the two cherubim which are upon the ark of the testimony, I will speak to you about all that I will give you in commandment for the sons of Israel</em> (Ex 25:22).</p><p>On the Day of Atonement, the high priest entered the Holy of Holies (and only on this one day a year) with blood. He sprinkled the blood on the mercy seat seven times. The blood covered the lid that covered the broken law that lay inside the ark. Justice and mercy met at this one piece of gold.</p>",
+    typology: "<strong>The mercy seat is Christ.</strong> The Greek word for <em>mercy seat</em> is <em>hilastērion</em>. Paul uses the same word in Romans 3:25: <em>Christ Jesus, whom God displayed publicly as a propitiation [hilastērion] in His blood through faith.</em> The mercy seat where the blood was applied was the very place God appointed for the meeting of His justice and His mercy &mdash; and Christ Himself is now that place. The veil was torn at His death (Matt 27:51); the way into the holiest is open; <em>let us draw near with a sincere heart in full assurance of faith</em> (Heb 10:19&ndash;22).",
+    refs: "Exodus 25:10&ndash;22; 37:1&ndash;9; 40:20&ndash;21; Leviticus 16; Romans 3:25; Hebrews 9:1&ndash;14; 10:19&ndash;22; Matthew 27:51"
+  }
+};
+
+// Click handlers
+const detailEl = document.getElementById('detail');
+const planEl = document.getElementById('plan');
+
+function renderPiece(key) {
+  const p = PIECES[key];
+  if (!p) return;
+  const statsHtml = Object.entries(p.stats).map(([k, v]) => `<div><strong>${k}:</strong> ${v}</div>`).join('');
+  detailEl.innerHTML = `
+    <h3>${p.name}</h3>
+    <div class="hebrew">&mdash; ${p.hebrew}</div>
+    <div class="stats">${statsHtml}</div>
+    <div class="body">${p.body}</div>
+    <div class="typology"><span class="label">Type and fulfillment</span>${p.typology}</div>
+    <div class="refs">&#128214; ${p.refs}</div>
+  `;
+  // Selection highlight on SVG
+  document.querySelectorAll('.piece').forEach(el => el.classList.remove('sel'));
+  const pieceEl = document.getElementById(key);
+  if (pieceEl) pieceEl.classList.add('sel');
+}
+
+document.querySelectorAll('.piece').forEach(el => {
+  el.addEventListener('click', () => renderPiece(el.dataset.piece));
+});
+
+// Approach mode
+const approachBtn = document.getElementById('approachBtn');
+const APPROACH = ['gate', 'altar', 'laver', 'lampstand', 'showbread', 'incense', 'ark'];
+
+approachBtn.addEventListener('click', () => {
+  const on = !planEl.classList.contains('approach-mode');
+  planEl.classList.toggle('approach-mode', on);
+  approachBtn.classList.toggle('on', on);
+  approachBtn.textContent = on ? 'Hide the approach' : 'Walk the priest’s approach';
+  document.querySelectorAll('.piece').forEach(el => {
+    el.classList.toggle('in-approach', APPROACH.includes(el.dataset.piece));
+  });
+  if (on) {
+    detailEl.innerHTML = `
+      <h3>The Priest's Approach</h3>
+      <div class="hebrew">&mdash; seven stops, in order</div>
+      <div class="body">
+        <p>The worshipper&mdash;and ultimately every offering&mdash;moved through the tabernacle in a single, fixed
+        order. Click any numbered piece to read its meaning.</p>
+        <ol style="margin: 10px 0 10px 22px; font-size: 14.5px; line-height: 1.8; color: #2A1A05;">
+          <li><strong>The Gate</strong> &mdash; the only way in</li>
+          <li><strong>The Bronze Altar</strong> &mdash; death must pay first</li>
+          <li><strong>The Bronze Laver</strong> &mdash; cleansing before service</li>
+          <li><strong>The Golden Lampstand</strong> &mdash; light to see by</li>
+          <li><strong>The Table of Showbread</strong> &mdash; fellowship with God</li>
+          <li><strong>The Altar of Incense</strong> &mdash; intercession at the veil</li>
+          <li><strong>The Ark / Mercy Seat</strong> &mdash; the presence of God Himself</li>
+        </ol>
+      </div>
+      <div class="typology">
+        <span class="label">The sequence is the gospel</span>
+        Death, cleansing, light, fellowship, intercession, presence &mdash; in that order. A worshipper could not
+        skip ahead. None of the pieces were optional, and none could be approached out of order. The whole
+        structure was a parable of how a sinful people come near a holy God. When Christ&rsquo;s death tore the
+        veil from top to bottom (Matt 27:51), He did not eliminate the sequence &mdash; He fulfilled every step
+        of it in His own person, and made all the way to the mercy seat open to those who come through Him.
+      </div>
+      <div class="refs">&#128214; Hebrews 9:1&ndash;14; 10:19&ndash;22; Matthew 27:51</div>
+    `;
+  }
+});
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click', () => {
+  planEl.classList.remove('approach-mode');
+  approachBtn.classList.remove('on');
+  approachBtn.textContent = 'Walk the priest’s approach';
+  document.querySelectorAll('.piece').forEach(el => el.classList.remove('sel', 'in-approach'));
+  detailEl.innerHTML = `
+    <p class="placeholder">
+      Click any piece of furniture on the floor plan to read what it was, where it stood, and what it pictured.
+      Or press <strong>Walk the priest&rsquo;s approach</strong> to see the seven-stop journey from the gate to the
+      ark &mdash; the path every offering followed, and the path Christ fulfilled in His one offering.
+    </p>
+  `;
+});
+</script>
+
+</body>
+</html>

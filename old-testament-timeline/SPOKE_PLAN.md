@@ -192,7 +192,48 @@ This spoke would teach the method by example. But it's the most
 ambitious by far — best built after the simpler spokes have proven the
 pattern.
 
-### 6. The Divided Kingdom Synoptic
+### 6. The Kinsman-Redeemer (Ruth, Boaz, and Christ)
+
+**Shape:** A typology-tracing study following the *go'el* (kinsman-redeemer)
+pattern from the law of Leviticus through the book of Ruth into Christ.
+Four to six episodes:
+
+1. **The law of redemption** (Lev 25:25, 47–49) — the right and duty of
+   the nearest kinsman to redeem land and family from loss.
+2. **The threshing-floor scene** (Ruth 3) — Ruth at Boaz's feet, asking
+   him to spread his garment over her: *redeem me.*
+3. **The closer relative declines** (Ruth 4:1–6) — there is one nearer
+   than Boaz; he could redeem but he will not, lest he ruin his own
+   inheritance. Boaz steps forward in his place.
+4. **The transaction at the gate** (Ruth 4:7–12) — Boaz takes the sandal,
+   the witnesses bless him, the redemption is sealed.
+5. **The typology becomes literal** (Ruth 4:13–22; Matt 1:5) — Ruth
+   bears Obed, who is the father of Jesse, who is the father of David;
+   Ruth's name stands in the genealogy of Christ. *The type and the
+   fulfillment share a bloodline.*
+6. **Christ our Kinsman-Redeemer** (Heb 2:14–17; Gal 4:4–5; 1 Pet
+   1:18–19) — *since the children share in flesh and blood, He Himself
+   likewise also partook of the same.* He had to become *kin* before
+   He could redeem; He had to be willing as Boaz was; He bought us back
+   with His own blood.
+
+**Anchor events:**
+- Book of Ruth (Phase 8, within The Judges)
+- *Optional:* The law of redemption could be a sidebar tied to the
+  Leviticus event (Phase 5)
+
+**Complexity:** *Small-to-medium.* Single book of focus with NT
+cross-references. Visualization can be simple: sequential episode cards
+similar to *The Lamb God Provides*.
+
+**Why it matters:** The kinsman-redeemer pattern is in the LAW (Lev 25),
+narratively fulfilled in Ruth, theologically applied to Christ in the
+NT (Heb 2). And — as the X-post observation goes one layer deeper —
+the Moabite widow whose redemption pictures Christ's also becomes
+Christ's literal ancestor. *The type and the fulfillment share a
+bloodline.* Few typological studies have a payoff that sharp.
+
+### 7. The Divided Kingdom Synoptic
 
 **Shape:** Two parallel horizontal tracks running 931 BC → present-end-
 of-each-kingdom (722 BC for Israel, 586 BC for Judah). Each king on
@@ -232,12 +273,13 @@ most expensive build of the lot.
 
 | Order | Spoke | Tier | Complexity | Rationale |
 |---|---|---|---|---|
-| 1 | Passover Lamb | 1 | S | Small, focused, ties to TLWOTL book — quick win to validate pattern in a new domain |
+| 1 | Passover Lamb (Lamb God Provides) | 1 | S | ✅ done. Validated the typology-sequence pattern. |
 | 2 | Tabernacle | 1 | M | Well-defined data; strong visualization; type-of-Christ teaching is core |
-| 3 | Covenants | 2 | M | Theological spine of the whole Bible; structured-table fits cleanly |
-| 4 | Day of Atonement | 2 | M-L | Natural follow-on to Tabernacle (re-uses the diagram) |
-| 5 | Promise Threads | 3 | L | Beautiful concept but the design is the real work; do after pattern is mature |
-| 6 | Divided Kingdom Synoptic | 3 | L | Most ambitious data work; substantial king-by-king research |
+| 3 | Kinsman-Redeemer (Ruth → Christ) | 1–2 | S–M | Same shape as the Lamb spoke; tight story; the type-becomes-genealogy payoff is sharp |
+| 4 | Covenants | 2 | M | Theological spine of the whole Bible; structured-table fits cleanly |
+| 5 | Day of Atonement | 2 | M-L | Natural follow-on to Tabernacle (re-uses the diagram) |
+| 6 | Promise Threads | 3 | L | Beautiful concept but the design is the real work; do after pattern is mature |
+| 7 | Divided Kingdom Synoptic | 3 | L | Most ambitious data work; substantial king-by-king research |
 
 The progression goes **small/contained → larger/more design → most
 ambitious**. Each spoke we build teaches us something about what works
