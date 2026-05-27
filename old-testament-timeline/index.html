@@ -250,6 +250,35 @@
     letter-spacing: 0.3px;
   }
 
+  .deep-badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--gold);
+    color: var(--ink);
+    margin-left: 6px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    vertical-align: middle;
+  }
+
+  .deep-dive-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 7px 15px;
+    background: var(--sepia);
+    color: var(--parchment);
+    border-radius: 4px;
+    font-size: 13px;
+    text-decoration: none;
+    font-family: 'IM Fell English', Georgia, serif;
+    letter-spacing: 0.3px;
+    transition: background 0.2s;
+  }
+  .deep-dive-link:hover { background: var(--sepia-light); }
+
   .event-title {
     font-size: 15px;
     font-weight: 600;
@@ -374,6 +403,12 @@ const TYPES = {
   "Return":           { color: "#3A5C1A", bg: "#3A5C1A" },
 };
 
+// Deep-dive spokes off the OT timeline
+const DEEPDIVE_GENEALOGY = {
+  label: "See the lifespans charted: the Adam-to-Abraham genealogy →",
+  href: "../genesis-genealogy/"
+};
+
 const events = [
   // ---------- Phase 1: Before the Flood ----------
   {
@@ -428,6 +463,7 @@ const events = [
     short: "God appoints another seed; the godly line continues",
     detail: "Eve bears Seth: <em>God has appointed me another offspring in place of Abel, for Cain killed him.</em> Seth has a son, Enosh. <em>Then men began to call upon the name of the Lord.</em> From Seth the genealogy is preserved: Adam, Seth, Enosh, Kenan, Mahalalel, Jared, Enoch, Methuselah, Lamech, Noah. The pre-Flood patriarchs of Genesis 5 — each living hundreds of years, each begetting sons and daughters, each dying. One does not die: Enoch walked with God, and he was not, for God took him.",
     ref: "Genesis 4:25–26; Genesis 5",
+    deepDive: DEEPDIVE_GENEALOGY,
     secondary: "Hebrews 11:5 records Enoch's translation. Jude 14–15 cites him as a prophet."
   },
   {
@@ -457,7 +493,8 @@ const events = [
     short: "The waters prevail 150 days; every breath of life on the dry land dies",
     detail: "In the six hundredth year of Noah's life, on the seventeenth day of the second month, all the fountains of the great deep burst open and the floodgates of the sky are opened. The rain falls forty days and forty nights. The waters prevail upon the earth one hundred and fifty days. All flesh that moves on the earth perishes — birds, cattle, beasts, every swarming thing, every man. Only Noah and those with him in the ark remain. The mountains are covered.",
     ref: "Genesis 7:10–24",
-    secondary: ""
+    secondary: "On the Genesis 5 figures, Methuselah dies in the very year the Flood begins — his name traditionally read as <em>his death shall send forth</em>. The companion genealogy chart shows the overlap directly.",
+    deepDive: DEEPDIVE_GENEALOGY
   },
   {
     date: "About one year later",
@@ -513,7 +550,8 @@ const events = [
     short: "The genealogy that brings the story from Noah to Abraham",
     detail: "Genesis 11:10–32 gives the post-Flood patriarchs: Shem, Arphaxad, Shelah, Eber, Peleg, Reu, Serug, Nahor, Terah, Abram. Lifespans shorten dramatically across this list — from Shem's 600 years to Terah's 205 — as the post-Flood conditions take hold. Terah, living in Ur of the Chaldees, has three sons: Abram, Nahor, and Haran. Haran dies in Ur. Terah takes Abram, Sarai (Abram's wife), and Lot (Haran's son), and sets out for the land of Canaan; they travel as far as Haran and settle there. Terah dies in Haran at 205 years. The stage is set: God will call one man out of this family, out of this town, into a land He will show him.",
     ref: "Genesis 11:10–32",
-    secondary: "Stephen, in Acts 7:2–4, attributes Abram's original call to a moment in Mesopotamia <em>before he lived in Haran</em>, while Genesis records the call narrative beginning at Gen 12 after Haran. Both are reconcilable: God called Abram in Ur; the family went to Haran; after Terah's death Abram fully obeyed and went on to Canaan."
+    secondary: "Stephen, in Acts 7:2–4, attributes Abram's original call to a moment in Mesopotamia <em>before he lived in Haran</em>, while Genesis records the call narrative beginning at Gen 12 after Haran. Both are reconcilable: God called Abram in Ur; the family went to Haran; after Terah's death Abram fully obeyed and went on to Canaan.",
+    deepDive: DEEPDIVE_GENEALOGY
   },
 
   // ---------- Phase 4: The Patriarchs ----------
@@ -1546,15 +1584,17 @@ function renderTimeline() {
     // Alternate sides
     const isLeft = globalIdx % 2 === 0;
 
+    const badge = ev.deepDive ? '<span class="deep-badge">deep dive</span>' : '';
     el.innerHTML = `
       <div class="event-card" style="border-left-color: ${col}; ${isLeft ? '' : 'border-left: none; border-right: 4px solid ' + col}">
         <div class="event-date">${ev.date}</div>
-        <span class="event-type-tag" style="background: ${col}">${ev.type}</span>
+        <span class="event-type-tag" style="background: ${col}">${ev.type}</span>${badge}
         <div class="event-title">${ev.title}</div>
         <div class="event-ref">📖 ${ev.ref}</div>
         <div class="event-detail">
           <p>${ev.detail}</p>
           ${ev.secondary ? `<div class="secondary">📜 Secondary Source: ${ev.secondary}</div>` : ''}
+          ${ev.deepDive ? `<a class="deep-dive-link" href="${ev.deepDive.href}" onclick="event.stopPropagation()">🔍 ${ev.deepDive.label}</a>` : ''}
         </div>
       </div>
       <div class="event-dot">

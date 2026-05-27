@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Adam to Abraham — The Genesis Genealogy | Noble Mind Study</title>
+<link rel="canonical" href="https://noblemind.study/genesis-genealogy/">
+<meta name="description" content="A visual lifespan chart of the twenty generations from Adam to Abraham — Genesis 5 and Genesis 11, drawn directly from the text. Hover any life to read it; highlight the chain of memory to see how few living hands carried the story from Eden to the Patriarchs.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --parchment: #F5EDD6;
+    --parchment-dark: #E8D9B5;
+    --ink: #2A1A05;
+    --sepia: #6B4C1A;
+    --sepia-light: #A07840;
+    --gold: #C4A44A;
+    --green: #5A7D5A;
+    --green-dk: #3F5C3F;
+    --amber: #B5651D;
+    --promise: #9A6B1A;
+    --water: #1A3A6B;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(180,140,60,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(140,100,40,0.06) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 24px 26px;
+    border-bottom: 3px double var(--gold);
+    position: relative; z-index: 1;
+    background: linear-gradient(180deg, rgba(196,164,74,0.12) 0%, transparent 100%);
+  }
+  .backlink {
+    position: absolute; left: 22px; top: 20px;
+    font-size: 13px; color: var(--sepia); text-decoration: none;
+    font-family: 'Crimson Text', serif; opacity: 0.85;
+  }
+  .backlink:hover { opacity: 1; text-decoration: underline; }
+  header h1 {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: clamp(28px, 4vw, 50px);
+    color: var(--sepia); letter-spacing: 1px; line-height: 1.2;
+  }
+  header h2 {
+    font-family: 'IM Fell English', Georgia, serif; font-style: italic;
+    font-size: clamp(15px, 2vw, 21px); color: var(--sepia-light);
+    margin-top: 8px; font-weight: normal;
+  }
+  header p { font-size: 14px; color: #5A5A5A; margin-top: 12px; font-style: italic; }
+
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center;
+    justify-content: center;
+    padding: 16px 24px; background: rgba(196,164,74,0.10);
+    border-bottom: 1px solid var(--gold);
+  }
+  .chain-btn {
+    padding: 7px 16px; border-radius: 22px; border: 1.5px solid var(--sepia);
+    background: var(--parchment); color: var(--sepia);
+    font-family: 'IM Fell English', serif; font-size: 14px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .chain-btn:hover { background: var(--parchment-dark); }
+  .chain-btn.on { background: var(--sepia); color: var(--parchment); }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--sepia); }
+  .legend-sw { width: 14px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 26px 18px 70px; position: relative; z-index: 1; }
+
+  .chart-scroll { overflow-x: auto; background: rgba(255,255,255,0.45); border: 1px solid var(--parchment-dark); border-radius: 8px; padding: 6px; box-shadow: 0 2px 10px rgba(42,26,5,0.06); }
+  svg.chart { min-width: 940px; width: 100%; height: auto; display: block; }
+
+  .person { cursor: pointer; }
+  .person .bar { transition: opacity 0.25s, filter 0.15s; }
+  .person:hover .bar { filter: brightness(1.08); }
+  .person.sel .bar { stroke: var(--ink); stroke-width: 2; }
+  svg.chain-mode .person:not(.chain) { opacity: 0.16; }
+  .nm { font-family: 'IM Fell English', serif; fill: var(--sepia); }
+  .nm-sub { font-family: 'Crimson Text', serif; fill: #8A7048; }
+  .axis-lbl { font-family: 'Crimson Text', serif; fill: #8A7048; }
+  .band-lbl { font-family: 'IM Fell English', serif; }
+  .grid { stroke: #D8C9A6; stroke-width: 1; }
+  .flood-line { stroke: var(--water); stroke-width: 2; stroke-dasharray: 5 3; }
+  .link-line { stroke: var(--sepia); stroke-width: 1; opacity: 0.30; }
+
+  .detail {
+    position: sticky; top: 8px; z-index: 30;
+    margin: 0 0 18px; background: #FFFDF8; border-radius: 8px; padding: 15px 20px;
+    border-left: 5px solid var(--sepia); box-shadow: 0 3px 14px rgba(42,26,5,0.16);
+    min-height: 84px; max-height: 42vh; overflow: auto;
+  }
+  .detail .mean { font-size: 14.5px; color: var(--sepia); font-style: italic; margin-bottom: 7px; }
+  .detail h3 { font-family: 'IM Fell English', serif; color: var(--sepia); font-size: 22px; margin-bottom: 4px; }
+  .detail .meta { font-size: 13.5px; color: var(--sepia-light); font-style: italic; margin-bottom: 8px; }
+  .detail .ref { font-size: 14px; color: var(--sepia); font-style: italic; margin-bottom: 8px; }
+  .detail .note { font-size: 15px; line-height: 1.6; color: #3A2A12; }
+  .detail .facts { margin-top: 10px; padding: 9px 12px; background: #F8F4EC; border-left: 3px solid var(--gold); border-radius: 0 4px 4px 0; font-size: 13.5px; color: #5A5A5A; }
+  .detail .placeholder { color: #8A7048; font-style: italic; }
+
+  details.about { margin-top: 26px; background: rgba(255,255,255,0.55); border: 1px solid var(--parchment-dark); border-radius: 8px; padding: 0 18px; }
+  details.about summary { cursor: pointer; padding: 14px 0; font-family: 'IM Fell English', serif; font-size: 18px; color: var(--sepia); }
+  details.about[open] summary { border-bottom: 1px solid var(--parchment-dark); }
+  details.about .body { padding: 14px 0 18px; font-size: 14.5px; line-height: 1.7; color: #3A2A12; }
+  details.about .body h4 { font-family: 'IM Fell English', serif; color: var(--sepia); margin: 14px 0 4px; font-size: 16px; }
+  details.about .body p { margin-bottom: 10px; }
+
+  footer { text-align: center; padding: 26px 20px 0; font-size: 12px; color: #5A5A5A; font-style: italic; line-height: 1.7; }
+
+  @media (max-width: 600px) {
+    .controls { gap: 8px 12px; }
+    .detail h3 { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="backlink" href="../old-testament-timeline/">&#8592; Old Testament Timeline</a>
+  <h1>From Adam to Abraham</h1>
+  <h2>The Genesis Genealogy &#8212; Twenty Generations of the Promised Line</h2>
+  <p>Genesis 5 &amp; 11 &#183; Hebrew Masoretic chronology, read as <em>circa</em> &#183; Years reckoned from Creation (Anno Mundi) &#183; Click any life to read it</p>
+</header>
+
+<div class="controls">
+  <button class="chain-btn" id="chainBtn">Highlight the chain of memory</button>
+  <div class="legend">
+    <div class="legend-item"><span class="legend-sw" style="background:#5A7D5A"></span>Before the Flood</div>
+    <div class="legend-item"><span class="legend-sw" style="background:#B5651D"></span>The Scattering</div>
+    <div class="legend-item"><span class="legend-sw" style="background:#9A6B1A"></span>The Patriarchs</div>
+    <div class="legend-item"><span class="legend-sw" style="background:#1A3A6B"></span>The Flood</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="detail" id="detail">
+    <p class="placeholder">Hover or tap any life on the chart below to read who they were, what their name means, how long they lived, and whose lives their own overlapped. Or press <strong>Highlight the chain of memory</strong> to see how few living hands carried the story from Adam to Abraham.</p>
+  </div>
+
+  <div class="chart-scroll" id="chartScroll" role="img" aria-label="Lifespan chart from Adam to Abraham"></div>
+
+  <details class="about">
+    <summary>A note on the chronology &#8212; how these numbers were reached, and where faithful students differ</summary>
+    <div class="body">
+      <p>The lengths of these lives are not estimates. They are read directly from Genesis 5 and 11, which give, for each man in the line, the age at which he fathered the next and the total years of his life. From those two figures every birth and death year on this chart is calculated. The relative positions &#8212; the overlaps, the gaps, the moment Methuselah dies &#8212; are therefore as exact as the text itself. Only the absolute dates (the <em>circa</em> BC figures) are approximate.</p>
+
+      <h4>Anno Mundi, not a fixed BC date</h4>
+      <p>The chart counts years from Creation (Anno Mundi, &#8220;in the year of the world&#8221;), because that is what the text actually supplies &#8212; relative spans, not calendar dates. The companion Old Testament Timeline places Creation around 4000 BC and the Flood around 2350 BC in the Ussher-style framework, read with a deliberate &#8220;circa,&#8221; and we follow the same restraint here. One caution when setting the two side by side: that timeline dates the patriarchs by reckoning <em>backward</em> from the Exodus (1446 BC), which places Abraham a century or two earlier than a count anchored at Creation would. In this early stretch the two honest methods simply diverge &#8212; which is exactly why every absolute date here wears a &#8220;circa,&#8221; while the spans and overlaps, drawn straight from the text, do not.</p>
+
+      <h4>Why three text traditions disagree</h4>
+      <p>The Hebrew Masoretic Text (which the NASB follows) is used here. The Greek Septuagint generally adds about a hundred years to many of the fathering-ages, which stretches the span from Creation to Abraham by well over a thousand years; the Samaritan Pentateuch differs again. The Septuagint also inserts a second Cainan between Arpachshad and Shelah &#8212; the very name that appears in Luke&#8217;s genealogy of Christ (Luke 3:36), which is worth weighing rather than waving away. A faithful chart names the difficulty instead of hiding it; a future version of this page may let you switch traditions and watch the timeline stretch.</p>
+
+      <h4>Was Noah alive when Abraham was born?</h4>
+      <p>On the figures used here, Noah dies just two years before Abraham is born &#8212; they miss each other. But this depends on a real question: Genesis 11:26 says Terah was seventy when he fathered Abram, Nahor, and Haran, yet Acts 7:4 (with Genesis 11:32 and 12:4) implies Abram was born when Terah was a hundred and thirty. We follow the Acts reading, as the Old Testament Timeline does. On the other reading, Abram is born earlier &#8212; and Noah&#8217;s life would overlap his. The chart marks the figure; the reader may weigh the text.</p>
+
+      <h4>Gaps, or no gaps?</h4>
+      <p>Some hold that these genealogies are complete and continuous, yielding a strict chronology; others hold that Hebrew genealogies can skip generations (&#8220;X fathered Y&#8221; sometimes meaning a later descendant), so the list need not be read as an unbroken clock. Scripture does not settle the question for us in so many words. The chart presents the figures plainly; it does not insist they forbid every gap.</p>
+    </div>
+  </details>
+
+  <footer>
+    <p>Primary Source: The Holy Bible (Genesis 5; 9:28&#8211;29; 11:10&#8211;32; 12; 25:7) &#183; Cross-references: Luke 3:34&#8211;38; Acts 7:2&#8211;4; Hebrews 11:5&#8211;7; Jude 14&#8211;15; 2 Peter 2:5</p>
+    <p>Structural framework drawn from Bob Waldron, <em>The Unfolding of God&#8217;s Plan</em> and <em>The Three Cycle Approach</em>. A deep-dive companion to the Noble Mind Study Old Testament Timeline.</p>
+  </footer>
+</div>
+
+<script>
+// ---- Data: Masoretic figures from Genesis 5 & 11 ----
+// fatheredAt = age when the NEXT man in the line was born; life = total years.
+const RAW = [
+  { name:"Adam", meaning:"“Man” — from adamah, the ground from which he was formed (Gen 2:7).",       fatheredAt:130, life:930, phase:"flood",  ref:"Genesis 2:7; 5:1\u20135",
+    note:"The first man, formed from the dust and given the breath of life. The head of the line; his own years reach down far enough to overlap Lamech, the father of Noah." },
+  { name:"Seth", meaning:"“Appointed” — Eve said, “God has appointed me another offspring” (Gen 4:25).",       fatheredAt:105, life:912, phase:"flood",  ref:"Genesis 4:25\u201326; 5:3\u20138",
+    note:"Born after Abel\u2019s death \u2014 \u201CGod has appointed me another offspring in place of Abel.\u201D In his son\u2019s days men began to call upon the name of the LORD." },
+  { name:"Enosh", meaning:"“Mortal man” — a word for humanity in its frailty.",      fatheredAt:90,  life:905, phase:"flood",  ref:"Genesis 5:6\u201311",
+    note:"In his time men began to call upon the name of the LORD (Gen 4:26)." },
+  { name:"Kenan", meaning:"Uncertain; traditionally “possession” or “acquired.”",      fatheredAt:70,  life:910, phase:"flood",  ref:"Genesis 5:9\u201314",
+    note:"The fourth from Adam in the line of promise." },
+  { name:"Mahalalel", meaning:"“Praise of God.”",  fatheredAt:65,  life:895, phase:"flood",  ref:"Genesis 5:12\u201317",
+    note:"His name means \u201Cpraise of God.\u201D" },
+  { name:"Jared", meaning:"“Descent,” from the root meaning “to go down.”",      fatheredAt:162, life:962, phase:"flood",  ref:"Genesis 5:15\u201320",
+    note:"Father of Enoch. One of the longest-lived of the line." },
+  { name:"Enoch", meaning:"“Dedicated” or “trained” — the same root as Hanukkah, “dedication.”",      fatheredAt:65,  life:365, phase:"flood",  taken:true, ref:"Genesis 5:18\u201324; Hebrews 11:5; Jude 14\u201315",
+    note:"\u201CEnoch walked with God; and he was not, for God took him.\u201D He did not die. Hebrews names his faith; Jude names him a prophet. His life is the short, bright bar that ends not in death but in being taken." },
+  { name:"Methuselah", meaning:"Traditionally “man of the dart”; the etymology is debated. Strikingly, he died the very year of the Flood.", fatheredAt:187, life:969, phase:"flood",  ref:"Genesis 5:21\u201327",
+    note:"The longest-lived man recorded \u2014 nine hundred sixty-nine years. He dies in the very year of the Flood. His life touches both Adam and Shem: he is the hinge of the whole chain." },
+  { name:"Lamech", meaning:"Meaning uncertain.",     fatheredAt:182, life:777, phase:"flood",  ref:"Genesis 5:25\u201331",
+    note:"Father of Noah, whom he named in hope of rest from the cursed ground. He dies five years before the Flood." },
+  { name:"Noah", meaning:"“Rest” — Lamech: “this one will give us rest from our work and from the toil of our hands” (Gen 5:29).",       fatheredAt:502, life:950, phase:"flood",  ref:"Genesis 5:32; 6\u20139; 2 Peter 2:5",
+    note:"\u201CNoah found favor in the eyes of the LORD.\u201D He builds the ark and, a preacher of righteousness, carries the line through the Flood. The promised line continues through his son Shem." },
+  { name:"Shem", meaning:"“Name” or “renown.”",       fatheredAt:100, life:600, phase:"scatter", ref:"Genesis 9:26; 11:10\u201311",
+    note:"Noah\u2019s son and the blessed line. Arphaxad is born to him two years after the Flood. Shem lives six hundred years \u2014 long enough to overlap Abraham by a hundred and fifty." },
+  { name:"Arphaxad", meaning:"Obscure; meaning uncertain.",   fatheredAt:35,  life:438, phase:"scatter", ref:"Genesis 11:12\u201313",
+    note:"Born two years after the Flood. With him the post-Flood lifespans begin their long decline." },
+  { name:"Shelah", meaning:"Uncertain; perhaps “sprout” or “sent.”",     fatheredAt:30,  life:433, phase:"scatter", ref:"Genesis 11:14\u201315",
+    note:"The son of Arphaxad in the line to Abraham." },
+  { name:"Eber", meaning:"“The region beyond,” from the root “to cross over” — the word behind “Hebrew.”",       fatheredAt:34,  life:464, phase:"scatter", ref:"Genesis 11:16\u201317",
+    note:"From whom the name \u201CHebrew\u201D is often traced. Remarkably, his bar runs past Abraham\u2019s \u2014 he outlives Abraham by four years." },
+  { name:"Peleg", meaning:"“Division” — “for in his days the earth was divided” (Gen 10:25).",      fatheredAt:30,  life:239, phase:"scatter", ref:"Genesis 10:25; 11:18\u201319",
+    note:"\u201CFor in his days the earth was divided\u201D \u2014 the scattering at Babel. With Peleg the lifespans drop sharply, never to recover." },
+  { name:"Reu", meaning:"“Friend” or “shepherd.”",        fatheredAt:32,  life:239, phase:"scatter", ref:"Genesis 11:20\u201321",
+    note:"The son of Peleg in the chosen line." },
+  { name:"Serug", meaning:"Uncertain; perhaps “branch” or “intertwined.”",      fatheredAt:30,  life:230, phase:"scatter", ref:"Genesis 11:22\u201323",
+    note:"Great-grandfather of Abraham." },
+  { name:"Nahor", meaning:"Uncertain; perhaps “snorting,” or a place-name.",      fatheredAt:29,  life:148, phase:"scatter", ref:"Genesis 11:24\u201325",
+    note:"Grandfather of Abraham; his is the shortest life on the chart." },
+  { name:"Terah", meaning:"Uncertain; perhaps “station” or linked to wandering.",      fatheredAt:130, life:205, phase:"scatter", ref:"Genesis 11:24\u201332; Acts 7:2\u20134",
+    note:"Father of Abram, Nahor, and Haran. He sets out from Ur of the Chaldees toward Canaan, settles in Haran, and dies there at two hundred five." },
+  { name:"Abraham", meaning:"Abram, “exalted father,” renamed Abraham, “father of a multitude” (Gen 17:5).",    fatheredAt:null, life:175, phase:"promise", ref:"Genesis 11:26; 12; 25:7",
+    note:"Called out of Haran at seventy-five \u2014 the father of the faithful, in whom all the families of the earth would be blessed. The chain from Adam reaches him through only a few living hands." },
+];
+
+const PHASE_COLOR = { flood:"#5A7D5A", scatter:"#B5651D", promise:"#9A6B1A" };
+
+// Compute born / die (single source of truth)
+let acc = 0;
+const P = RAW.map(p => { const born = acc; const die = born + p.life; acc += (p.fatheredAt || 0); return Object.assign({}, p, {born, die}); });
+const idx = {}; P.forEach((p,i)=> idx[p.name]=i);
+const FLOOD = P[idx["Noah"]].born + 600;          // 1656
+const MAXAM = 2200;
+const CHAIN = new Set(["Adam","Methuselah","Shem","Abraham"]);
+
+// circa BC helper (anchored to the hub's framework; explicitly approximate)
+function bc(am){ const y = 4000 - am; return y > 0 ? ("\u2248 " + y + " BC") : ("\u2248 AD " + (-y)); }
+
+// ---- Geometry ----
+const VW = 1140, PLOT_L = 152, PLOT_R = 1108;
+const AXIS_TOP = 46, ROW0 = 60, ROW_H = 27, BAR_H = 16;
+const PLOT_BOT = ROW0 + P.length * ROW_H;        // 60 + 540 = 600
+const VH = PLOT_BOT + 30;
+const x = am => PLOT_L + (am) / MAXAM * (PLOT_R - PLOT_L);
+const rowY = i => ROW0 + i * ROW_H;
+
+const BANDS = [
+  { label:"Before the Flood", from:0,      to:FLOOD,  fill:"#5A7D5A" },
+  { label:"The Scattering",   from:FLOOD,  to:P[idx["Abraham"]].born, fill:"#B5651D" },
+  { label:"The Patriarchs",   from:P[idx["Abraham"]].born, to:MAXAM, fill:"#9A6B1A" },
+];
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function buildSVG(){
+  let s = `<svg class="chart" id="chart" viewBox="0 0 ${VW} ${VH}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // phase background bands + labels
+  BANDS.forEach(b => {
+    const x0 = x(b.from), x1 = x(b.to);
+    s += `<rect x="${x0.toFixed(1)}" y="${AXIS_TOP}" width="${(x1-x0).toFixed(1)}" height="${PLOT_BOT-AXIS_TOP}" fill="${b.fill}" opacity="0.07"/>`;
+    s += `<text class="band-lbl" x="${((x0+x1)/2).toFixed(1)}" y="22" text-anchor="middle" font-size="14" fill="${b.fill}">${esc(b.label)}</text>`;
+  });
+
+  // vertical gridlines + AM axis labels (every 250 yrs)
+  for (let am = 0; am <= 2000; am += 250){
+    const gx = x(am);
+    s += `<line class="grid" x1="${gx.toFixed(1)}" y1="${AXIS_TOP}" x2="${gx.toFixed(1)}" y2="${PLOT_BOT}"/>`;
+    s += `<text class="axis-lbl" x="${gx.toFixed(1)}" y="40" text-anchor="middle" font-size="11">AM ${am}</text>`;
+    s += `<text class="axis-lbl" x="${gx.toFixed(1)}" y="${PLOT_BOT+16}" text-anchor="middle" font-size="10.5">${bc(am)}</text>`;
+  }
+  // axis captions (clarify AM = Anno Mundi, and circa BC)
+  s += `<text class="axis-lbl" x="6" y="40" font-size="10" font-style="italic">AM = yrs from Creation</text>`;
+  s += `<text class="axis-lbl" x="6" y="${PLOT_BOT+16}" font-size="10" font-style="italic">circa BC \u2192</text>`;
+
+  // genealogy connector lines (parent begetting point = child's birth x)
+  for (let i = 0; i < P.length - 1; i++){
+    const cx = x(P[i+1].born);
+    s += `<line class="link-line" x1="${cx.toFixed(1)}" y1="${(rowY(i)+BAR_H).toFixed(1)}" x2="${cx.toFixed(1)}" y2="${rowY(i+1).toFixed(1)}"/>`;
+  }
+
+  // flood marker
+  const fx = x(FLOOD);
+  s += `<line class="flood-line" x1="${fx.toFixed(1)}" y1="${AXIS_TOP}" x2="${fx.toFixed(1)}" y2="${PLOT_BOT}"/>`;
+  s += `<text class="band-lbl" x="${fx.toFixed(1)}" y="${PLOT_BOT+28}" text-anchor="middle" font-size="11.5" fill="#1A3A6B">The Flood &#183; AM ${FLOOD}</text>`;
+
+  // person rows
+  P.forEach((p,i) => {
+    const y = rowY(i), bx = x(p.born), bw = x(p.die) - x(p.born);
+    const col = PHASE_COLOR[p.phase];
+    const chainCls = CHAIN.has(p.name) ? " chain" : "";
+    s += `<g class="person${chainCls}" data-i="${i}">`;
+    // name in gutter (right-aligned)
+    s += `<text class="nm" x="${PLOT_L-8}" y="${(y+BAR_H/2+4).toFixed(1)}" text-anchor="end" font-size="12.5">${esc(p.name)}</text>`;
+    // the life bar
+    s += `<rect class="bar" x="${bx.toFixed(1)}" y="${y}" width="${Math.max(2,bw).toFixed(1)}" height="${BAR_H}" rx="3" fill="${col}" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>`;
+    // lifespan number inside bar if room
+    if (bw > 64) s += `<text x="${(bx+6).toFixed(1)}" y="${(y+BAR_H/2+4).toFixed(1)}" font-size="10.5" fill="rgba(255,255,255,0.92)" font-family="Crimson Text, serif">${p.life} yrs</text>`;
+    // begetting marker (dot at the moment the next man is born)
+    if (p.fatheredAt != null){
+      const mx = x(p.born + p.fatheredAt);
+      s += `<circle cx="${mx.toFixed(1)}" cy="${(y+BAR_H/2).toFixed(1)}" r="2.6" fill="#2A1A05" opacity="0.55"/>`;
+    }
+    // Enoch: taken, not died -> upward marker at bar end
+    if (p.taken){
+      const ex = x(p.die);
+      s += `<path d="M ${(ex-5).toFixed(1)} ${(y-3).toFixed(1)} L ${ex.toFixed(1)} ${(y-9).toFixed(1)} L ${(ex+5).toFixed(1)} ${(y-3).toFixed(1)} Z" fill="${col}"/>`;
+      s += `<text x="${(ex+9).toFixed(1)}" y="${(y+BAR_H/2+4).toFixed(1)}" font-size="10.5" fill="${col}" font-style="italic" font-family="Crimson Text, serif">taken</text>`;
+    }
+    // wide invisible hit area for easy hover
+    s += `<rect x="${PLOT_L-150}" y="${y-3}" width="${VW-(PLOT_L-150)-6}" height="${ROW_H-2}" fill="transparent"/>`;
+    s += `</g>`;
+  });
+
+  s += `</svg>`;
+  return s;
+}
+
+const chartScroll = document.getElementById("chartScroll");
+chartScroll.innerHTML = buildSVG();
+const svg = chartScroll.querySelector("svg");
+
+// ---- Interaction: detail panel (event delegation — robust for injected SVG) ----
+const detail = document.getElementById("detail");
+function showPerson(i){
+  const p = P[i];
+  svg.querySelectorAll(".person").forEach(g => g.classList.remove("sel"));
+  const g = svg.querySelector(`.person[data-i="${i}"]`);
+  if (g) g.classList.add("sel");
+  const end = p.taken ? `taken at ${p.life}` : `died AM ${p.die} (lived ${p.life})`;
+  const father = p.fatheredAt != null ? ` &#183; fathered the next of the line at ${p.fatheredAt}` : "";
+  detail.innerHTML =
+    `<h3>${esc(p.name)}</h3>` +
+    (p.meaning ? `<div class="mean">${esc(p.meaning)}</div>` : ``) +
+    `<div class="meta">born AM ${p.born} (${bc(p.born)}) &#183; ${end}${father}</div>` +
+    `<div class="ref">\uD83D\uDCD6 ${esc(p.ref)}</div>` +
+    `<div class="note">${esc(p.note)}</div>`;
+}
+function personFromEvent(e){
+  const t = e.target;
+  return (t && t.closest) ? t.closest(".person") : null;
+}
+chartScroll.addEventListener("click", e => { const g = personFromEvent(e); if (g) showPerson(+g.dataset.i); });
+chartScroll.addEventListener("mouseover", e => { const g = personFromEvent(e); if (g) showPerson(+g.dataset.i); });
+
+// ---- Interaction: chain of memory ----
+const chainBtn = document.getElementById("chainBtn");
+chainBtn.addEventListener("click", () => {
+  const on = svg.classList.toggle("chain-mode");
+  chainBtn.classList.toggle("on", on);
+  if (on){
+    detail.innerHTML =
+      `<h3>The chain of living memory</h3>` +
+      `<div class="note">From Adam to Abraham is twenty generations and more than two thousand years &#8212; yet the account could have passed through only a few living hands. ` +
+      `<strong>Adam</strong> lived to see <strong>Methuselah</strong> (they shared 243 years). <strong>Methuselah</strong> lived until the very year of the Flood, overlapping <strong>Shem</strong> by some ninety-eight years. And <strong>Shem</strong> lived on for a hundred and fifty years after <strong>Abraham</strong> was born. ` +
+      `Adam to Methuselah to Shem to Abraham: three overlapping lifetimes bridge the whole span.</div>` +
+      `<div class="facts">On the figures used here, Noah dies just two years before Abraham is born &#8212; so the bridge runs through Methuselah and Shem rather than through Noah himself.</div>`;
+  } else {
+    detail.innerHTML = `<p class="placeholder">Hover or tap any life on the chart to read who they were and whose lives their own overlapped.</p>`;
+  }
+});
+</script>
+
+</body>
+</html>
