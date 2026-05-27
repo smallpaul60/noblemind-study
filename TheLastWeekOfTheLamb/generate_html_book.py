@@ -1414,6 +1414,22 @@ def generate_index_html():
       .lesson-grid {{ grid-template-columns: 1fr; gap: 10px; }}
       .lesson-card {{ padding: 14px 16px; min-height: 44px; }}
     }}
+    .hero-cover {{
+      text-align: center;
+      margin: 28px 0 8px;
+      position: relative;
+      z-index: 1;
+    }}
+    .hero-cover img {{
+      max-width: 280px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+      box-shadow:
+        0 8px 32px rgba(0,0,0,0.5),
+        0 0 60px rgba({ACCENT_RGB}, 0.30);
+      border: 1px solid rgba({ACCENT_RGB}, 0.30);
+    }}
   </style>
 </head>
 <body>
@@ -1439,6 +1455,10 @@ def generate_index_html():
         <a href="../books.html" class="return-link">&larr; Return to Books</a>
         <span class="download-btn">PDF download coming soon</span>
       </header>
+
+      <div class="hero-cover">
+        <img src="The_Last_Week_of_the_Lamb_Front_Cover_Mockup.png" alt="The Last Week of the Lamb — book cover" loading="eager">
+      </div>
 
       <div class="progress-bar">
         <div class="label">
