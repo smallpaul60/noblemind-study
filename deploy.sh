@@ -22,6 +22,11 @@ echo "[1a/4] Rebuilding Apostle Paul timeline PDFs..."
 python3 "$SITE_DIR/tools/build_timeline_pdfs.py"
 echo ""
 
+# Step 1b: Rebuild OT-timeline spoke PDFs the same way.
+echo "[1b/4] Rebuilding OT-spoke PDFs..."
+python3 "$SITE_DIR/tools/build_spoke_pdfs.py"
+echo ""
+
 # Step 1: Regenerate sitemap.xml and robots.txt so <lastmod> timestamps stay current
 echo "[1/4] Regenerating sitemap.xml and robots.txt..."
 python3 "$SITE_DIR/tools/gen_sitemap.py"
