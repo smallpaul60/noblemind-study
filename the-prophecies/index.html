@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Prophecies — What Was Foretold, Where It Was Foretold, and What Fulfilled It | Noble Mind Study</title>
+<link rel="canonical" href="https://noblemind.study/the-prophecies/">
+<meta name="description" content="A filterable catalog of Old Testament prophecies that have a recorded fulfillment — by person named, nation foretold, empire predicted, exile and return, and the coming Christ. Every prophecy paired with the verse that records its fulfillment, by chapter and verse.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --parchment: #F5EDD6;
+    --parchment-dark: #E8D9B5;
+    --ink: #2A1A05;
+    --sepia: #6B4C1A;
+    --sepia-light: #A07840;
+    --gold: #C4A44A;
+    --gold-glow: #E0BF5C;
+    --crimson: #8B2020;
+    --bronze: #8B6B3A;
+    --olive: #6B7A2A;
+    --vine: #4A6633;
+    --indigo: #2E3A6B;
+    --plum: #5C2E5C;
+    /* Tag colors */
+    --tag-person:  #8B6B3A;
+    --tag-nation:  #5C2E5C;
+    --tag-empire:  #2E3A6B;
+    --tag-exile:   #6B4C1A;
+    --tag-messiah: #8B2020;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(180,140,60,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(140,100,40,0.06) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  header.page-header {
+    text-align: center;
+    padding: 48px 24px 32px;
+    border-bottom: 3px double var(--gold);
+    position: relative; z-index: 1;
+    background: linear-gradient(180deg, rgba(196,164,74,0.12) 0%, transparent 100%);
+  }
+
+  .backlink {
+    position: absolute; left: 22px; top: 20px;
+    font-size: 13px; color: var(--sepia); text-decoration: none;
+    font-family: 'Crimson Text', serif; opacity: 0.85;
+  }
+  .backlink:hover { opacity: 1; text-decoration: underline; }
+
+  header.page-header h1 {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: clamp(28px, 4vw, 52px);
+    color: var(--sepia); letter-spacing: 1px; line-height: 1.2;
+  }
+  header.page-header h2 {
+    font-family: 'IM Fell English', Georgia, serif; font-style: italic;
+    font-size: clamp(15px, 2vw, 22px); color: var(--sepia-light);
+    margin-top: 10px; font-weight: normal;
+  }
+  header.page-header p.lede {
+    font-size: 14.5px; color: #5A5A5A; margin: 14px auto 0;
+    font-style: italic; max-width: 780px; line-height: 1.65;
+  }
+
+  .wrap {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 32px 22px 60px;
+    position: relative; z-index: 1;
+  }
+
+  /* Anchor verse */
+  .anchor {
+    background: rgba(255,255,255,0.55);
+    border-left: 4px solid var(--gold);
+    padding: 22px 26px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 28px;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .anchor .ref {
+    display: block;
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    font-size: 13px;
+    letter-spacing: 1px;
+    margin-top: 8px;
+  }
+  .anchor em { color: var(--sepia); font-style: italic; }
+
+  /* Methodology callout */
+  .method {
+    background: rgba(255, 252, 245, 0.7);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 28px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .method h3 {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+  .method em { color: var(--sepia); font-style: italic; }
+  .method strong { color: var(--sepia); }
+
+  /* Filter pills */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    background: rgba(255, 252, 245, 0.7);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 8px;
+  }
+  .filter-pill {
+    font-family: 'IM Fell English', serif;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sepia);
+    border: 1px solid var(--sepia-light);
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    transition: all 0.18s;
+  }
+  .filter-pill:hover { background: rgba(196, 164, 74, 0.12); }
+  .filter-pill.active {
+    background: var(--sepia);
+    color: var(--parchment);
+    border-color: var(--sepia);
+  }
+  .filter-pill .count {
+    display: inline-block;
+    font-size: 11px;
+    opacity: 0.75;
+    margin-left: 4px;
+  }
+
+  /* Prophecy card */
+  .prophecy {
+    background: rgba(255,255,255,0.55);
+    border-radius: 10px;
+    padding: 24px 26px 22px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(42,26,5,0.08);
+    border-left: 5px solid var(--sepia);
+    position: relative;
+  }
+  .prophecy.hidden { display: none; }
+  .prophecy[data-tag="person"]  { border-left-color: var(--tag-person); }
+  .prophecy[data-tag="nation"]  { border-left-color: var(--tag-nation); }
+  .prophecy[data-tag="empire"]  { border-left-color: var(--tag-empire); }
+  .prophecy[data-tag="exile"]   { border-left-color: var(--tag-exile); }
+  .prophecy[data-tag="messiah"] { border-left-color: var(--tag-messiah); }
+
+  .prophecy .tag {
+    display: inline-block;
+    font-family: 'IM Fell English', serif;
+    font-size: 11px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--parchment);
+  }
+  .prophecy[data-tag="person"]  .tag { background: var(--tag-person); }
+  .prophecy[data-tag="nation"]  .tag { background: var(--tag-nation); }
+  .prophecy[data-tag="empire"]  .tag { background: var(--tag-empire); }
+  .prophecy[data-tag="exile"]   .tag { background: var(--tag-exile); }
+  .prophecy[data-tag="messiah"] .tag { background: var(--tag-messiah); }
+
+  .prophecy h3 {
+    font-family: 'IM Fell English', Georgia, serif;
+    color: var(--sepia); font-size: 22px;
+    line-height: 1.2; margin-bottom: 4px;
+  }
+  .prophecy .gap {
+    font-style: italic;
+    color: var(--sepia-light);
+    font-size: 13.5px;
+    margin-bottom: 14px;
+  }
+
+  /* Promise/Fulfillment two-panel layout */
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+  @media (max-width: 700px) { .panels { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: rgba(245, 237, 214, 0.55);
+    border-radius: 6px;
+    padding: 14px 16px;
+    border-top: 3px solid var(--sepia);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .panel.promise { border-top-color: var(--olive); }
+  .panel.fulfillment { border-top-color: var(--crimson); }
+  .panel .label {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    font-size: 11.5px;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .panel .ref-line {
+    color: var(--sepia);
+    font-size: 12.5px;
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .panel .ref-line .year {
+    display: inline-block;
+    background: rgba(107, 76, 26, 0.15);
+    color: var(--sepia);
+    padding: 1px 8px;
+    border-radius: 3px;
+    margin-left: 6px;
+    font-style: normal;
+    font-family: 'IM Fell English', serif;
+    font-size: 11.5px;
+  }
+  .panel .quote {
+    color: var(--sepia);
+    font-style: italic;
+    font-size: 13.5px;
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .panel .gloss { color: var(--ink); font-size: 13.5px; }
+  .panel .gloss em { color: var(--sepia); font-style: italic; }
+
+  /* Per-card summary line */
+  .prophecy .summary {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: rgba(196, 164, 74, 0.12);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 4px 4px 0;
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .prophecy .summary em { color: var(--sepia); font-style: italic; }
+  .prophecy .summary .label {
+    font-family: 'IM Fell English', serif;
+    font-size: 10.5px;
+    color: var(--sepia);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  /* Empty filter state */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--sepia-light);
+    font-style: italic;
+    display: none;
+  }
+  .empty-state.show { display: block; }
+
+  /* About / notes */
+  details.about {
+    margin-top: 24px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 8px;
+    padding: 0 20px;
+  }
+  details.about summary {
+    cursor: pointer;
+    padding: 16px 0;
+    font-family: 'IM Fell English', serif;
+    font-size: 18px; color: var(--sepia);
+  }
+  details.about[open] summary { border-bottom: 1px solid var(--parchment-dark); }
+  details.about .body { padding: 14px 0 18px; font-size: 14.5px; line-height: 1.7; color: #3A2A12; }
+  details.about .body p { margin-bottom: 10px; }
+  details.about .body h4 {
+    font-family: 'IM Fell English', serif;
+    color: var(--sepia);
+    margin: 14px 0 4px;
+    font-size: 15px;
+  }
+  details.about .body em { color: var(--sepia); font-style: italic; }
+
+  footer.page-footer {
+    text-align: center;
+    padding: 30px 20px 0;
+    font-size: 12px;
+    color: #5A5A5A;
+    font-style: italic;
+    line-height: 1.7;
+  }
+  footer.page-footer p { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a class="backlink" href="../old-testament-timeline/">&larr; Old Testament Timeline</a>
+  <h1>The Prophecies</h1>
+  <h2>What was foretold, where it was foretold, and what fulfilled it</h2>
+  <p class="lede">A filterable catalog of Old Testament prophecies that have a recorded fulfillment &mdash; men named centuries before they were born, nations and empires foretold in detail, the exile and return predicted to the year, and the coming Christ. Every prophecy is paired with the verse or historical event that records its fulfillment. Filter by category to narrow the view.</p>
+</header>
+
+<div class="wrap">
+
+  <!-- Anchor verse -->
+  <div class="anchor">
+    Remember the former things long past, for I am God, and there is no other; I am God, and there is no one like Me, declaring the end from the beginning, and from ancient times things which have not been done, saying, <em>My purpose will be established, and I will accomplish all My good pleasure.</em>
+    <span class="ref">Isaiah 46:9&ndash;10 &middot; NASB</span>
+  </div>
+
+  <!-- Methodology -->
+  <div class="method">
+    <h3>How this catalog reads Scripture</h3>
+    <p>Every prophecy on this page has a <strong>recorded fulfillment</strong> &mdash; either in later Scripture (a historian, an apostle, or an inspired writer naming the earlier text as fulfilled), or in the historical record outside Scripture that the Bible itself anticipated. Where Scripture is the witness to its own fulfillment, the verses are cited on both ends. Where the fulfillment is documented outside the Bible (Tyre destroyed by Alexander, Babylon left in ruins, Nineveh forgotten until the 19th century), the historical record is named.</p>
+    <p>Prophecies whose fulfillment is contested, future, or read differently by different schools (Daniel&rsquo;s 70 weeks, Ezekiel 38&ndash;39, the millennium passages, future restoration of national Israel) are <em>not</em> on this catalog. That is not because they aren&rsquo;t real prophecies. It is because this spoke holds to one standard: <em>a fulfillment Scripture or history records.</em></p>
+  </div>
+
+  <!-- Filter pills -->
+  <nav class="filter-bar" aria-label="Filter by category">
+    <button class="filter-pill active" data-filter="all">All <span class="count" id="count-all"></span></button>
+    <button class="filter-pill" data-filter="person">Person <span class="count" id="count-person"></span></button>
+    <button class="filter-pill" data-filter="nation">Nation <span class="count" id="count-nation"></span></button>
+    <button class="filter-pill" data-filter="empire">Empire <span class="count" id="count-empire"></span></button>
+    <button class="filter-pill" data-filter="exile">Exile &amp; Return <span class="count" id="count-exile"></span></button>
+    <button class="filter-pill" data-filter="messiah">Messiah <span class="count" id="count-messiah"></span></button>
+  </nav>
+
+  <!-- The prophecies list -->
+  <div id="list">
+
+    <!-- ====================== PERSON ====================== -->
+
+    <article class="prophecy" data-tag="person">
+      <span class="tag">Person</span>
+      <h3>Cyrus named, 150 years before his birth</h3>
+      <p class="gap">Foretold by Isaiah &middot; fulfilled in the decree of Cyrus the Great &middot; gap ~160 years</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 44:28; 45:1&ndash;4 <span class="year">c. 700 BC</span></div>
+          <div class="quote">It is I who says of Cyrus, &lsquo;He is My shepherd, and he will perform all My desire.&rsquo; And he declares of Jerusalem, &lsquo;She will be built,&rsquo; and of the temple, &lsquo;Your foundation will be laid.&rsquo;</div>
+          <div class="gloss">Isaiah names <em>Cyrus by name</em> roughly a century and a half before he was born. The Hebrew name <em>Koresh</em> is given specifically, with the role described: shepherd, rebuilder of Jerusalem and the temple.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Ezra 1:1&ndash;4; 2 Chronicles 36:22&ndash;23 <span class="year">539 BC</span></div>
+          <div class="quote">Now in the first year of Cyrus king of Persia, in order to fulfill the word of the LORD by the mouth of Jeremiah, the LORD stirred up the spirit of Cyrus king of Persia, so that he sent a proclamation throughout all his kingdom&hellip; <em>The LORD, the God of heaven, has given me all the kingdoms of the earth, and He has appointed me to build Him a house in Jerusalem.</em></div>
+          <div class="gloss">Cyrus founded the Persian Empire in 539 BC. His first-year decree authorizing the Jews&rsquo; return and the rebuilding of the temple is recorded both in Scripture and on the Cyrus Cylinder now in the British Museum.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="person">
+      <span class="tag">Person</span>
+      <h3>Josiah named, three centuries before his birth</h3>
+      <p class="gap">Foretold by the man of God from Judah at the altar of Bethel &middot; fulfilled when Josiah reformed the north &middot; gap ~310 years</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">1 Kings 13:1&ndash;3 <span class="year">c. 930 BC</span></div>
+          <div class="quote">Behold, a son shall be born to the house of David, Josiah by name, and on you he shall sacrifice the priests of the high places who burn incense on you, and human bones shall be burned on you.</div>
+          <div class="gloss">Spoken to the altar at Bethel that Jeroboam had just built. The prophet names the future king who will defile that altar &mdash; <em>Josiah</em> &mdash; about three hundred years before he was born.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">2 Kings 23:15&ndash;20 <span class="year">c. 622 BC</span></div>
+          <div class="quote">Furthermore, the altar that was at Bethel and the high place which Jeroboam the son of Nebat, who made Israel sin, had made&hellip; that altar and the high place he broke down&hellip; Then Josiah turned, and as he saw the graves that were there on the mountain, he sent and took the bones out of the graves and burned them on the altar and defiled it according to the word of the LORD which the man of God proclaimed.</div>
+          <div class="gloss">2 Kings 23 names the original prophecy directly. The reformation reached even into the territory of the long-fallen Northern Kingdom; Josiah&rsquo;s reform across that border specifically targeted Bethel, exactly as foretold.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="person">
+      <span class="tag">Person</span>
+      <h3>The fall of Eli&rsquo;s house</h3>
+      <p class="gap">Foretold by an unnamed man of God &middot; fulfilled across Eli&rsquo;s sons and ultimately at Abiathar&rsquo;s deposition</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">1 Samuel 2:27&ndash;36 <span class="year">c. 1100 BC</span></div>
+          <div class="quote">This will be the sign to you which will come concerning your two sons, Hophni and Phinehas: on the same day both of them will die&hellip; But I will raise up for Myself a faithful priest who will do according to what is in My heart and in My soul.</div>
+          <div class="gloss">A man of God comes to old Eli with three predictions: his two sons will die the same day; his house will be cut off from the priesthood; God will raise up a faithful priest in his place.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">1 Samuel 4:11&ndash;18; 1 Kings 2:26&ndash;27 <span class="year">c. 1100&ndash;970 BC</span></div>
+          <div class="gloss">Hophni and Phinehas were both killed when the Philistines captured the ark (1 Sam 4:11). Eli fell from his seat and died the same day. Generations later, Solomon banished Abiathar &mdash; the last of Eli&rsquo;s line in the high priesthood &mdash; <em>thus fulfilling the word of the LORD, which He had spoken concerning the house of Eli in Shiloh</em> (1 Ki 2:27). Zadok was installed in his place &mdash; the faithful priest the prophecy promised.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="person">
+      <span class="tag">Person</span>
+      <h3>The dogs will lick Ahab&rsquo;s blood</h3>
+      <p class="gap">Foretold by Elijah at Naboth&rsquo;s vineyard &middot; fulfilled at Samaria after the battle of Ramoth-Gilead</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">1 Kings 21:19, 23 <span class="year">c. 870 BC</span></div>
+          <div class="quote">In the place where the dogs licked up the blood of Naboth the dogs will lick up your blood, even yours&hellip; The dogs will eat Jezebel in the district of Jezreel.</div>
+          <div class="gloss">Elijah confronts Ahab in Naboth&rsquo;s vineyard. Ahab had murdered Naboth to seize his land. Elijah pronounces a precise judgment on both Ahab and Jezebel.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">1 Kings 22:38; 2 Kings 9:30&ndash;37 <span class="year">853 and 841 BC</span></div>
+          <div class="quote">They washed the chariot by the pool of Samaria, and the dogs licked up his blood&hellip; according to the word of the LORD which He spoke.</div>
+          <div class="gloss">Ahab was killed in battle at Ramoth-Gilead (1 Ki 22). When his chariot was washed at the pool of Samaria, the dogs licked his blood &mdash; the text names the fulfillment. A dozen years later, Jezebel was thrown from her window in Jezreel; the dogs ate her body so that nothing remained but her skull, hands, and feet &mdash; <em>this is the word of the LORD, which He spoke by His servant Elijah the Tishbite</em> (2 Ki 9:36).</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="person">
+      <span class="tag">Person</span>
+      <h3>Fifteen years added to Hezekiah</h3>
+      <p class="gap">Foretold by Isaiah in Hezekiah&rsquo;s sick chamber &middot; fulfilled to the year</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 38:5; 2 Kings 20:6 <span class="year">c. 701 BC</span></div>
+          <div class="quote">Behold, I will add fifteen years to your life. I will deliver you and this city from the hand of the king of Assyria; and I will defend this city for My own sake and for My servant David&rsquo;s sake.</div>
+          <div class="gloss">Hezekiah was sick to the point of death. Isaiah came to him: <em>set your house in order.</em> Hezekiah prayed and wept; Isaiah returned with the LORD&rsquo;s answer adding fifteen years.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">2 Kings 18:2; 2 Chronicles 32:24&ndash;33 <span class="year">c. 686 BC</span></div>
+          <div class="gloss">Hezekiah reigned twenty-nine years total (2 Ki 18:2). Sennacherib&rsquo;s invasion (which the prophecy promised deliverance from) occurred in his fourteenth year; he died about fifteen years later, matching the prophecy exactly. In those fifteen added years his son Manasseh was born &mdash; the longest-reigning and most evil king of Judah, whose sins would finally tip Judah into exile (2 Ki 24:3&ndash;4).</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================== NATION ====================== -->
+
+    <article class="prophecy" data-tag="nation">
+      <span class="tag">Nation</span>
+      <h3>Tyre &mdash; many nations, a scraped rock, a fishing place</h3>
+      <p class="gap">Foretold by Ezekiel during the exile &middot; fulfilled by Nebuchadnezzar and decisively by Alexander the Great</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Ezekiel 26:3&ndash;14 <span class="year">c. 586 BC</span></div>
+          <div class="quote">Behold, I am against you, O Tyre, and I will bring up many nations against you, as the sea brings up its waves&hellip; They will destroy the walls of Tyre and break down her towers; and I will scrape her debris from her and make her a bare rock. She will be a place for the spreading of nets&hellip;</div>
+          <div class="gloss">Ezekiel foretells (1) many nations will come against Tyre, (2) Nebuchadnezzar will come first, (3) the rubble of mainland Tyre will be thrown into the sea, (4) the rock will be scraped bare, (5) it will become a place where fishermen spread their nets.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">586&ndash;332 BC</span></div>
+          <div class="gloss">Nebuchadnezzar besieged mainland Tyre for thirteen years (586&ndash;573 BC) and destroyed it &mdash; but the Tyrians had moved to a fortified island half a mile offshore. The island stood until 332 BC, when Alexander the Great built a causeway from the mainland to the island using <em>the very stones, timber, and rubble of the destroyed mainland city</em>, scraping the site bare to do so. Ezekiel had written, two and a half centuries earlier: <em>they will throw your stones, your timber, and your debris into the water.</em> Modern Tyre is a fishing town built on a different location; the original site remains a place where nets are spread.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="nation">
+      <span class="tag">Nation</span>
+      <h3>Babylon &mdash; like Sodom and Gomorrah, never inhabited</h3>
+      <p class="gap">Foretold by Isaiah and Jeremiah at the height of Babylon&rsquo;s power &middot; fulfilled in the long slow ruin that followed</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 13:19&ndash;22; Jeremiah 51:37 <span class="year">c. 700, c. 595 BC</span></div>
+          <div class="quote">Babylon, the beauty of kingdoms, the glory of the Chaldeans&rsquo; pride, will be as when God overthrew Sodom and Gomorrah. It will never be inhabited or lived in from generation to generation&hellip; But desert creatures will lie down there, and their houses will be full of owls; ostriches also will live there, and shaggy goats will frolic there.</div>
+          <div class="gloss">Isaiah names Babylon in its glory and pronounces that its destruction will be like Sodom&rsquo;s &mdash; permanent. Jeremiah writes from the actual moment of Babylon&rsquo;s rising threat against Jerusalem, and says the same.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">539 BC onward</span></div>
+          <div class="gloss">Babylon fell to Cyrus in 539 BC. Under the Persians and Greeks it slowly decayed; Alexander the Great died there in 323 BC, leaving plans to rebuild it that came to nothing. By the time of Christ it was largely empty. The ancient site (about 50 miles south of Baghdad) has remained an uninhabited ruin for over two thousand years. Modern attempts (under Saddam Hussein in the 1980s) to rebuild a tourist version of Babylon on the site never occupied it as a city.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="nation">
+      <span class="tag">Nation</span>
+      <h3>Nineveh &mdash; an overflowing flood, an utter end</h3>
+      <p class="gap">Foretold by Nahum decades before &middot; fulfilled by Babylonians and Medes when the Khosr River broke its walls</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Nahum 1:8; 2:6; 3:18&ndash;19 <span class="year">c. 650 BC</span></div>
+          <div class="quote">But with an overflowing flood He will make a complete end of its site&hellip; The gates of the rivers are opened, and the palace is dissolved&hellip; There is no relief for your breakdown, your wound is incurable. All who hear about you will clap their hands over you, for on whom has not your evil passed continually?</div>
+          <div class="gloss">Nahum prophesies against the capital of the Assyrian Empire &mdash; the city that had carried Israel into captivity in 722 BC. He foretells the city will fall to a flood, that its destruction will be complete, and that it will never recover.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">612 BC</span></div>
+          <div class="gloss">In 612 BC the Babylonians and Medes besieged Nineveh. The Khosr River, swollen with rain, broke through a portion of the city wall, allowing the besiegers to enter. The city was so thoroughly destroyed that within two centuries Xenophon&rsquo;s Greek army marched past the site without recognizing what it had been. Nineveh&rsquo;s location was unknown to Western scholarship until A. H. Layard rediscovered it in the 1840s.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="nation">
+      <span class="tag">Nation</span>
+      <h3>Edom &mdash; cut off forever</h3>
+      <p class="gap">Foretold by Obadiah and others &middot; fulfilled in the gradual disappearance of the Edomites as a distinct people</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Obadiah 10, 18; Ezekiel 25:12&ndash;14 <span class="year">c. 845&ndash;585 BC</span></div>
+          <div class="quote">Because of violence to your brother Jacob, you will be covered with shame, and you will be cut off forever&hellip; And there will be no survivor of the house of Esau, for the LORD has spoken.</div>
+          <div class="gloss">Obadiah&rsquo;s short book is entirely against Edom. Edomites (descendants of Esau) rejoiced over Jerusalem&rsquo;s fall. The prophecy: they will be utterly cut off as a people; the house of Esau will become stubble.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">c. 500 BC &ndash; AD 70</span></div>
+          <div class="gloss">After the Babylonian period, Arab tribes pushed the Edomites west into southern Judah, where they became known as Idumeans. The Hasmoneans (Maccabees) forcibly converted them to Judaism. The last Idumean ruler was Herod the Great and his family &mdash; the rulers under whom Christ was born and crucified. After AD 70, when Rome destroyed Jerusalem, the Idumeans disappeared as a distinct people. Today there is no Edomite people, no Edomite language, no Edomite land.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="nation">
+      <span class="tag">Nation</span>
+      <h3>Egypt &mdash; the lowest of kingdoms</h3>
+      <p class="gap">Foretold by Ezekiel &middot; fulfilled in the long political decline of Egypt after the prophecy</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Ezekiel 29:14&ndash;15 <span class="year">c. 587 BC</span></div>
+          <div class="quote">I will&hellip; make them again into a lowly kingdom. It will be the lowest of the kingdoms, and it will never again lift itself up above the nations; and I will diminish them so that they will not rule over the nations.</div>
+          <div class="gloss">Notable for what it does <em>not</em> say. Egypt was the oldest superpower of the ancient world. Other prophecies (against Babylon, Nineveh, Tyre) foretell destruction. Egypt&rsquo;s prophecy foretells survival in a permanently diminished form.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">525 BC onward</span></div>
+          <div class="gloss">After Cambyses of Persia conquered Egypt in 525 BC, Egypt has been ruled by foreigners almost continuously for two and a half millennia: Persians, Greeks (Ptolemies), Romans, Arab caliphates, Ottomans, British, until the 1952 revolution. Across all of that, Egypt continued to exist as a recognized people and territory but never again rose to a position above the nations as it had been before Ezekiel.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================== EMPIRE ====================== -->
+
+    <article class="prophecy" data-tag="empire">
+      <span class="tag">Empire</span>
+      <h3>Daniel&rsquo;s four kingdoms</h3>
+      <p class="gap">Foretold to Nebuchadnezzar in the second year of his reign &middot; fulfilled across the next six centuries</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Daniel 2:31&ndash;45; Daniel 7 <span class="year">c. 603 BC</span></div>
+          <div class="quote">You, O king&hellip; are the head of gold. After you there will arise another kingdom inferior to you, then another third kingdom of bronze, which will rule over all the earth. Then there will be a fourth kingdom as strong as iron&hellip;</div>
+          <div class="gloss">Nebuchadnezzar&rsquo;s dream &mdash; a statue of gold, silver, bronze, and iron with feet of iron mixed with clay. Daniel interprets: four kingdoms, each one succeeding the last. Daniel 8 names the second and third specifically (Medo-Persia and Greece, Dan 8:20&ndash;21).</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">605 BC &ndash; AD 70</span></div>
+          <div class="gloss"><strong>Babylon</strong> (605&ndash;539 BC) fell to <strong>Medo-Persia</strong> (539&ndash;330 BC), which fell to <strong>Greece</strong> under Alexander (330&ndash;63 BC), which gave way to <strong>Rome</strong> (63 BC onward). Each succession is recorded both in Scripture and in secular history. The four-kingdom sequence ends with Rome, which was the world power in Christ&rsquo;s day and at the writing of every New Testament book.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="empire">
+      <span class="tag">Empire</span>
+      <h3>Alexander&rsquo;s rise, sudden fall, and the four kingdoms</h3>
+      <p class="gap">Foretold by Daniel in vivid detail &middot; fulfilled at Alexander&rsquo;s death in 323 BC</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Daniel 8:5&ndash;8, 20&ndash;22 <span class="year">c. 551 BC</span></div>
+          <div class="quote">While I was observing, behold, a male goat was coming from the west over the surface of the whole earth without touching the ground; and the goat had a conspicuous horn between his eyes&hellip; The male goat magnified himself exceedingly. But as soon as he was mighty, the large horn was broken; and in its place there came up four conspicuous horns&hellip; The shaggy goat represents the kingdom of Greece, and the large horn that is between his eyes is the first king. The broken horn and the four horns that arose in its place represent four kingdoms which will arise from his nation, although not with his power.</div>
+          <div class="gloss">Daniel sees a goat with one notable horn (Greece with Alexander) that conquers the ram (Medo-Persia) and then is suddenly broken; four horns rise in its place, none with the same power.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Historical record <span class="year">336&ndash;323 BC</span></div>
+          <div class="gloss">Alexander conquered the Persian Empire in just over a decade (336&ndash;323 BC), reaching from Greece to India. He died at 32, at the height of his power. His empire was divided among his four generals (the Diadochi): Cassander took Macedonia and Greece; Lysimachus took Thrace and Asia Minor; Ptolemy took Egypt; Seleucus took Syria, Mesopotamia, and Persia. None of the four ever matched Alexander&rsquo;s power, exactly as Daniel had written nearly two and a half centuries earlier.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================== EXILE & RETURN ====================== -->
+
+    <article class="prophecy" data-tag="exile">
+      <span class="tag">Exile &amp; Return</span>
+      <h3>Seventy years in Babylon</h3>
+      <p class="gap">Foretold by Jeremiah at the first deportation &middot; fulfilled to the year at the decree of Cyrus</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Jeremiah 25:11&ndash;12; Jeremiah 29:10 <span class="year">605 BC</span></div>
+          <div class="quote">This whole land will be a desolation and a horror, and these nations will serve the king of Babylon seventy years. Then it will be when seventy years are completed I will punish the king of Babylon and that nation, declares the LORD, for their iniquity&hellip;</div>
+          <div class="gloss">In the very year Babylon first invaded Judah (605 BC), Jeremiah foretells that the captivity will last exactly seventy years &mdash; and then end with Babylon itself judged.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Daniel 9:1&ndash;2; 2 Chronicles 36:21; Ezra 1:1 <span class="year">539&ndash;536 BC</span></div>
+          <div class="quote">In the first year of his reign I, Daniel, observed in the books the number of the years which was revealed as the word of the LORD to Jeremiah the prophet for the completion of the desolations of Jerusalem, namely, seventy years.</div>
+          <div class="gloss">From 605 BC (first deportation, Daniel taken) to 536 BC (return decree of Cyrus, first wave under Zerubbabel) is exactly seventy years. Daniel himself read Jeremiah&rsquo;s prophecy in 539 BC and prayed accordingly &mdash; the prayer of Daniel 9. The Chronicler closes 2 Chronicles by naming the seventy years as fulfilled. Cyrus&rsquo;s decree is the historical event that records the fulfillment.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="exile">
+      <span class="tag">Exile &amp; Return</span>
+      <h3>The temple rebuilt</h3>
+      <p class="gap">Foretold by Isaiah; commanded by Cyrus; carried out under Zerubbabel and Joshua the priest</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 44:28 <span class="year">c. 700 BC</span></div>
+          <div class="quote">It is I who says of Cyrus, &lsquo;He is My shepherd, and he will perform all My desire.&rsquo; And he declares of Jerusalem, &lsquo;She will be built,&rsquo; and of the temple, &lsquo;Your foundation will be laid.&rsquo;</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Ezra 3:8&ndash;13; Ezra 6:14&ndash;15 <span class="year">536&ndash;516 BC</span></div>
+          <div class="gloss">The first returnees under Zerubbabel laid the foundation in their second year (Ezra 3). Opposition stopped the work; the prophets Haggai and Zechariah stirred the people to continue (520 BC). The second temple was completed in the sixth year of Darius (516 BC) &mdash; seventy years from the destruction of the first temple in 586 BC, a perfect mirror of the seventy years of exile.</div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================== MESSIAH ====================== -->
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The seed of the woman</h3>
+      <p class="gap">Spoken to the serpent in Eden &middot; named by Paul as fulfilled in the Son sent forth by God</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Genesis 3:15 <span class="year">in the curse</span></div>
+          <div class="quote">I will put enmity between you and the woman, and between your seed and her seed; He shall bruise you on the head, and you shall bruise Him on the heel.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Galatians 4:4; Hebrews 2:14&ndash;15 <span class="year">c. AD 30</span></div>
+          <div class="quote">When the fullness of the time came, God sent forth His Son, born of a woman, born under the Law, so that He might redeem those who were under the Law&hellip; that through death He might render powerless him who had the power of death, that is, the devil.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The seed of Abraham &mdash; one seed, not many</h3>
+      <p class="gap">Promised to Abraham on Moriah &middot; named by Paul as Christ singular</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Genesis 22:18 <span class="year">c. 2000 BC</span></div>
+          <div class="quote">In your seed all the nations of the earth shall be blessed, because you have obeyed My voice.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Galatians 3:16 <span class="year">c. AD 50</span></div>
+          <div class="quote">Now the promises were spoken to Abraham and to his seed. He does not say, &lsquo;And to seeds,&rsquo; as referring to many, but rather to one, &lsquo;And to your seed,&rsquo; that is, Christ.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>A prophet like Moses</h3>
+      <p class="gap">Foretold by Moses himself &middot; named by Peter and Stephen as fulfilled in Jesus</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Deuteronomy 18:15&ndash;19 <span class="year">c. 1406 BC</span></div>
+          <div class="quote">The LORD your God will raise up for you a prophet like me from among you, from your countrymen, you shall listen to him&hellip; whoever will not listen to My words which he shall speak in My name, I Myself will require it of him.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Acts 3:22&ndash;23; Acts 7:37 <span class="year">c. AD 32</span></div>
+          <div class="quote">Moses said, &lsquo;The Lord God will raise up for you a prophet like me from your brethren; to Him you shall give heed in everything He says to you. And it will be that every soul that does not heed that prophet shall be utterly destroyed from among the people.&rsquo;</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The throne of David, an everlasting throne</h3>
+      <p class="gap">Promised to David in his palace &middot; named by Peter as fulfilled in Christ&rsquo;s seating at the right hand of God</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">2 Samuel 7:12&ndash;16 <span class="year">c. 1000 BC</span></div>
+          <div class="quote">Your house and your kingdom shall endure before Me forever; your throne shall be established forever.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Acts 2:29&ndash;36 <span class="year">AD 30 (Pentecost)</span></div>
+          <div class="quote">Being therefore a prophet, and knowing that God had sworn to him with an oath to seat one of his descendants on his throne, he looked ahead and spoke of the resurrection of the Christ&hellip; This Jesus God raised up again&hellip; God has made Him both Lord and Christ &mdash; this Jesus whom you crucified.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>Born of a virgin</h3>
+      <p class="gap">Sign given to Ahaz &middot; named by Matthew as fulfilled in Christ&rsquo;s conception</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 7:14 <span class="year">c. 735 BC</span></div>
+          <div class="quote">Behold, a virgin will be with child and bear a son, and she will call His name Immanuel.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Matthew 1:22&ndash;23 <span class="year">c. 5 BC</span></div>
+          <div class="quote">Now all this took place to fulfill what was spoken by the Lord through the prophet: <em>Behold, the virgin shall be with child and shall bear a Son, and they shall call His name Immanuel,</em> which translated means, &lsquo;God with us.&rsquo;</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>Born in Bethlehem</h3>
+      <p class="gap">Foretold by Micah &middot; quoted by the chief priests the night the magi arrived</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Micah 5:2 <span class="year">c. 700 BC</span></div>
+          <div class="quote">But as for you, Bethlehem Ephrathah, too little to be among the clans of Judah, from you One will go forth for Me to be ruler in Israel. His goings forth are from long ago, from the days of eternity.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Matthew 2:1&ndash;6 <span class="year">c. 5 BC</span></div>
+          <div class="quote">Now after Jesus was born in Bethlehem of Judea&hellip; the chief priests and scribes of the people&hellip; said to him, &lsquo;In Bethlehem of Judea, for this is what has been written by the prophet.&rsquo;</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The Forerunner &mdash; a voice in the wilderness</h3>
+      <p class="gap">Foretold by Isaiah and Malachi &middot; named by Christ as fulfilled in John the Baptist</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 40:3; Malachi 3:1 <span class="year">c. 680 and c. 430 BC</span></div>
+          <div class="quote">A voice is calling, &lsquo;Clear the way for the LORD in the wilderness; make smooth in the desert a highway for our God.&rsquo;&hellip; Behold, I am going to send My messenger, and he will clear the way before Me.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Matthew 3:1&ndash;3; Matthew 11:10&ndash;14 <span class="year">c. AD 27</span></div>
+          <div class="quote">For this is the one referred to by Isaiah the prophet when he said, &lsquo;The voice of one crying in the wilderness, make ready the way of the Lord, make His paths straight!&rsquo;&hellip; This is the one about whom it is written, &lsquo;Behold, I send My messenger ahead of You, who will prepare Your way before You.&rsquo;</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The King comes mounted on a donkey</h3>
+      <p class="gap">Foretold by Zechariah &middot; quoted by Matthew at the triumphal entry</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Zechariah 9:9 <span class="year">c. 520 BC</span></div>
+          <div class="quote">Rejoice greatly, O daughter of Zion! Shout in triumph, O daughter of Jerusalem! Behold, your king is coming to you; He is just and endowed with salvation, humble, and mounted on a donkey, even on a colt, the foal of a donkey.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Matthew 21:1&ndash;9; John 12:14&ndash;15 <span class="year">AD 30</span></div>
+          <div class="quote">This took place to fulfill what was spoken through the prophet: &lsquo;Say to the daughter of Zion, behold your king is coming to you, gentle, and mounted on a donkey, even on a colt, the foal of a beast of burden.&rsquo;</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>Thirty pieces of silver &mdash; thrown to the potter</h3>
+      <p class="gap">Foretold by Zechariah &middot; named by Matthew as fulfilled at the betrayal and the potter&rsquo;s field</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Zechariah 11:12&ndash;13 <span class="year">c. 520 BC</span></div>
+          <div class="quote">I said to them, &lsquo;If it is good in your sight, give me my wages; but if not, never mind!&rsquo; So they weighed out thirty shekels of silver as my wages. Then the LORD said to me, &lsquo;Throw it to the potter, that magnificent price at which I was valued by them.&rsquo; So I took the thirty shekels of silver and threw them to the potter in the house of the LORD.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Matthew 26:14&ndash;15; 27:3&ndash;10 <span class="year">AD 30</span></div>
+          <div class="quote">[Judas]&hellip; said, &lsquo;What are you willing to give me to betray Him to you?&rsquo; And they weighed out thirty pieces of silver to him&hellip; They counseled together and with the money bought the Potter&rsquo;s Field as a burial place for strangers&hellip; Then that which was spoken through Jeremiah the prophet was fulfilled.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>Pierced hands and feet; lots cast for His garments</h3>
+      <p class="gap">Foretold in Psalm 22 &middot; named in all four Gospels as fulfilled at the cross</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Psalm 22:16, 18 <span class="year">c. 1000 BC</span></div>
+          <div class="quote">For dogs have surrounded me; a band of evildoers has encompassed me; they pierced my hands and my feet&hellip; They divide my garments among them, and for my clothing they cast lots.</div>
+          <div class="gloss">Psalm 22, by David. Written centuries before crucifixion was a method of execution in the ancient world.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">John 19:23&ndash;24; Matthew 27:35 <span class="year">AD 30</span></div>
+          <div class="quote">Then the soldiers, when they had crucified Jesus, took His outer garments and made four parts, a part to every soldier and also the tunic&hellip; They said therefore to one another, &lsquo;Let us not tear it, but cast lots for it, to decide whose it shall be&rsquo;; this was to fulfill the Scripture: <em>They divided My outer garments among them, and for My clothing they cast lots.</em></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>Not one of His bones broken</h3>
+      <p class="gap">Foretold of the Passover lamb and again in Psalm 34 &middot; named by John as fulfilled at the cross</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Exodus 12:46; Psalm 34:20 <span class="year">c. 1446 and c. 1000 BC</span></div>
+          <div class="quote">Nor are you to break any bone of it&hellip; He keeps all his bones, not one of them is broken.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">John 19:33&ndash;36 <span class="year">AD 30</span></div>
+          <div class="quote">But coming to Jesus, when they saw that He was already dead, they did not break His legs&hellip; For these things came to pass to fulfill the Scripture, <em>not a bone of Him shall be broken.</em></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>They will look on Me whom they have pierced</h3>
+      <p class="gap">Foretold by Zechariah &middot; named by John as fulfilled when the soldier&rsquo;s spear opened Christ&rsquo;s side</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Zechariah 12:10 <span class="year">c. 520 BC</span></div>
+          <div class="quote">They will look on Me whom they have pierced; and they will mourn for Him, as one mourns for an only son, and they will weep bitterly over Him, like the bitter weeping over a firstborn.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">John 19:37 <span class="year">AD 30</span></div>
+          <div class="quote">And again another Scripture says, <em>They shall look on Him whom they pierced.</em></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The Suffering Servant</h3>
+      <p class="gap">Foretold by Isaiah &middot; preached from this very passage by Philip to the Ethiopian</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Isaiah 52:13&ndash;53:12 <span class="year">c. 700 BC</span></div>
+          <div class="quote">He was pierced through for our transgressions, He was crushed for our iniquities; the chastening for our well-being fell upon Him, and by His scourging we are healed&hellip; He was led as a sheep to slaughter; and as a lamb before its shearer is silent, so He does not open His mouth.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Acts 8:32&ndash;35; 1 Peter 2:21&ndash;25 <span class="year">c. AD 35</span></div>
+          <div class="quote">The eunuch answered Philip and said, &lsquo;Please tell me, of whom does the prophet say this? Of himself or of someone else?&rsquo; Then Philip opened his mouth, and beginning from this Scripture he preached Jesus to him.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The new covenant</h3>
+      <p class="gap">Foretold by Jeremiah &middot; named by Christ at the supper and quoted in full by Hebrews</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Prophecy</span>
+          <div class="ref-line">Jeremiah 31:31&ndash;34 <span class="year">c. 590 BC</span></div>
+          <div class="quote">Behold, days are coming, declares the LORD, when I will make a new covenant with the house of Israel and with the house of Judah&hellip; I will put My law within them and on their heart I will write it&hellip; I will forgive their iniquity, and their sin I will remember no more.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">Luke 22:20; Hebrews 8:8&ndash;13 <span class="year">AD 30</span></div>
+          <div class="quote">This cup which is poured out for you is the new covenant in My blood&hellip; For finding fault with them, He says, &lsquo;Behold, days are coming, says the Lord, when I will effect a new covenant&hellip;&rsquo;</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="prophecy" data-tag="messiah">
+      <span class="tag">Messiah</span>
+      <h3>The bronze serpent &mdash; lifted up for life</h3>
+      <p class="gap">A type from the wilderness &middot; named by Christ as the picture of His own lifting up</p>
+      <div class="panels">
+        <div class="panel promise">
+          <span class="label">The Type</span>
+          <div class="ref-line">Numbers 21:8&ndash;9 <span class="year">c. 1407 BC</span></div>
+          <div class="quote">Then the LORD said to Moses, &lsquo;Make a fiery serpent, and set it on a standard; and it shall come about, that everyone who is bitten, when he looks at it, he will live.&rsquo; And Moses made a bronze serpent and set it on the standard; and it came about, that if a serpent bit any man, when he looked to the bronze serpent, he lived.</div>
+        </div>
+        <div class="panel fulfillment">
+          <span class="label">The Fulfillment</span>
+          <div class="ref-line">John 3:14&ndash;15 <span class="year">c. AD 27</span></div>
+          <div class="quote">As Moses lifted up the serpent in the wilderness, even so must the Son of Man be lifted up; so that whoever believes will in Him have eternal life.</div>
+          <div class="gloss">Christ Himself names the bronze serpent as a picture of His own crucifixion. The standard in the wilderness becomes the cross at Calvary.</div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" id="empty">No prophecies match this filter.</div>
+
+  <!-- About / Notes -->
+  <details class="about">
+    <summary>Notes on what is here &mdash; and what was deliberately left out</summary>
+    <div class="body">
+      <h4>The single rule</h4>
+      <p>Every prophecy on this page has a recorded fulfillment. Either Scripture itself names it as fulfilled (the apostles citing the OT text directly, the historian writing &ldquo;to fulfill the word of the LORD&rdquo;), or the historical record outside Scripture confirms the prediction (Tyre&rsquo;s rubble used to build Alexander&rsquo;s causeway, Babylon left in permanent ruin, Nineveh lost to memory for 2,400 years, Edom&rsquo;s people gone from the world).</p>
+
+      <h4>Why some famous prophecies are not here</h4>
+      <p>This spoke does <em>not</em> attempt to map the following:</p>
+      <ul style="padding-left: 22px; margin-top: 6px;">
+        <li><strong>Daniel&rsquo;s seventy weeks</strong> (Dan 9:24&ndash;27) &mdash; multiple Conservative readings exist; the dispensationalist reading inserts a 2,000-year gap between weeks 69 and 70 that the text does not name.</li>
+        <li><strong>Ezekiel 38&ndash;39 (Gog and Magog)</strong> &mdash; mapped to a specific modern nation in popular eschatology in ways the text does not warrant.</li>
+        <li><strong>The thousand years of Revelation 20</strong> &mdash; the great divide in Christian eschatology, where premillennial, postmillennial, and amillennial readings each claim the text.</li>
+        <li><strong>The restoration prophecies of Jeremiah 30&ndash;33 and Ezekiel 36&ndash;37</strong> &mdash; mixed past-and-future fulfillment in different readings; partial fulfillment in the return from Babylon is clear, beyond that is contested.</li>
+        <li><strong>Modern political Israel</strong> &mdash; the relationship between OT promises to ethnic Israel and the modern state of Israel is a separate theological question.</li>
+      </ul>
+      <p>These are not skipped because they are unimportant. They are skipped because this catalog holds to one strict standard: <em>a fulfillment Scripture or history records</em>. Where that standard cannot be met without taking sides among Christian eschatological systems, the prophecy stays off the list. The spoke could expand later if a Berean-clean treatment of the still-future passages is possible &mdash; but the bar is high.</p>
+
+      <h4>On the &ldquo;virgin&rdquo; of Isaiah 7:14</h4>
+      <p>The Hebrew word <em>almah</em> means a young woman of marriageable age, normally a virgin. The Greek Septuagint (translated by Jews about two centuries before Christ) renders this <em>parthenos</em> &mdash; specifically a virgin. Matthew, writing in Greek, quotes the Septuagint reading and names the conception of Christ as fulfillment. The objection that <em>almah</em> &ldquo;just means young woman&rdquo; collapses when one looks at every other occurrence of <em>almah</em> in the OT &mdash; none describes a married woman.</p>
+
+      <h4>On Daniel</h4>
+      <p>Some critical scholars argue Daniel was written in the 2nd century BC &mdash; <em>after</em> the events it describes &mdash; making it pseudo-prophecy. Three responses: (1) the Dead Sea Scrolls (c. 150 BC) include multiple Daniel manuscripts already treated as Scripture, making a 2nd-century origin extremely tight; (2) the Hebrew and Aramaic of Daniel matches the 6th-century period far better than the 2nd; (3) the prophecies in Daniel 8 about Alexander and the Diadochi are precise enough that even a 2nd-century skeptic would have to grant the chapter is supernatural. This catalog treats Daniel as 6th century, as the book itself claims.</p>
+
+      <h4>Sources</h4>
+      <p>Historical claims (Tyre&rsquo;s causeway, Babylon&rsquo;s ruin, Nineveh&rsquo;s rediscovery, Alexander&rsquo;s Diadochi, the Cyrus Cylinder) are well-documented in standard ancient-history references. The Dead Sea Scrolls Isaiah scroll (1QIsa<sup>a</sup>) is dated to the 2nd century BC and contains the full text of Isaiah including 53; it sits in the Shrine of the Book in Jerusalem.</p>
+
+      <h4>Companion spokes</h4>
+      <p>The <strong>Promise Threads</strong> spoke holds to an even stricter standard for Messianic prophecies (only where an NT writer cites the OT text explicitly), so it covers eight threads in greater depth. This Prophecies catalog covers those same eight plus six more Messianic prophecies and ten non-Messianic ones &mdash; the breadth of God&rsquo;s foreknowledge across all kinds of subjects.</p>
+    </div>
+  </details>
+
+  <footer class="page-footer">
+    <p>Primary Sources: Isaiah, Jeremiah, Ezekiel, Daniel, Micah, Nahum, Zechariah, Malachi, Obadiah, Psalms; 1&ndash;2 Kings, 2 Chronicles, Ezra; Matthew, John, Acts, Galatians, Hebrews</p>
+    <p>A deep-dive companion to the Noble Mind Study Old Testament Timeline &middot;
+      <a style="color:inherit;" href="../the-promise-threads/">Promise Threads</a> &middot;
+      <a style="color:inherit;" href="../the-divided-kingdom/">The Divided Kingdom</a> &middot;
+      <a style="color:inherit;" href="../old-testament-timeline/">Return to the timeline</a></p>
+  </footer>
+
+</div>
+
+<script>
+(function() {
+  const cards = document.querySelectorAll('.prophecy');
+  const pills = document.querySelectorAll('.filter-pill');
+  const empty = document.getElementById('empty');
+
+  // Populate counts
+  const counts = { all: cards.length, person: 0, nation: 0, empire: 0, exile: 0, messiah: 0 };
+  cards.forEach(c => { counts[c.dataset.tag] = (counts[c.dataset.tag] || 0) + 1; });
+  for (const k in counts) {
+    const span = document.getElementById('count-' + k);
+    if (span) span.textContent = '(' + counts[k] + ')';
+  }
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', function() {
+      const filter = this.dataset.filter;
+      pills.forEach(p => p.classList.toggle('active', p === this));
+      let visible = 0;
+      cards.forEach(c => {
+        const show = filter === 'all' || c.dataset.tag === filter;
+        c.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      empty.classList.toggle('show', visible === 0);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

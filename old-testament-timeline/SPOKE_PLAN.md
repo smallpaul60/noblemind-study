@@ -322,6 +322,7 @@ most expensive build of the lot.
 | 7 | Promise Threads | 3 | L | ✅ done. Eight threads, NT-named correspondences only. BEREAN_BRIEF.md drift-prevention now in place. |
 | 8 | Divided Kingdom Synoptic | 3 | L | ✅ done. 40 kings, 13 prophets, 8 external anchors on a 345-year two-track chart; Scripture's own verdict cited per king. |
 | 9 | The United Kingdom | 2 | M | ✅ done. Added after Divided Kingdom (Paul asked: "are we doing something similar there?"). Three-king comparative study (Saul/David/Solomon), Davidic covenant as the load-bearing pivot, bridges into the Divided Kingdom spoke. |
+| 10 | The Prophecies | 2 | L | ✅ done. Filterable catalog (Person/Nation/Empire/Exile&Return/Messiah) of OT prophecies with recorded fulfillment. Deliberate scope limit: only prophecies Scripture or history records as fulfilled — Daniel 70 weeks, Ezek 38–39, Rev 20 millennium, restoration prophecies, modern political Israel all explicitly excluded. Built per BEREAN_BRIEF.md after Paul asked for it. |
 
 The progression goes **small/contained → larger/more design → most
 ambitious**. Each spoke we build teaches us something about what works
