@@ -656,6 +656,8 @@ SPOKE_DIRS = [
     "the-divided-kingdom",
     "the-united-kingdom",
     "the-prophecies",
+    "the-threefold-promise",
+    "the-preserved-line",
     "genesis-genealogy",
     "apostle-paul",
 ]

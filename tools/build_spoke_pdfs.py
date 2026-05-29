@@ -43,6 +43,8 @@ SPOKES = [
     ("the-promise-threads",    "Promise_Threads.pdf",           "Promise Threads"),
     ("the-united-kingdom",     "The_United_Kingdom.pdf",        "The United Kingdom"),
     ("the-prophecies",         "The_Prophecies.pdf",            "The Prophecies"),
+    ("the-threefold-promise",  "The_Threefold_Promise.pdf",     "The Threefold Promise"),
+    ("the-preserved-line",     "The_Preserved_Line.pdf",        "The Preserved Line"),
 ]
 
 
