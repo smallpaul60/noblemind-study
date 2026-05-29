@@ -45,6 +45,7 @@ SPOKES = [
     ("the-prophecies",         "The_Prophecies.pdf",            "The Prophecies"),
     ("the-threefold-promise",  "The_Threefold_Promise.pdf",     "The Threefold Promise"),
     ("the-preserved-line",     "The_Preserved_Line.pdf",        "The Preserved Line"),
+    ("why-babel",              "Why_Babel.pdf",                 "Why Babel?"),
 ]
 
 

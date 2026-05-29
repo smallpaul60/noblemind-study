@@ -658,6 +658,7 @@ SPOKE_DIRS = [
     "the-prophecies",
     "the-threefold-promise",
     "the-preserved-line",
+    "why-babel",
     "genesis-genealogy",
     "apostle-paul",
 ]
