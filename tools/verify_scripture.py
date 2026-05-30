@@ -174,6 +174,8 @@ def parse_reference(ref_text):
     ref_text = re.sub(r':(\d+),\s*(\d+)$', r':\1-\2', ref_text)
     # Handle "22:1, 3-4" style — use full range
     ref_text = re.sub(r':(\d+),\s*(\d+)\s*[–\-]\s*(\d+)$', r':\1-\3', ref_text)
+    # Strip trailing period off book abbreviations (Gen. 3:5 → Gen 3:5)
+    ref_text = re.sub(r'\.\s+', ' ', ref_text)
     m = re.match(
         r'^(\d?\s*[A-Za-z][A-Za-z\s]+?)\s+(\d+):(\d+)(?:\s*[–\-]\s*(\d+))?$',
         ref_text
@@ -330,6 +332,62 @@ def extract_scripture_quotes_md(content, filepath):
         else:
             i += 1
 
+    # Also extract inline-italic Scripture quotes (the pattern used in
+    # Made, Not Written and similar prose books):
+    #   *"quoted text..."* (Gen. 3:5, NASB)
+    # or
+    #   *partial paraphrase* (Heb. 4:15, NASB)
+    quotes.extend(extract_inline_italic_quotes(content))
+
+    return quotes
+
+
+# Regex for inline italic Scripture quotes followed by a parenthetical citation.
+# Catches *"text"* (Ref X:Y, NASB) and *text* (Ref X:Y).
+INLINE_ITALIC_SCRIPTURE_RE = re.compile(
+    r'(?<![*\w])'                         # not preceded by * or word-char
+    r'\*([^*\n]{15,500}?)\*'              # italic span, 15-500 chars, single line
+    r'\s*'                                # optional whitespace
+    r'\(([^)]{3,80})\)',                  # parenthetical group
+)
+
+# Conservative test for "looks like a Scripture reference": a book-name-shaped
+# token followed by chapter and (optional) verse digits.
+LOOKS_LIKE_REF_RE = re.compile(
+    r'(?:(?:1|2|3|I|II|III)\s+)?[A-Z][a-z]+\.?\s+\d',
+)
+
+
+def extract_inline_italic_quotes(content):
+    """Extract Scripture quotes written as inline italics followed by a
+    parenthetical citation, e.g. *"quote"* (Ref X:Y, NASB).
+
+    Filters the parenthetical to only treat it as a citation if it looks
+    like a Scripture reference (book + chapter digit). Skips simple
+    parenthetical asides that happen to follow italicized prose.
+    """
+    quotes = []
+    for m in INLINE_ITALIC_SCRIPTURE_RE.finditer(content):
+        quote_text = m.group(1).strip()
+        # Strip outer matched double-quotes if present
+        if quote_text.startswith('"') and quote_text.endswith('"'):
+            quote_text = quote_text[1:-1].strip()
+        elif quote_text.startswith('“') and quote_text.endswith('”'):
+            quote_text = quote_text[1:-1].strip()
+
+        ref_text = m.group(2).strip()
+        # Strip trailing ", NASB" / "; NASB" tags
+        ref_text = re.sub(r'\s*[,;]\s*NASB\s*$', '', ref_text, flags=re.IGNORECASE)
+        # Strip leading "see " / "cf. "
+        ref_text = re.sub(r'^(?:see|cf\.?)\s+', '', ref_text, flags=re.IGNORECASE)
+
+        # Only keep if it looks like a real Scripture reference
+        if not LOOKS_LIKE_REF_RE.match(ref_text):
+            continue
+
+        line_num = content[:m.start()].count('\n') + 1
+        quotes.append((quote_text, ref_text, line_num))
+
     return quotes
 
 
@@ -434,7 +492,12 @@ def compare_texts(quoted, actual):
 
 def scan_book(book_dir, chapter_filter=None):
     """Scan all chapter files in a book directory and verify scripture quotes."""
-    book_path = PROJECT_DIR / book_dir
+    # Accept either a project-relative name or an absolute path
+    path_arg = Path(book_dir).expanduser()
+    if path_arg.is_absolute() or "/" in str(book_dir):
+        book_path = path_arg.resolve()
+    else:
+        book_path = PROJECT_DIR / book_dir
     if not book_path.exists():
         print(f"  Directory not found: {book_dir}")
         return 0, 0, 0

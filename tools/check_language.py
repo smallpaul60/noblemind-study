@@ -747,7 +747,12 @@ def scan_file(filepath, terms):
 
 def scan_book(book_dir, chapter_filter=None):
     """Scan all chapter files in a book directory."""
-    book_path = PROJECT_DIR / book_dir
+    # Accept either a project-relative name or an absolute path
+    path_arg = Path(book_dir).expanduser()
+    if path_arg.is_absolute() or "/" in str(book_dir):
+        book_path = path_arg.resolve()
+    else:
+        book_path = PROJECT_DIR / book_dir
     if not book_path.exists():
         print(f"  Directory not found: {book_dir}")
         return 0
