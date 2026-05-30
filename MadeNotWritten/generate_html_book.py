@@ -630,15 +630,9 @@ def get_chapter_css():
        the briefly-non-italic phrase stands out inside the italic flow,
        matching the typographic intent of the source markdown. */
     .machine-block em {{ font-style: normal; color: var(--accent); font-weight: 500; }}
-    /* In-prose section divider (the three centered bullets) */
-    hr.section-divider {{
-      border: none;
-      width: 60px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.5;
-      margin: 32px auto;
-    }}
+    /* In-prose section divider — uses the existing `.content hr` styling
+       (height + ::after with three bullets). Do NOT add background here;
+       it would fill the 1em-tall hr block and hide the bullets. */
     .content hr {{
       border: none;
       text-align: center;
