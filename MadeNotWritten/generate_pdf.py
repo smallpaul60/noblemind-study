@@ -41,6 +41,7 @@ SECTIONS = [
     ("Made_Not_Written_Ch13.md", "Chapter Thirteen", "What a Machine Can’t Give You"),
     # Closing
     ("Made_Not_Written_Conclusion.md", "Conclusion", "Working Together, Rightly Ordered"),
+    ("Made_Not_Written_Afterword.md",  "Afterword",  "When the Machine Stays On"),
     ("Made_Not_Written_Appendix.md",   "Appendix",   "The Plain Glossary"),
 ]
 

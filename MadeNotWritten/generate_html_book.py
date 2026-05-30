@@ -154,6 +154,14 @@ SECTIONS = [
         "part": None,
     },
     {
+        "slug": "afterword", "kind": "epilogue",
+        "label": "Afterword",
+        "title": "When the Machine Stays On",
+        "subtitle": "The prediction in the air, and what the book has to say to it.",
+        "file": "Made_Not_Written_Afterword.md",
+        "part": None,
+    },
+    {
         "slug": "appendix", "kind": "appendix",
         "label": "Appendix",
         "title": "The Plain Glossary",
