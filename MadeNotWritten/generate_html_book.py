@@ -616,14 +616,16 @@ def get_chapter_css():
       font-weight: 500;
       font-size: 0.9rem;
     }}
-    /* The machine-dialogue device: gold-bordered set-apart italic block.
-       The book establishes this convention in Chapter One — these are the
-       AI's own words, on the page, visually distinct from Paul's voice. */
+    /* The machine-dialogue device: slate-blue-bordered set-apart italic
+       block. Uses ACCENT_SECONDARY (slate-blue) rather than the gold
+       ACCENT, because gold is the site-wide convention for Scripture
+       quotation in the other books. The machine speaks in the steel
+       voice of the tool, not the warm voice of the Word. */
     .machine-intro {{
       font-family: 'IM Fell English', Georgia, serif;
       font-size: 1.05rem;
       font-weight: 600;
-      color: var(--accent);
+      color: var(--accent-secondary);
       letter-spacing: 0.6px;
       margin: 28px 0 8px 0;
       padding: 0;
@@ -634,8 +636,8 @@ def get_chapter_css():
     .machine-block {{
       margin: 0 0 24px 0;
       padding: 18px 22px 10px 24px;
-      background: rgba({ACCENT_RGB}, 0.06);
-      border-left: 3px solid var(--accent);
+      background: rgba({ACCENT_SECONDARY_RGB}, 0.07);
+      border-left: 3px solid var(--accent-secondary);
       border-radius: 0 8px 8px 0;
     }}
     .machine-block p {{
@@ -648,7 +650,7 @@ def get_chapter_css():
     /* Nested emphasis (italic-within-italic) shows as upright Roman so
        the briefly-non-italic phrase stands out inside the italic flow,
        matching the typographic intent of the source markdown. */
-    .machine-block em {{ font-style: normal; color: var(--accent); font-weight: 500; }}
+    .machine-block em {{ font-style: normal; color: var(--accent-secondary); font-weight: 500; }}
     /* In-prose section divider — uses the existing `.content hr` styling
        (height + ::after with three bullets). Do NOT add background here;
        it would fill the 1em-tall hr block and hide the bullets. */
