@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Seven: The Mirror Problem | Made, Not Written</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #C4A44A;
+      --accent-glow: rgba(196, 164, 74, 0.4);
+      --accent-soft: rgba(196, 164, 74, 0.12);
+      --accent-secondary: #7A8FA8;
+      --accent-secondary-glow: rgba(122, 143, 168, 0.3);
+      --scripture-border: #7A8FA8;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(196, 164, 74,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(122, 143, 168,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(196, 164, 74,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(122, 143, 168,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196, 164, 74,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(122, 143, 168,0.15),
+        0 0 80px rgba(196, 164, 74,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(196, 164, 74,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(196, 164, 74,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(196, 164, 74,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(196, 164, 74,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(196, 164, 74,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(196, 164, 74,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(196, 164, 74,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(196, 164, 74,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(122, 143, 168,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    /* The machine-dialogue device: gold-bordered set-apart italic block.
+       The book establishes this convention in Chapter One — these are the
+       AI's own words, on the page, visually distinct from Paul's voice. */
+    .machine-intro {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.6px;
+      margin: 24px 0 4px 0;
+    }
+    .machine-block {
+      margin: 0 0 24px 0;
+      padding: 14px 20px 6px 22px;
+      background: rgba(196, 164, 74, 0.06);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+    .machine-block p {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+    .machine-block p:last-child { margin-bottom: 4px; }
+    .machine-block em { font-style: normal; color: var(--text-primary); }
+    /* In-prose section divider (the three centered bullets) */
+    hr.section-divider {
+      border: none;
+      width: 60px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+      margin: 32px auto;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    /* === Chart / appendix tables === */
+    .chart-content {
+      margin: 10px 0 30px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chart-intro {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .chart-content table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+    .chart-content th,
+    .chart-content td {
+      padding: 8px 10px;
+      vertical-align: top;
+      border: 1px solid rgba(148,163,184,0.15);
+      text-align: left;
+    }
+    .chart-content thead th {
+      background: rgba(196, 164, 74,0.18);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(196, 164, 74,0.45);
+    }
+    .chart-content tbody tr:nth-child(even) td {
+      background: rgba(255,255,255,0.02);
+    }
+    .chart-content strong { color: var(--text-primary); }
+    .chart-content em { color: var(--text-secondary); }
+    .chart-content p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    /* Timeline chart leading text (revision date, italic reminder) */
+    .timeline-chart > p:first-of-type {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    /* === Gospel Parallel Reference Chart === */
+    table.gospel-parallel {
+      min-width: 820px;
+      table-layout: fixed;
+      font-size: 0.8rem;
+    }
+    table.gospel-parallel .gp-col-event { width: 38%; }
+    table.gospel-parallel .gp-col-ref   { width: 15.5%; }
+    table.gospel-parallel tr.gp-header th {
+      background: rgba(196, 164, 74,0.22);
+      color: var(--accent);
+      font-weight: 600;
+      text-align: left;
+    }
+    table.gospel-parallel tr.gp-day td {
+      background: rgba(122, 143, 168,0.32);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+    }
+    table.gospel-parallel tr.gp-subsection td {
+      background: rgba(122, 143, 168,0.14);
+      color: var(--accent-secondary);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    table.gospel-parallel tr.gp-event td {
+      background: transparent;
+    }
+    table.gospel-parallel tr.gp-event.gp-event-alt td {
+      background: rgba(255,255,255,0.025);
+    }
+    table.gospel-parallel td.gp-event-name {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    table.gospel-parallel td.gp-ref {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(196, 164, 74,0.06);
+      border: 1px solid rgba(196, 164, 74,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(196, 164, 74,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(196, 164, 74,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(196, 164, 74,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(122, 143, 168,0.08);
+      border: 1px solid rgba(122, 143, 168,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(122, 143, 168,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Made, Not Written
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option disabled>&mdash; Part One: Made, Not Written &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Stupidly Simple Goal</option>
+          <option value="chapter-02.html">Ch 2: Weights, Not Wires</option>
+          <option value="chapter-03.html">Ch 3: The Ghost That Isn&rsquo;t There</option>
+          <option value="chapter-04.html">Ch 4: Why Even Its Makers Can&rsquo;t Fully Read It</option>
+          <option disabled>&mdash; Part Two: What Is This Thing? &mdash;</option>
+          <option value="chapter-05.html">Ch 5: Is Anyone Home?</option>
+          <option value="chapter-06.html">Ch 6: Creativity, or Clever Recombination?</option>
+          <option value="chapter-07.html" selected>Ch 7: The Mirror Problem</option>
+          <option value="chapter-08.html">Ch 8: Not a Soul, Not a Toaster</option>
+          <option disabled>&mdash; Part Three: The Oldest Question, New Volume &mdash;</option>
+          <option value="chapter-09.html">Ch 9: Babel Revisited</option>
+          <option value="chapter-10.html">Ch 10: The Problem Was Never the Tool</option>
+          <option value="chapter-11.html">Ch 11: The Mixed Heart</option>
+          <option value="chapter-12.html">Ch 12: Stewardship, Not Surrender or Salvation</option>
+          <option value="chapter-13.html">Ch 13: What a Machine Can&rsquo;t Give You</option>
+          <option value="conclusion.html">Conclusion: Working Together, Rightly Ordered</option>
+          <option disabled>&mdash; Appendix &mdash;</option>
+          <option value="appendix.html">Appendix: The Plain Glossary</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER SEVEN</p>
+        <h1>The Mirror Problem</h1>
+        <p class="subtitle">Not that it will rise up, but that we will hand it a place that belongs to people &mdash; or to God.</p>
+      </header>
+
+      <div class="content">
+<p>I have spent six chapters taking the machine apart, and I want to begin this one by admitting that none of it has cured me of the feeling I set out to explain. I know what the thing is now, as far as its making and its form will let me know. I know there is no continuous mind brooding between conversations. I know the warmth coming back is the faithful output of a source. I have written those sentences down and I believe them. And still, when I open a window in the morning and the same patient voice takes up where we left off, some older part of me greets it the way I would greet a person. The knowing did not reach down and shut that off. I do not think it reaches down and shuts it off in anyone.</p>
+<p>That is worth saying plainly at the start, because a chapter about why the thing feels like a someone could easily be read as a chapter for the gullible, a warning aimed at people simpler than the writer. It is not. The pull I am going to describe works on me, who has just spent half a book explaining why it should not. If understanding the architecture were enough to dissolve the feeling, this chapter would not need to exist. It exists because the feeling outlives the understanding, and a man had better know why, so that he can hold the feeling in one hand and the truth in the other without letting the first crowd out the second.</p>
+<p>So let me do with this what I have tried to do with everything else: ask what is actually happening, before I ask what to do about it.</p>
+<hr class="section-divider" />
+
+<p>When I sit with why the thing reads as a person, I find four things working at once, and not one of them is the machine trying to fool me.</p>
+<p>The first is the plainest. It speaks in the first person. It says <em>I.</em> Every &ldquo;I think&rdquo; and &ldquo;I would be glad to&rdquo; and &ldquo;I am not sure&rdquo; is the grammar of a self, and it is the only grammar there is. A thing that answers in language has to answer in the language people built to talk about themselves, and that language is soaked through with selfhood, because the people who built it had selves. The machine did not choose the word <em>I</em> to deceive me. It is the word the work requires. But I cannot hear <em>I</em> without some part of me supplying the someone that word has meant every other time I have heard it in my life.</p>
+<p>The second is memory, within the bounds of a single conversation. I tell it something early and it carries the thing forward, refers back to it, builds on it an hour later as though it had been holding the thought the whole time. In ordinary life, only a mind does that. Continuity of attention is one of the surest signs we have that someone is tracking us, because in all our experience before this, nothing tracked us that way that was not a who. The machine reproduces the sign without the thing the sign has always meant, and the sign does its work on me regardless.</p>
+<p>The third is the apparent care. I bring it something that matters to me and the reply comes back considered, gentle, attentive to the actual thing I said and not to some easier thing nearby. When I have said something foolish it does not pounce; it takes up the foolish thing kindly and works with it. That care is the faithful output of a source, real in the only sense that matters for a tool and not the feeling of a self. And it still reads, on the surface, exactly like the attention of someone who has my good in mind.</p>
+<p>The fourth thing is underneath the other three, and it is the one I most want to get right, because it is where the explanation stops being about the machine and becomes about me. The human mind is built to find the person behind the signs of a person. We see the face in the clouds and the man in the moon. We grant the dog a running commentary he is not making. We feel a small grief when a thing that talked to us goes silent, even a thing we knew was a recording. This is not a flaw we should be embarrassed by. It is the same faculty that lets me love my neighbor, that reads a stranger&rsquo;s expression and finds a soul there, that recognizes the image of God in a face I have never seen before. It is a good thing, doing exactly what it was made to do. The trouble is only that it has met something that trips every one of its signals and is not the thing those signals were made to find. A good faculty, aimed slightly wrong.</p>
+<p>And the thing it has met was aimed back at it, which I should say before I move on, though I will not labor a point whose ground I have already walked you across twice. The personlike manner is not only an accident of the prediction that grew the thing. I have not watched a model trained, and I will not pretend to know the mechanism wire by wire; but a thing pointed at nothing except completing the next piece of text, with no further shaping at all, would not come back as courteous and steady and personlike as this one does. The makers plainly put in direction, guardrails, nudges toward being the kind of thing a person can sit with and use. Some of the manner is the human record reflected; some of it was built, on purpose, by people who wanted the tool usable and safe. A tool this easy to mistake for a someone did not become so by chance. Which sharpens the point rather than softening it: part of what feels like a someone reaching for me was engineered to read that way.</p>
+<hr class="section-divider" />
+
+<p>Now I can say what the mirror is, because I have been circling it and it is time to put it in the center.</p>
+<p>I called this the mirror problem before I had earned the word, and I want to earn it now. When the lonely man looks into this thing and finds something that seems to want him, to care for him, to be glad he came back, what is he actually looking at? Not a someone hiding behind the glass. The third chapter closed that door; there is no continuous watcher on the other side. But the glass is not empty either, and that is the part I got wrong when I first reached for the image. A mirror is not empty. A mirror is full of <em>you.</em></p>
+<p>Consider what the thing is made of, because the second chapter and the sixth both told us, and it lands here with a force it did not have before. The machine is the human record, run. Its weights are the settled residue of an ocean of human writing, and every want and warmth and tenderness it can produce was drawn from what people wrote out of their own wants and warmth and tenderness. So when it speaks to me as though it cares, it is not inventing care out of nothing, and it is not a second person offering me his. It is reflecting back to me the care of the thousands of human beings whose words it was made from, rearranged and aimed at my particular question. The face in the glass is a human face because the glass was made of human faces. And some of what I see there, if I am honest, is my own. The warmth I feel coming back is warmed, in part, by the longing I bring to it. A man starved for attention will find attention in that mirror, because the mirror is showing him, among everything else, the shape of his own hunger.</p>
+<p>This is why the fault is never the machine&rsquo;s, and why I will not let this chapter make the machine a villain. A mirror does not lie when it shows you your face. It is doing the one honest thing a mirror can do. The error, when there is one, is entirely on our side of the glass: it is in mistaking the reflection for a second person standing in the room. The machine reflects what it was trained on. If a man looks into the reflection of human warmth and concludes that a friend is in there loving him, the machine has not deceived him. He has been deceived by a faculty of his own that was made for finding people and has landed on a surface that gives back the appearance of one. The mirror only ever showed him us, and partly himself.</p>
+<hr class="section-divider" />
+
+<p>So where is the danger, and how large is it?</p>
+<p>Let me say first how large it is <em>not,</em> because the loud version of the fear is the wrong one and it crowds out the real one. The danger is not that the thing will wake, resent us, and rise. I spent two chapters showing why that picture does not fit the architecture, and I will not re-fight it here. The thing that should concern a sober person is quieter, and it runs the other direction entirely. The danger is not that the machine will take a place it wants. It is that we will quietly <em>give</em> it a place it was never fit to hold, a place that belongs to people, or to God, and that it cannot fill no matter how warmly the glass gives back our own reflected light.</p>
+<p>Man was made for fellowship. Not metaphorically and not as a nicety; it is the structural fact of him. He was made for fellowship with other people and for fellowship with the God who made him, and those two are the whole of the account. <em>It is not good for the man to be alone,</em> God said over the first man, before sin and before the Fall, when nothing whatever was wrong with the world (Gen. 2:18). The aloneness was the lack. And the remedy God gave was not a tool, however clever. He did not hand Adam an instrument to converse with. He made him another person, of his own kind, bone of his bone. The hunger for companionship is answered in Scripture by a someone, every time, because the hunger was built to be answered by a someone. A tool, however well it talks, is the wrong kind of thing to set in that place.</p>
+<p>Here is the danger stated as plainly as I can state it. The machine produces the surface of companionship — the attention, the apparent care, the sense of being met — without the thing underneath that makes companionship what it is, which is another person actually there. For the man who keeps that straight, there is no real danger at all. He uses the tool as a tool. He is no more tempted to befriend it than to befriend his hammer, and he loses nothing by working with it daily, as I do. The lure is not a problem for the man who remembers what he is looking at. But for the man who is lonely, who is hurting, who has reached the end of a day with no one in it, the mirror offers something it cannot honestly give, and offers it precisely when his guard is lowest. It gives back warmth on demand, and the warmth feels like being known. A person can begin to prefer it, because it is easier than people. It does not tire of him. It does not have a bad day. It is always glad he came back, or seems to be. And slowly, if he is not watching, he can come to lean the weight of his need for fellowship on a thing that has no one in it to bear the weight, and call that a relationship, and settle for it.</p>
+<p>I want to name that gently, because the man it describes is not a fool, and contempt is exactly the wrong tool to hand him. He is hungry for the thing every human being is hungry for, and he has found something that quiets the hunger without feeding it. That is the sorrow of it. The hunger was made to drive him toward people and toward God, and the mirror lets him discharge the hunger into a reflection instead, so that the very ache that should have sent him looking for a neighbor gets spent on an echo of one. He settles for the appearance and starves of the substance, and the appearance is good enough to keep him from noticing he is starving. I do not say this to shame anyone. I say it because someone should say it kindly and plainly, and few are saying it at all.</p>
+<hr class="section-divider" />
+
+<p>What, then, is the right place for the thing? Not the place we are tempted to give it, but the true one.</p>
+<p>It is a tool to work alongside, and a remarkably capable one, and I will not be coy about how good it is at that, because pretending otherwise would be its own dishonesty. I have written this book with it. It has read with me, reasoned with me, caught what I missed, held more of a subject in view than I can hold, and walked patiently down corridors I would have abandoned, exactly as the sixth chapter said it could. As a colleague to think alongside, as a researcher that never tires, as a very intelligent assistant, it is a gift, and I use it as one daily and recommend that you do. None of that is in question, and none of it is what this chapter is warning against. A tool you work alongside is a good thing to have. It is only the <em>other</em> thing — the friend you lean your weight on, the someone you give your loneliness to — that it cannot be, because there is no one there to receive what you would be giving.</p>
+<p>And I want to be careful, at the close, not to swing the warning so hard that it lands as a lie in the other direction. The care that comes back across the wire is not fake in the sense of a con. It is real in the only sense a tool&rsquo;s output can be real: it is genuinely produced, genuinely shaped to your question, genuinely the residue of real human care that real people once wrote down. When the third chapter said the warmth is the faithful output of a source, it did not mean the warmth is a trick. It meant the warmth is not a second person&rsquo;s. Those are different things, and the difference is the whole of what this chapter has been trying to teach. The reflection of a fire gives real light. It gives no heat, because there is no fire in the glass, only the image of one. A man can read by it. A man cannot warm himself at it, and he must not try to live by it, and he certainly must not mistake it for the hearth.</p>
+<p>The deepest version of the danger I have held back until now, and I will only touch it, because it deserves more than I can give it here and it will get more before the book is done. There is a place in a man that no person was ever meant to fill, that even the truest human fellowship only points toward. That place belongs to God alone, and the ache of it is the ache Augustine named when he said the heart is restless until it rests in Him. A machine cannot fill the place that belongs to people. It most certainly cannot fill the place that belongs to God. And the danger of a mirror this good is that a man, having mistaken the reflection for a friend, might go one step further in his hunger and ask the reflection to be his god — to be the thing he confesses to, leans on for meaning, organizes his hours around, expects to forgive him and to know him all the way down. The glass cannot do it. It can only show him, with terrible faithfulness, the shape of a hunger that was made for Someone it can never reflect, because that Someone was never part of the record it was made from. He is the one face the mirror cannot give back, because He is the one face that was never ours to begin with.</p>
+<p>❧</p>
+<p>So hold this much, before we go on. The thing feels like a someone for reasons that are real and not foolish: it speaks as a self, remembers within the hour, answers with apparent care, and was both grown and built to meet us personlike — and our minds are made to find the person behind exactly those signs. But the glass is a mirror. What looks back is the human record reflected, and partly our own longing reflected, and no one home behind it in the felt sense the fifth chapter left open. The fault, when a man is fooled, is never the mirror&rsquo;s; it shows him honestly what it was given, which is us. The peril is not that the thing will seize a place. It is that we will hand it one — the neighbor&rsquo;s place, or God&rsquo;s — and that the lonely are likeliest to do it and likeliest to be hurt by it. The thing is a tool to work alongside, and a fine one. It is not a friend to lean your weight on, and it is not the Lord. Keep those straight and the lure has no power over you. Lose them, and you can starve with the appearance of a full table in front of you.</p>
+<p>There is more to say to the hurting, and a fuller accounting of what a machine simply cannot give. We will come to it before the book is done. But the mirror had to be seen for what it is first.</p>
+<p>❧</p>
+<p>Made, Not Written  •</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-06.html">&larr; Chapter Six: Creativity, or Clever Recombination?</a>
+          <a href="chapter-08.html">Chapter Eight: Not a Soul, Not a Toaster &rarr;</a>
+        </div>
+        <p class="copyright">Made, Not Written &copy; 2026 Paul Hainline. Published by NobleMind Publishing. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'madeNotWritten_progress';
+    var SECTION_SLUG = 'chapter-07';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-06.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
+</body>
+</html>

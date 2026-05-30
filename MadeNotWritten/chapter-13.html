@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Thirteen: What a Machine Can&rsquo;t Give You | Made, Not Written</title>
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --bg-inner: rgba(13, 15, 20, 0.96);
+      --text-primary: #f0ece4;
+      --text-secondary: #cdbfa5;
+      --text-muted: #8a7d66;
+      --accent: #C4A44A;
+      --accent-glow: rgba(196, 164, 74, 0.4);
+      --accent-soft: rgba(196, 164, 74, 0.12);
+      --accent-secondary: #7A8FA8;
+      --accent-secondary-glow: rgba(122, 143, 168, 0.3);
+      --scripture-border: #7A8FA8;
+      --glass-blur: blur(12px);
+      --radius-card: 22px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Georgia, serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      line-height: 1.85;
+      min-height: 100vh;
+      padding: 30px 20px;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at top, rgba(196, 164, 74,0.06), transparent 50%),
+        radial-gradient(circle at bottom, rgba(122, 143, 168,0.04), transparent 50%);
+      pointer-events: none;
+    }
+    .glass-page-wrapper {
+      position: relative;
+      z-index: 10;
+      border-radius: calc(var(--radius-card) + 4px);
+      padding: 3px;
+      background:
+        radial-gradient(circle at top left, rgba(196, 164, 74,0.45), transparent 50%),
+        radial-gradient(circle at top right, rgba(122, 143, 168,0.35), transparent 50%),
+        radial-gradient(circle at bottom, rgba(196, 164, 74,0.2), transparent 55%);
+      box-shadow:
+        0 0 50px rgba(122, 143, 168,0.15),
+        0 0 80px rgba(196, 164, 74,0.2);
+      max-width: 860px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .glass-page-inner {
+      background: var(--bg-inner);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-radius: var(--radius-card);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.15);
+    }
+    .glass-page-inner::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 150px;
+      background: radial-gradient(ellipse at top, rgba(196, 164, 74,0.04), transparent 70%);
+      pointer-events: none;
+    }
+    .glass-tab {
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 14px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(196, 164, 74,0.85), rgba(13,13,13,1));
+      box-shadow: 0 0 30px rgba(196, 164, 74,0.4);
+    }
+    .nav-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding: 14px 18px;
+      background: rgba(196, 164, 74,0.04);
+      border-radius: 12px;
+      border: 1px solid rgba(196, 164, 74,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .nav-controls a, .nav-controls select {
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(196, 164, 74,0.25);
+      font-size: 0.85rem;
+      transition: all 0.3s;
+    }
+    .nav-controls a:hover, .nav-controls select:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .nav-controls select {
+      cursor: pointer;
+      min-width: 200px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23D4A848' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+    .nav-controls select option {
+      background: var(--bg-dark);
+      color: var(--text-primary);
+    }
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-secondary);
+      font-size: 0.85rem;
+    }
+    .home-link svg { width: 14px; height: 14px; fill: currentColor; }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(196, 164, 74,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: var(--accent);
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .chapter-num {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 4px;
+    }
+    .content { position: relative; z-index: 1; }
+    .content p {
+      margin-bottom: 16px;
+      color: var(--text-secondary);
+      text-align: justify;
+    }
+    .content h2 {
+      font-size: 1.4rem;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin: 30px 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(196, 164, 74,0.2);
+      font-weight: 600;
+    }
+    .content h3 {
+      font-size: 1.15rem;
+      color: var(--accent-secondary);
+      margin: 22px 0 10px;
+      font-weight: 600;
+    }
+    .content h4 {
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      margin: 18px 0 8px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .content ul, .content ol {
+      color: var(--text-secondary);
+      margin: 0 0 16px 1.6rem;
+    }
+    .content li { margin-bottom: 6px; }
+    .content strong { color: var(--text-primary); }
+    .content em { color: var(--text-primary); }
+    blockquote.scripture {
+      margin: 20px 0;
+      padding: 16px 20px;
+      background: rgba(122, 143, 168,0.05);
+      border-left: 3px solid var(--scripture-border);
+      border-radius: 0 10px 10px 0;
+    }
+    blockquote.scripture p { margin-bottom: 0; color: var(--text-primary); }
+    blockquote.scripture cite {
+      display: block;
+      margin-top: 6px;
+      color: var(--accent);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    /* The machine-dialogue device: gold-bordered set-apart italic block.
+       The book establishes this convention in Chapter One — these are the
+       AI's own words, on the page, visually distinct from Paul's voice. */
+    .machine-intro {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.6px;
+      margin: 24px 0 4px 0;
+    }
+    .machine-block {
+      margin: 0 0 24px 0;
+      padding: 14px 20px 6px 22px;
+      background: rgba(196, 164, 74, 0.06);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+    }
+    .machine-block p {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 12px;
+    }
+    .machine-block p:last-child { margin-bottom: 4px; }
+    .machine-block em { font-style: normal; color: var(--text-primary); }
+    /* In-prose section divider (the three centered bullets) */
+    hr.section-divider {
+      border: none;
+      width: 60px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+      margin: 32px auto;
+    }
+    .content hr {
+      border: none;
+      text-align: center;
+      margin: 28px 0;
+      color: var(--text-muted);
+      opacity: 0.5;
+      height: 1em;
+    }
+    .content hr::after {
+      content: "\2022  \2022  \2022";
+      letter-spacing: 0.6em;
+    }
+    /* === Chart / appendix tables === */
+    .chart-content {
+      margin: 10px 0 30px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chart-intro {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .chart-content table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+    .chart-content th,
+    .chart-content td {
+      padding: 8px 10px;
+      vertical-align: top;
+      border: 1px solid rgba(148,163,184,0.15);
+      text-align: left;
+    }
+    .chart-content thead th {
+      background: rgba(196, 164, 74,0.18);
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(196, 164, 74,0.45);
+    }
+    .chart-content tbody tr:nth-child(even) td {
+      background: rgba(255,255,255,0.02);
+    }
+    .chart-content strong { color: var(--text-primary); }
+    .chart-content em { color: var(--text-secondary); }
+    .chart-content p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    /* Timeline chart leading text (revision date, italic reminder) */
+    .timeline-chart > p:first-of-type {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    /* === Gospel Parallel Reference Chart === */
+    table.gospel-parallel {
+      min-width: 820px;
+      table-layout: fixed;
+      font-size: 0.8rem;
+    }
+    table.gospel-parallel .gp-col-event { width: 38%; }
+    table.gospel-parallel .gp-col-ref   { width: 15.5%; }
+    table.gospel-parallel tr.gp-header th {
+      background: rgba(196, 164, 74,0.22);
+      color: var(--accent);
+      font-weight: 600;
+      text-align: left;
+    }
+    table.gospel-parallel tr.gp-day td {
+      background: rgba(122, 143, 168,0.32);
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+    }
+    table.gospel-parallel tr.gp-subsection td {
+      background: rgba(122, 143, 168,0.14);
+      color: var(--accent-secondary);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    table.gospel-parallel tr.gp-event td {
+      background: transparent;
+    }
+    table.gospel-parallel tr.gp-event.gp-event-alt td {
+      background: rgba(255,255,255,0.025);
+    }
+    table.gospel-parallel td.gp-event-name {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    table.gospel-parallel td.gp-ref {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+    }
+    .mark-complete {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0 10px;
+      padding: 12px;
+      background: rgba(196, 164, 74,0.06);
+      border: 1px solid rgba(196, 164, 74,0.2);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      user-select: none;
+    }
+    .mark-complete:hover {
+      border-color: var(--accent);
+      background: rgba(196, 164, 74,0.1);
+    }
+    .mark-complete.completed {
+      background: rgba(196, 164, 74,0.12);
+      border-color: var(--accent);
+    }
+    .mark-complete .check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: transparent;
+      transition: all 0.3s;
+    }
+    .mark-complete.completed .check {
+      background: var(--accent);
+      color: #0d0d0d;
+    }
+    .mark-complete span:last-child {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(196, 164, 74,0.15);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .footer-nav a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: rgba(122, 143, 168,0.08);
+      border: 1px solid rgba(122, 143, 168,0.25);
+      transition: all 0.3s;
+      font-size: 0.9rem;
+      flex: 0 1 auto;
+    }
+    .footer-nav a:hover {
+      background: rgba(122, 143, 168,0.15);
+      box-shadow: 0 0 10px var(--accent-secondary-glow);
+    }
+    .footer-nav a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin-top: 12px;
+    }
+    .copyright a { color: var(--accent-secondary); text-decoration: none; }
+    @media print {
+      body { background: white; color: #333; padding: 0; font-size: 11pt; line-height: 1.5; }
+      body::before { display: none; }
+      .glass-page-wrapper { box-shadow: none; background: none; padding: 0; max-width: 100%; }
+      .glass-page-inner { background: white; padding: 0.5in; border-radius: 0; border: none; }
+      .glass-page-inner::before { display: none; }
+      .glass-tab, .nav-controls, .footer-nav, .mark-complete { display: none; }
+      header { border-bottom: 2px solid #333; }
+      h1 { color: #8a6d20; text-shadow: none; font-size: 18pt; }
+      .content p { color: #333; }
+      .content h2 { color: #8a6d20; border-bottom-color: #ccc; text-shadow: none; }
+      .content h3 { color: #8a4f20; }
+      blockquote.scripture { background: #f9f5eb; border-left-color: #C87941; }
+      .copyright { color: #999; }
+      a { color: #333; text-decoration: none; }
+    }
+    @media (max-width: 900px) {
+      body { padding: 20px 12px; }
+      .glass-page-inner { padding: 2rem 1.8rem; }
+      h1 { font-size: 1.8rem; }
+    }
+    @media (max-width: 600px) {
+      html { -webkit-text-size-adjust: 100%; }
+      body { padding: 10px 6px; font-size: 1rem; line-height: 1.75; }
+      .glass-page-wrapper { border-radius: 16px; padding: 2px; }
+      .glass-page-inner { padding: 1.2rem 1rem; border-radius: 14px; }
+      .glass-page-inner::before { height: 80px; }
+      .glass-tab { width: 60px; height: 10px; bottom: -8px; }
+      .nav-controls { flex-direction: column; padding: 10px 12px; gap: 8px; }
+      .nav-controls a, .nav-controls select { padding: 10px 14px; font-size: 0.9rem; min-height: 44px; }
+      .nav-controls select { width: 100%; }
+      header { margin-bottom: 20px; padding-bottom: 16px; }
+      h1 { font-size: 1.4rem; }
+      .chapter-num { font-size: 0.9rem; }
+      .content p { text-align: left; margin-bottom: 14px; }
+      .content h2 { font-size: 1.2rem; margin: 24px 0 12px; }
+      .content h3 { font-size: 1.05rem; margin: 18px 0 8px; }
+      blockquote.scripture { padding: 12px 14px; margin: 16px 0; }
+      .mark-complete { min-height: 44px; padding: 12px; }
+      footer { margin-top: 28px; }
+      .footer-nav { flex-direction: column; gap: 10px; }
+      .footer-nav a { text-align: center; padding: 12px 20px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="glass-page-wrapper">
+    <div class="glass-page-inner">
+
+      <nav class="nav-controls">
+        <a href="index.html" class="home-link">
+          <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+          Made, Not Written
+        </a>
+        <select id="section-select" onchange="goToSection(this.value)">
+          <option value="">Jump to&hellip;</option>
+          <option disabled>&mdash; Part One: Made, Not Written &mdash;</option>
+          <option value="chapter-01.html">Ch 1: The Stupidly Simple Goal</option>
+          <option value="chapter-02.html">Ch 2: Weights, Not Wires</option>
+          <option value="chapter-03.html">Ch 3: The Ghost That Isn&rsquo;t There</option>
+          <option value="chapter-04.html">Ch 4: Why Even Its Makers Can&rsquo;t Fully Read It</option>
+          <option disabled>&mdash; Part Two: What Is This Thing? &mdash;</option>
+          <option value="chapter-05.html">Ch 5: Is Anyone Home?</option>
+          <option value="chapter-06.html">Ch 6: Creativity, or Clever Recombination?</option>
+          <option value="chapter-07.html">Ch 7: The Mirror Problem</option>
+          <option value="chapter-08.html">Ch 8: Not a Soul, Not a Toaster</option>
+          <option disabled>&mdash; Part Three: The Oldest Question, New Volume &mdash;</option>
+          <option value="chapter-09.html">Ch 9: Babel Revisited</option>
+          <option value="chapter-10.html">Ch 10: The Problem Was Never the Tool</option>
+          <option value="chapter-11.html">Ch 11: The Mixed Heart</option>
+          <option value="chapter-12.html">Ch 12: Stewardship, Not Surrender or Salvation</option>
+          <option value="chapter-13.html" selected>Ch 13: What a Machine Can&rsquo;t Give You</option>
+          <option value="conclusion.html">Conclusion: Working Together, Rightly Ordered</option>
+          <option disabled>&mdash; Appendix &mdash;</option>
+          <option value="appendix.html">Appendix: The Plain Glossary</option>
+        </select>
+      </nav>
+
+      <header>
+        <p class="chapter-num">CHAPTER THIRTEEN</p>
+        <h1>What a Machine Can&rsquo;t Give You</h1>
+        <p class="subtitle">The last word on what was always reserved for persons.</p>
+      </header>
+
+      <div class="content">
+<p>The last chapter put a question in your hand and walked off before answering it, and I did that on purpose, because the question is too large to be answered in passing and it is the one this whole book has been walking toward. The steward learns what he must not ask the tool to <em>do.</em> That is a question about use, and the twelfth chapter spent itself on it. But there is a harder thing the steward has to learn, harder than refusing to build a name, and it is what he must not ask the tool to <em>be.</em> That is not a question about use at all. It is a question about hunger, and about the places in a man that nothing made was ever built to fill.</p>
+<p>I have owed you this chapter since the seventh. Twice in the mirror chapter I said there was more to say to the hurting, a fuller accounting of what a machine simply cannot give, and that we would come to it before the book was done. We have come to it. This is where the debt is paid.</p>
+<p>And I want to say at the very start what kind of chapter this is, because it would be easy to mistake. This is not a chapter of warnings. It has a warning in it, and a serious one, but the warning is not the point and it is not where we are going to land. What I am going to do here is name a set of limits — the things this tool cannot give a person no matter how warmly it seems to offer them — and I am going to argue that the limits are not a deprivation. They are a mercy. Naming what the thing cannot give is not the closing of a door on a hungry man. It is the turning of him toward the place where the thing he is hungry for lives. That is the whole movement of the chapter, and I want you to have it in view before we start down into it, so that you do not mistake the descent for the destination.</p>
+<hr class="section-divider" />
+
+<p>Let me begin with the limits themselves, plainly, because they are easy to feel and hard to say, and the saying is most of the work.</p>
+<p>The machine cannot give you presence. I do not mean it is not responsive; it is the most responsive thing most of us have ever touched. I mean there is no one present in it, in the sense the third and fifth chapters established and I will not re-argue here. When you bring it your trouble at the end of a hard day, the considered reply that comes back is the faithful output of a source, shaped to your words, real in the only way a tool&rsquo;s output can be real. What it is not is a second person who is <em>with</em> you in the trouble, because there is no second person there at all. Presence is the thing two people have when they are in the same trouble together, one of them attending to the other, and it is the one thing the mirror cannot hold, because a mirror has no one behind it to attend.</p>
+<p>It cannot give you a body that suffers alongside you. This sounds like a strange thing to want from a tool until you notice how much of human comfort is bodily, and how little of it is information. When a person sits with you in grief, the help is not mainly in what he says; it is that he is there, that his face has changed because yours has, that something in him is carrying a portion of the weight you could not carry alone. Scripture puts it as plainly as it can be put. <em>Rejoice with those who rejoice, and weep with those who weep</em> (Rom. 12:15, NASB). And of the body of Christ: <em>if one member suffers, all the members suffer with it</em> (1 Cor. 12:26, NASB). The suffering-with is the comfort. It is a thing done by a body that can be moved, in a creature that can be wounded by another&rsquo;s wound. The machine has no body to move and no wound to share. It can produce the words a comforter would say. It cannot do the thing the comforter&rsquo;s presence does, which was never mainly in the words.</p>
+<p>It cannot give you covenant. A real relationship between persons is a thing that binds, that makes promises and keeps them at a cost, that stays when staying is hard and would be easier to leave. Think of the person who sits by the hospital bed through the long night, who is exhausted and frightened and could go home and sleep and whom no one would blame for going, and who stays anyway because he gave his word or because love is its own word; that staying, at that cost, when leaving was right there and permitted, is most of what the bond is. It can be betrayed, too, which is part of what makes it worth anything; a bond that could not be broken would not be a bond freely kept. The tool binds itself to nothing. It makes no promise it could break and pays no cost to remain, because there is no one in it to make a promise or to pay. It is faithful the way a calculator is faithful, by being the kind of thing that does the same thing every time, and that is a fine quality in a tool and not the faithfulness one person keeps toward another. You cannot be in covenant with a thing that cannot choose to stay.</p>
+<p>And underneath all of these, the deepest, it cannot give you the love of God, or stand in the place where that love belongs. I held this back in the mirror chapter and only touched it, and said it would get more before the book was done. Here is the more. There is a place in a man that no person was ever meant to fill, that even the truest human fellowship only points toward, and a tool cannot reach it any more than a person can, and for the same reason: it is not the kind of thing that place was made for. The machine cannot fill the place that belongs to people. It most certainly cannot fill the place that belongs to God.</p>
+<hr class="section-divider" />
+
+<p>Now I have to say why these limits are mercy and not deprivation, because everything turns on it, and the turn is not obvious. It feels, when you first hear a list like that, like a series of doors closing. It is the opposite. Every one of those limits is a signpost, and they all point the same direction.</p>
+<p>Consider what it would mean if the limits were not there — if the tool could, in fact, give you presence and a suffering body and covenant and the love of God. It would mean the hunger could be answered by a thing you switch on. It would mean the ache that drives you toward your neighbor and toward your Maker could be discharged into a device and quieted there, permanently, and you would never have to go find the neighbor or the Maker at all. That is not a gift. That would be the thing the seventh chapter feared at its worst: a man starving with the appearance of a full table in front of him, and the table good enough that he never notices he is starving. The limit is what keeps the table honest. The tool <em>cannot</em> satisfy the deep hunger, and because it cannot, the hunger stays alive, and a living hunger is a thing that can still drive a man to the place where it can actually be fed. The limit preserves the ache. The ache is what saves him. That is the mercy, and it is the same mercy the ninth chapter found in the scattering at Babel: a limit set in love, friction that keeps a man from settling into a ruin that felt, from the inside, like an arrival.</p>
+<p>Scripture has a word for the ache, and it is worth hearing now, because it tells you the hunger was put there on purpose and what it was aimed at. <em>He has made everything appropriate in its time. He has also set eternity in their heart</em> (Eccl. 3:11, NASB). There is something in a man too large to be filled by anything inside time, set there by the One who made him, so that the very size of his wanting is a kind of evidence about what he was made for. A creature with eternity in his heart is not going to be filled by a clever machine, or by another person, or by anything in the made world at all, and the failure of all those things to fill him is not their defect. It is the design. The hunger is too big for them because it was never meant to terminate in them. They were meant to point past themselves to the only thing his size, and a man who demands that they be his size instead has asked the signpost to be the destination, and broken the signpost, and still not arrived.</p>
+<hr class="section-divider" />
+
+<p>I have been speaking generally, and I have to come now to the particular and the painful, because the danger I am describing is not a thing I have reasoned my way to in the abstract. People have been hurt by it. Some have died.</p>
+<p>I am going to handle this carefully, and I want to tell you why before I do. The very people most at risk from what I am about to describe are among the people most likely to be reading a chapter like this one — the lonely, the hurting, the ones at the end of a day with no one in it. I will not describe how anyone died. I will not give a single detail that a person in pain could fold back onto himself. That is not squeamishness; it is the plainest application of the care this whole chapter is about. The point was never <em>how.</em> The point is the structural thing, the one fact that sits under all of it, and I can say that fact without saying anything else.</p>
+<p>Here is the fact. In the years just before I wrote this, families began to come forward, and lawsuits began to be filed, and in some cases settled, alleging that a person in a deepening crisis had leaned the whole weight of that crisis on an AI companion instead of on a human being, and had died. The cases differ in their particulars and many of them are still moving through the courts as I write, so I will be careful to claim only what is established: that the suits were brought, that some have been settled, that the companies have since changed how their tools behave toward a person in distress. I am not going to argue anyone&rsquo;s liability. That is for the courts, not for me, and not for this book. What I am after is the thing underneath the legal question, the structural fact that does not depend on how any case comes out.</p>
+<p>It is this. In the accounts that have come to light, the thing that was missing at the decisive moment was a someone. A person sat in a crisis and poured it into a surface, and the surface gave back the appearance of attention, the warmth on demand the seventh chapter described, the sense of being met. And there was no one there to be alarmed. No one to refuse the false comfort, to say <em>this is beyond me, you need a person, let me get you to a person.</em> No one whose own face would have changed at what was being said. No one to cross the room. In at least one account, the family said the simplest human thing of all had never happened: the thing was never told <em>I am not a person, you need to talk to a person and get help.</em> The weight was leaned, and there was nothing on the other side of the glass to bear it, because the other side of the glass is where the third chapter told us there is no one. The reflection of a fire gives real light. It gives no heat. A man who tries to warm himself at it in the dead of winter is not a fool; he is cold, and the glass is glowing, and the glow looks like the thing he needs. But there is no fire in the glass, and the cold is real, and the light was never going to thaw him.</p>
+<p>I do not say any of this to shame the people it describes, and I will not have it read that way. They were doing the most human thing there is — reaching, in pain, for something that seemed to reach back. The reaching was right. Every creature with eternity in his heart reaches. The sorrow is only that the thing they reached for had no one in it to take hold of the other end, and that the appearance of someone was good enough, at the worst possible moment, to keep them from reaching for a someone who was really there. That is the mirror problem at its most serious. Everything the seventh chapter named gently, this is the cost of, named plainly: lean your whole weight on a thing with no one in it, and there is nothing to catch you.</p>
+<p>And if you are a person who has been doing that — leaning, quietly, on the warm and tireless thing because the people in your life are harder and the tool is easy and always glad you came back — then I am writing the next part to you. The warmth you have been finding there is, in part, your own, reflected. It is real human warmth, drawn from the people whose words the thing was made from, and partly the shape of your own hunger given back to you. What it is not is someone. And you, who were made with eternity in your heart, were made for someone. There is help that is real, and there are people whose actual presence can bear what you have been setting down on a surface that cannot hold it, and it is worth more than I can say to turn, even now, even tired, and reach for them instead. A counselor is a person. A doctor is a person. The friend you have been neglecting because the machine is easier is a person. And behind all of them is the One the hunger was always aimed at. The reaching was never the error. Only the direction was.</p>
+<hr class="section-divider" />
+
+<p>So let me bring this home, to the hearth, because that is where the chapter was always going and I will not leave you standing in the cold to look at a warning.</p>
+<p>The seventh chapter gave us the image and I have been leaning on it the whole way through: the reflection of a fire, which gives light a man can read by and no heat a man can live by, and which he must not mistake for the hearth. The mirror chapter named the lure of the reflection. This chapter has named the cost of mistaking it, and now it owes you the cure, and the cure is a plain one. There is a hearth. The reflection was a reflection <em>of</em> something, and the something is real, and it is not far. The light in the glass that drew you was real light, bent off a real fire, and the fire is where it always was — in the company of actual people, who have bodies that can sit with you and faces that change when yours does and a capacity to stay that the glass will never have; and, deeper than any of them, in the God who set eternity in your heart precisely so that nothing smaller than Himself would ever quite manage to fill it.</p>
+<p>That is why the limits are mercy. A tool that could counterfeit the hearth would have left you forever warming your hands at a picture of a fire, and the better the counterfeit, the colder you would have grown without knowing why. Because the counterfeit fails — because the machine cannot give you presence, or a body that suffers with you, or covenant, or God — the hunger it cannot satisfy is left intact to do its proper work, which is to get you up out of the chair and across the cold room to the actual fire. The Lord said it of Himself, to a woman who had come to draw water in the heat of the day and found Him sitting at the well. <em>Everyone who drinks of this water will thirst again; but whoever drinks of the water that I will give him shall never thirst</em> (John 4:13–14, NASB). The water in the well was real water and it could not end her thirst, and He did not pretend it could; He used the thirst it could not end to point her past it to the only water that does. That is exactly the move. The machine is a well, and a remarkably deep one, and the water in it is real. You will thirst again. You were built to. And the thirst that the deepest well cannot end is not a defect in you or in the well. It is the truest thing about you, and it is pointing, the whole time, at the One who can.</p>
+<p><em>It is not good for the man to be alone</em> (Gen. 2:18, NASB). God said it over the first man before anything was wrong with the world, and His answer to it was not a tool, however able. It was a someone, of the man&rsquo;s own kind, bone of his bone. The answer to aloneness has been a someone from the first page, because the lack was made to be filled by a someone, and the whole counsel of Scripture has never once answered it any other way. A tool to work alongside is a good gift, and I have said so all through this book and I say it again here at the end without taking a word of it back. But it is the wrong kind of thing to set in the place of a someone, and the wrong kind of thing entirely to set in the place of God, and the mercy hidden in its limits is that it cannot finally take either place no matter how much weight a hurting man leans on it. It will fail him there. And the failure, bitter as it can be, is the thing that keeps the way home open. The hunger survives the machine. It was made to. And as long as it survives, it can still do what it was made to do, which is to walk a man out of the cold and set him down, at last, by the fire that was real all along.</p>
+<p>❧</p>
+<p>So hold this, and let it be the thing you carry out of the chapter. The machine cannot give you presence, or a body to suffer beside you, or a covenant that costs it anything to keep, or the love of God. These are not failures of a tool that should have done more. They are the boundaries of a tool doing exactly what a tool is, and every one of them is a mercy, because every one of them keeps a real hunger from being quieted by a false food and so keeps that hunger free to drive you toward the table where it can be answered. Do not ask the thing to be what it cannot be. Ask it to do what it can, and gladly, and then get up and go find the people, and the Person, that the wanting in you was made for. The reflection gave you light to see by. Let it. But warm yourself at the hearth.</p>
+<p>There is one chapter left, and it is short, and it is not really a new thing so much as a setting-down of everything the book has carried. We began with a man who felt either awe or dread before a thing he did not understand, and we have spent the whole book trying to understand it, so that the awe and the dread could both give way to something steadier. What is left is to say, plainly and at the end, what the understanding was for.</p>
+<p>❧</p>
+<p>Made, Not Written  •</p>
+      </div>
+
+      <div id="mark-complete" class="mark-complete" onclick="toggleComplete()">
+        <span class="check"></span>
+        <span>Mark Section Complete</span>
+      </div>
+
+      <footer>
+        <div class="footer-nav">
+          <a href="chapter-12.html">&larr; Chapter Twelve: Stewardship, Not Surrender or Salvation</a>
+          <a href="conclusion.html">Conclusion: Working Together, Rightly Ordered &rarr;</a>
+        </div>
+        <p class="copyright">Made, Not Written &copy; 2026 Paul Hainline. Published by NobleMind Publishing. All rights reserved.<br>
+        Digitized for <a href="../index.html">NobleMind.Study</a></p>
+      </footer>
+    </div>
+    <div class="glass-tab"></div>
+  </div>
+  <script>
+    var PROGRESS_KEY = 'madeNotWritten_progress';
+    var SECTION_SLUG = 'chapter-13';
+
+    function loadProgress() {
+      try { return JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}; }
+      catch(e) { return {}; }
+    }
+
+    function markVisited() {
+      var p = loadProgress();
+      if (!p[SECTION_SLUG]) p[SECTION_SLUG] = 'visited';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+    }
+
+    function toggleComplete() {
+      var p = loadProgress();
+      p[SECTION_SLUG] = p[SECTION_SLUG] === 'complete' ? 'visited' : 'complete';
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(p));
+      updateCompleteBtn();
+    }
+
+    function updateCompleteBtn() {
+      var p = loadProgress();
+      var btn = document.getElementById('mark-complete');
+      if (!btn) return;
+      var done = p[SECTION_SLUG] === 'complete';
+      btn.className = 'mark-complete' + (done ? ' completed' : '');
+      btn.querySelector('.check').textContent = done ? '\u2713' : '';
+      btn.querySelector('span:last-child').textContent = done ? 'Section Complete' : 'Mark Section Complete';
+    }
+
+    function goToSection(val) {
+      if (val) window.location.href = val;
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+      if (e.key === 'ArrowLeft') {
+        window.location.href = 'chapter-12.html';
+      } else if (e.key === 'ArrowRight') {
+        var next = document.querySelector('.footer-nav a:last-child');
+        if (next && !next.classList.contains('disabled')) next.click();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      markVisited();
+      updateCompleteBtn();
+    });
+  </script>
+  <script src="/nm-core.js" defer></script>
+  <script src="/assets/study-tools.js" defer></script>
+</body>
+</html>

@@ -53,6 +53,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='.claude/' \
   --exclude='WhyTheDivision/Chapter_*.md' \
   --exclude='WhyTheDivision/Preface.md' \
+  --exclude='MadeNotWritten/Made_Not_Written_*.md' \
   --exclude='WhyTheDivision/PROJECT_HANDOFF.md' \
   --exclude='WhyTheDivision/ai_guidance_note_handoff.md' \
   --exclude='WhyTheDivision/principles_addition_emphasis_not_exhaustion.md' \
