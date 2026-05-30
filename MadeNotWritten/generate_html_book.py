@@ -202,27 +202,61 @@ CHAPTER_LABEL_RE = re.compile(r'^\*\*[^*\n]+\*\*\s*\n', re.MULTILINE)
 DECORATIVE_DIVIDER_RE = re.compile(r'^\s*\u2767\s*\n', re.MULTILINE)
 SECTION_DIVIDER_MD_RE = re.compile(r'^\s*\u2022\s+\u2022\s+\u2022\s*$', re.MULTILINE)
 
-# Detect the dialogue device \u2014 "The machine answered:" followed by one
-# or more entire-italic paragraphs \u2014 so we can wrap them in a
-# div.machine-block for visual treatment.
-MACHINE_INTRO_RE = re.compile(
-    r'<p>\s*<strong>\s*The machine answered\s*:?\s*</strong>\s*</p>'
-    r'((?:\s*<p><em>[^<]*</em></p>)+)',
+# The dialogue device \u2014 "The machine answered:" followed by italic
+# paragraphs \u2014 is wrapped pre-markdown rather than post-markdown. The
+# dialogue paragraphs sometimes contain nested emphasis (italic
+# interrupted briefly to emphasize a phrase in plain Roman), so a
+# regex on the already-rendered <em>...</em> pattern misses them.
+# Catching it at the markdown level \u2014 collect every paragraph that
+# OPENS with `*` after the introducer line, until we hit a paragraph
+# that doesn't \u2014 is robust to those nested-emphasis paragraphs.
+
+MACHINE_INTRO_LINE_RE = re.compile(
+    r'^\s*\*\*\s*The machine answered\s*:?\s*\*\*\s*$',
     re.IGNORECASE,
 )
 
 
-def wrap_machine_blocks(html: str) -> str:
-    """Wrap each 'The machine answered:' run of italic paragraphs in a
-    div.machine-block. The introducer becomes a small label above the block.
+def wrap_machine_blocks_md(md_text: str) -> str:
+    """Pre-markdown: wrap each machine-dialogue run in explicit <div>
+    blocks with markdown="1" so python-markdown still processes the
+    italic prose inside.
     """
-    def _wrap(m):
-        body = m.group(1)
-        return (
-            '<div class="machine-intro">The machine answered:</div>\n'
-            f'<div class="machine-block">{body}</div>'
-        )
-    return MACHINE_INTRO_RE.sub(_wrap, html)
+    lines = md_text.split('\n')
+    out = []
+    i = 0
+    while i < len(lines):
+        if MACHINE_INTRO_LINE_RE.match(lines[i]):
+            out.append('<div class="machine-intro">The machine answered:</div>')
+            out.append('<div class="machine-block" markdown="1">')
+            out.append('')
+            i += 1
+            # Skip blank lines after the introducer
+            while i < len(lines) and not lines[i].strip():
+                i += 1
+            # Collect paragraphs that open with `*` (italic). A paragraph
+            # is a run of non-blank lines. Stop at the first paragraph
+            # that does NOT open with `*`.
+            while i < len(lines):
+                if not lines[i].strip():
+                    # blank line \u2014 keep one as paragraph separator
+                    out.append('')
+                    i += 1
+                    continue
+                if lines[i].lstrip().startswith('*'):
+                    # This paragraph belongs in the block; emit until blank
+                    while i < len(lines) and lines[i].strip():
+                        out.append(lines[i])
+                        i += 1
+                else:
+                    # Narration resumes \u2014 close the block
+                    break
+            out.append('</div>')
+            out.append('')
+        else:
+            out.append(lines[i])
+            i += 1
+    return '\n'.join(out)
 
 
 def _unused_legacy_scripture_quote(text):
@@ -248,11 +282,13 @@ def process_markdown(md_text):
     md_text = CHAPTER_LABEL_RE.sub("", md_text, count=2).lstrip("\n")
     # 2. Strip the decorative ❧ divider
     md_text = DECORATIVE_DIVIDER_RE.sub("", md_text, count=1).lstrip("\n")
-    # 3. Convert in-prose three-bullet dividers to HR rules
+    # 3. Wrap machine-dialogue blocks BEFORE markdown so nested emphasis
+    #    in the italic paragraphs doesn't break detection
+    md_text = wrap_machine_blocks_md(md_text)
+    # 4. Convert in-prose three-bullet dividers to HR rules
     md_text = SECTION_DIVIDER_MD_RE.sub("\n<hr class=\"section-divider\" />\n", md_text)
 
     html = md.markdown(md_text, extensions=["extra", "smarty", "tables"])
-    html = wrap_machine_blocks(html)
     return html
 
 
@@ -566,26 +602,34 @@ def get_chapter_css():
        AI's own words, on the page, visually distinct from Paul's voice. */
     .machine-intro {{
       font-family: 'IM Fell English', Georgia, serif;
-      font-size: 0.9rem;
+      font-size: 1.05rem;
       font-weight: 600;
       color: var(--accent);
       letter-spacing: 0.6px;
-      margin: 24px 0 4px 0;
+      margin: 28px 0 8px 0;
+      padding: 0;
+      background: transparent;
+      display: block;
+      line-height: 1.3;
     }}
     .machine-block {{
       margin: 0 0 24px 0;
-      padding: 14px 20px 6px 22px;
+      padding: 18px 22px 10px 24px;
       background: rgba({ACCENT_RGB}, 0.06);
       border-left: 3px solid var(--accent);
       border-radius: 0 8px 8px 0;
     }}
     .machine-block p {{
-      color: var(--text-secondary);
+      color: var(--text-primary);
       font-style: italic;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+      line-height: 1.75;
     }}
     .machine-block p:last-child {{ margin-bottom: 4px; }}
-    .machine-block em {{ font-style: normal; color: var(--text-primary); }}
+    /* Nested emphasis (italic-within-italic) shows as upright Roman so
+       the briefly-non-italic phrase stands out inside the italic flow,
+       matching the typographic intent of the source markdown. */
+    .machine-block em {{ font-style: normal; color: var(--accent); font-weight: 500; }}
     /* In-prose section divider (the three centered bullets) */
     hr.section-divider {{
       border: none;
