@@ -211,8 +211,12 @@ SECTION_DIVIDER_MD_RE = re.compile(r'^\s*\u2022\s+\u2022\s+\u2022\s*$', re.MULTI
 # OPENS with `*` after the introducer line, until we hit a paragraph
 # that doesn't \u2014 is robust to those nested-emphasis paragraphs.
 
+# MNW's machine-dialogue introducer appears in two forms:
+#   1. **The machine answered:**          (bold, used in most chapters)
+#   2. The machine answered:              (plain, used in the Conclusion)
+# Both are accepted.
 MACHINE_INTRO_LINE_RE = re.compile(
-    r'^\s*\*\*\s*The machine answered\s*:?\s*\*\*\s*$',
+    r'^\s*\*{0,2}\s*The machine answered\s*:?\s*\*{0,2}\s*$',
     re.IGNORECASE,
 )
 
@@ -221,6 +225,13 @@ def wrap_machine_blocks_md(md_text: str) -> str:
     """Pre-markdown: wrap each machine-dialogue run in explicit <div>
     blocks with markdown="1" so python-markdown still processes the
     italic prose inside.
+
+    Recognizes two paragraph forms for the dialogue body:
+      - bare italic paragraph: lines opening with `*`
+      - markdown blockquote with italic: lines opening with `>`
+        (the `>` prefix is stripped so the content joins the
+        .machine-block visual treatment instead of getting its own
+        blockquote styling)
     """
     lines = md_text.split('\n')
     out = []
@@ -234,19 +245,27 @@ def wrap_machine_blocks_md(md_text: str) -> str:
             # Skip blank lines after the introducer
             while i < len(lines) and not lines[i].strip():
                 i += 1
-            # Collect paragraphs that open with `*` (italic). A paragraph
-            # is a run of non-blank lines. Stop at the first paragraph
-            # that does NOT open with `*`.
+            # Collect paragraphs that open with `*` (italic) OR `>`
+            # (blockquote). Stop at the first paragraph that does neither.
             while i < len(lines):
                 if not lines[i].strip():
                     # blank line \u2014 keep one as paragraph separator
                     out.append('')
                     i += 1
                     continue
-                if lines[i].lstrip().startswith('*'):
-                    # This paragraph belongs in the block; emit until blank
+                first = lines[i].lstrip()
+                if first.startswith('*'):
+                    # Italic paragraph \u2014 collect verbatim until blank
                     while i < len(lines) and lines[i].strip():
                         out.append(lines[i])
+                        i += 1
+                elif first.startswith('>'):
+                    # Blockquote paragraph \u2014 strip the leading `>` so the
+                    # content sits in .machine-block, not a nested
+                    # <blockquote> with its own styling
+                    while i < len(lines) and lines[i].strip().startswith('>'):
+                        stripped = re.sub(r'^\s*>\s?', '', lines[i])
+                        out.append(stripped)
                         i += 1
                 else:
                     # Narration resumes \u2014 close the block
