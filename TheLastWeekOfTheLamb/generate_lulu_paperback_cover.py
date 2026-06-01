@@ -53,10 +53,15 @@ FONT_DIR = Path.home() / ".local" / "share" / "fonts"
 pdfmetrics.registerFont(TTFont("EBGaramond", str(FONT_DIR / "EBGaramond.ttf")))
 pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-Italic.ttf")))
 
-# --- Document dimensions (Lulu template values) ---
-DOC_W = 11.815 * inch
+# --- Document dimensions ---
+# 2026-06-01: page count grew 224 → 232 with the Wednesday-vs-Friday
+# comparison appendix. Spine recalculated via the cream formula
+# (pages × 0.00226 + 0.057 = 0.581"). Pull the EXACT spine from Lulu's
+# downloaded template once the new interior is uploaded.
+SPINE_W = 0.581 * inch  # 232pp cream (was 0.565" at 224pp from Lulu template)
+DOC_W = 0.125 + 5.5 + (SPINE_W / inch) + 5.5 + 0.125  # = 11.831"
+DOC_W = DOC_W * inch
 DOC_H = 8.75 * inch
-SPINE_W = 0.565 * inch
 BLEED = 0.125 * inch
 TRIM_W = 5.5 * inch
 TRIM_H = 8.5 * inch
@@ -311,7 +316,7 @@ def draw_spine(c):
 def main():
     print("Generating Lulu paperback cover (perfect-bound)...")
     print(f'  Document: {DOC_W/inch:.3f}" x {DOC_H/inch:.3f}"')
-    print(f'  Spine:    {SPINE_W/inch:.3f}" (224 pp cream interior)')
+    print(f'  Spine:    {SPINE_W/inch:.3f}" (232 pp cream interior — pull exact from Lulu template)')
     print(f'  Bleed:    {BLEED/inch:.3f}" on outside edges')
     print(f'  Trim:     {TRIM_W/inch:.2f}" x {TRIM_H/inch:.2f}" per panel')
 

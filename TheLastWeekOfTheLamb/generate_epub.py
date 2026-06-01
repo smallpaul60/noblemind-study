@@ -41,6 +41,9 @@ SECTIONS = [
     ("chapter",  "Chapter11_The_Stone_Moves.md",                   "Chapter Eleven", "The Stone Moves"),
     ("chapter",  "Chapter12_When_Did_the_Lamb_Die.md",             "Chapter Twelve", "When Did the Lamb Die?"),
     ("front",    "Epilogue_The_Thread_Completed.md",               "Epilogue",       "The Thread Completed"),
+    ("part",     None,                                            "Appendix",       "Reference Charts"),
+    ("front",    "From_Bethany_to_the_Empty_Tomb_Timeline_Chart.md", "Timeline Chart",   "From Bethany to the Empty Tomb"),
+    ("front",    "Wednesday_vs_Friday_Comparison.md",                "Comparison Chart", "Wednesday vs. Friday"),
 ]
 
 
@@ -153,7 +156,11 @@ def convert_scripture_blockquotes(html_text):
 
 def md_body(path):
     text = path.read_text(encoding='utf-8')
+    # Strip the first # heading (book title) — handled separately in the template
     text = re.sub(r'^#\s+.*$', '', text, count=1, flags=re.MULTILINE).strip()
+    # Strip a leading ## subtitle line if present (chart files have one;
+    # it's redundant with the section title already in the EPUB header).
+    text = re.sub(r'^##\s+.+\n', '', text, count=1).lstrip()
     html = markdown.markdown(text, extensions=['smarty', 'tables'])
     return convert_scripture_blockquotes(html)
 

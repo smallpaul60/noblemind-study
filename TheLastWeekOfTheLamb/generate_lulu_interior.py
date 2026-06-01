@@ -143,6 +143,22 @@ SECTIONS = [
         "label": "Epilogue",
         "charts_after": ["15"],
     },
+    # The Timeline Chart equivalent ("From Bethany to the Empty Tomb")
+    # already exists as Chart 15 at the end of the Epilogue (built by
+    # build_chart_15 with extra "Typological inference" annotations that
+    # the bare markdown doesn't carry). The print interior would
+    # duplicate it if added here as a separate appendix — so only the
+    # Wednesday-vs-Friday comparison is added as a new appendix entry.
+    # The reader PDF and EPUB don't have the inline chart system, so
+    # both charts appear in those formats' appendix.
+    {"kind": "part", "title": "Appendix", "subtitle": "The Wednesday vs. Friday Comparison"},
+    {
+        "kind": "appendix",
+        "file": "Wednesday_vs_Friday_Comparison.md",
+        "label": "Comparison Chart",
+        "title": "Wednesday vs. Friday",
+        "subtitle": "The same Gospel data, weighed both ways.",
+    },
 ]
 
 CHART_TITLES = {
@@ -1019,6 +1035,32 @@ def build_section_html(section):
     if kind == "part":
         return build_part_page(section["title"], section["subtitle"])
 
+    if kind == "appendix":
+        # Chart files carry "# The Last Week of the Lamb" + "## <chart name>" as
+        # their first two headings (for the website renderer). The print
+        # interior wants the chart's own label/title from the SECTIONS dict
+        # and the body with both heading lines stripped.
+        src = (BOOK_DIR / section["file"]).read_text(encoding="utf-8")
+        src = TITLE_LINE_RE.sub("", src, count=1).lstrip("\n")
+        src = re.sub(r'^##\s+.+\n', '', src, count=1).lstrip()
+        body_html = md.markdown(src, extensions=["extra", "smarty"])
+        label = section["label"]
+        title = section["title"]
+        subtitle = section.get("subtitle")
+        subtitle_html = f'<p class="chapter-subtitle">{subtitle}</p>' if subtitle else ""
+        return f"""
+        <section class="chapter appendix-chart">
+          <div class="chapter-header">
+            <p class="chapter-num">{label}</p>
+            <h1>{title}</h1>
+            {subtitle_html}
+          </div>
+          <div class="chapter-body">
+            {body_html}
+          </div>
+        </section>
+        """
+
     label, title, subtitle, body_html = load_section(section["file"])
 
     # Force the label from the outline when provided (consistent TOC/heading)
@@ -1078,6 +1120,17 @@ def build_toc():
                 f'<div class="toc-part">'
                 f'<span class="toc-part-num">{section["title"]}</span>'
                 f'<span class="toc-part-title">{section["subtitle"]}</span>'
+                f'</div>'
+            )
+            continue
+
+        if section["kind"] == "appendix":
+            # Appendix charts carry the right title in the SECTIONS dict —
+            # don't call load_section (which would parse "The Last Week of
+            # the Lamb" from the chart file's first H1).
+            items.append(
+                f'<div class="toc-entry toc-special">'
+                f'<span class="toc-title">{section["label"]}: {section["title"]}</span>'
                 f'</div>'
             )
             continue
@@ -1777,6 +1830,51 @@ table.chart-table tbody tr.chart-row-emphasis td {
 }
 table.chart-table tbody tr.chart-row-emphasis td em {
     color: #f0f0f0;
+}
+
+/* Appendix-chart sections (Timeline Chart, Wednesday-vs-Friday).
+   Plain markdown tables (no chart-table class). Need their own
+   styling so the 3-column and 5-column tables fit on a 5.5x8.5
+   portrait page. */
+.appendix-chart .chapter-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8pt;
+    line-height: 1.30;
+    margin: 0.14in 0;
+    table-layout: fixed;
+    page-break-inside: auto;
+}
+.appendix-chart .chapter-body th,
+.appendix-chart .chapter-body td {
+    padding: 3pt 4pt;
+    vertical-align: top;
+    border: 0.4pt solid #c8c8c8;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.appendix-chart .chapter-body thead th {
+    background: #1a1a1a;
+    color: #ffffff;
+    font-weight: bold;
+    page-break-after: avoid;
+}
+.appendix-chart .chapter-body tbody tr:nth-child(even) td {
+    background: #f5f5f5;
+}
+.appendix-chart .chapter-body h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    margin-top: 0.22in;
+    margin-bottom: 0.10in;
+    page-break-after: avoid;
+}
+.appendix-chart .chapter-body p {
+    font-size: 10.5pt;
+}
+.appendix-chart .chapter-body em {
+    color: #4a4a4a;
 }
 
 /* Chart A — The Thread (vertical flow) */

@@ -50,12 +50,13 @@ pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-I
 #   Book trim: 5.75" x 9" per panel (board including 0.125" outside / 0.25" top+bottom overhang)
 #   Spine: 0.813"
 #   Wrap area: 0.625" on each outside edge (was 0.75" — corrected)
-# Layout check:
-#   0.625 + 5.75 + 0.813 + 5.75 + 0.625 = 13.563  (width)
-#   0.625 + 9.00 + 0.625                = 10.25   (height)
-DOC_W = 13.563 * inch
+# 2026-06-01: page count grew 224 → 232 with the Wednesday-vs-Friday
+# comparison appendix. Spine recalc: PB 0.581" + 0.248" board overhead
+# = 0.829". Pull EXACT spine from Lulu's downloaded hardcover template
+# once the new interior is uploaded.
+SPINE_W = 0.829 * inch  # 232pp cream (was 0.813" at 224pp from Lulu template)
+DOC_W = (0.625 + 5.75 + (SPINE_W / inch) + 5.75 + 0.625) * inch  # = 13.579"
 DOC_H = 10.25 * inch
-SPINE_W = 0.813 * inch
 WRAP = 0.625 * inch
 CASE_W = 5.75 * inch    # visible panel width (board including overhang)
 CASE_H = 9.00 * inch    # visible panel height (board including overhangs)

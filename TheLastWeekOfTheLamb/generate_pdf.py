@@ -48,6 +48,9 @@ SECTIONS = [
     ("chapter",  "Chapter11_The_Stone_Moves.md",                   "Chapter Eleven", "The Stone Moves"),
     ("chapter",  "Chapter12_When_Did_the_Lamb_Die.md",             "Chapter Twelve", "When Did the Lamb Die?"),
     ("front",    "Epilogue_The_Thread_Completed.md",               "Epilogue",       "The Thread Completed"),
+    ("part",     None,                                            "Appendix",       "Reference Charts"),
+    ("appendix", "From_Bethany_to_the_Empty_Tomb_Timeline_Chart.md", "Timeline Chart",   "From Bethany to the Empty Tomb"),
+    ("appendix", "Wednesday_vs_Friday_Comparison.md",                "Comparison Chart", "Wednesday vs. Friday"),
 ]
 
 
@@ -120,6 +123,30 @@ def build_chapter(filename, label, title):
     """
 
 
+def build_appendix_chart(filename, label, title):
+    """Render an appendix chart (timeline-chart, wed-vs-fri).
+    Same shape as chapters but strips the leading ## subtitle line
+    that the source markdown carries for the website build, and
+    tags the section with appendix-chart for tighter table CSS.
+    """
+    text = (BOOK_DIR / filename).read_text(encoding='utf-8')
+    text = re.sub(r'^#\s+.*$', '', text, count=1, flags=re.MULTILINE).strip()
+    text = re.sub(r'^##\s+.+\n', '', text, count=1).lstrip()
+    html = markdown.markdown(text, extensions=['smarty', 'tables'])
+    html = convert_scripture_blockquotes(html)
+    return f"""
+    <section class="chapter appendix-chart">
+      <div class="chapter-header">
+        <p class="chapter-num">{label}</p>
+        <h1>{title}</h1>
+      </div>
+      <div class="chapter-body">
+        {html}
+      </div>
+    </section>
+    """
+
+
 def build_part_page(label, subtitle):
     return f"""
     <section class="part-page">
@@ -140,6 +167,12 @@ def build_toc():
             # Prologue / Interlude / Epilogue — flush left
             items.append(
                 f'<div class="toc-entry">'
+                f'<span>{label}: {title}</span></div>'
+            )
+        elif kind == "appendix":
+            # Appendix charts — indented under the Appendix part header
+            items.append(
+                f'<div class="toc-entry toc-chapter">'
                 f'<span>{label}: {title}</span></div>'
             )
         else:  # chapter
@@ -302,6 +335,27 @@ blockquote.scripture cite {{
     text-align: left;
 }}
 .chapter-body th {{ background: #f5e8cc; font-weight: 600; }}
+
+/* Appendix charts — tables can be wide; let them break across pages
+   and run smaller font to fit 5.5x8.5 portrait. */
+.appendix-chart .chapter-body table {{
+    font-size: 8.5pt; page-break-inside: auto;
+}}
+.appendix-chart .chapter-body th,
+.appendix-chart .chapter-body td {{
+    padding: 3pt 5pt;
+}}
+.appendix-chart .chapter-body th {{
+    page-break-after: avoid;
+}}
+.appendix-chart .chapter-body p {{
+    font-size: 10.5pt;
+}}
+.appendix-chart .chapter-body h3 {{
+    font-size: 11.5pt; font-weight: 600;
+    margin-top: 0.2in; margin-bottom: 0.08in;
+    page-break-after: avoid;
+}}
 """
 
 
@@ -359,6 +413,9 @@ def main():
         elif kind == "front":
             print(f"  {fname}")
             body.append(build_front_section(fname, label, title))
+        elif kind == "appendix":
+            print(f"  {fname}  (appendix)")
+            body.append(build_appendix_chart(fname, label, title))
         else:
             print(f"  {fname}")
             body.append(build_chapter(fname, label, title))
