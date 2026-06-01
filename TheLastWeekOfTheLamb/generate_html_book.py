@@ -199,6 +199,15 @@ SECTIONS = [
         "part": None,
     },
     {
+        "slug": "wednesday-vs-friday",
+        "kind": "appendix",
+        "label": "Comparison Chart",
+        "title": "Wednesday vs. Friday",
+        "subtitle": "The same Gospel data, weighed both ways.",
+        "file": "Wednesday_vs_Friday_Comparison.md",
+        "part": None,
+    },
+    {
         "slug": "gospel-parallel",
         "kind": "appendix",
         "label": "Reference Chart",
@@ -281,6 +290,25 @@ def process_markdown(md_text):
 # --------------------------------------------------------------------------
 # Appendix chart builders
 # --------------------------------------------------------------------------
+
+def build_wednesday_vs_friday_html():
+    """Render the Wednesday-vs-Friday comparison chart.
+
+    Two tables (the "third day" reconciliation grid + the side-by-side
+    timeline), plus prose sections. Same chart-content wrapper as the
+    timeline chart so the table styling applies.
+    """
+    md_path = SCRIPT_DIR / "Wednesday_vs_Friday_Comparison.md"
+    md_text = md_path.read_text(encoding="utf-8")
+
+    # Strip the first `#` (book title) and the first `##` (chart subtitle)
+    # — both are surfaced in the page header.
+    md_text = TITLE_LINE_RE.sub("", md_text, count=1).lstrip("\n")
+    md_text = re.sub(r'^##\s+.+\n', '', md_text, count=1)
+
+    html = md.markdown(md_text, extensions=["extra", "smarty", "tables"])
+    return f'<div class="chart-content wednesday-vs-friday">{html}</div>'
+
 
 def build_timeline_chart_html():
     """Render the Bethany-to-empty-tomb timeline chart markdown.
@@ -1593,6 +1621,8 @@ def main():
 
         if section["slug"] == "timeline-chart":
             content_html = build_timeline_chart_html()
+        elif section["slug"] == "wednesday-vs-friday":
+            content_html = build_wednesday_vs_friday_html()
         elif section["slug"] == "gospel-parallel":
             content_html = build_gospel_parallel_html()
         else:
