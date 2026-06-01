@@ -164,6 +164,27 @@
     box-shadow: 0 2px 6px rgba(42,26,5,0.18);
   }
 
+  .phase-map-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 14px;
+    background: rgba(232, 185, 35, 0.15);
+    border: 1px solid rgba(232, 185, 35, 0.5);
+    border-radius: 4px;
+    color: #6B4C1A;
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: 13px;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+    z-index: 2;
+  }
+  .phase-map-link:hover {
+    background: rgba(232, 185, 35, 0.35);
+    color: #2A1A05;
+  }
+
   .event {
     display: flex;
     gap: 0;
@@ -399,6 +420,15 @@ const PHASE_LABELS = [
   "VI \u00B7 Prisoner of Christ \u2014 Arrest, Caesarea & Rome (c. AD 57\u201362)",
   "VII \u00B7 The Final Years \u2014 Release, the Pastorals & Martyrdom (c. AD 62\u201367)",
 ];
+
+// Which phases have a corresponding Bible Map journey theme. Phase
+// index \u2192 theme id used by Noble_Mind_Study_Tool_v2.html?map=...
+const PHASE_MAP_THEMES = {
+  1: { theme: 'paul1', label: 'View the 1st Missionary Journey on the Bible Map' },
+  3: { theme: 'paul2', label: 'View the 2nd Missionary Journey on the Bible Map' },
+  4: { theme: 'paul3', label: 'View the 3rd Missionary Journey on the Bible Map' },
+  5: { theme: 'rome',  label: 'View the Voyage to Rome on the Bible Map' },
+};
 
 const events = [
   { date: "c. AD 5", type: "Background", title: "Born in Tarsus, a Roman citizen by birth",
@@ -765,7 +795,11 @@ function renderTimeline() {
     if (p !== lastPhase) {
       const phEl = document.createElement('div');
       phEl.className = 'phase';
-      phEl.innerHTML = `<span class="phase-label">${esc(PHASE_LABELS[p])}</span>`;
+      const mapMeta = PHASE_MAP_THEMES[p];
+      const mapLink = mapMeta
+        ? `<br><a class="phase-map-link" href="../Noble_Mind_Study_Tool_v2.html?map=${mapMeta.theme}" target="_blank" rel="noopener">🗺️ ${esc(mapMeta.label)} →</a>`
+        : '';
+      phEl.innerHTML = `<span class="phase-label">${esc(PHASE_LABELS[p])}</span>${mapLink}`;
       tl.appendChild(phEl);
       lastPhase = p;
     }

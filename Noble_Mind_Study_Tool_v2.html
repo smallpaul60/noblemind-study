@@ -6907,13 +6907,19 @@ function setupMapSearch() {
   });
 }
 
-function openMapModal(locationName) {
+function openMapModal(locationName, themeId) {
   var modal = document.getElementById('mapModal');
   modal.classList.add('active');
   setTimeout(function() {
     initBibleMap();
     setupMapSearch();
     bibleMap.invalidateSize();
+    if (themeId && mapThemes && mapThemes[themeId]) {
+      var sel = document.getElementById('mapThemeSelect');
+      if (sel) sel.value = themeId;
+      selectMapTheme(themeId);
+      return;
+    }
     if (locationName) {
       var loc = mapLocations.find(function(l) {
         return l.name.toLowerCase() === locationName.toLowerCase();
@@ -7207,6 +7213,7 @@ function closeMapModal() {
         const params = new URLSearchParams(window.location.search);
         const passageFromUrl = params.get('passage');
         const claimFromUrl = params.get('claim');
+        const mapFromUrl = params.get('map');
         if (passageFromUrl) {
           const ref = document.getElementById('scriptureRef');
           if (ref) {
@@ -7218,6 +7225,13 @@ function closeMapModal() {
           const input = document.getElementById('claimAuditInput');
           if (input) input.value = claimFromUrl;
           window.openClaimAuditModal();
+        }
+        // Map deep-link: e.g. ?map=paul1 opens the Bible Map preselected
+        // to a journey theme. Used by the apostle-paul timeline pages.
+        if (mapFromUrl && /^(paul[123]|rome)$/.test(mapFromUrl)) {
+          if (typeof openMapModal === 'function') {
+            openMapModal(null, mapFromUrl);
+          }
         }
       } catch (err) {
         console.warn('Berean URL-param preload failed:', err);
