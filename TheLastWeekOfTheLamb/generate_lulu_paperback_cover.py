@@ -55,10 +55,9 @@ pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-I
 
 # --- Document dimensions ---
 # 2026-06-01: page count grew 224 → 232 with the Wednesday-vs-Friday
-# comparison appendix. Spine recalculated via the cream formula
-# (pages × 0.00226 + 0.057 = 0.581"). Pull the EXACT spine from Lulu's
-# downloaded template once the new interior is uploaded.
-SPINE_W = 0.581 * inch  # 232pp cream (was 0.565" at 224pp from Lulu template)
+# comparison appendix. Spine 0.5825" from Lulu's downloaded template
+# after upload (formula predicted 0.581", held within 0.0015").
+SPINE_W = 0.5825 * inch  # 232pp cream from Lulu template (was 0.565" at 224pp)
 DOC_W = 0.125 + 5.5 + (SPINE_W / inch) + 5.5 + 0.125  # = 11.831"
 DOC_W = DOC_W * inch
 DOC_H = 8.75 * inch
