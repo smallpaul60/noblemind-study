@@ -696,6 +696,279 @@ def build_banner_v4():
     print(f"Wrote {out.relative_to(BOOK_DIR)}  ({W}x{H}, {out.stat().st_size:,} bytes)")
 
 
+def build_banner_v5():
+    """V5 banner per Charles + Paul's feedback on V4: add the actual
+    1 Cor 13:4-7 verse text between the title and the reference, with
+    the title bumped higher so the verse fits comfortably below.
+
+    Five semantic-clause lines (NASB 1995), navy regular, 200pt — ~0.47"
+    cap-height, comfortable for intentional reading at 10 feet, which is
+    what a classroom is. Title shrunk from V4's 620pt to 480pt (~1.12"
+    cap-height) to make room while staying dominant from across the
+    room. Same scenic background, same black border, same navy + gold
+    palette as V4.
+    """
+    W = int(36.0 * DPI)
+    H = int(8.0  * DPI)
+    BORDER_PX = int(0.5 * DPI)
+
+    canvas = Image.new("RGB", (W, H), (200, 180, 140))
+
+    # --- Background: mountain scenic, center-cropped, UNDARKENED ---
+    src = BOOK_DIR / "mountain-banner.png"
+    bg = Image.open(src).convert("RGB")
+    bw, bh = bg.size
+    target_aspect = W / H
+    src_aspect = bw / bh
+    if src_aspect > target_aspect:
+        new_bw = int(bh * target_aspect)
+        x0 = (bw - new_bw) // 2
+        bg = bg.crop((x0, 0, x0 + new_bw, bh))
+    elif src_aspect < target_aspect:
+        new_bh = int(bw / target_aspect)
+        y0 = (bh - new_bh) // 2
+        bg = bg.crop((0, y0, bw, y0 + new_bh))
+    bg = bg.resize((W, H), Image.LANCZOS)
+    canvas.paste(bg, (0, 0))
+
+    draw = ImageDraw.Draw(canvas)
+
+    # --- Black 0.5" border ---
+    draw.rectangle([0, 0, W, BORDER_PX], fill=(0, 0, 0))
+    draw.rectangle([0, H - BORDER_PX, W, H], fill=(0, 0, 0))
+    draw.rectangle([0, 0, BORDER_PX, H], fill=(0, 0, 0))
+    draw.rectangle([W - BORDER_PX, 0, W, H], fill=(0, 0, 0))
+
+    # --- Inner work area ---
+    inner_left = BORDER_PX + int(0.4 * DPI)
+    inner_right = W - BORDER_PX - int(0.4 * DPI)
+    inner_w = inner_right - inner_left
+    inner_top = BORDER_PX
+    inner_bot = H - BORDER_PX
+
+    # --- Title — navy, bumped high near top border ---
+    title_text = "WHAT  LOVE  LOOKS  LIKE"
+    title_size = 480
+    title_font = load(FONT_REGULAR, title_size)
+    widths = [draw.textbbox((0, 0), ch, font=title_font)[2] for ch in title_text]
+    target_total = int(inner_w * 0.95)
+    base_total = sum(widths)
+    n_gaps = len(title_text) - 1
+    title_spacing = max(20, (target_total - base_total) // n_gaps)
+    total_w = sum(widths) + title_spacing * n_gaps
+    title_x = inner_left + (inner_w - total_w) // 2
+
+    top_pad = int(0.20 * DPI)   # 60px breathing room from the top border
+    title_y = inner_top + top_pad
+    x = title_x
+    for ch, wch in zip(title_text, widths):
+        draw.text((x, title_y), ch, font=title_font, fill=NAVY,
+                  stroke_width=2, stroke_fill=NAVY)
+        x += wch + title_spacing
+
+    # --- Gold rule beneath title ---
+    gap_above_rule = int(0.16 * DPI)
+    rule_thickness = 8
+    rule_y = title_y + title_size + gap_above_rule
+    rule_w = int(total_w * 0.55)
+    rule_x = (W - rule_w) // 2
+    draw.rectangle([rule_x, rule_y, rule_x + rule_w, rule_y + rule_thickness],
+                   fill=GOLD)
+
+    # --- Verse body — 5 semantic-clause lines, NASB 1995 ---
+    verse_lines = [
+        "Love is patient, love is kind and is not jealous;",
+        "love does not brag and is not arrogant, does not act unbecomingly;",
+        "it does not seek its own, is not provoked, does not take into account a wrong suffered,",
+        "does not rejoice in unrighteousness, but rejoices with the truth;",
+        "bears all things, believes all things, hopes all things, endures all things.",
+    ]
+    verse_size = 200
+    verse_font = load(FONT_REGULAR, verse_size)
+    verse_line_height = int(verse_size * 1.22)
+
+    gap_below_rule = int(0.23 * DPI)
+    verse_y = rule_y + rule_thickness + gap_below_rule
+    for line in verse_lines:
+        lb = draw.textbbox((0, 0), line, font=verse_font)
+        lw = lb[2] - lb[0]
+        draw.text(((W - lw) // 2, verse_y), line, font=verse_font, fill=NAVY)
+        verse_y += verse_line_height
+
+    # --- Reference — italic navy ---
+    ref_text = "1 Corinthians 13:4–7"
+    ref_size = 140
+    ref_font = load(FONT_ITALIC, ref_size)
+    gap_above_ref = int(0.12 * DPI)
+    ref_y = verse_y + gap_above_ref
+    rb = draw.textbbox((0, 0), ref_text, font=ref_font)
+    ref_w = rb[2] - rb[0]
+    ref_x = (W - ref_w) // 2
+    draw.text((ref_x, ref_y), ref_text, font=ref_font, fill=NAVY)
+
+    # --- Bottom-overflow safety check ---
+    bottom_edge = ref_y + ref_size
+    overflow = bottom_edge - inner_bot
+    if overflow > 0:
+        print(f"  WARNING: content overflows inner area by {overflow}px")
+
+    out = MOCK_DIR / "banner_what_love_looks_like_v5.png"
+    canvas.save(out, "PNG", optimize=True)
+    print(f"Wrote {out.relative_to(BOOK_DIR)}  ({W}x{H}, {out.stat().st_size:,} bytes)")
+
+
+def build_banner_v5a():
+    """V5a: V5 with a soft cream-vellum overlay behind the verse + ref.
+
+    Problem from V5: navy verse text lost contrast against the darker
+    silhouetted mountains in the lower half of the banner. Lines 1-2
+    read crisply on light sky; lines 3-5 + the reference fell on the
+    dark band and demanded effort at 10ft.
+
+    Fix: drop a translucent cream rectangle (the same BANNER_BG warm
+    cream used elsewhere, at ~67% opacity) behind the verse stanza
+    + reference. Mountains stay visible behind the title and around
+    the panel edges; the verse area gets the cream "page" navy
+    serif type was made for.
+    """
+    W = int(36.0 * DPI)
+    H = int(8.0  * DPI)
+    BORDER_PX = int(0.5 * DPI)
+
+    canvas = Image.new("RGB", (W, H), (200, 180, 140))
+
+    # --- Background: mountain scenic, center-cropped, UNDARKENED ---
+    src = BOOK_DIR / "mountain-banner.png"
+    bg = Image.open(src).convert("RGB")
+    bw, bh = bg.size
+    target_aspect = W / H
+    src_aspect = bw / bh
+    if src_aspect > target_aspect:
+        new_bw = int(bh * target_aspect)
+        x0 = (bw - new_bw) // 2
+        bg = bg.crop((x0, 0, x0 + new_bw, bh))
+    elif src_aspect < target_aspect:
+        new_bh = int(bw / target_aspect)
+        y0 = (bh - new_bh) // 2
+        bg = bg.crop((0, y0, bw, y0 + new_bh))
+    bg = bg.resize((W, H), Image.LANCZOS)
+    canvas.paste(bg, (0, 0))
+
+    draw = ImageDraw.Draw(canvas)
+
+    # --- Black 0.5" border ---
+    draw.rectangle([0, 0, W, BORDER_PX], fill=(0, 0, 0))
+    draw.rectangle([0, H - BORDER_PX, W, H], fill=(0, 0, 0))
+    draw.rectangle([0, 0, BORDER_PX, H], fill=(0, 0, 0))
+    draw.rectangle([W - BORDER_PX, 0, W, H], fill=(0, 0, 0))
+
+    # --- Inner work area ---
+    inner_left = BORDER_PX + int(0.4 * DPI)
+    inner_right = W - BORDER_PX - int(0.4 * DPI)
+    inner_w = inner_right - inner_left
+    inner_top = BORDER_PX
+    inner_bot = H - BORDER_PX
+
+    # --- Title — navy, bumped high near top border ---
+    title_text = "WHAT  LOVE  LOOKS  LIKE"
+    title_size = 480
+    title_font = load(FONT_REGULAR, title_size)
+    widths = [draw.textbbox((0, 0), ch, font=title_font)[2] for ch in title_text]
+    target_total = int(inner_w * 0.95)
+    base_total = sum(widths)
+    n_gaps = len(title_text) - 1
+    title_spacing = max(20, (target_total - base_total) // n_gaps)
+    total_w = sum(widths) + title_spacing * n_gaps
+    title_x = inner_left + (inner_w - total_w) // 2
+
+    top_pad = int(0.20 * DPI)
+    title_y = inner_top + top_pad
+    x = title_x
+    for ch, wch in zip(title_text, widths):
+        draw.text((x, title_y), ch, font=title_font, fill=NAVY,
+                  stroke_width=2, stroke_fill=NAVY)
+        x += wch + title_spacing
+
+    # --- Gold rule beneath title ---
+    gap_above_rule = int(0.16 * DPI)
+    rule_thickness = 8
+    rule_y = title_y + title_size + gap_above_rule
+    rule_w = int(total_w * 0.55)
+    rule_x = (W - rule_w) // 2
+    draw.rectangle([rule_x, rule_y, rule_x + rule_w, rule_y + rule_thickness],
+                   fill=GOLD)
+
+    # --- Compute verse layout (positions only, draw later on top of vellum) ---
+    verse_lines = [
+        "Love is patient, love is kind and is not jealous;",
+        "love does not brag and is not arrogant, does not act unbecomingly;",
+        "it does not seek its own, is not provoked, does not take into account a wrong suffered,",
+        "does not rejoice in unrighteousness, but rejoices with the truth;",
+        "bears all things, believes all things, hopes all things, endures all things.",
+    ]
+    verse_size = 200
+    verse_font = load(FONT_REGULAR, verse_size)
+    verse_line_height = int(verse_size * 1.22)
+
+    gap_below_rule = int(0.23 * DPI)
+    verse_y_start = rule_y + rule_thickness + gap_below_rule
+    verse_y_end = verse_y_start + verse_line_height * len(verse_lines)
+
+    # --- Compute reference layout (positions only) ---
+    ref_text = "1 Corinthians 13:4–7"
+    ref_size = 140
+    ref_font = load(FONT_ITALIC, ref_size)
+    gap_above_ref = int(0.12 * DPI)
+    ref_y = verse_y_end + gap_above_ref
+    rb = draw.textbbox((0, 0), ref_text, font=ref_font)
+    ref_w = rb[2] - rb[0]
+    ref_x = (W - ref_w) // 2
+
+    # --- Vellum overlay: translucent cream behind verse + ref ---
+    # Width: hugs the longest verse line + generous side padding (so the
+    # overlay reads as a deliberate panel, not a tight box). Centered.
+    longest_line_w = max(
+        draw.textbbox((0, 0), line, font=verse_font)[2] for line in verse_lines
+    )
+    vellum_pad_x = int(0.5 * DPI)
+    vellum_pad_top = int(0.15 * DPI)
+    vellum_pad_bot = int(0.10 * DPI)
+    vellum_left  = (W - longest_line_w) // 2 - vellum_pad_x
+    vellum_right = (W + longest_line_w) // 2 + vellum_pad_x
+    vellum_top   = verse_y_start - vellum_pad_top
+    vellum_bot   = ref_y + ref_size + vellum_pad_bot
+
+    overlay = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    overlay_draw = ImageDraw.Draw(overlay)
+    overlay_draw.rectangle(
+        [vellum_left, vellum_top, vellum_right, vellum_bot],
+        fill=(BANNER_BG[0], BANNER_BG[1], BANNER_BG[2], 175),  # ~69% opacity
+    )
+    canvas = Image.alpha_composite(canvas.convert("RGBA"), overlay).convert("RGB")
+    draw = ImageDraw.Draw(canvas)
+
+    # --- Verse body — draw on top of vellum ---
+    verse_y = verse_y_start
+    for line in verse_lines:
+        lb = draw.textbbox((0, 0), line, font=verse_font)
+        lw = lb[2] - lb[0]
+        draw.text(((W - lw) // 2, verse_y), line, font=verse_font, fill=NAVY)
+        verse_y += verse_line_height
+
+    # --- Reference — italic navy on the vellum ---
+    draw.text((ref_x, ref_y), ref_text, font=ref_font, fill=NAVY)
+
+    # --- Bottom-overflow safety check ---
+    bottom_edge = vellum_bot
+    overflow = bottom_edge - inner_bot
+    if overflow > 0:
+        print(f"  WARNING: vellum overflows inner area by {overflow}px")
+
+    out = MOCK_DIR / "banner_what_love_looks_like_v5a.png"
+    canvas.save(out, "PNG", optimize=True)
+    print(f"Wrote {out.relative_to(BOOK_DIR)}  ({W}x{H}, {out.stat().st_size:,} bytes)")
+
+
 def build_centerpiece_v5():
     """Variant from Paul's request: keep V4's John 13:5 quote, drop the
     1 Cor 13:4-7 stanzas, reframe on a standard 18x24 portrait canvas
