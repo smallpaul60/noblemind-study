@@ -30,6 +30,25 @@ from weasyprint import HTML, CSS
 
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_DIR = SCRIPT_DIR.parent
+SCRIPT_PATH = Path(__file__).resolve()
+
+
+def needs_rebuild(output: Path, *sources: Path) -> bool:
+    """True if output is missing or older than any source (or this script).
+
+    Stops every ./deploy.sh run from regenerating identical PDFs with
+    different internal IDs (which dirties git). Now we only rebuild
+    when the inputs actually changed.
+    """
+    if not output.exists():
+        return True
+    out_mtime = output.stat().st_mtime
+    if SCRIPT_PATH.stat().st_mtime > out_mtime:
+        return True
+    for src in sources:
+        if src.exists() and src.stat().st_mtime > out_mtime:
+            return True
+    return False
 
 
 # (slug, output filename, friendly label)
@@ -183,11 +202,15 @@ footer.page-footer {
 """
 
 
-def build(slug: str, output: str, label: str) -> Path:
+def build(slug: str, output: str, label: str, force: bool = False) -> Path | None:
     html_path = PROJECT_DIR / slug / "index.html"
     pdf_path = PROJECT_DIR / slug / output
     if not html_path.exists():
         raise FileNotFoundError(f"Spoke HTML missing: {html_path}")
+
+    if not force and not needs_rebuild(pdf_path, html_path):
+        print(f"  → {slug} ({label}) — fresh, skipped")
+        return None
 
     # base_url is required so WeasyPrint can resolve relative font URLs etc.
     print(f"  → {slug} ({label})")
@@ -201,7 +224,8 @@ def build(slug: str, output: str, label: str) -> Path:
 
 
 def main():
-    args = sys.argv[1:]
+    args = [a for a in sys.argv[1:] if a != "--force"]
+    force = "--force" in sys.argv[1:]
     if args:
         targets = [(s, o, l) for s, o, l in SPOKES if s in args]
         unknown = [a for a in args if not any(s == a for s, _, _ in SPOKES)]
@@ -214,12 +238,17 @@ def main():
     else:
         targets = SPOKES
 
-    print(f"Building {len(targets)} spoke PDF(s)…")
+    print(f"Building {len(targets)} spoke PDF(s){' (--force: rebuild all)' if force else ''}…")
     print("=" * 60)
+    built = skipped = 0
     for slug, output, label in targets:
-        build(slug, output, label)
+        result = build(slug, output, label, force=force)
+        if result is None:
+            skipped += 1
+        else:
+            built += 1
     print("=" * 60)
-    print("All done.")
+    print(f"All done. {built} built, {skipped} fresh.")
 
 
 if __name__ == "__main__":

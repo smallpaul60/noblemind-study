@@ -25,6 +25,26 @@ from weasyprint import HTML
 
 ROOT = Path(__file__).resolve().parent.parent
 APOSTLE_DIR = ROOT / "apostle-paul"  # legacy default; per-spoke `dir` field overrides
+SCRIPT_PATH = Path(__file__).resolve()
+
+
+def needs_rebuild(output: Path, *sources: Path) -> bool:
+    """True if output is missing or older than any source (or this script).
+
+    This is what stops every ./deploy.sh run from generating byte-drift in
+    every timeline PDF — WeasyPrint emits a non-deterministic internal ID
+    on each rebuild, so a "no-op" rebuild still dirties git. Now we only
+    rebuild when the inputs actually changed.
+    """
+    if not output.exists():
+        return True
+    out_mtime = output.stat().st_mtime
+    if SCRIPT_PATH.stat().st_mtime > out_mtime:
+        return True
+    for src in sources:
+        if src.exists() and src.stat().st_mtime > out_mtime:
+            return True
+    return False
 
 
 def spoke_dir(spoke):
@@ -637,13 +657,19 @@ def wrap_html(title, body):
 
 
 def main():
-    print(f"Building timeline PDFs\n")
+    force = "--force" in sys.argv[1:]
+    print(f"Building timeline PDFs{' (--force: rebuild all)' if force else ''}\n")
+    built = skipped = 0
     for spoke in SPOKES:
         sd = spoke_dir(spoke)
         source = sd / spoke["source"]
         output = sd / spoke["output"]
         if not source.exists():
             print(f"  SKIP   {spoke['output']:<42} (source {spoke['source']} not found)")
+            continue
+        if not force and not needs_rebuild(output, source):
+            print(f"  fresh  {spoke['output']:<42} (no source change)")
+            skipped += 1
             continue
         print(f"  build  {spoke['output']:<42} <- {sd.name}/{spoke['source']}")
         if spoke["kind"] == "conversion":
@@ -653,7 +679,8 @@ def main():
         HTML(string=html, base_url=str(sd)).write_pdf(str(output))
         size_kb = output.stat().st_size / 1024
         print(f"         {size_kb:>7.1f} KB")
-    print("\nDone.")
+        built += 1
+    print(f"\nDone. {built} built, {skipped} fresh.")
 
 
 if __name__ == "__main__":
