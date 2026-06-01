@@ -151,11 +151,11 @@ SECTIONS = [
     # Wednesday-vs-Friday comparison is added as a new appendix entry.
     # The reader PDF and EPUB don't have the inline chart system, so
     # both charts appear in those formats' appendix.
-    {"kind": "part", "title": "Appendix", "subtitle": "The Wednesday vs. Friday Comparison"},
+    {"kind": "part", "title": "Appendix", "subtitle": "Reference Materials"},
     {
         "kind": "appendix",
         "file": "Wednesday_vs_Friday_Comparison.md",
-        "label": "Comparison Chart",
+        "label": "Appendix A",
         "title": "Wednesday vs. Friday",
         "subtitle": "The same Gospel data, weighed both ways.",
     },
@@ -1127,10 +1127,13 @@ def build_toc():
         if section["kind"] == "appendix":
             # Appendix charts carry the right title in the SECTIONS dict —
             # don't call load_section (which would parse "The Last Week of
-            # the Lamb" from the chart file's first H1).
+            # the Lamb" from the chart file's first H1). Match the
+            # toc-backmatter shape (Appendix N | Title) so this entry sits
+            # consistently next to the hardcoded Appendix B / C entries.
             items.append(
-                f'<div class="toc-entry toc-special">'
-                f'<span class="toc-title">{section["label"]}: {section["title"]}</span>'
+                f'<div class="toc-entry toc-backmatter">'
+                f'<span class="toc-num">{section["label"]}</span>'
+                f'<span class="toc-title">{section["title"]}</span>'
                 f'</div>'
             )
             continue
