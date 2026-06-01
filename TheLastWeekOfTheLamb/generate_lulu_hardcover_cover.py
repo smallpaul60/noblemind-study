@@ -51,11 +51,13 @@ pdfmetrics.registerFont(TTFont("EBGaramond-Italic", str(FONT_DIR / "EBGaramond-I
 #   Spine: 0.813"
 #   Wrap area: 0.625" on each outside edge (was 0.75" — corrected)
 # 2026-06-01: page count grew 224 → 232 with the Wednesday-vs-Friday
-# comparison appendix. Spine recalc: PB 0.581" + 0.248" board overhead
-# = 0.829". Pull EXACT spine from Lulu's downloaded hardcover template
-# once the new interior is uploaded.
-SPINE_W = 0.829 * inch  # 232pp cream (was 0.813" at 224pp from Lulu template)
-DOC_W = (0.625 + 5.75 + (SPINE_W / inch) + 5.75 + 0.625) * inch  # = 13.579"
+# comparison appendix. Lulu's case-wrap spine remains 0.8131" — the
+# +8 page change moved PB spine by 0.0175" but HC by ~0. The PB-plus-
+# board-overhead rule that's held across BridgeMoments/FTB/TLGCUT does
+# NOT apply to this case-wrap; Lulu's interior paper/rounding for
+# case-wrap behaves differently. Trust the template.
+SPINE_W = 0.8131 * inch  # 232pp from Lulu case-wrap template (was 0.813 at 224pp)
+DOC_W = (0.625 + 5.75 + (SPINE_W / inch) + 5.75 + 0.625) * inch  # = 13.5631"
 DOC_H = 10.25 * inch
 WRAP = 0.625 * inch
 CASE_W = 5.75 * inch    # visible panel width (board including overhang)
