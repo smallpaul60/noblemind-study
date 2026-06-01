@@ -119,7 +119,7 @@ Each book directory follows the same script layout:
 
 - **Action buttons**, left to right: `Read Online` (`.btn-primary`) → `PDF` (`.btn-outline`) → `EPUB` (`.btn-outline`) → `Order Paperback` (`.btn-lulu`) or `Amazon` (`.btn-amazon`).
 - **Format tags**, left to right: `Online` → `PDF` → `EPUB` → `Paperback` → `Hardcover`.
-- **Optional `.book-note`** (small italic accent-color line under the description): use `Free to download. Printed at cost.` for books priced at cost on Lulu. Do not use phrases like "Not for Profit" (implies 501(c)(3)) or "Not for Resale" (contradicts the retail listing).
+- **Optional `.book-note`** (small italic accent-color line under the description): **only apply when the author explicitly designates the book as printed-at-cost** — this is NOT the default. The standing wording for at-cost titles is `Free to download. Printed at cost.` Currently only From the Beginning and Before I Formed You carry this note. New books default to no book-note unless the author specifies. Do not use phrases like "Not for Profit" (implies 501(c)(3)) or "Not for Resale" (contradicts the retail listing).
 
 ### Gated-access books
 
