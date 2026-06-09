@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v332';
+const CACHE_NAME = 'noblemind-study-v333';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -282,33 +282,44 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  const accept = event.request.headers.get('accept') || '';
+  const isHTML = event.request.mode === 'navigate' || accept.includes('text/html');
+
+  if (isHTML) {
+    // NETWORK-FIRST for pages: always try the network so an updated page is
+    // shown without a hard refresh. Cache the fresh copy for offline use, and
+    // fall back to the cache (then the study tool) only when the network fails.
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
+          }
+          return networkResponse;
+        })
+        .catch(() => caches.match(event.request)
+          .then((cached) => cached || caches.match('/Noble_Mind_Study_Tool_v2.html')))
+    );
+    return;
+  }
+
+  // CACHE-FIRST for static assets (JSON data, fonts, images, PDFs): these are
+  // large and rarely change, so serve from cache for speed and offline use,
+  // fetching and caching on a miss.
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
         if (cachedResponse) {
-          // Return cached version
           return cachedResponse;
         }
-
-        // Not in cache, fetch from network
         return fetch(event.request)
           .then((networkResponse) => {
-            // Cache successful responses for future use
             if (networkResponse && networkResponse.status === 200) {
               const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(event.request, responseToCache);
-                });
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseToCache));
             }
             return networkResponse;
-          })
-          .catch(() => {
-            // Network failed and not in cache
-            // Return a fallback for HTML requests
-            if (event.request.headers.get('accept').includes('text/html')) {
-              return caches.match('/Noble_Mind_Study_Tool_v2.html');
-            }
           });
       })
   );
