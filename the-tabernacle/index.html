@@ -228,6 +228,28 @@
   }
   svg.plan.atone-mode .atone-path { opacity: 0.9; }
 
+  /* Priest marker: a crimson dot with an expanding pulse ring */
+  svg.plan .atone-dot, svg.plan .atone-pulse { opacity: 0; }
+  svg.plan .atone-dot { fill: var(--crimson); }
+  svg.plan.atone-mode .atone-dot { opacity: 1; }
+  svg.plan .atone-pulse { fill: var(--crimson); transform-box: fill-box; transform-origin: center; }
+  svg.plan.atone-mode .atone-pulse { animation: atoneRing 1.8s ease-out infinite; }
+  @keyframes atoneRing {
+    0%   { transform: scale(0.5); opacity: 0.5; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+  /* The active piece breathes gently */
+  svg.plan.atone-mode .piece.atone-hl { animation: atoneGlow 1.8s ease-in-out infinite; }
+  @keyframes atoneGlow {
+    0%, 100% { filter: drop-shadow(0 0 6px var(--gold-glow)) brightness(1.12); }
+    50%      { filter: drop-shadow(0 0 11px var(--gold-glow)) brightness(1.3); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    svg.plan .atone-path { transition: none !important; }
+    svg.plan.atone-mode .atone-pulse,
+    svg.plan.atone-mode .piece.atone-hl { animation: none; }
+  }
+
   .atone-loc {
     font-family: 'IM Fell English', serif; font-size: 11.5px;
     letter-spacing: 1px; text-transform: uppercase; color: var(--crimson);
@@ -551,8 +573,10 @@
       <text class="approach-num" x="130" y="138">⑥</text>
       <text class="approach-num" x="130" y="92">⑦</text>
 
-      <!-- Day of Atonement path (set per step in JS) -->
+      <!-- Day of Atonement path + priest marker (set per step in JS) -->
       <path class="atone-path" id="atonePath" d="" />
+      <circle class="atone-pulse" id="atonePulse" r="6" cx="130" cy="-20" />
+      <circle class="atone-dot" id="atoneDot" r="4.5" cx="130" cy="-20" />
 
     </svg>
     <p style="font-size: 11.5px; color: #8A7048; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">
@@ -804,39 +828,45 @@ approachBtn.addEventListener('click', () => {
 // ---- Day of Atonement walk-through (Leviticus 16) ----
 const atoneBtn = document.getElementById('atoneBtn');
 const atonePath = document.getElementById('atonePath');
+const atoneDot = document.getElementById('atoneDot');
+const atonePulse = document.getElementById('atonePulse');
 let atoneIdx = 0;
 
+// Each step: where the priest ends (dot), the leg he walks (path), and the
+// furniture in play (hl). x is 130 (the central axis) throughout; the y
+// values are the piece positions on the floor-plan SVG (ark 88, veil 120,
+// incense 135, tent door 222, laver 290, altar 411, gate 490).
 const ATONE = [
   { n: "I", loc: "In the courtyard", title: "The high priest prepares",
-    hl: ["laver"], path: "",
-    body: "He sets aside his gold-and-color garments, bathes, and puts on plain white linen &mdash; he must be clean to do this day&rsquo;s work &mdash; and brings a bull for his own sin.",
+    hl: ["laver"], path: "M 130 490 L 130 290", dot: [130, 290],
+    body: "He enters, sets aside his gold-and-color garments, and bathes, putting on plain white linen &mdash; he must be clean to do this day&rsquo;s work &mdash; and brings a bull for his own sin.",
     ref: "Leviticus 16:3&ndash;4" },
   { n: "II", loc: "In the courtyard", title: "The bull for his own sin",
-    hl: ["altar"], path: "M 130 290 L 130 411",
+    hl: ["altar"], path: "M 130 290 L 130 411", dot: [130, 411],
     body: "At the bronze altar he slaughters the bull as a sin offering for himself and his household. He cannot atone for the people while he himself stands under judgment.",
     ref: "Leviticus 16:6, 11" },
-  { n: "III", loc: "In the courtyard", title: "The two goats; the casting of lots",
-    hl: ["gate"], path: "M 130 411 L 130 232",
-    body: "He presents two indistinguishable goats before the LORD at the tent doorway and casts lots: <em>one lot for the LORD</em> (to be slain), one for the scapegoat (to be sent away). God, not the priest, assigns the roles.",
+  { n: "III", loc: "In the courtyard &middot; at the tent doorway", title: "The two goats; the casting of lots",
+    hl: [], path: "M 130 411 L 130 222", dot: [130, 222],
+    body: "He presents two indistinguishable goats before the LORD at the doorway of the tent and casts lots: <em>one lot for the LORD</em> (to be slain), one for the scapegoat (to be sent away). God, not the priest, assigns the roles.",
     ref: "Leviticus 16:7&ndash;10" },
   { n: "IV", loc: "Into the Holy of Holies &middot; first entry", title: "Incense, then the bull&rsquo;s blood, before the mercy seat",
-    hl: ["incense","veil","ark"], path: "M 130 222 L 130 135 L 130 88",
+    hl: ["incense","veil","ark"], path: "M 130 222 L 130 88", dot: [130, 88],
     body: "He carries coals and incense <em>past the veil</em> so the cloud will cover the mercy seat, <em>otherwise he will die</em>. Then he sprinkles the bull&rsquo;s blood on the mercy seat and seven times before it.",
     ref: "Leviticus 16:12&ndash;14" },
   { n: "V", loc: "Into the Holy of Holies &middot; second entry", title: "The LORD&rsquo;s goat slain; blood sprinkled seven times",
-    hl: ["altar","veil","ark"], path: "M 130 411 L 130 88",
+    hl: ["altar","veil","ark"], path: "M 130 411 L 130 88", dot: [130, 88],
     body: "He comes out, slaughters the LORD&rsquo;s goat, and returns past the veil with its blood, sprinkling the mercy seat as before &mdash; <em>making atonement&hellip; because of the impurities of the sons of Israel</em>. This is the high point of the day.",
     ref: "Leviticus 16:15&ndash;16" },
   { n: "VI", loc: "The Holy Place, then the courtyard", title: "Blood on the altars &mdash; cleansing the sanctuary itself",
-    hl: ["incense","altar"], path: "M 130 88 L 130 135 L 130 411",
+    hl: ["incense","altar"], path: "M 130 88 L 130 135 L 130 411", dot: [130, 411],
     body: "He puts blood on the horns of the altar of incense, then the bronze altar, seven times. Even the altars &mdash; the means of atonement all year &mdash; needed atonement.",
     ref: "Leviticus 16:18&ndash;19" },
   { n: "VII", loc: "In the courtyard", title: "Confession over the scapegoat",
-    hl: ["gate"], path: "M 130 411 L 130 525",
-    body: "He lays <em>both hands</em> on the live goat and confesses over it <em>all the iniquities&hellip; all their transgressions&hellip; all their sins</em>, then sends it away by an appointed man into the wilderness, a solitary land.",
+    hl: ["gate"], path: "M 130 411 L 130 535", dot: [130, 490],
+    body: "He lays <em>both hands</em> on the live goat and confesses over it <em>all the iniquities&hellip; all their transgressions&hellip; all their sins</em>, then sends it away by an appointed man out the gate, into the wilderness.",
     ref: "Leviticus 16:20&ndash;22" },
   { n: "VIII", loc: "In the courtyard", title: "The bathing and the burnt offerings",
-    hl: ["laver","altar"], path: "M 130 290 L 130 411",
+    hl: ["laver","altar"], path: "M 130 290 L 130 411", dot: [130, 411],
     body: "He leaves the linen in the tent, bathes, and puts on his usual robes, then offers the burnt offerings for himself and the people. The carcasses are burned <em>outside the camp</em> (Heb 13:11&ndash;12).",
     ref: "Leviticus 16:23&ndash;28" }
 ];
@@ -859,7 +889,21 @@ function renderAtone() {
   const s = ATONE[atoneIdx];
   document.querySelectorAll('.piece').forEach(el => el.classList.remove('sel', 'atone-hl'));
   s.hl.forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('atone-hl'); });
+  // Place the priest marker where this step ends
+  const dx = s.dot ? s.dot[0] : 130, dy = s.dot ? s.dot[1] : -20;
+  atoneDot.setAttribute('cx', dx);   atoneDot.setAttribute('cy', dy);
+  atonePulse.setAttribute('cx', dx); atonePulse.setAttribute('cy', dy);
+  // Draw the leg of the path, animated
   atonePath.setAttribute('d', s.path || '');
+  if (s.path) {
+    const len = atonePath.getTotalLength();
+    atonePath.style.transition = 'none';
+    atonePath.style.strokeDasharray = len;
+    atonePath.style.strokeDashoffset = len;
+    void atonePath.getBoundingClientRect();   // force reflow so the transition runs
+    atonePath.style.transition = 'stroke-dashoffset 0.7s ease';
+    atonePath.style.strokeDashoffset = '0';
+  }
   detailEl.innerHTML = `
     <h3>The Day of Atonement</h3>
     <div class="hebrew">&mdash; the high priest's path, once a year (Lev 16)</div>
