@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Life of Christ — The Four Gospels, Side by Side | Noble Mind Study</title>
+<link rel="canonical" href="https://noblemind.study/the-life-of-christ/">
+<meta name="description" content="A harmonized timeline of the life of Jesus Christ, drawn from all four Gospels side by side — Matthew, Mark, Luke, and John. Each event shows which Gospels record it and where, from the eternal Word to the birth, the ministry, the cross, and the forty days. The best chronology we can build from the text, with its uncertainties named honestly.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --parchment: #F5EDD6;
+    --parchment-dark: #E8D9B5;
+    --ink: #2A1A05;
+    --sepia: #6B4C1A;
+    --sepia-light: #A07840;
+    --gold: #C4A44A;
+    --gold-glow: #E0BF5C;
+    --gray: #5A5A5A;
+    /* The four Gospels, each a colour */
+    --matthew: #9C6B1E;   /* amber/gold — the King, son of David */
+    --mark:    #2E6B43;   /* green — the swift Servant */
+    --luke:    #2B5C86;   /* blue — the Son of Man, the physician */
+    --john:    #8B2A3A;   /* deep red — the Son of God, the Word */
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--parchment);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 30%, rgba(180,140,60,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 70%, rgba(140,100,40,0.06) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+
+  header.page-header {
+    text-align: center;
+    padding: 46px 24px 30px;
+    border-bottom: 3px double var(--gold);
+    position: relative; z-index: 1;
+    background: linear-gradient(180deg, rgba(196,164,74,0.12) 0%, transparent 100%);
+  }
+  .backlink {
+    position: absolute; left: 20px; top: 16px;
+    font-size: 13px; color: var(--sepia); text-decoration: none;
+    border: 1px solid rgba(107,76,26,0.3); border-radius: 4px;
+    padding: 4px 10px; background: rgba(245,237,214,0.6);
+  }
+  .backlink:hover { background: rgba(196,164,74,0.2); }
+  header h1 {
+    font-family: 'IM Fell English', Georgia, serif;
+    font-size: clamp(28px, 4vw, 52px);
+    color: var(--sepia); letter-spacing: 1px; line-height: 1.15;
+  }
+  header h2 {
+    font-family: 'IM Fell English', Georgia, serif; font-style: italic;
+    font-size: clamp(15px, 2vw, 21px); color: var(--sepia-light);
+    margin-top: 10px; font-weight: normal;
+  }
+  header p.lede {
+    font-size: 14.5px; color: var(--gray); margin: 14px auto 0;
+    font-style: italic; max-width: 760px; line-height: 1.65;
+  }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 28px 20px 80px; position: relative; z-index: 1; }
+
+  /* Methodology / dating note */
+  details.method {
+    background: rgba(255, 252, 245, 0.7);
+    border: 1px solid var(--parchment-dark);
+    border-radius: 8px; padding: 0 20px; margin-bottom: 22px;
+  }
+  details.method > summary {
+    cursor: pointer; padding: 15px 0;
+    font-family: 'IM Fell English', serif; font-size: 16px; color: var(--sepia);
+  }
+  details.method[open] > summary { border-bottom: 1px solid var(--parchment-dark); }
+  details.method .body { padding: 12px 0 16px; font-size: 14px; line-height: 1.65; color: #3A2A12; }
+  details.method .body p { margin-bottom: 9px; }
+  details.method .body h4 { font-family: 'IM Fell English', serif; color: var(--sepia); margin: 12px 0 3px; font-size: 14.5px; }
+  details.method .body em { color: var(--sepia); }
+
+  /* Gospel filter bar */
+  .filters {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+    justify-content: center; margin-bottom: 8px;
+    padding: 14px 16px; background: rgba(255,252,245,0.7);
+    border: 1px solid var(--parchment-dark); border-radius: 8px;
+  }
+  .filters .lbl { font-size: 12.5px; font-weight: 600; color: var(--sepia); font-family: 'Crimson Text', serif; margin-right: 2px; }
+  .fpill {
+    font-family: 'IM Fell English', serif; font-size: 13px;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1.5px solid var(--sepia-light); background: transparent; color: var(--sepia);
+    transition: all 0.16s;
+  }
+  .fpill:hover { background: rgba(196,164,74,0.12); }
+  .fpill.active { color: #fff; }
+  .fpill[data-g="all"].active     { background: var(--sepia);   border-color: var(--sepia); }
+  .fpill[data-g="matthew"].active { background: var(--matthew); border-color: var(--matthew); }
+  .fpill[data-g="mark"].active    { background: var(--mark);    border-color: var(--mark); }
+  .fpill[data-g="luke"].active    { background: var(--luke);    border-color: var(--luke); }
+  .fpill[data-g="john"].active    { background: var(--john);    border-color: var(--john); }
+  .fpill .ct { font-size: 11px; opacity: 0.7; margin-left: 4px; }
+  .filter-hint { text-align: center; font-size: 12.5px; color: var(--sepia-light); font-style: italic; margin-bottom: 24px; }
+
+  /* Timeline spine */
+  .timeline { position: relative; padding-left: 34px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px;
+    background: linear-gradient(180deg, transparent, var(--gold) 4%, var(--gold) 96%, transparent);
+  }
+
+  /* Phase header */
+  .phase { margin: 34px 0 16px; position: relative; }
+  .phase:first-child { margin-top: 6px; }
+  .phase .plabel {
+    display: inline-block; background: var(--sepia); color: var(--parchment);
+    font-family: 'IM Fell English', serif; font-size: 15px;
+    padding: 7px 18px; border-radius: 4px; letter-spacing: 0.4px;
+  }
+  .phase .pdates { font-size: 12.5px; color: var(--sepia-light); font-style: italic; margin-left: 12px; }
+  .phase::before {
+    content: ''; position: absolute; left: -29px; top: 9px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--sepia); border: 2px solid var(--parchment); box-shadow: 0 0 0 2px var(--sepia);
+  }
+
+  /* Event card */
+  .event { position: relative; margin: 12px 0; transition: opacity 0.25s; }
+  .event.hidden { display: none; }
+  .event::before {
+    content: ''; position: absolute; left: -29px; top: 18px;
+    width: 11px; height: 11px; border-radius: 50%;
+    background: #fff; border: 2px solid var(--gold); box-shadow: 0 0 0 2px var(--gold); z-index: 2;
+  }
+  .card {
+    background: rgba(255,255,255,0.62); border-radius: 8px; padding: 14px 18px;
+    border-left: 4px solid var(--gold); box-shadow: 0 2px 8px rgba(42,26,5,0.08);
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(42,26,5,0.14); }
+  .ev-date { font-family: 'IM Fell English', serif; font-size: 12px; color: var(--sepia-light); font-style: italic; margin-bottom: 2px; }
+  .ev-title { font-size: 17px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+  /* Gospel badges */
+  .gospels { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 9px; }
+  .gbadge {
+    font-family: 'IM Fell English', serif; font-size: 11.5px;
+    padding: 3px 9px; border-radius: 4px; letter-spacing: 0.3px;
+    border: 1px solid; display: inline-flex; align-items: baseline; gap: 5px;
+  }
+  .gbadge em { font-style: normal; font-family: 'Crimson Text', serif; font-size: 11px; opacity: 0.95; }
+  .gbadge.off { opacity: 0.32; border-style: dashed; color: var(--gray); border-color: var(--gray); background: transparent; }
+  .gbadge.on.g-matthew { color: #fff; background: var(--matthew); border-color: var(--matthew); }
+  .gbadge.on.g-mark    { color: #fff; background: var(--mark);    border-color: var(--mark); }
+  .gbadge.on.g-luke    { color: #fff; background: var(--luke);    border-color: var(--luke); }
+  .gbadge.on.g-john    { color: #fff; background: var(--john);    border-color: var(--john); }
+  /* When a single Gospel is filtered, dim the others' badges */
+  .timeline.solo .gbadge.on:not(.match) { opacity: 0.30; }
+
+  .allfour {
+    display: inline-block; margin-top: 8px; margin-left: 1px;
+    font-size: 10.5px; font-family: 'IM Fell English', serif; letter-spacing: 0.6px;
+    color: var(--sepia); background: rgba(196,164,74,0.18);
+    border: 1px solid var(--gold); border-radius: 10px; padding: 1px 9px;
+  }
+
+  /* Expanded detail */
+  .detail { display: none; margin-top: 11px; padding-top: 11px; border-top: 1px solid #EEE; font-size: 14px; color: #3A2A12; line-height: 1.6; }
+  .detail.open { display: block; }
+  .detail em { color: var(--sepia); font-style: italic; }
+  .detail .note {
+    margin-top: 9px; padding: 8px 11px; background: #F8F4EC; border-left: 3px solid var(--sepia-light);
+    font-size: 12.5px; color: var(--gray); font-style: italic; border-radius: 0 4px 4px 0;
+  }
+  .detail .prophecy {
+    margin-top: 10px; display: inline-block;
+    font-size: 12.5px; color: var(--sepia);
+    background: rgba(139,32,32,0.08); border: 1px solid rgba(139,32,32,0.25);
+    border-radius: 4px; padding: 5px 11px; text-decoration: none;
+  }
+  .detail .prophecy:hover { background: rgba(139,32,32,0.15); }
+  .detail .booklink {
+    margin-top: 10px; margin-left: 6px; display: inline-block;
+    font-size: 12.5px; color: var(--sepia); border: 1px solid var(--gold);
+    border-radius: 4px; padding: 5px 11px; text-decoration: none;
+  }
+  .detail .booklink:hover { background: var(--gold); color: var(--ink); }
+
+  .empty { text-align: center; padding: 36px 20px; color: var(--sepia-light); font-style: italic; display: none; }
+  .empty.show { display: block; }
+
+  footer.pf { text-align: center; padding: 30px 20px 0; font-size: 12px; color: var(--gray); font-style: italic; line-height: 1.7; }
+  footer.pf a { color: inherit; }
+
+  @media (max-width: 560px) {
+    .timeline { padding-left: 26px; }
+    .timeline::before { left: 5px; }
+    .phase::before { left: -25px; }
+    .event::before { left: -25px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a class="backlink" href="/index.html">&larr; Noble Mind Study</a>
+  <h1>The Life of Christ</h1>
+  <h2>Emmanuel &mdash; God With Us &middot; the four Gospels, side by side</h2>
+  <p class="lede">The best chronology we can build of the life of Jesus, drawn from Matthew, Mark, Luke, and John together. Every event shows <strong>which Gospels record it</strong> and where &mdash; filter to a single Gospel to see exactly what it tells, and what it leaves to the others. A harmony, not a forced precision: where the order or the date is uncertain, we say so.</p>
+</header>
+
+<div class="wrap">
+
+  <!-- How this is ordered -->
+  <details class="method">
+    <summary>How this timeline is built &mdash; the four Gospels, the order, and the dates</summary>
+    <div class="body">
+      <h4>Four witnesses, not one</h4>
+      <p>The four Gospels are four portraits of one Lord, each written to its own purpose. Matthew shows the King, the son of David; Mark, the swift Servant; Luke, the Son of Man who seeks the lost; John, the eternal Son of God. They overlap and they diverge &mdash; Mark has no birth story, John has no Transfiguration but alone gives us Lazarus and the upper room, and the feeding of the five thousand is the one miracle in all four. The coloured badges on each event let you see at a glance who records what; the filter lets you read the timeline through one Gospel at a time.</p>
+
+      <h4>On the order</h4>
+      <p>No Gospel sets out to be a strict chronology, and they do not always agree on sequence &mdash; John runs on a different frame from the other three (his Passovers are most of why we reckon the ministry at about three and a half years), and the writers sometimes group material by theme rather than by time. This timeline follows the most reasonable reconstruction the text allows; <em>wherever the order is genuinely uncertain, an event carries a note saying so.</em> The aim is honesty, not the illusion of precision the Gospels never claimed.</p>
+
+      <h4>On the dates</h4>
+      <p>We anchor the chronology to a <em>Wednesday</em> crucifixion &mdash; the forensic case made in <a href="/TheLastWeekOfTheLamb/index.html">The Last Week of the Lamb</a> &mdash; which points to <strong>AD 31</strong> (the year Passover fell on a Wednesday) rather than the conventional Friday dates of AD 30 or AD 33. From there the rest follows: a ministry of roughly three and a half years beginning about AD 27&ndash;28 (matching Luke 3:1, &ldquo;the fifteenth year of Tiberius&rdquo;), and a birth about 5&ndash;4 BC, before the death of Herod the Great. These are our reasoned anchors, held openly &mdash; the Friday / AD 30&ndash;33 alternatives are real, and we note where it matters.</p>
+    </div>
+  </details>
+
+  <!-- Gospel filter -->
+  <nav class="filters" aria-label="Filter by Gospel">
+    <span class="lbl">Read through:</span>
+    <button class="fpill active" data-g="all">All <span class="ct" id="ct-all"></span></button>
+    <button class="fpill" data-g="matthew">Matthew <span class="ct" id="ct-matthew"></span></button>
+    <button class="fpill" data-g="mark">Mark <span class="ct" id="ct-mark"></span></button>
+    <button class="fpill" data-g="luke">Luke <span class="ct" id="ct-luke"></span></button>
+    <button class="fpill" data-g="john">John <span class="ct" id="ct-john"></span></button>
+  </nav>
+  <p class="filter-hint">Click a Gospel to see only the events it records. Click any event to open it.</p>
+
+  <div class="timeline" id="timeline"></div>
+  <div class="empty" id="empty">No events in this Gospel for the section shown.</div>
+
+  <footer class="pf">
+    <p>Primary Sources: the Gospels of Matthew, Mark, Luke, and John (NASB)</p>
+    <p>A companion to the Noble Mind Study timelines &middot;
+      <a href="/old-testament-timeline/">Old Testament Timeline</a> &middot;
+      <a href="/the-prophecies/">The Prophecies</a> &middot;
+      <a href="/apostle-paul/">The Apostle Paul</a></p>
+    <p style="margin-top:8px; opacity:0.8;">In progress &mdash; the birth and preparation are in place; the ministry, the final week, and the forty days are being added.</p>
+  </footer>
+
+</div>
+
+<script>
+// ---- The four Gospels ----
+const GOSPELS = [
+  { key: 'matthew', abbr: 'Matthew' },
+  { key: 'mark',    abbr: 'Mark' },
+  { key: 'luke',    abbr: 'Luke' },
+  { key: 'john',    abbr: 'John' },
+];
+
+const PROPHECIES = { href: '/the-prophecies/', label: 'See the prophecy fulfilled → The Prophecies' };
+
+// ---- Phases ----
+const PHASES = [
+  { id: 'word',  label: 'I. The Word Before the World', dates: 'before time · the genealogies' },
+  { id: 'birth', label: 'II. Birth & Childhood',        dates: 'c. 5–4 BC' },
+  { id: 'prep',  label: 'III. Preparation',             dates: 'c. AD 27–28' },
+];
+
+// ---- Events (Phases I–III). gospels: ref string per Gospel, or omit. ----
+const EVENTS = [
+  // ---------- I. The Word Before the World ----------
+  {
+    phase: 'word', date: 'Before all things',
+    title: 'The eternal Word',
+    gospels: { john: '1:1–18' },
+    detail: "Before Bethlehem, before Abraham, before the world itself — <em>in the beginning was the Word, and the Word was with God, and the Word was God.</em> John alone opens not at a manger but in eternity: through Him all things were made; in Him was life; and at last <em>the Word became flesh and dwelt among us.</em> The other three Gospels begin the story on earth; John begins it before the earth was.",
+    note: "John’s prologue stands outside the timeline’s sequence — it is the eternal backdrop against which everything that follows happens."
+  },
+  {
+    phase: 'word', date: 'The royal line & the natural line',
+    title: 'Two genealogies of Jesus',
+    gospels: { matthew: '1:1–17', luke: '3:23–38' },
+    detail: "Matthew traces Jesus forward from Abraham, down through David and the kings of Judah to Joseph — the royal, legal line, establishing the claim to David’s throne. Luke runs the other direction, from Joseph all the way back through David to Adam, <em>the son of God</em> — the universal line, tying Jesus to the whole human race. Two lists, two purposes, one Christ.",
+    note: "The two genealogies differ from David onward. The common explanations: Matthew gives the legal/royal line through Solomon, Luke the natural line through Nathan (widely taken as Mary’s line). Scripture doesn’t settle which; both affirm true descent from David.",
+    prophecy: PROPHECIES
+  },
+
+  // ---------- II. Birth & Childhood ----------
+  {
+    phase: 'birth', date: 'c. 6 BC',
+    title: 'Gabriel foretells the birth of John the Baptist',
+    gospels: { luke: '1:5–25' },
+    detail: "In the days of Herod, the angel Gabriel comes to the priest Zechariah at the altar of incense and promises that his barren wife Elizabeth will bear a son, John, who will go before the Lord <em>in the spirit and power of Elijah.</em> Zechariah doubts and is struck silent until the child is born. Luke alone records the events leading up to the Lord’s birth."
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'The annunciation — Gabriel and Mary',
+    gospels: { luke: '1:26–38' },
+    detail: "Gabriel comes to a virgin in Nazareth named Mary, betrothed to Joseph: <em>you will conceive in your womb and bear a son, and you shall name Him Jesus… the Holy Spirit will come upon you.</em> Mary answers, <em>may it be done to me according to your word.</em> The conception is by the Spirit, not by man."
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'Mary visits Elizabeth — the Magnificat',
+    gospels: { luke: '1:39–56' },
+    detail: "Mary travels to the hill country to Elizabeth, who is six months along with John. At Mary’s greeting the child leaps in Elizabeth’s womb, and Mary breaks into song: <em>my soul exalts the Lord, and my spirit has rejoiced in God my Savior.</em>"
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'The birth of John the Baptist',
+    gospels: { luke: '1:57–80' },
+    detail: "Elizabeth bears her son; at his naming, Zechariah’s tongue is loosed and he prophesies — the Benedictus — blessing the God of Israel who has <em>raised up a horn of salvation… in the house of David.</em> The forerunner grows and is in the deserts until the day of his showing to Israel."
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'The angel appears to Joseph',
+    gospels: { matthew: '1:18–25' },
+    detail: "Finding Mary with child, the righteous Joseph plans to divorce her quietly — until an angel tells him in a dream that the child is conceived of the Holy Spirit: <em>she will bear a Son; and you shall name Him Jesus, for He will save His people from their sins.</em> Matthew tells the nativity from Joseph’s side, and names the prophecy it fulfills.",
+    prophecy: { href: '/the-prophecies/', label: 'Fulfills Isaiah 7:14 (born of a virgin) → The Prophecies' }
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'The birth of Jesus in Bethlehem',
+    gospels: { luke: '2:1–7' },
+    detail: "A decree of Caesar Augustus for a census brings Joseph and Mary from Nazareth to Bethlehem, the city of David. There Mary <em>gave birth to her firstborn son; and she wrapped Him in cloths, and laid Him in a manger, because there was no room for them in the inn.</em> Luke gives the nativity scene; Matthew simply records that He <em>was born in Bethlehem of Judea</em> (Matt 2:1).",
+    prophecy: { href: '/the-prophecies/', label: 'Fulfills Micah 5:2 (born in Bethlehem) → The Prophecies' }
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'The shepherds and the angels',
+    gospels: { luke: '2:8–20' },
+    detail: "To shepherds keeping watch over their flocks by night, an angel brings <em>good news of great joy… today in the city of David there has been born for you a Savior, who is Christ the Lord</em> — and a multitude of the heavenly host praises God. The shepherds hurry to find the child and spread the word."
+  },
+  {
+    phase: 'birth', date: 'c. 5 BC',
+    title: 'Presented in the temple — Simeon and Anna',
+    gospels: { luke: '2:21–38' },
+    detail: "On the eighth day He is circumcised; then, at the purification, brought to the temple. The aged Simeon, promised he would not die before seeing the Lord’s Christ, takes the child and blesses God: <em>my eyes have seen Your salvation… a light of revelation to the Gentiles.</em> The prophetess Anna gives thanks and speaks of Him to all awaiting redemption."
+  },
+  {
+    phase: 'birth', date: 'c. 4 BC',
+    title: 'The visit of the magi',
+    gospels: { matthew: '2:1–12' },
+    detail: "Magi from the east follow a star to Jerusalem, asking, <em>where is He who has been born King of the Jews?</em> Herod, troubled, learns from the chief priests that the Christ is to be born in Bethlehem (citing Micah 5:2), and sends the magi on. They find the child, fall down and worship, and offer gold, frankincense, and myrrh — then, warned in a dream, return home another way."
+  },
+  {
+    phase: 'birth', date: 'c. 4 BC',
+    title: 'The flight to Egypt',
+    gospels: { matthew: '2:13–15' },
+    detail: "An angel warns Joseph to take the child and His mother and flee to Egypt, for Herod means to kill Him. They remain there until Herod’s death — <em>so that what had been spoken by the Lord through the prophet would be fulfilled: ‘Out of Egypt I called My Son.’</em>",
+    prophecy: { href: '/the-prophecies/', label: 'Matthew names Hosea 11:1 fulfilled → The Prophecies' }
+  },
+  {
+    phase: 'birth', date: 'c. 4 BC',
+    title: 'The massacre at Bethlehem',
+    gospels: { matthew: '2:16–18' },
+    detail: "Enraged at being outwitted, Herod orders the killing of every boy in Bethlehem two years old and under. Matthew hears in it the grief of Jeremiah: <em>a voice was heard in Ramah, weeping and great mourning, Rachel weeping for her children.</em>"
+  },
+  {
+    phase: 'birth', date: 'c. 4 BC',
+    title: 'The return to Nazareth',
+    gospels: { matthew: '2:19–23', luke: '2:39–40' },
+    detail: "After Herod’s death the family returns from Egypt; warned away from Judea under Herod’s son Archelaus, they settle again in Nazareth of Galilee. There the child <em>grew and became strong, increasing in wisdom; and the grace of God was upon Him.</em>"
+  },
+  {
+    phase: 'birth', date: 'c. AD 8',
+    title: 'The boy Jesus in the temple',
+    gospels: { luke: '2:41–52' },
+    detail: "At twelve, Jesus stays behind in Jerusalem after the Passover; His parents find Him after three days among the teachers, <em>both listening to them and asking them questions.</em> To Mary’s worry He answers, <em>did you not know that I had to be in My Father’s house?</em> The only window the Gospels give into His boyhood — He grows in wisdom and stature and favor with God and men.",
+    note: "Between this scene and the start of His public ministry lie about eighteen silent years, which none of the Gospels record."
+  },
+
+  // ---------- III. Preparation ----------
+  {
+    phase: 'prep', date: 'c. AD 27',
+    title: 'The preaching of John the Baptist',
+    gospels: { matthew: '3:1–12', mark: '1:1–8', luke: '3:1–20', john: '1:19–28' },
+    detail: "In the wilderness of Judea, John appears preaching repentance and baptizing in the Jordan: <em>repent, for the kingdom of heaven is at hand.</em> He is the voice crying in the wilderness; he refuses the title of Christ and points beyond himself — <em>one is coming after me who is mightier than I.</em> All four Gospels open the public story here, with the forerunner.",
+    prophecy: { href: '/the-prophecies/', label: 'Fulfills Isaiah 40:3 / Malachi 3:1 (the Forerunner) → The Prophecies' }
+  },
+  {
+    phase: 'prep', date: 'c. AD 27',
+    title: 'The baptism of Jesus',
+    gospels: { matthew: '3:13–17', mark: '1:9–11', luke: '3:21–22', john: '1:29–34' },
+    detail: "Jesus comes from Galilee to be baptized by John, <em>to fulfill all righteousness.</em> As He comes up from the water the heavens open, the Spirit descends like a dove, and the Father’s voice declares: <em>this is My beloved Son, in whom I am well-pleased.</em> John the Baptist points to Him: <em>behold, the Lamb of God who takes away the sin of the world.</em> All four Gospels bear witness — the one scene where the whole Trinity is openly present.",
+    note: "John’s Gospel gives the Baptist’s testimony to the baptism rather than narrating it directly."
+  },
+  {
+    phase: 'prep', date: 'c. AD 27',
+    title: 'The temptation in the wilderness',
+    gospels: { matthew: '4:1–11', mark: '1:12–13', luke: '4:1–13' },
+    detail: "Led by the Spirit into the wilderness, Jesus fasts forty days and is tempted by the devil — to turn stones to bread, to seize the kingdoms of the world, to throw Himself from the temple. To each He answers with Scripture: <em>it is written.</em> Where Israel failed in the wilderness, the Son prevails. Mark notes it in a single verse; Matthew and Luke give the three temptations in full.",
+    note: "Matthew and Luke record the three temptations in a different order (Matthew: bread, temple, kingdoms; Luke: bread, kingdoms, temple) — a sign that at least one arranges them by theme rather than strict sequence. John does not record the temptation."
+  },
+];
+
+// ---- Render ----
+const tl = document.getElementById('timeline');
+const empty = document.getElementById('empty');
+let activeFilter = 'all';
+
+function gospelCount(key) { return EVENTS.filter(e => e.gospels[key]).length; }
+
+function badgesHtml(ev) {
+  return '<div class="gospels">' + GOSPELS.map(g => {
+    const ref = ev.gospels[g.key];
+    if (ref) {
+      const match = (activeFilter !== 'all' && activeFilter === g.key) ? ' match' : '';
+      return `<span class="gbadge on g-${g.key}${match}">${g.abbr} <em>${ref}</em></span>`;
+    }
+    return `<span class="gbadge off g-${g.key}">${g.abbr}</span>`;
+  }).join('') + '</div>';
+}
+
+function render() {
+  tl.innerHTML = '';
+  tl.classList.toggle('solo', activeFilter !== 'all');
+  let shownTotal = 0;
+  PHASES.forEach(ph => {
+    const evs = EVENTS.filter(e => e.phase === ph.id);
+    const visible = evs.filter(e => activeFilter === 'all' || e.gospels[activeFilter]);
+    if (visible.length === 0) return;
+    const phEl = document.createElement('div');
+    phEl.className = 'phase';
+    phEl.innerHTML = `<span class="plabel">${ph.label}</span><span class="pdates">${ph.dates}</span>`;
+    tl.appendChild(phEl);
+    visible.forEach(ev => {
+      shownTotal++;
+      const four = Object.keys(ev.gospels).length === 4 ? '<span class="allfour">in all four Gospels</span>' : '';
+      const el = document.createElement('div');
+      el.className = 'event';
+      el.innerHTML = `
+        <div class="card">
+          <div class="ev-date">${ev.date}</div>
+          <div class="ev-title">${ev.title}</div>
+          ${badgesHtml(ev)}
+          ${four}
+          <div class="detail">
+            <p>${ev.detail}</p>
+            ${ev.note ? `<div class="note">${ev.note}</div>` : ''}
+            ${ev.prophecy ? `<a class="prophecy" href="${ev.prophecy.href}" onclick="event.stopPropagation()">✧ ${ev.prophecy.label}</a>` : ''}
+            ${ev.bookLink ? `<a class="booklink" href="${ev.bookLink.href}" onclick="event.stopPropagation()">📖 ${ev.bookLink.label}</a>` : ''}
+          </div>
+        </div>`;
+      el.querySelector('.card').addEventListener('click', () => {
+        el.querySelector('.detail').classList.toggle('open');
+      });
+      tl.appendChild(el);
+    });
+  });
+  empty.classList.toggle('show', shownTotal === 0);
+}
+
+// Filter pills
+document.querySelectorAll('.fpill').forEach(p => {
+  p.addEventListener('click', () => {
+    activeFilter = p.dataset.g;
+    document.querySelectorAll('.fpill').forEach(x => x.classList.toggle('active', x === p));
+    render();
+  });
+});
+
+// Counts
+document.getElementById('ct-all').textContent = '(' + EVENTS.length + ')';
+GOSPELS.forEach(g => { document.getElementById('ct-' + g.key).textContent = '(' + gospelCount(g.key) + ')'; });
+
+render();
+</script>
+
+</body>
+</html>
