@@ -62,6 +62,7 @@ SPOKES = [
     ("the-promise-threads",    "Promise_Threads.pdf",           "Promise Threads"),
     ("the-united-kingdom",     "The_United_Kingdom.pdf",        "The United Kingdom"),
     ("the-prophecies",         "The_Prophecies.pdf",            "The Prophecies"),
+    ("the-stones-cry-out",     "The_Stones_Cry_Out.pdf",        "The Stones Cry Out"),
     ("the-threefold-promise",  "The_Threefold_Promise.pdf",     "The Threefold Promise"),
     ("the-preserved-line",     "The_Preserved_Line.pdf",        "The Preserved Line"),
     ("why-babel",              "Why_Babel.pdf",                 "Why Babel?"),
