@@ -67,6 +67,12 @@ GOOGLE_IMPORT_RE = re.compile(
 # (href: "/x") forms, so links defined in the timeline's JS consts get
 # repointed at the live site too.
 ROOT_ABS_RE = re.compile(r'((?:href|src)\s*[=:]\s*")/(?!/)')
+# Internal folder links (href="../the-prophecies/" or href: "../x/") rely on
+# a web server resolving a directory to its index.html. Opened via file://
+# the browser shows a directory listing instead, so append index.html to
+# every relative href that ends in "/". Skips absolute/anchor/mailto links.
+DIR_INDEX_RE = re.compile(
+    r'(href\s*[=:]\s*")(?!https?:|//|/|#|mailto:)([^"#?:]*?/)(")')
 # the whole header "Download interactive" anchor, however phrased
 INTERACTIVE_ANCHOR_RE = re.compile(
     r'\s*<a[^>]*Old_Testament_Timeline_Interactive\.zip[^>]*>.*?</a>', re.S)
@@ -116,6 +122,7 @@ def build_fonts_css() -> str:
 def process_html(text: str, fonts_href: str, is_hub: bool) -> str:
     text = GOOGLE_IMPORT_RE.sub(f"@import url('{fonts_href}');", text)
     text = ROOT_ABS_RE.sub(r"\1https://noblemind.study/", text)
+    text = DIR_INDEX_RE.sub(r"\1\2index.html\3", text)
     if is_hub:
         text = INTERACTIVE_ANCHOR_RE.sub("", text)
     return text
