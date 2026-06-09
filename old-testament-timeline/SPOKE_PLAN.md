@@ -314,7 +314,7 @@ most expensive build of the lot.
 | Order | Spoke | Tier | Complexity | Rationale |
 |---|---|---|---|---|
 | 1 | Passover Lamb (Lamb God Provides) | 1 | S | ✅ done. Validated the typology-sequence pattern. |
-| 2 | Tabernacle | 1 | M | ✅ done. |
+| 2 | Tabernacle | 1 | M | ✅ done. Interactive SVG floor plan + 7 clickable pieces with detail panels + "walk the priest's approach" mode. Photoreal piece images added 2026-06-09 (ChatGPT renders from the museum-reconstruction prompt set): hero banner (Whole Tabernacle) + 9 piece images in the-tabernacle/img/ wired into each detail panel (ark shows two: chest + mercy seat). renderPiece auto-derives `img/<key>.jpg`; ark uses an explicit `images` array. |
 | 3 | Kinsman-Redeemer (Ruth → Christ) | 1–2 | S–M | ✅ done. The type-becomes-genealogy payoff is sharp. |
 | 4 | Covenants | 2 | M | ✅ done. Five covenants side by side. |
 | 5 | Day of Atonement | 2 | M-L | ✅ done. |

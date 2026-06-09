@@ -290,6 +290,48 @@
     font-style: italic;
   }
 
+  /* Detail-panel image(s) */
+  .detail figure.relic { margin: 12px 0 14px; }
+  .detail figure.relic img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    box-shadow: 0 2px 10px rgba(42,26,5,0.16);
+    border: 1px solid var(--parchment-dark);
+  }
+  .detail figure.relic figcaption {
+    font-size: 12px;
+    color: var(--sepia-light);
+    font-style: italic;
+    text-align: center;
+    margin-top: 5px;
+    line-height: 1.45;
+  }
+  .detail figure.relic + figure.relic { margin-top: 10px; }
+
+  /* Hero banner */
+  .hero {
+    max-width: 1100px;
+    margin: 22px auto 0;
+    padding: 0 18px;
+    position: relative; z-index: 1;
+  }
+  .hero img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+    box-shadow: 0 4px 18px rgba(42,26,5,0.20);
+    border: 1px solid var(--parchment-dark);
+  }
+  .hero figcaption {
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--sepia-light);
+    font-style: italic;
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+
   /* About section */
   details.about {
     margin: 24px 0 0;
@@ -335,6 +377,11 @@
   <h2>&ldquo;A pattern of the heavenly things&rdquo;</h2>
   <p class="lede">Click any piece of furniture on the floor plan below to read what it was, where it stood, and what it pictured. The whole arrangement &mdash; gate, altar, laver, lampstand, table, incense, veil, ark, mercy seat &mdash; was given to Moses on the mountain as <em>the pattern of the things in the heavens</em> (Heb 8:5).</p>
 </header>
+
+<figure class="hero">
+  <img src="img/hero.jpg" alt="The whole tabernacle and its courtyard in the wilderness, seen from above, with the camp of Israel surrounding it" loading="lazy">
+  <figcaption>The tabernacle at the heart of the camp &mdash; one gate on the east, the bronze altar and laver in the courtyard, the tent of meeting beyond, and the cloud of the LORD above it (Ex 40:34&ndash;38).</figcaption>
+</figure>
 
 <div class="controls">
   <button class="ctrl-btn" id="approachBtn">Walk the priest&rsquo;s approach</button>
@@ -599,6 +646,10 @@ const PIECES = {
       Location: "The only object in the Holy of Holies. The presence of God dwelt between the cherubim above the mercy seat."
     },
     body: "<p>The ark held three things (Heb 9:4): the two tablets of the covenant (Ex 25:16; 40:20), the golden jar of manna (Ex 16:33), and Aaron&rsquo;s rod that budded (Num 17:10). The lid &mdash; the mercy seat &mdash; was the throne of God on earth. The Lord declared: <em>there I will meet with you; and from above the mercy seat, from between the two cherubim which are upon the ark of the testimony, I will speak to you about all that I will give you in commandment for the sons of Israel</em> (Ex 25:22).</p><p>On the Day of Atonement, the high priest entered the Holy of Holies (and only on this one day a year) with blood. He sprinkled the blood on the mercy seat seven times. The blood covered the lid that covered the broken law that lay inside the ark. Justice and mercy met at this one piece of gold.</p>",
+    images: [
+      { src: "ark.jpg", cap: "The ark — the acacia chest overlaid with gold inside and out, its carrying poles in place (Ex 25:15)" },
+      { src: "mercy-seat.jpg", cap: "The mercy seat — one piece of pure gold, the two cherubim facing each other, wings overshadowing" }
+    ],
     typology: "<strong>The mercy seat is Christ.</strong> The Greek word for <em>mercy seat</em> is <em>hilastērion</em>. Paul uses the same word in Romans 3:25: <em>Christ Jesus, whom God displayed publicly as a propitiation [hilastērion] in His blood through faith.</em> The mercy seat where the blood was applied was the very place God appointed for the meeting of His justice and His mercy &mdash; and Christ Himself is now that place. The veil was torn at His death (Matt 27:51); the way into the holiest is open; <em>let us draw near with a sincere heart in full assurance of faith</em> (Heb 10:19&ndash;22).",
     refs: "Exodus 25:10&ndash;22; 37:1&ndash;9; 40:20&ndash;21; Leviticus 16; Romans 3:25; Hebrews 9:1&ndash;14; 10:19&ndash;22; Matthew 27:51"
   }
@@ -612,9 +663,14 @@ function renderPiece(key) {
   const p = PIECES[key];
   if (!p) return;
   const statsHtml = Object.entries(p.stats).map(([k, v]) => `<div><strong>${k}:</strong> ${v}</div>`).join('');
+  const imageList = p.images || [{ src: key + '.jpg' }];
+  const imgHtml = imageList.map(im =>
+    `<figure class="relic"><img src="img/${im.src}" alt="${im.alt || p.name}" loading="lazy">${im.cap ? `<figcaption>${im.cap}</figcaption>` : ''}</figure>`
+  ).join('');
   detailEl.innerHTML = `
     <h3>${p.name}</h3>
     <div class="hebrew">&mdash; ${p.hebrew}</div>
+    ${imgHtml}
     <div class="stats">${statsHtml}</div>
     <div class="body">${p.body}</div>
     <div class="typology"><span class="label">Type and fulfillment</span>${p.typology}</div>
