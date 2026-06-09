@@ -218,6 +218,45 @@
   }
   svg.plan.approach-mode .approach-num { opacity: 1; }
 
+  /* Day of Atonement walk-through */
+  svg.plan.atone-mode .piece:not(.atone-hl) { opacity: 0.18; }
+  svg.plan .piece.atone-hl { filter: drop-shadow(0 0 8px var(--gold-glow)) brightness(1.2); }
+  svg.plan .atone-path {
+    fill: none; stroke: var(--crimson); stroke-width: 2.5;
+    stroke-linecap: round; stroke-linejoin: round;
+    opacity: 0; transition: opacity 0.25s;
+  }
+  svg.plan.atone-mode .atone-path { opacity: 0.9; }
+
+  .atone-loc {
+    font-family: 'IM Fell English', serif; font-size: 11.5px;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--crimson);
+    margin-bottom: 6px;
+  }
+  .atone-title {
+    font-family: 'IM Fell English', serif; font-size: 19px;
+    color: var(--sepia); margin-bottom: 8px; line-height: 1.25;
+  }
+  .atone-num {
+    display: inline-block; background: var(--crimson); color: var(--parchment);
+    border-radius: 4px; padding: 0 8px; font-size: 14px; margin-right: 6px;
+  }
+  .atone-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-top: 16px;
+  }
+  .atone-btn {
+    font-family: 'IM Fell English', serif; font-size: 13.5px;
+    padding: 7px 15px; border-radius: 20px; border: 1.5px solid var(--sepia);
+    background: var(--parchment); color: var(--sepia); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .atone-btn:hover:not(:disabled) { background: var(--sepia); color: var(--parchment); }
+  .atone-btn:disabled { opacity: 0.35; cursor: default; }
+  .atone-count { font-family: 'IM Fell English', serif; font-size: 13px; color: var(--sepia-light); }
+  .atone-link { margin-top: 14px; font-size: 12.5px; font-style: italic; color: var(--sepia-light); }
+  .atone-link a { color: var(--sepia); }
+
   /* Detail panel (right column on desktop, bottom on mobile) */
   .detail {
     background: #FFFDF8;
@@ -389,6 +428,7 @@
 
 <div class="controls">
   <button class="ctrl-btn" id="approachBtn">Walk the priest&rsquo;s approach</button>
+  <button class="ctrl-btn" id="atoneBtn">The Day of Atonement</button>
   <button class="ctrl-btn" id="resetBtn">Reset</button>
 </div>
 
@@ -511,6 +551,9 @@
       <text class="approach-num" x="130" y="138">⑥</text>
       <text class="approach-num" x="130" y="92">⑦</text>
 
+      <!-- Day of Atonement path (set per step in JS) -->
+      <path class="atone-path" id="atonePath" d="" />
+
     </svg>
     <p style="font-size: 11.5px; color: #8A7048; text-align: center; margin-top: 8px; font-style: italic; line-height: 1.5;">
       Click any piece to read its details. The whole pattern was shown to Moses on Sinai (Heb 8:5).
@@ -559,9 +602,10 @@
         This study follows that restraint: the typologies named below are the ones the New Testament names.</p>
 
       <h4>The companion to this spoke</h4>
-      <p>The <strong>Day of Atonement</strong> ritual (Lev 16) walks through the Tabernacle from the bronze altar
-        to the mercy seat once a year. A future spoke will diagram that ritual on this same floor plan. For now,
-        the floor plan and its pieces give the framework that the ritual presupposes.</p>
+      <p>The <strong>Day of Atonement</strong> ritual (Lev 16) walks through the Tabernacle from the bronze altar,
+        past the veil, to the mercy seat &mdash; once a year. Press <strong>The Day of Atonement</strong> above to
+        walk that path on this floor plan, step by step. The full ritual, with its fulfillment in Christ, is traced
+        in the <a href="../the-day-of-atonement/">Day of Atonement</a> spoke.</p>
     </div>
   </details>
 
@@ -689,6 +733,7 @@ const planEl = document.getElementById('plan');
 function renderPiece(key) {
   const p = PIECES[key];
   if (!p) return;
+  clearApproach(); clearAtone();
   const statsHtml = Object.entries(p.stats).map(([k, v]) => `<div><strong>${k}:</strong> ${v}</div>`).join('');
   const imageList = p.images || [{ src: key + '.jpg' }];
   const imgHtml = imageList.map(im =>
@@ -719,6 +764,7 @@ const APPROACH = ['gate', 'altar', 'laver', 'lampstand', 'showbread', 'incense',
 
 approachBtn.addEventListener('click', () => {
   const on = !planEl.classList.contains('approach-mode');
+  clearAtone();
   planEl.classList.toggle('approach-mode', on);
   approachBtn.classList.toggle('on', on);
   approachBtn.textContent = on ? 'Hide the approach' : 'Walk the priest’s approach';
@@ -755,12 +801,105 @@ approachBtn.addEventListener('click', () => {
   }
 });
 
-// Reset
-document.getElementById('resetBtn').addEventListener('click', () => {
+// ---- Day of Atonement walk-through (Leviticus 16) ----
+const atoneBtn = document.getElementById('atoneBtn');
+const atonePath = document.getElementById('atonePath');
+let atoneIdx = 0;
+
+const ATONE = [
+  { n: "I", loc: "In the courtyard", title: "The high priest prepares",
+    hl: ["laver"], path: "",
+    body: "He sets aside his gold-and-color garments, bathes, and puts on plain white linen &mdash; he must be clean to do this day&rsquo;s work &mdash; and brings a bull for his own sin.",
+    ref: "Leviticus 16:3&ndash;4" },
+  { n: "II", loc: "In the courtyard", title: "The bull for his own sin",
+    hl: ["altar"], path: "M 130 290 L 130 411",
+    body: "At the bronze altar he slaughters the bull as a sin offering for himself and his household. He cannot atone for the people while he himself stands under judgment.",
+    ref: "Leviticus 16:6, 11" },
+  { n: "III", loc: "In the courtyard", title: "The two goats; the casting of lots",
+    hl: ["gate"], path: "M 130 411 L 130 232",
+    body: "He presents two indistinguishable goats before the LORD at the tent doorway and casts lots: <em>one lot for the LORD</em> (to be slain), one for the scapegoat (to be sent away). God, not the priest, assigns the roles.",
+    ref: "Leviticus 16:7&ndash;10" },
+  { n: "IV", loc: "Into the Holy of Holies &middot; first entry", title: "Incense, then the bull&rsquo;s blood, before the mercy seat",
+    hl: ["incense","veil","ark"], path: "M 130 222 L 130 135 L 130 88",
+    body: "He carries coals and incense <em>past the veil</em> so the cloud will cover the mercy seat, <em>otherwise he will die</em>. Then he sprinkles the bull&rsquo;s blood on the mercy seat and seven times before it.",
+    ref: "Leviticus 16:12&ndash;14" },
+  { n: "V", loc: "Into the Holy of Holies &middot; second entry", title: "The LORD&rsquo;s goat slain; blood sprinkled seven times",
+    hl: ["altar","veil","ark"], path: "M 130 411 L 130 88",
+    body: "He comes out, slaughters the LORD&rsquo;s goat, and returns past the veil with its blood, sprinkling the mercy seat as before &mdash; <em>making atonement&hellip; because of the impurities of the sons of Israel</em>. This is the high point of the day.",
+    ref: "Leviticus 16:15&ndash;16" },
+  { n: "VI", loc: "The Holy Place, then the courtyard", title: "Blood on the altars &mdash; cleansing the sanctuary itself",
+    hl: ["incense","altar"], path: "M 130 88 L 130 135 L 130 411",
+    body: "He puts blood on the horns of the altar of incense, then the bronze altar, seven times. Even the altars &mdash; the means of atonement all year &mdash; needed atonement.",
+    ref: "Leviticus 16:18&ndash;19" },
+  { n: "VII", loc: "In the courtyard", title: "Confession over the scapegoat",
+    hl: ["gate"], path: "M 130 411 L 130 525",
+    body: "He lays <em>both hands</em> on the live goat and confesses over it <em>all the iniquities&hellip; all their transgressions&hellip; all their sins</em>, then sends it away by an appointed man into the wilderness, a solitary land.",
+    ref: "Leviticus 16:20&ndash;22" },
+  { n: "VIII", loc: "In the courtyard", title: "The bathing and the burnt offerings",
+    hl: ["laver","altar"], path: "M 130 290 L 130 411",
+    body: "He leaves the linen in the tent, bathes, and puts on his usual robes, then offers the burnt offerings for himself and the people. The carcasses are burned <em>outside the camp</em> (Heb 13:11&ndash;12).",
+    ref: "Leviticus 16:23&ndash;28" }
+];
+
+function clearApproach() {
   planEl.classList.remove('approach-mode');
   approachBtn.classList.remove('on');
   approachBtn.textContent = 'Walk the priest’s approach';
-  document.querySelectorAll('.piece').forEach(el => el.classList.remove('sel', 'in-approach'));
+  document.querySelectorAll('.piece').forEach(el => el.classList.remove('in-approach'));
+}
+function clearAtone() {
+  planEl.classList.remove('atone-mode');
+  atoneBtn.classList.remove('on');
+  atoneBtn.textContent = 'The Day of Atonement';
+  document.querySelectorAll('.piece').forEach(el => el.classList.remove('atone-hl'));
+  if (atonePath) atonePath.setAttribute('d', '');
+}
+
+function renderAtone() {
+  const s = ATONE[atoneIdx];
+  document.querySelectorAll('.piece').forEach(el => el.classList.remove('sel', 'atone-hl'));
+  s.hl.forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('atone-hl'); });
+  atonePath.setAttribute('d', s.path || '');
+  detailEl.innerHTML = `
+    <h3>The Day of Atonement</h3>
+    <div class="hebrew">&mdash; the high priest's path, once a year (Lev 16)</div>
+    <div class="atone-loc">${s.loc}</div>
+    <div class="atone-title"><span class="atone-num">${s.n}</span>${s.title}</div>
+    <div class="body"><p>${s.body}</p></div>
+    <div class="refs">&#128214; ${s.ref}</div>
+    <div class="atone-nav">
+      <button class="atone-btn" onclick="atoneGo(-1)" ${atoneIdx === 0 ? 'disabled' : ''}>&#9664; Previous</button>
+      <span class="atone-count">${atoneIdx + 1} / ${ATONE.length}</span>
+      <button class="atone-btn" onclick="atoneGo(1)" ${atoneIdx === ATONE.length - 1 ? 'disabled' : ''}>Next &#9654;</button>
+    </div>
+    <div class="atone-link">The full ritual, with its fulfillment in Christ &mdash; <a href="../the-day-of-atonement/">the Day of Atonement spoke &rarr;</a></div>
+  `;
+}
+
+function atoneGo(d) {
+  atoneIdx = Math.max(0, Math.min(ATONE.length - 1, atoneIdx + d));
+  renderAtone();
+}
+
+atoneBtn.addEventListener('click', () => {
+  const on = !planEl.classList.contains('atone-mode');
+  clearApproach();
+  if (on) {
+    planEl.classList.add('atone-mode');
+    atoneBtn.classList.add('on');
+    atoneBtn.textContent = 'Hide the Day of Atonement';
+    atoneIdx = 0;
+    renderAtone();
+  } else {
+    clearAtone();
+  }
+});
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click', () => {
+  clearApproach();
+  clearAtone();
+  document.querySelectorAll('.piece').forEach(el => el.classList.remove('sel'));
   detailEl.innerHTML = `
     <p class="placeholder">
       Click any piece of furniture on the floor plan to read what it was, where it stood, and what it pictured.
