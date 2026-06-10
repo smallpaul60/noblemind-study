@@ -29,6 +29,7 @@ loc.update({
     "jericho": (31.87, 35.44), "samaria": (32.28, 35.19), "jezreel": (32.56, 35.32), "rabbah": (31.95, 35.93),
     "dibon": (31.51, 35.78), "bethlehem": (31.70, 35.20), "riblah": (34.46, 36.55), "hazor": (33.02, 35.57),
     "carchemish": (36.83, 38.02), "egypt": (30.60, 31.30),
+    "ai": (31.917, 35.262), "debir": (31.417, 34.99), "gilgal": (31.87, 35.50),
 })
 def C(n): return loc[n.lower()]
 
@@ -139,7 +140,29 @@ pts = points_json(P, stops, True)
 for p in pts: p["name"] = disp.get(p["name"], p["name"])
 MAPS.append({"id":"exodus","label":"The Exodus","blurb":"Out of Egypt, through the sea, to Sinai and the law — then forty years in the wilderness to the edge of the promised land (Exodus–Deuteronomy).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
 
-# 3. Divided Kingdom (region)
+# 3. The Conquest (Canaan, three campaigns)
+geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
+central = [("Gilgal", ""), ("Jericho", ""), ("Ai", ""), ("Gibeon", "")]
+southern = [("Gibeon", ""), ("Lachish", ""), ("Debir", ""), ("Hebron", "")]
+northern = [("Gibeon", ""), ("Hazor", "")]
+cqcities = [("Gilgal", 0, "The camp by the Jordan; the twelve stones"),
+            ("Jericho", 1, "The first city — its walls fell down"),
+            ("Ai", 0, "Taken after Achan's sin"),
+            ("Gibeon", 0, "The deceived ally; the sun stood still (Joshua 10)"),
+            ("Lachish", 0, "Fell in the southern campaign"),
+            ("Debir", 0, "The southern hill country"),
+            ("Hebron", 0, "The southern hill country"),
+            ("Hazor", 0, "Head of the northern kings — burned (Joshua 11)"),
+            ("Shechem", 0, "The covenant renewed at Ebal & Gerizim"),
+            ("Shiloh", 1, "The tabernacle set up; the land divided")]
+overlay = (labels_svg(P, [("CANAAN", 34.9, 33.2, 0), ("PHILISTIA", 34.5, 31.45, 0),
+                          ("AMMON", 36.05, 31.95, 0), ("MOAB", 35.75, 31.3, 0)], "region")
+           + labels_svg(P, [("The Great Sea", 34.3, 32.5, -66), ("Sea of\nChinnereth", 35.75, 32.80, 0),
+                            ("The Jordan", 35.40, 32.0, -74), ("The Salt Sea", 35.47, 31.45, -80)], "water-lbl")
+           + route_svg(P, central, "#8B2A3A") + route_svg(P, southern, "#2B5C86") + route_svg(P, northern, "#2E6B43"))
+MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the Jordan and takes the land in three thrusts — a central campaign in red (Jericho, Ai, Gibeon), a southern campaign in blue (down to Hebron and Debir), and a northern campaign in green (Hazor) — then the land is divided among the tribes at Shiloh (Joshua 1–21).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cqcities,False)})
+
+# 4. Divided Kingdom (region)
 geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
 bdy = [[(34.92,31.90),(35.18,31.86),(35.40,31.84),(35.55,31.83)]]  # Israel | Judah (approx)
 bdy_svg = "".join('<polyline class="bdy" points="%s"/>' % " ".join(f"{P(lo,la)[0]},{P(lo,la)[1]}" for lo,la in line) for line in bdy)
@@ -244,7 +267,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <header>
   <a class="backlink" href="/old-testament-timeline/">&larr; Old Testament Timeline</a>
   <h1>Lands of the Old Testament</h1>
-  <div class="sub">Abraham &middot; the Exodus &middot; the Divided Kingdom &middot; the Exile &amp; Return</div>
+  <div class="sub">Abraham &middot; the Exodus &middot; the Conquest &middot; the Divided Kingdom &middot; the Exile &amp; Return</div>
 </header>
 <div class="wrap">
   <div class="tabs">%TABS%</div>
