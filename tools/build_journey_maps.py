@@ -268,17 +268,30 @@ function draw(i) {{
     r.setAttribute('points', `${{last.x}},${{last.y}} ${{j.ret[0]}},${{j.ret[1]}}`);
     r.setAttribute('class','route ret'); r.setAttribute('stroke', j.color); routesG.appendChild(r);
   }}
-  // stops
+  // stops — greedy label placement so names never overlap or appear swapped
+  const placed = [];
+  const FW = {round(W)};
+  const ov = (b)=> placed.some(p=> !(b.x2<p.x1||b.x1>p.x2||b.y2<p.y1||b.y1>p.y2));
   j.stops.forEach((s,k)=>{{
+    const w = s.name.length*5.4 + 4;
+    const cands = [[11,3.5,'start'],[-11,3.5,'end'],[11,-9,'start'],[11,16,'start'],[-11,-9,'end'],[-11,16,'end']];
+    let pick = null;
+    for (const c of cands) {{
+      const dx=c[0], dy=c[1], anc=c[2];
+      const bx1 = anc==='start' ? s.x+dx : s.x+dx-w;
+      const box = {{x1:bx1, y1:s.y+dy-9, x2:bx1+w, y2:s.y+dy+2}};
+      if (box.x1<2 || box.x2>FW-2) continue;
+      if (!ov(box)) {{ pick=[dx,dy,anc,box]; break; }}
+    }}
+    if (!pick) {{ const dx=cands[0][0],dy=cands[0][1],bx1=s.x+dx; pick=[dx,dy,'start',{{x1:bx1,y1:s.y+dy-9,x2:bx1+w,y2:s.y+dy+2}}]; }}
+    placed.push(pick[3]);
     const g = document.createElementNS('http://www.w3.org/2000/svg','g');
     g.setAttribute('class','stop'); g.setAttribute('transform',`translate(${{s.x}},${{s.y}})`);
-    const right = s.x < {round(W)}-120;
-    const yoff = (k%2) ? 15 : -8;
     g.innerHTML =
       `<circle class="dot" r="6" stroke="${{j.color}}"></circle>`+
       `<circle class="num-bg" r="7.5" fill="${{j.color}}"></circle>`+
       `<text class="num" y="3">${{k+1}}</text>`+
-      `<text class="lbl" x="${{right?10:-10}}" y="${{yoff}}" text-anchor="${{right?'start':'end'}}">${{s.name}}</text>`;
+      `<text class="lbl" x="${{pick[0]}}" y="${{pick[1]}}" text-anchor="${{pick[2]}}">${{s.name}}</text>`;
     g.addEventListener('click',(e)=>{{ e.stopPropagation(); showInfo(s,k+1,j); }});
     stopsG.appendChild(g);
   }});
