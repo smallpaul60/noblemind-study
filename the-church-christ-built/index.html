@@ -56,7 +56,12 @@
   .fpill[data-r="judea"].active     { background: var(--judea);     border-color: var(--judea); }
   .fpill[data-r="nations"].active   { background: var(--nations);   border-color: var(--nations); }
   .fpill .ct { font-size: 11px; opacity: 0.7; margin-left: 4px; }
-  .filter-hint { text-align: center; font-size: 12.5px; color: var(--sepia-light); font-style: italic; margin-bottom: 24px; }
+  .filter-hint { text-align: center; font-size: 12.5px; color: var(--sepia-light); font-style: italic; margin-bottom: 16px; }
+  .maps-cta { text-align: center; margin: 0 0 26px; }
+  .maps-cta a { display: inline-block; font-family: 'IM Fell English', serif; font-size: 14.5px; color: var(--sepia); text-decoration: none; background: rgba(196,164,74,0.15); border: 1.5px solid var(--gold); border-radius: 999px; padding: 8px 20px; transition: background 0.16s; }
+  .maps-cta a:hover { background: rgba(196,164,74,0.3); }
+  .phase .pmap { font-family: 'Crimson Text', serif; font-size: 12px; color: var(--sepia); text-decoration: none; border: 1px solid var(--gold); border-radius: 4px; padding: 2px 9px; margin-left: 10px; white-space: nowrap; }
+  .phase .pmap:hover { background: var(--gold); color: var(--ink); }
 
   .timeline { position: relative; padding-left: 34px; }
   .timeline::before { content: ''; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, transparent, var(--gold) 4%, var(--gold) 96%, transparent); }
@@ -145,6 +150,7 @@
     <button class="fpill" data-r="nations">The Ends of the Earth <span class="ct" id="ct-nations"></span></button>
   </nav>
   <p class="filter-hint">Click a ring to follow the gospel's spread. Click any event to open it.</p>
+  <div class="maps-cta"><a href="journey-maps.html">🗺 The Missionary Journeys &mdash; interactive map &rarr;</a></div>
 
   <div class="timeline" id="timeline"></div>
   <div class="empty" id="empty">No events in this ring for the section shown.</div>
@@ -172,10 +178,10 @@ const PHASES = [
   { id: 'jerusalem', label: 'II. The Church in Jerusalem',             dates: 'Acts 3–7 · c. AD 31–35' },
   { id: 'scatter',   label: 'III. The Gospel Scatters',                dates: 'Acts 8–9 · c. AD 35' },
   { id: 'gentiles',  label: 'IV. The Door Opens to the Gentiles',      dates: 'Acts 10–12 · c. AD 37–44' },
-  { id: 'firstjourney', label: 'V. The First Journey & the Jerusalem Council', dates: 'Acts 13–15 · c. AD 47–50' },
-  { id: 'secondjourney', label: 'VI. To Macedonia and Greece — the Second Journey', dates: 'Acts 15:36–18:22 · c. AD 50–52' },
-  { id: 'thirdjourney', label: 'VII. Ephesus & the Third Journey', dates: 'Acts 18:23–20:38 · c. AD 53–57' },
-  { id: 'rome', label: 'VIII. Arrest, Trials & the Road to Rome', dates: 'Acts 21–28 · c. AD 57–62' },
+  { id: 'firstjourney', label: 'V. The First Journey & the Jerusalem Council', dates: 'Acts 13–15 · c. AD 47–50', map: 'first' },
+  { id: 'secondjourney', label: 'VI. To Macedonia and Greece — the Second Journey', dates: 'Acts 15:36–18:22 · c. AD 50–52', map: 'second' },
+  { id: 'thirdjourney', label: 'VII. Ephesus & the Third Journey', dates: 'Acts 18:23–20:38 · c. AD 53–57', map: 'third' },
+  { id: 'rome', label: 'VIII. Arrest, Trials & the Road to Rome', dates: 'Acts 21–28 · c. AD 57–62', map: 'rome' },
 ];
 
 // region: jerusalem | judea | nations.  Optional: epistle {book, note}, prophecy {href,label}, deepDive {href,label}, note.
@@ -470,7 +476,8 @@ function render() {
     if (visible.length === 0) return;
     const phEl = document.createElement('div');
     phEl.className = 'phase';
-    phEl.innerHTML = `<span class="plabel">${ph.label}</span><span class="pdates">${ph.dates}</span>`;
+    phEl.innerHTML = `<span class="plabel">${ph.label}</span><span class="pdates">${ph.dates}</span>` +
+      (ph.map ? ` <a class="pmap" href="journey-maps.html#${ph.map}">🗺 Map</a>` : '');
     tl.appendChild(phEl);
     visible.forEach(ev => {
       shown++;
