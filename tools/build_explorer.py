@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Build the owned, offline Bible-lands location explorer -> maps/index.html
-(replacing the old remote-tile Leaflet viewer).
+Build the owned, offline Bible-lands location explorer -> maps/index.html.
 
-Single source of truth: reads maps/data/locations.json (OpenBible, 1309
-places) and embeds a minimal projected copy. Basemap projected from
-public-domain Natural Earth (50m land, 10m lakes, 10m rivers). Search,
-type filter, clickable markers with their Bible verses, vector zoom/pan.
-No tiles, no third-party basemap, works fully offline.
+Single source of truth: maps/data/locations.json (OpenBible, 1309 places),
+embedded. Basemap projected from public-domain Natural Earth (50m land, 10m
+lakes, 10m rivers). Features (parity with the old Leaflet system, but owned
++ offline): search; type filter; a Journeys dropdown (Paul's journeys, the
+voyage to Rome, the Seven Churches, Jesus' ministry, the Exodus) that draws
+the route and highlights its stops; auto place-labels that fill in as you
+zoom (importance-ranked, collision-avoided); named seas/regions; a fixed
+legend + place-info panel; vector zoom/pan. No tiles, works fully offline.
 
 Inputs (/tmp): ne_land.geojson, ne_lakes.geojson, ne_rivers.geojson
 Output: maps/index.html
@@ -16,7 +18,6 @@ import json, math, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "maps/index.html")
-# Biblical-world viewport: Italy/Rome -> Persia/Susa, Egypt -> Black Sea
 LON0, LON1, LAT0, LAT1 = 10.0, 50.0, 22.0, 43.5
 COSL = math.cos(math.radians((LAT0 + LAT1) / 2))
 W = 1400.0
@@ -44,7 +45,6 @@ for f in json.load(open("/tmp/ne_land.geojson"))["features"]:
             p = ring(r);  land.append(p) if p else None
 lakes = []
 for f in json.load(open("/tmp/ne_lakes.geojson"))["features"]:
-    nm = (f["properties"].get("name") or "")
     g = f["geometry"]; polys = [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"]
     for poly in polys:
         if not hits(poly[0]): continue
@@ -83,11 +83,11 @@ REGIONS = [("EGYPT",31,27.5,0),("ARABIA",43,26,0),("CANAAN",35.2,32,0),("PHOENIC
            ("ITALY",13.5,42,0),("CYPRUS",33,34.95,0),("CRETE",25,34.85,0),("LIBYA",18,30,0),("CUSH",33,22.5,0)]
 WATERS = [("The Great Sea",19,34,-8),("Red Sea",37,24.5,-52),("Persian\nGulf",49.5,28.5,0),
           ("Black Sea",34,43,0),("Caspian\nSea",50,40,0),("Nile",31.2,27,-80),
-          ("Euphrates",42,34,-30),("Tigris",44,34.5,-46),("The\nJordan",35.6,32,0)]
+          ("Euphrates",42,34,-30),("Tigris",44,34.5,-46),("The Jordan",35.62,32.15,0),
+          ("Sea of Galilee",35.85,32.82,0),("Salt Sea",35.7,31.5,0)]
 REGION_SVG = lblsvg(REGIONS, "region")
 WATER_SVG = lblsvg(WATERS, "water-lbl")
 
-# ---- places (single source of truth: locations.json) ----
 def category(t):
     if t in ("river","spring","water","sea","lake","well","waters"): return "water"
     if t in ("mountain","hill","mountain range","peak"): return "mountain"
@@ -95,12 +95,51 @@ def category(t):
     if t == "settlement": return "settlement"
     return "other"
 
+raw = json.load(open(os.path.join(ROOT, "maps/data/locations.json")))
+byname = {r["name"].lower(): r for r in raw}
 places = []
-for r in json.load(open(os.path.join(ROOT, "maps/data/locations.json"))):
+for r in raw:
     x, y = proj(r["lon"], r["lat"])
     places.append({"n": r["name"], "x": x, "y": y, "t": r.get("type",""),
-                   "c": category(r.get("type","")), "v": r.get("verses", [])[:8], "s": r.get("url_slug","")})
+                   "c": category(r.get("type","")), "v": r.get("verses", [])[:8],
+                   "s": r.get("url_slug",""), "w": len(r.get("verses", []))})
+idx_of = {r["name"].lower(): i for i, r in enumerate(raw)}
 PLACES_JSON = json.dumps(places, ensure_ascii=False, separators=(",", ":"))
+
+# ---- journeys (resolve stop coords from locations.json + overrides) ----
+OVR = {"antioch (syria)": (36.20,36.16), "pisidian antioch": (38.31,31.19), "mount sinai": (28.54,33.97),
+       "mount nebo": (31.77,35.73), "succoth": (30.55,32.07), "bethlehem": (31.705,35.203),
+       "bethany": (31.771,35.276), "jericho": (31.87,35.44), "bethsaida": (32.91,35.63),
+       "pergamum": (39.13,27.18), "smyrna": (38.42,27.14), "thyatira": (38.92,27.84),
+       "sardis": (38.49,28.04), "philadelphia": (38.35,28.52), "laodicea": (37.84,29.11),
+       "rameses": (30.80,31.83), "marah": (29.35,32.94), "elim": (29.25,32.92), "rephidim": (28.62,33.88),
+       "kadesh-barnea": (30.65,34.42), "fair havens": (34.93,24.80), "malta": (35.93,14.41)}
+def coord(name):
+    k = name.lower()
+    if k in OVR: return OVR[k]
+    r = byname.get(k)
+    return (r["lat"], r["lon"]) if r else None
+
+JDEF = [
+  ("paul1", "Paul's 1st Journey", True, ["Antioch (Syria)","Salamis","Paphos","Perga","Pisidian Antioch","Iconium","Lystra","Derbe"]),
+  ("paul2", "Paul's 2nd Journey", True, ["Antioch (Syria)","Derbe","Lystra","Troas","Neapolis","Philippi","Thessalonica","Berea","Athens","Corinth","Ephesus","Caesarea"]),
+  ("paul3", "Paul's 3rd Journey", True, ["Antioch (Syria)","Ephesus","Philippi","Corinth","Troas","Miletus","Tyre","Caesarea","Jerusalem"]),
+  ("rome", "The Voyage to Rome", True, ["Caesarea","Sidon","Myra","Fair Havens","Malta","Syracuse","Rhegium","Puteoli","Rome"]),
+  ("seven", "The Seven Churches (Rev 2–3)", True, ["Ephesus","Smyrna","Pergamum","Thyatira","Sardis","Philadelphia","Laodicea"]),
+  ("jesus", "Jesus' Ministry", False, ["Nazareth","Bethlehem","Jerusalem","Capernaum","Cana","Bethsaida","Jericho","Bethany","Nain","Caesarea Philippi"]),
+  ("exodus", "The Exodus", True, ["Rameses","Succoth","Marah","Elim","Rephidim","Mount Sinai","Kadesh-barnea","Mount Nebo"]),
+]
+journeys = []
+for jid, label, route, stops in JDEF:
+    pts = []
+    for nm in stops:
+        c = coord(nm)
+        if not c:
+            print(f"  (journey {jid}: missing {nm})"); continue
+        x, y = proj(c[1], c[0])
+        pts.append({"n": nm.replace(" (Syria)",""), "x": x, "y": y})
+    journeys.append({"id": jid, "label": label, "route": route, "stops": pts})
+JOURNEYS_JSON = json.dumps(journeys, ensure_ascii=False, separators=(",", ":"))
 VB = f"0 0 {round(W)} {round(H)}"
 NPLACES = len(places)
 
@@ -111,28 +150,29 @@ HTML = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bible Lands — Map &amp; Place Finder | Noble Mind Study</title>
 <link rel="canonical" href="https://noblemind.study/maps/">
-<meta name="description" content="An interactive, offline map of the biblical world — search any of 1,300+ places named in Scripture, see where it is, and read the verses that mention it. Fully owned, no third-party tiles.">
+<meta name="description" content="An interactive, offline map of the biblical world — search any of 1,300+ places named in Scripture, trace the missionary journeys and the Exodus, and read the verses that mention each place. Fully owned, no third-party tiles.">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
   :root {{ --parchment:#F5EDD6; --sea:#D8E0DC; --land:#E5D4A8; --land-line:#C9B485; --water:#AFC4C9; --water-line:#7FA0A6;
           --ink:#2A1A05; --sepia:#6B4C1A; --sepia-light:#A07840; --gold:#C4A44A;
-          --c-settlement:#9C6B1E; --c-water:#2B5C86; --c-mountain:#8B2A3A; --c-region:#2E6B43; --c-other:#7A6A4A; }}
+          --c-settlement:#9C6B1E; --c-water:#2B5C86; --c-mountain:#8B2A3A; --c-region:#2E6B43; --c-other:#7A6A4A; --j:#8B2A3A; }}
   * {{ box-sizing:border-box; margin:0; padding:0; }}
   body {{ font-family:'Crimson Text',Georgia,serif; background:var(--parchment); color:var(--ink); }}
-  header {{ text-align:center; padding:26px 20px 12px; border-bottom:3px double var(--gold); position:relative; }}
+  header {{ text-align:center; padding:24px 20px 10px; border-bottom:3px double var(--gold); position:relative; }}
   .backlink {{ position:absolute; left:18px; top:14px; font-size:13px; color:var(--sepia); text-decoration:none; border:1px solid rgba(107,76,26,.3); border-radius:4px; padding:4px 10px; background:rgba(245,237,214,.6); }}
   .backlink:hover {{ background:rgba(196,164,74,.2); }}
   h1 {{ font-family:'IM Fell English',serif; color:var(--sepia); font-size:clamp(22px,3.2vw,36px); }}
   .sub {{ font-family:'IM Fell English',serif; font-style:italic; color:var(--sepia-light); font-size:14px; margin-top:5px; }}
-  .wrap {{ max-width:1180px; margin:0 auto; padding:14px 12px 50px; }}
+  .wrap {{ max-width:1180px; margin:0 auto; padding:12px 12px 50px; }}
   .controls {{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center; margin:10px 0; }}
   .search {{ position:relative; }}
-  .search input {{ font-family:'Crimson Text',serif; font-size:15px; padding:7px 14px; width:260px; border:1.5px solid var(--sepia-light); border-radius:999px; background:rgba(255,252,245,.8); color:var(--ink); }}
-  .results {{ position:absolute; left:0; right:0; top:40px; z-index:20; background:#FFFBF2; border:1.5px solid var(--gold); border-radius:8px; max-height:260px; overflow:auto; display:none; box-shadow:0 4px 14px rgba(42,26,5,.2); }}
+  .search input {{ font-family:'Crimson Text',serif; font-size:15px; padding:7px 14px; width:230px; border:1.5px solid var(--sepia-light); border-radius:999px; background:rgba(255,252,245,.8); color:var(--ink); }}
+  .results {{ position:absolute; left:0; right:0; top:40px; z-index:30; background:#FFFBF2; border:1.5px solid var(--gold); border-radius:8px; max-height:260px; overflow:auto; display:none; box-shadow:0 4px 14px rgba(42,26,5,.2); }}
   .results.show {{ display:block; }}
   .results div {{ padding:6px 12px; cursor:pointer; font-size:14px; border-bottom:1px solid #EEE3CC; }}
   .results div:hover {{ background:rgba(196,164,74,.18); }}
   .results .ty {{ color:var(--sepia-light); font-style:italic; font-size:12px; }}
+  select.jsel {{ font-family:'IM Fell English',serif; font-size:13.5px; padding:6px 12px; border-radius:999px; border:1.5px solid var(--sepia-light); background:rgba(255,252,245,.8); color:var(--sepia); cursor:pointer; }}
   .filters {{ display:flex; flex-wrap:wrap; gap:6px; }}
   .fpill {{ font-family:'IM Fell English',serif; font-size:12.5px; padding:5px 12px; border-radius:999px; cursor:pointer; border:1.5px solid var(--sepia-light); background:transparent; color:var(--sepia); }}
   .fpill.active {{ color:#fff; background:var(--sepia); border-color:var(--sepia); }}
@@ -149,30 +189,43 @@ HTML = f"""<!DOCTYPE html>
   .water {{ fill:var(--water); stroke:var(--water-line); stroke-width:0.5; }}
   .river {{ fill:none; stroke:var(--water-line); stroke-width:1.3; stroke-linejoin:round; stroke-linecap:round; }}
   .region {{ fill:var(--sepia); font-family:'IM Fell English',serif; font-size:13px; letter-spacing:1.5px; text-anchor:middle; opacity:.34; text-transform:uppercase; pointer-events:none; }}
-  .water-lbl {{ fill:#5a7a80; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.82; pointer-events:none; }}
-  .dot {{ stroke:#FFF8E8; stroke-width:0.5; cursor:pointer; }}
-  .dot.settlement {{ fill:var(--c-settlement); }} .dot.water {{ fill:var(--c-water); }}
-  .dot.mountain {{ fill:var(--c-mountain); }} .dot.region {{ fill:var(--c-region); }} .dot.other {{ fill:var(--c-other); }}
-  .dot.hide {{ display:none; }}
-  .sel {{ fill:none; stroke:var(--gold); stroke-width:2.5; }}
-  .lbl {{ font-family:'Crimson Text',serif; font-size:11px; fill:var(--ink); paint-order:stroke; stroke:var(--parchment); stroke-width:2.6px; stroke-linejoin:round; pointer-events:none; }}
-  .info {{ position:absolute; left:10px; bottom:10px; max-width:300px; background:rgba(255,252,245,.97); border:1.5px solid var(--gold); border-radius:8px; padding:10px 13px; font-size:13px; box-shadow:0 2px 10px rgba(42,26,5,.18); display:none; }}
-  .info.show {{ display:block; }}
-  .info h3 {{ font-family:'IM Fell English',serif; color:var(--sepia); font-size:16px; }}
-  .info .ty {{ font-style:italic; color:var(--sepia-light); font-size:12px; margin-bottom:5px; }}
-  .info .vs {{ font-size:12.5px; line-height:1.5; }}
-  .info .vs b {{ color:var(--sepia); font-weight:600; }}
-  .info .ob {{ display:inline-block; margin-top:7px; font-size:12px; color:var(--sepia); }}
-  .count {{ text-align:center; font-size:12px; color:var(--sepia-light); font-style:italic; margin-top:9px; }}
-  footer {{ text-align:center; font-size:11.5px; color:#5A5A5A; font-style:italic; margin-top:16px; line-height:1.7; }}
+  .water-lbl {{ fill:#5a7a80; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.85; pointer-events:none; }}
+  #dots circle {{ r:var(--dr,3px); stroke:#FFF8E8; stroke-width:0.4px; cursor:pointer; }}
+  .settlement {{ fill:var(--c-settlement); }} .water-d {{ fill:var(--c-water); }}
+  .mountain {{ fill:var(--c-mountain); }} .region-d {{ fill:var(--c-region); }} .other {{ fill:var(--c-other); }}
+  circle.hide {{ display:none; }}
+  circle.jstop {{ r:var(--dr2,5px) !important; stroke:#fff; stroke-width:1.2px; }}
+  .route {{ fill:none; stroke:var(--j); stroke-width:var(--rw,2.2px); stroke-linecap:round; stroke-linejoin:round; opacity:.9; }}
+  .sel {{ fill:none; stroke:var(--gold); stroke-width:var(--rw,2.5px); }}
+  /* HTML label overlay */
+  .labels {{ position:absolute; inset:0; pointer-events:none; overflow:hidden; }}
+  .maplabel {{ position:absolute; font-family:'Crimson Text',serif; font-size:11.5px; color:var(--ink); white-space:nowrap;
+               paint-order:stroke; text-shadow:0 0 2px var(--parchment),0 0 2px var(--parchment),0 0 3px var(--parchment); transform:translateY(-50%); }}
+  .maplabel.j {{ font-weight:600; color:var(--j); font-size:12px; }}
+  .maplabel.key {{ font-weight:600; }}
+  /* legend + place info panel */
+  .panel {{ position:absolute; left:10px; bottom:10px; width:240px; background:rgba(255,252,245,.96); border:1.5px solid var(--gold); border-radius:8px; padding:9px 12px; font-size:12.5px; box-shadow:0 2px 10px rgba(42,26,5,.18); z-index:10; }}
+  .legend {{ display:flex; flex-wrap:wrap; gap:4px 12px; padding-bottom:7px; margin-bottom:7px; border-bottom:1px solid #E7DAC0; }}
+  .legend span {{ display:inline-flex; align-items:center; gap:5px; font-size:12px; color:var(--sepia); }}
+  .legend i {{ width:9px; height:9px; border-radius:50%; display:inline-block; }}
+  .legend .settlement {{ background:var(--c-settlement); }} .legend .water-d {{ background:var(--c-water); }}
+  .legend .mountain {{ background:var(--c-mountain); }} .legend .region-d {{ background:var(--c-region); }}
+  .pinfo h3 {{ font-family:'IM Fell English',serif; color:var(--sepia); font-size:15px; }}
+  .pinfo .ty {{ font-style:italic; color:var(--sepia-light); font-size:11.5px; margin-bottom:4px; }}
+  .pinfo .vs {{ font-size:12px; line-height:1.5; }}
+  .pinfo .vs b {{ color:var(--sepia); }}
+  .pinfo .hint {{ font-style:italic; color:var(--sepia-light); }}
+  .pinfo .ob {{ display:inline-block; margin-top:6px; font-size:11.5px; color:var(--sepia); }}
+  footer {{ text-align:center; font-size:11.5px; color:#5A5A5A; font-style:italic; margin-top:14px; line-height:1.7; }}
   footer a {{ color:inherit; }}
+  @media (max-width:560px) {{ .panel {{ width:190px; font-size:11.5px; }} }}
 </style>
 </head>
 <body>
 <header>
   <a class="backlink" href="/index.html">&larr; Noble Mind Study</a>
   <h1>Bible Lands</h1>
-  <div class="sub">A map of the world of Scripture &mdash; search any of {NPLACES:,} named places</div>
+  <div class="sub">A map of the world of Scripture &mdash; {NPLACES:,} named places &amp; the great journeys</div>
 </header>
 <div class="wrap">
   <div class="controls">
@@ -180,6 +233,7 @@ HTML = f"""<!DOCTYPE html>
       <input id="q" type="text" placeholder="Search a place… (e.g. Capernaum)" autocomplete="off">
       <div class="results" id="results"></div>
     </div>
+    <select class="jsel" id="jsel"><option value="">Journeys &amp; routes…</option></select>
     <div class="filters" id="filters">
       <button class="fpill active" data-c="all">All</button>
       <button class="fpill" data-c="settlement">Cities</button>
@@ -194,71 +248,131 @@ HTML = f"""<!DOCTYPE html>
       {GEO}
       <g class="regions">{REGION_SVG}</g>
       <g class="waters">{WATER_SVG}</g>
-      <g id="dots"></g>
+      <g id="route"></g>
+      <g id="dots" style="--dr:3px;--dr2:5px"></g>
       <g id="sel"></g>
     </svg>
-    <div class="info" id="info"></div>
+    <div class="labels" id="labels"></div>
+    <div class="panel">
+      <div class="legend">
+        <span><i class="settlement"></i>Cities</span><span><i class="region-d"></i>Regions</span>
+        <span><i class="water-d"></i>Waters</span><span><i class="mountain"></i>Mountains</span>
+      </div>
+      <div class="pinfo" id="pinfo"><span class="hint">Search, pick a journey, or click any place. Names fill in as you zoom.</span></div>
+    </div>
   </div>
-  <p class="count" id="count"></p>
   <footer>
-    <p>Basemap, waters &amp; rivers: Natural Earth (public domain). {NPLACES:,} places: OpenBible.info (CC BY 4.0). Verse references: NASB book order.</p>
+    <p>Basemap, waters &amp; rivers: Natural Earth (public domain). {NPLACES:,} places: OpenBible.info (CC BY 4.0).</p>
     <p>Part of <a href="/index.html">Noble Mind Study</a> &middot; works fully offline</p>
   </footer>
 </div>
 <script>
 const PLACES = {PLACES_JSON};
+const JOURNEYS = {JOURNEYS_JSON};
 const FULLW = {round(W)}, FULLH = {round(H)};
 const svg = document.getElementById('map'), dotsG = document.getElementById('dots'),
-      selG = document.getElementById('sel'), info = document.getElementById('info'),
-      results = document.getElementById('results'), q = document.getElementById('q'), countEl = document.getElementById('count');
-let filter = 'all';
+      selG = document.getElementById('sel'), routeG = document.getElementById('route'),
+      labels = document.getElementById('labels'), results = document.getElementById('results'),
+      q = document.getElementById('q'), pinfo = document.getElementById('pinfo'), jsel = document.getElementById('jsel');
+const CLS = {{settlement:'settlement', water:'water-d', mountain:'mountain', region:'region-d', other:'other'}};
+let filter = 'all', activeJourney = null;
+const jstop = new Set();           // indices that are current journey stops
+const order = PLACES.map((p,i)=>i).sort((a,b)=> PLACES[b].w - PLACES[a].w);  // importance: verse count
 
-// render dots
-PLACES.forEach((p, i) => {{
+// dots
+PLACES.forEach((p,i) => {{
   const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
-  c.setAttribute('class','dot '+p.c); c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.setAttribute('r','2.4');
-  c.dataset.i = i;
-  c.addEventListener('click', e => {{ e.stopPropagation(); select(i); }});
+  c.setAttribute('class', CLS[p.c]); c.setAttribute('cx',p.x); c.setAttribute('cy',p.y); c.dataset.i = i;
+  c.addEventListener('click', e => {{ e.stopPropagation(); select(i, false); }});
   dotsG.appendChild(c);
 }});
+const dotEls = dotsG.childNodes;
+
 function applyFilter() {{
-  let n = 0;
-  dotsG.childNodes.forEach(c => {{ const p = PLACES[c.dataset.i];
-    const show = (filter === 'all' || p.c === filter); c.classList.toggle('hide', !show); if (show) n++; }});
-  countEl.textContent = (filter === 'all' ? PLACES.length : n) + ' places shown';
+  dotEls.forEach(c => {{ const p = PLACES[c.dataset.i];
+    c.classList.toggle('hide', !(filter==='all' || p.c===filter || jstop.has(+c.dataset.i))); }});
+  updateLabels();
 }}
-function select(i) {{
-  const p = PLACES[i];
-  selG.innerHTML = `<circle class="sel" cx="${{p.x}}" cy="${{p.y}}" r="6"></circle>`+
-    `<text class="lbl" x="${{p.x+9}}" y="${{p.y+4}}">${{p.n}}</text>`;
-  const vs = p.v && p.v.length ? `<div class="vs"><b>Mentioned:</b> ${{p.v.join(' · ')}}</div>` : `<div class="vs" style="opacity:.7">No verse references listed.</div>`;
-  const ob = p.s ? `<a class="ob" href="https://www.openbible.info/geo/${{p.s}}" target="_blank" rel="noopener">More at OpenBible.info →</a>` : '';
-  info.innerHTML = `<h3>${{p.n}}</h3><div class="ty">${{p.t||'place'}}</div>${{vs}}${{ob}}`;
-  info.classList.add('show');
-  // ensure visible: center if far outside current view
-  if (p.x < vb.x || p.x > vb.x+vb.w || p.y < vb.y || p.y > vb.y+vb.h) {{
-    vb.w = Math.min(FULLW, FULLW/3); vb.h = vb.w*FULLH/FULLW; vb.x = p.x-vb.w/2; vb.y = p.y-vb.h/2; clamp(); ap();
+
+// ----- labels: HTML overlay, importance-ranked, collision-avoided, zoom-aware -----
+function collides(b, arr) {{ return arr.some(p => !(b.x2<p.x1||b.x1>p.x2||b.y2<p.y1||b.y1>p.y2)); }}
+function updateLabels() {{
+  labels.innerHTML = '';
+  const rect = svg.getBoundingClientRect(); if (!rect.width) return;
+  const sx = rect.width/vb.w, sy = rect.height/vb.h;
+  const placed = []; let n = 0;
+  const cand = [...jstop].concat(order);   // journey stops first, then by importance
+  for (const i of cand) {{
+    if (n > 110) break;
+    const p = PLACES[i];
+    const isJ = jstop.has(i);
+    if (!isJ && filter!=='all' && p.c!==filter) continue;
+    const px = (p.x - vb.x)*sx, py = (p.y - vb.y)*sy;
+    if (px < -4 || px > rect.width+4 || py < 0 || py > rect.height) continue;
+    const w = p.n.length*6.2 + 8, box = {{x1:px+6, y1:py-7, x2:px+6+w, y2:py+7}};
+    if (collides(box, placed)) continue;
+    placed.push(box);
+    const d = document.createElement('div');
+    d.className = 'maplabel' + (isJ?' j':'') + (p.w>=12?' key':'');
+    d.textContent = p.n; d.style.left = (px+7)+'px'; d.style.top = py+'px';
+    labels.appendChild(d); n++;
   }}
 }}
-// search
+
+function select(i, fly) {{
+  const p = PLACES[i];
+  selG.innerHTML = `<circle class="sel" cx="${{p.x}}" cy="${{p.y}}" r="${{7*vb.w/FULLW}}"></circle>`;
+  const vs = p.v && p.v.length ? `<div class="vs"><b>Mentioned:</b> ${{p.v.join(' · ')}}</div>` : `<div class="vs hint">No verse references listed.</div>`;
+  const ob = p.s ? `<a class="ob" href="https://www.openbible.info/geo/${{p.s}}" target="_blank" rel="noopener">More at OpenBible.info →</a>` : '';
+  pinfo.innerHTML = `<h3>${{p.n}}</h3><div class="ty">${{p.t||'place'}}</div>${{vs}}${{ob}}`;
+  if (fly || p.x<vb.x || p.x>vb.x+vb.w || p.y<vb.y || p.y>vb.y+vb.h) {{
+    vb.w = Math.min(FULLW, FULLW/3.2); vb.h = vb.w*FULLH/FULLW; vb.x = p.x-vb.w/2; vb.y = p.y-vb.h/2; clamp(); ap();
+  }}
+}}
+
+// ----- journeys -----
+JOURNEYS.forEach(j => {{ const o=document.createElement('option'); o.value=j.id; o.textContent=j.label; jsel.appendChild(o); }});
+function clearJourney() {{ jstop.clear(); routeG.innerHTML=''; dotEls.forEach(c=>c.classList.remove('jstop')); }}
+function showJourney(id) {{
+  clearJourney();
+  const j = JOURNEYS.find(x=>x.id===id); if(!j) {{ applyFilter(); return; }}
+  if (j.route && j.stops.length>1) {{
+    const pl = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+    pl.setAttribute('class','route'); pl.setAttribute('points', j.stops.map(s=>`${{s.x}},${{s.y}}`).join(' '));
+    routeG.appendChild(pl);
+  }}
+  // mark stops (match by name) so they highlight + always label
+  j.stops.forEach(s => {{ const i = PLACES.findIndex(p=>p.n===s.n); if(i>=0){{ jstop.add(i); }} }});
+  dotEls.forEach(c => c.classList.toggle('jstop', jstop.has(+c.dataset.i)));
+  // fit to journey bounds
+  const xs=j.stops.map(s=>s.x), ys=j.stops.map(s=>s.y);
+  const pad=40, minx=Math.min(...xs)-pad, maxx=Math.max(...xs)+pad, miny=Math.min(...ys)-pad, maxy=Math.max(...ys)+pad;
+  let w=Math.max(maxx-minx,(maxy-miny)*FULLW/FULLH); w=Math.min(FULLW,Math.max(FULLW/22,w));
+  vb.w=w; vb.h=w*FULLH/FULLW; vb.x=(minx+maxx)/2-w/2; vb.y=(miny+maxy)/2-vb.h/2; clamp(); ap();
+  pinfo.innerHTML = `<h3>${{j.label}}</h3><div class="ty">${{j.stops.length}} stops</div><div class="vs hint">Click a stop for its verses.</div>`;
+}}
+jsel.addEventListener('change', () => {{ activeJourney = jsel.value; showJourney(activeJourney); }});
+
+// ----- search -----
 function runSearch() {{
   const s = q.value.trim().toLowerCase();
   if (s.length < 2) {{ results.classList.remove('show'); return; }}
-  const m = PLACES.map((p,i)=>({{p,i}})).filter(o => o.p.n.toLowerCase().includes(s)).slice(0, 12);
-  results.innerHTML = m.map(o => `<div data-i="${{o.i}}">${{o.p.n}} <span class="ty">${{o.p.t}}</span></div>`).join('') || '<div style="opacity:.6">No match</div>';
-  results.classList.toggle('show', true);
+  const m = order.filter(i => PLACES[i].n.toLowerCase().includes(s)).slice(0,12);
+  results.innerHTML = m.map(i => `<div data-i="${{i}}">${{PLACES[i].n}} <span class="ty">${{PLACES[i].t}}</span></div>`).join('') || '<div class="ty" style="padding:6px 12px">No match</div>';
+  results.classList.add('show');
   results.querySelectorAll('div[data-i]').forEach(d => d.addEventListener('click', () => {{
-    select(+d.dataset.i); results.classList.remove('show'); q.value = PLACES[+d.dataset.i].n; }}));
+    select(+d.dataset.i, true); results.classList.remove('show'); q.value = PLACES[+d.dataset.i].n; }}));
 }}
-q.addEventListener('input', runSearch);
-q.addEventListener('focus', runSearch);
+q.addEventListener('input', runSearch); q.addEventListener('focus', runSearch);
 document.addEventListener('click', e => {{ if (!e.target.closest('.search')) results.classList.remove('show'); }});
 document.querySelectorAll('.fpill').forEach(b => b.onclick = () => {{
   filter = b.dataset.c; document.querySelectorAll('.fpill').forEach(x=>x.classList.toggle('active', x===b)); applyFilter(); }});
 
-// vector zoom/pan
-let vb = {{x:0,y:0,w:FULLW,h:FULLH}}; const MINW = FULLW/22;
-function ap(){{ svg.setAttribute('viewBox',`${{vb.x}} ${{vb.y}} ${{vb.w}} ${{vb.h}}`); }}
+// ----- zoom / pan -----
+let vb = {{x:0,y:0,w:FULLW,h:FULLH}}; const MINW = FULLW/24;
+let lblTimer=null;
+function setDr(){{ const sc=vb.w/FULLW; dotsG.style.setProperty('--dr',(3*sc)+'px'); dotsG.style.setProperty('--dr2',(5*sc)+'px'); document.documentElement.style.setProperty('--rw',(2.4*sc)+'px'); }}
+function ap(){{ svg.setAttribute('viewBox',`${{vb.x}} ${{vb.y}} ${{vb.w}} ${{vb.h}}`); setDr(); clearTimeout(lblTimer); lblTimer=setTimeout(updateLabels,90); }}
 function clamp(){{ vb.x=Math.max(0,Math.min(FULLW-vb.w,vb.x)); vb.y=Math.max(0,Math.min(FULLH-vb.h,vb.y)); }}
 function c2s(cx,cy){{ const r=svg.getBoundingClientRect(); return {{x:vb.x+(cx-r.left)/r.width*vb.w, y:vb.y+(cy-r.top)/r.height*vb.h}}; }}
 function zoomAt(px,py,f){{ let nw=Math.min(FULLW,Math.max(MINW,vb.w*f)); const k=nw/vb.w; vb.w=nw; vb.h*=k; vb.x=px-(px-vb.x)*k; vb.y=py-(py-vb.y)*k; clamp(); ap(); }}
@@ -272,13 +386,14 @@ svg.addEventListener('touchmove',e=>{{ if(e.touches.length!==2)return; e.prevent
 svg.addEventListener('touchend',()=>pinch=null);
 document.getElementById('zin').onclick=()=>zoomAt(vb.x+vb.w/2,vb.y+vb.h/2,0.65);
 document.getElementById('zout').onclick=()=>zoomAt(vb.x+vb.w/2,vb.y+vb.h/2,1/0.65);
-document.getElementById('zreset').onclick=()=>{{ vb={{x:0,y:0,w:FULLW,h:FULLH}}; ap(); info.classList.remove('show'); selG.innerHTML=''; }};
-document.querySelector('.mapbox').addEventListener('click',()=>{{ if(!moved){{ info.classList.remove('show'); selG.innerHTML=''; }} }});
-applyFilter();
+document.getElementById('zreset').onclick=()=>{{ vb={{x:0,y:0,w:FULLW,h:FULLH}}; jsel.value=''; clearJourney(); selG.innerHTML=''; pinfo.innerHTML='<span class="hint">Search, pick a journey, or click any place. Names fill in as you zoom.</span>'; ap(); applyFilter(); }};
+svg.addEventListener('click',()=>{{ if(!moved){{ selG.innerHTML=''; }} }});
+window.addEventListener('resize',()=>{{ clearTimeout(lblTimer); lblTimer=setTimeout(updateLabels,120); }});
+setDr(); applyFilter(); updateLabels();
 </script>
 </body>
 </html>
 """
 with open(OUT, "w") as f:
     f.write(HTML)
-print(f"wrote {OUT}  ({len(land)} land, {len(lakes)} lakes, {len(rivers)} rivers, {NPLACES} places, {round(W)}x{round(H)})")
+print(f"wrote {OUT}  ({len(land)} land, {len(lakes)} lakes, {len(rivers)} rivers, {NPLACES} places, {len(journeys)} journeys)")
