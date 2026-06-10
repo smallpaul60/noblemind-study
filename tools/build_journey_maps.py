@@ -38,6 +38,7 @@ loc = {r["name"].lower(): (r["lat"], r["lon"]) for r in json.load(open(LOC))}
 loc["antioch (syria)"] = (36.20, 36.16)     # Antioch on the Orontes (home base)
 loc["pisidian antioch"] = (38.31, 31.19)    # Antioch of Pisidia
 loc["seleucia"] = (36.12, 35.93)
+loc["alexandria"] = (31.20, 29.92)          # Egypt — home port of the grain ship
 
 def C(name):
     k = name.lower()
@@ -154,6 +155,62 @@ for feat in json.load(open(NE))["features"]:
 
 LAND = "".join(f'<path d="{p}"/>' for p in land_paths)
 
+# ---- Nile river (SE context) ----
+RIVERS = ""
+try:
+    for feat in json.load(open("/tmp/ne_rivers.geojson"))["features"]:
+        if (feat["properties"].get("name") or "").lower() != "nile":
+            continue
+        g = feat["geometry"]; lines = [g["coordinates"]] if g["type"] == "LineString" else g["coordinates"]
+        for line in lines:
+            pts, last = [], None
+            for lon, lat in line:
+                if not (LON0 - 1 <= lon <= LON1 + 1 and LAT0 - 1 <= lat <= LAT1 + 1):
+                    continue
+                x, y = proj(lon, lat)
+                if last and abs(x - last[0]) < 0.4 and abs(y - last[1]) < 0.4:
+                    continue
+                pts.append((x, y)); last = (x, y)
+            if len(pts) >= 2:
+                RIVERS += '<path d="M%s"/>' % " ".join(f"{x},{y}" for x, y in pts)
+except FileNotFoundError:
+    pass
+
+# ---- region + sea labels, context cities (static layers) ----
+def lblsvg(items, cls):
+    out = []
+    for it in items:
+        txt, lon, lat = it[0], it[1], it[2]; rot = it[3] if len(it) > 3 else 0
+        x, y = proj(lon, lat)
+        ts = "".join(f'<tspan x="{x}" dy="{0 if i == 0 else 12}">{ln}</tspan>' for i, ln in enumerate(txt.split("\n")))
+        out.append(f'<text class="{cls}" transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
+    return "".join(out)
+
+REGIONS = [
+    ("ITALY", 14.6, 41.4), ("SICILY", 14.3, 37.4), ("MACEDONIA", 22.3, 41.2), ("ACHAIA", 22.2, 38.2),
+    ("THRACE", 26.4, 41.6), ("ASIA", 27.7, 38.9), ("BITHYNIA", 30.7, 40.8), ("GALATIA", 33.3, 39.5),
+    ("CAPPADOCIA", 35.6, 38.8), ("PISIDIA", 30.9, 37.7), ("PAMPHYLIA", 31.1, 36.85), ("CILICIA", 34.4, 37.15),
+    ("SYRIA", 37.1, 35.0), ("CYPRUS", 33.2, 34.95), ("CRETE", 24.9, 34.85), ("JUDEA", 35.25, 31.4), ("EGYPT", 30.5, 30.2),
+]
+WATERS = [
+    ("The Great Sea", 18.5, 33.6, -10), ("Aegean\nSea", 24.8, 38.3, 0), ("Adriatic\nSea", 16.6, 41.0, -58),
+    ("Black Sea", 32.5, 42.4, 0), ("Nile", 30.9, 29.6, -80),
+]
+CONTEXT = [("Tarsus", "Paul's home city (Acts 9:11; 21:39)"),
+           ("Alexandria", "Home port of the grain ship that carried Paul toward Rome (Acts 27:6)")]
+def ctxsvg():
+    out = []
+    for name, note in CONTEXT:
+        lat, lon = C(name); x, y = proj(lon, lat)
+        right = x < W - 90
+        out.append(f'<g class="context" data-name="{name}" data-note="{note}">'
+                   f'<circle cx="{x}" cy="{y}" r="2.6"/>'
+                   f'<text x="{x + (7 if right else -7)}" y="{y + 3}" text-anchor="{"start" if right else "end"}">{name}</text></g>')
+    return "".join(out)
+REGION_SVG = lblsvg(REGIONS, "region")
+WATER_SVG = lblsvg(WATERS, "water-lbl")
+CONTEXT_SVG = ctxsvg()
+
 # ---- Project journeys ----
 out_journeys = []
 for j in JOURNEYS:
@@ -196,9 +253,19 @@ HTML = f"""<!DOCTYPE html>
   .tab:hover {{ background:rgba(196,164,74,.12); }}
   .tab.active {{ color:#fff; }}
   .blurb {{ text-align:center; font-style:italic; color:var(--sepia); font-size:14px; max-width:720px; margin:8px auto 12px; min-height:2.6em; }}
-  .mapbox {{ position:relative; background:var(--sea); border:2px solid var(--land-line); border-radius:10px; overflow:hidden; box-shadow:0 3px 14px rgba(42,26,5,.12); }}
-  svg {{ display:block; width:100%; height:auto; }}
+  .mapbox {{ position:relative; background:var(--sea); border:2px solid var(--land-line); border-radius:10px; overflow:hidden; box-shadow:0 3px 14px rgba(42,26,5,.12); touch-action:none; }}
+  svg {{ display:block; width:100%; height:auto; cursor:grab; }}
+  svg:active {{ cursor:grabbing; }}
+  .toolbar {{ display:flex; gap:8px; justify-content:center; margin:2px 0 8px; }}
+  .toolbar button {{ font-family:'IM Fell English',serif; font-size:13px; padding:4px 12px; border-radius:999px; cursor:pointer; border:1.5px solid var(--sepia-light); background:transparent; color:var(--sepia); }}
+  .toolbar button:hover {{ background:rgba(196,164,74,.15); }}
   .land {{ fill:var(--land); stroke:var(--land-line); stroke-width:0.8; stroke-linejoin:round; }}
+  .river {{ fill:none; stroke:#9FB9BF; stroke-width:1.4; stroke-linejoin:round; stroke-linecap:round; }}
+  .region {{ fill:var(--sepia); font-family:'IM Fell English',serif; font-size:14px; letter-spacing:2px; text-anchor:middle; opacity:.36; text-transform:uppercase; pointer-events:none; }}
+  .water-lbl {{ fill:#6E8A90; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.8; pointer-events:none; }}
+  .context {{ cursor:pointer; }}
+  .context circle {{ fill:#fff; stroke:var(--sepia-light); stroke-width:1.4; }}
+  .context text {{ font-family:'Crimson Text',serif; font-size:10px; fill:var(--sepia); font-style:italic; paint-order:stroke; stroke:var(--parchment); stroke-width:2.4px; stroke-linejoin:round; pointer-events:none; }}
   .route {{ fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; opacity:.92; }}
   .route.ret {{ stroke-dasharray:2 7; opacity:.6; }}
   .stop {{ cursor:pointer; }}
@@ -226,9 +293,14 @@ HTML = f"""<!DOCTYPE html>
 <div class="wrap">
   <div class="tabs" id="tabs"></div>
   <div class="blurb" id="blurb"></div>
+  <div class="toolbar"><button id="zin">+ Zoom in</button><button id="zout">&minus; Zoom out</button><button id="zreset">Reset</button></div>
   <div class="mapbox">
     <svg id="map" viewBox="{VB}" preserveAspectRatio="xMidYMid meet">
       <g class="land">{LAND}</g>
+      <g class="river">{RIVERS}</g>
+      <g class="regions">{REGION_SVG}</g>
+      <g class="waters">{WATER_SVG}</g>
+      <g class="contexts">{CONTEXT_SVG}</g>
       <g id="routes"></g>
       <g id="stops"></g>
     </svg>
@@ -253,6 +325,7 @@ function draw(i) {{
   document.querySelectorAll('.tab').forEach((t,k)=>{{ t.classList.toggle('active',k===i); if(k===i) t.style.background=j.color, t.style.borderColor=j.color; else t.style.background='', t.style.borderColor=''; }});
   blurb.textContent = j.blurb;
   info.classList.remove('show');
+  if (typeof resetVB === 'function') resetVB();
   routesG.innerHTML = ''; stopsG.innerHTML = '';
   // route polyline
   const pts = j.stops.map(s=>`${{s.x}},${{s.y}}`).join(' ');
@@ -301,7 +374,30 @@ function showInfo(s,n,j) {{
   info.style.borderColor = j.color; info.classList.add('show');
 }}
 JOURNEYS.forEach((j,i)=>{{ const b=document.createElement('button'); b.className='tab'; b.textContent=j.label; b.title=j.ref; b.onclick=()=>draw(i); tabs.appendChild(b); }});
-document.querySelector('.mapbox').addEventListener('click', ()=>info.classList.remove('show'));
+
+// ---- vector zoom / pan ----
+const svgEl = document.getElementById('map');
+const FULLW = {round(W)}, FULLH = {round(H)};
+let vb = {{x:0,y:0,w:FULLW,h:FULLH}}; const MINW = FULLW/7;
+function applyVB(){{ svgEl.setAttribute('viewBox',`${{vb.x}} ${{vb.y}} ${{vb.w}} ${{vb.h}}`); }}
+function clampVB(){{ vb.x=Math.max(0,Math.min(FULLW-vb.w,vb.x)); vb.y=Math.max(0,Math.min(FULLH-vb.h,vb.y)); }}
+function c2s(cx,cy){{ const r=svgEl.getBoundingClientRect(); return {{x:vb.x+(cx-r.left)/r.width*vb.w, y:vb.y+(cy-r.top)/r.height*vb.h}}; }}
+function zoomAt(px,py,f){{ let nw=Math.min(FULLW,Math.max(MINW,vb.w*f)); const k=nw/vb.w; vb.w=nw; vb.h*=k; vb.x=px-(px-vb.x)*k; vb.y=py-(py-vb.y)*k; clampVB(); applyVB(); }}
+function resetVB(){{ vb={{x:0,y:0,w:FULLW,h:FULLH}}; applyVB(); }}
+svgEl.addEventListener('wheel',e=>{{ e.preventDefault(); const p=c2s(e.clientX,e.clientY); zoomAt(p.x,p.y,e.deltaY<0?0.84:1/0.84); }},{{passive:false}});
+let mdrag=null, mmoved=false;
+svgEl.addEventListener('pointerdown',e=>{{ mdrag={{x:e.clientX,y:e.clientY}}; mmoved=false; svgEl.setPointerCapture(e.pointerId); }});
+svgEl.addEventListener('pointermove',e=>{{ if(!mdrag)return; const r=svgEl.getBoundingClientRect(); if(Math.abs(e.clientX-mdrag.x)+Math.abs(e.clientY-mdrag.y)>4) mmoved=true; vb.x-=(e.clientX-mdrag.x)/r.width*vb.w; vb.y-=(e.clientY-mdrag.y)/r.height*vb.h; mdrag={{x:e.clientX,y:e.clientY}}; clampVB(); applyVB(); }});
+svgEl.addEventListener('pointerup',()=>mdrag=null);
+let mpinch=null;
+svgEl.addEventListener('touchmove',e=>{{ if(e.touches.length!==2)return; e.preventDefault(); const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); const mx=(e.touches[0].clientX+e.touches[1].clientX)/2,my=(e.touches[0].clientY+e.touches[1].clientY)/2; if(mpinch){{const p=c2s(mx,my); zoomAt(p.x,p.y,mpinch/d);}} mpinch=d; }},{{passive:false}});
+svgEl.addEventListener('touchend',()=>mpinch=null);
+document.getElementById('zin').onclick=()=>zoomAt(vb.x+vb.w/2,vb.y+vb.h/2,0.7);
+document.getElementById('zout').onclick=()=>zoomAt(vb.x+vb.w/2,vb.y+vb.h/2,1/0.7);
+document.getElementById('zreset').onclick=resetVB;
+document.querySelectorAll('.context').forEach(g=>g.addEventListener('click',e=>{{ if(mmoved)return; e.stopPropagation(); info.innerHTML=`<h3>${{g.dataset.name}}</h3><div class="n">${{g.dataset.note}}</div>`; info.style.borderColor='var(--gold)'; info.classList.add('show'); }}));
+
+document.querySelector('.mapbox').addEventListener('click', ()=>{{ if(!mmoved) info.classList.remove('show'); }});
 // deep link via #id
 const want = (location.hash||'').replace('#','');
 const start = Math.max(0, JOURNEYS.findIndex(j=>j.id===want));
