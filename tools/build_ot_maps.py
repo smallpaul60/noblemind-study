@@ -159,11 +159,18 @@ stops = [("Rameses","Ex 12:37 — out of Egypt at the Passover"),
          ("Kadesh-barnea","Num 13 — the spies sent out; then forty years of wandering"),
          ("Mount Nebo","Deut 34 — Moses sees the land he may not enter")]
 disp = {"Succoth-egypt":"Succoth","Jebel al-Lawz":"Mt. Sinai (Jebel al-Lawz)"}
+# Route polyline with waypoints: from Kadesh the line bends around the SOUTH end
+# of the Salt Sea and up its EASTERN side (through Edom/Moab) to Nebo, instead of
+# a straight segment slicing across the Dead Sea. (C(name) -> (lat, lon).)
+exo_route = [C("Rameses"), C("Succoth-egypt"), C("Etham"), C("Pi-hahiroth"),
+             C("Jebel al-Lawz"), C("Ezion-geber"), C("Kadesh-barnea"),
+             (30.85, 35.55), (31.35, 35.85), (31.70, 35.82), C("Mount Nebo")]
+exo_poly = " ".join(f"{P(lo, la)[0]},{P(lo, la)[1]}" for la, lo in exo_route)
 overlay = (labels_svg(P, [("EGYPT",31.3,30.6,0),("SINAI",33.6,29.5,0),("CANAAN",35.1,31.8,0),
                           ("MIDIAN",36.1,28.7,0),("ARABIA",36.4,27.5,0)], "region")
            + labels_svg(P, [("The Great Sea",33.2,32.3,0),("Nile",31.2,29.4,-80),
                             ("Red Sea",33.5,27.5,-40),("Gulf of\nSuez",32.7,28.6,-62),("Gulf of\nAqaba",34.9,29.4,-30)], "water-lbl")
-           + route_svg(P, stops, "#8B2A3A"))
+           + f'<polyline class="route" points="{exo_poly}" stroke="#8B2A3A"/>')
 pts = points_json(P, stops, True)
 for p in pts: p["name"] = disp.get(p["name"], p["name"])
 MAPS.append({"id":"exodus","label":"The Exodus","panel":EXODUS_PANEL,"blurb":"Out of Egypt, across the sea, to Mount Sinai and the Law — then forty years to the edge of the promised land. The crossing point is debated; this map follows the Gulf-of-Aqaba route.","desc":"At the Passover, Israel leaves Egypt and journeys to the sea &mdash; which God parts so they cross on dry ground while Pharaoh's army drowns behind them (Exodus 14), the great deliverance of the Old Testament. This map follows the view that the crossing was at the <b>Gulf of Aqaba</b> and that <b>Mount Sinai stood in Arabia</b> (Jebel al-Lawz &mdash; Paul calls it 'Mount Sinai in Arabia,' Galatians 4:25). From Sinai they go north to Kadesh, wander forty years, and reach the plains of Moab opposite Jericho. Scripture is certain that they crossed the sea; it does not fix the exact spot, and a traditional route instead places Sinai in the Sinai peninsula &mdash; careful readers hold both. Click any stop for its place in the story.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
