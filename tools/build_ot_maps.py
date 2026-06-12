@@ -146,7 +146,10 @@ EXODUS_PANEL = """<details class="routes">
 </details>"""
 
 # 2. The Exodus (Gulf-of-Aqaba crossing; Mount Sinai in Arabia)
+EXODUS_RELIEF = True   # shaded-relief terrain basemap prototype; set False to revert to flat parchment
 geo, P, W, H = make_geo((30, 36.9, 27.0, 32.7), {"Nile"})
+if EXODUS_RELIEF:
+    geo = f'<image href="exodus-relief.jpg" x="0" y="0" width="{round(W)}" height="{round(H)}" preserveAspectRatio="none"/>'
 stops = [("Rameses","Ex 12:37 — out of Egypt at the Passover"),
          ("Succoth-egypt","Ex 13:20 — the first encampment"),
          ("Etham","Ex 13:20 — on the edge of the wilderness"),
@@ -283,8 +286,8 @@ TEMPLATE = r"""<!DOCTYPE html>
   .route { fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; opacity:.9; }
   .route.ret { stroke-dasharray:2 8; opacity:.5; }
   .bdy { fill:none; stroke:var(--sepia-light); stroke-width:1; stroke-dasharray:5 5; opacity:.55; }
-  .region { fill:var(--sepia); font-family:'IM Fell English',serif; font-size:15px; letter-spacing:2px; text-anchor:middle; opacity:.4; text-transform:uppercase; pointer-events:none; }
-  .water-lbl { fill:#5a7a80; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.85; pointer-events:none; }
+  .region { fill:var(--sepia); font-family:'IM Fell English',serif; font-size:15px; letter-spacing:2px; text-anchor:middle; opacity:.5; text-transform:uppercase; pointer-events:none; paint-order:stroke; stroke:var(--parchment); stroke-width:3px; stroke-linejoin:round; }
+  .water-lbl { fill:#3f6168; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.92; pointer-events:none; paint-order:stroke; stroke:var(--parchment); stroke-width:2.4px; stroke-linejoin:round; }
   .pt { cursor:pointer; }
   .pt circle.dot { fill:#fff; stroke-width:1.8; }
   .pt circle.numbg { opacity:.95; }
