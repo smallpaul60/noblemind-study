@@ -127,6 +127,24 @@ overlay = (labels_svg(P, [("MESOPOTAMIA",43,35,0),("CANAAN",35.2,32.6,0),("EGYPT
            + route_svg(P, stops, "#9C6B1E"))
 MAPS.append({"id":"abraham","label":"Abraham's Journey","blurb":"From Ur of the Chaldeans to Haran, into Canaan, down to Egypt in a famine, and back — the journey of faith God called Abram to make (Genesis 11–25).","desc":"God calls Abram out of <b>Ur of the Chaldeans</b>, and he travels with his household up the Fertile Crescent to Haran, then down into <b>Canaan</b> &mdash; the land God promises to give his offspring. A famine drives him to Egypt and back; at last he settles by the oaks of Mamre at Hebron. So begins the family through whom 'all the families of the earth shall be blessed.' Click a stop to follow the journey (Genesis 11–25).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,stops,True)})
 
+EXODUS_PANEL = """<details class="routes">
+  <summary>Which route did the Exodus take? &mdash; the Gulf of Aqaba and the traditional view</summary>
+  <div class="rbody">
+    <p>Both views read the same events &mdash; out of Egypt at the Passover, a journey to the sea, the crossing on dry ground, the Law at Sinai, forty years in the wilderness, and at last the plains of Moab. They disagree on the <em>geography</em>: which sea was crossed, and where Mount Sinai stood. Much of it turns on what Scripture means by &ldquo;the Red Sea&rdquo; (Hebrew <em>Yam Suph</em>).</p>
+    <p>The <strong>traditional</strong> Sinai-peninsula route is the majority view and has the longer history. The <strong>Gulf-of-Aqaba / Arabian-Sinai</strong> view is a serious minority case, built largely from the text. This map draws the Aqaba route; here are both, side by side.</p>
+    <table class="rtab">
+      <tr><th>The question</th><th>Traditional &mdash; Sinai Peninsula</th><th>Gulf of Aqaba &mdash; Sinai in Arabia</th></tr>
+      <tr><td class="q">&ldquo;The Red Sea&rdquo; (<em>Yam Suph</em>)</td><td>a marshy &ldquo;Sea of Reeds&rdquo; near the Gulf of Suez or the Bitter Lakes</td><td>the Gulf of Aqaba &mdash; which Scripture itself calls the Red Sea: Ezion-geber lay &ldquo;on the shore of the Red Sea, in the land of Edom&rdquo; (1 Kings 9:26)</td></tr>
+      <tr><td class="q">Where Mount Sinai stood</td><td>in the Sinai Peninsula (by tradition, Jebel Musa)</td><td>in Arabia (Jebel al-Lawz) &mdash; Paul writes &ldquo;Mount Sinai in Arabia&rdquo; (Galatians 4:25); Moses met God at the mountain while in Midian</td></tr>
+      <tr><td class="q">The march before the sea</td><td>a shorter route to a nearby crossing</td><td>&ldquo;around by the way of the wilderness&rdquo; (Exodus 13:18), traveling day <em>and</em> night (13:21) &mdash; a long march, not a 20-mile step to the Gulf of Suez</td></tr>
+      <tr><td class="q">The water they crossed</td><td>shallow reeds or marsh</td><td>&ldquo;the waters of the great deep&hellip; the depths of the sea&rdquo; (Isaiah 51:10), the water &ldquo;a wall to them on their right hand and on their left&rdquo; (Exodus 14:22)</td></tr>
+    </table>
+    <p><strong>Where the Aqaba view is strong:</strong> Scripture plainly calls the Gulf of Aqaba &ldquo;the Red Sea&rdquo; (1 Kings 9:26); a long wilderness march by day and night (Exodus 13:18, 21) fits crossing the peninsula far better than a short walk to Suez; and the &ldquo;great deep&rdquo; with walls of water (Isaiah 51:10; Exodus 14:22) reads like deep water, not a shallow marsh.</p>
+    <p><strong>Where the traditional view is strong:</strong> <em>Yam Suph</em> can be rendered &ldquo;Sea of Reeds,&rdquo; which suits a reedy body near Suez; &ldquo;Arabia&rdquo; in Paul's day reached into the Sinai Peninsula, so Galatians 4:25 need not mean Saudi Arabia; the &ldquo;great deep&rdquo; can be poetic language; and it remains the view of most scholars, many of them evangelical.</p>
+    <p class="ev">A word on the much-publicized &ldquo;coral-encrusted chariot wheels&rdquo; on the Aqaba seabed: those claims are contested and are not accepted even by many who hold the Aqaba view &mdash; so this case rests on the text, not on them. What Scripture makes certain is not <em>where</em> but <em>that</em> they crossed: on dry ground, the sea walled up on either side, by the hand of God (Exodus 14).</p>
+  </div>
+</details>"""
+
 # 2. The Exodus (Gulf-of-Aqaba crossing; Mount Sinai in Arabia)
 geo, P, W, H = make_geo((30, 36.9, 27.0, 32.7), {"Nile"})
 stops = [("Rameses","Ex 12:37 — out of Egypt at the Passover"),
@@ -145,7 +163,7 @@ overlay = (labels_svg(P, [("EGYPT",31.3,30.6,0),("SINAI",33.6,29.5,0),("CANAAN",
            + route_svg(P, stops, "#8B2A3A"))
 pts = points_json(P, stops, True)
 for p in pts: p["name"] = disp.get(p["name"], p["name"])
-MAPS.append({"id":"exodus","label":"The Exodus","blurb":"Out of Egypt, across the sea, to Mount Sinai and the Law — then forty years to the edge of the promised land. The crossing point is debated; this map follows the Gulf-of-Aqaba route.","desc":"At the Passover, Israel leaves Egypt and journeys to the sea &mdash; which God parts so they cross on dry ground while Pharaoh's army drowns behind them (Exodus 14), the great deliverance of the Old Testament. This map follows the view that the crossing was at the <b>Gulf of Aqaba</b> and that <b>Mount Sinai stood in Arabia</b> (Jebel al-Lawz &mdash; Paul calls it 'Mount Sinai in Arabia,' Galatians 4:25). From Sinai they go north to Kadesh, wander forty years, and reach the plains of Moab opposite Jericho. Scripture is certain that they crossed the sea; it does not fix the exact spot, and a traditional route instead places Sinai in the Sinai peninsula &mdash; careful readers hold both. Click any stop for its place in the story.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
+MAPS.append({"id":"exodus","label":"The Exodus","panel":EXODUS_PANEL,"blurb":"Out of Egypt, across the sea, to Mount Sinai and the Law — then forty years to the edge of the promised land. The crossing point is debated; this map follows the Gulf-of-Aqaba route.","desc":"At the Passover, Israel leaves Egypt and journeys to the sea &mdash; which God parts so they cross on dry ground while Pharaoh's army drowns behind them (Exodus 14), the great deliverance of the Old Testament. This map follows the view that the crossing was at the <b>Gulf of Aqaba</b> and that <b>Mount Sinai stood in Arabia</b> (Jebel al-Lawz &mdash; Paul calls it 'Mount Sinai in Arabia,' Galatians 4:25). From Sinai they go north to Kadesh, wander forty years, and reach the plains of Moab opposite Jericho. Scripture is certain that they crossed the sea; it does not fix the exact spot, and a traditional route instead places Sinai in the Sinai peninsula &mdash; careful readers hold both. Click any stop for its place in the story.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
 
 # 3. The Conquest (Canaan, three campaigns)
 geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
@@ -210,6 +228,7 @@ MAPS_JSON = json.dumps([{k: m[k] for k in ("id","label","blurb","desc","W","H","
 SECTIONS = "".join(
     f'<section class="mapsec" data-id="{m["id"]}" style="display:none">'
     f'<div class="blurb">{m["blurb"]}</div>'
+    + m.get("panel", "") +
     f'<div class="mapbox"><svg viewBox="0 0 {m["W"]} {m["H"]}" preserveAspectRatio="xMidYMid meet">'
     f'{m["geo"]}{m["overlay"]}<g class="pts"></g></svg><div class="info"></div></div></section>'
     for m in MAPS)
@@ -240,6 +259,18 @@ TEMPLATE = r"""<!DOCTYPE html>
   .tab:hover { background:rgba(196,164,74,.12); }
   .tab.active { color:#fff; background:var(--sepia); border-color:var(--sepia); }
   .blurb { text-align:center; font-style:italic; color:var(--sepia); font-size:14px; max-width:760px; margin:10px auto 12px; }
+  details.routes { max-width:900px; margin:4px auto 14px; background:rgba(255,252,245,.85); border:1px solid var(--land-line); border-left:4px solid #8B2A3A; border-radius:8px; padding:0 16px; }
+  details.routes > summary { cursor:pointer; padding:12px 0; font-family:'IM Fell English',serif; font-size:15px; color:var(--sepia); }
+  details.routes[open] > summary { border-bottom:1px solid var(--land-line); }
+  details.routes .rbody { padding:11px 0 14px; font-size:13.5px; line-height:1.6; color:#3A2A12; }
+  details.routes .rbody p { margin-bottom:9px; }
+  details.routes .rbody em { color:var(--sepia); font-style:italic; }
+  details.routes .ev { font-style:italic; color:var(--sepia-light); border-top:1px solid #E7DAC0; padding-top:9px; }
+  table.rtab { width:100%; border-collapse:collapse; margin:11px 0; font-size:12.5px; }
+  table.rtab th, table.rtab td { border:1px solid var(--land-line); padding:6px 9px; text-align:left; vertical-align:top; }
+  table.rtab th { background:rgba(196,164,74,.18); font-family:'IM Fell English',serif; color:var(--sepia); font-weight:normal; }
+  table.rtab td.q { color:var(--sepia); font-weight:600; }
+  @media (max-width:560px){ table.rtab{font-size:11px;} table.rtab th,table.rtab td{padding:4px 5px;} }
   .toolbar { display:flex; gap:8px; justify-content:center; margin:6px 0 10px; }
   .toolbar button { font-family:'IM Fell English',serif; font-size:13px; padding:4px 12px; border-radius:999px; cursor:pointer; border:1.5px solid var(--sepia-light); background:transparent; color:var(--sepia); }
   .toolbar button:hover { background:rgba(196,164,74,.15); }
