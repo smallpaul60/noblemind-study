@@ -30,6 +30,8 @@ loc.update({
     "dibon": (31.51, 35.78), "bethlehem": (31.70, 35.20), "riblah": (34.46, 36.55), "hazor": (33.02, 35.57),
     "carchemish": (36.83, 38.02), "egypt": (30.60, 31.30),
     "ai": (31.917, 35.262), "debir": (31.417, 34.99), "gilgal": (31.87, 35.50),
+    "etham": (29.9, 33.2), "pi-hahiroth": (29.03, 34.67), "jebel al-lawz": (28.60, 35.30),
+    "ezion-geber": (29.55, 34.97),
 })
 def C(n): return loc[n.lower()]
 
@@ -123,22 +125,27 @@ overlay = (labels_svg(P, [("MESOPOTAMIA",43,35,0),("CANAAN",35.2,32.6,0),("EGYPT
                             ("Tigris",43.6,34.2,-50),("Nile",31.3,28,-78),("Persian\nGulf",49,29.5,0),
                             ("Red Sea",35.2,26,-58)], "water-lbl")
            + route_svg(P, stops, "#9C6B1E"))
-MAPS.append({"id":"abraham","label":"Abraham's Journey","blurb":"From Ur of the Chaldeans to Haran, into Canaan, down to Egypt in a famine, and back — the journey of faith God called Abram to make (Genesis 11–25).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,stops,True)})
+MAPS.append({"id":"abraham","label":"Abraham's Journey","blurb":"From Ur of the Chaldeans to Haran, into Canaan, down to Egypt in a famine, and back — the journey of faith God called Abram to make (Genesis 11–25).","desc":"God calls Abram out of <b>Ur of the Chaldeans</b>, and he travels with his household up the Fertile Crescent to Haran, then down into <b>Canaan</b> &mdash; the land God promises to give his offspring. A famine drives him to Egypt and back; at last he settles by the oaks of Mamre at Hebron. So begins the family through whom 'all the families of the earth shall be blessed.' Click a stop to follow the journey (Genesis 11–25).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,stops,True)})
 
-# 2. Exodus
-geo, P, W, H = make_geo((30, 36.6, 27.4, 32.7), {"Nile"})
-stops = [("Rameses","Exodus 12:37"),("Succoth-egypt","Exodus 13:20"),("Marah","Exodus 15:23"),
-         ("Elim","Exodus 15:27"),("Rephidim","Exodus 17:1"),("Mount Sinai","Exodus 19:1"),
-         ("Kadesh-barnea","Numbers 13:26"),("Mount Nebo","Deuteronomy 34:1")]
-disp = {"Succoth-egypt":"Succoth"}
-overlay = (labels_svg(P, [("EGYPT",31.3,30.6,0),("SINAI",34,29.2,0),("CANAAN",35.1,31.8,0),
-                          ("MIDIAN",35.6,28.8,0)], "region")
+# 2. The Exodus (Gulf-of-Aqaba crossing; Mount Sinai in Arabia)
+geo, P, W, H = make_geo((30, 36.9, 27.0, 32.7), {"Nile"})
+stops = [("Rameses","Ex 12:37 — out of Egypt at the Passover"),
+         ("Succoth-egypt","Ex 13:20 — the first encampment"),
+         ("Etham","Ex 13:20 — on the edge of the wilderness"),
+         ("Pi-hahiroth","Ex 14 — hemmed in against the sea, where Israel crossed and Pharaoh's army drowned"),
+         ("Jebel al-Lawz","Ex 19 — Mount Sinai, where the Law was given (cf. Gal 4:25, 'Mount Sinai in Arabia')"),
+         ("Ezion-geber","Num 33:35 — at the head of the gulf, on the way north"),
+         ("Kadesh-barnea","Num 13 — the spies sent out; then forty years of wandering"),
+         ("Mount Nebo","Deut 34 — Moses sees the land he may not enter")]
+disp = {"Succoth-egypt":"Succoth","Jebel al-Lawz":"Mt. Sinai (Jebel al-Lawz)"}
+overlay = (labels_svg(P, [("EGYPT",31.3,30.6,0),("SINAI",33.6,29.5,0),("CANAAN",35.1,31.8,0),
+                          ("MIDIAN",36.1,28.7,0),("ARABIA",36.4,27.5,0)], "region")
            + labels_svg(P, [("The Great Sea",33.2,32.3,0),("Nile",31.2,29.4,-80),
-                            ("Red Sea",34.2,28.0,-40),("Gulf of\nSuez",32.7,28.7,-62),("Gulf of\nAqaba",34.9,28.7,-28)], "water-lbl")
+                            ("Red Sea",33.5,27.5,-40),("Gulf of\nSuez",32.7,28.6,-62),("Gulf of\nAqaba",34.9,29.4,-30)], "water-lbl")
            + route_svg(P, stops, "#8B2A3A"))
 pts = points_json(P, stops, True)
 for p in pts: p["name"] = disp.get(p["name"], p["name"])
-MAPS.append({"id":"exodus","label":"The Exodus","blurb":"Out of Egypt, through the sea, to Sinai and the law — then forty years in the wilderness to the edge of the promised land (Exodus–Deuteronomy).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
+MAPS.append({"id":"exodus","label":"The Exodus","blurb":"Out of Egypt, across the sea, to Mount Sinai and the Law — then forty years to the edge of the promised land. The crossing point is debated; this map follows the Gulf-of-Aqaba route.","desc":"At the Passover, Israel leaves Egypt and journeys to the sea &mdash; which God parts so they cross on dry ground while Pharaoh's army drowns behind them (Exodus 14), the great deliverance of the Old Testament. This map follows the view that the crossing was at the <b>Gulf of Aqaba</b> and that <b>Mount Sinai stood in Arabia</b> (Jebel al-Lawz &mdash; Paul calls it 'Mount Sinai in Arabia,' Galatians 4:25). From Sinai they go north to Kadesh, wander forty years, and reach the plains of Moab opposite Jericho. Scripture is certain that they crossed the sea; it does not fix the exact spot, and a traditional route instead places Sinai in the Sinai peninsula &mdash; careful readers hold both. Click any stop for its place in the story.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
 
 # 3. The Conquest (Canaan, three campaigns)
 geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
@@ -160,7 +167,7 @@ overlay = (labels_svg(P, [("CANAAN", 34.9, 33.2, 0), ("PHILISTIA", 34.5, 31.45, 
            + labels_svg(P, [("The Great Sea", 34.3, 32.5, -66), ("Sea of\nChinnereth", 35.75, 32.80, 0),
                             ("The Jordan", 35.40, 32.0, -74), ("The Salt Sea", 35.47, 31.45, -80)], "water-lbl")
            + route_svg(P, central, "#8B2A3A") + route_svg(P, southern, "#2B5C86") + route_svg(P, northern, "#2E6B43"))
-MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the Jordan and takes the land in three thrusts — a central campaign in red (Jericho, Ai, Gibeon), a southern campaign in blue (down to Hebron and Debir), and a northern campaign in green (Hazor) — then the land is divided among the tribes at Shiloh (Joshua 1–21).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cqcities,False)})
+MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the Jordan and takes the land in three thrusts — a central campaign in red (Jericho, Ai, Gibeon), a southern campaign in blue (down to Hebron and Debir), and a northern campaign in green (Hazor) — then the land is divided among the tribes at Shiloh (Joshua 1–21).","desc":"Under Joshua, Israel crosses the Jordan on dry ground and takes the land in three campaigns &mdash; a <b>central</b> thrust (Jericho, then Ai, then the Gibeonite alliance), a <b>southern</b> sweep (Lachish, Debir, Hebron), and a <b>northern</b> strike (Hazor) &mdash; though much land still remained. The covenant is renewed at Shechem between Mounts Ebal and Gerizim, and at <b>Shiloh</b> the tabernacle is set up and the land divided among the twelve tribes (Joshua 1–21).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cqcities,False)})
 
 # 4. Divided Kingdom (region)
 geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
@@ -181,7 +188,7 @@ overlay = (labels_svg(P, [("ISRAEL",34.95,32.45,0),("JUDAH",34.98,31.45,0),("PHI
            + bdy_svg
            + labels_svg(P, [("The Great Sea",34.3,32.5,-66),("Sea of\nChinnereth",35.75,32.80,0),
                             ("The Jordan",35.40,32.0,-74),("The Salt Sea",35.47,31.45,-80)], "water-lbl"))
-MAPS.append({"id":"kingdom","label":"The Divided Kingdom","blurb":"After Solomon the kingdom split — Israel in the north (capital Samaria) and Judah in the south (capital Jerusalem) — among the surrounding nations (1 Kings 12 onward).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cities,False)})
+MAPS.append({"id":"kingdom","label":"The Divided Kingdom","blurb":"After Solomon the kingdom split — Israel in the north (capital Samaria) and Judah in the south (capital Jerusalem) — among the surrounding nations (1 Kings 12 onward).","desc":"After Solomon's death the kingdom tears in two: ten tribes form <b>Israel</b> in the north (its capital finally Samaria), while Judah and Benjamin remain in the south around <b>Jerusalem</b>. The two kingdoms stand among watchful neighbors &mdash; Aram, Phoenicia, Philistia, Ammon, Moab, Edom &mdash; through the long line of kings and prophets, until Israel falls to Assyria and, later, Judah to Babylon (1 Kings 12 onward).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cities,False)})
 
 # 4. Exile & Return (Fertile Crescent, two routes)
 geo, P, W, H = make_geo((29, 48, 24, 38), {"Euphrates", "Tigris", "Nile"})
@@ -197,9 +204,9 @@ pts = points_json(P, judah, True)
 for nm, note in [("Samaria","The north exiled to Assyria, 722 BC"),("Nineveh","Capital of Assyria")]:
     lat, lon = C(nm); x, y = P(lon, lat)
     pts.append({"name": nm, "x": x, "y": y, "note": note, "key": 0})
-MAPS.append({"id":"exile","label":"The Exile & Return","blurb":"Judah carried to Babylon and, seventy years later, the remnant's return to rebuild Jerusalem (red, with the dashed return). The northern kingdom had earlier been swept to Assyria (blue). — 2 Kings 17, 25; Ezra.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
+MAPS.append({"id":"exile","label":"The Exile & Return","blurb":"Judah carried to Babylon and, seventy years later, the remnant's return to rebuild Jerusalem (red, with the dashed return). The northern kingdom had earlier been swept to Assyria (blue). — 2 Kings 17, 25; Ezra.","desc":"Israel in the north is carried off to <b>Assyria</b> (722 BC); Judah, after Jerusalem's fall, is taken to <b>Babylon</b> (586 BC) &mdash; both deported along the Fertile Crescent, not straight across the desert. Seventy years later a remnant returns from Babylon to rebuild the temple and the city walls (the dashed line). 2 Kings 17 &amp; 25; Ezra; Nehemiah.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
 
-MAPS_JSON = json.dumps([{k: m[k] for k in ("id","label","blurb","W","H","points")} for m in MAPS], ensure_ascii=False)
+MAPS_JSON = json.dumps([{k: m[k] for k in ("id","label","blurb","desc","W","H","points")} for m in MAPS], ensure_ascii=False)
 SECTIONS = "".join(
     f'<section class="mapsec" data-id="{m["id"]}" style="display:none">'
     f'<div class="blurb">{m["blurb"]}</div>'
@@ -254,10 +261,14 @@ TEMPLATE = r"""<!DOCTYPE html>
   .pt text.num { fill:#fff; font-family:'IM Fell English',serif; font-size:9px; text-anchor:middle; pointer-events:none; }
   .pt text.lbl { font-family:'Crimson Text',serif; font-size:11px; fill:var(--ink); paint-order:stroke; stroke:var(--parchment); stroke-width:2.6px; stroke-linejoin:round; pointer-events:none; }
   .pt.key text.lbl { font-weight:600; }
-  .info { position:absolute; left:10px; bottom:10px; max-width:290px; background:rgba(255,252,245,.97); border:1.5px solid var(--gold); border-radius:8px; padding:9px 12px; font-size:13px; box-shadow:0 2px 10px rgba(42,26,5,.18); display:none; }
-  .info.show { display:block; }
-  .info h3 { font-family:'IM Fell English',serif; color:var(--sepia); font-size:15px; }
+  .crossing { fill:#8B2A3A; font-family:'IM Fell English',serif; font-style:italic; font-size:11px; text-anchor:middle; pointer-events:none; }
+  .info { position:absolute; left:10px; bottom:10px; width:300px; max-width:44%; max-height:64%; overflow:auto; background:rgba(255,252,245,.97); border:1.5px solid var(--gold); border-radius:8px; padding:11px 14px; font-size:13px; line-height:1.55; box-shadow:0 2px 10px rgba(42,26,5,.18); }
+  .info h3 { font-family:'IM Fell English',serif; color:var(--sepia); font-size:16px; margin-bottom:3px; }
+  .info .desc { color:#3A2A12; }
+  .info .desc b { color:var(--sepia); font-weight:600; }
   .info .n { margin-top:2px; font-style:italic; color:#3A2A12; }
+  .info .back { display:inline-block; margin-top:8px; font-size:12px; color:var(--sepia); cursor:pointer; border-bottom:1px dotted var(--sepia-light); }
+  @media (max-width:560px) { .info { width:auto; right:10px; max-height:42%; } }
   .hint { text-align:center; font-size:12px; color:var(--sepia-light); font-style:italic; margin-top:10px; }
   footer { text-align:center; font-size:11.5px; color:#5A5A5A; font-style:italic; margin-top:18px; line-height:1.7; }
   footer a { color:inherit; }
@@ -309,10 +320,13 @@ function placeLabels(g, pts, FW, color) {
     g.appendChild(el);
   });
 }
+function setMapInfo(sec) {
+  const m = byId[sec.dataset.id];
+  sec.querySelector('.info').innerHTML = `<h3>${m.label}</h3><div class="desc">${m.desc || m.blurb}</div>`;
+}
 function showInfo(sec, s) {
-  const info = sec.querySelector('.info');
-  info.innerHTML = `<h3>${(s.n!=null?s.n+'. ':'')}${s.name}</h3><div class="n">${s.note||''}</div>`;
-  info.classList.add('show');
+  sec.querySelector('.info').innerHTML = `<h3>${(s.n!=null?s.n+'. ':'')}${s.name}</h3><div class="n">${s.note||''}</div><span class="back">&lsaquo; overview</span>`;
+  sec.querySelector('.back').addEventListener('click', () => setMapInfo(sec));
 }
 
 // vector zoom/pan per svg
@@ -337,7 +351,7 @@ function initZoom(svg, FW, FH) {
     const mx=(e.touches[0].clientX+e.touches[1].clientX)/2, my=(e.touches[0].clientY+e.touches[1].clientY)/2;
     if(pinch){ const p=c2s(mx,my); st.zoomAt(p.x,p.y,pinch/d); } pinch=d; }, {passive:false});
   svg.addEventListener('touchend', ()=>pinch=null);
-  svg.closest('.mapbox').addEventListener('click', ()=>{ if(!moved) svg.closest('.mapsec').querySelector('.info').classList.remove('show'); });
+  svg.closest('.mapbox').addEventListener('click', ()=>{ if(!moved) setMapInfo(svg.closest('.mapsec')); });
 }
 
 // build each map's points + zoom
@@ -346,6 +360,7 @@ document.querySelectorAll('.mapsec').forEach(sec => {
   const color = m.points.find(p=>p.n!=null) ? '#6B4C1A' : '#6B4C1A';
   placeLabels(sec.querySelector('.pts'), m.points, m.W, getComputedStyle(document.documentElement).getPropertyValue('--sepia')||'#6B4C1A');
   initZoom(svg, m.W, m.H);
+  setMapInfo(sec);
 });
 // route stop numbers should match route colour — recolor numbg per map
 const ROUTECOL = {abraham:'#9C6B1E', exodus:'#8B2A3A', exile:'#8B2A3A'};
