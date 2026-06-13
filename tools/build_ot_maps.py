@@ -91,13 +91,15 @@ def make_geo(bbox, rivers_named, relief=None):
         svg = grp(land, "land") + grp(lakes, "water") + grp(rivers, "river")
     return svg, proj, round(W), round(H)
 
-def labels_svg(proj, items, cls):  # items: (text, lon, lat, rot)
+def labels_svg(proj, items, cls):  # items: (text, lon, lat, rot[, font-size])
     out = []
-    for txt, lon, lat, rot in items:
+    for it in items:
+        txt, lon, lat, rot = it[:4]; size = it[4] if len(it) > 4 else None
         x, y = proj(lon, lat)
         lines = txt.split("\n")
         ts = "".join(f'<tspan x="{x}" dy="{0 if i==0 else 13}">{ln}</tspan>' for i, ln in enumerate(lines))
-        out.append(f'<text class="{cls}" transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
+        fs = f' font-size="{size}"' if size else ""
+        out.append(f'<text class="{cls}"{fs} transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
     return "".join(out)
 
 def route_svg(proj, stops, color, ret=False):
@@ -127,7 +129,7 @@ stops = [("Ur","Genesis 11:31"),("Haran","Genesis 12:4"),("Shechem","Genesis 12:
          ("Bethel","Genesis 12:8"),("Egypt","Genesis 12:10"),("Hebron","Genesis 13:18"),("Beersheba","Genesis 21:33")]
 overlay = (labels_svg(P, [("MESOPOTAMIA",43,35,0),("CANAAN",35.2,32.6,0),("EGYPT",31,29,0),
                           ("ARABIAN DESERT",40,28.5,0)], "region")
-           + labels_svg(P, [("The Great Sea",33,33.5,0),("Euphrates",41.5,33.6,-32),
+           + labels_svg(P, [("The Great Sea",33,33.5,0,17),("Euphrates",41.5,33.6,-32),
                             ("Tigris",43.6,34.2,-50),("Nile",31.3,28,-78),("Persian\nGulf",49,29.5,0),
                             ("Red Sea",35.2,26,-58)], "water-lbl")
            + route_svg(P, stops, "#9C6B1E"))
@@ -171,7 +173,7 @@ exo_route = [C("Rameses"), C("Succoth-egypt"), C("Etham"), C("Pi-hahiroth"),
 exo_poly = " ".join(f"{P(lo, la)[0]},{P(lo, la)[1]}" for la, lo in exo_route)
 overlay = (labels_svg(P, [("EGYPT",31.3,30.6,0),("SINAI",33.6,29.5,0),("CANAAN",35.1,31.8,0),
                           ("MIDIAN",36.1,28.7,0),("ARABIA",36.4,27.5,0)], "region")
-           + labels_svg(P, [("The Great Sea",33.2,32.3,0),("Nile",31.2,29.4,-80),
+           + labels_svg(P, [("The Great Sea",33.2,32.3,0,17),("Nile",31.2,29.4,-80),
                             ("Red Sea",33.5,27.5,-40),("Gulf of\nSuez",32.7,28.6,-62),("Gulf of\nAqaba",34.9,29.4,-30)], "water-lbl")
            + f'<polyline class="route" points="{exo_poly}" stroke="#8B2A3A"/>')
 pts = points_json(P, stops, True)
@@ -195,7 +197,7 @@ cqcities = [("Gilgal", 0, "The camp by the Jordan; the twelve stones"),
             ("Shiloh", 1, "The tabernacle set up; the land divided")]
 overlay = (labels_svg(P, [("CANAAN", 34.9, 33.2, 0), ("PHILISTIA", 34.5, 31.45, 0),
                           ("AMMON", 36.05, 31.95, 0), ("MOAB", 35.75, 31.3, 0)], "region")
-           + labels_svg(P, [("The Great Sea", 34.3, 32.5, -66), ("Sea of\nChinnereth", 35.75, 32.80, 0),
+           + labels_svg(P, [("The Great Sea",34.3,32.5,-66,17), ("Sea of\nChinnereth", 35.75, 32.80, 0),
                             ("The Jordan", 35.40, 32.0, -74), ("The Salt Sea", 35.47, 31.45, -80)], "water-lbl")
            + route_svg(P, central, "#8B2A3A") + route_svg(P, southern, "#2B5C86") + route_svg(P, northern, "#2E6B43"))
 MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the Jordan and takes the land in three thrusts — a central campaign in red (Jericho, Ai, Gibeon), a southern campaign in blue (down to Hebron and Debir), and a northern campaign in green (Hazor) — then the land is divided among the tribes at Shiloh (Joshua 1–21).","desc":"Under Joshua, Israel crosses the Jordan on dry ground and takes the land in three campaigns &mdash; a <b>central</b> thrust (Jericho, then Ai, then the Gibeonite alliance), a <b>southern</b> sweep (Lachish, Debir, Hebron), and a <b>northern</b> strike (Hazor) &mdash; though much land still remained. The covenant is renewed at Shechem between Mounts Ebal and Gerizim, and at <b>Shiloh</b> the tabernacle is set up and the land divided among the twelve tribes (Joshua 1–21).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cqcities,False)})
@@ -203,7 +205,9 @@ MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the 
 # 4. Divided Kingdom (region)
 geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"}, relief="relief-canaan.jpg")
 bdy = [[(34.92,31.90),(35.18,31.86),(35.40,31.84),(35.55,31.83)]]  # Israel | Judah (approx)
-bdy_svg = "".join('<polyline class="bdy" points="%s"/>' % " ".join(f"{P(lo,la)[0]},{P(lo,la)[1]}" for lo,la in line) for line in bdy)
+bdy_svg = "".join(
+    ('<polyline class="bdy-casing" points="%s"/><polyline class="bdy" points="%s"/>' % (pts, pts))
+    for pts in (" ".join(f"{P(lo,la)[0]},{P(lo,la)[1]}" for lo,la in line) for line in bdy))
 cities = [("Dan",0,"Israel's northern shrine"),("Hazor",0,"A fortified city of the north"),
           ("Megiddo",0,"Guarding the Jezreel pass"),("Jezreel",0,"Ahab and Jezebel's city"),
           ("Samaria",1,"Capital of the northern kingdom, Israel"),("Shechem",0,"Where the kingdom divided"),
@@ -217,7 +221,7 @@ overlay = (labels_svg(P, [("ISRAEL",34.95,32.45,0),("JUDAH",34.98,31.45,0),("PHI
                           ("AMMON",36.05,31.95,0),("MOAB",35.75,31.30,0),("EDOM",35.15,30.30,0),
                           ("ARAM",36.45,33.30,0),("PHOENICIA",35.30,33.45,0)], "region")
            + bdy_svg
-           + labels_svg(P, [("The Great Sea",34.3,32.5,-66),("Sea of\nChinnereth",35.75,32.80,0),
+           + labels_svg(P, [("The Great Sea",34.3,32.5,-66,17),("Sea of\nChinnereth",35.75,32.80,0),
                             ("The Jordan",35.40,32.0,-74),("The Salt Sea",35.47,31.45,-80)], "water-lbl"))
 MAPS.append({"id":"kingdom","label":"The Divided Kingdom","blurb":"After Solomon the kingdom split — Israel in the north (capital Samaria) and Judah in the south (capital Jerusalem) — among the surrounding nations (1 Kings 12 onward).","desc":"After Solomon's death the kingdom tears in two: ten tribes form <b>Israel</b> in the north (its capital finally Samaria), while Judah and Benjamin remain in the south around <b>Jerusalem</b>. The two kingdoms stand among watchful neighbors &mdash; Aram, Phoenicia, Philistia, Ammon, Moab, Edom &mdash; through the long line of kings and prophets, until Israel falls to Assyria and, later, Judah to Babylon (1 Kings 12 onward).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cities,False)})
 
@@ -227,7 +231,7 @@ judah = [("Jerusalem","2 Kings 25"),("Riblah","2 Kings 25:6"),("Carchemish","Jer
 israel = [("Samaria","2 Kings 17:6"),("Carchemish",""),("Nineveh","2 Kings 17:6")]
 overlay = (labels_svg(P, [("BABYLONIA",44.5,32,0),("ASSYRIA",43,35.5,0),("JUDAH",35.0,31.6,0),
                           ("ARABIAN DESERT",40,28.5,0)], "region")
-           + labels_svg(P, [("The Great Sea",33,33.5,0),("Euphrates",41.5,33.6,-32),("Tigris",43.6,34.2,-50)], "water-lbl")
+           + labels_svg(P, [("The Great Sea",33,33.5,0,17),("Euphrates",41.5,33.6,-32),("Tigris",43.6,34.2,-50)], "water-lbl")
            + route_svg(P, judah, "#8B2A3A", ret=True)
            + route_svg(P, israel, "#2B5C86"))
 pts = points_json(P, judah, True)
@@ -295,7 +299,8 @@ TEMPLATE = r"""<!DOCTYPE html>
   .river { fill:none; stroke:var(--water-line); stroke-width:1.6; stroke-linejoin:round; stroke-linecap:round; }
   .route { fill:none; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; opacity:.9; }
   .route.ret { stroke-dasharray:2 8; opacity:.5; }
-  .bdy { fill:none; stroke:var(--sepia-light); stroke-width:1; stroke-dasharray:5 5; opacity:.55; }
+  .bdy-casing { fill:none; stroke:#F5EDD6; stroke-width:3.6; stroke-dasharray:7 5; opacity:.55; stroke-linecap:round; }
+  .bdy { fill:none; stroke:#1a1a1a; stroke-width:1.8; stroke-dasharray:7 5; opacity:.9; stroke-linecap:round; }
   .region { fill:var(--sepia); font-family:'IM Fell English',serif; font-size:15px; letter-spacing:2px; text-anchor:middle; opacity:.5; text-transform:uppercase; pointer-events:none; paint-order:stroke; stroke:var(--parchment); stroke-width:3px; stroke-linejoin:round; }
   .water-lbl { fill:#3f6168; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.92; pointer-events:none; paint-order:stroke; stroke:var(--parchment); stroke-width:2.4px; stroke-linejoin:round; }
   .pt { cursor:pointer; }

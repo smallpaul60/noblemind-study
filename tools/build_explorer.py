@@ -75,10 +75,12 @@ if os.path.exists(os.path.join(os.path.dirname(OUT), RELIEF)):
 
 def lblsvg(items, cls):
     out = []
-    for txt, lon, lat, rot in items:
+    for it in items:
+        txt, lon, lat, rot = it[:4]; size = it[4] if len(it) > 4 else None
         x, y = proj(lon, lat)
         ts = "".join(f'<tspan x="{x}" dy="{0 if i==0 else 13}">{ln}</tspan>' for i, ln in enumerate(txt.split("\n")))
-        out.append(f'<text class="{cls}" transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
+        fs = f' font-size="{size}"' if size else ""
+        out.append(f'<text class="{cls}"{fs} transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
     return "".join(out)
 
 REGIONS = [("EGYPT",31,27.5,0),("ARABIA",43,26,0),("CANAAN",35.2,32,0),("PHOENICIA",35.5,34,0),
@@ -87,8 +89,8 @@ REGIONS = [("EGYPT",31,27.5,0),("ARABIA",43,26,0),("CANAAN",35.2,32,0),("PHOENIC
            ("GALATIA",33.5,39.7,0),("CILICIA",34.5,37,0),("CAPPADOCIA",36,38.7,0),("PHRYGIA",30.5,38.5,0),
            ("LYDIA",28,38.4,0),("GREECE",22.3,39,0),("MACEDONIA",22.5,41,0),("ACHAIA",22.2,38,0),
            ("ITALY",13.5,42,0),("CYPRUS",33,34.95,0),("CRETE",25,34.85,0),("LIBYA",18,30,0),("CUSH",33,22.5,0)]
-WATERS = [("The Great Sea",19,34,-8),("Red Sea",37,24.5,-52),("Persian\nGulf",49.5,28.5,0),
-          ("Black Sea",34,43,0),("Caspian\nSea",50,40,0),("Nile",31.2,27,-80),
+WATERS = [("The Great Sea",19,34,-8,22),("Red Sea",37,24.5,-52,15),("Persian\nGulf",49.5,28.5,0),
+          ("Black Sea",34,43,0,15),("Caspian\nSea",50,40,0),("Nile",31.2,27,-80),
           ("Euphrates",42,34,-30),("Tigris",44,34.5,-46),("The Jordan",35.62,32.15,0),
           ("Sea of Galilee",35.85,32.82,0),("Salt Sea",35.7,31.5,0)]
 REGION_SVG = lblsvg(REGIONS, "region")

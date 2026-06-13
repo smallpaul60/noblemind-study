@@ -76,15 +76,17 @@ if os.path.exists(os.path.join(os.path.dirname(OUT), RELIEF)):
 
 def lblsvg(items, cls):
     out = []
-    for txt, lon, lat, rot in items:
+    for it in items:
+        txt, lon, lat, rot = it[:4]; size = it[4] if len(it) > 4 else None
         x, y = proj(lon, lat)
         ts = "".join(f'<tspan x="{x}" dy="{0 if i==0 else 12}">{ln}</tspan>' for i, ln in enumerate(txt.split("\n")))
-        out.append(f'<text class="{cls}" transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
+        fs = f' font-size="{size}"' if size else ""
+        out.append(f'<text class="{cls}"{fs} transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
     return "".join(out)
 
 REGIONS = [("GALILEE", 35.35, 32.78, 0), ("SAMARIA", 35.25, 32.25, 0), ("JUDEA", 35.05, 31.62, 0),
            ("IDUMEA", 34.95, 31.05, 0), ("PHILISTIA", 34.4, 31.5, 0), ("EGYPT", 31.3, 30.55, 0)]
-WATERS = [("The Great Sea", 33.3, 32.4, -18), ("The Jordan", 35.55, 32.05, -76),
+WATERS = [("The Great Sea", 33.3, 32.4, -18, 16), ("The Jordan", 35.55, 32.05, -76),
           ("The Salt Sea", 35.42, 31.42, -82), ("Nile", 31.15, 30.0, -78)]
 REGION_SVG = lblsvg(REGIONS, "region")
 WATER_SVG = lblsvg(WATERS, "water-lbl")

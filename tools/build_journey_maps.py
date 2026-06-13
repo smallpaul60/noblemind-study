@@ -186,9 +186,11 @@ def lblsvg(items, cls):
     out = []
     for it in items:
         txt, lon, lat = it[0], it[1], it[2]; rot = it[3] if len(it) > 3 else 0
+        size = it[4] if len(it) > 4 else None
         x, y = proj(lon, lat)
         ts = "".join(f'<tspan x="{x}" dy="{0 if i == 0 else 12}">{ln}</tspan>' for i, ln in enumerate(txt.split("\n")))
-        out.append(f'<text class="{cls}" transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
+        fs = f' font-size="{size}"' if size else ""
+        out.append(f'<text class="{cls}"{fs} transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
     return "".join(out)
 
 REGIONS = [
@@ -198,8 +200,8 @@ REGIONS = [
     ("SYRIA", 37.1, 35.0), ("CYPRUS", 33.2, 34.95), ("CRETE", 24.9, 34.85), ("JUDEA", 35.25, 31.4), ("EGYPT", 30.5, 30.2),
 ]
 WATERS = [
-    ("The Great Sea", 18.5, 33.6, -10), ("Aegean\nSea", 24.8, 38.3, 0), ("Adriatic\nSea", 16.6, 41.0, -58),
-    ("Black Sea", 32.5, 42.4, 0), ("Nile", 30.9, 29.6, -80),
+    ("The Great Sea", 18.5, 33.6, -10, 20), ("Aegean\nSea", 24.8, 38.3, 0, 15), ("Adriatic\nSea", 16.6, 41.0, -58, 15),
+    ("Black Sea", 32.5, 42.4, 0, 15), ("Nile", 30.9, 29.6, -80),
 ]
 CONTEXT = [("Tarsus", "Paul's home city (Acts 9:11; 21:39)"),
            ("Alexandria", "Home port of the grain ship that carried Paul toward Rome (Acts 27:6)")]

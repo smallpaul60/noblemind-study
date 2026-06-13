@@ -139,22 +139,24 @@ def bounds_svg():
     out = []
     for line in BOUNDS:
         pts = " ".join(f"{proj(lo,la)[0]},{proj(lo,la)[1]}" for lo, la in line)
-        out.append(f'<polyline class="bdy" points="{pts}"/>')
+        out.append(f'<polyline class="bdy-casing" points="{pts}"/><polyline class="bdy" points="{pts}"/>')
     return "".join(out)
 BOUNDARIES = bounds_svg()
 
 # ---- water labels (lon, lat, text, rotation) ----
 WATER_LABELS = [
-    ("The Great Sea", 34.25, 32.45, -68), ("Sea of\nGalilee", 35.72, 32.79, 0),
+    ("The Great Sea", 34.25, 32.45, -68, 16), ("Sea of\nGalilee", 35.72, 32.79, 0),
     ("The Jordan", 35.40, 32.05, -74), ("The Salt Sea", 35.47, 31.45, -80),
 ]
 def water_lbl_svg():
     out = []
-    for txt, lon, lat, rot in WATER_LABELS:
+    for it in WATER_LABELS:
+        txt, lon, lat, rot = it[:4]; size = it[4] if len(it) > 4 else None
         x, y = proj(lon, lat)
         lines = txt.split("\n")
         tspans = "".join(f'<tspan x="{x}" dy="{0 if i==0 else 13}">{ln}</tspan>' for i, ln in enumerate(lines))
-        out.append(f'<text class="water-lbl" transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{tspans}</text>')
+        fs = f' font-size="{size}"' if size else ""
+        out.append(f'<text class="water-lbl"{fs} transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{tspans}</text>')
     return "".join(out)
 WATER_LABELS_SVG = water_lbl_svg()
 
@@ -219,7 +221,8 @@ TEMPLATE = r"""<!DOCTYPE html>
   .land { fill:var(--land); stroke:var(--land-line); stroke-width:0.8; stroke-linejoin:round; }
   .water { fill:var(--water); stroke:var(--water-line); stroke-width:0.6; }
   .river { fill:none; stroke:var(--water-line); stroke-width:1.8; stroke-linejoin:round; stroke-linecap:round; }
-  .bdy { fill:none; stroke:var(--sepia-light); stroke-width:1; stroke-dasharray:5 5; opacity:.55; }
+  .bdy-casing { fill:none; stroke:#F5EDD6; stroke-width:3.6; stroke-dasharray:7 5; opacity:.55; stroke-linecap:round; }
+  .bdy { fill:none; stroke:#1a1a1a; stroke-width:1.8; stroke-dasharray:7 5; opacity:.9; stroke-linecap:round; }
   .region { fill:var(--sepia); font-family:'IM Fell English',serif; font-size:15px; letter-spacing:2px; text-anchor:middle; opacity:.42; text-transform:uppercase; pointer-events:none; }
   .water-lbl { fill:#5a7a80; font-family:'IM Fell English',serif; font-style:italic; font-size:12px; text-anchor:middle; opacity:.85; pointer-events:none; }
   .city { cursor:pointer; }
