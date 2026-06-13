@@ -102,14 +102,37 @@ def build_relief(bbox, zoom, out_path, out_w=1500):
     hs = (math.sin(alt) * np.cos(slope) + math.cos(alt) * np.sin(slope) * np.cos(az - aspect))
     hs = np.clip(hs, 0, 1)
 
-    # ----- water = the real OCEAN (flood-filled from the map edges, so the
-    # below-sea-level Jordan Rift is NOT painted as sea) + the named inland
-    # lakes drawn to their true outline (Dead Sea, Sea of Galilee). -----
+    # ----- water = the real OCEAN + the named inland lakes drawn to their true
+    # outline (Dead Sea, Sea of Galilee). The ocean is the below-sea-level
+    # region that connects to a KNOWN sea point (Mediterranean / Red Sea /
+    # the two gulfs) — NOT merely any below-sea-level region touching the map
+    # edge. That distinction matters: the Jordan Rift floor stays below sea
+    # level as it runs north off the top of the frame, so an edge-touch test
+    # wrongly floods the whole rift (and the Dead Sea) as sea. Seeding from
+    # real sea leaves the rift as land; only the lake outline draws as water. -----
     import scipy.ndimage as ndi
     sea = elev <= 0
     lbl, _ = ndi.label(sea)
-    border = (set(lbl[0, :]) | set(lbl[-1, :]) | set(lbl[:, 0]) | set(lbl[:, -1])) - {0}
-    ocean = np.isin(lbl, list(border))
+    # known open-sea seed points (lon, lat): Mediterranean, Red Sea,
+    # Gulf of Suez, Gulf of Aqaba
+    seeds = [(30.7, 32.4), (34.2, 27.2), (33.1, 28.6), (34.7, 28.9)]
+    ocean_lbls = set()
+    for slon, slat in seeds:
+        px = int((slon - lon0) / (lon1 - lon0) * out_w)
+        py = int((lat1 - slat) / (lat1 - lat0) * out_h)
+        px = min(max(px, 0), out_w - 1); py = min(max(py, 0), out_h - 1)
+        L = lbl[py, px]
+        if not L:  # snap to nearest sea pixel in a small window
+            for rad in range(1, 25):
+                ys = slice(max(py - rad, 0), py + rad + 1); xs = slice(max(px - rad, 0), px + rad + 1)
+                win = lbl[ys, xs]
+                if win.any():
+                    L = win[win > 0].flat[0] if (win > 0).any() else 0
+                    if L:
+                        break
+        if L:
+            ocean_lbls.add(int(L))
+    ocean = np.isin(lbl, list(ocean_lbls))
     water = ocean | rasterize_lakes(bbox, out_w, out_h)
 
     img = np.zeros((out_h, out_w, 3), float)
