@@ -126,6 +126,26 @@ SPOKES = [
         "subtitle": "From Creation to Malachi — The Unfolding of God’s Plan",
         "date_range": "c. 4000 BC – c. 400 BC",
     },
+    {
+        "kind": "gospel",
+        "dir": "the-life-of-christ",
+        "source": "index.html",
+        "events_var": "EVENTS",
+        "output": "The_Life_of_Christ_Timeline.pdf",
+        "title": "The Life of Christ",
+        "subtitle": "Emmanuel — God With Us · The Four Gospels, Side by Side",
+        "date_range": "c. 5 BC – c. AD 31",
+    },
+    {
+        "kind": "acts",
+        "dir": "the-church-christ-built",
+        "source": "index.html",
+        "events_var": "EVENTS",
+        "output": "The_Church_Christ_Built_Timeline.pdf",
+        "title": "The Church Christ Built",
+        "subtitle": "The Acts of the Apostles — From Jerusalem to the Ends of the Earth",
+        "date_range": "c. AD 31 – c. AD 62",
+    },
 ]
 
 
@@ -140,18 +160,23 @@ const fs = require('fs');
 const html = fs.readFileSync(process.argv[1], 'utf8');
 const varName = process.argv[2];
 
-// Pre-define DEEPDIVE_* and BOOK_* constants so references inside the events array resolve.
+// Real DEEPDIVE_*/BOOK_* objects the events reference by name go in a sandbox.
+const sandbox = {};
 const constPattern = /const ((?:DEEPDIVE|BOOK)_[A-Z_]+) = (\\{[^}]*\\});/g;
-let preamble = '';
 let m1;
 while ((m1 = constPattern.exec(html)) !== null) {
-  preamble += 'const ' + m1[1] + ' = ' + m1[2] + ';\\n';
+  try { sandbox[m1[1]] = eval('(' + m1[2] + ')'); } catch (e) {}
 }
 
 const pattern = new RegExp('const ' + varName + ' = (\\\\[[\\\\s\\\\S]*?\\\\n\\\\]);');
 const m = html.match(pattern);
 if (!m) { process.stdout.write('null'); process.exit(0); }
-const data = eval(preamble + m[1]);
+
+// Any other bare identifier the array references (e.g. PROPHECIES) resolves to
+// undefined instead of throwing — those fields are not used by the PDF.
+const proxy = new Proxy(sandbox, { has: (t, k) => typeof k === 'string' && /^[A-Z]/.test(k), get: (t, k) => (k in t ? t[k] : undefined) });
+let data;
+with (proxy) { data = eval(m[1]); }
 process.stdout.write(JSON.stringify(data));
 """
     result = subprocess.run(
@@ -327,6 +352,22 @@ body {{
   margin-top: 5pt;
 }}
 .event-detail p {{ margin: 0 0 5pt 0; }}
+.event-note {{
+  margin-top: 6pt;
+  font-size: 9pt;
+  line-height: 1.5;
+  color: {SEPIA};
+  font-style: italic;
+}}
+.event-note p {{ margin: 0; }}
+.phase-dates {{
+  display: inline-block;
+  margin-left: 8pt;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 9pt;
+  color: {SEPIA_LIGHT};
+}}
 .event-secondary {{
   margin-top: 6pt;
   padding: 6pt 9pt;
@@ -470,6 +511,15 @@ def title_page(spoke):
         note = ("One hundred fifteen events across thirteen phases. Structural framework drawn "
                 "from Bob Waldron's teaching. Hebrew Masoretic chronology with the Exodus at "
                 "1446 BC; pre-patriarchal dates use the broader Ussher-style framework.")
+    elif spoke["kind"] == "gospel":
+        note = ("A harmony of all four Gospels in one sequence — every event marked with the "
+                "Gospel or Gospels that record it. Where the order or the date is uncertain, the "
+                "online timeline says so; this print version follows the same best-effort "
+                "chronology, not a forced precision.")
+    elif spoke["kind"] == "acts":
+        note = ("The book of Acts in order — the gospel moving outward from Jerusalem to Rome in "
+                "the three rings of Acts 1:8. Where a New Testament letter was written along the "
+                "way, the online timeline marks it; consult it online for those cross-references.")
 
     site_path = spoke.get("dir", "apostle-paul") + "/"
     return f"""<div class="title-page">
@@ -497,10 +547,18 @@ def render_event(event, types_map):
         )
     if event.get("title"):
         parts.append(f'<div class="event-title">{event["title"]}</div>')
-    if event.get("ref"):
-        parts.append(f'<div class="event-ref">&#128214; {event["ref"]}</div>')
+    # Reference: an explicit `ref`, or build one from a Gospels map
+    # (Life-of-Christ events carry gospels: {matthew:'1:1', luke:'3:23'}).
+    ref = event.get("ref")
+    if not ref and event.get("gospels"):
+        gnames = {"matthew": "Matthew", "mark": "Mark", "luke": "Luke", "john": "John"}
+        ref = " &middot; ".join(f'{gnames.get(k, k.title())} {v}' for k, v in event["gospels"].items())
+    if ref:
+        parts.append(f'<div class="event-ref">&#128214; {ref}</div>')
     if event.get("detail"):
         parts.append(f'<div class="event-detail"><p>{event["detail"]}</p></div>')
+    if event.get("note"):
+        parts.append(f'<div class="event-note"><p>{event["note"]}</p></div>')
     if event.get("secondary"):
         parts.append(f'<div class="event-secondary">{event["secondary"]}</div>')
     # Accept either deepDive (single) or deepDives (array)
@@ -522,7 +580,7 @@ def render_event(event, types_map):
 
 def render_chronological(spoke):
     source = spoke_dir(spoke) / spoke["source"]
-    events = extract_js_array(source, "events")
+    events = extract_js_array(source, spoke.get("events_var", "events"))
     phases = extract_js_array(source, "PHASES") or []
     # Some pages name it PHASE_LABELS instead (Life timeline)
     phase_labels = extract_js_array(source, "PHASE_LABELS") or []
@@ -556,7 +614,7 @@ def render_chronological(spoke):
                 )
                 last_phase = phase_idx
             body_parts.append(render_event(ev, types_map))
-    elif phases:
+    elif phases and "before" in phases[0]:
         # Spoke-style: phases have explicit `before` index
         # Index events; insert phase header before each `before` index
         phases_by_before = {p["before"]: p["label"] for p in phases}
@@ -565,6 +623,22 @@ def render_chronological(spoke):
                 body_parts.append(
                     f'<div class="phase"><span class="phase-label">{html_lib.escape(phases_by_before[i])}</span></div>'
                 )
+            body_parts.append(render_event(ev, types_map))
+    elif phases and "id" in phases[0]:
+        # Phase-by-id style (Life of Christ, Church Christ Built): each event
+        # carries a `phase` id; emit a phase header when the id changes.
+        by_id = {p["id"]: p for p in phases}
+        cur = None
+        for ev in events:
+            ph = ev.get("phase")
+            if ph != cur and ph in by_id:
+                p = by_id[ph]
+                dates = (f' <span class="phase-dates">{html_lib.escape(p["dates"])}</span>'
+                         if p.get("dates") else "")
+                body_parts.append(
+                    f'<div class="phase"><span class="phase-label">{html_lib.escape(p["label"])}</span>{dates}</div>'
+                )
+                cur = ph
             body_parts.append(render_event(ev, types_map))
     else:
         for ev in events:

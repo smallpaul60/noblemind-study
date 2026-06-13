@@ -85,6 +85,24 @@ BUNDLES = [
                  "maps, packaged to run on your own computer with no internet and no install.",
         "links": [("the-church-christ-built/journey-maps.html", "The Missionary Journeys map")],
     },
+    {
+        "name": "The_Apostle_Paul_Interactive",
+        "out_subdir": "apostle-paul",
+        "dirs": ["apostle-paul"],
+        "hub": "apostle-paul",
+        "title": "The Apostle Paul",
+        "sub": "The whole life of the apostle &mdash; from Tarsus to the Roman martyrdom",
+        "intro": "The complete interactive timeline of Paul&rsquo;s life and ministry &mdash; with "
+                 "its six detailed sub-timelines (the conversion, Antioch, the Jerusalem visits, "
+                 "Corinth, Ephesus, and the Roman years) &mdash; packaged to run on your own "
+                 "computer with no internet and no install.",
+        "links": [("apostle-paul/conversion.html", "Paul&rsquo;s Conversion in Three Tellings"),
+                  ("apostle-paul/antioch.html", "Paul &amp; the Church at Antioch"),
+                  ("apostle-paul/jerusalem-visits.html", "Paul&rsquo;s Five Visits to Jerusalem"),
+                  ("apostle-paul/corinth.html", "Paul &amp; the Corinthian Church"),
+                  ("apostle-paul/ephesus.html", "Paul &amp; the Ephesian Church"),
+                  ("apostle-paul/roman-years.html", "Paul&rsquo;s Roman Years")],
+    },
 ]
 
 FONTS_CSS2 = ("https://fonts.googleapis.com/css2?"
