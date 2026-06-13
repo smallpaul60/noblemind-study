@@ -91,17 +91,6 @@ WATERS = [("The Great Sea", 33.3, 32.4, -18, 16), ("The Jordan", 35.55, 32.05, -
 REGION_SVG = lblsvg(REGIONS, "region")
 WATER_SVG = lblsvg(WATERS, "water-lbl")
 
-# approximate region borders (NT provinces, matching the Land of Israel map)
-NB_BOUNDS = [
-    [(34.95,32.60),(35.22,32.55),(35.45,32.52),(35.58,32.50)],   # Galilee | Samaria
-    [(34.92,31.97),(35.15,31.93),(35.35,31.89),(35.52,31.87)],   # Samaria | Judea
-    [(34.85,31.32),(35.12,31.31),(35.38,31.31)],                 # Judea | Idumea
-    [(34.62,31.95),(34.78,31.70),(34.86,31.45),(34.90,31.18)],   # Philistia (coast) | hill country
-]
-BDY_SVG = "".join(
-    ('<polyline class="bdy-casing" points="%s"/><polyline class="bdy" points="%s"/>' % (pts, pts))
-    for pts in (" ".join(f"{proj(lo,la)[0]},{proj(lo,la)[1]}" for lo, la in line) for line in NB_BOUNDS))
-
 ROUTE = [("Nazareth", "Luke 1:26–38", "Mary's home; Gabriel announces the birth"),
          ("Bethlehem", "Luke 2:1–7", "The census of Caesar Augustus; Jesus is born"),
          ("Egypt", "Matthew 2:13–15", "The flight from Herod — ‘Out of Egypt I called My Son’")]
@@ -183,7 +172,6 @@ HTML = f"""<!DOCTYPE html>
   <div class="mapbox">
     <svg id="map" viewBox="{VB}" preserveAspectRatio="xMidYMid meet">
       {GEO}
-      <g class="bounds">{BDY_SVG}</g>
       <g class="regions">{REGION_SVG}</g>
       <g class="waters">{WATER_SVG}</g>
       <polyline class="route" points="{ROUTELINE}"></polyline>
@@ -192,7 +180,7 @@ HTML = f"""<!DOCTYPE html>
     </svg>
     <div class="info" id="info"></div>
   </div>
-  <p class="hint">scroll or pinch to zoom &middot; drag to pan &middot; click a place. The dashed red line is the return to Nazareth; black dashes mark approximate regional borders.</p>
+  <p class="hint">scroll or pinch to zoom &middot; drag to pan &middot; click a place. The dashed line is the return to Nazareth.</p>
   <footer>
     <p>Basemap, waters &amp; rivers: Natural Earth (public domain). Places: OpenBible.info. References: NASB.</p>
     <p>Part of <a href="/the-life-of-christ/">The Life of Christ</a> &middot; Noble Mind Study</p>

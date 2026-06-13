@@ -146,7 +146,7 @@ BOUNDARIES = bounds_svg()
 # ---- water labels (lon, lat, text, rotation) ----
 WATER_LABELS = [
     ("The Great Sea", 34.25, 32.45, -68, 16), ("Sea of\nGalilee", 35.72, 32.79, 0),
-    ("The Jordan", 35.40, 32.05, -74), ("The Salt Sea", 35.47, 31.45, -80),
+    ("The Jordan", 35.54, 32.05, -74), ("The Salt Sea", 35.47, 31.45, -80),
 ]
 def water_lbl_svg():
     out = []
