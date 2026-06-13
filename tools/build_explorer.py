@@ -66,6 +66,12 @@ GEO = ('<g class="land">%s</g><g class="water">%s</g><g class="river">%s</g>' %
        ("".join('<path d="%s"/>' % p for p in land),
         "".join('<path d="%s"/>' % p for p in lakes),
         "".join('<path d="%s"/>' % p for p in rivers)))
+# shaded-relief basemap: the image replaces the flat land+water vector fill;
+# the named rivers stay drawn on top of it.
+RELIEF = "relief-world.jpg"
+if os.path.exists(os.path.join(os.path.dirname(OUT), RELIEF)):
+    GEO = ('<image href="%s" x="0" y="0" width="%d" height="%d" preserveAspectRatio="none"/>' % (RELIEF, round(W), round(H))
+           + '<g class="river">%s</g>' % "".join('<path d="%s"/>' % p for p in rivers))
 
 def lblsvg(items, cls):
     out = []

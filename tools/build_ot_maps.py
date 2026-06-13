@@ -36,7 +36,7 @@ loc.update({
 def C(n): return loc[n.lower()]
 
 # ---------- geometry helpers ----------
-def make_geo(bbox, rivers_named):
+def make_geo(bbox, rivers_named, relief=None):
     lon0, lon1, lat0, lat1 = bbox
     cosl = math.cos(math.radians((lat0 + lat1) / 2))
     W = 1000.0
@@ -82,7 +82,13 @@ def make_geo(bbox, rivers_named):
             if len(pts) >= 2: rivers.append("M" + " ".join(f"{x},{y}" for x, y in pts))
     def grp(lst, cls):
         return '<g class="%s">%s</g>' % (cls, "".join('<path d="%s"/>' % p for p in lst))
-    svg = grp(land, "land") + grp(lakes, "water") + grp(rivers, "river")
+    # With a shaded-relief basemap, the image replaces the flat land+water
+    # vector fill; the named rivers stay drawn on top of it.
+    if relief and os.path.exists(os.path.join(ROOT, "old-testament-timeline", relief)):
+        svg = (f'<image href="{relief}" x="0" y="0" width="{round(W)}" height="{round(H)}" preserveAspectRatio="none"/>'
+               + grp(rivers, "river"))
+    else:
+        svg = grp(land, "land") + grp(lakes, "water") + grp(rivers, "river")
     return svg, proj, round(W), round(H)
 
 def labels_svg(proj, items, cls):  # items: (text, lon, lat, rot)
@@ -116,7 +122,7 @@ def points_json(proj, items, numbered):  # items: (name, note) or (name, key, no
 MAPS = []
 
 # 1. Abraham
-geo, P, W, H = make_geo((29, 48, 24, 38), {"Euphrates", "Tigris", "Nile"})
+geo, P, W, H = make_geo((29, 48, 24, 38), {"Euphrates", "Tigris", "Nile"}, relief="relief-mesopotamia.jpg")
 stops = [("Ur","Genesis 11:31"),("Haran","Genesis 12:4"),("Shechem","Genesis 12:6"),
          ("Bethel","Genesis 12:8"),("Egypt","Genesis 12:10"),("Hebron","Genesis 13:18"),("Beersheba","Genesis 21:33")]
 overlay = (labels_svg(P, [("MESOPOTAMIA",43,35,0),("CANAAN",35.2,32.6,0),("EGYPT",31,29,0),
@@ -146,10 +152,7 @@ EXODUS_PANEL = """<details class="routes">
 </details>"""
 
 # 2. The Exodus (Gulf-of-Aqaba crossing; Mount Sinai in Arabia)
-EXODUS_RELIEF = True   # shaded-relief terrain basemap prototype; set False to revert to flat parchment
-geo, P, W, H = make_geo((30, 36.9, 27.0, 32.7), {"Nile"})
-if EXODUS_RELIEF:
-    geo = f'<image href="exodus-relief.jpg" x="0" y="0" width="{round(W)}" height="{round(H)}" preserveAspectRatio="none"/>'
+geo, P, W, H = make_geo((30, 36.9, 27.0, 32.7), {"Nile"}, relief="exodus-relief.jpg")
 stops = [("Rameses","Ex 12:37 — out of Egypt at the Passover"),
          ("Succoth-egypt","Ex 13:20 — the first encampment"),
          ("Etham","Ex 13:20 — on the edge of the wilderness"),
@@ -176,7 +179,7 @@ for p in pts: p["name"] = disp.get(p["name"], p["name"])
 MAPS.append({"id":"exodus","label":"The Exodus","panel":EXODUS_PANEL,"blurb":"Out of Egypt, across the sea, to Mount Sinai and the Law — then forty years to the edge of the promised land. The crossing point is debated; this map follows the Gulf-of-Aqaba route.","desc":"At the Passover, Israel leaves Egypt and journeys to the sea &mdash; which God parts so they cross on dry ground while Pharaoh's army drowns behind them (Exodus 14), the great deliverance of the Old Testament. This map follows the view that the crossing was at the <b>Gulf of Aqaba</b> and that <b>Mount Sinai stood in Arabia</b> (Jebel al-Lawz &mdash; Paul calls it 'Mount Sinai in Arabia,' Galatians 4:25). From Sinai they go north to Kadesh, wander forty years, and reach the plains of Moab opposite Jericho. Scripture is certain that they crossed the sea; it does not fix the exact spot, and a traditional route instead places Sinai in the Sinai peninsula &mdash; careful readers hold both. Click any stop for its place in the story.","W":W,"H":H,"geo":geo,"overlay":overlay,"points":pts})
 
 # 3. The Conquest (Canaan, three campaigns)
-geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
+geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"}, relief="relief-canaan.jpg")
 central = [("Gilgal", ""), ("Jericho", ""), ("Ai", ""), ("Gibeon", "")]
 southern = [("Gibeon", ""), ("Lachish", ""), ("Debir", ""), ("Hebron", "")]
 northern = [("Gibeon", ""), ("Hazor", "")]
@@ -198,7 +201,7 @@ overlay = (labels_svg(P, [("CANAAN", 34.9, 33.2, 0), ("PHILISTIA", 34.5, 31.45, 
 MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the Jordan and takes the land in three thrusts — a central campaign in red (Jericho, Ai, Gibeon), a southern campaign in blue (down to Hebron and Debir), and a northern campaign in green (Hazor) — then the land is divided among the tribes at Shiloh (Joshua 1–21).","desc":"Under Joshua, Israel crosses the Jordan on dry ground and takes the land in three campaigns &mdash; a <b>central</b> thrust (Jericho, then Ai, then the Gibeonite alliance), a <b>southern</b> sweep (Lachish, Debir, Hebron), and a <b>northern</b> strike (Hazor) &mdash; though much land still remained. The covenant is renewed at Shechem between Mounts Ebal and Gerizim, and at <b>Shiloh</b> the tabernacle is set up and the land divided among the twelve tribes (Joshua 1–21).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cqcities,False)})
 
 # 4. Divided Kingdom (region)
-geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"})
+geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"}, relief="relief-canaan.jpg")
 bdy = [[(34.92,31.90),(35.18,31.86),(35.40,31.84),(35.55,31.83)]]  # Israel | Judah (approx)
 bdy_svg = "".join('<polyline class="bdy" points="%s"/>' % " ".join(f"{P(lo,la)[0]},{P(lo,la)[1]}" for lo,la in line) for line in bdy)
 cities = [("Dan",0,"Israel's northern shrine"),("Hazor",0,"A fortified city of the north"),
@@ -219,7 +222,7 @@ overlay = (labels_svg(P, [("ISRAEL",34.95,32.45,0),("JUDAH",34.98,31.45,0),("PHI
 MAPS.append({"id":"kingdom","label":"The Divided Kingdom","blurb":"After Solomon the kingdom split — Israel in the north (capital Samaria) and Judah in the south (capital Jerusalem) — among the surrounding nations (1 Kings 12 onward).","desc":"After Solomon's death the kingdom tears in two: ten tribes form <b>Israel</b> in the north (its capital finally Samaria), while Judah and Benjamin remain in the south around <b>Jerusalem</b>. The two kingdoms stand among watchful neighbors &mdash; Aram, Phoenicia, Philistia, Ammon, Moab, Edom &mdash; through the long line of kings and prophets, until Israel falls to Assyria and, later, Judah to Babylon (1 Kings 12 onward).","W":W,"H":H,"geo":geo,"overlay":overlay,"points":points_json(P,cities,False)})
 
 # 4. Exile & Return (Fertile Crescent, two routes)
-geo, P, W, H = make_geo((29, 48, 24, 38), {"Euphrates", "Tigris", "Nile"})
+geo, P, W, H = make_geo((29, 48, 24, 38), {"Euphrates", "Tigris", "Nile"}, relief="relief-mesopotamia.jpg")
 judah = [("Jerusalem","2 Kings 25"),("Riblah","2 Kings 25:6"),("Carchemish","Jeremiah 46:2"),("Babylon","2 Kings 25:11")]
 israel = [("Samaria","2 Kings 17:6"),("Carchemish",""),("Nineveh","2 Kings 17:6")]
 overlay = (labels_svg(P, [("BABYLONIA",44.5,32,0),("ASSYRIA",43,35.5,0),("JUDAH",35.0,31.6,0),

@@ -88,6 +88,12 @@ for feat in json.load(open("/tmp/ne_lakes.geojson"))["features"]:
         if p:
             lake_paths.append(p)
 LAKES = "".join(f'<path d="{p}"/>' for p in lake_paths)
+# shaded-relief basemap: the image replaces the flat land+water vector fill;
+# the river/boundary/label layers stay drawn on top of it.
+RELIEF = "relief-land.jpg"
+if os.path.exists(os.path.join(os.path.dirname(OUT), RELIEF)):
+    LAND = '<image href="%s" x="0" y="0" width="%d" height="%d" preserveAspectRatio="none"/>' % (RELIEF, round(W), round(H))
+    LAKES = ""
 
 # ---- Jordan river (10m centerlines), clipped ----
 river_paths = []

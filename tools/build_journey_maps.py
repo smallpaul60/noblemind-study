@@ -154,6 +154,11 @@ for feat in json.load(open(NE))["features"]:
                 land_paths.append(p)
 
 LAND = "".join(f'<path d="{p}"/>' for p in land_paths)
+# shaded-relief basemap: the image replaces the flat land vector fill;
+# the river layer (below) stays drawn on top of it.
+RELIEF = "relief-mediterranean.jpg"
+if os.path.exists(os.path.join(os.path.dirname(OUT), RELIEF)):
+    LAND = '<image href="%s" x="0" y="0" width="%d" height="%d" preserveAspectRatio="none"/>' % (RELIEF, round(W), round(H))
 
 # ---- Nile river (SE context) ----
 RIVERS = ""
