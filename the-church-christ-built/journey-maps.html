@@ -155,8 +155,8 @@ function zoomAt(px,py,f){ let nw=Math.min(FULLW,Math.max(MINW,vb.w*f)); const k=
 function resetVB(){ vb={x:0,y:0,w:FULLW,h:FULLH}; applyVB(); }
 svgEl.addEventListener('wheel',e=>{ e.preventDefault(); const p=c2s(e.clientX,e.clientY); zoomAt(p.x,p.y,e.deltaY<0?0.84:1/0.84); },{passive:false});
 let mdrag=null, mmoved=false;
-svgEl.addEventListener('pointerdown',e=>{ mdrag={x:e.clientX,y:e.clientY}; mmoved=false; svgEl.setPointerCapture(e.pointerId); });
-svgEl.addEventListener('pointermove',e=>{ if(!mdrag)return; const r=svgEl.getBoundingClientRect(); if(Math.abs(e.clientX-mdrag.x)+Math.abs(e.clientY-mdrag.y)>4) mmoved=true; vb.x-=(e.clientX-mdrag.x)/r.width*vb.w; vb.y-=(e.clientY-mdrag.y)/r.height*vb.h; mdrag={x:e.clientX,y:e.clientY}; clampVB(); applyVB(); });
+svgEl.addEventListener('pointerdown',e=>{ mdrag={x:e.clientX,y:e.clientY,pid:e.pointerId}; mmoved=false; });
+svgEl.addEventListener('pointermove',e=>{ if(!mdrag)return; const r=svgEl.getBoundingClientRect(); if(Math.abs(e.clientX-mdrag.x)+Math.abs(e.clientY-mdrag.y)>4&&!mmoved){ mmoved=true; try{svgEl.setPointerCapture(mdrag.pid);}catch(_){} } if(!mmoved)return; vb.x-=(e.clientX-mdrag.x)/r.width*vb.w; vb.y-=(e.clientY-mdrag.y)/r.height*vb.h; mdrag={x:e.clientX,y:e.clientY,pid:mdrag.pid}; clampVB(); applyVB(); });
 svgEl.addEventListener('pointerup',()=>mdrag=null);
 let mpinch=null;
 svgEl.addEventListener('touchmove',e=>{ if(e.touches.length!==2)return; e.preventDefault(); const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); const mx=(e.touches[0].clientX+e.touches[1].clientX)/2,my=(e.touches[0].clientY+e.touches[1].clientY)/2; if(mpinch){const p=c2s(mx,my); zoomAt(p.x,p.y,mpinch/d);} mpinch=d; },{passive:false});

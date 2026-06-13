@@ -282,10 +282,11 @@ function c2s(cx,cy){ const r = svg.getBoundingClientRect(); return { x: vb.x + (
 function zoomAt(px,py,f){ let nw = Math.min(FULL.w, Math.max(MINW, vb.w*f)); const k = nw/vb.w; vb.w = nw; vb.h *= k; vb.x = px-(px-vb.x)*k; vb.y = py-(py-vb.y)*k; clampPan(); apply(); }
 svg.addEventListener('wheel', e => { e.preventDefault(); const p = c2s(e.clientX,e.clientY); zoomAt(p.x,p.y, e.deltaY<0?0.84:1/0.84); }, {passive:false});
 let drag = null, moved = false;
-svg.addEventListener('pointerdown', e => { drag = {x:e.clientX,y:e.clientY}; moved = false; svg.setPointerCapture(e.pointerId); });
+svg.addEventListener('pointerdown', e => { drag = {x:e.clientX,y:e.clientY,pid:e.pointerId}; moved = false; });
 svg.addEventListener('pointermove', e => { if(!drag) return; const r = svg.getBoundingClientRect();
-  if (Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y) > 4) moved = true;
-  vb.x -= (e.clientX-drag.x)/r.width*vb.w; vb.y -= (e.clientY-drag.y)/r.height*vb.h; drag = {x:e.clientX,y:e.clientY}; clampPan(); apply(); });
+  if (Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y) > 4 && !moved) { moved = true; try{svg.setPointerCapture(drag.pid);}catch(_){} }
+  if (!moved) return;
+  vb.x -= (e.clientX-drag.x)/r.width*vb.w; vb.y -= (e.clientY-drag.y)/r.height*vb.h; drag = {x:e.clientX,y:e.clientY,pid:drag.pid}; clampPan(); apply(); });
 svg.addEventListener('pointerup', () => { drag = null; });
 // pinch
 let pinch = null;

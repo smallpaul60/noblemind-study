@@ -233,8 +233,8 @@ function c2s(cx,cy){ const r=svg.getBoundingClientRect(); return {x:vb.x+(cx-r.l
 function zoomAt(px,py,f){ let nw=Math.min(FULLW,Math.max(MINW,vb.w*f)); const k=nw/vb.w; vb.w=nw; vb.h*=k; vb.x=px-(px-vb.x)*k; vb.y=py-(py-vb.y)*k; clamp(); ap(); }
 svg.addEventListener('wheel',e=>{ e.preventDefault(); const p=c2s(e.clientX,e.clientY); zoomAt(p.x,p.y,e.deltaY<0?0.82:1/0.82); },{passive:false});
 let drag=null, moved=false;
-svg.addEventListener('pointerdown',e=>{ drag={x:e.clientX,y:e.clientY}; moved=false; svg.setPointerCapture(e.pointerId); });
-svg.addEventListener('pointermove',e=>{ if(!drag)return; const r=svg.getBoundingClientRect(); if(Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>4) moved=true; vb.x-=(e.clientX-drag.x)/r.width*vb.w; vb.y-=(e.clientY-drag.y)/r.height*vb.h; drag={x:e.clientX,y:e.clientY}; clamp(); ap(); });
+svg.addEventListener('pointerdown',e=>{ drag={x:e.clientX,y:e.clientY,pid:e.pointerId}; moved=false; });
+svg.addEventListener('pointermove',e=>{ if(!drag)return; const r=svg.getBoundingClientRect(); if(Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>4&&!moved){ moved=true; try{svg.setPointerCapture(drag.pid);}catch(_){} } if(!moved)return; vb.x-=(e.clientX-drag.x)/r.width*vb.w; vb.y-=(e.clientY-drag.y)/r.height*vb.h; drag={x:e.clientX,y:e.clientY,pid:drag.pid}; clamp(); ap(); });
 svg.addEventListener('pointerup',()=>drag=null);
 let pinch=null;
 svg.addEventListener('touchmove',e=>{ if(e.touches.length!==2)return; e.preventDefault(); const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY); const mx=(e.touches[0].clientX+e.touches[1].clientX)/2,my=(e.touches[0].clientY+e.touches[1].clientY)/2; if(pinch){const p=c2s(mx,my); zoomAt(p.x,p.y,pinch/d);} pinch=d; },{passive:false});

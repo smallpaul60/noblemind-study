@@ -10,9 +10,9 @@ a relief — it needs network to fetch the elevation tiles.
 
   python3 tools/build_relief.py
 """
-import io, math, os, urllib.request
+import io, json, math, os, urllib.request
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UA = "Mozilla/5.0 NobleMindRelief/1.0"
@@ -35,6 +35,31 @@ def fetch_tile(z, x, y):
 def merc_y(lat):
     lr = math.radians(lat)
     return (1 - math.log(math.tan(lr) + 1 / math.cos(lr)) / math.pi) / 2
+
+
+NE_LAKES = "/tmp/ne_lakes.geojson"
+
+def rasterize_lakes(bbox, out_w, out_h):
+    """A boolean mask of the named inland lakes (Dead Sea, Sea of Galilee) drawn
+    to their true Natural Earth outline, so the water body is the actual lake —
+    not the whole below-sea-level rift."""
+    lon0, lon1, lat0, lat1 = bbox
+    if not os.path.exists(NE_LAKES):
+        url = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_lakes.geojson"
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=120) as r, open(NE_LAKES, "wb") as f:
+            f.write(r.read())
+    mask = Image.new("1", (out_w, out_h), 0)
+    d = ImageDraw.Draw(mask)
+    for feat in json.load(open(NE_LAKES))["features"]:
+        if (feat["properties"].get("name") or "") not in ("Dead Sea", "Sea of Galilee"):
+            continue
+        g = feat["geometry"]; polys = [g["coordinates"]] if g["type"] == "Polygon" else g["coordinates"]
+        for poly in polys:
+            pts = [((lon - lon0) / (lon1 - lon0) * out_w, (lat1 - lat) / (lat1 - lat0) * out_h) for lon, lat in poly[0]]
+            if len(pts) >= 3:
+                d.polygon(pts, fill=1)
+    return np.asarray(mask, bool)
 
 
 def build_relief(bbox, zoom, out_path, out_w=1500):
@@ -77,18 +102,27 @@ def build_relief(bbox, zoom, out_path, out_w=1500):
     hs = (math.sin(alt) * np.cos(slope) + math.cos(alt) * np.sin(slope) * np.cos(az - aspect))
     hs = np.clip(hs, 0, 1)
 
+    # ----- water = the real OCEAN (flood-filled from the map edges, so the
+    # below-sea-level Jordan Rift is NOT painted as sea) + the named inland
+    # lakes drawn to their true outline (Dead Sea, Sea of Galilee). -----
+    import scipy.ndimage as ndi
+    sea = elev <= 0
+    lbl, _ = ndi.label(sea)
+    border = (set(lbl[0, :]) | set(lbl[-1, :]) | set(lbl[:, 0]) | set(lbl[:, -1])) - {0}
+    ocean = np.isin(lbl, list(border))
+    water = ocean | rasterize_lakes(bbox, out_w, out_h)
+
     img = np.zeros((out_h, out_w, 3), float)
-    land = elev > 0
+    land_m = ~water
     # land: parchment tan -> browner with elevation, modulated by hillshade
     hyp = np.clip(elev / 1400.0, 0, 1)[..., None]
     base = LAND * (1 - hyp) + LAND_HI * hyp
     shade = np.clip(0.55 + 0.7 * (hs - 0.5), 0.35, 1.12)[..., None]
     land_rgb = np.clip(base * shade, 0, 255)
-    # water: shallow -> deep by depth
-    depth = np.clip(-elev / 1200.0, 0, 1)[..., None]
+    depth = np.clip(-elev / 1500.0, 0, 1)[..., None]
     water_rgb = WATER * (1 - depth) + WATER_DEEP * depth
-    img[land] = land_rgb[land]
-    img[~land] = water_rgb[~land]
+    img[land_m] = land_rgb[land_m]
+    img[water] = water_rgb[water]
 
     Image.fromarray(img.astype(np.uint8)).save(out_path, quality=84, optimize=True)
     sz = os.path.getsize(out_path) / 1e3

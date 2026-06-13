@@ -150,10 +150,11 @@ function initZoom(svg, FW, FH) {
   st.zoomAt = (px,py,f)=>{ let nw=Math.min(FW,Math.max(st.MINW,st.w*f)); const k=nw/st.w; st.w=nw; st.h*=k; st.x=px-(px-st.x)*k; st.y=py-(py-st.y)*k; clamp(); apply(); };
   st.reset = ()=>{ st.x=0;st.y=0;st.w=FW;st.h=FH; apply(); };
   svg.addEventListener('wheel', e=>{ e.preventDefault(); const p=c2s(e.clientX,e.clientY); st.zoomAt(p.x,p.y,e.deltaY<0?0.84:1/0.84); }, {passive:false});
-  let drag=null, moved=false;
-  svg.addEventListener('pointerdown', e=>{ drag={x:e.clientX,y:e.clientY}; moved=false; svg.setPointerCapture(e.pointerId); });
+  let drag=null, moved=false, pid=null;
+  svg.addEventListener('pointerdown', e=>{ drag={x:e.clientX,y:e.clientY}; moved=false; pid=e.pointerId; });
   svg.addEventListener('pointermove', e=>{ if(!drag)return; const r=svg.getBoundingClientRect();
-    if(Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>4) moved=true;
+    if(Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>4 && !moved){ moved=true; try{svg.setPointerCapture(pid);}catch(_){} }
+    if(!moved) return;
     st.x-=(e.clientX-drag.x)/r.width*st.w; st.y-=(e.clientY-drag.y)/r.height*st.h; drag={x:e.clientX,y:e.clientY}; clamp(); apply(); });
   svg.addEventListener('pointerup', ()=> drag=null);
   let pinch=null;
@@ -162,7 +163,7 @@ function initZoom(svg, FW, FH) {
     const mx=(e.touches[0].clientX+e.touches[1].clientX)/2, my=(e.touches[0].clientY+e.touches[1].clientY)/2;
     if(pinch){ const p=c2s(mx,my); st.zoomAt(p.x,p.y,pinch/d); } pinch=d; }, {passive:false});
   svg.addEventListener('touchend', ()=>pinch=null);
-  svg.closest('.mapbox').addEventListener('click', ()=>{ if(!moved) setMapInfo(svg.closest('.mapsec')); });
+  svg.closest('.mapbox').addEventListener('click', (e)=>{ if(!moved && !e.target.closest('.pt')) setMapInfo(svg.closest('.mapsec')); });
 }
 
 // build each map's points + zoom
