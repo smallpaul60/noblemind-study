@@ -102,6 +102,23 @@ def labels_svg(proj, items, cls):  # items: (text, lon, lat, rot[, font-size])
         out.append(f'<text class="{cls}"{fs} transform="rotate({rot} {x} {y})" x="{x}" y="{y}">{ts}</text>')
     return "".join(out)
 
+def bounds_svg(proj, lines):  # approximate region borders -> black dash over a parchment casing
+    out = []
+    for line in lines:
+        pts = " ".join(f"{proj(lo,la)[0]},{proj(lo,la)[1]}" for lo, la in line)
+        out.append(f'<polyline class="bdy-casing" points="{pts}"/><polyline class="bdy" points="{pts}"/>')
+    return "".join(out)
+
+# Approximate regional borders, tied to natural features (the Jordan, Dead Sea
+# and Arabah rift already separate the rest as drawn water/relief). Borders in
+# antiquity were never sharply fixed; these mark the rough divisions.
+PHILISTIA_EDGE = [(34.62,31.95),(34.78,31.70),(34.86,31.45),(34.90,31.18)]  # coastal plain | hill country (Shephelah)
+ARNON_EDGE     = [(35.52,31.46),(35.74,31.45),(35.95,31.47)]                # Moab's north bound (the Arnon)
+ZERED_EDGE     = [(35.38,31.00),(35.60,30.97),(35.82,31.00)]                # Moab | Edom (the Zered)
+ISRAEL_JUDAH   = [(34.92,31.90),(35.18,31.86),(35.40,31.84),(35.55,31.83)]  # the kingdom's split
+PHOENICIA_EDGE = [(35.08,33.06),(35.22,33.10),(35.35,33.13)]                # Israel | Phoenicia (Ladder of Tyre)
+ARAM_EDGE      = [(35.62,33.20),(35.85,33.27),(36.08,33.33)]                # Israel | Aram (upper Jordan / Hermon)
+
 def route_svg(proj, stops, color, ret=False):
     pts = " ".join(f"{proj(C(n)[1],C(n)[0])[0]},{proj(C(n)[1],C(n)[0])[1]}" for n,_ in stops)
     s = f'<polyline class="route" points="{pts}" stroke="{color}"/>'
@@ -195,7 +212,8 @@ cqcities = [("Gilgal", 0, "The camp by the Jordan; the twelve stones"),
             ("Hazor", 0, "Head of the northern kings — burned (Joshua 11)"),
             ("Shechem", 0, "The covenant renewed at Ebal & Gerizim"),
             ("Shiloh", 1, "The tabernacle set up; the land divided")]
-overlay = (labels_svg(P, [("CANAAN", 34.9, 33.2, 0), ("PHILISTIA", 34.5, 31.45, 0),
+overlay = (bounds_svg(P, [PHILISTIA_EDGE, ARNON_EDGE])
+           + labels_svg(P, [("CANAAN", 34.9, 33.2, 0), ("PHILISTIA", 34.5, 31.45, 0),
                           ("AMMON", 36.05, 31.95, 0), ("MOAB", 35.75, 31.3, 0)], "region")
            + labels_svg(P, [("The Great Sea",34.3,32.5,-66,17), ("Sea of\nChinnereth", 35.75, 32.80, 0),
                             ("The Jordan", 35.40, 32.0, -74), ("The Salt Sea", 35.47, 31.45, -80)], "water-lbl")
@@ -204,10 +222,7 @@ MAPS.append({"id":"conquest","label":"The Conquest","blurb":"Israel crosses the 
 
 # 4. Divided Kingdom (region)
 geo, P, W, H = make_geo((33.9, 36.9, 29.7, 33.6), {"Jordan"}, relief="relief-canaan.jpg")
-bdy = [[(34.92,31.90),(35.18,31.86),(35.40,31.84),(35.55,31.83)]]  # Israel | Judah (approx)
-bdy_svg = "".join(
-    ('<polyline class="bdy-casing" points="%s"/><polyline class="bdy" points="%s"/>' % (pts, pts))
-    for pts in (" ".join(f"{P(lo,la)[0]},{P(lo,la)[1]}" for lo,la in line) for line in bdy))
+bdy_svg = bounds_svg(P, [ISRAEL_JUDAH, PHILISTIA_EDGE, PHOENICIA_EDGE, ARAM_EDGE, ARNON_EDGE, ZERED_EDGE])
 cities = [("Dan",0,"Israel's northern shrine"),("Hazor",0,"A fortified city of the north"),
           ("Megiddo",0,"Guarding the Jezreel pass"),("Jezreel",0,"Ahab and Jezebel's city"),
           ("Samaria",1,"Capital of the northern kingdom, Israel"),("Shechem",0,"Where the kingdom divided"),
