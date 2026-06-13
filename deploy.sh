@@ -47,6 +47,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   -e "ssh -i $VPS_SSH_KEY" \
   --exclude='.git' \
   --exclude='*.py' \
+  --exclude='maps/data/*.jsonl' \
   --exclude='PRINCIPLES.md' \
   --exclude='console/' \
   --exclude='cloud-tts/' \
