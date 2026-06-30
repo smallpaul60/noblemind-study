@@ -105,8 +105,14 @@ echo "CID: $CID"
 echo ""
 
 # Step 4: Publish to IPNS
+# `ipfs name publish` updates the LOCAL IPNS record immediately, then tries to
+# propagate it across the DHT — and that DHT put can hang indefinitely (a known
+# Kubo wart; it once blocked a deploy for ~2h). Wrap it in `timeout` so the
+# deploy never stalls: the local record (and thus the served content) is already
+# updated, and the daemon re-announces to the DHT periodically on its own.
 echo "[4/4] Publishing to IPNS..."
-SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "ipfs name publish --key=$IPNS_KEY /ipfs/$CID"
+SSH_AUTH_SOCK= ssh -i "$VPS_SSH_KEY" "$VPS_HOST" "timeout 180 ipfs name publish --key=$IPNS_KEY /ipfs/$CID" \
+  || echo "WARNING: IPNS publish did not confirm within 180s (local record updated; DHT propagation continues in the background)."
 echo ""
 
 echo "=========================================="
