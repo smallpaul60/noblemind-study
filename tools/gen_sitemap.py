@@ -86,6 +86,9 @@ for html in sorted(ROOT.rglob('*.html')):
     # Skip files matching *_ocr_improved_*.html (legacy)
     if '_ocr_' in rel.name or '_vaults' in rel.name:
         continue
+    # Skip Lulu print-debug artifacts (not real pages)
+    if '_debug' in rel.name:
+        continue
     if is_noindex(html):
         continue
     add(html)

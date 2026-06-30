@@ -38,6 +38,13 @@ echo "[1/4] Regenerating sitemap.xml and robots.txt..."
 python3 "$SITE_DIR/tools/gen_sitemap.py"
 echo ""
 
+# Step 1e: Backfill social-card (OG/Twitter) meta into any indexable content
+# page that lacks it. Idempotent — only touches pages missing og:title, so it's
+# a no-op once backfilled and just covers newly added/regenerated book pages.
+echo "[1e/4] Backfilling OG/social-card meta on content pages..."
+python3 "$SITE_DIR/tools/gen_og_tags.py"
+echo ""
+
 # Step 2: Sync files to VPS
 # --delete-excluded actively removes anything in the exclude list from the
 # VPS, so if a draft or internal doc is added to the list later it will be
