@@ -58,6 +58,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='PRINCIPLES.md' \
   --exclude='console/' \
   --exclude='cloud-tts/' \
+  --exclude='StraitWay-Enhanced/The_Strait_Way_Archive.html' \
   --exclude='CLAUDE.md' \
   --exclude='Bible_Study_Principles_Comprehensive_04-20-2026.md' \
   --exclude='NobleMind_Build_Plan_for_Claude_Code.md' \
