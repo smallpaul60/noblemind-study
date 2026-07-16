@@ -141,3 +141,12 @@ When a book is in review (awaiting a signed release, etc.), gate it at multiple 
 - **PDF file itself**: encrypt with `pypdf` AES-256 using the same password. The PDF remains inert even if someone bypasses the JS gate or shares the URL. EPUB has no comparable encryption and is JS-gated only.
 
 Remove all three layers together when a book goes public.
+
+## Memory system (standing instructions)
+
+This project's persistent memory index (MEMORY.md) auto-loads each session. The conventions in the
+memory note `memory-conventions` are STANDING INSTRUCTIONS, not suggestions: update, stamp, correct,
+and prune memories as you work — invalidating falsified notes is part of the definition of done for
+any change that alters a persisted fact. Before concluding the memory doesn't hold something, grep
+the note bodies, not just the index. Read the `project-root-sweep-private-by-default` note before
+touching deploy.sh or adding any file to the tree.
