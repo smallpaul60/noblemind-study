@@ -67,23 +67,34 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - **Shared VPS** — StoryLock also runs on this server
 
 ### Deploy Process (`./deploy.sh`)
-1. **Rsync** project files to VPS (excludes `.git`, `*.py`, `PRINCIPLES.md`, `console/`)
-2. **IPFS add** — pins content to local Kubo node on VPS
-3. **IPNS publish** — updates the IPNS name so the domain resolves to the new CID
+1. **Rebuild** derived artifacts (timeline PDFs, offline bundle, sitemap, OG tags)
+2. **Rsync** project files to VPS with `--delete --delete-excluded`
+
+**⚠ The web root is the repo root: any file not matched by an exclude deploys PUBLICLY
+(and `--delete-excluded` purges newly excluded files from the VPS on the next deploy).**
+Since the 2026-07-16 root sweep the excludes are PRIVATE-BY-DEFAULT by file type —
+`*.md` (except `data/principles_public.md` + `data/principles_full.md` — served app data,
+explicitly re-included), `*.docx`, `*.odt`,
+`*.py`, `*.sh`, `*.backup*`, `*.wav` — plus the workspace dirs (`archive/`, `design-refs/`,
+`Works_In_Progress/`, `console/`, `cloud-tts/`, `admin/`). PDFs deploy by default (books and
+timelines are the product), so a private PDF needs an explicit exclude line BEFORE it lands
+in the tree. When adding any new file, ask: "should the world see this?" — if not, make sure
+a pattern covers it.
+
+IPFS/IPNS publishing was REMOVED 2026-07-16: the pins lived on the same VPS that serves the
+site (so they were never a real backup — git + GitHub is the backup), and historical pins
+kept accidentally-published files fetchable forever. Old noblemind pins were unpinned and
+garbage-collected from the Kubo node.
 
 ### Deploy Console (`./console/deploy-console.sh`)
 1. Cross-compile Go binary for linux/amd64
 2. SCP binary to VPS `/home/paul/noblemind-console/`
 3. Update systemd service and restart
 
-### IPNS
-- **Key name:** `noblemind`
-- **IPNS address:** `k51qzi5uqu5dg9bleldhzzzxmydvtmntfl2lajle3jfi8wv58xdc5jw0i6tunj`
-
 ### URLs
 - **Primary:** https://noblemind.study
-- **IPFS subdomain:** https://ipfs.noblemind.study
-- **IPNS gateway:** https://ipfs.io/ipns/k51qzi5uqu5dg9bleldhzzzxmydvtmntfl2lajle3jfi8wv58xdc5jw0i6tunj
+- (IPFS/IPNS distribution retired 2026-07-16 — see Deploy Process; the old
+  `ipfs.noblemind.study` subdomain and IPNS name no longer update)
 
 ## Conventions
 

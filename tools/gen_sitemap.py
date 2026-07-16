@@ -15,13 +15,15 @@ BASE_URL = 'https://noblemind.study'
 # Drafts / admin / gated books — exclude whole subtrees.
 EXCLUDED_DIRS = {
     '.git', '.claude', 'console', '__pycache__', 'node_modules',
-    'a_new_and_living_way',               # lowercase draft (superseded)
-    'strength_and_dignity',               # lowercase draft (superseded)
     'ChangeTheMind_ChangeTheMan',         # password-gated online reader
     'data',                               # principles source, not a page
     'test-this-claim',                    # handled separately (noindex filter)
     'tools',                              # internal admin utilities (book-config-generator)
-    'archive',                            # archived superseded books, not deployed
+    'archive',                            # archived superseded books + root sweep, not deployed
+    'design-refs',                        # mockups/brand brief, not deployed (were 404ing in sitemap)
+    'Works_In_Progress',                  # drafts, not deployed
+    'cloud-tts',                          # TTS scratch, not deployed
+    'admin',                              # not deployed
 }
 
 EXCLUDED_FILES = {
