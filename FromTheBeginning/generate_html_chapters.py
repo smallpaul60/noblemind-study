@@ -434,7 +434,7 @@ def build_chapter_html(md_file, ch_num, title):
           <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           From the Beginning
         </a>
-        <select id="chapter-select" onchange="goToChapter(this.value)">
+        <select id="chapter-select" aria-label="go to chapter" onchange="goToChapter(this.value)">
           {chapter_select}
         </select>
       </nav>
@@ -1244,7 +1244,7 @@ def build_dedication_html():
           <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           From the Beginning
         </a>
-        <select id="chapter-select" onchange="goToChapter(this.value)">
+        <select id="chapter-select" aria-label="go to chapter" onchange="goToChapter(this.value)">
           {chapter_select}
         </select>
       </nav>

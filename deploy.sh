@@ -77,6 +77,7 @@ SSH_AUTH_SOCK= rsync -avz --delete --delete-excluded --chmod=D755,F644 \
   --exclude='*.backup*' \
   --exclude='*.wav' \
   --exclude='.gitignore' \
+  --exclude='tools/book-config-generator.html' \
   --exclude='strongs-dictionary.xhtml' \
   --exclude='maps/data/*.jsonl' \
   --exclude='console/' \

@@ -374,7 +374,7 @@ def _page_frame(title, inner_html, chapter_select, prev_link, next_link,
           <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
           {TITLE}
         </a>
-        <select id="chapter-select" onchange="goToChapter(this.value)">
+        <select id="chapter-select" aria-label="go to chapter" onchange="goToChapter(this.value)">
           {chapter_select}
         </select>
       </nav>

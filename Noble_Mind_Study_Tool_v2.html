@@ -1937,6 +1937,9 @@
     color: var(--text-muted);
   }
 
+
+/* visible keyboard focus ring (WCAG 2.4.7) — overrides the outline:none above */
+:focus-visible{outline:2px solid #06FFA5 !important;outline-offset:2px}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -2007,17 +2010,17 @@
 <div class="headerBox">
   <div class="row">
     <label>Scripture:</label>
-    <input id="scriptureRef" type="text" placeholder="Example: Matthew 10:40–42" />
+    <input id="scriptureRef" type="text" aria-label="Example: Matthew 10:40–42" placeholder="Example: Matthew 10:40–42" />
     <button class="primary" onclick="openScripturePopup()" title="Open Bible lookup window">📖 Bible Lookup</button>
     <button class="map-btn" onclick="window.open('maps/index.html','_blank','noopener')" title="Open the Bible Lands map">🗺️ Maps</button>
   </div>
   <div class="row" style="margin-top:10px;">
     <label>Subtitle (optional):</label>
-    <input id="lessonSubtitle" type="text" placeholder="Example: Receiving Christ's messengers" style="flex:1;max-width:400px;" />
+    <input id="lessonSubtitle" type="text" aria-label="Example: Receiving Christ's messengers" placeholder="Example: Receiving Christ's messengers" style="flex:1;max-width:400px;" />
   </div>
   <div class="row" style="margin-top:10px;">
     <label>Series/Folder:</label>
-    <input id="lessonSeries" type="text" placeholder="Example: Romans Study, Fall 2025" style="flex:1;max-width:300px;" />
+    <input id="lessonSeries" type="text" aria-label="Example: Romans Study, Fall 2025" placeholder="Example: Romans Study, Fall 2025" style="flex:1;max-width:300px;" />
   </div>
   <div class="smallHint noPrint">💡 Use Series to group related lessons together. The Scripture Index shows all references across your lessons.</div>
   <div class="row noPrint" style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-color);">
@@ -2031,24 +2034,24 @@
 <div class="lesson-picker noPrint">
   <div class="vault-filter">
     <label>Vault:</label>
-    <select id="vaultSelect" onchange="switchVault(this.value)"></select>
+    <select id="vaultSelect" aria-label="choose vault" onchange="switchVault(this.value)"></select>
     <button class="secondary" type="button" onclick="createVaultPrompt()" title="Create a new vault">➕</button>
     <button class="secondary" type="button" onclick="renameVaultPrompt()" title="Rename current vault">✏️</button>
     <button class="secondary" type="button" onclick="deleteVaultPrompt()" title="Delete current vault">🗑️</button>
   </div>
   <div class="series-filter">
     <label>Series:</label>
-    <select id="seriesFilter" onchange="filterBySeries()">
+    <select id="seriesFilter" aria-label="filter by series" onchange="filterBySeries()">
       <option value="">— All Series —</option>
     </select>
   </div>
   <label>Load lesson:</label>
-  <select id="lessonSelect" onchange="loadLesson(this.value)">
+  <select id="lessonSelect" aria-label="choose lesson" onchange="loadLesson(this.value)">
     <option value="">— Select a Lesson —</option>
   </select>
   <span class="modePill">
     Mode:
-    <select id="modeSelect" onchange="setMode(this.value)">
+    <select id="modeSelect" aria-label="study mode" onchange="setMode(this.value)">
       <option value="student">📖 Student</option>
       <option value="teacher">📝 Teacher</option>
     </select>
@@ -2089,7 +2092,7 @@
   <div class="search-card">
     <h3 style="margin:0 0 12px;">🔍 Search Across All Lessons</h3>
     <div class="search-input-row">
-      <input type="text" id="searchInput" placeholder="Search for keywords, scripture references, topics..." onkeyup="handleSearchKeyup(event)" />
+      <input type="text" id="searchInput" aria-label="Search for keywords, scripture references, topics..." placeholder="Search for keywords, scripture references, topics..." onkeyup="handleSearchKeyup(event)" />
       <button class="primary" onclick="performSearch()">Search</button>
       <button class="secondary" onclick="clearSearch()">Clear</button>
     </div>
@@ -2167,7 +2170,7 @@
       <div class="backup-box">
         <h3>Import Lessons</h3>
         <p>Restore lessons from a backup file.</p>
-        <input type="file" id="importFile" accept=".json" style="margin-bottom:8px;width:100%;" />
+        <input type="file" id="importFile" aria-label="import file (JSON)" accept=".json" style="margin-bottom:8px;width:100%;" />
         <button class="primary" onclick="importLessons()">📤 Import Backup</button>
       </div>
     </div>
@@ -2179,7 +2182,7 @@
   <div class="ocr-card">
     <div class="ocr-grid">
       <div><strong>📷 Scan / OCR</strong> — Choose a scanned image (JPG, PNG, BMP, WebP) or PDF to extract text.</div>
-      <div><input id="ocrFile" type="file" accept="image/jpeg,image/png,image/bmp,image/webp,.jpg,.jpeg,.png,.bmp,.webp,application/pdf,.pdf" /></div>
+      <div><input id="ocrFile" aria-label="image for text extraction" type="file" accept="image/jpeg,image/png,image/bmp,image/webp,.jpg,.jpeg,.png,.bmp,.webp,application/pdf,.pdf" /></div>
       
       <div class="ocr-options">
         <label title="Increases contrast and converts to black/white for better text recognition">
@@ -2201,20 +2204,20 @@
 
       <div class="row" style="justify-content:flex-start;">
         <label>New lesson title:</label>
-        <input id="ocrTitle" type="text" placeholder="Example: Lesson 7 – 1 Samuel 14" />
+        <input id="ocrTitle" type="text" aria-label="Example: Lesson 7 – 1 Samuel 14" placeholder="Example: Lesson 7 – 1 Samuel 14" />
         <label>Series:</label>
-        <input id="ocrSeries" type="text" placeholder="Example: 1 Samuel Study" />
+        <input id="ocrSeries" type="text" aria-label="Example: 1 Samuel Study" placeholder="Example: 1 Samuel Study" />
       </div>
       <div class="row" style="justify-content:flex-start;">
         <label>Scripture:</label>
-        <input id="ocrScripture" type="text" placeholder="Example: 1 Samuel 14:1–52" />
+        <input id="ocrScripture" type="text" aria-label="Example: 1 Samuel 14:1–52" placeholder="Example: 1 Samuel 14:1–52" />
         <label>Subtitle:</label>
-        <input id="ocrSubtitle" type="text" placeholder="Optional" />
+        <input id="ocrSubtitle" type="text" aria-label="Optional" placeholder="Optional" />
       </div>
 
       <div>
         <label style="display:block;font-size:0.9rem;color:var(--text-secondary);margin-bottom:6px;">OCR Text (edit before creating lesson):</label>
-        <textarea id="ocrText" style="min-height:160px;" placeholder="After OCR completes, the extracted text will appear here. You can edit it before creating the lesson..."></textarea>
+        <textarea id="ocrText" aria-label="extracted text (editable)" style="min-height:160px;" placeholder="After OCR completes, the extracted text will appear here. You can edit it before creating the lesson..."></textarea>
       </div>
 
       <div id="ocrSuspectContainer" class="backup-box" style="display:none; margin-top:10px;">
@@ -2249,13 +2252,13 @@
   <div class="pdf-card">
     <div class="ocr-grid">
       <div><strong>📘 Import PDF (Multiple Lessons)</strong> — Choose a PDF. The app will detect each “Lesson #” and import questions + headings.</div>
-      <div><input id="pdfFile" type="file" accept="application/pdf,.pdf" /></div>
+      <div><input id="pdfFile" aria-label="PDF file to import" type="file" accept="application/pdf,.pdf" /></div>
 
       <div class="row" style="justify-content:flex-start;">
         <label>Series/Folder (optional):</label>
-        <input id="pdfSeries" type="text" placeholder="Example: 1–2 Samuel Study" />
+        <input id="pdfSeries" type="text" aria-label="Example: 1–2 Samuel Study" placeholder="Example: 1–2 Samuel Study" />
         <label>Title prefix (optional):</label>
-        <input id="pdfPrefix" type="text" placeholder="Example: My Class — " />
+        <input id="pdfPrefix" type="text" aria-label="Example: My Class — " placeholder="Example: My Class — " />
       </div>
 
       <div class="pdf-status" id="pdfStatus">Status: Waiting for a PDF…</div>
@@ -5974,8 +5977,8 @@ if ('serviceWorker' in navigator) {
     </div>
   </div>
   <div class="scripture-lookup-bar">
-    <input type="text" id="popupScriptureRef" placeholder="e.g., Matthew 11:1-19" />
-    <select id="popupBibleVersion" title="Select translation">
+    <input type="text" id="popupScriptureRef" aria-label="e.g., Matthew 11:1-19" placeholder="e.g., Matthew 11:1-19" />
+    <select id="popupBibleVersion" aria-label="select translation" title="Select translation">
       <option value="KJV_LOCAL">KJV + Strong's</option>
       <option value="KJV">KJV</option>
       <option value="NASB" selected>NASB</option>
@@ -6101,7 +6104,7 @@ if ('serviceWorker' in navigator) {
   <div class="berean-modal-card">
     <h3 id="claimAuditTitle">🧪 Claim Audit Prompt</h3>
     <p class="berean-modal-hint">Paste a statement, teaching excerpt, or claim below. Clicking Copy Prompt will build an AI prompt that audits it against Scripture using the full Noble Mind principles.</p>
-    <textarea id="claimAuditInput" placeholder="Example: Baptism is merely a symbolic act; it has no role in forgiveness of sins."></textarea>
+    <textarea id="claimAuditInput" aria-label="claim to test against Scripture" placeholder="Example: Baptism is merely a symbolic act; it has no role in forgiveness of sins."></textarea>
     <div class="berean-modal-actions">
       <button class="secondary" type="button" onclick="closeClaimAuditModal()">Close</button>
       <button class="primary" type="button" onclick="copyClaimAuditPrompt()">📋 Copy Prompt</button>
