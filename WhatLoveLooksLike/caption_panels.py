@@ -76,7 +76,11 @@ PANELS = [
 
     ("love-does-not-act-unbecomingly.png",
      ["Love does not act unbecomingly…"],
-     "1 CORINTHIANS 13:5", {"backplate": True}),
+     "1 CORINTHIANS 13:5",
+     {"attr_size": 180, "cite_size": 72, "caption_y_in": 0.10, "backplate": True}),
+    # replaced 2026-07-26 with a portrait cafeteria source. 180pt is the largest
+    # size at which this attribute line still fits a 2550-wide panel (200pt
+    # overruns by 62px); the tighter 0.10" top margin clears the subject's hair.
 
     ("love-does-not-seek-its-own.png",
      ["Love does not seek its own…"],
