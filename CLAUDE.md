@@ -7,7 +7,7 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - **`Noble_Mind_Study_Tool_v2.html`** (~6,300 lines) — The entire app: UI, logic, styles, all inline.
 - **`index.html`** — Landing page with links and PWA install prompt.
 - **`user-guide.html`** — Comprehensive user guide (opens in new tab from study tool).
-- **`sw.js`** — Service worker (cache-first strategy, version `v52`). Bump the version when updating cached assets.
+- **`sw.js`** — Service worker. **Network-first for HTML** (since 2026-06-09): pages fetch fresh online and fall back to cache offline, so HTML content edits appear WITHOUT a version bump. Static assets (CSS/JS/JSON/fonts/images/PDFs) remain cache-first — bump `CACHE_NAME` when THOSE change (check sw.js for the current version).
 - **`nm-core.js`** — Client-side analytics (~40 lines). POSTs to `/api/nm/p`. No cookies, no fingerprinting.
 - **`manifest.json`** — PWA manifest (standalone, dark theme `#0d0d0d`).
 

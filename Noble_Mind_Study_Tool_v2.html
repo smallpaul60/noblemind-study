@@ -2101,6 +2101,18 @@
     </div>
     <div class="smallHint" style="margin-top:10px;">💡 Searches lesson titles, scripture references, questions, and answers. Click a result to load that lesson.</div>
   </div>
+  <div class="search-card" style="margin-top:14px;">
+    <h3 style="margin:0 0 12px;">💭 Search Scripture by Thought</h3>
+    <div class="search-input-row">
+      <input type="text" id="thoughtSearchInput" aria-label="Describe a thought or topic, e.g., trusting God in hard times" placeholder="Describe a thought or topic, e.g., trusting God in hard times" onkeyup="handleThoughtSearchKeyup(event)" />
+      <button class="primary" onclick="performThoughtSearch()" aria-label="Search Scripture by thought">Search</button>
+      <button class="secondary" onclick="clearThoughtSearch()" aria-label="Clear thought search">Clear</button>
+    </div>
+    <div class="search-results" id="thoughtSearchResults">
+      <div class="search-no-results">Describe a thought in your own words — results are NASB passages related by meaning. Click one to open it.</div>
+    </div>
+    <div class="smallHint" style="margin-top:10px;">💡 Finds related passages by meaning — never all of them. Scripture speaks on a subject through every passage that addresses it: open each result and read it in context. Semantic search provided by Bolls.Life (NASB).</div>
+  </div>
 </div>
 
 <!-- Scripture Index Panel -->
@@ -5175,6 +5187,79 @@ function loadLessonFromSearch(title) {
 function clearSearch() {
   document.getElementById('searchInput').value = '';
   document.getElementById('searchResults').innerHTML = '<div class="search-no-results">Enter a search term and click Search to find content across all lessons.</div>';
+}
+
+// ============================================
+// SEARCH SCRIPTURE BY THOUGHT (semantic — Bolls.Life /v2/find)
+// ============================================
+
+// Book number -> display name; every name is accepted by parseScriptureRef()
+const THOUGHT_BOOK_NAMES = [null,
+  'Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth',
+  '1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles','Ezra',
+  'Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon',
+  'Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos',
+  'Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah',
+  'Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians',
+  '2 Corinthians','Galatians','Ephesians','Philippians','Colossians',
+  '1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon',
+  'Hebrews','James','1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation'];
+
+function handleThoughtSearchKeyup(event) {
+  if (event.key === 'Enter') performThoughtSearch();
+}
+
+async function performThoughtSearch() {
+  const query = document.getElementById('thoughtSearchInput').value.trim();
+  const resultsDiv = document.getElementById('thoughtSearchResults');
+  if (!query) {
+    resultsDiv.innerHTML = '<div class="search-no-results">Please describe a thought to search for.</div>';
+    return;
+  }
+  resultsDiv.innerHTML = '<div class="search-no-results">Searching Scripture…</div>';
+  try {
+    // NASB only: its semantic embeddings are verified working (other translations
+    // returned zero results for the same query). Do NOT add a limit param — small
+    // limit values make Bolls return an empty result set (verified 2026-07-27).
+    const response = await fetch('https://bolls.life/v2/find/NASB?search=' + encodeURIComponent(query) + '&page=1');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const data = await response.json();
+    const results = (data && data.results) ? data.results : [];
+    if (results.length === 0) {
+      resultsDiv.innerHTML = '<div class="search-no-results">No related passages found for "' + escapeHtml(query) + '". Try saying it a different way.</div>';
+      return;
+    }
+    let html = '';
+    let shown = 0;
+    results.slice(0, 40).forEach(r => {
+      const name = THOUGHT_BOOK_NAMES[r.book];
+      if (!name) return;
+      shown++;
+      const ref = name + ' ' + r.chapter + ':' + r.verse;
+      const text = String(r.text || '').replace(/<[^>]*>/g, '');
+      html += '<div class="search-result-item" onclick="openThoughtResult(\'' + ref + '\')">';
+      html += '<div class="search-result-title">' + escapeHtml(ref) + ' <span style="font-weight:normal; color:var(--text-muted);">(NASB)</span></div>';
+      html += '<div class="search-result-context">' + escapeHtml(text) + '</div>';
+      html += '</div>';
+    });
+    html += '<div class="smallHint" style="margin-top:8px;">Showing ' + shown + ' related passage' + (shown === 1 ? '' : 's') +
+            (data.total > shown ? ' of ' + data.total : '') +
+            ' — related by meaning, not an exhaustive list. Other passages may speak to this subject too.</div>';
+    resultsDiv.innerHTML = html;
+  } catch (err) {
+    resultsDiv.innerHTML = '<div class="search-no-results">Could not reach Bolls.Life — Search by Thought needs an internet connection. (' + escapeHtml(err.message) + ')</div>';
+  }
+}
+
+function openThoughtResult(ref) {
+  document.getElementById('popupScriptureRef').value = ref;
+  openScripturePopup();
+  fetchScripturePopup();
+}
+
+function clearThoughtSearch() {
+  document.getElementById('thoughtSearchInput').value = '';
+  document.getElementById('thoughtSearchResults').innerHTML = '<div class="search-no-results">Describe a thought in your own words — results are NASB passages related by meaning. Click one to open it.</div>';
 }
 
 // ============================================
