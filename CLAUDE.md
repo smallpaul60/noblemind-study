@@ -12,7 +12,28 @@ Single-page Progressive Web App (PWA) for Bible study. Entirely client-side — 
 - **`manifest.json`** — PWA manifest (standalone, dark theme `#0d0d0d`).
 
 ### Data Files
-- `KJV.json` (12.4 MB) — Full King James Version text (embedded client-side).
+- **Bible texts — all four hold exactly 31,102 verses across the 66-book canon.**
+  That equality is an oracle, not a coincidence: `tools/build_local_bibles.py`
+  refuses to write if any file disagrees. Re-run it after
+  `tools/convert_bible_translations.py`, which regenerates ASV/BSB/YLT from
+  scrollmapper and would otherwise drop the carried verses (below).
+  - `KJV.json` (10.2 MB, gitignored) — King James + Strong's tags. **Apocrypha
+    stripped** (2026-07-28): the upstream Bolls KJV ships 81 books / 37,247
+    verses; books 67–88 and the Additions to Esther (Est 10:4-13, Est 11–16) are
+    removed. Rebuild with `tools/build_local_bibles.py --force-download`.
+  - `BSB.json` (5.0 MB) — Berean Standard Bible. Default for the word search;
+    precached by sw.js so that search works offline.
+  - `ASV.json` (5.3 MB) — American Standard Version 1901, the NASB's ancestor.
+  - `YLT.json` (5.4 MB) — Young's Literal Translation.
+  - **The 16 textually-disputed verses** (Matt 17:21, 18:11, 23:14; Mark 7:16,
+    9:44, 9:46, 11:26, 15:28; Luke 17:36, 23:17; John 5:4; Acts 8:37, 15:34,
+    24:7, 28:29; Rom 16:24) are omitted by the ASV and BSB translators as later
+    additions. They are carried in from the KJV carrying `variant:"disputed"`
+    and `source:"KJV"`, and the UI badges them and names the KJV. **Never render
+    a marked verse as the chosen translation's own text.** They are present so
+    an "exhaustive" search is actually exhaustive — a student searching
+    "believest with all thine heart" must not be told Acts 8:37 does not exist.
+    KJV and YLT carry all 16 natively.
 - `BDBT.json` (10.5 MB) — Bible database.
 - `strongs.json` (2.7 MB) — Strong's Hebrew & Greek dictionary (8,700+ entries).
 - `maps/data/` — Biblical location data (ancient.jsonl, modern.jsonl, locations.json — 1,309 locations from OpenBible.info).
