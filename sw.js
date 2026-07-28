@@ -1,5 +1,5 @@
 // Noble Mind Study Tool - Service Worker for Offline Support
-const CACHE_NAME = 'noblemind-study-v334';
+const CACHE_NAME = 'noblemind-study-v335';
 
 // Files to cache for offline use
 const CACHE_FILES = [
@@ -18,6 +18,10 @@ const CACHE_FILES = [
   '/test-this-claim/does-the-new-testament-authorize-instrumental-music.html',
   '/user-guide.html',
   '/KJV.json',
+  // BSB is the default translation for the exhaustive word search, so it is
+  // precached to keep that search working with no connection. ASV and YLT are
+  // fetched on demand and kept by the runtime cache after first use.
+  '/BSB.json',
   '/BDBT.json',
   '/strongs.json',
   '/manifest.json',
